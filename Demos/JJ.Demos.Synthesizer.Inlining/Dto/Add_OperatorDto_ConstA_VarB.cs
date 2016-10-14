@@ -6,12 +6,12 @@ namespace JJ.Demos.Synthesizer.Inlining.Dto
 {
     internal class Add_OperatorDto_ConstA_VarB : Add_OperatorDto
     {
-        public double AValue { get; set; }
+        public double A { get; set; }
 
-        public Add_OperatorDto_ConstA_VarB(InletDto aInletDto, InletDto bInletDto, double aValue)
+        public Add_OperatorDto_ConstA_VarB(InletDto aInletDto, InletDto bInletDto, double a)
             : base(aInletDto, bInletDto)
         {
-            AValue = aValue;
+            A = a;
         }
     }
 }

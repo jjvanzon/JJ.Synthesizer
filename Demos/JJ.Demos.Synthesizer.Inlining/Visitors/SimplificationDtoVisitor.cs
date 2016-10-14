@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using JJ.Demos.Synthesizer.Inlining.Dto;
 using JJ.Demos.Synthesizer.Inlining.Helpers;
 
 namespace JJ.Demos.Synthesizer.Inlining.Visitors
 {
-    internal class SimplificationDtoVisitor : OperatorDtoVisitorBase
+    internal class SimplificationDtoVisitor : OperatorDtoVisitorBase_AfterSpecialization
     {
-        public OperatorDto Execute(OperatorDto operatorDto)
+        public OperatorDto Execute(OperatorDto dto)
         {
-            return Visit_OperatorDto_Polymorphic(operatorDto);
+            return Visit_OperatorDto_Polymorphic(dto);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override OperatorDto Visit_OperatorDto_Polymorphic(OperatorDto operatorDto)
+        protected override OperatorDto Visit_OperatorDto_Polymorphic(OperatorDto dto)
         {
-            operatorDto = base.Visit_OperatorDto_Polymorphic(operatorDto);
+            dto = base.Visit_OperatorDto_Polymorphic(dto);
 
-            IList<InletDto> inletDtos = operatorDto.InletDtos;
+            IList<InletDto> inletDtos = dto.InletDtos;
             int inletDtoCount = inletDtos.Count;
 
             for (int i = 0; i < inletDtoCount; i++)
@@ -33,16 +31,15 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
                 }
             }
 
-            return operatorDto;
+            return dto;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override OperatorDto Visit_Add_OperatorDto_Concrete(Add_OperatorDto add_OperatorDto)
+        protected override OperatorDto Visit_Add_OperatorDto_Base(Add_OperatorDto dto)
         {
-            base.Visit_Add_OperatorDto_Concrete(add_OperatorDto);
+            base.Visit_Add_OperatorDto_Base(dto);
 
-            InletDto aInletDto = add_OperatorDto.AInletDto;
-            InletDto bInletDto = add_OperatorDto.BInletDto;
+            InletDto aInletDto = dto.AInletDto;
+            InletDto bInletDto = dto.BInletDto;
 
             MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(aInletDto);
             MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(bInletDto);
@@ -57,27 +54,28 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
                 return aInletDto.InputOperatorDto;
             }
 
-            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
-            {
-                return new Number_OperatorDto(aMathPropertiesDto.Value + bMathPropertiesDto.Value);
-            }
-
-            // Switch A and B.
-            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
-            {
-                return new Add_OperatorDto_VarA_ConstB(bInletDto, aInletDto, aMathPropertiesDto.Value);
-            }
-
-            return add_OperatorDto;
+            return dto;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override OperatorDto Visit_Multiply_OperatorDto_Concrete(Multiply_OperatorDto multiply_OperatorDto)
+        protected override OperatorDto Visit_Add_OperatorDto_ConstA_ConstB(Add_OperatorDto_ConstA_ConstB dto)
         {
-            base.Visit_Multiply_OperatorDto_Concrete(multiply_OperatorDto);
+            var newDto = new Number_OperatorDto(dto.A + dto.B);
+            return newDto;
+        }
 
-            InletDto aInletDto = multiply_OperatorDto.AInletDto;
-            InletDto bInletDto = multiply_OperatorDto.BInletDto;
+        protected override OperatorDto Visit_Add_OperatorDto_ConstA_VarB(Add_OperatorDto_ConstA_VarB dto)
+        {
+            // Switch A and B.
+            var newDto = new Add_OperatorDto_VarA_ConstB(dto.BInletDto, dto.AInletDto, dto.A);
+            return newDto;
+        }
+
+        protected override OperatorDto Visit_Multiply_OperatorDto_Base(Multiply_OperatorDto dto)
+        {
+            base.Visit_Multiply_OperatorDto_Base(dto);
+
+            InletDto aInletDto = dto.AInletDto;
+            InletDto bInletDto = dto.BInletDto;
 
             MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(aInletDto);
             MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(bInletDto);
@@ -102,45 +100,55 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
                 return aInletDto.InputOperatorDto;
             }
 
-            // Switch A and B.
-            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
-            {
-                return new Multiply_OperatorDto_VarA_ConstB(bInletDto, aInletDto, aMathPropertiesDto.Value);
-            }
-
-            return multiply_OperatorDto;
+            return dto;
         }
 
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override OperatorDto Visit_Shift_OperatorDto_Concrete(Shift_OperatorDto shift_OperatorDto)
+        protected override OperatorDto Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB dto)
         {
-            base.Visit_Shift_OperatorDto_Concrete(shift_OperatorDto);
+            var newDto = new Number_OperatorDto(dto.A * dto.B);
+            return newDto;
+        }
 
-            InletDto signalInletDto = shift_OperatorDto.SignalInletDto;
-            InletDto distanceInletDto = shift_OperatorDto.DistanceInletDto;
+        protected override OperatorDto Visit_Multiply_OperatorDto_ConstA_VarB(Multiply_OperatorDto_ConstA_VarB dto)
+        {
+            // Switch A and B.
+            var newDto = new Multiply_OperatorDto_VarA_ConstB(dto.BInletDto, dto.AInletDto, dto.A);
+            return newDto;
+        }
+
+        protected override OperatorDto Visit_Shift_OperatorDto_Base(Shift_OperatorDto dto)
+        {
+            base.Visit_Shift_OperatorDto_Base(dto);
+
+            InletDto signalInletDto = dto.SignalInletDto;
+            InletDto distanceInletDto = dto.DistanceInletDto;
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(signalInletDto);
             MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(signalInletDto);
-
-            if (signalMathPropertiesDto.IsConst)
-            {
-                return signalInletDto.InputOperatorDto;
-            }
 
             if (distanceMathPropertiesDto.IsConstZero)
             {
                 return signalInletDto.InputOperatorDto;
             }
 
-            return shift_OperatorDto;
+            return dto;
         }
 
-        protected override OperatorDto Visit_Sine_OperatorDto_Concrete(Sine_OperatorDto sine_OperatorDto)
+        protected override OperatorDto Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto)
         {
-            base.Visit_Sine_OperatorDto_Concrete(sine_OperatorDto);
+            return dto.SignalInletDto.InputOperatorDto;
+        }
 
-            InletDto frequencyInletDto = sine_OperatorDto.FrequencyInletDto;
+        protected override OperatorDto Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto)
+        {
+            return dto.SignalInletDto.InputOperatorDto;
+        }
+
+        protected override OperatorDto Visit_Sine_OperatorDto_Base(Sine_OperatorDto dto)
+        {
+            base.Visit_Sine_OperatorDto_Base(dto);
+
+            InletDto frequencyInletDto = dto.FrequencyInletDto;
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(frequencyInletDto);
 
             if (frequencyMathPropertiesDto.IsConstZero)
@@ -148,7 +156,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
                 return new Number_OperatorDto_Zero();
             }
 
-            return sine_OperatorDto;
+            return dto;
         }
     }
 }

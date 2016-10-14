@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using JJ.Demos.Synthesizer.Inlining.Dto;
 using JJ.Demos.Synthesizer.Inlining.Helpers;
 using JJ.Framework.Common;
@@ -16,13 +15,12 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             return Visit_OperatorDto_Polymorphic(operatorDto);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override OperatorDto Visit_Add_OperatorDto_Concrete(Add_OperatorDto add_OperatorDto)
+        protected override OperatorDto Visit_Add_OperatorDto_Concrete(Add_OperatorDto dto)
         {
-            base.Visit_Add_OperatorDto_Concrete(add_OperatorDto);
+            base.Visit_Add_OperatorDto_Concrete(dto);
 
-            InletDto aInletDto = add_OperatorDto.AInletDto;
-            InletDto bInletDto = add_OperatorDto.BInletDto;
+            InletDto aInletDto = dto.AInletDto;
+            InletDto bInletDto = dto.BInletDto;
 
             MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(aInletDto);
             MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(bInletDto);
@@ -50,13 +48,12 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override OperatorDto Visit_Multiply_OperatorDto_Concrete(Multiply_OperatorDto multiply_OperatorDto)
+        protected override OperatorDto Visit_Multiply_OperatorDto_Concrete(Multiply_OperatorDto dto)
         {
-            base.Visit_Multiply_OperatorDto_Concrete(multiply_OperatorDto);
+            base.Visit_Multiply_OperatorDto_Concrete(dto);
 
-            InletDto aInletDto = multiply_OperatorDto.AInletDto;
-            InletDto bInletDto = multiply_OperatorDto.BInletDto;
+            InletDto aInletDto = dto.AInletDto;
+            InletDto bInletDto = dto.BInletDto;
 
             MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(aInletDto);
             MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(bInletDto);
@@ -85,12 +82,11 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override OperatorDto Visit_Number_OperatorDto_Concrete(Number_OperatorDto number_OperatorDto)
+        protected override OperatorDto Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
         {
-            base.Visit_Number_OperatorDto_Concrete(number_OperatorDto);
+            base.Visit_Number_OperatorDto_Concrete(dto);
 
-            double value = number_OperatorDto.Value;
+            double value = dto.Value;
 
             if (DoubleHelper.IsSpecialValue(value))
             {
@@ -107,16 +103,15 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
                 return new Number_OperatorDto_Zero();
             }
 
-            return number_OperatorDto;
+            return dto;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override OperatorDto Visit_Shift_OperatorDto_Concrete(Shift_OperatorDto shift_OperatorDto)
+        protected override OperatorDto Visit_Shift_OperatorDto_Concrete(Shift_OperatorDto dto)
         {
-            base.Visit_Shift_OperatorDto_Concrete(shift_OperatorDto);
+            base.Visit_Shift_OperatorDto_Concrete(dto);
 
-            InletDto signalInletDto = shift_OperatorDto.SignalInletDto;
-            InletDto distanceInletDto = shift_OperatorDto.DistanceInletDto;
+            InletDto signalInletDto = dto.SignalInletDto;
+            InletDto distanceInletDto = dto.DistanceInletDto;
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(signalInletDto);
             MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(signalInletDto);
@@ -144,11 +139,11 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDto Visit_Sine_OperatorDto_Concrete(Sine_OperatorDto sine_OperatorDto)
+        protected override OperatorDto Visit_Sine_OperatorDto_Concrete(Sine_OperatorDto dto)
         {
-            base.Visit_Sine_OperatorDto_Concrete(sine_OperatorDto);
+            base.Visit_Sine_OperatorDto_Concrete(dto);
 
-            InletDto frequencyInletDto = sine_OperatorDto.FrequencyInletDto;
+            InletDto frequencyInletDto = dto.FrequencyInletDto;
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(frequencyInletDto);
 
             if (frequencyMathPropertiesDto.IsConst)

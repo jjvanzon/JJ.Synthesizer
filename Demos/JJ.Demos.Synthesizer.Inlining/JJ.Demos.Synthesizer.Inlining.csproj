@@ -123,6 +123,8 @@
     <Compile Include="Calculation\Operators\WithInheritance\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Visitors\2016-10-14 Backup of MathPropertyDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterSimplification.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterSpecialization.cs" />
     <Compile Include="Visitors\PreProcessingDtoVisitor.cs" />
     <Compile Include="Visitors\SimplificationDtoVisitor.cs" />
     <Compile Include="Visitors\SpecializationDtoVisitor.cs" />
