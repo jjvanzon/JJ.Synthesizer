@@ -8,12 +8,14 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 {
     internal class PreProcessingDtoVisitor
     {
-        public void Execute(OperatorDto operatorDto)
+        public OperatorDto Execute(OperatorDto operatorDto)
         {
             if (operatorDto == null) throw new NullException(() => operatorDto);
 
-            new MathematicalPropertyDtoVisitor().Execute(operatorDto);
-            new SpecializationDtoVisitor().Execute(operatorDto);
+            operatorDto = new SpecializationDtoVisitor().Execute(operatorDto);
+            operatorDto = new SimplificationDtoVisitor().Execute(operatorDto);
+
+            return operatorDto;
         }
     }
 }

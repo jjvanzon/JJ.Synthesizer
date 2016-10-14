@@ -89,6 +89,18 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
                 return Visit_Add_OperatorDto_VarA_ConstB(add_OperatorDto_VarA_ConstB);
             }
 
+            var add_OperatorDto_ConstA_VarB = add_OperatorDto as Add_OperatorDto_ConstA_VarB;
+            if (add_OperatorDto_ConstA_VarB != null)
+            {
+                return Visit_Add_OperatorDto_ConstA_VarB(add_OperatorDto_ConstA_VarB);
+            }
+
+            var add_OperatorDto_ConstA_ConstB = add_OperatorDto as Add_OperatorDto_ConstA_ConstB;
+            if (add_OperatorDto_ConstA_ConstB != null)
+            {
+                return Visit_Add_OperatorDto_ConstA_ConstB(add_OperatorDto_ConstA_ConstB);
+            }
+
             throw new UnexpectedTypeException(() => add_OperatorDto);
         }
 
@@ -102,6 +114,18 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
         protected virtual OperatorDto Visit_Add_OperatorDto_VarA_ConstB(Add_OperatorDto_VarA_ConstB add_OperatorDto_VarA_ConstB)
         {
             return Visit_Add_OperatorDto_Base(add_OperatorDto_VarA_ConstB);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Add_OperatorDto_ConstA_VarB(Add_OperatorDto_ConstA_VarB add_OperatorDto_ConstA_VarB)
+        {
+            return Visit_Add_OperatorDto_Base(add_OperatorDto_ConstA_VarB);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Add_OperatorDto_ConstA_ConstB(Add_OperatorDto_ConstA_ConstB add_OperatorDto_ConstA_ConstB)
+        {
+            return Visit_Add_OperatorDto_Base(add_OperatorDto_ConstA_ConstB);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -148,6 +172,18 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
                 return Visit_Multiply_OperatorDto_VarA_ConstB(multiply_OperatorDto_VarA_ConstB);
             }
 
+            var multiply_OperatorDto_ConstA_VarB = multiply_OperatorDto as Multiply_OperatorDto_ConstA_VarB;
+            if (multiply_OperatorDto_ConstA_VarB != null)
+            {
+                return Visit_Multiply_OperatorDto_ConstA_VarB(multiply_OperatorDto_ConstA_VarB);
+            }
+
+            var multiply_OperatorDto_ConstA_ConstB = multiply_OperatorDto as Multiply_OperatorDto_ConstA_ConstB;
+            if (multiply_OperatorDto_ConstA_ConstB != null)
+            {
+                return Visit_Multiply_OperatorDto_ConstA_ConstB(multiply_OperatorDto_ConstA_ConstB);
+            }
+
             throw new UnexpectedTypeException(() => multiply_OperatorDto);
         }
 
@@ -161,6 +197,18 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
         protected virtual OperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB multiply_OperatorDto_VarA_ConstB)
         {
             return Visit_Multiply_OperatorDto_Base(multiply_OperatorDto_VarA_ConstB);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Multiply_OperatorDto_ConstA_VarB(Multiply_OperatorDto_ConstA_VarB multiply_OperatorDto_ConstA_VarB)
+        {
+            return Visit_Multiply_OperatorDto_Base(multiply_OperatorDto_ConstA_VarB);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB multiply_OperatorDto_ConstA_ConstB)
+        {
+            return Visit_Multiply_OperatorDto_Base(multiply_OperatorDto_ConstA_ConstB);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -266,31 +314,55 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_Polymorphic(Shift_OperatorDto shift_OperatorDto)
         {
-            var shift_OperatorDto_VarSignal_VarDifference = shift_OperatorDto as Shift_OperatorDto_VarSignal_VarDistance;
-            if (shift_OperatorDto_VarSignal_VarDifference != null)
+            var shift_OperatorDto_VarSignal_VarDistance = shift_OperatorDto as Shift_OperatorDto_VarSignal_VarDistance;
+            if (shift_OperatorDto_VarSignal_VarDistance != null)
             {
-                return Visit_Shift_OperatorDto_VarSignal_VarDifference(shift_OperatorDto_VarSignal_VarDifference);
+                return Visit_Shift_OperatorDto_VarSignal_VarDistance(shift_OperatorDto_VarSignal_VarDistance);
             }
 
-            var shift_OperatorDto_VarSignal_ConstDifference = shift_OperatorDto as Shift_OperatorDto_VarSignal_ConstDistance;
-            if (shift_OperatorDto_VarSignal_ConstDifference != null)
+            var shift_OperatorDto_VarSignal_ConstDistance = shift_OperatorDto as Shift_OperatorDto_VarSignal_ConstDistance;
+            if (shift_OperatorDto_VarSignal_ConstDistance != null)
             {
-                return Visit_Shift_OperatorDto_VarSignal_ConstDifference(shift_OperatorDto_VarSignal_ConstDifference);
+                return Visit_Shift_OperatorDto_VarSignal_ConstDistance(shift_OperatorDto_VarSignal_ConstDistance);
+            }
+
+            var shift_OperatorDto_ConstSignal_VarDistance = shift_OperatorDto as Shift_OperatorDto_ConstSignal_VarDistance;
+            if (shift_OperatorDto_ConstSignal_VarDistance != null)
+            {
+                return Visit_Shift_OperatorDto_ConstSignal_VarDistance(shift_OperatorDto_ConstSignal_VarDistance);
+            }
+
+            var shift_OperatorDto_ConstSignal_ConstDistance = shift_OperatorDto as Shift_OperatorDto_ConstSignal_ConstDistance;
+            if (shift_OperatorDto_ConstSignal_ConstDistance != null)
+            {
+                return Visit_Shift_OperatorDto_ConstSignal_ConstDistance(shift_OperatorDto_ConstSignal_ConstDistance);
             }
 
             throw new UnexpectedTypeException(() => shift_OperatorDto);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Shift_OperatorDto_VarSignal_VarDifference(Shift_OperatorDto_VarSignal_VarDistance shift_OperatorDto_VarSignal_VarDifference)
+        protected virtual OperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance shift_OperatorDto_VarSignal_VarDistance)
         {
-            return Visit_Shift_OperatorDto_Base(shift_OperatorDto_VarSignal_VarDifference);
+            return Visit_Shift_OperatorDto_Base(shift_OperatorDto_VarSignal_VarDistance);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDifference(Shift_OperatorDto_VarSignal_ConstDistance shift_OperatorDto_VarSignal_ConstDifference)
+        protected virtual OperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance shift_OperatorDto_VarSignal_ConstDistance)
         {
-            return Visit_Shift_OperatorDto_Base(shift_OperatorDto_VarSignal_ConstDifference);
+            return Visit_Shift_OperatorDto_Base(shift_OperatorDto_VarSignal_ConstDistance);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance shift_OperatorDto_ConstSignal_VarDistance)
+        {
+            return Visit_Shift_OperatorDto_Base(shift_OperatorDto_ConstSignal_VarDistance);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance shift_OperatorDto_ConstSignal_ConstDistance)
+        {
+            return Visit_Shift_OperatorDto_Base(shift_OperatorDto_ConstSignal_ConstDistance);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
