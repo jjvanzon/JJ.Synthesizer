@@ -90,6 +90,7 @@
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Calculation\SineCalculator.cs" />
+    <Compile Include="Helpers\WithStucts\OperatorDtoToOperatorCalculatorTypeConverter.cs" />
     <Compile Include="SynthesizerPerformanceTests_NoInliningWithInheritance.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_8Vars.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator.cs" />
@@ -125,11 +126,12 @@
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterSpecialization.cs" />
-    <Compile Include="Visitors\PreProcessingDtoVisitor.cs" />
-    <Compile Include="Visitors\SimplificationDtoVisitor.cs" />
-    <Compile Include="Visitors\SpecializationDtoVisitor.cs" />
-    <Compile Include="Visitors\WithInheritance\DtoToCalculatorVisitor.cs" />
-    <Compile Include="Visitors\WithStructs\DtoToCalculatorVisitor.cs" />
+    <Compile Include="Visitors\PreProcessing_OperatorDtoVisitor.cs" />
+    <Compile Include="Visitors\Simplification_OperatorDtoVisitor.cs" />
+    <Compile Include="Visitors\Specialization_OperatorDtoVisitor.cs" />
+    <Compile Include="Visitors\WithInheritance\OperatorDtoToOperatorCalculatorVisitor.cs" />
+    <Compile Include="Visitors\WithStructs\OperatorDtoToOperatorCalculatorVisitor.cs" />
+    <Compile Include="Visitors\WithStructs\VariableAssignment_OperatorDtoVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">

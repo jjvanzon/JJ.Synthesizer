@@ -8,7 +8,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Demos.Synthesizer.Inlining.Visitors
 {
-    internal class SpecializationDtoVisitor : OperatorDtoVisitorBase
+    internal class Specialization_OperatorDtoVisitor : OperatorDtoVisitorBase
     {
         public OperatorDto Execute(OperatorDto operatorDto)
         {

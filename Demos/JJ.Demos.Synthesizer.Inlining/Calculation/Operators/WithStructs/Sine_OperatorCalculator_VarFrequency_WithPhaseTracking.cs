@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
     internal struct Sine_OperatorCalculator_VarFrequency_WithPhaseTracking<TFrequencyCalculator> : IOperatorCalculator
-        where TFrequencyCalculator : IOperatorCalculator
+        where TFrequencyCalculator : struct, IOperatorCalculator
     {
         public TFrequencyCalculator _frequencyCalculator;
         public DimensionStack _dimensionStack;

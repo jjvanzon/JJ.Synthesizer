@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs;
+using JJ.Demos.Synthesizer.Inlining.Dto;
+using JJ.Demos.Synthesizer.Inlining.Helpers.WithStucts;
+using JJ.Framework.Reflection.Exceptions;
+
+namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
+{
+    internal class OperatorDtoToOperatorCalculatorVisitor
+    {
+        public object Execute(OperatorDto sourceOperatorDto)
+        {
+            var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
+            sourceOperatorDto = preProcessingVisitor.Execute(sourceOperatorDto);
+
+            Type destOperatorCalculatorType_ClosedGeneric = OperatorDtoToOperatorCalculatorTypeConverter.ConvertToClosedGenericType(sourceOperatorDto);
+            IOperatorCalculator destOperatorCalculator = (IOperatorCalculator)Activator.CreateInstance(destOperatorCalculatorType_ClosedGeneric);
+
+            var variableAssignmentVisitor = new VariableAssignment_OperatorDtoVisitor();
+            variableAssignmentVisitor.Execute(sourceOperatorDto, destOperatorCalculator);
+
+
+            throw new NotImplementedException();
+        }
+    }
+}

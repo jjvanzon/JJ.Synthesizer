@@ -8,12 +8,12 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithInheritance
 {
-    internal class DtoToCalculatorVisitor : OperatorDtoVisitorBase_AfterSimplification
+    internal class OperatorDtoToOperatorCalculatorVisitor : OperatorDtoVisitorBase_AfterSimplification
     {
         private readonly DimensionStack _dimensionStack;
         private readonly Stack<OperatorCalculatorBase> _stack = new Stack<OperatorCalculatorBase>();
 
-        public DtoToCalculatorVisitor(DimensionStack dimensionStack)
+        public OperatorDtoToOperatorCalculatorVisitor(DimensionStack dimensionStack)
         {
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
             _dimensionStack = dimensionStack;

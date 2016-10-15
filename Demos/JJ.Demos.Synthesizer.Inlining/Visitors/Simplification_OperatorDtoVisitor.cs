@@ -6,7 +6,7 @@ using JJ.Demos.Synthesizer.Inlining.Helpers;
 
 namespace JJ.Demos.Synthesizer.Inlining.Visitors
 {
-    internal class SimplificationDtoVisitor : OperatorDtoVisitorBase_AfterSpecialization
+    internal class Simplification_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterSpecialization
     {
         public OperatorDto Execute(OperatorDto dto)
         {

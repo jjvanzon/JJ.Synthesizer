@@ -6,14 +6,14 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.Visitors
 {
-    internal class PreProcessingDtoVisitor
+    internal class PreProcessing_OperatorDtoVisitor
     {
         public OperatorDto Execute(OperatorDto dto)
         {
             if (dto == null) throw new NullException(() => dto);
 
-            dto = new SpecializationDtoVisitor().Execute(dto);
-            dto = new SimplificationDtoVisitor().Execute(dto);
+            dto = new Specialization_OperatorDtoVisitor().Execute(dto);
+            dto = new Simplification_OperatorDtoVisitor().Execute(dto);
 
             return dto;
         }

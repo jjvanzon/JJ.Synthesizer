@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
     internal struct Shift_OperatorCalculator_VarSignal_ConstDifference<TSignalCalculator> : IOperatorCalculator
-        where TSignalCalculator : IOperatorCalculator
+        where TSignalCalculator : struct, IOperatorCalculator
     {
         public TSignalCalculator _signalCalculator;
         public double _distance;

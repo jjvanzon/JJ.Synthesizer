@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
     internal struct Multiply_OperatorCalculator_VarA_ConstB<TACalculator> : IOperatorCalculator
-        where TACalculator : IOperatorCalculator
+        where TACalculator : struct, IOperatorCalculator
     {
         public TACalculator _aCalculator;
         public double _b;
