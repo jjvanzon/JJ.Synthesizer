@@ -7,6 +7,11 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithInheritance
 {
     internal class VariableInput_OperatorCalculator : OperatorCalculatorBase
     {
+        public VariableInput_OperatorCalculator(double defaultValue)
+        {
+            _value = defaultValue;
+        }
+
         /// <summary> Public field for performance. </summary>
         public double _value;
 

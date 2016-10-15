@@ -25,7 +25,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers
                             (
                                 new InletDto
                                 (
-                                    new Number_OperatorDto(frequency)
+                                    new VariableInput_OperatorDto(frequency)
                                 )
                             )
                         ),

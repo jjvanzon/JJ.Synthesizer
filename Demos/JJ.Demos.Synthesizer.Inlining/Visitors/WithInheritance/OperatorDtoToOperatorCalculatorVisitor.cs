@@ -164,7 +164,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithInheritance
         {
             base.Visit_VariableInput_OperatorDto(dto);
 
-            var calculator = new VariableInput_OperatorCalculator();
+            var calculator = new VariableInput_OperatorCalculator(dto.DefaultValue);
 
             _stack.Push(calculator);
 

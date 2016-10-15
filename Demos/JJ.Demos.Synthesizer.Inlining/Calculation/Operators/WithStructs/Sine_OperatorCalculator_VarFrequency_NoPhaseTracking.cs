@@ -5,7 +5,8 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
-    internal struct Sine_OperatorCalculator_VarFrequency_NoPhaseTracking<TFrequencyCalculator> : IOperatorCalculator
+    internal struct Sine_OperatorCalculator_VarFrequency_NoPhaseTracking<TFrequencyCalculator>
+        : ISine_OperatorCalculator_VarFrequency
         where TFrequencyCalculator : struct, IOperatorCalculator
     {
         public TFrequencyCalculator _frequencyCalculator;
@@ -22,6 +23,18 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
             double value = SineCalculator.Sin(phase);
 
             return value;
+        }
+
+        DimensionStack ISine_OperatorCalculator_VarFrequency.DimensionStack
+        {
+            get { return _dimensionStack; }
+            set { _dimensionStack = value; }
+        }
+
+        IOperatorCalculator ISine_OperatorCalculator_VarFrequency.FrequencyCalculator
+        {
+            get { return _frequencyCalculator; }
+            set { _frequencyCalculator = (TFrequencyCalculator)value; }
         }
     }
 }

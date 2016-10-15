@@ -55,6 +55,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Calculation\Operators\WithStructs\IMultiply_OperatorDto_VarA_ConstB.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\IShift_OperatorCalculator_VarSignal_ConstDifference.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\ISine_OperatorCalculator_VarFrequency.cs" />
     <Compile Include="Dto\Multiply_OperatorDto_ConstA_ConstB.cs" />
     <Compile Include="Dto\Add_OperatorDto_ConstA_ConstB.cs" />
     <Compile Include="Dto\Add_OperatorDto_ConstA_VarB.cs" />

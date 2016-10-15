@@ -32,9 +32,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithInheritance
             double volume = 10.0;
             double phaseShift = 0.25;
 
-            var frequency_VariableInput_Calculator = new VariableInput_OperatorCalculator();
-            frequency_VariableInput_Calculator._value = frequency;
-
             var calculator =
                 new Multiply_OperatorCalculator_VarA_ConstB
                 (
@@ -42,7 +39,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithInheritance
                     (
                         new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                         (
-                            frequency_VariableInput_Calculator,
+                            new VariableInput_OperatorCalculator(frequency),
                             dimensionStack
                         ),
                         phaseShift,
