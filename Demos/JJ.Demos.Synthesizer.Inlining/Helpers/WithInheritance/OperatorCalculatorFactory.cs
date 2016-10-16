@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Demos.Synthesizer.Inlining.Calculation;
 using JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithInheritance;
+using JJ.Demos.Synthesizer.Inlining.Dto;
+using JJ.Demos.Synthesizer.Inlining.Visitors.WithInheritance;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithInheritance
@@ -47,6 +49,16 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithInheritance
                     ),
                     volume
                 );
+
+            return calculator;
+        }
+
+        public static OperatorCalculatorBase CreateOperatorCalculatorStructure_SinglePartial_FromDto(DimensionStack dimensionStack)
+        {
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
+
+            var visitor = new OperatorDtoToOperatorCalculatorVisitor(dimensionStack);
+            OperatorCalculatorBase calculator = visitor.Execute(dto);
 
             return calculator;
         }

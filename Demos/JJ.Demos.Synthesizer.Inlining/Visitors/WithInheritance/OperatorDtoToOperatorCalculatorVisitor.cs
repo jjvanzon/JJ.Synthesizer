@@ -21,6 +21,9 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithInheritance
 
         public OperatorCalculatorBase Execute(OperatorDto dto)
         {
+            var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
+            dto = preProcessingVisitor.Execute(dto);
+
             Visit_OperatorDto_Polymorphic(dto);
 
             if (_stack.Count != 1)

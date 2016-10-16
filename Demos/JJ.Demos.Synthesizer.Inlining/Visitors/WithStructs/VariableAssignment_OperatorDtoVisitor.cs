@@ -20,6 +20,8 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             _dimensionStack = dimensionStack;
         }
 
+        // Execute
+
         public void Execute(OperatorDto sourceDto, IOperatorCalculator destCalculator)
         {
             if (sourceDto == null) throw new NullException(() => sourceDto);
@@ -37,18 +39,66 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             _stack.Pop();
         }
 
+        // Visit
+
+        protected override OperatorDto Visit_Add_OperatorDto_VarA_ConstB(Add_OperatorDto_VarA_ConstB dto)
+        {
+            base.Visit_Add_OperatorDto_VarA_ConstB(dto);
+
+            IOperatorCalculator aCalculator = _stack.Pop();
+            _stack.Pop();
+
+            var calculator = (IOperatorCalculator_VarA_ConstB)CreateCalculator(dto);
+            calculator.ACalculator = aCalculator;
+            calculator.B = dto.B;
+
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        protected override OperatorDto Visit_Add_OperatorDto_VarA_VarB(Add_OperatorDto_VarA_VarB dto)
+        {
+            base.Visit_Add_OperatorDto_VarA_VarB(dto);
+
+            IOperatorCalculator calculator = CreateCalculator_VarA_VarB(dto);
+
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
         protected override OperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
         {
             base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);
 
             IOperatorCalculator aCalculator = _stack.Pop();
+            _stack.Pop();
 
-            var calculator = (IMultiply_OperatorDto_VarA_ConstB)CreateCalculator(dto);
+            var calculator = (IOperatorCalculator_VarA_ConstB)CreateCalculator(dto);
             calculator.ACalculator = aCalculator;
             calculator.B = dto.B;
 
             _stack.Push(calculator);
+
             return dto;
+        }
+
+        protected override OperatorDto Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
+        {
+            base.Visit_Multiply_OperatorDto_VarA_VarB(dto);
+
+            IOperatorCalculator calculator = CreateCalculator_VarA_VarB(dto);
+
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        protected override OperatorDto Visit_Number_OperatorDto_Base(Number_OperatorDto dto)
+        {
+            // This shouldn't happen. Everything with constants as input should have gotten a specialized Dto.
+            throw new NotSupportedException();
         }
 
         protected override OperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
@@ -56,12 +106,30 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
 
             IOperatorCalculator signalCalculator = _stack.Pop();
+            _stack.Pop();
 
-            var calculator = (IShift_OperatorCalculator_VarSignal_ConstDifference)CreateCalculator(dto);
-            calculator.DimensionStack = _dimensionStack;
+            var calculator = (IShift_OperatorCalculator_VarSignal_ConstDistance)CreateCalculator(dto);
             calculator.Distance = dto.Distance;
             calculator.SignalCalculator = signalCalculator;
-            
+            calculator.DimensionStack = _dimensionStack;
+
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        protected override OperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
+        {
+            base.Visit_Shift_OperatorDto_VarSignal_VarDistance(dto);
+
+            IOperatorCalculator signalCalculator = _stack.Pop();
+            IOperatorCalculator distanceCalculator = _stack.Pop();
+
+            var calculator = (IShift_OperatorCalculator_VarSignal_VarDistance)CreateCalculator(dto);
+            calculator.SignalCalculator = signalCalculator;
+            calculator.DistanceCalculator = distanceCalculator;
+            calculator.DimensionStack = _dimensionStack;
+
             _stack.Push(calculator);
 
             return dto;
@@ -84,7 +152,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
         {
             base.Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(dto);
 
-            ISine_OperatorCalculator_VarFrequency calculator = CreateCalculator_Sine_VarFrequency(dto);
+            IOperatorCalculator calculator = CreateCalculator_Sine_VarFrequency(dto);
 
             _stack.Push(calculator);
 
@@ -95,23 +163,11 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
         {
             base.Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(dto);
 
-            ISine_OperatorCalculator_VarFrequency calculator = CreateCalculator_Sine_VarFrequency(dto);
+            IOperatorCalculator calculator = CreateCalculator_Sine_VarFrequency(dto);
 
             _stack.Push(calculator);
 
             return dto;
-        }
-
-        private ISine_OperatorCalculator_VarFrequency CreateCalculator_Sine_VarFrequency(Sine_OperatorDto dto)
-        {
-            IOperatorCalculator frequencyCalculator = _stack.Pop();
-
-            var calculator = (ISine_OperatorCalculator_VarFrequency)CreateCalculator(dto);
-
-            calculator.DimensionStack = _dimensionStack;
-            calculator.FrequencyCalculator = frequencyCalculator;
-
-            return calculator;
         }
 
         protected override OperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
@@ -123,6 +179,32 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             _stack.Push(calculator);
 
             return dto;
+        }
+
+        // Create
+
+        private IOperatorCalculator CreateCalculator_VarA_VarB(OperatorDto dto)
+        {
+            IOperatorCalculator aCalculator = _stack.Pop();
+            IOperatorCalculator bCalculator = _stack.Pop();
+
+            var calculator = (IOperatorCalculator_VarA_VarB)CreateCalculator(dto);
+            calculator.ACalculator = aCalculator;
+            calculator.BCalculator = bCalculator;
+
+            return calculator;
+        }
+
+        private IOperatorCalculator CreateCalculator_Sine_VarFrequency(Sine_OperatorDto dto)
+        {
+            IOperatorCalculator frequencyCalculator = _stack.Pop();
+
+            var calculator = (ISine_OperatorCalculator_VarFrequency)CreateCalculator(dto);
+
+            calculator.DimensionStack = _dimensionStack;
+            calculator.FrequencyCalculator = frequencyCalculator;
+
+            return calculator;
         }
 
         private static object CreateCalculator(OperatorDto dto)

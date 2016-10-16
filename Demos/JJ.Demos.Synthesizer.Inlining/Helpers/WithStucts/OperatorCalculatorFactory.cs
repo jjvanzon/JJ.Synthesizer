@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Demos.Synthesizer.Inlining.Calculation;
 using JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs;
+using JJ.Demos.Synthesizer.Inlining.Dto;
+using JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
@@ -276,6 +278,16 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
             addCalculator._calculator8._aCalculator._signalCalculator._frequencyCalculator._value = frequency;
 
             return addCalculator;
+        }
+
+        public static IOperatorCalculator CreateOperatorCalculatorStructure_SinglePartial_FromDto(DimensionStack dimensionStack)
+        {
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
+
+            var visitor = new OperatorDtoToOperatorCalculatorVisitor(dimensionStack);
+            IOperatorCalculator calculator = visitor.Execute(dto);
+
+            return calculator;
         }
     }
 }

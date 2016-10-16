@@ -19,7 +19,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             _dimensionStack = dimensionStack;
         }
 
-        public object Execute(OperatorDto sourceOperatorDto)
+        public IOperatorCalculator Execute(OperatorDto sourceOperatorDto)
         {
             var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
             sourceOperatorDto = preProcessingVisitor.Execute(sourceOperatorDto);
@@ -30,8 +30,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             var variableAssignmentVisitor = new VariableAssignment_OperatorDtoVisitor(_dimensionStack);
             variableAssignmentVisitor.Execute(sourceOperatorDto, destOperatorCalculator);
 
-
-            throw new NotImplementedException();
+            return destOperatorCalculator;
         }
     }
 }

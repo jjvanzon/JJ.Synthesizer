@@ -5,7 +5,8 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
-    internal struct Shift_OperatorCalculator_VarSignal_VarDifference<TSignalCalculator, TDistanceCalculator> : IOperatorCalculator
+    internal struct Shift_OperatorCalculator_VarSignal_VarDifference<TSignalCalculator, TDistanceCalculator> 
+        : IShift_OperatorCalculator_VarSignal_VarDistance
         where TSignalCalculator : struct, IOperatorCalculator
         where TDistanceCalculator : struct, IOperatorCalculator
     {
@@ -38,6 +39,24 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
             double transformedPosition = position - distance;
 
             return transformedPosition;
+        }
+
+        IOperatorCalculator IShift_OperatorCalculator_VarSignal_VarDistance.SignalCalculator
+        {
+            get { return _signalCalculator; }
+            set { _signalCalculator = (TSignalCalculator)value; }
+        }
+
+        IOperatorCalculator IShift_OperatorCalculator_VarSignal_VarDistance.DistanceCalculator
+        {
+            get { return _distanceCalculator; }
+            set { _distanceCalculator = (TDistanceCalculator)value; }
+        }
+
+        DimensionStack IShift_OperatorCalculator_VarSignal_VarDistance.DimensionStack
+        {
+            get { return _dimensionStack; }
+            set { _dimensionStack = value; }
         }
     }
 }

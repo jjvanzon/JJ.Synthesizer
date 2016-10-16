@@ -5,7 +5,8 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
-    internal struct Add_OperatorCalculator_VarA_VarB<TACalculator, TBCalculator> : IOperatorCalculator
+    internal struct Add_OperatorCalculator_VarA_VarB<TACalculator, TBCalculator>
+        : IOperatorCalculator_VarA_VarB
         where TACalculator : struct, IOperatorCalculator
         where TBCalculator : struct, IOperatorCalculator
     {
@@ -19,6 +20,18 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
             double b = _bCalculator.Calculate();
 
             return OperatorCalculatorHelper.Add(a, b);
+        }
+
+        IOperatorCalculator IOperatorCalculator_VarA_VarB.ACalculator
+        {
+            get { return _aCalculator; }
+            set { _aCalculator = (TACalculator)value; }
+        }
+
+        IOperatorCalculator IOperatorCalculator_VarA_VarB.BCalculator
+        {
+            get { return _bCalculator; }
+            set { _bCalculator = (TBCalculator)value; }
         }
     }
 }

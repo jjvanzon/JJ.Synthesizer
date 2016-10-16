@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
-    internal interface IShift_OperatorCalculator_VarSignal_ConstDifference : IOperatorCalculator
+    internal interface IShift_OperatorCalculator_VarSignal_VarDistance : IOperatorCalculator
     {
         IOperatorCalculator SignalCalculator { get; set; }
-        double Distance { get; set; }
+        IOperatorCalculator DistanceCalculator { get; set; }
         DimensionStack DimensionStack { get; set; }
     }
 }

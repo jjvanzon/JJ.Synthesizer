@@ -43,7 +43,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             }
 
             var variableInput_OperatorDto = dto as VariableInput_OperatorDto;
-            if (sine_OperatorDto != null)
+            if (variableInput_OperatorDto != null)
             {
                 return Visit_VariableInput_OperatorDto(variableInput_OperatorDto);
             }
