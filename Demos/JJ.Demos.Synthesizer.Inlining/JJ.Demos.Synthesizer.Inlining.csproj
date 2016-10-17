@@ -87,6 +87,7 @@
     <Compile Include="Dto\Sine_OperatorDto_VarFrequency_NoPhaseTracking.cs" />
     <Compile Include="Dto\Sine_OperatorDto_VarFrequency_WithPhaseTracking.cs" />
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
+    <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\MathPropertiesHelper.cs" />
     <Compile Include="Helpers\VisitationCannotBeHandledException.cs" />
     <Compile Include="Helpers\OperatorDtoFactory.cs" />

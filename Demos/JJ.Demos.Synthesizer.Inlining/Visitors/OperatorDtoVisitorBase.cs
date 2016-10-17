@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Demos.Synthesizer.Inlining.Dto;
@@ -9,6 +10,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 {
     internal abstract class OperatorDtoVisitorBase
     {
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_OperatorDto_Polymorphic(OperatorDto dto)
         {
@@ -53,6 +55,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
         // Add
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_ConcreteOrPolymorphic(Add_OperatorDto dto)
         {
@@ -68,12 +71,14 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             }
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_Concrete(Add_OperatorDto dto)
         {
             return Visit_Add_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_Polymorphic(Add_OperatorDto dto)
         {
@@ -104,30 +109,35 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new UnexpectedTypeException(() => dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_VarA_VarB(Add_OperatorDto_VarA_VarB dto)
         {
             return Visit_Add_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_VarA_ConstB(Add_OperatorDto_VarA_ConstB dto)
         {
             return Visit_Add_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_ConstA_VarB(Add_OperatorDto_ConstA_VarB dto)
         {
             return Visit_Add_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_ConstA_ConstB(Add_OperatorDto_ConstA_ConstB dto)
         {
             return Visit_Add_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_Base(Add_OperatorDto dto)
         {
@@ -136,6 +146,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
         // Multiply
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_ConcreteOrPolymorphic(Multiply_OperatorDto dto)
         {
@@ -151,12 +162,14 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             }
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_Concrete(Multiply_OperatorDto dto)
         {
             return Visit_Multiply_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_Polymorphic(Multiply_OperatorDto dto)
         {
@@ -187,30 +200,35 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new UnexpectedTypeException(() => dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
         {
             return Visit_Multiply_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
         {
             return Visit_Multiply_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_ConstA_VarB(Multiply_OperatorDto_ConstA_VarB dto)
         {
             return Visit_Multiply_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB dto)
         {
             return Visit_Multiply_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_Base(Multiply_OperatorDto dto)
         {
@@ -219,6 +237,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
         // Number
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_ConcreteOrPolymorphic(Number_OperatorDto dto)
         {
@@ -234,12 +253,14 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             }
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_Polymorphic(Number_OperatorDto dto)
         {
@@ -264,24 +285,28 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new UnexpectedTypeException(() => dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_Base(Number_OperatorDto dto)
         {
@@ -290,6 +315,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
         // Shift
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_ConcreteOrPolymorphic(Shift_OperatorDto dto)
         {
@@ -305,12 +331,14 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             }
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_Concrete(Shift_OperatorDto dto)
         {
             return Visit_Shift_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_Polymorphic(Shift_OperatorDto dto)
         {
@@ -341,30 +369,35 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new UnexpectedTypeException(() => dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
             return Visit_Shift_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
             return Visit_Shift_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto)
         {
             return Visit_Shift_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto)
         {
             return Visit_Shift_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_Base(Shift_OperatorDto dto)
         {
@@ -373,6 +406,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
         // Sine
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Sine_OperatorDto_ConcreteOrPolymorphic(Sine_OperatorDto dto)
         {
@@ -388,12 +422,14 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             }
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Sine_OperatorDto_Concrete(Sine_OperatorDto dto)
         {
             return Visit_Sine_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Sine_OperatorDto_Polymorphic(Sine_OperatorDto dto)
         {
@@ -418,24 +454,28 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new UnexpectedTypeException(() => dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             return Visit_Sine_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
             return Visit_Sine_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             return Visit_Sine_OperatorDto_Base(dto);
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Sine_OperatorDto_Base(Sine_OperatorDto dto)
         {
@@ -444,6 +484,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
         // VariableInput
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {
@@ -452,6 +493,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
         // Base
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_OperatorDto_Base(OperatorDto dto)
         {
@@ -460,6 +502,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             return dto;
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual IList<InletDto> VisitInletDtos(IList<InletDto> inletDtos)
         {
@@ -472,6 +515,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             return inletDtos;
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual InletDto VisitInletDto(InletDto inletDto)
         {
@@ -480,6 +524,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             return inletDto;
         }
 
+        [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto VisitInputOperatorDto(OperatorDto dto)
         {

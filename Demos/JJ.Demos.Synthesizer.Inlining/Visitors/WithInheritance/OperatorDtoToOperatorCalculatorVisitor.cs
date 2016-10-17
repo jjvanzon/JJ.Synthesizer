@@ -92,8 +92,13 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithInheritance
 
         protected override OperatorDto Visit_Number_OperatorDto_Base(Number_OperatorDto dto)
         {
-            // This shouldn't happen. Everything with constants as input should have gotten a specialized Dto.
-            throw new NotSupportedException();
+            base.Visit_Number_OperatorDto_Base(dto);
+
+            var calculator = new Number_OperatorCalculator(dto.Value);
+
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
