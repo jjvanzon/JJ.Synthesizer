@@ -94,7 +94,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             base.Visit_Number_OperatorDto_Concrete(dto);
 
             var calculator = (Number_OperatorCalculator)CreateCalculator(dto);
-            calculator._number = dto.Number;
+            calculator.Number = dto.Number;
 
             _stack.Push(calculator);
 
@@ -166,8 +166,8 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             base.Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(dto);
 
             var calculator = (Sine_OperatorCalculator_ConstFrequency_NoOriginShifting)CreateCalculator(dto);
-            calculator._dimensionStack = _dimensionStack;
-            calculator._frequency = dto.Frequency;
+            calculator.DimensionStack = _dimensionStack;
+            calculator.Frequency = dto.Frequency;
 
             _stack.Push(calculator);
 
@@ -249,7 +249,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
 
         private object CreateCalculator(OperatorDto dto)
         {
-            Type calculatorType = OperatorDtoToOperatorCalculatorTypeConverter.ConvertToClosedGenericType(dto);
+            Type calculatorType = OperatorDtoToCalculatorTypeConverter.ConvertToClosedGenericType(dto);
             var calculator = Activator.CreateInstance(calculatorType);
             return calculator;
         }

@@ -12,8 +12,19 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
         : ISine_OperatorCalculator_VarFrequency
         where TFrequencyCalculator : IOperatorCalculator
     {
-        public TFrequencyCalculator _frequencyCalculator;
-        public DimensionStack _dimensionStack;
+        private TFrequencyCalculator _frequencyCalculator;
+        public IOperatorCalculator FrequencyCalculator
+        {
+            get { return _frequencyCalculator; }
+            set { _frequencyCalculator = (TFrequencyCalculator)value; }
+        }
+
+        private DimensionStack _dimensionStack;
+        public DimensionStack DimensionStack
+        {
+            get { return _dimensionStack; }
+            set { _dimensionStack = value; }
+        }
 
         private double _phase;
         private double _previousPosition;
@@ -32,18 +43,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
             _previousPosition = position;
 
             return value;
-        }
-
-        DimensionStack ISine_OperatorCalculator_VarFrequency.DimensionStack
-        {
-            get { return _dimensionStack; }
-            set { _dimensionStack = value; }
-        }
-
-        IOperatorCalculator ISine_OperatorCalculator_VarFrequency.FrequencyCalculator
-        {
-            get { return _frequencyCalculator; }
-            set { _frequencyCalculator = (TFrequencyCalculator)value; }
         }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);

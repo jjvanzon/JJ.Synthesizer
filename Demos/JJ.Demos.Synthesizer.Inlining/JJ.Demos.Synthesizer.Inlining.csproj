@@ -108,7 +108,7 @@
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Calculation\SineCalculator.cs" />
-    <Compile Include="Helpers\WithStucts\OperatorDtoToOperatorCalculatorTypeConverter.cs" />
+    <Compile Include="Helpers\WithStucts\OperatorDtoToCalculatorTypeConverter.cs" />
     <Compile Include="SynthesizerPerformanceTests_NoInliningWithInheritance.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_8Vars.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator.cs" />

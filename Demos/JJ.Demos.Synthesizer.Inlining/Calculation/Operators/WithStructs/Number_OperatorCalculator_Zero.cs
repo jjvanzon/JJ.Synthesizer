@@ -8,10 +8,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
     internal struct Number_OperatorCalculator_Zero : IOperatorCalculator
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Calculate()
-        {
-            return 0.0;
-        }
+        public double Calculate() => 0.0;
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }

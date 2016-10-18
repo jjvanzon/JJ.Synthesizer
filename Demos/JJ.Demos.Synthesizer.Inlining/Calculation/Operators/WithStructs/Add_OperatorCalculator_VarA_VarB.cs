@@ -13,8 +13,19 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
         where TACalculator : IOperatorCalculator
         where TBCalculator : IOperatorCalculator
     {
-        public TACalculator _aCalculator;
-        public TBCalculator _bCalculator;
+        private TACalculator _aCalculator;
+        public IOperatorCalculator ACalculator
+        {
+            get { return _aCalculator; }
+            set { _aCalculator = (TACalculator)value; }
+        }
+
+        private TBCalculator _bCalculator;
+        public IOperatorCalculator BCalculator
+        {
+            get { return _bCalculator; }
+            set { _bCalculator = (TBCalculator)value; }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate()
@@ -23,18 +34,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
             double b = _bCalculator.Calculate();
 
             return OperatorCalculatorHelper.Add(a, b);
-        }
-
-        IOperatorCalculator IOperatorCalculator_VarA_VarB.ACalculator
-        {
-            get { return _aCalculator; }
-            set { _aCalculator = (TACalculator)value; }
-        }
-
-        IOperatorCalculator IOperatorCalculator_VarA_VarB.BCalculator
-        {
-            get { return _bCalculator; }
-            set { _bCalculator = (TBCalculator)value; }
         }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);

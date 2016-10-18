@@ -7,11 +7,11 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal struct Number_OperatorCalculator : IOperatorCalculator
     {
-        public double _number;
-
-        public Number_OperatorCalculator(double number)
+        private double _number;
+        public double Number
         {
-            _number = number;
+            get { return _number; }
+            set { _number = value; }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

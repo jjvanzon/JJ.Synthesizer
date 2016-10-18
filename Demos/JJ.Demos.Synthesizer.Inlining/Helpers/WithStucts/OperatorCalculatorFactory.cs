@@ -29,6 +29,29 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
             double volume = 10.0;
             double phaseShift = 0.25;
 
+            var variableInputCalculator = new VariableInput_OperatorCalculator();
+            variableInputCalculator._value = frequency;
+
+            var sineCalculator =
+                new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
+                <
+                    VariableInput_OperatorCalculator
+                >();
+            sineCalculator.FrequencyCalculator = variableInputCalculator;
+            sineCalculator.DimensionStack = dimensionStack;
+
+            var shiftCalculator =
+                new Shift_OperatorCalculator_VarSignal_ConstDistance
+                <
+                    Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
+                    <
+                        VariableInput_OperatorCalculator
+                    >
+                >();
+            shiftCalculator.SignalCalculator = sineCalculator;
+            shiftCalculator.Distance = phaseShift;
+            shiftCalculator.DimensionStack = dimensionStack;
+
             var multiplyCalculator =
                 new Multiply_OperatorCalculator_VarA_ConstB
                 <
@@ -40,14 +63,8 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                         >
                     >
                 >();
-
-            multiplyCalculator._b = volume;
-            multiplyCalculator._aCalculator._dimensionStack = dimensionStack;
-            multiplyCalculator._aCalculator._distance = phaseShift;
-
-            multiplyCalculator._aCalculator._signalCalculator._dimensionStack = dimensionStack;
-
-            multiplyCalculator._aCalculator._signalCalculator._frequencyCalculator._value = frequency;
+            multiplyCalculator.ACalculator = shiftCalculator;
+            multiplyCalculator.B = volume;
 
             return multiplyCalculator;
         }
@@ -229,53 +246,14 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                     >
                 >();
 
-            addCalculator._calculator1._b = volume;
-            addCalculator._calculator1._aCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator1._aCalculator._distance = phaseShift;
-            addCalculator._calculator1._aCalculator._signalCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator1._aCalculator._signalCalculator._frequencyCalculator._value = frequency;
-
-            addCalculator._calculator2._b = volume;
-            addCalculator._calculator2._aCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator2._aCalculator._distance = phaseShift;
-            addCalculator._calculator2._aCalculator._signalCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator2._aCalculator._signalCalculator._frequencyCalculator._value = frequency;
-
-            addCalculator._calculator3._b = volume;
-            addCalculator._calculator3._aCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator3._aCalculator._distance = phaseShift;
-            addCalculator._calculator3._aCalculator._signalCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator3._aCalculator._signalCalculator._frequencyCalculator._value = frequency;
-
-            addCalculator._calculator4._b = volume;
-            addCalculator._calculator4._aCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator4._aCalculator._distance = phaseShift;
-            addCalculator._calculator4._aCalculator._signalCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator4._aCalculator._signalCalculator._frequencyCalculator._value = frequency;
-
-            addCalculator._calculator5._b = volume;
-            addCalculator._calculator5._aCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator5._aCalculator._distance = phaseShift;
-            addCalculator._calculator5._aCalculator._signalCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator5._aCalculator._signalCalculator._frequencyCalculator._value = frequency;
-
-            addCalculator._calculator6._b = volume;
-            addCalculator._calculator6._aCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator6._aCalculator._distance = phaseShift;
-            addCalculator._calculator6._aCalculator._signalCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator6._aCalculator._signalCalculator._frequencyCalculator._value = frequency;
-
-            addCalculator._calculator7._b = volume;
-            addCalculator._calculator7._aCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator7._aCalculator._distance = phaseShift;
-            addCalculator._calculator7._aCalculator._signalCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator7._aCalculator._signalCalculator._frequencyCalculator._value = frequency;
-
-            addCalculator._calculator8._b = volume;
-            addCalculator._calculator8._aCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator8._aCalculator._distance = phaseShift;
-            addCalculator._calculator8._aCalculator._signalCalculator._dimensionStack = dimensionStack;
-            addCalculator._calculator8._aCalculator._signalCalculator._frequencyCalculator._value = frequency;
+            addCalculator.Calculator1 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            addCalculator.Calculator2 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            addCalculator.Calculator3 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            addCalculator.Calculator4 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            addCalculator.Calculator5 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            addCalculator.Calculator6 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            addCalculator.Calculator7 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            addCalculator.Calculator8 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
 
             return addCalculator;
         }

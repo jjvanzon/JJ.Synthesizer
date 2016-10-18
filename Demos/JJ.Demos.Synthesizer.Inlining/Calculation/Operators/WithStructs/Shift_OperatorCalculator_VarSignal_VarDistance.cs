@@ -8,14 +8,31 @@ using JJ.Demos.Synthesizer.Inlining.Helpers;
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    internal struct Shift_OperatorCalculator_VarSignal_VarDistance<TSignalCalculator, TDistanceCalculator> 
+    internal struct Shift_OperatorCalculator_VarSignal_VarDistance<TSignalCalculator, TDistanceCalculator>
         : IShift_OperatorCalculator_VarSignal_VarDistance
         where TSignalCalculator : IOperatorCalculator
         where TDistanceCalculator : IOperatorCalculator
     {
-        public TSignalCalculator _signalCalculator;
-        public TDistanceCalculator _distanceCalculator;
-        public DimensionStack _dimensionStack;
+        private TSignalCalculator _signalCalculator;
+        public IOperatorCalculator SignalCalculator
+        {
+            get { return _signalCalculator; }
+            set { _signalCalculator = (TSignalCalculator)value; }
+        }
+
+        private TDistanceCalculator _distanceCalculator;
+        public IOperatorCalculator DistanceCalculator
+        {
+            get { return _distanceCalculator; }
+            set { _distanceCalculator = (TDistanceCalculator)value; }
+        }
+
+        private DimensionStack _dimensionStack;
+        public DimensionStack DimensionStack
+        {
+            get { return _dimensionStack; }
+            set { _dimensionStack = value; }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate()
@@ -42,24 +59,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
             double transformedPosition = position - distance;
 
             return transformedPosition;
-        }
-
-        IOperatorCalculator IShift_OperatorCalculator_VarSignal_VarDistance.SignalCalculator
-        {
-            get { return _signalCalculator; }
-            set { _signalCalculator = (TSignalCalculator)value; }
-        }
-
-        IOperatorCalculator IShift_OperatorCalculator_VarSignal_VarDistance.DistanceCalculator
-        {
-            get { return _distanceCalculator; }
-            set { _distanceCalculator = (TDistanceCalculator)value; }
-        }
-
-        DimensionStack IShift_OperatorCalculator_VarSignal_VarDistance.DimensionStack
-        {
-            get { return _dimensionStack; }
-            set { _dimensionStack = value; }
         }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);

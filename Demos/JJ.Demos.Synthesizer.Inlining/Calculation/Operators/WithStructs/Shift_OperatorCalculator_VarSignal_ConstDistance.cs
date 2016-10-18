@@ -12,9 +12,26 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
         : IShift_OperatorCalculator_VarSignal_ConstDistance
         where TSignalCalculator : IOperatorCalculator
     {
-        public TSignalCalculator _signalCalculator;
-        public double _distance;
-        public DimensionStack _dimensionStack;
+        private TSignalCalculator _signalCalculator;
+        public IOperatorCalculator SignalCalculator
+        {
+            get { return _signalCalculator; }
+            set { _signalCalculator = (TSignalCalculator)value; }
+        }
+
+        private double _distance;
+        public double Distance
+        {
+            get { return _distance; }
+            set { _distance = value; }
+        }
+
+        private DimensionStack _dimensionStack;
+        public DimensionStack DimensionStack
+        {
+            get { return _dimensionStack; }
+            set { _dimensionStack = value; }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate()
@@ -39,24 +56,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
             double transformedPosition = position - _distance;
 
             return transformedPosition;
-        }
-
-        DimensionStack IShift_OperatorCalculator_VarSignal_ConstDistance.DimensionStack
-        {
-            get { return _dimensionStack; }
-            set { _dimensionStack = value; }
-        }
-
-        IOperatorCalculator IShift_OperatorCalculator_VarSignal_ConstDistance.SignalCalculator
-        {
-            get { return _signalCalculator; }
-            set { _signalCalculator = (TSignalCalculator) value; }
-        }
-
-        double IShift_OperatorCalculator_VarSignal_ConstDistance.Distance
-        {
-            get { return _distance; }
-            set { _distance = value; }
         }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);

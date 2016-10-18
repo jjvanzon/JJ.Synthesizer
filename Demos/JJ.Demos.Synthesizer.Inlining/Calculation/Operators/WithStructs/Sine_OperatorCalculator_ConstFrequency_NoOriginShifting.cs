@@ -10,8 +10,19 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal struct Sine_OperatorCalculator_ConstFrequency_NoOriginShifting : IOperatorCalculator
     {
-        public double _frequency;
-        public DimensionStack _dimensionStack;
+        private double _frequency;
+        public double Frequency
+        {
+            get { return _frequency; }
+            set { _frequency = value; }
+        }
+
+        private DimensionStack _dimensionStack;
+        public DimensionStack DimensionStack
+        {
+            get { return _dimensionStack; }
+            set { _dimensionStack = value; }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate()
@@ -23,5 +34,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
         }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+
     }
 }

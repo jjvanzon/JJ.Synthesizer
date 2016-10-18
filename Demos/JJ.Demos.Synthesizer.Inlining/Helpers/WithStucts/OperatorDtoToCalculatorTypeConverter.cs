@@ -9,7 +9,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStucts
 {
-    internal static class OperatorDtoToOperatorCalculatorTypeConverter
+    internal static class OperatorDtoToCalculatorTypeConverter
     {
         private static readonly Dictionary<Type, Type> _dtoType_Concrete_To_CalculatorType_OpenGeneric_Dictionary =
                             new Dictionary<Type, Type>

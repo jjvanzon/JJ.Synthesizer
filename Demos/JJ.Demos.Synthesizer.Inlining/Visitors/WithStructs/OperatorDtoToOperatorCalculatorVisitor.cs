@@ -24,7 +24,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
             sourceOperatorDto = preProcessingVisitor.Execute(sourceOperatorDto);
 
-            Type destOperatorCalculatorType_ClosedGeneric = OperatorDtoToOperatorCalculatorTypeConverter.ConvertToClosedGenericType(sourceOperatorDto);
+            Type destOperatorCalculatorType_ClosedGeneric = OperatorDtoToCalculatorTypeConverter.ConvertToClosedGenericType(sourceOperatorDto);
             IOperatorCalculator destOperatorCalculator = (IOperatorCalculator)Activator.CreateInstance(destOperatorCalculatorType_ClosedGeneric);
 
             var variableAssignmentVisitor = new VariableAssignment_OperatorDtoVisitor(_dimensionStack);

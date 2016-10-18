@@ -8,12 +8,13 @@ using JJ.Demos.Synthesizer.Inlining.Helpers;
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
     /// <summary>
-    /// This is the only calculator that needs to be a reference type, 
+    /// This is the only calculator that needs to be a reference type,
     /// because other object will write values to the same instance, also referenced from multiple.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal class VariableInput_OperatorCalculator : IOperatorCalculator
     {
+        /// <summary> Public field for performance. </summary>
         public double _value;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
