@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Demos.Synthesizer.Inlining.Calculation;
 using JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithInheritance;
 using JJ.Demos.Synthesizer.Inlining.Dto;
@@ -8,7 +10,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithInheritance
 {
-    internal class OperatorDtoToOperatorCalculatorVisitor : OperatorDtoVisitorBase_AfterSimplification
+    internal class OperatorDtoToOperatorCalculatorVisitor : OperatorDtoVisitorBase_AfterMathSimplification
     {
         private readonly DimensionStack _dimensionStack;
         private readonly Stack<OperatorCalculatorBase> _stack = new Stack<OperatorCalculatorBase>();
@@ -34,12 +36,27 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithInheritance
             return _stack.Pop();
         }
 
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override IList<InletDto> VisitInletDtos(IList<InletDto> inletDtos)
+        {
+            // Reverse the order, so calculators pop off the stack in the right order.
+            for (int i = inletDtos.Count - 1; i >= 0; i--)
+            {
+                InletDto inletDto = inletDtos[i];
+                VisitInletDto(inletDto);
+            }
+
+            return inletDtos;
+        }
+
+        // Add
+
         protected override OperatorDto Visit_Add_OperatorDto_VarA_ConstB(Add_OperatorDto_VarA_ConstB dto)
         {
             base.Visit_Add_OperatorDto_VarA_ConstB(dto);
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
-            OperatorCalculatorBase bCalculator = _stack.Pop();
 
             var calculator = new Add_OperatorCalculator_VarA_ConstB(aCalculator, dto.B);
 
@@ -62,12 +79,13 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithInheritance
             return dto;
         }
 
+        // Multiply
+
         protected override OperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
         {
             base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
-            OperatorCalculatorBase bCalculator = _stack.Pop();
 
             var calculator = new Multiply_OperatorCalculator_VarA_ConstB(aCalculator, dto.B);
 
@@ -90,23 +108,59 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithInheritance
             return dto;
         }
 
-        protected override OperatorDto Visit_Number_OperatorDto_Base(Number_OperatorDto dto)
-        {
-            base.Visit_Number_OperatorDto_Base(dto);
+        // Number
 
-            var calculator = new Number_OperatorCalculator(dto.Value);
+        protected override OperatorDto Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
+        {
+            base.Visit_Number_OperatorDto_Concrete(dto);
+
+            var calculator = new Number_OperatorCalculator(dto.Number);
 
             _stack.Push(calculator);
 
             return dto;
         }
 
+        protected override OperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
+        {
+            base.Visit_Number_OperatorDto_NaN(dto);
+
+            var calculator = new Number_OperatorCalculator_NaN();
+
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        protected override OperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
+        {
+            base.Visit_Number_OperatorDto_One(dto);
+
+            var calculator = new Number_OperatorCalculator_One();
+
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        protected override OperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
+        {
+            base.Visit_Number_OperatorDto_Zero(dto);
+
+            var calculator = new Number_OperatorCalculator_Zero();
+
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        // Shift
+
         protected override OperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
             base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase distanceCalculator = _stack.Pop();
 
             var calculator = new Shift_OperatorCalculator_VarSignal_ConstDifference(signalCalculator, dto.Distance, _dimensionStack);
 
@@ -129,11 +183,11 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithInheritance
             return dto;
         }
 
+        // Sine
+
         protected override OperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             base.Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(dto);
-
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
 
             var calculator = new Sine_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, _dimensionStack);
 
@@ -167,6 +221,8 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithInheritance
 
             return dto;
         }
+
+        // VariableInput
 
         protected override OperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {

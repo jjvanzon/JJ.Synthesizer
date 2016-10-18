@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace JJ.Demos.Synthesizer.Inlining.Dto
 {
-    internal class Add_OperatorDto_VarA_VarB : Add_OperatorDto
+    internal class Add_OperatorDto_VarA_VarB : OperatorDto_VarA_VarB
     {
         public Add_OperatorDto_VarA_VarB(InletDto aInletDto, InletDto bInletDto)
             : base(aInletDto, bInletDto)

@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Demos.Synthesizer.Inlining.Helpers;
 
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     internal struct Sine_OperatorCalculator_VarFrequency_WithPhaseTracking<TFrequencyCalculator> 
         : ISine_OperatorCalculator_VarFrequency
-        where TFrequencyCalculator : struct, IOperatorCalculator
+        where TFrequencyCalculator : IOperatorCalculator
     {
         public TFrequencyCalculator _frequencyCalculator;
         public DimensionStack _dimensionStack;
@@ -42,5 +45,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
             get { return _frequencyCalculator; }
             set { _frequencyCalculator = (TFrequencyCalculator)value; }
         }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

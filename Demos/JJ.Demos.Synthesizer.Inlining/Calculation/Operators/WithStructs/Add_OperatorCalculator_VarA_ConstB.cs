@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Demos.Synthesizer.Inlining.Helpers;
 
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     internal struct Add_OperatorCalculator_VarA_ConstB<TACalculator> 
         : IOperatorCalculator_VarA_ConstB
-        where TACalculator : struct, IOperatorCalculator
+        where TACalculator : IOperatorCalculator
     {
         public TACalculator _aCalculator;
         public double _b;
@@ -31,5 +34,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
             get { return _b; }
             set { _b = value; }
         }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

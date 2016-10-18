@@ -28,7 +28,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             IOperatorCalculator destOperatorCalculator = (IOperatorCalculator)Activator.CreateInstance(destOperatorCalculatorType_ClosedGeneric);
 
             var variableAssignmentVisitor = new VariableAssignment_OperatorDtoVisitor(_dimensionStack);
-            variableAssignmentVisitor.Execute(sourceOperatorDto, destOperatorCalculator);
+            destOperatorCalculator = variableAssignmentVisitor.Execute(sourceOperatorDto, destOperatorCalculator);
 
             return destOperatorCalculator;
         }

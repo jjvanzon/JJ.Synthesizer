@@ -12,8 +12,8 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
         {
             if (dto == null) throw new NullException(() => dto);
 
-            dto = new Specialization_OperatorDtoVisitor().Execute(dto);
-            dto = new Simplification_OperatorDtoVisitor().Execute(dto);
+            dto = new ClassSpecialization_OperatorDtoVisitor().Execute(dto);
+            dto = new MathSimplification_OperatorDtoVisitor().Execute(dto);
 
             return dto;
         }

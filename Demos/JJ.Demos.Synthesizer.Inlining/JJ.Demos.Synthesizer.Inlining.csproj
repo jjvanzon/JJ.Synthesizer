@@ -55,11 +55,21 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator_NaN.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator_One.cs" />
+    <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator_Zero.cs" />
     <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator_VarA_ConstB.cs" />
     <Compile Include="Calculation\Operators\WithStructs\IShift_OperatorCalculator_VarSignal_ConstDistance.cs" />
     <Compile Include="Calculation\Operators\WithStructs\IShift_OperatorCalculator_VarSignal_VarDistance.cs" />
     <Compile Include="Calculation\Operators\WithStructs\ISine_OperatorCalculator_VarFrequency.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_NaN.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_One.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_Zero.cs" />
+    <Compile Include="Dto\OperatorDto_VarA_VarB.cs" />
+    <Compile Include="Dto\OperatorDto_VarA_ConstB.cs" />
+    <Compile Include="Dto\OperatorDto_ConstA_VarB.cs" />
+    <Compile Include="Dto\OperatorDto_ConstA_ConstB.cs" />
     <Compile Include="Dto\Multiply_OperatorDto_ConstA_ConstB.cs" />
     <Compile Include="Dto\Add_OperatorDto_ConstA_ConstB.cs" />
     <Compile Include="Dto\Add_OperatorDto_ConstA_VarB.cs" />
@@ -83,7 +93,9 @@
     <Compile Include="Dto\Shift_OperatorDto_VarSignal_VarDistance.cs" />
     <Compile Include="Dto\Shift_OperatorDto_VarSignal_ConstDistance.cs" />
     <Compile Include="Dto\Sine_OperatorDto.cs" />
+    <Compile Include="Dto\OperatorDto_ConstFrequency.cs" />
     <Compile Include="Dto\Sine_OperatorDto_ConstFrequency_NoOriginShifting.cs" />
+    <Compile Include="Dto\OperatorDto_VarFrequency.cs" />
     <Compile Include="Dto\Sine_OperatorDto_VarFrequency_NoPhaseTracking.cs" />
     <Compile Include="Dto\Sine_OperatorDto_VarFrequency_WithPhaseTracking.cs" />
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
@@ -106,8 +118,8 @@
     <Compile Include="Calculation\Operators\WithStructs\Multiply_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Shift_OperatorCalculator_VarSignal_ConstDifference.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Shift_OperatorCalculator_VarSignal_VarDifference.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Shift_OperatorCalculator_VarSignal_ConstDistance.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\Shift_OperatorCalculator_VarSignal_VarDistance.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
@@ -130,11 +142,11 @@
     <Compile Include="Calculation\Operators\WithInheritance\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Visitors\2016-10-14 Backup of MathPropertyDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterSimplification.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterSpecialization.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterClassSpecialization.cs" />
     <Compile Include="Visitors\PreProcessing_OperatorDtoVisitor.cs" />
-    <Compile Include="Visitors\Simplification_OperatorDtoVisitor.cs" />
-    <Compile Include="Visitors\Specialization_OperatorDtoVisitor.cs" />
+    <Compile Include="Visitors\MathSimplification_OperatorDtoVisitor.cs" />
+    <Compile Include="Visitors\ClassSpecialization_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\WithInheritance\OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithStructs\OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithStructs\VariableAssignment_OperatorDtoVisitor.cs" />
@@ -157,7 +169,9 @@
       <Name>JJ.Framework.Testing</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Dto\Dtos.cd" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

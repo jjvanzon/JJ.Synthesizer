@@ -4,14 +4,16 @@ using System.Linq;
 
 namespace JJ.Demos.Synthesizer.Inlining.Dto
 {
-    internal class Shift_OperatorDto_VarSignal_ConstDistance : Shift_OperatorDto
+    internal class Shift_OperatorDto_VarSignal_ConstDistance : OperatorDto
     {
+        public InletDto SignalInletDto { get; set; }
         public double Distance { get; set; }
 
-        public Shift_OperatorDto_VarSignal_ConstDistance(InletDto signalInletDto, InletDto distanceInletDto, double distance)
-            : base(signalInletDto, distanceInletDto)
+        public Shift_OperatorDto_VarSignal_ConstDistance(InletDto signalInletDto, double distance)
+            : base(new InletDto[] { signalInletDto })
         {
             Distance = distance;
+            SignalInletDto = signalInletDto;
         }
     }
 }

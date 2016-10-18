@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Demos.Synthesizer.Inlining.Helpers;
 
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     internal struct Sine_OperatorCalculator_ConstFrequency_NoOriginShifting : IOperatorCalculator
     {
         public double _frequency;
@@ -18,5 +21,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 
             return value;
         }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

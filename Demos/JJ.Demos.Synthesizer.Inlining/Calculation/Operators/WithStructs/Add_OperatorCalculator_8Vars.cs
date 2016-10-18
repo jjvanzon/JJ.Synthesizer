@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Demos.Synthesizer.Inlining.Helpers;
 
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     internal struct Add_OperatorCalculator_8Vars
         <
             TChildCalculator1, 
@@ -16,14 +19,14 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
             TChildCalculator7,
             TChildCalculator8
         > : IOperatorCalculator
-        where TChildCalculator1 : struct, IOperatorCalculator
-        where TChildCalculator2 : struct, IOperatorCalculator
-        where TChildCalculator3 : struct, IOperatorCalculator
-        where TChildCalculator4 : struct, IOperatorCalculator
-        where TChildCalculator5 : struct, IOperatorCalculator
-        where TChildCalculator6 : struct, IOperatorCalculator
-        where TChildCalculator7 : struct, IOperatorCalculator
-        where TChildCalculator8 : struct, IOperatorCalculator
+        where TChildCalculator1 : IOperatorCalculator
+        where TChildCalculator2 : IOperatorCalculator
+        where TChildCalculator3 : IOperatorCalculator
+        where TChildCalculator4 : IOperatorCalculator
+        where TChildCalculator5 : IOperatorCalculator
+        where TChildCalculator6 : IOperatorCalculator
+        where TChildCalculator7 : IOperatorCalculator
+        where TChildCalculator8 : IOperatorCalculator
     {
         public TChildCalculator1 _calculator1;
         public TChildCalculator2 _calculator2;
@@ -55,5 +58,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
                    value7 + 
                    value8;
         }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

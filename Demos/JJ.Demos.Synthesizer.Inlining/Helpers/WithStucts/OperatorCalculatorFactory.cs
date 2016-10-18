@@ -14,7 +14,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
         public static
             Multiply_OperatorCalculator_VarA_ConstB
             <
-                Shift_OperatorCalculator_VarSignal_ConstDifference
+                Shift_OperatorCalculator_VarSignal_ConstDistance
                 <
                     Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                     <
@@ -32,7 +32,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
             var multiplyCalculator =
                 new Multiply_OperatorCalculator_VarA_ConstB
                 <
-                    Shift_OperatorCalculator_VarSignal_ConstDifference
+                    Shift_OperatorCalculator_VarSignal_ConstDistance
                     <
                         Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                         <
@@ -57,7 +57,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
             <
                 Multiply_OperatorCalculator_VarA_ConstB
                 <
-                    Shift_OperatorCalculator_VarSignal_ConstDifference
+                    Shift_OperatorCalculator_VarSignal_ConstDistance
                     <
                         Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                         <
@@ -67,7 +67,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                 >,
                 Multiply_OperatorCalculator_VarA_ConstB
                 <
-                    Shift_OperatorCalculator_VarSignal_ConstDifference
+                    Shift_OperatorCalculator_VarSignal_ConstDistance
                     <
                         Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                         <
@@ -77,7 +77,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                 >,
                 Multiply_OperatorCalculator_VarA_ConstB
                 <
-                    Shift_OperatorCalculator_VarSignal_ConstDifference
+                    Shift_OperatorCalculator_VarSignal_ConstDistance
                     <
                         Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                         <
@@ -87,7 +87,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                 >,
                 Multiply_OperatorCalculator_VarA_ConstB
                 <
-                    Shift_OperatorCalculator_VarSignal_ConstDifference
+                    Shift_OperatorCalculator_VarSignal_ConstDistance
                     <
                         Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                         <
@@ -97,7 +97,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                 >,
                 Multiply_OperatorCalculator_VarA_ConstB
                 <
-                    Shift_OperatorCalculator_VarSignal_ConstDifference
+                    Shift_OperatorCalculator_VarSignal_ConstDistance
                     <
                         Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                         <
@@ -107,7 +107,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                 >,
                 Multiply_OperatorCalculator_VarA_ConstB
                 <
-                    Shift_OperatorCalculator_VarSignal_ConstDifference
+                    Shift_OperatorCalculator_VarSignal_ConstDistance
                     <
                         Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                         <
@@ -117,7 +117,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                 >,
                 Multiply_OperatorCalculator_VarA_ConstB
                 <
-                    Shift_OperatorCalculator_VarSignal_ConstDifference
+                    Shift_OperatorCalculator_VarSignal_ConstDistance
                     <
                         Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                         <
@@ -127,7 +127,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                 >,
                 Multiply_OperatorCalculator_VarA_ConstB
                 <
-                    Shift_OperatorCalculator_VarSignal_ConstDifference
+                    Shift_OperatorCalculator_VarSignal_ConstDistance
                     <
                         Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                         <
@@ -149,7 +149,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                 <
                     Multiply_OperatorCalculator_VarA_ConstB
                     <
-                        Shift_OperatorCalculator_VarSignal_ConstDifference
+                        Shift_OperatorCalculator_VarSignal_ConstDistance
                         <
                             Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                             <
@@ -159,7 +159,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                     >,
                     Multiply_OperatorCalculator_VarA_ConstB
                     <
-                        Shift_OperatorCalculator_VarSignal_ConstDifference
+                        Shift_OperatorCalculator_VarSignal_ConstDistance
                         <
                             Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                             <
@@ -169,7 +169,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                     >,
                     Multiply_OperatorCalculator_VarA_ConstB
                     <
-                        Shift_OperatorCalculator_VarSignal_ConstDifference
+                        Shift_OperatorCalculator_VarSignal_ConstDistance
                         <
                             Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                             <
@@ -179,7 +179,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                     >,
                     Multiply_OperatorCalculator_VarA_ConstB
                     <
-                        Shift_OperatorCalculator_VarSignal_ConstDifference
+                        Shift_OperatorCalculator_VarSignal_ConstDistance
                         <
                             Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                             <
@@ -189,7 +189,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                     >,
                     Multiply_OperatorCalculator_VarA_ConstB
                     <
-                        Shift_OperatorCalculator_VarSignal_ConstDifference
+                        Shift_OperatorCalculator_VarSignal_ConstDistance
                         <
                             Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                             <
@@ -199,7 +199,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                     >,
                     Multiply_OperatorCalculator_VarA_ConstB
                     <
-                        Shift_OperatorCalculator_VarSignal_ConstDifference
+                        Shift_OperatorCalculator_VarSignal_ConstDistance
                         <
                             Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                             <
@@ -209,7 +209,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                     >,
                     Multiply_OperatorCalculator_VarA_ConstB
                     <
-                        Shift_OperatorCalculator_VarSignal_ConstDifference
+                        Shift_OperatorCalculator_VarSignal_ConstDistance
                         <
                             Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                             <
@@ -219,7 +219,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs
                     >,
                     Multiply_OperatorCalculator_VarA_ConstB
                     <
-                        Shift_OperatorCalculator_VarSignal_ConstDifference
+                        Shift_OperatorCalculator_VarSignal_ConstDistance
                         <
                             Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
                             <

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using JJ.Demos.Synthesizer.Inlining.Calculation;
 using JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs;
 using JJ.Demos.Synthesizer.Inlining.Dto;
@@ -9,7 +10,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
 {
-    internal class VariableAssignment_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterSimplification
+    internal class VariableAssignment_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterMathSimplification
     {
         private readonly DimensionStack _dimensionStack;
         private readonly Stack<IOperatorCalculator> _stack = new Stack<IOperatorCalculator>();
@@ -22,12 +23,10 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
 
         // Execute
 
-        public void Execute(OperatorDto sourceDto, IOperatorCalculator destCalculator)
+        public IOperatorCalculator Execute(OperatorDto sourceDto, IOperatorCalculator destCalculator)
         {
             if (sourceDto == null) throw new NullException(() => sourceDto);
             if (destCalculator == null) throw new NullException(() => destCalculator);
-
-            _stack.Push(destCalculator);
 
             Visit_OperatorDto_Polymorphic(sourceDto);
 
@@ -36,7 +35,20 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
                 throw new NotEqualException(() => _stack.Count, 1);
             }
 
-            _stack.Pop();
+            return _stack.Pop();
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected override IList<InletDto> VisitInletDtos(IList<InletDto> inletDtos)
+        {
+            // Reverse the order, so calculators pop off the stack in the right order.
+            for (int i = inletDtos.Count - 1; i >= 0; i--)
+            {
+                InletDto inletDto = inletDtos[i];
+                VisitInletDto(inletDto);
+            }
+
+            return inletDtos;
         }
 
         // Visit
@@ -45,14 +57,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
         {
             base.Visit_Add_OperatorDto_VarA_ConstB(dto);
 
-            IOperatorCalculator aCalculator = _stack.Pop();
-            _stack.Pop();
-
-            var calculator = (IOperatorCalculator_VarA_ConstB)CreateCalculator(dto);
-            calculator.ACalculator = aCalculator;
-            calculator.B = dto.B;
-
-            _stack.Push(calculator);
+            Process_OperatorDto_VarA_ConstB(dto);
 
             return dto;
         }
@@ -61,9 +66,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
         {
             base.Visit_Add_OperatorDto_VarA_VarB(dto);
 
-            IOperatorCalculator calculator = CreateCalculator_VarA_VarB(dto);
-
-            _stack.Push(calculator);
+            Process_OperatorDto_VarA_VarB(dto);
 
             return dto;
         }
@@ -72,14 +75,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
         {
             base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);
 
-            IOperatorCalculator aCalculator = _stack.Pop();
-            _stack.Pop();
-
-            var calculator = (IOperatorCalculator_VarA_ConstB)CreateCalculator(dto);
-            calculator.ACalculator = aCalculator;
-            calculator.B = dto.B;
-
-            _stack.Push(calculator);
+            Process_OperatorDto_VarA_ConstB(dto);
 
             return dto;
         }
@@ -88,17 +84,48 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
         {
             base.Visit_Multiply_OperatorDto_VarA_VarB(dto);
 
-            IOperatorCalculator calculator = CreateCalculator_VarA_VarB(dto);
+            Process_OperatorDto_VarA_VarB(dto);
+
+            return dto;
+        }
+
+        protected override OperatorDto Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
+        {
+            base.Visit_Number_OperatorDto_Concrete(dto);
+
+            var calculator = (Number_OperatorCalculator)CreateCalculator(dto);
+            calculator._number = dto.Number;
 
             _stack.Push(calculator);
 
             return dto;
         }
 
-        protected override OperatorDto Visit_Number_OperatorDto_Base(Number_OperatorDto dto)
+        protected override OperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
-            // This shouldn't happen. Everything with constants as input should have gotten a specialized Dto.
-            throw new NotSupportedException();
+            base.Visit_Number_OperatorDto_NaN(dto);
+
+            Process_OperatorDto_WithoutVariables(dto);
+
+            return dto;
+        }
+
+        protected override OperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
+        {
+            base.Visit_Number_OperatorDto_One(dto);
+
+            Process_OperatorDto_WithoutVariables(dto);
+
+            return dto;
+        }
+
+        protected override OperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
+        {
+            base.Visit_Number_OperatorDto_Zero(dto);
+
+            Process_OperatorDto_WithoutVariables(dto);
+
+            return dto;
         }
 
         protected override OperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
@@ -106,7 +133,6 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
 
             IOperatorCalculator signalCalculator = _stack.Pop();
-            _stack.Pop();
 
             var calculator = (IShift_OperatorCalculator_VarSignal_ConstDistance)CreateCalculator(dto);
             calculator.Distance = dto.Distance;
@@ -140,8 +166,8 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             base.Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(dto);
 
             var calculator = (Sine_OperatorCalculator_ConstFrequency_NoOriginShifting)CreateCalculator(dto);
-
             calculator._dimensionStack = _dimensionStack;
+            calculator._frequency = dto.Frequency;
 
             _stack.Push(calculator);
 
@@ -152,9 +178,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
         {
             base.Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(dto);
 
-            IOperatorCalculator calculator = CreateCalculator_Sine_VarFrequency(dto);
-
-            _stack.Push(calculator);
+            Process_OperatorDto_VarFrequency(dto);
 
             return dto;
         }
@@ -163,9 +187,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
         {
             base.Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(dto);
 
-            IOperatorCalculator calculator = CreateCalculator_Sine_VarFrequency(dto);
-
-            _stack.Push(calculator);
+            Process_OperatorDto_VarFrequency(dto);
 
             return dto;
         }
@@ -174,16 +196,17 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
         {
             base.Visit_VariableInput_OperatorDto(dto);
 
-            var calculator = (IOperatorCalculator)CreateCalculator(dto);
+            var calculator = (VariableInput_OperatorCalculator)CreateCalculator(dto);
+            calculator._value = dto.DefaultValue;
 
             _stack.Push(calculator);
 
             return dto;
         }
 
-        // Create
+        // Reused Methods
 
-        private IOperatorCalculator CreateCalculator_VarA_VarB(OperatorDto dto)
+        private void Process_OperatorDto_VarA_VarB(OperatorDto dto)
         {
             IOperatorCalculator aCalculator = _stack.Pop();
             IOperatorCalculator bCalculator = _stack.Pop();
@@ -192,22 +215,39 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors.WithStructs
             calculator.ACalculator = aCalculator;
             calculator.BCalculator = bCalculator;
 
-            return calculator;
+            _stack.Push(calculator);
         }
 
-        private IOperatorCalculator CreateCalculator_Sine_VarFrequency(Sine_OperatorDto dto)
+        private void Process_OperatorDto_VarA_ConstB(OperatorDto_VarA_ConstB dto)
+        {
+            IOperatorCalculator aCalculator = _stack.Pop();
+
+            var calculator = (IOperatorCalculator_VarA_ConstB)CreateCalculator(dto);
+            calculator.ACalculator = aCalculator;
+            calculator.B = dto.B;
+
+            _stack.Push(calculator);
+        }
+
+        private void Process_OperatorDto_VarFrequency(OperatorDto_VarFrequency dto)
         {
             IOperatorCalculator frequencyCalculator = _stack.Pop();
 
             var calculator = (ISine_OperatorCalculator_VarFrequency)CreateCalculator(dto);
-
             calculator.DimensionStack = _dimensionStack;
             calculator.FrequencyCalculator = frequencyCalculator;
 
-            return calculator;
+            _stack.Push(calculator);
         }
 
-        private static object CreateCalculator(OperatorDto dto)
+        private void Process_OperatorDto_WithoutVariables(OperatorDto dto)
+        {
+            var calculator = (IOperatorCalculator)CreateCalculator(dto);
+
+            _stack.Push(calculator);
+        }
+
+        private object CreateCalculator(OperatorDto dto)
         {
             Type calculatorType = OperatorDtoToOperatorCalculatorTypeConverter.ConvertToClosedGenericType(dto);
             var calculator = Activator.CreateInstance(calculatorType);

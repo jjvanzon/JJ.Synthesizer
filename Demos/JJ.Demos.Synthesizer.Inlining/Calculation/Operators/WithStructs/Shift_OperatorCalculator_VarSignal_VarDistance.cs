@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Demos.Synthesizer.Inlining.Helpers;
 
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
-    internal struct Shift_OperatorCalculator_VarSignal_VarDifference<TSignalCalculator, TDistanceCalculator> 
+    [DebuggerDisplay("{DebuggerDisplay}")]
+    internal struct Shift_OperatorCalculator_VarSignal_VarDistance<TSignalCalculator, TDistanceCalculator> 
         : IShift_OperatorCalculator_VarSignal_VarDistance
-        where TSignalCalculator : struct, IOperatorCalculator
-        where TDistanceCalculator : struct, IOperatorCalculator
+        where TSignalCalculator : IOperatorCalculator
+        where TDistanceCalculator : IOperatorCalculator
     {
         public TSignalCalculator _signalCalculator;
         public TDistanceCalculator _distanceCalculator;
@@ -58,5 +61,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
             get { return _dimensionStack; }
             set { _dimensionStack = value; }
         }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

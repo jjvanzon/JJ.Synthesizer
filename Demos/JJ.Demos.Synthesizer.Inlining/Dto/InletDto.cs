@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using JJ.Demos.Synthesizer.Inlining.Helpers;
 
 namespace JJ.Demos.Synthesizer.Inlining.Dto
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     internal class InletDto
     {
         public InletDto()
@@ -15,5 +18,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Dto
         }
 
         public OperatorDto InputOperatorDto { get; set; }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

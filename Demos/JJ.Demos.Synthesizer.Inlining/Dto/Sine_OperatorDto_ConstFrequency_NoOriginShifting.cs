@@ -4,14 +4,10 @@ using System.Linq;
 
 namespace JJ.Demos.Synthesizer.Inlining.Dto
 {
-    internal class Sine_OperatorDto_ConstFrequency_NoOriginShifting : Sine_OperatorDto
+    internal class Sine_OperatorDto_ConstFrequency_NoOriginShifting : OperatorDto_ConstFrequency
     {
-        public double Frequency { get; set; }
-
-        public Sine_OperatorDto_ConstFrequency_NoOriginShifting(InletDto frequencyInletDto, double frequency)
-            : base (frequencyInletDto)
-        {
-            Frequency = frequency;
-        }
+        public Sine_OperatorDto_ConstFrequency_NoOriginShifting(double frequency)
+            : base(frequency)
+        { }
     }
 }

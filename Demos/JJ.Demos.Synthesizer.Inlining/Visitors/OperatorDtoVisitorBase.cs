@@ -10,235 +10,368 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 {
     internal abstract class OperatorDtoVisitorBase
     {
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // Polymorphic
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_OperatorDto_Polymorphic(OperatorDto dto)
         {
-            var add_OperatorDto = dto as Add_OperatorDto;
-            if (add_OperatorDto != null)
             {
-                return Visit_Add_OperatorDto_ConcreteOrPolymorphic(add_OperatorDto);
+                var castedDto = dto as OperatorDto_VarA_VarB;
+                if (castedDto != null)
+                {
+                    return Visit_OperatorDto_VarA_VarB_Polymorphic(castedDto);
+                }
             }
 
-            var multiply_OperatorDto = dto as Multiply_OperatorDto;
-            if (multiply_OperatorDto != null)
             {
-                return Visit_Multiply_OperatorDto_ConcreteOrPolymorphic(multiply_OperatorDto);
+                var castedDto = dto as OperatorDto_VarA_ConstB;
+                if (castedDto != null)
+                {
+                    return Visit_OperatorDto_VarA_ConstB_Polymorphic(castedDto);
+                }
             }
 
-            var number_OperatorDto = dto as Number_OperatorDto;
-            if (number_OperatorDto != null)
             {
-                return Visit_Number_OperatorDto_ConcreteOrPolymorphic(number_OperatorDto);
+                var castedDto = dto as OperatorDto_ConstA_VarB;
+                if (castedDto != null)
+                {
+                    return Visit_OperatorDto_ConstA_VarB_Polymorphic(castedDto);
+                }
             }
 
-            var shift_OperatorDto = dto as Shift_OperatorDto;
-            if (shift_OperatorDto != null)
             {
-                return Visit_Shift_OperatorDto_ConcreteOrPolymorphic(shift_OperatorDto);
+                var castedDto = dto as OperatorDto_ConstA_ConstB;
+                if (castedDto != null)
+                {
+                    return Visit_OperatorDto_ConstA_ConstB_Polymorphic(castedDto);
+                }
             }
 
-            var sine_OperatorDto = dto as Sine_OperatorDto;
-            if (sine_OperatorDto != null)
             {
-                return Visit_Sine_OperatorDto_ConcreteOrPolymorphic(sine_OperatorDto);
+                var castedDto = dto as OperatorDto_VarFrequency;
+                if (castedDto != null)
+                {
+                    return Visit_OperatorDto_VarFrequency_Polymorphic(castedDto);
+                }
             }
 
-            var variableInput_OperatorDto = dto as VariableInput_OperatorDto;
-            if (variableInput_OperatorDto != null)
             {
-                return Visit_VariableInput_OperatorDto(variableInput_OperatorDto);
+                var castedDto = dto as OperatorDto_ConstFrequency;
+                if (castedDto != null)
+                {
+                    return Visit_OperatorDto_ConstFrequency_Polymorphic(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Number_OperatorDto;
+                if (castedDto != null)
+                {
+                    return Visit_Number_OperatorDto_ConcreteOrPolymorphic(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as VariableInput_OperatorDto;
+                if (castedDto != null)
+                {
+                    return Visit_VariableInput_OperatorDto(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Shift_OperatorDto_ConstSignal_ConstDistance;
+                if (castedDto != null)
+                {
+                    return Visit_Shift_OperatorDto_ConstSignal_ConstDistance(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Shift_OperatorDto_ConstSignal_VarDistance;
+                if (castedDto != null)
+                {
+                    return Visit_Shift_OperatorDto_ConstSignal_VarDistance(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Shift_OperatorDto_VarSignal_ConstDistance;
+                if (castedDto != null)
+                {
+                    return Visit_Shift_OperatorDto_VarSignal_ConstDistance(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Shift_OperatorDto_VarSignal_VarDistance;
+                if (castedDto != null)
+                {
+                    return Visit_Shift_OperatorDto_VarSignal_VarDistance(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Shift_OperatorDto;
+                if (castedDto != null)
+                {
+                    return Visit_Shift_OperatorDto(castedDto);
+                }
             }
 
             throw new UnexpectedTypeException(() => dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_VarA_VarB_Polymorphic(OperatorDto_VarA_VarB dto)
+        {
+            {
+                var castedDto = dto as Add_OperatorDto;
+                if (castedDto != null)
+                {
+                    return Visit_Add_OperatorDto(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Add_OperatorDto_VarA_VarB;
+                if (castedDto != null)
+                {
+                    return Visit_Add_OperatorDto_VarA_VarB(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Multiply_OperatorDto;
+                if (castedDto != null)
+                {
+                    return Visit_Multiply_OperatorDto(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Multiply_OperatorDto_VarA_VarB;
+                if (castedDto != null)
+                {
+                    return Visit_Multiply_OperatorDto_VarA_VarB(castedDto);
+                }
+            }
+
+            throw new UnexpectedTypeException(() => dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_VarA_VarB_Base(OperatorDto_VarA_VarB dto)
+        {
+            return Visit_OperatorDto_Base(dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_VarA_ConstB_Polymorphic(OperatorDto_VarA_ConstB dto)
+        {
+            {
+                var castedDto = dto as Add_OperatorDto_VarA_ConstB;
+                if (castedDto != null)
+                {
+                    return Visit_Add_OperatorDto_VarA_ConstB(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Multiply_OperatorDto_VarA_ConstB;
+                if (castedDto != null)
+                {
+                    return Visit_Multiply_OperatorDto_VarA_ConstB(castedDto);
+                }
+            }
+
+            throw new UnexpectedTypeException(() => dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_VarA_ConstB_Base(OperatorDto_VarA_ConstB dto)
+        {
+            return Visit_OperatorDto_Base(dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_ConstA_VarB_Polymorphic(OperatorDto_ConstA_VarB dto)
+        {
+            {
+                var castedDto = dto as Add_OperatorDto_ConstA_VarB;
+                if (castedDto != null)
+                {
+                    return Visit_Add_OperatorDto_ConstA_VarB(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Multiply_OperatorDto_ConstA_VarB;
+                if (castedDto != null)
+                {
+                    return Visit_Multiply_OperatorDto_ConstA_VarB(castedDto);
+                }
+            }
+
+            throw new UnexpectedTypeException(() => dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_ConstA_VarB_Base(OperatorDto_ConstA_VarB dto)
+        {
+            return Visit_OperatorDto_Base(dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_ConstA_ConstB_Polymorphic(OperatorDto_ConstA_ConstB dto)
+        {
+            {
+                var castedDto = dto as Add_OperatorDto_ConstA_ConstB;
+                if (castedDto != null)
+                {
+                    return Visit_Add_OperatorDto_ConstA_ConstB(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Multiply_OperatorDto_ConstA_ConstB;
+                if (castedDto != null)
+                {
+                    return Visit_Multiply_OperatorDto_ConstA_ConstB(castedDto);
+                }
+            }
+
+            throw new UnexpectedTypeException(() => dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_ConstA_ConstB_Base(OperatorDto_ConstA_ConstB dto)
+        {
+            return Visit_OperatorDto_Base(dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_VarFrequency_Polymorphic(OperatorDto_VarFrequency dto)
+        {
+            {
+                var castedDto = dto as Sine_OperatorDto;
+                if (castedDto != null)
+                {
+                    return Visit_Sine_OperatorDto(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Sine_OperatorDto_VarFrequency_WithPhaseTracking;
+                if (castedDto != null)
+                {
+                    return Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(castedDto);
+                }
+            }
+            {
+                var castedDto = dto as Sine_OperatorDto_VarFrequency_NoPhaseTracking;
+                if (castedDto != null)
+                {
+                    return Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(castedDto);
+                }
+            }
+
+            throw new UnexpectedTypeException(() => dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_VarFrequency_Base(OperatorDto_VarFrequency dto)
+        {
+            return Visit_OperatorDto_Base(dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_ConstFrequency_Polymorphic(OperatorDto_ConstFrequency dto)
+        {
+            {
+                var castedDto = dto as Sine_OperatorDto_ConstFrequency_NoOriginShifting;
+                if (castedDto != null)
+                {
+                    return Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(castedDto);
+                }
+            }
+
+            throw new UnexpectedTypeException(() => dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_ConstFrequency_Base(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        {
+            return Visit_OperatorDto_Base(dto);
         }
 
         // Add
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Add_OperatorDto_ConcreteOrPolymorphic(Add_OperatorDto dto)
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
-            bool isConcrete = dto.GetType() == typeof(Add_OperatorDto);
-
-            if (isConcrete)
-            {
-                return Visit_Add_OperatorDto_Concrete(dto);
-            }
-            else
-            {
-                return Visit_Add_OperatorDto_Polymorphic(dto);
-            }
+            return Visit_OperatorDto_VarA_VarB_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Add_OperatorDto_Concrete(Add_OperatorDto dto)
-        {
-            return Visit_Add_OperatorDto_Base(dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Add_OperatorDto_Polymorphic(Add_OperatorDto dto)
-        {
-            var add_OperatorDto_VarA_VarB = dto as Add_OperatorDto_VarA_VarB;
-            if (add_OperatorDto_VarA_VarB != null)
-            {
-                return Visit_Add_OperatorDto_VarA_VarB(add_OperatorDto_VarA_VarB);
-            }
-
-            var add_OperatorDto_VarA_ConstB = dto as Add_OperatorDto_VarA_ConstB;
-            if (add_OperatorDto_VarA_ConstB != null)
-            {
-                return Visit_Add_OperatorDto_VarA_ConstB(add_OperatorDto_VarA_ConstB);
-            }
-
-            var add_OperatorDto_ConstA_VarB = dto as Add_OperatorDto_ConstA_VarB;
-            if (add_OperatorDto_ConstA_VarB != null)
-            {
-                return Visit_Add_OperatorDto_ConstA_VarB(add_OperatorDto_ConstA_VarB);
-            }
-
-            var add_OperatorDto_ConstA_ConstB = dto as Add_OperatorDto_ConstA_ConstB;
-            if (add_OperatorDto_ConstA_ConstB != null)
-            {
-                return Visit_Add_OperatorDto_ConstA_ConstB(add_OperatorDto_ConstA_ConstB);
-            }
-
-            throw new UnexpectedTypeException(() => dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_VarA_VarB(Add_OperatorDto_VarA_VarB dto)
         {
-            return Visit_Add_OperatorDto_Base(dto);
+            return Visit_OperatorDto_VarA_VarB_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_VarA_ConstB(Add_OperatorDto_VarA_ConstB dto)
         {
-            return Visit_Add_OperatorDto_Base(dto);
+            return Visit_OperatorDto_VarA_ConstB_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_ConstA_VarB(Add_OperatorDto_ConstA_VarB dto)
         {
-            return Visit_Add_OperatorDto_Base(dto);
+            return Visit_OperatorDto_ConstA_VarB_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Add_OperatorDto_ConstA_ConstB(Add_OperatorDto_ConstA_ConstB dto)
         {
-            return Visit_Add_OperatorDto_Base(dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Add_OperatorDto_Base(Add_OperatorDto dto)
-        {
-            return Visit_OperatorDto_Base(dto);
+            return Visit_OperatorDto_ConstA_ConstB_Base(dto);
         }
 
         // Multiply
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Multiply_OperatorDto_ConcreteOrPolymorphic(Multiply_OperatorDto dto)
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
         {
-            bool isConcrete = dto.GetType() == typeof(Multiply_OperatorDto);
-
-            if (isConcrete)
-            {
-                return Visit_Multiply_OperatorDto_Concrete(dto);
-            }
-            else
-            {
-                return Visit_Multiply_OperatorDto_Polymorphic(dto);
-            }
+            return Visit_OperatorDto_VarA_VarB_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Multiply_OperatorDto_Concrete(Multiply_OperatorDto dto)
-        {
-            return Visit_Multiply_OperatorDto_Base(dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Multiply_OperatorDto_Polymorphic(Multiply_OperatorDto dto)
-        {
-            var multiply_OperatorDto_VarA_VarB = dto as Multiply_OperatorDto_VarA_VarB;
-            if (multiply_OperatorDto_VarA_VarB != null)
-            {
-                return Visit_Multiply_OperatorDto_VarA_VarB(multiply_OperatorDto_VarA_VarB);
-            }
-
-            var multiply_OperatorDto_VarA_ConstB = dto as Multiply_OperatorDto_VarA_ConstB;
-            if (multiply_OperatorDto_VarA_ConstB != null)
-            {
-                return Visit_Multiply_OperatorDto_VarA_ConstB(multiply_OperatorDto_VarA_ConstB);
-            }
-
-            var multiply_OperatorDto_ConstA_VarB = dto as Multiply_OperatorDto_ConstA_VarB;
-            if (multiply_OperatorDto_ConstA_VarB != null)
-            {
-                return Visit_Multiply_OperatorDto_ConstA_VarB(multiply_OperatorDto_ConstA_VarB);
-            }
-
-            var multiply_OperatorDto_ConstA_ConstB = dto as Multiply_OperatorDto_ConstA_ConstB;
-            if (multiply_OperatorDto_ConstA_ConstB != null)
-            {
-                return Visit_Multiply_OperatorDto_ConstA_ConstB(multiply_OperatorDto_ConstA_ConstB);
-            }
-
-            throw new UnexpectedTypeException(() => dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
         {
-            return Visit_Multiply_OperatorDto_Base(dto);
+            return Visit_OperatorDto_VarA_VarB_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
         {
-            return Visit_Multiply_OperatorDto_Base(dto);
+            return Visit_OperatorDto_VarA_ConstB_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_ConstA_VarB(Multiply_OperatorDto_ConstA_VarB dto)
         {
-            return Visit_Multiply_OperatorDto_Base(dto);
+            return Visit_OperatorDto_ConstA_VarB_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB dto)
         {
-            return Visit_Multiply_OperatorDto_Base(dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Multiply_OperatorDto_Base(Multiply_OperatorDto dto)
-        {
-            return Visit_OperatorDto_Base(dto);
+            return Visit_OperatorDto_ConstA_ConstB_Base(dto);
         }
 
         // Number
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_ConcreteOrPolymorphic(Number_OperatorDto dto)
         {
             bool isConcrete = dto.GetType() == typeof(Number_OperatorDto);
@@ -253,15 +386,13 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             }
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_Polymorphic(Number_OperatorDto dto)
         {
             var number_OperatorDto_NaN = dto as Number_OperatorDto_NaN;
@@ -285,29 +416,25 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new UnexpectedTypeException(() => dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Number_OperatorDto_Base(Number_OperatorDto dto)
         {
             return Visit_OperatorDto_Base(dto);
@@ -315,177 +442,65 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
         // Shift
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Shift_OperatorDto_ConcreteOrPolymorphic(Shift_OperatorDto dto)
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Shift_OperatorDto(Shift_OperatorDto dto)
         {
-            bool isConcrete = dto.GetType() == typeof(Shift_OperatorDto);
-
-            if (isConcrete)
-            {
-                return Visit_Shift_OperatorDto_Concrete(dto);
-            }
-            else
-            {
-                return Visit_Shift_OperatorDto_Polymorphic(dto);
-            }
+            return Visit_OperatorDto_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Shift_OperatorDto_Concrete(Shift_OperatorDto dto)
-        {
-            return Visit_Shift_OperatorDto_Base(dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Shift_OperatorDto_Polymorphic(Shift_OperatorDto dto)
-        {
-            var shift_OperatorDto_VarSignal_VarDistance = dto as Shift_OperatorDto_VarSignal_VarDistance;
-            if (shift_OperatorDto_VarSignal_VarDistance != null)
-            {
-                return Visit_Shift_OperatorDto_VarSignal_VarDistance(shift_OperatorDto_VarSignal_VarDistance);
-            }
-
-            var shift_OperatorDto_VarSignal_ConstDistance = dto as Shift_OperatorDto_VarSignal_ConstDistance;
-            if (shift_OperatorDto_VarSignal_ConstDistance != null)
-            {
-                return Visit_Shift_OperatorDto_VarSignal_ConstDistance(shift_OperatorDto_VarSignal_ConstDistance);
-            }
-
-            var shift_OperatorDto_ConstSignal_VarDistance = dto as Shift_OperatorDto_ConstSignal_VarDistance;
-            if (shift_OperatorDto_ConstSignal_VarDistance != null)
-            {
-                return Visit_Shift_OperatorDto_ConstSignal_VarDistance(shift_OperatorDto_ConstSignal_VarDistance);
-            }
-
-            var shift_OperatorDto_ConstSignal_ConstDistance = dto as Shift_OperatorDto_ConstSignal_ConstDistance;
-            if (shift_OperatorDto_ConstSignal_ConstDistance != null)
-            {
-                return Visit_Shift_OperatorDto_ConstSignal_ConstDistance(shift_OperatorDto_ConstSignal_ConstDistance);
-            }
-
-            throw new UnexpectedTypeException(() => dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
-            return Visit_Shift_OperatorDto_Base(dto);
+            return Visit_OperatorDto_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
-            return Visit_Shift_OperatorDto_Base(dto);
+            return Visit_OperatorDto_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto)
         {
-            return Visit_Shift_OperatorDto_Base(dto);
+            return Visit_OperatorDto_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto)
-        {
-            return Visit_Shift_OperatorDto_Base(dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Shift_OperatorDto_Base(Shift_OperatorDto dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         // Sine
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Sine_OperatorDto_ConcreteOrPolymorphic(Sine_OperatorDto dto)
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto)
         {
-            bool isConcrete = dto.GetType() == typeof(Sine_OperatorDto);
-
-            if (isConcrete)
-            {
-                return Visit_Sine_OperatorDto_Concrete(dto);
-            }
-            else
-            {
-                return Visit_Sine_OperatorDto_Polymorphic(dto);
-            }
+            return Visit_OperatorDto_VarFrequency_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Sine_OperatorDto_Concrete(Sine_OperatorDto dto)
-        {
-            return Visit_Sine_OperatorDto_Base(dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Sine_OperatorDto_Polymorphic(Sine_OperatorDto dto)
-        {
-            var sine_OperatorDto_ConstFrequency_NoOriginShifting = dto as Sine_OperatorDto_ConstFrequency_NoOriginShifting;
-            if (sine_OperatorDto_ConstFrequency_NoOriginShifting != null)
-            {
-                return Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(sine_OperatorDto_ConstFrequency_NoOriginShifting);
-            }
-
-            var sine_OperatorDto_VarFrequency_NoPhaseTracking = dto as Sine_OperatorDto_VarFrequency_NoPhaseTracking;
-            if (sine_OperatorDto_VarFrequency_NoPhaseTracking != null)
-            {
-                return Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(sine_OperatorDto_VarFrequency_NoPhaseTracking);
-            }
-
-            var sine_OperatorDto_VarFrequency_WithPhaseTracking = dto as Sine_OperatorDto_VarFrequency_WithPhaseTracking;
-            if (sine_OperatorDto_VarFrequency_WithPhaseTracking != null)
-            {
-                return Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(sine_OperatorDto_VarFrequency_WithPhaseTracking);
-            }
-
-            throw new UnexpectedTypeException(() => dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            return Visit_Sine_OperatorDto_Base(dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return Visit_Sine_OperatorDto_Base(dto);
-        }
-
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return Visit_Sine_OperatorDto_Base(dto);
+            return Visit_OperatorDto_VarFrequency_Base(dto);
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Sine_OperatorDto_Base(Sine_OperatorDto dto)
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            return Visit_OperatorDto_Base(dto);
+            return Visit_OperatorDto_VarFrequency_Base(dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        {
+            return Visit_OperatorDto_ConstFrequency_Base(dto);
         }
 
         // VariableInput
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {
             return Visit_OperatorDto_Base(dto);
@@ -493,8 +508,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
 
         // Base
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_OperatorDto_Base(OperatorDto dto)
         {
             dto.InletDtos = VisitInletDtos(dto.InletDtos);
@@ -502,8 +516,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             return dto;
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual IList<InletDto> VisitInletDtos(IList<InletDto> inletDtos)
         {
             for (int i = 0; i < inletDtos.Count; i++)
@@ -515,8 +528,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             return inletDtos;
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual InletDto VisitInletDto(InletDto inletDto)
         {
             inletDto.InputOperatorDto = VisitInputOperatorDto(inletDto.InputOperatorDto);
@@ -524,8 +536,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             return inletDto;
         }
 
-        [DebuggerHidden]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto VisitInputOperatorDto(OperatorDto dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);

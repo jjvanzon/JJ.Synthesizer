@@ -4,14 +4,10 @@ using System.Linq;
 
 namespace JJ.Demos.Synthesizer.Inlining.Dto
 {
-    internal class Add_OperatorDto_VarA_ConstB : Add_OperatorDto
+    internal class Add_OperatorDto_VarA_ConstB : OperatorDto_VarA_ConstB
     {
-        public double B { get; set; }
-
-        public Add_OperatorDto_VarA_ConstB(InletDto aInletDto, InletDto bInletDto, double b)
-            : base(aInletDto, bInletDto)
-        {
-            B = b;
-        }
+        public Add_OperatorDto_VarA_ConstB(InletDto aInletDto, double b)
+            : base(aInletDto, b)
+        { }
     }
 }

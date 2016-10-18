@@ -8,36 +8,36 @@ using JJ.Framework.Common;
 
 namespace JJ.Demos.Synthesizer.Inlining.Visitors
 {
-    internal class Specialization_OperatorDtoVisitor : OperatorDtoVisitorBase
+    internal class ClassSpecialization_OperatorDtoVisitor : OperatorDtoVisitorBase
     {
         public OperatorDto Execute(OperatorDto operatorDto)
         {
             return Visit_OperatorDto_Polymorphic(operatorDto);
         }
 
-        protected override OperatorDto Visit_Add_OperatorDto_Concrete(Add_OperatorDto dto)
+        protected override OperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
-            base.Visit_Add_OperatorDto_Concrete(dto);
+            base.Visit_Add_OperatorDto(dto);
 
             InletDto aInletDto = dto.AInletDto;
             InletDto bInletDto = dto.BInletDto;
 
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(aInletDto);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(bInletDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aInletDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bInletDto);
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
-                return new Add_OperatorDto_ConstA_ConstB(aInletDto, bInletDto, aMathPropertiesDto.Value, bMathPropertiesDto.Value);
+                return new Add_OperatorDto_ConstA_ConstB(aMathPropertiesDto.Value, bMathPropertiesDto.Value);
             }
 
             if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new Add_OperatorDto_VarA_ConstB(aInletDto, bInletDto, bMathPropertiesDto.Value);
+                return new Add_OperatorDto_VarA_ConstB(aInletDto, bMathPropertiesDto.Value);
             }
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new Add_OperatorDto_ConstA_VarB(aInletDto, bInletDto, aMathPropertiesDto.Value);
+                return new Add_OperatorDto_ConstA_VarB(aMathPropertiesDto.Value, bInletDto);
             }
 
             if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
@@ -48,29 +48,29 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDto Visit_Multiply_OperatorDto_Concrete(Multiply_OperatorDto dto)
+        protected override OperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
         {
-            base.Visit_Multiply_OperatorDto_Concrete(dto);
+            base.Visit_Multiply_OperatorDto(dto);
 
             InletDto aInletDto = dto.AInletDto;
             InletDto bInletDto = dto.BInletDto;
 
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(aInletDto);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(bInletDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aInletDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bInletDto);
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
-                return new Number_OperatorDto(aMathPropertiesDto.Value * bMathPropertiesDto.Value);
+                return new Multiply_OperatorDto_ConstA_ConstB(aMathPropertiesDto.Value, bMathPropertiesDto.Value);
             }
 
             if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new Multiply_OperatorDto_VarA_ConstB(aInletDto, bInletDto, bMathPropertiesDto.Value);
+                return new Multiply_OperatorDto_VarA_ConstB(aInletDto, bMathPropertiesDto.Value);
             }
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new Multiply_OperatorDto_ConstA_VarB(bInletDto, aInletDto, aMathPropertiesDto.Value);
+                return new Multiply_OperatorDto_ConstA_VarB(aMathPropertiesDto.Value, bInletDto);
             }
 
             if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
@@ -82,11 +82,11 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDto Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
+        protected override OperatorDto Visit_Number_OperatorDto_Polymorphic(Number_OperatorDto dto)
         {
-            base.Visit_Number_OperatorDto_Concrete(dto);
+            base.Visit_Number_OperatorDto_Polymorphic(dto);
 
-            double value = dto.Value;
+            double value = dto.Number;
 
             if (DoubleHelper.IsSpecialValue(value))
             {
@@ -106,29 +106,29 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             return dto;
         }
 
-        protected override OperatorDto Visit_Shift_OperatorDto_Concrete(Shift_OperatorDto dto)
+        protected override OperatorDto Visit_Shift_OperatorDto(Shift_OperatorDto dto)
         {
-            base.Visit_Shift_OperatorDto_Concrete(dto);
+            base.Visit_Shift_OperatorDto(dto);
 
             InletDto signalInletDto = dto.SignalInletDto;
             InletDto distanceInletDto = dto.DistanceInletDto;
 
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(signalInletDto);
-            MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(signalInletDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalInletDto);
+            MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(distanceInletDto);
 
             if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsConst)
             {
-                return new Shift_OperatorDto_ConstSignal_ConstDistance(signalInletDto, distanceInletDto, signalMathPropertiesDto.Value, distanceMathPropertiesDto.Value);
+                return new Shift_OperatorDto_ConstSignal_ConstDistance(signalMathPropertiesDto.Value, distanceMathPropertiesDto.Value);
             }
 
             if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsConst)
             {
-                return new Shift_OperatorDto_VarSignal_ConstDistance(signalInletDto, distanceInletDto, distanceMathPropertiesDto.Value);
+                return new Shift_OperatorDto_VarSignal_ConstDistance(signalInletDto, distanceMathPropertiesDto.Value);
             }
 
             if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsVar)
             {
-                return new Shift_OperatorDto_ConstSignal_VarDistance(signalInletDto, distanceInletDto, signalMathPropertiesDto.Value);
+                return new Shift_OperatorDto_ConstSignal_VarDistance(signalMathPropertiesDto.Value, distanceInletDto);
             }
 
             if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsVar)
@@ -139,16 +139,16 @@ namespace JJ.Demos.Synthesizer.Inlining.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDto Visit_Sine_OperatorDto_Concrete(Sine_OperatorDto dto)
+        protected override OperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto)
         {
-            base.Visit_Sine_OperatorDto_Concrete(dto);
+            base.Visit_Sine_OperatorDto(dto);
 
             InletDto frequencyInletDto = dto.FrequencyInletDto;
-            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathematicaPropertiesDto(frequencyInletDto);
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(frequencyInletDto);
 
             if (frequencyMathPropertiesDto.IsConst)
             {
-                return new Sine_OperatorDto_ConstFrequency_NoOriginShifting(frequencyInletDto, frequencyMathPropertiesDto.Value);
+                return new Sine_OperatorDto_ConstFrequency_NoOriginShifting(frequencyMathPropertiesDto.Value);
             }
 
             if (frequencyMathPropertiesDto.IsVar)

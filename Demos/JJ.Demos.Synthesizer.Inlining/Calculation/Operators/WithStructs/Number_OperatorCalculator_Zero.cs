@@ -5,19 +5,12 @@ using JJ.Demos.Synthesizer.Inlining.Helpers;
 namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    internal struct Number_OperatorCalculator : IOperatorCalculator
+    internal struct Number_OperatorCalculator_Zero : IOperatorCalculator
     {
-        public double _number;
-
-        public Number_OperatorCalculator(double number)
-        {
-            _number = number;
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate()
         {
-            return _number;
+            return 0.0;
         }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);

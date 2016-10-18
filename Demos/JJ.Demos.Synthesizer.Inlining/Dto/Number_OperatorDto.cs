@@ -6,12 +6,12 @@ namespace JJ.Demos.Synthesizer.Inlining.Dto
 {
     internal class Number_OperatorDto : OperatorDto
     {
-        public Number_OperatorDto(double value)
+        public double Number { get; set; }
+
+        public Number_OperatorDto(double number)
             : base(new InletDto[0])
         {
-            Value = value;
+            Number = number;
         }
-
-        public double Value { get; set; }
     }
 }

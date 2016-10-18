@@ -13,7 +13,7 @@ namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithInheritance
 
         public Add_OperatorCalculator_VarA_VarB(
             OperatorCalculatorBase aCalculator,
-            OperatorCalculatorBase bCalculator) 
+            OperatorCalculatorBase bCalculator)
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
             if (bCalculator == null) throw new NullException(() => bCalculator);

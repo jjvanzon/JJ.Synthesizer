@@ -2,44 +2,60 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Demos.Synthesizer.Inlining.Dto;
+using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.Inlining.Helpers
 {
     internal static class MathPropertiesHelper
     {
-        public static MathPropertiesDto GetMathematicaPropertiesDto(InletDto inletDto)
+        public static MathPropertiesDto GetMathPropertiesDto(InletDto inletDto)
         {
             if (inletDto == null) throw new NullException(() => inletDto);
 
-            var mathematicalPropertiesDto = new MathPropertiesDto();
+            MathPropertiesDto mathPropertiesDto = GetMathPropertiesDto(inletDto.InputOperatorDto);
+            return mathPropertiesDto;
+        }
 
-            var number_OperatorDto = inletDto.InputOperatorDto as Number_OperatorDto;
-
-            mathematicalPropertiesDto.IsVar = number_OperatorDto == null;
-            mathematicalPropertiesDto.IsConst = number_OperatorDto != null;
-
-            if (mathematicalPropertiesDto.IsConst)
+        public static MathPropertiesDto GetMathPropertiesDto(OperatorDto operatorDto)
+        {
+            var number_OperatorDto = operatorDto as Number_OperatorDto;
+            if (number_OperatorDto != null)
             {
-                double value = number_OperatorDto.Value;
+                double value = number_OperatorDto.Number;
+                MathPropertiesDto mathPropertiesDto = GetMathPropertiesDto(value);
+                return mathPropertiesDto;
+            }
+            else
+            {
+                var mathPropertiesDto = new MathPropertiesDto { IsVar = true };
+                return mathPropertiesDto;
+            }
+        }
 
-                mathematicalPropertiesDto.Value = value;
+        public static MathPropertiesDto GetMathPropertiesDto(double value)
+        {
+            var mathPropertiesDto = new MathPropertiesDto
+            {
+                IsConst = true,
+                IsVar = false,
+                Value = value
+            };
 
-                if (value == 0.0)
-                {
-                    mathematicalPropertiesDto.IsConstZero = true;
-                }
-                else if (value == 1.0)
-                {
-                    mathematicalPropertiesDto.IsConstZero = true;
-                }
-                else if (Double.IsNaN(value) || Double.IsInfinity(value))
-                {
-                    mathematicalPropertiesDto.IsConstSpecialValue = true;
-                }
+            if (value == 0.0)
+            {
+                mathPropertiesDto.IsConstZero = true;
+            }
+            else if (value == 1.0)
+            {
+                mathPropertiesDto.IsConstZero = true;
+            }
+            else if (DoubleHelper.IsSpecialValue(value))
+            {
+                mathPropertiesDto.IsConstSpecialValue = true;
             }
 
-            return mathematicalPropertiesDto;
+            return mathPropertiesDto;
         }
     }
 }
