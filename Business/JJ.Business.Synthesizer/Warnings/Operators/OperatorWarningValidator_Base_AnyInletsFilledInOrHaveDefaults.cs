@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                                               .Any();
             if (!anyInletsFilledIn)
             {
-                string operatorIdentifier = ValidationHelper.GetOperatorIdentifier(op);
+                string operatorIdentifier = ValidationHelper.GetIdentifier(op);
                 ValidationMessages.Add(() => op.Inlets, MessageFormatter.OperatorHasNoInletsFilledIn_WithOperatorName(operatorIdentifier));
             }
         }

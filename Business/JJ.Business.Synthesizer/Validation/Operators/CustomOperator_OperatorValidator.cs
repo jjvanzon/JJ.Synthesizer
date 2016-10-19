@@ -330,7 +330,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             sb.Append(MessageFormatter.InletPropertyDoesNotMatchWithUnderlyingPatch(propertyDisplayName));
 
-            string customOperatorInletIdentifier = ValidationHelper.GetInletIdentifier(customOperatorInlet);
+            string customOperatorInletIdentifier = ValidationHelper.GetIdentifier(customOperatorInlet);
             sb.AppendFormat(
                 " {0}: {1} '{2}': {3} = '{4}'.",
                 PropertyDisplayNames.CustomOperator,
@@ -339,7 +339,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 propertyDisplayName,
                 customOperatorInletPropertyValue);
 
-            string patchInletIdentifier = ValidationHelper.GetOperatorIdentifier(patchInlet);
+            string patchInletIdentifier = ValidationHelper.GetIdentifier(patchInlet);
 
             sb.AppendFormat(
                 "{0}: {1} '{2}': {3} = '{4}'.",
@@ -367,7 +367,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             sb.Append(MessageFormatter.OutletPropertyDoesNotMatchWithUnderlyingPatch(propertyDisplayName));
 
-            string customOperatorOutletIdentifier = ValidationHelper.GetOutletIdentifier(customOperatorOutlet);
+            string customOperatorOutletIdentifier = ValidationHelper.GetIdentifier(customOperatorOutlet);
             sb.AppendFormat(
                 " {0}: {1} '{2}': {3} = '{4}'.",
                 PropertyDisplayNames.CustomOperator,
@@ -376,7 +376,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 propertyDisplayName,
                 customOperatorOutletPropertyValue);
 
-            string patchOutletIdentifier = ValidationHelper.GetOperatorIdentifier(patchOutlet);
+            string patchOutletIdentifier = ValidationHelper.GetIdentifier(patchOutlet);
             sb.AppendFormat(
                 "{0}: {1} '{2}': {3} = '{4}'.",
                 PropertyDisplayNames.UnderlyingPatch,

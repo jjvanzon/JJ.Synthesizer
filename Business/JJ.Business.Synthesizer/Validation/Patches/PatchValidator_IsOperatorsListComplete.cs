@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
             foreach (Operator operatorMissingInList in operatorsMissingInList)
             {
-                string operatorIdentifier = ValidationHelper.GetOperatorIdentifier(operatorMissingInList);
+                string operatorIdentifier = ValidationHelper.GetIdentifier(operatorMissingInList);
                 string message = MessageFormatter.OperatorIsInGraphButNotInList(operatorIdentifier);
 
                 ValidationMessages.Add(PropertyNames.Operators, message);

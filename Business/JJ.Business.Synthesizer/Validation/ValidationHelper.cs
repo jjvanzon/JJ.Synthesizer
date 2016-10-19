@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal static partial class ValidationHelper
     {
-        public static string GetOperatorIdentifier(Operator op)
+        public static string GetIdentifier(Operator op)
         {
             if (op == null) throw new NullException(() => op);
 
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation
             return op.ID.ToString();
         }
 
-        public static string GetInletIdentifier(Inlet inlet)
+        public static string GetIdentifier(Inlet inlet)
         {
             if (inlet == null) throw new NullException(() => inlet);
 
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Validation
             return inletIdentifier;
         }
 
-        public static string GetOutletIdentifier(Outlet outlet)
+        public static string GetIdentifier(Outlet outlet)
         {
             if (outlet == null) throw new NullException(() => outlet);
 

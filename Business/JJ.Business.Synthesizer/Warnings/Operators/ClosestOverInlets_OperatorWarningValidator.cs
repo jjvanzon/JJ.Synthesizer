@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             bool anyItemsFilledIn = op.Inlets.Skip(1).Where(x => x.InputOutlet != null).Any();
             if (!anyItemsFilledIn)
             {
-                string operatorIdentifier = ValidationHelper.GetOperatorIdentifier(op);
+                string operatorIdentifier = ValidationHelper.GetIdentifier(op);
                 ValidationMessages.Add(() => op.Inlets, MessageFormatter.OperatorHasNoInletsFilledIn_WithOperatorName(operatorIdentifier));
             }
         }
