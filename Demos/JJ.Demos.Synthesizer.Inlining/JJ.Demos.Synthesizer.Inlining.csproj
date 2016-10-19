@@ -129,7 +129,6 @@
     <Compile Include="Calculation\Operators\WithInheritance\Add_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Multiply_OperatorCalculator_VarA_ConstB.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Multiply_OperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="2016-10-09 Backup of StructTests.cs" />
     <Compile Include="SynthesizerPerformanceTests_InliningWithStructs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator.cs" />
@@ -140,7 +139,6 @@
     <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\VariableInput_OperatorCalculator.cs" />
-    <Compile Include="Visitors\2016-10-14 Backup of MathPropertyDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterClassSpecialization.cs" />
