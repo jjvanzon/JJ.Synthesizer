@@ -5,81 +5,81 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{72857B67-3003-486C-9BB3-34AF5748BE95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data", "Framework\JJ.Framework.Data\JJ.Framework.Data.csproj", "{7ADEDDCE-6903-4A58-94F5-D0B39B21330F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data", "Framework\Data\JJ.Framework.Data.csproj", "{7ADEDDCE-6903-4A58-94F5-D0B39B21330F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.NHibernate", "Framework\JJ.Framework.Data.NHibernate\JJ.Framework.Data.NHibernate.csproj", "{DB783ED9-FDE6-458F-A094-457B7F4283A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.NHibernate", "Framework\Data.NHibernate\JJ.Framework.Data.NHibernate.csproj", "{DB783ED9-FDE6-458F-A094-457B7F4283A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Configuration", "Framework\JJ.Framework.Configuration\JJ.Framework.Configuration.csproj", "{805A8237-05ED-40AE-8D1A-9288373EA5E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Configuration", "Framework\Configuration\JJ.Framework.Configuration.csproj", "{805A8237-05ED-40AE-8D1A-9288373EA5E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection", "Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj", "{1A8E047C-7893-4918-B415-CE3928E815D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection", "Framework\Reflection\JJ.Framework.Reflection.csproj", "{1A8E047C-7893-4918-B415-CE3928E815D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Common", "Framework\JJ.Framework.Common\JJ.Framework.Common.csproj", "{44FD9133-5FE7-4824-BD35-27273706D127}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Common", "Framework\Common\JJ.Framework.Common.csproj", "{44FD9133-5FE7-4824-BD35-27273706D127}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.EntityFramework5", "Framework\JJ.Framework.Data.EntityFramework5\JJ.Framework.Data.EntityFramework5.csproj", "{9676E4C3-1A1F-45B8-8FFD-C398F14002E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.EntityFramework5", "Framework\Data.EntityFramework5\JJ.Framework.Data.EntityFramework5.csproj", "{9676E4C3-1A1F-45B8-8FFD-C398F14002E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Testing", "Framework\JJ.Framework.Testing\JJ.Framework.Testing.csproj", "{369D4E9E-4EFF-4699-83B3-C4951EE0A3C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Testing", "Framework\Testing\JJ.Framework.Testing.csproj", "{369D4E9E-4EFF-4699-83B3-C4951EE0A3C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.IO", "Framework\JJ.Framework.IO\JJ.Framework.IO.csproj", "{C600657B-7E29-44B5-83A1-747FAB30D5D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.IO", "Framework\IO\JJ.Framework.IO.csproj", "{C600657B-7E29-44B5-83A1-747FAB30D5D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.WinForms", "Framework\JJ.Framework.Presentation.WinForms\JJ.Framework.Presentation.WinForms.csproj", "{84A66716-C686-4B8E-A092-CFE38CA7DDE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.WinForms", "Framework\Presentation.WinForms\JJ.Framework.Presentation.WinForms.csproj", "{84A66716-C686-4B8E-A092-CFE38CA7DDE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Validation", "Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj", "{59DDC853-62AF-4F86-A803-3D4DD491E978}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Validation", "Framework\Validation\JJ.Framework.Validation.csproj", "{59DDC853-62AF-4F86-A803-3D4DD491E978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Mathematics", "Framework\JJ.Framework.Mathematics\JJ.Framework.Mathematics.csproj", "{810B90B9-F501-4B91-B019-2AD5AAD63304}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Mathematics", "Framework\Mathematics\JJ.Framework.Mathematics.csproj", "{810B90B9-F501-4B91-B019-2AD5AAD63304}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Xml", "Framework\JJ.Framework.Xml\JJ.Framework.Xml.csproj", "{F6EA0941-40FF-4679-A1A6-EACD5C9BA42B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Xml", "Framework\Xml\JJ.Framework.Xml.csproj", "{F6EA0941-40FF-4679-A1A6-EACD5C9BA42B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Canonical", "Data\JJ.Data.Canonical\JJ.Data.Canonical.csproj", "{08EA4A4E-D815-47AE-9277-DA6672D36214}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Canonical", "Data\Canonical\JJ.Data.Canonical.csproj", "{08EA4A4E-D815-47AE-9277-DA6672D36214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation", "Framework\JJ.Framework.Presentation\JJ.Framework.Presentation.csproj", "{79B0EAC3-5159-4FC8-B3D8-53315B205444}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation", "Framework\Presentation\JJ.Framework.Presentation.csproj", "{79B0EAC3-5159-4FC8-B3D8-53315B205444}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgmlReaderDll", "External Components\SgmlReader\Source Code Adapted\sgmlreaderdll\SgmlReaderDll.csproj", "{499527FF-AE52-450F-B3E3-4AD53E1712AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.Memory", "Framework\JJ.Framework.Data.Memory\JJ.Framework.Data.Memory.csproj", "{86348B50-ECA9-4849-A221-73F0ED31713B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.Memory", "Framework\Data.Memory\JJ.Framework.Data.Memory.csproj", "{86348B50-ECA9-4849-A221-73F0ED31713B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.PlatformCompatibility", "Framework\JJ.Framework.PlatformCompatibility\JJ.Framework.PlatformCompatibility.csproj", "{59622A6E-A9AE-438C-A164-05DEA2FCF8CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.PlatformCompatibility", "Framework\PlatformCompatibility\JJ.Framework.PlatformCompatibility.csproj", "{59622A6E-A9AE-438C-A164-05DEA2FCF8CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.Resources", "Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj", "{40A53175-8048-4F2D-93CA-383074C0267E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.Resources", "Framework\Presentation.Resources\JJ.Framework.Presentation.Resources.csproj", "{40A53175-8048-4F2D-93CA-383074C0267E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Business", "Framework\JJ.Framework.Business\JJ.Framework.Business.csproj", "{F44D03E8-FEEC-40D4-B866-A87799185B4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Business", "Framework\Business\JJ.Framework.Business.csproj", "{F44D03E8-FEEC-40D4-B866-A87799185B4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.SqlClient", "Framework\JJ.Framework.Data.SqlClient\JJ.Framework.Data.SqlClient.csproj", "{CEB85F8E-D429-4510-95A5-47CC3069D412}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.SqlClient", "Framework\Data.SqlClient\JJ.Framework.Data.SqlClient.csproj", "{CEB85F8E-D429-4510-95A5-47CC3069D412}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer", "Data\JJ.Data.Synthesizer\JJ.Data.Synthesizer.csproj", "{BFE8068F-E441-44D2-896D-30FBB67946BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer", "Data\Synthesizer\JJ.Data.Synthesizer.csproj", "{BFE8068F-E441-44D2-896D-30FBB67946BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Synthesizer", "Business\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj", "{A2A8E75D-1FDA-43FB-99F3-AFF9958F654A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Synthesizer", "Business\Synthesizer\JJ.Business.Synthesizer.csproj", "{A2A8E75D-1FDA-43FB-99F3-AFF9958F654A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.DefaultRepositories", "Data\JJ.Data.Synthesizer.DefaultRepositories\JJ.Data.Synthesizer.DefaultRepositories.csproj", "{31660F5F-6141-4DA5-B364-6C0717B8F0A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.DefaultRepositories", "Data\Synthesizer.DefaultRepositories\JJ.Data.Synthesizer.DefaultRepositories.csproj", "{31660F5F-6141-4DA5-B364-6C0717B8F0A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Synthesizer.Tests", "Business\JJ.Business.Synthesizer.Tests\JJ.Business.Synthesizer.Tests.csproj", "{5C26AF7B-1C83-49BD-9ED1-6A880103D293}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Synthesizer.Tests", "Business\Synthesizer.Tests\JJ.Business.Synthesizer.Tests.csproj", "{5C26AF7B-1C83-49BD-9ED1-6A880103D293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.Memory", "Data\JJ.Data.Synthesizer.Memory\JJ.Data.Synthesizer.Memory.csproj", "{BC3BE171-AD84-4EE4-8356-06A581BDCDF7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.Memory", "Data\Synthesizer.Memory\JJ.Data.Synthesizer.Memory.csproj", "{BC3BE171-AD84-4EE4-8356-06A581BDCDF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.NHibernate", "Data\JJ.Data.Synthesizer.NHibernate\JJ.Data.Synthesizer.NHibernate.csproj", "{AFCF2122-DB43-461C-9FDF-41ADEC10A375}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.NHibernate", "Data\Synthesizer.NHibernate\JJ.Data.Synthesizer.NHibernate.csproj", "{AFCF2122-DB43-461C-9FDF-41ADEC10A375}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.SqlClient", "Data\JJ.Data.Synthesizer.SqlClient\JJ.Data.Synthesizer.SqlClient.csproj", "{0DE125B6-B3ED-4459-8696-B5D851AD89A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.SqlClient", "Data\Synthesizer.SqlClient\JJ.Data.Synthesizer.SqlClient.csproj", "{0DE125B6-B3ED-4459-8696-B5D851AD89A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer", "Presentation\JJ.Presentation.Synthesizer\JJ.Presentation.Synthesizer.csproj", "{919AE8A0-C964-4746-94A9-BC61A2546E78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer", "Presentation\Synthesizer\JJ.Presentation.Synthesizer.csproj", "{919AE8A0-C964-4746-94A9-BC61A2546E78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.VectorGraphics", "Framework\JJ.Framework.Presentation.VectorGraphics\JJ.Framework.Presentation.VectorGraphics.csproj", "{52E03E08-331A-4CA7-8D8F-6F598C94EED4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.VectorGraphics", "Framework\Presentation.VectorGraphics\JJ.Framework.Presentation.VectorGraphics.csproj", "{52E03E08-331A-4CA7-8D8F-6F598C94EED4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.Drawing", "Framework\JJ.Framework.Presentation.Drawing\JJ.Framework.Presentation.Drawing.csproj", "{21802A52-F4F7-4366-B61D-06E1FB337B86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.Drawing", "Framework\Presentation.Drawing\JJ.Framework.Presentation.Drawing.csproj", "{21802A52-F4F7-4366-B61D-06E1FB337B86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.WinForms.TestForms", "Framework\JJ.Framework.Presentation.WinForms.TestForms\JJ.Framework.Presentation.WinForms.TestForms.csproj", "{1ED07700-D0FE-4397-A6A2-5FAAB025A0D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.WinForms.TestForms", "Framework\Presentation.WinForms.TestForms\JJ.Framework.Presentation.WinForms.TestForms.csproj", "{1ED07700-D0FE-4397-A6A2-5FAAB025A0D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.VectorGraphics.Tests", "Framework\JJ.Framework.Presentation.VectorGraphics.Tests\JJ.Framework.Presentation.VectorGraphics.Tests.csproj", "{AE5758E9-37E7-41FE-844D-A91471DB8FA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.VectorGraphics.Tests", "Framework\Presentation.VectorGraphics.Tests\JJ.Framework.Presentation.VectorGraphics.Tests.csproj", "{AE5758E9-37E7-41FE-844D-A91471DB8FA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.WinForms", "Presentation\JJ.Presentation.Synthesizer.WinForms\JJ.Presentation.Synthesizer.WinForms.csproj", "{5B200A79-0358-438D-8DCE-F3E40E9E88A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.WinForms", "Presentation\Synthesizer.WinForms\JJ.Presentation.Synthesizer.WinForms.csproj", "{5B200A79-0358-438D-8DCE-F3E40E9E88A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.VectorGraphics", "Presentation\JJ.Presentation.Synthesizer.VectorGraphics\JJ.Presentation.Synthesizer.VectorGraphics.csproj", "{DA036CC8-85CC-4A2B-B557-0A222A4486C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.VectorGraphics", "Presentation\Synthesizer.VectorGraphics\JJ.Presentation.Synthesizer.VectorGraphics.csproj", "{DA036CC8-85CC-4A2B-B557-0A222A4486C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Logging", "Framework\JJ.Framework.Logging\JJ.Framework.Logging.csproj", "{CEEB755D-DE12-4E70-816E-546C429B44B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Logging", "Framework\Logging\JJ.Framework.Logging.csproj", "{CEEB755D-DE12-4E70-816E-546C429B44B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate", "External Components\NHibernate\Source Code\3.3.1.GA\src\NHibernate\NHibernate.csproj", "{5909BFE7-93CF-4E5F-BE22-6293368AF01D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentNHibernate", "External Components\FluentNHibernate\Source Code\1.3\src\FluentNHibernate\FluentNHibernate.csproj", "{529145D5-6CC3-4016-89B5-826563024AF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Synthesizer.Api", "Business\JJ.Business.Synthesizer.Api\JJ.Business.Synthesizer.Api.csproj", "{9451509B-96E7-43A7-87A2-74E5E582C0CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Synthesizer.Api", "Business\Synthesizer.Api\JJ.Business.Synthesizer.Api.csproj", "{9451509B-96E7-43A7-87A2-74E5E582C0CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynthesizerDB", "Database\SynthesizerDB\SynthesizerDB.csproj", "{F9370CA4-AB57-4BC8-BAA5-FDAEA8DB3F3F}"
 EndProject
@@ -87,21 +87,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAudio", "External Componen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.OneOff.Synthesizer.DataMigration", "OneOff\Synthesizer.DataMigration\JJ.OneOff.Synthesizer.DataMigration.csproj", "{B06307FD-4319-4C0F-BF01-43900D5B36BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Demos.Misc", "Demos\JJ.Demos.Misc\JJ.Demos.Misc.csproj", "{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Demos.Misc", "Demos\Misc\JJ.Demos.Misc.csproj", "{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.NAudio", "Presentation\JJ.Presentation.Synthesizer.NAudio\JJ.Presentation.Synthesizer.NAudio.csproj", "{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.NAudio", "Presentation\Synthesizer.NAudio\JJ.Presentation.Synthesizer.NAudio.csproj", "{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAudioDemo", "External Components\NAudio\Source Code\1.7.2\NAudioDemo\NAudioDemo.csproj", "{C37A547B-F31E-45FB-870A-CFA704D06152}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Canonical", "Business\JJ.Business.Canonical\JJ.Business.Canonical.csproj", "{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Canonical", "Business\Canonical\JJ.Business.Canonical.csproj", "{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lomont", "External Components\Lomont\Lomont.csproj", "{CDA729CD-CD5E-4700-8308-B4B916C8EAB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Collections", "Framework\JJ.Framework.Collections\JJ.Framework.Collections.csproj", "{5D06A212-5459-47F3-8109-E012C5FC9E3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Collections", "Framework\Collections\JJ.Framework.Collections.csproj", "{5D06A212-5459-47F3-8109-E012C5FC9E3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection.Tests", "Framework\JJ.Framework.Reflection.Tests\JJ.Framework.Reflection.Tests.csproj", "{E150EBF6-16F7-4299-B4BD-791757D6CC9E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection.Tests", "Framework\Reflection.Tests\JJ.Framework.Reflection.Tests.csproj", "{E150EBF6-16F7-4299-B4BD-791757D6CC9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Demos.Synthesizer.Inlining", "Demos\JJ.Demos.Synthesizer.Inlining\JJ.Demos.Synthesizer.Inlining.csproj", "{58794EC8-775B-4EA6-A12C-F330AB03B0F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Demos.Synthesizer.Inlining", "Demos\Synthesizer.Inlining\JJ.Demos.Synthesizer.Inlining.csproj", "{58794EC8-775B-4EA6-A12C-F330AB03B0F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1147,185 +1147,184 @@ Global
 		SccNumberOfProjects = 50
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://jjs-server:8080/tfs/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Framework\\JJ.Framework.Data\\JJ.Framework.Data.csproj
+		SccProjectUniqueName0 = Framework\\PlatformCompatibility\\JJ.Framework.PlatformCompatibility.csproj
+		SccProjectTopLevelParentUniqueName0 = Synthesizer.sln
+		SccProjectName0 = Framework/PlatformCompatibility
+		SccLocalPath0 = Framework\\PlatformCompatibility
+		SccProjectUniqueName1 = Framework\\Common\\JJ.Framework.Common.csproj
 		SccProjectTopLevelParentUniqueName1 = Synthesizer.sln
-		SccProjectName1 = Framework/JJ.Framework.Data
-		SccLocalPath1 = Framework\\JJ.Framework.Data
-		SccProjectUniqueName2 = Framework\\JJ.Framework.Data.NHibernate\\JJ.Framework.Data.NHibernate.csproj
+		SccProjectName1 = Framework/Common
+		SccLocalPath1 = Framework\\Common
+		SccProjectUniqueName2 = Framework\\Reflection\\JJ.Framework.Reflection.csproj
 		SccProjectTopLevelParentUniqueName2 = Synthesizer.sln
-		SccProjectName2 = Framework/JJ.Framework.Data.NHibernate
-		SccLocalPath2 = Framework\\JJ.Framework.Data.NHibernate
-		SccProjectUniqueName3 = Framework\\JJ.Framework.Configuration\\JJ.Framework.Configuration.csproj
+		SccProjectName2 = Framework/Reflection
+		SccLocalPath2 = Framework\\Reflection
+		SccProjectUniqueName3 = Framework\\Data\\JJ.Framework.Data.csproj
 		SccProjectTopLevelParentUniqueName3 = Synthesizer.sln
-		SccProjectName3 = Framework/JJ.Framework.Configuration
-		SccLocalPath3 = Framework\\JJ.Framework.Configuration
-		SccProjectUniqueName4 = Framework\\JJ.Framework.Reflection\\JJ.Framework.Reflection.csproj
+		SccProjectName3 = Framework/Data
+		SccLocalPath3 = Framework\\Data
+		SccProjectUniqueName4 = External\u0020Components\\NHibernate\\Source\u0020Code\\3.3.1.GA\\src\\NHibernate\\NHibernate.csproj
 		SccProjectTopLevelParentUniqueName4 = Synthesizer.sln
-		SccProjectName4 = Framework/JJ.Framework.Reflection
-		SccLocalPath4 = Framework\\JJ.Framework.Reflection
-		SccProjectUniqueName5 = Framework\\JJ.Framework.Common\\JJ.Framework.Common.csproj
+		SccProjectName4 = External\u0020Components/NHibernate/Source\u0020Code/3.3.1.GA/src/NHibernate
+		SccLocalPath4 = External\u0020Components\\NHibernate\\Source\u0020Code\\3.3.1.GA\\src\\NHibernate
+		SccProjectUniqueName5 = External\u0020Components\\FluentNHibernate\\Source\u0020Code\\1.3\\src\\FluentNHibernate\\FluentNHibernate.csproj
 		SccProjectTopLevelParentUniqueName5 = Synthesizer.sln
-		SccProjectName5 = Framework/JJ.Framework.Common
-		SccLocalPath5 = Framework\\JJ.Framework.Common
-		SccProjectUniqueName6 = Framework\\JJ.Framework.Data.EntityFramework5\\JJ.Framework.Data.EntityFramework5.csproj
+		SccProjectName5 = External\u0020Components/FluentNHibernate/Source\u0020Code/1.3/src/FluentNHibernate
+		SccLocalPath5 = External\u0020Components\\FluentNHibernate\\Source\u0020Code\\1.3\\src\\FluentNHibernate
+		SccProjectUniqueName6 = External\u0020Components\\SgmlReader\\Source\u0020Code\u0020Adapted\\sgmlreaderdll\\SgmlReaderDll.csproj
 		SccProjectTopLevelParentUniqueName6 = Synthesizer.sln
-		SccProjectName6 = Framework/JJ.Framework.Data.EntityFramework5
-		SccLocalPath6 = Framework\\JJ.Framework.Data.EntityFramework5
-		SccProjectUniqueName7 = Framework\\JJ.Framework.Testing\\JJ.Framework.Testing.csproj
+		SccProjectName6 = External\u0020Components/SgmlReader/Source\u0020Code\u0020Adapted/sgmlreaderdll
+		SccLocalPath6 = External\u0020Components\\SgmlReader\\Source\u0020Code\u0020Adapted\\sgmlreaderdll
+		SccProjectUniqueName7 = Framework\\Xml\\JJ.Framework.Xml.csproj
 		SccProjectTopLevelParentUniqueName7 = Synthesizer.sln
-		SccProjectName7 = Framework/JJ.Framework.Testing
-		SccLocalPath7 = Framework\\JJ.Framework.Testing
-		SccProjectUniqueName8 = Framework\\JJ.Framework.IO\\JJ.Framework.IO.csproj
+		SccProjectName7 = Framework/Xml
+		SccLocalPath7 = Framework\\Xml
+		SccProjectUniqueName8 = Framework\\Configuration\\JJ.Framework.Configuration.csproj
 		SccProjectTopLevelParentUniqueName8 = Synthesizer.sln
-		SccProjectName8 = Framework/JJ.Framework.IO
-		SccLocalPath8 = Framework\\JJ.Framework.IO
-		SccProjectUniqueName9 = Framework\\JJ.Framework.Presentation.WinForms\\JJ.Framework.Presentation.WinForms.csproj
+		SccProjectName8 = Framework/Configuration
+		SccLocalPath8 = Framework\\Configuration
+		SccProjectUniqueName9 = Framework\\IO\\JJ.Framework.IO.csproj
 		SccProjectTopLevelParentUniqueName9 = Synthesizer.sln
-		SccProjectName9 = Framework/JJ.Framework.Presentation.WinForms
-		SccLocalPath9 = Framework\\JJ.Framework.Presentation.WinForms
-		SccProjectUniqueName10 = Framework\\JJ.Framework.Validation\\JJ.Framework.Validation.csproj
+		SccProjectName9 = Framework/IO
+		SccLocalPath9 = Framework\\IO
+		SccProjectUniqueName10 = Framework\\Data.SqlClient\\JJ.Framework.Data.SqlClient.csproj
 		SccProjectTopLevelParentUniqueName10 = Synthesizer.sln
-		SccProjectName10 = Framework/JJ.Framework.Validation
-		SccLocalPath10 = Framework\\JJ.Framework.Validation
-		SccProjectUniqueName11 = Framework\\JJ.Framework.Mathematics\\JJ.Framework.Mathematics.csproj
+		SccProjectName10 = Framework/Data.SqlClient
+		SccLocalPath10 = Framework\\Data.SqlClient
+		SccProjectUniqueName11 = Framework\\Data.NHibernate\\JJ.Framework.Data.NHibernate.csproj
 		SccProjectTopLevelParentUniqueName11 = Synthesizer.sln
-		SccProjectName11 = Framework/JJ.Framework.Mathematics
-		SccLocalPath11 = Framework\\JJ.Framework.Mathematics
-		SccProjectUniqueName12 = Framework\\JJ.Framework.Xml\\JJ.Framework.Xml.csproj
+		SccProjectName11 = Framework/Data.NHibernate
+		SccLocalPath11 = Framework\\Data.NHibernate
+		SccProjectUniqueName12 = Framework\\Data.EntityFramework5\\JJ.Framework.Data.EntityFramework5.csproj
 		SccProjectTopLevelParentUniqueName12 = Synthesizer.sln
-		SccProjectName12 = Framework/JJ.Framework.Xml
-		SccLocalPath12 = Framework\\JJ.Framework.Xml
-		SccProjectUniqueName13 = Data\\JJ.Data.Canonical\\JJ.Data.Canonical.csproj
+		SccProjectName12 = Framework/Data.EntityFramework5
+		SccLocalPath12 = Framework\\Data.EntityFramework5
+		SccProjectUniqueName13 = Framework\\Testing\\JJ.Framework.Testing.csproj
 		SccProjectTopLevelParentUniqueName13 = Synthesizer.sln
-		SccProjectName13 = Data/JJ.Data.Canonical
-		SccLocalPath13 = Data\\JJ.Data.Canonical
-		SccProjectUniqueName14 = Framework\\JJ.Framework.Presentation\\JJ.Framework.Presentation.csproj
+		SccProjectName13 = Framework/Testing
+		SccLocalPath13 = Framework\\Testing
+		SccProjectUniqueName14 = Framework\\Logging\\JJ.Framework.Logging.csproj
 		SccProjectTopLevelParentUniqueName14 = Synthesizer.sln
-		SccProjectName14 = Framework/JJ.Framework.Presentation
-		SccLocalPath14 = Framework\\JJ.Framework.Presentation
-		SccProjectUniqueName15 = External\u0020Components\\SgmlReader\\Source\u0020Code\u0020Adapted\\sgmlreaderdll\\SgmlReaderDll.csproj
+		SccProjectName14 = Framework/Logging
+		SccLocalPath14 = Framework\\Logging
+		SccProjectUniqueName15 = Framework\\Business\\JJ.Framework.Business.csproj
 		SccProjectTopLevelParentUniqueName15 = Synthesizer.sln
-		SccProjectName15 = External\u0020Components/SgmlReader/Source\u0020Code\u0020Adapted/sgmlreaderdll
-		SccLocalPath15 = External\u0020Components\\SgmlReader\\Source\u0020Code\u0020Adapted\\sgmlreaderdll
-		SccProjectUniqueName16 = Framework\\JJ.Framework.Data.Memory\\JJ.Framework.Data.Memory.csproj
+		SccProjectName15 = Framework/Business
+		SccLocalPath15 = Framework\\Business
+		SccProjectUniqueName16 = Framework\\Mathematics\\JJ.Framework.Mathematics.csproj
 		SccProjectTopLevelParentUniqueName16 = Synthesizer.sln
-		SccProjectName16 = Framework/JJ.Framework.Data.Memory
-		SccLocalPath16 = Framework\\JJ.Framework.Data.Memory
-		SccProjectUniqueName17 = Framework\\JJ.Framework.PlatformCompatibility\\JJ.Framework.PlatformCompatibility.csproj
-		SccProjectTopLevelParentUniqueName17 = Synthesizer.sln
-		SccProjectName17 = Framework/JJ.Framework.PlatformCompatibility
-		SccLocalPath17 = Framework\\JJ.Framework.PlatformCompatibility
-		SccProjectUniqueName18 = Framework\\JJ.Framework.Presentation.Resources\\JJ.Framework.Presentation.Resources.csproj
-		SccProjectTopLevelParentUniqueName18 = Synthesizer.sln
-		SccProjectName18 = Framework/JJ.Framework.Presentation.Resources
-		SccLocalPath18 = Framework\\JJ.Framework.Presentation.Resources
-		SccProjectUniqueName19 = Framework\\JJ.Framework.Business\\JJ.Framework.Business.csproj
+		SccProjectName16 = Framework/Mathematics
+		SccLocalPath16 = Framework\\Mathematics
+		SccProjectUniqueName17 = Framework\\Presentation.VectorGraphics\\JJ.Framework.Presentation.VectorGraphics.csproj
+		SccProjectName17 = Framework/Presentation.VectorGraphics
+		SccLocalPath17 = Framework\\Presentation.VectorGraphics
+		SccProjectUniqueName18 = Framework\\Presentation.Drawing\\JJ.Framework.Presentation.Drawing.csproj
+		SccProjectName18 = Framework/Presentation.Drawing
+		SccLocalPath18 = Framework\\Presentation.Drawing
+		SccProjectUniqueName19 = Framework\\Presentation\\JJ.Framework.Presentation.csproj
 		SccProjectTopLevelParentUniqueName19 = Synthesizer.sln
-		SccProjectName19 = Framework/JJ.Framework.Business
-		SccLocalPath19 = Framework\\JJ.Framework.Business
-		SccProjectUniqueName20 = Framework\\JJ.Framework.Data.SqlClient\\JJ.Framework.Data.SqlClient.csproj
+		SccProjectName19 = Framework/Presentation
+		SccLocalPath19 = Framework\\Presentation
+		SccProjectUniqueName20 = Framework\\Presentation.WinForms\\JJ.Framework.Presentation.WinForms.csproj
 		SccProjectTopLevelParentUniqueName20 = Synthesizer.sln
-		SccProjectName20 = Framework/JJ.Framework.Data.SqlClient
-		SccLocalPath20 = Framework\\JJ.Framework.Data.SqlClient
-		SccProjectUniqueName21 = Data\\JJ.Data.Synthesizer\\JJ.Data.Synthesizer.csproj
-		SccProjectName21 = Data/JJ.Data.Synthesizer
-		SccLocalPath21 = Data\\JJ.Data.Synthesizer
-		SccProjectUniqueName22 = Business\\JJ.Business.Synthesizer\\JJ.Business.Synthesizer.csproj
-		SccProjectName22 = Business/JJ.Business.Synthesizer
-		SccLocalPath22 = Business\\JJ.Business.Synthesizer
-		SccProjectUniqueName23 = Data\\JJ.Data.Synthesizer.DefaultRepositories\\JJ.Data.Synthesizer.DefaultRepositories.csproj
-		SccProjectName23 = Data/JJ.Data.Synthesizer.DefaultRepositories
-		SccLocalPath23 = Data\\JJ.Data.Synthesizer.DefaultRepositories
-		SccProjectUniqueName24 = Business\\JJ.Business.Synthesizer.Tests\\JJ.Business.Synthesizer.Tests.csproj
-		SccProjectName24 = Business/JJ.Business.Synthesizer.Tests
-		SccLocalPath24 = Business\\JJ.Business.Synthesizer.Tests
-		SccProjectUniqueName25 = Data\\JJ.Data.Synthesizer.Memory\\JJ.Data.Synthesizer.Memory.csproj
-		SccProjectName25 = Data/JJ.Data.Synthesizer.Memory
-		SccLocalPath25 = Data\\JJ.Data.Synthesizer.Memory
-		SccProjectUniqueName26 = Data\\JJ.Data.Synthesizer.NHibernate\\JJ.Data.Synthesizer.NHibernate.csproj
-		SccProjectName26 = Data/JJ.Data.Synthesizer.NHibernate
-		SccLocalPath26 = Data\\JJ.Data.Synthesizer.NHibernate
-		SccProjectUniqueName27 = Data\\JJ.Data.Synthesizer.SqlClient\\JJ.Data.Synthesizer.SqlClient.csproj
-		SccProjectName27 = Data/JJ.Data.Synthesizer.SqlClient
-		SccLocalPath27 = Data\\JJ.Data.Synthesizer.SqlClient
-		SccProjectUniqueName28 = Presentation\\JJ.Presentation.Synthesizer\\JJ.Presentation.Synthesizer.csproj
-		SccProjectName28 = Presentation/JJ.Presentation.Synthesizer
-		SccLocalPath28 = Presentation\\JJ.Presentation.Synthesizer
-		SccProjectUniqueName29 = Framework\\JJ.Framework.Presentation.VectorGraphics\\JJ.Framework.Presentation.VectorGraphics.csproj
-		SccProjectName29 = Framework/JJ.Framework.Presentation.VectorGraphics
-		SccLocalPath29 = Framework\\JJ.Framework.Presentation.VectorGraphics
-		SccProjectUniqueName30 = Framework\\JJ.Framework.Presentation.Drawing\\JJ.Framework.Presentation.Drawing.csproj
-		SccProjectName30 = Framework/JJ.Framework.Presentation.Drawing
-		SccLocalPath30 = Framework\\JJ.Framework.Presentation.Drawing
-		SccProjectUniqueName31 = Framework\\JJ.Framework.Presentation.WinForms.TestForms\\JJ.Framework.Presentation.WinForms.TestForms.csproj
-		SccProjectTopLevelParentUniqueName31 = Synthesizer.sln
-		SccProjectName31 = Framework/JJ.Framework.Presentation.WinForms.TestForms
-		SccLocalPath31 = Framework\\JJ.Framework.Presentation.WinForms.TestForms
-		SccProjectUniqueName32 = Framework\\JJ.Framework.Presentation.VectorGraphics.Tests\\JJ.Framework.Presentation.VectorGraphics.Tests.csproj
-		SccProjectName32 = Framework/JJ.Framework.Presentation.VectorGraphics.Tests
-		SccLocalPath32 = Framework\\JJ.Framework.Presentation.VectorGraphics.Tests
-		SccProjectUniqueName33 = Presentation\\JJ.Presentation.Synthesizer.WinForms\\JJ.Presentation.Synthesizer.WinForms.csproj
-		SccProjectName33 = Presentation/JJ.Presentation.Synthesizer.WinForms
-		SccLocalPath33 = Presentation\\JJ.Presentation.Synthesizer.WinForms
-		SccProjectUniqueName34 = Presentation\\JJ.Presentation.Synthesizer.VectorGraphics\\JJ.Presentation.Synthesizer.VectorGraphics.csproj
-		SccProjectName34 = Presentation/JJ.Presentation.Synthesizer.VectorGraphics
-		SccLocalPath34 = Presentation\\JJ.Presentation.Synthesizer.VectorGraphics
-		SccProjectUniqueName35 = Framework\\JJ.Framework.Logging\\JJ.Framework.Logging.csproj
-		SccProjectTopLevelParentUniqueName35 = Synthesizer.sln
-		SccProjectName35 = Framework/JJ.Framework.Logging
-		SccLocalPath35 = Framework\\JJ.Framework.Logging
-		SccProjectUniqueName36 = External\u0020Components\\NHibernate\\Source\u0020Code\\3.3.1.GA\\src\\NHibernate\\NHibernate.csproj
-		SccProjectTopLevelParentUniqueName36 = Synthesizer.sln
-		SccProjectName36 = External\u0020Components/NHibernate/Source\u0020Code/3.3.1.GA/src/NHibernate
-		SccLocalPath36 = External\u0020Components\\NHibernate\\Source\u0020Code\\3.3.1.GA\\src\\NHibernate
-		SccProjectUniqueName37 = External\u0020Components\\FluentNHibernate\\Source\u0020Code\\1.3\\src\\FluentNHibernate\\FluentNHibernate.csproj
+		SccProjectName20 = Framework/Presentation.WinForms
+		SccLocalPath20 = Framework\\Presentation.WinForms
+		SccProjectUniqueName21 = Framework\\Validation\\JJ.Framework.Validation.csproj
+		SccProjectTopLevelParentUniqueName21 = Synthesizer.sln
+		SccProjectName21 = Framework/Validation
+		SccLocalPath21 = Framework\\Validation
+		SccProjectUniqueName22 = Data\\Canonical\\JJ.Data.Canonical.csproj
+		SccProjectTopLevelParentUniqueName22 = Synthesizer.sln
+		SccProjectName22 = Data/Canonical
+		SccLocalPath22 = Data\\Canonical
+		SccProjectUniqueName23 = Framework\\Data.Memory\\JJ.Framework.Data.Memory.csproj
+		SccProjectTopLevelParentUniqueName23 = Synthesizer.sln
+		SccProjectName23 = Framework/Data.Memory
+		SccLocalPath23 = Framework\\Data.Memory
+		SccProjectUniqueName24 = Framework\\Presentation.Resources\\JJ.Framework.Presentation.Resources.csproj
+		SccProjectTopLevelParentUniqueName24 = Synthesizer.sln
+		SccProjectName24 = Framework/Presentation.Resources
+		SccLocalPath24 = Framework\\Presentation.Resources
+		SccProjectUniqueName25 = Data\\Synthesizer\\JJ.Data.Synthesizer.csproj
+		SccProjectName25 = Data/Synthesizer
+		SccLocalPath25 = Data\\Synthesizer
+		SccProjectUniqueName26 = External\u0020Components\\Lomont\\Lomont.csproj
+		SccProjectTopLevelParentUniqueName26 = Synthesizer.sln
+		SccProjectName26 = External\u0020Components/Lomont
+		SccLocalPath26 = External\u0020Components\\Lomont
+		SccProjectUniqueName27 = Framework\\Collections\\JJ.Framework.Collections.csproj
+		SccProjectTopLevelParentUniqueName27 = Synthesizer.sln
+		SccProjectName27 = Framework/Collections
+		SccLocalPath27 = Framework\\Collections
+		SccProjectUniqueName28 = Data\\Synthesizer.DefaultRepositories\\JJ.Data.Synthesizer.DefaultRepositories.csproj
+		SccProjectName28 = Data/Synthesizer.DefaultRepositories
+		SccLocalPath28 = Data\\Synthesizer.DefaultRepositories
+		SccProjectUniqueName29 = Business\\Canonical\\JJ.Business.Canonical.csproj
+		SccProjectTopLevelParentUniqueName29 = Synthesizer.sln
+		SccProjectName29 = Business/Canonical
+		SccLocalPath29 = Business\\Canonical
+		SccProjectUniqueName30 = Business\\Synthesizer\\JJ.Business.Synthesizer.csproj
+		SccProjectName30 = Business/Synthesizer
+		SccLocalPath30 = Business\\Synthesizer
+		SccProjectUniqueName31 = Data\\Synthesizer.Memory\\JJ.Data.Synthesizer.Memory.csproj
+		SccProjectName31 = Data/Synthesizer.Memory
+		SccLocalPath31 = Data\\Synthesizer.Memory
+		SccProjectUniqueName32 = Data\\Synthesizer.SqlClient\\JJ.Data.Synthesizer.SqlClient.csproj
+		SccProjectName32 = Data/Synthesizer.SqlClient
+		SccLocalPath32 = Data\\Synthesizer.SqlClient
+		SccProjectUniqueName33 = Data\\Synthesizer.NHibernate\\JJ.Data.Synthesizer.NHibernate.csproj
+		SccProjectName33 = Data/Synthesizer.NHibernate
+		SccLocalPath33 = Data\\Synthesizer.NHibernate
+		SccProjectUniqueName34 = Business\\Synthesizer.Api\\JJ.Business.Synthesizer.Api.csproj
+		SccProjectName34 = Business/Synthesizer.Api
+		SccLocalPath34 = Business\\Synthesizer.Api
+		SccProjectUniqueName35 = Business\\Synthesizer.Tests\\JJ.Business.Synthesizer.Tests.csproj
+		SccProjectName35 = Business/Synthesizer.Tests
+		SccLocalPath35 = Business\\Synthesizer.Tests
+		SccProjectUniqueName36 = Presentation\\Synthesizer\\JJ.Presentation.Synthesizer.csproj
+		SccProjectName36 = Presentation/Synthesizer
+		SccLocalPath36 = Presentation\\Synthesizer
+		SccProjectUniqueName37 = Framework\\Presentation.WinForms.TestForms\\JJ.Framework.Presentation.WinForms.TestForms.csproj
 		SccProjectTopLevelParentUniqueName37 = Synthesizer.sln
-		SccProjectName37 = External\u0020Components/FluentNHibernate/Source\u0020Code/1.3/src/FluentNHibernate
-		SccLocalPath37 = External\u0020Components\\FluentNHibernate\\Source\u0020Code\\1.3\\src\\FluentNHibernate
-		SccProjectUniqueName38 = Business\\JJ.Business.Synthesizer.Api\\JJ.Business.Synthesizer.Api.csproj
-		SccProjectName38 = Business/JJ.Business.Synthesizer.Api
-		SccLocalPath38 = Business\\JJ.Business.Synthesizer.Api
-		SccProjectUniqueName39 = Database\\SynthesizerDB\\SynthesizerDB.csproj
-		SccProjectName39 = Database/SynthesizerDB
-		SccLocalPath39 = Database\\SynthesizerDB
-		SccProjectUniqueName40 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudio\\NAudio.csproj
-		SccProjectTopLevelParentUniqueName40 = Synthesizer.sln
-		SccProjectName40 = External\u0020Components/NAudio/Source\u0020Code/1.7.2/NAudio
-		SccLocalPath40 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudio
-		SccProjectUniqueName41 = OneOff\\JJ.OneOff.Synthesizer.DataMigration\\JJ.OneOff.Synthesizer.DataMigration.csproj
-		SccProjectName41 = OneOff/JJ.OneOff.Synthesizer.DataMigration
-		SccLocalPath41 = OneOff\\JJ.OneOff.Synthesizer.DataMigration
-		SccProjectUniqueName42 = Demos\\JJ.Demos.Misc\\JJ.Demos.Misc.csproj
-		SccProjectTopLevelParentUniqueName42 = Synthesizer.sln
-		SccProjectName42 = Demos/JJ.Demos.Misc
-		SccLocalPath42 = Demos\\JJ.Demos.Misc
-		SccProjectUniqueName43 = Presentation\\JJ.Presentation.Synthesizer.NAudio\\JJ.Presentation.Synthesizer.NAudio.csproj
-		SccProjectName43 = Presentation/JJ.Presentation.Synthesizer.NAudio
-		SccLocalPath43 = Presentation\\JJ.Presentation.Synthesizer.NAudio
-		SccProjectUniqueName44 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudioDemo\\NAudioDemo.csproj
-		SccProjectTopLevelParentUniqueName44 = Synthesizer.sln
-		SccProjectName44 = External\u0020Components/NAudio/Source\u0020Code/1.7.2/NAudioDemo
-		SccLocalPath44 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudioDemo
-		SccProjectUniqueName45 = Business\\JJ.Business.Canonical\\JJ.Business.Canonical.csproj
+		SccProjectName37 = Framework/Presentation.WinForms.TestForms
+		SccLocalPath37 = Framework\\Presentation.WinForms.TestForms
+		SccProjectUniqueName38 = Framework\\Presentation.VectorGraphics.Tests\\JJ.Framework.Presentation.VectorGraphics.Tests.csproj
+		SccProjectName38 = Framework/Presentation.VectorGraphics.Tests
+		SccLocalPath38 = Framework\\Presentation.VectorGraphics.Tests
+		SccProjectUniqueName39 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudio\\NAudio.csproj
+		SccProjectTopLevelParentUniqueName39 = Synthesizer.sln
+		SccProjectName39 = External\u0020Components/NAudio/Source\u0020Code/1.7.2/NAudio
+		SccLocalPath39 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudio
+		SccProjectUniqueName40 = Presentation\\Synthesizer.NAudio\\JJ.Presentation.Synthesizer.NAudio.csproj
+		SccProjectName40 = Presentation/Synthesizer.NAudio
+		SccLocalPath40 = Presentation\\Synthesizer.NAudio
+		SccProjectUniqueName41 = Presentation\\Synthesizer.VectorGraphics\\JJ.Presentation.Synthesizer.VectorGraphics.csproj
+		SccProjectName41 = Presentation/Synthesizer.VectorGraphics
+		SccLocalPath41 = Presentation\\Synthesizer.VectorGraphics
+		SccProjectUniqueName42 = Presentation\\Synthesizer.WinForms\\JJ.Presentation.Synthesizer.WinForms.csproj
+		SccProjectName42 = Presentation/Synthesizer.WinForms
+		SccLocalPath42 = Presentation\\Synthesizer.WinForms
+		SccProjectUniqueName43 = Database\\SynthesizerDB\\SynthesizerDB.csproj
+		SccProjectName43 = Database/SynthesizerDB
+		SccLocalPath43 = Database\\SynthesizerDB
+		SccProjectUniqueName44 = OneOff\\Synthesizer.DataMigration\\JJ.OneOff.Synthesizer.DataMigration.csproj
+		SccProjectName44 = OneOff/Synthesizer.DataMigration
+		SccLocalPath44 = OneOff\\Synthesizer.DataMigration
+		SccProjectUniqueName45 = Demos\\Misc\\JJ.Demos.Misc.csproj
 		SccProjectTopLevelParentUniqueName45 = Synthesizer.sln
-		SccProjectName45 = Business/JJ.Business.Canonical
-		SccLocalPath45 = Business\\JJ.Business.Canonical
-		SccProjectUniqueName46 = External\u0020Components\\Lomont\\Lomont.csproj
+		SccProjectName45 = Demos/Misc
+		SccLocalPath45 = Demos\\Misc
+		SccProjectUniqueName46 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudioDemo\\NAudioDemo.csproj
 		SccProjectTopLevelParentUniqueName46 = Synthesizer.sln
-		SccProjectName46 = External\u0020Components/Lomont
-		SccLocalPath46 = External\u0020Components\\Lomont
-		SccProjectUniqueName47 = Framework\\JJ.Framework.Collections\\JJ.Framework.Collections.csproj
+		SccProjectName46 = External\u0020Components/NAudio/Source\u0020Code/1.7.2/NAudioDemo
+		SccLocalPath46 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudioDemo
+		SccProjectUniqueName47 = Framework\\Reflection.Tests\\JJ.Framework.Reflection.Tests.csproj
 		SccProjectTopLevelParentUniqueName47 = Synthesizer.sln
-		SccProjectName47 = Framework/JJ.Framework.Collections
-		SccLocalPath47 = Framework\\JJ.Framework.Collections
-		SccProjectUniqueName48 = Framework\\JJ.Framework.Reflection.Tests\\JJ.Framework.Reflection.Tests.csproj
-		SccProjectTopLevelParentUniqueName48 = Synthesizer.sln
-		SccProjectName48 = Framework/JJ.Framework.Reflection.Tests
-		SccLocalPath48 = Framework\\JJ.Framework.Reflection.Tests
-		SccProjectUniqueName49 = Demos\\JJ.Demos.Synthesizer.Inlining\\JJ.Demos.Synthesizer.Inlining.csproj
-		SccProjectTopLevelParentUniqueName49 = Synthesizer.sln
-		SccProjectName49 = Demos/JJ.Demos.Synthesizer.Inlining
-		SccLocalPath49 = Demos\\JJ.Demos.Synthesizer.Inlining
+		SccProjectName47 = Framework/Reflection.Tests
+		SccLocalPath47 = Framework\\Reflection.Tests
+		SccProjectUniqueName48 = Demos\\Synthesizer.Inlining\\JJ.Demos.Synthesizer.Inlining.csproj
+		SccProjectName48 = Demos/Synthesizer.Inlining
+		SccLocalPath48 = Demos\\Synthesizer.Inlining
+		SccLocalPath49 = .
 	EndGlobalSection
 EndGlobal
