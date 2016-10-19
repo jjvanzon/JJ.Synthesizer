@@ -85,7 +85,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynthesizerDB", "Database\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAudio", "External Components\NAudio\Source Code\1.7.2\NAudio\NAudio.csproj", "{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.OneOff.Synthesizer.DataMigration", "OneOff\JJ.OneOff.Synthesizer.DataMigration\JJ.OneOff.Synthesizer.DataMigration.csproj", "{B06307FD-4319-4C0F-BF01-43900D5B36BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.OneOff.Synthesizer.DataMigration", "OneOff\Synthesizer.DataMigration\JJ.OneOff.Synthesizer.DataMigration.csproj", "{B06307FD-4319-4C0F-BF01-43900D5B36BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Demos.Misc", "Demos\JJ.Demos.Misc\JJ.Demos.Misc.csproj", "{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}"
 EndProject

@@ -718,55 +718,55 @@
       <Project>{cda729cd-cd5e-4700-8308-b4b916c8eab9}</Project>
       <Name>Lomont</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj">
+    <ProjectReference Include="..\..\Framework\Business\JJ.Framework.Business.csproj">
       <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
       <Name>JJ.Framework.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Collections\JJ.Framework.Collections.csproj">
+    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
       <Project>{5d06a212-5459-47f3-8109-e012c5fc9e3a}</Project>
       <Name>JJ.Framework.Collections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
+    <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.IO\JJ.Framework.IO.csproj">
+    <ProjectReference Include="..\..\Framework\IO\JJ.Framework.IO.csproj">
       <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>
       <Name>JJ.Framework.IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Mathematics\JJ.Framework.Mathematics.csproj">
+    <ProjectReference Include="..\..\Framework\Mathematics\JJ.Framework.Mathematics.csproj">
       <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>
       <Name>JJ.Framework.Mathematics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Data\JJ.Framework.Data.csproj">
+    <ProjectReference Include="..\..\Framework\Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">
+    <ProjectReference Include="..\..\Framework\Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">
       <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
       <Name>JJ.Framework.Presentation.Resources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
+    <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
       <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj">
+    <ProjectReference Include="..\..\Framework\Validation\JJ.Framework.Validation.csproj">
       <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>
       <Name>JJ.Framework.Validation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Data\JJ.Data.Synthesizer.DefaultRepositories\JJ.Data.Synthesizer.DefaultRepositories.csproj">
+    <ProjectReference Include="..\..\Data\Synthesizer.DefaultRepositories\JJ.Data.Synthesizer.DefaultRepositories.csproj">
       <Project>{31660f5f-6141-4da5-b364-6c0717b8f0a9}</Project>
       <Name>JJ.Data.Synthesizer.DefaultRepositories</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Data\JJ.Data.Synthesizer\JJ.Data.Synthesizer.csproj">
+    <ProjectReference Include="..\..\Data\Synthesizer\JJ.Data.Synthesizer.csproj">
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Data.Synthesizer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Data\JJ.Data.Canonical\JJ.Data.Canonical.csproj">
+    <ProjectReference Include="..\..\Data\Canonical\JJ.Data.Canonical.csproj">
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
       <Name>JJ.Data.Canonical</Name>
     </ProjectReference>
-    <ProjectReference Include="..\JJ.Business.Canonical\JJ.Business.Canonical.csproj">
+    <ProjectReference Include="..\Canonical\JJ.Business.Canonical.csproj">
       <Project>{4dbe5e36-4b54-4e5f-9b4f-5bbf33a3cef1}</Project>
       <Name>JJ.Business.Canonical</Name>
     </ProjectReference>

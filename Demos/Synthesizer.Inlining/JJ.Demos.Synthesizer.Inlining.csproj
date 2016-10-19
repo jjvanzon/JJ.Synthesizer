@@ -150,19 +150,19 @@
     <Compile Include="Visitors\WithStructs\VariableAssignment_OperatorDtoVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
+    <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Mathematics\JJ.Framework.Mathematics.csproj">
+    <ProjectReference Include="..\..\Framework\Mathematics\JJ.Framework.Mathematics.csproj">
       <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>
       <Name>JJ.Framework.Mathematics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
+    <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
       <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Testing\JJ.Framework.Testing.csproj">
+    <ProjectReference Include="..\..\Framework\Testing\JJ.Framework.Testing.csproj">
       <Project>{369d4e9e-4eff-4699-83b3-c4951ee0a3c3}</Project>
       <Name>JJ.Framework.Testing</Name>
     </ProjectReference>
