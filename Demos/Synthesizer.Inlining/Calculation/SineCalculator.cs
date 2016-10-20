@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
 
-namespace JJ.Demos.Synthesizer.Inlining.Calculation
+namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation
 {
     /// <summary>
     /// +/- 20% faster than Math.Sin.

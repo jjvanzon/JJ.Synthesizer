@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithInheritance
+namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithInheritance
 {
     internal class Number_OperatorCalculator_One : OperatorCalculatorBase
     {

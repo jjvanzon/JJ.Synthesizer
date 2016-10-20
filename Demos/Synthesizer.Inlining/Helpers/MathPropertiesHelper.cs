@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Demos.Synthesizer.Inlining.Dto;
+using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Demos.Synthesizer.Inlining.Helpers
+namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
 {
     internal static class MathPropertiesHelper
     {

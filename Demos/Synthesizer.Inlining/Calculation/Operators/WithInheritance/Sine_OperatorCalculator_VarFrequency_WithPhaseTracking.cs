@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithInheritance
+namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithInheritance
 {
     internal class Sine_OperatorCalculator_VarFrequency_WithPhaseTracking : OperatorCalculatorBase
     {

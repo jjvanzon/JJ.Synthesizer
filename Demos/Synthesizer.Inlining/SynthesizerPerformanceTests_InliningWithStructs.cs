@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using JJ.Demos.Synthesizer.Inlining.Calculation;
-using JJ.Demos.Synthesizer.Inlining.Helpers;
-using JJ.Demos.Synthesizer.Inlining.Helpers.WithStructs;
+using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
+using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+using JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStructs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace JJ.Demos.Synthesizer.Inlining
+namespace JJ.Demos.Synthesizer.NanoOptimization
 {
     [TestClass]
     public class SynthesizerPerformanceTests_InliningWithStructs

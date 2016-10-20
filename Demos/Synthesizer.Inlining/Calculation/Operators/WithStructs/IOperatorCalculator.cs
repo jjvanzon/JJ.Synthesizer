@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithStructs
+namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStructs
 {
     /// <summary>
     /// I still need some kind of polymorphism, because I need to call calculators

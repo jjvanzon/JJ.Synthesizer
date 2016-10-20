@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Demos.Synthesizer.Inlining.Dto;
+using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Demos.Synthesizer.Inlining.Visitors
+namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 {
     internal abstract class OperatorDtoVisitorBase
     {

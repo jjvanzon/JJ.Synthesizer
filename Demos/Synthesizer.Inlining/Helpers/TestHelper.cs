@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JJ.Demos.Synthesizer.Inlining.Helpers
+namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
 {
     internal class TestHelper
     {

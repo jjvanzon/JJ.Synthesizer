@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Demos.Synthesizer.Inlining.Dto;
-using JJ.Demos.Synthesizer.Inlining.Helpers;
+using JJ.Demos.Synthesizer.NanoOptimization.Dto;
+using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 
-namespace JJ.Demos.Synthesizer.Inlining.Visitors
+namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 {
     internal class MathSimplification_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterClassSpecialization
     {

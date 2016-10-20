@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JJ.Demos.Synthesizer.Inlining.Dto
+namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal abstract class OperatorDto_ConstA_VarB : OperatorDto
     {

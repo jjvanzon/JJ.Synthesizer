@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Demos.Synthesizer.Inlining.Dto
+namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal class MathPropertiesDto
     {

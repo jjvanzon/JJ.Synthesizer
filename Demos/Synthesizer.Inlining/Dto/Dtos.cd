@@ -1,230 +1,230 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Add_OperatorDto" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Add_OperatorDto" Collapsed="true">
     <Position X="27.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Add_OperatorDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Add_OperatorDto_ConstA_ConstB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Add_OperatorDto_ConstA_ConstB" Collapsed="true">
     <Position X="45.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Add_OperatorDto_ConstA_ConstB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Add_OperatorDto_ConstA_VarB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Add_OperatorDto_ConstA_VarB" Collapsed="true">
     <Position X="7.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Add_OperatorDto_ConstA_VarB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Add_OperatorDto_VarA_ConstB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Add_OperatorDto_VarA_ConstB" Collapsed="true">
     <Position X="18.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Add_OperatorDto_VarA_ConstB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Add_OperatorDto_VarA_VarB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Add_OperatorDto_VarA_VarB" Collapsed="true">
     <Position X="32" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Add_OperatorDto_VarA_VarB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.InletDto" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.InletDto" Collapsed="true">
     <Position X="52.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\InletDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.MathPropertiesDto" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.MathPropertiesDto" Collapsed="true">
     <Position X="54.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgACAEAAAAgAAAAAAAAAAAAAAAACAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Dto\MathPropertiesDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Multiply_OperatorDto" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Multiply_OperatorDto" Collapsed="true">
     <Position X="29.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Multiply_OperatorDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Multiply_OperatorDto_ConstA_ConstB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Multiply_OperatorDto_ConstA_ConstB" Collapsed="true">
     <Position X="47.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Multiply_OperatorDto_ConstA_ConstB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Multiply_OperatorDto_ConstA_VarB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Multiply_OperatorDto_ConstA_VarB" Collapsed="true">
     <Position X="9.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Multiply_OperatorDto_ConstA_VarB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Multiply_OperatorDto_VarA_ConstB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Multiply_OperatorDto_VarA_ConstB" Collapsed="true">
     <Position X="20.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Multiply_OperatorDto_VarA_ConstB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Multiply_OperatorDto_VarA_VarB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Multiply_OperatorDto_VarA_VarB" Collapsed="true">
     <Position X="34.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Multiply_OperatorDto_VarA_VarB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Number_OperatorDto" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Number_OperatorDto" Collapsed="true">
     <Position X="2.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Dto\Number_OperatorDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Number_OperatorDto_NaN" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Number_OperatorDto_NaN" Collapsed="true">
     <Position X="0.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Number_OperatorDto_NaN.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Number_OperatorDto_One" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Number_OperatorDto_One" Collapsed="true">
     <Position X="2.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Number_OperatorDto_One.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Number_OperatorDto_Zero" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Number_OperatorDto_Zero" Collapsed="true">
     <Position X="5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Number_OperatorDto_Zero.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.OperatorDto" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.OperatorDto" Collapsed="true">
     <Position X="25.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\OperatorDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.OperatorDto_ConstA_ConstB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.OperatorDto_ConstA_ConstB" Collapsed="true">
     <Position X="46.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAEAAAA=</HashCode>
       <FileName>Dto\OperatorDto_ConstA_ConstB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.OperatorDto_ConstA_VarB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.OperatorDto_ConstA_VarB" Collapsed="true">
     <Position X="8.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
       <FileName>Dto\OperatorDto_ConstA_VarB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.OperatorDto_ConstFrequency" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.OperatorDto_ConstFrequency" Collapsed="true">
     <Position X="14" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\OperatorDto_ConstFrequency.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.OperatorDto_VarA_ConstB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.OperatorDto_VarA_ConstB" Collapsed="true">
     <Position X="19.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAACA=</HashCode>
       <FileName>Dto\OperatorDto_VarA_ConstB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.OperatorDto_VarA_VarB" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.OperatorDto_VarA_VarB" Collapsed="true">
     <Position X="30.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Dto\OperatorDto_VarA_VarB.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.OperatorDto_VarFrequency" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.OperatorDto_VarFrequency" Collapsed="true">
     <Position X="41" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
       <FileName>Dto\OperatorDto_VarFrequency.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Shift_OperatorDto" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Shift_OperatorDto" Collapsed="true">
     <Position X="50" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Shift_OperatorDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Shift_OperatorDto_ConstSignal_ConstDistance" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Shift_OperatorDto_ConstSignal_ConstDistance" Collapsed="true">
     <Position X="11.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Shift_OperatorDto_ConstSignal_ConstDistance.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Shift_OperatorDto_ConstSignal_VarDistance" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Shift_OperatorDto_ConstSignal_VarDistance" Collapsed="true">
     <Position X="16.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Shift_OperatorDto_ConstSignal_VarDistance.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Shift_OperatorDto_VarSignal_ConstDistance" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Shift_OperatorDto_VarSignal_ConstDistance" Collapsed="true">
     <Position X="23" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Shift_OperatorDto_VarSignal_ConstDistance.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Shift_OperatorDto_VarSignal_VarDistance" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Shift_OperatorDto_VarSignal_VarDistance" Collapsed="true">
     <Position X="36.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Shift_OperatorDto_VarSignal_VarDistance.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Sine_OperatorDto" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Sine_OperatorDto" Collapsed="true">
     <Position X="43.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Sine_OperatorDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Sine_OperatorDto_ConstFrequency_NoOriginShifting" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Sine_OperatorDto_ConstFrequency_NoOriginShifting" Collapsed="true">
     <Position X="14" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Sine_OperatorDto_ConstFrequency_NoOriginShifting.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Sine_OperatorDto_VarFrequency_NoPhaseTracking" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Sine_OperatorDto_VarFrequency_NoPhaseTracking" Collapsed="true">
     <Position X="38.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Sine_OperatorDto_VarFrequency_NoPhaseTracking.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.Sine_OperatorDto_VarFrequency_WithPhaseTracking" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.Sine_OperatorDto_VarFrequency_WithPhaseTracking" Collapsed="true">
     <Position X="41" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Dto\Sine_OperatorDto_VarFrequency_WithPhaseTracking.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.Inlining.Dto.VariableInput_OperatorDto" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.VariableInput_OperatorDto" Collapsed="true">
     <Position X="25.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>

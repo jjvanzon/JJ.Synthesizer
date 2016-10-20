@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace JJ.Demos.Synthesizer.Inlining.Calculation.Operators.WithInheritance
+namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithInheritance
 {
     internal class VariableInput_OperatorCalculator : OperatorCalculatorBase
     {

@@ -6,8 +6,8 @@
     <ProjectGuid>{58794EC8-775B-4EA6-A12C-F330AB03B0F8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JJ.Demos.Synthesizer.Inlining</RootNamespace>
-    <AssemblyName>JJ.Demos.Synthesizer.Inlining</AssemblyName>
+    <RootNamespace>JJ.Demos.Synthesizer.NanoOptimization</RootNamespace>
+    <AssemblyName>JJ.Demos.Synthesizer.NanoOptimization</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
