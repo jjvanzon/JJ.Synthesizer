@@ -139,6 +139,7 @@
     <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\VariableInput_OperatorCalculator.cs" />
+    <Compile Include="Visitors\MachineOptimization_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterClassSpecialization.cs" />

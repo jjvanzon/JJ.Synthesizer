@@ -82,30 +82,6 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDto Visit_Number_OperatorDto_Polymorphic(Number_OperatorDto dto)
-        {
-            base.Visit_Number_OperatorDto_Polymorphic(dto);
-
-            double value = dto.Number;
-
-            if (DoubleHelper.IsSpecialValue(value))
-            {
-                return new Number_OperatorDto_NaN();
-            }
-
-            if (value == 1.0)
-            {
-                return new Number_OperatorDto_One();
-            }
-
-            if (value == 0.0)
-            {
-                return new Number_OperatorDto_Zero();
-            }
-
-            return dto;
-        }
-
         protected override OperatorDto Visit_Shift_OperatorDto(Shift_OperatorDto dto)
         {
             base.Visit_Shift_OperatorDto(dto);

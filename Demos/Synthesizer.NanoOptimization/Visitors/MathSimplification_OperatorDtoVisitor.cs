@@ -22,7 +22,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             // Pre-Calculate
             var dto2 = new Number_OperatorDto(dto.A + dto.B);
 
-            OperatorDto dto3 = Visit_OperatorDto_Polymorphic(dto2);
+            OperatorDto dto3 = Visit_Number_OperatorDto_Concrete(dto2);
 
             return dto3;
         }
@@ -34,7 +34,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             // Switch A and B
             var dto2 = new Add_OperatorDto_VarA_ConstB(dto.BInletDto, dto.A);
 
-            OperatorDto dto3 = Visit_OperatorDto_Polymorphic(dto2);
+            OperatorDto dto3 = Visit_Add_OperatorDto_VarA_ConstB(dto2);
 
             return dto3;
         }
@@ -63,7 +63,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             // Pre-Calculate
             var dto2 = new Number_OperatorDto(dto.A * dto.B);
 
-            OperatorDto dto3 = Visit_Number_OperatorDto_ConcreteOrPolymorphic(dto2);
+            OperatorDto dto3 = Visit_Number_OperatorDto_Concrete(dto2);
 
             return dto3;
         }
@@ -89,9 +89,9 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             // 0
             if (bMathPropertiesDto.IsConstZero)
             {
-                var dto2 = new Number_OperatorDto_Zero();
+                var dto2 = new Number_OperatorDto(0.0);
 
-                OperatorDto dto3 = Visit_Number_OperatorDto_ConcreteOrPolymorphic(dto2);
+                OperatorDto dto3 = Visit_Number_OperatorDto_Concrete(dto2);
             }
 
             // 1 is identity
@@ -111,7 +111,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
             var dto2 = new Number_OperatorDto(dto.SignalValue);
 
-            OperatorDto dto3 = Visit_Number_OperatorDto_ConcreteOrPolymorphic(dto2);
+            OperatorDto dto3 = Visit_Number_OperatorDto_Concrete(dto2);
 
             return dto3;
         }
@@ -122,7 +122,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
             var dto2 = new Number_OperatorDto(dto.SignalValue);
 
-            OperatorDto dto3 = Visit_Number_OperatorDto_ConcreteOrPolymorphic(dto2);
+            OperatorDto dto3 = Visit_Number_OperatorDto_Concrete(dto2);
 
             return dto3;
         }
@@ -137,9 +137,9 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
             if (frequencyMathPropertiesDto.IsConstZero)
             {
-                var dto2 = new Number_OperatorDto_Zero();
+                var dto2 = new Number_OperatorDto(0.0);
 
-                OperatorDto dto3 = Visit_Number_OperatorDto_Zero(dto2);
+                OperatorDto dto3 = Visit_Number_OperatorDto_Concrete(dto2);
 
                 return dto3;
             }

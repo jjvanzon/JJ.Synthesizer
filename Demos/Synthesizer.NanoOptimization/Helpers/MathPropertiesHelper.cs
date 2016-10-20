@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
@@ -9,6 +10,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
 {
     internal static class MathPropertiesHelper
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MathPropertiesDto GetMathPropertiesDto(InletDto inletDto)
         {
             if (inletDto == null) throw new NullException(() => inletDto);
@@ -17,6 +19,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
             return mathPropertiesDto;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MathPropertiesDto GetMathPropertiesDto(OperatorDto operatorDto)
         {
             var number_OperatorDto = operatorDto as Number_OperatorDto;
@@ -33,6 +36,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MathPropertiesDto GetMathPropertiesDto(double value)
         {
             var mathPropertiesDto = new MathPropertiesDto

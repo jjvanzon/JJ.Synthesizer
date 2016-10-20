@@ -14,6 +14,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
             dto = new ClassSpecialization_OperatorDtoVisitor().Execute(dto);
             dto = new MathSimplification_OperatorDtoVisitor().Execute(dto);
+            dto = new MachineOptimization_OperatorDtoVisitor().Execute(dto);
 
             return dto;
         }
