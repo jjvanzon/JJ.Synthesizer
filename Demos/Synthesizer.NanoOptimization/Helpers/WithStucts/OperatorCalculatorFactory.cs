@@ -254,7 +254,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStructs
             return addCalculator;
         }
 
-        public static IOperatorCalculator CreateOperatorCalculatorFromDto(DimensionStack dimensionStack, OperatorDto dto)
+        public static IOperatorCalculator CreateOperatorCalculatorFromDto(OperatorDto dto, DimensionStack dimensionStack)
         {
             var visitor = new OperatorDtoToOperatorCalculatorVisitor(dimensionStack);
             IOperatorCalculator calculator = visitor.Execute(dto);

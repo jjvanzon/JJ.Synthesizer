@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JJ.Demos.Synthesizer.NanoOptimization</RootNamespace>
     <AssemblyName>JJ.Demos.Synthesizer.NanoOptimization</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -110,7 +110,7 @@
     <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Calculation\SineCalculator.cs" />
     <Compile Include="Helpers\WithStucts\OperatorDtoToCalculatorTypeConverter.cs" />
-    <Compile Include="SynthesizerPerformanceTests_NoInliningWithInheritance.cs" />
+    <Compile Include="Synthesizer_PerformanceTests_NoInliningWithInheritance.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_8Vars.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
@@ -130,7 +130,7 @@
     <Compile Include="Calculation\Operators\WithInheritance\Add_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Multiply_OperatorCalculator_VarA_ConstB.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Multiply_OperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="SynthesizerPerformanceTests_InliningWithStructs.cs" />
+    <Compile Include="Synthesizer_PerformanceTests_InliningWithStructs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\OperatorCalculatorBase.cs" />
