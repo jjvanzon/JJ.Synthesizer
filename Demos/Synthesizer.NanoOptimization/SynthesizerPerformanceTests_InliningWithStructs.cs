@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
+using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 using JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStructs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,7 +12,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
     public class SynthesizerPerformanceTests_InliningWithStructs
     {
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithoutTime_8Partials_50_000_Iterations_InliningWithStructs()
+        public void Test_SynthesizerPerformance_WithoutTime_8Partials_50_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -33,7 +34,30 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithoutTime_8Partials_500_000_Iterations_InliningWithStructs()
+        public void Test_SynthesizerPerformance_WithoutTime_8Partials_50_000_Iterations_InliningWithStructs_WithDto()
+        {
+            var dimensionStack = new DimensionStack();
+            dimensionStack.Push(0.0);
+
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+
+            var stopWatch = Stopwatch.StartNew();
+
+            for (int i = 0; i < 50000; i++)
+            {
+                calculator.Calculate();
+            }
+
+            stopWatch.Stop();
+
+            string message = TestHelper.GetPerformanceInfoMessage(50000, stopWatch.Elapsed);
+
+            Assert.Inconclusive(message);
+        }
+
+        [TestMethod]
+        public void Test_SynthesizerPerformance_WithoutTime_8Partials_500_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -55,7 +79,30 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithoutTime_SinglePartial_50_000_Iterations_InliningWithStructs()
+        public void Test_SynthesizerPerformance_WithoutTime_8Partials_500_000_Iterations_InliningWithStructs_WithDto()
+        {
+            var dimensionStack = new DimensionStack();
+            dimensionStack.Push(0.0);
+
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+
+            var stopWatch = Stopwatch.StartNew();
+
+            for (int i = 0; i < 500000; i++)
+            {
+                calculator.Calculate();
+            }
+
+            stopWatch.Stop();
+
+            string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
+
+            Assert.Inconclusive(message);
+        }
+
+        [TestMethod]
+        public void Test_SynthesizerPerformance_WithoutTime_SinglePartial_50_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -77,12 +124,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithoutTime_SinglePartial_50_000_Iterations_InliningWithStructs_FromDto()
+        public void Test_SynthesizerPerformance_WithoutTime_SinglePartial_50_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial_FromDto(dimensionStack);
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -99,7 +147,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithoutTime_SinglePartial_500_000_Iterations_InliningWithStructs()
+        public void Test_SynthesizerPerformance_WithoutTime_SinglePartial_500_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -121,12 +169,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithoutTime_SinglePartial_500_000_Iterations_InliningWithStructs_FromDto()
+        public void Test_SynthesizerPerformance_WithoutTime_SinglePartial_500_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial_FromDto(dimensionStack);
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -143,7 +192,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithTime_8Partials_50_000_Iterations_InliningWithStructs()
+        public void Test_SynthesizerPerformance_WithTime_8Partials_50_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -172,7 +221,37 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithTime_8Partials_500_000_Iterations_InliningWithStructs()
+        public void Test_SynthesizerPerformance_WithTime_8Partials_50_000_Iterations_InliningWithStructs_WithDto()
+        {
+            var dimensionStack = new DimensionStack();
+            dimensionStack.Push(0.0);
+
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+
+            double t = 0.0;
+            double dt = 1.0 / 50000.0;
+
+            var stopWatch = Stopwatch.StartNew();
+
+            while (t <= 1.0)
+            {
+                dimensionStack.Set(t);
+
+                double value = calculator.Calculate();
+
+                t += dt;
+            }
+
+            stopWatch.Stop();
+
+            string message = TestHelper.GetPerformanceInfoMessage(50000, stopWatch.Elapsed);
+
+            Assert.Inconclusive(message);
+        }
+
+        [TestMethod]
+        public void Test_SynthesizerPerformance_WithTime_8Partials_500_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -201,7 +280,37 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithTime_SinglePartials_50_000_Iterations_InliningWithStructs()
+        public void Test_SynthesizerPerformance_WithTime_8Partials_500_000_Iterations_InliningWithStructs_WithDto()
+        {
+            var dimensionStack = new DimensionStack();
+            dimensionStack.Push(0.0);
+
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+
+            double t = 0.0;
+            double dt = 1.0 / 500000.0;
+
+            var stopWatch = Stopwatch.StartNew();
+
+            while (t <= 1.0)
+            {
+                dimensionStack.Set(t);
+
+                double value = calculator.Calculate();
+
+                t += dt;
+            }
+
+            stopWatch.Stop();
+
+            string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
+
+            Assert.Inconclusive(message);
+        }
+
+        [TestMethod]
+        public void Test_SynthesizerPerformance_WithTime_SinglePartial_50_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -230,12 +339,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithTime_SinglePartials_50_000_Iterations_InliningWithStructs_FromDto()
+        public void Test_SynthesizerPerformance_WithTime_SinglePartial_50_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial_FromDto(dimensionStack);
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
 
             double t = 0.0;
             double dt = 1.0 / 50000.0;
@@ -259,7 +369,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithTime_SinglePartials_500_000_Iterations_InliningWithStructs()
+        public void Test_SynthesizerPerformance_WithTime_SinglePartial_500_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -288,12 +398,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Test_SynthesizerPerformance_WithTime_SinglePartials_500_000_Iterations_InliningWithStructs_FromDto()
+        public void Test_SynthesizerPerformance_WithTime_SinglePartial_500_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial_FromDto(dimensionStack);
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
 
             double t = 0.0;
             double dt = 1.0 / 500000.0;

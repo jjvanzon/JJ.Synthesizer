@@ -157,10 +157,6 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStructs
         {
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
-            double frequency = 440.0;
-            double volume = 10.0;
-            double phaseShift = 0.25;
-
             var addCalculator =
                 new Add_OperatorCalculator_8Vars
                 <
@@ -258,10 +254,8 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStructs
             return addCalculator;
         }
 
-        public static IOperatorCalculator CreateOperatorCalculatorStructure_SinglePartial_FromDto(DimensionStack dimensionStack)
+        public static IOperatorCalculator CreateOperatorCalculatorFromDto(DimensionStack dimensionStack, OperatorDto dto)
         {
-            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
-
             var visitor = new OperatorDtoToOperatorCalculatorVisitor(dimensionStack);
             IOperatorCalculator calculator = visitor.Execute(dto);
 
