@@ -64,6 +64,22 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             }
 
             {
+                var castedDto = dto as Add_OperatorDto_Vars;
+                if (castedDto != null)
+                {
+                    return Visit_OperatorDto_Add_OperatorDto_Vars(castedDto);
+                }
+            }
+
+            {
+                var castedDto = dto as Add_OperatorDto_Vars;
+                if (castedDto != null)
+                {
+                    return Visit_OperatorDto_Add_OperatorDto_Vars_Const(castedDto);
+                }
+            }
+
+            {
                 var castedDto = dto as Number_OperatorDto;
                 if (castedDto != null)
                 {
@@ -335,6 +351,18 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         protected virtual OperatorDto Visit_Add_OperatorDto_ConstA_ConstB(Add_OperatorDto_ConstA_ConstB dto)
         {
             return Visit_OperatorDto_ConstA_ConstB_Base(dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_Add_OperatorDto_Vars_Const(Add_OperatorDto_Vars dto)
+        {
+            return Visit_OperatorDto_Base(dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto Visit_OperatorDto_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
+        {
+            return Visit_OperatorDto_Base(dto);
         }
 
         // Multiply

@@ -30,17 +30,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double condition = _conditionCalculator.Calculate();
-            double then = _thenCalculator.Calculate();
-            double @else = _elseCalculator.Calculate();
 
             bool conditionIsTrue = condition != 0.0;
 
             if (conditionIsTrue)
             {
+                double then = _thenCalculator.Calculate();
                 return then;
             }
             else
             {
+                double @else = _elseCalculator.Calculate();
                 return @else;
             }
         }
@@ -70,7 +70,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double condition = _conditionCalculator.Calculate();
-            double @else = _elseCalculator.Calculate();
 
             bool conditionIsTrue = condition != 0.0;
 
@@ -80,6 +79,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
             else
             {
+                double @else = _elseCalculator.Calculate();
                 return @else;
             }
         }
@@ -109,12 +109,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double condition = _conditionCalculator.Calculate();
-            double then = _thenCalculator.Calculate();
 
             bool conditionIsTrue = condition != 0.0;
 
             if (conditionIsTrue)
             {
+                double then = _thenCalculator.Calculate();
                 return then;
             }
             else

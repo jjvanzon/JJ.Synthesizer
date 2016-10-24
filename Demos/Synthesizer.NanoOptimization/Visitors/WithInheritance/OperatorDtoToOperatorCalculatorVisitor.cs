@@ -36,7 +36,6 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithInheritance
             return _stack.Pop();
         }
 
-
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override IList<InletDto> VisitInletDtos(IList<InletDto> inletDtos)
         {
@@ -77,6 +76,57 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithInheritance
             _stack.Push(calculator);
 
             return dto;
+        }
+
+        protected override OperatorDto Visit_OperatorDto_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
+        {
+            base.Visit_OperatorDto_Add_OperatorDto_Vars(dto);
+
+            // TODO: Eventually I might need the code that is outcommented here instead.
+
+            //int operandCount = dto.InletDtos.Count;
+
+            //if (operandCount != 8)
+            //{
+            //    // TODO: Get rid of this ridiculour limitation.
+            //    throw new NotSupportedException("Only Add_Operator_Vars with exactly 8 inlets are supported.");
+            //}
+
+            //var operandCalculators = new List<OperatorCalculatorBase>(operandCount);
+
+            //for (int i = 0; i < operandCount; i++)
+            //{
+            //    operandCalculators[i] = _stack.Pop();
+            //}
+
+
+            if (dto.InletDtos.Count != 8)
+            {
+                // TODO: Get rid of this ridiculour limitation.
+                throw new NotSupportedException("Only Add_Operator_Vars with exactly 8 inlets are supported.");
+            }
+
+            // TODO: Make constructors take IList<OperatorCalculatorBase>. Just put it in separate variables internally in the class.
+            var calculator = new Add_OperatorCalculator_8Vars(
+                _stack.Pop(),
+                _stack.Pop(),
+                _stack.Pop(),
+                _stack.Pop(),
+                _stack.Pop(),
+                _stack.Pop(),
+                _stack.Pop(),
+                _stack.Pop());
+
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        protected override OperatorDto Visit_OperatorDto_Add_OperatorDto_Vars_Const(Add_OperatorDto_Vars dto)
+        {
+            // TODO: Program calculator classes for this.
+            throw new NotImplementedException();
+            return base.Visit_OperatorDto_Add_OperatorDto_Vars_Const(dto);
         }
 
         // Multiply

@@ -16,6 +16,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts
         {
             { typeof(Add_OperatorDto_VarA_ConstB), typeof(Add_OperatorCalculator_VarA_ConstB<>) },
             { typeof(Add_OperatorDto_VarA_VarB), typeof(Add_OperatorCalculator_VarA_VarB<,>) },
+            { typeof(Add_OperatorDto_Vars), typeof(Add_OperatorCalculator_8Vars<,,,,,,,>) },
             { typeof(Multiply_OperatorDto_VarA_ConstB), typeof(Multiply_OperatorCalculator_VarA_ConstB<>) },
             { typeof(Multiply_OperatorDto_VarA_VarB), typeof(Multiply_OperatorCalculator_VarA_VarB<,>) },
             { typeof(Number_OperatorDto), typeof(Number_OperatorCalculator) },

@@ -71,6 +71,33 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
+        protected override OperatorDto Visit_OperatorDto_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
+        {
+            base.Visit_OperatorDto_Add_OperatorDto_Vars(dto);
+
+            IOperatorCalculator_8Vars calculator = (IOperatorCalculator_8Vars)CreateCalculator(dto);
+
+            calculator.Calculator1 = _stack.Pop();
+            calculator.Calculator2 = _stack.Pop();
+            calculator.Calculator3 = _stack.Pop();
+            calculator.Calculator4 = _stack.Pop();
+            calculator.Calculator5 = _stack.Pop();
+            calculator.Calculator6 = _stack.Pop();
+            calculator.Calculator7 = _stack.Pop();
+            calculator.Calculator8 = _stack.Pop();
+
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        protected override OperatorDto Visit_OperatorDto_Add_OperatorDto_Vars_Const(Add_OperatorDto_Vars dto)
+        {
+            // TODO: Program calculator classes for this.
+            throw new NotImplementedException();
+            return base.Visit_OperatorDto_Add_OperatorDto_Vars_Const(dto);
+        }
+
         protected override OperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
         {
             base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);

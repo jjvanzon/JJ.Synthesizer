@@ -63,10 +63,13 @@
     <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator_VarA_ConstB.cs" />
     <Compile Include="Calculation\Operators\WithStructs\IShift_OperatorCalculator_VarSignal_ConstDistance.cs" />
     <Compile Include="Calculation\Operators\WithStructs\IShift_OperatorCalculator_VarSignal_VarDistance.cs" />
+    <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator_8Vars.cs" />
     <Compile Include="Calculation\Operators\WithStructs\ISine_OperatorCalculator_VarFrequency.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_NaN.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_One.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_Zero.cs" />
+    <Compile Include="Dto\Add_OperatorDto_Vars_Const.cs" />
+    <Compile Include="Dto\Add_OperatorDto_Vars.cs" />
     <Compile Include="Dto\OperatorDto_VarA_VarB.cs" />
     <Compile Include="Dto\OperatorDto_VarA_ConstB.cs" />
     <Compile Include="Dto\OperatorDto_ConstA_VarB.cs" />

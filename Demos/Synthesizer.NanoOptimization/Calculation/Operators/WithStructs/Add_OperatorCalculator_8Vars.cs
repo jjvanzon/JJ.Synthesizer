@@ -18,7 +18,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
             TChildCalculator6,
             TChildCalculator7,
             TChildCalculator8
-        > : IOperatorCalculator
+        > : IOperatorCalculator_8Vars
         where TChildCalculator1 : IOperatorCalculator
         where TChildCalculator2 : IOperatorCalculator
         where TChildCalculator3 : IOperatorCalculator
