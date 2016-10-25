@@ -7,13 +7,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
     internal abstract class OperatorDto_ConstA_VarB : OperatorDto
     {
         public double A { get; set; }
-        public InletDto BInletDto { get; set; }
+        public OperatorDto BOperatorDto { get { return ChildOperatorDtos[0]; } }
 
-        public OperatorDto_ConstA_VarB(double a, InletDto bInletDto)
-            : base(new InletDto[] { bInletDto })
+        public OperatorDto_ConstA_VarB(double a, OperatorDto bOperatorDto)
+            : base(new OperatorDto[] { bOperatorDto })
         {
             A = a;
-            BInletDto = bInletDto;
         }
     }
 }

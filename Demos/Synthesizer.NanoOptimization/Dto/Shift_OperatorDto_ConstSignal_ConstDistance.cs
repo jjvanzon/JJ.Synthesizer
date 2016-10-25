@@ -10,7 +10,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
         public double Distance { get; set; }
 
         public Shift_OperatorDto_ConstSignal_ConstDistance(double signalValue, double distance)
-            : base(new InletDto[0])
+            : base(new OperatorDto[0])
         {
             SignalValue = signalValue;
             Distance = distance;

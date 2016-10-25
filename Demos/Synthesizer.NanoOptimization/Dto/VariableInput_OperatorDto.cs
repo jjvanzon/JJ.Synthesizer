@@ -9,7 +9,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
         public double DefaultValue { get; set; }
 
         public VariableInput_OperatorDto(double defaultValue)
-            : base(new InletDto[0])
+            : base(new OperatorDto[0])
         {
             DefaultValue = defaultValue;
         }

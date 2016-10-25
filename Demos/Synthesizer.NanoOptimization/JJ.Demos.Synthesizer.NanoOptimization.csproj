@@ -121,7 +121,7 @@
     <Compile Include="Dto\MathPropertiesDto.cs" />
     <Compile Include="Dto\Multiply_OperatorDto.cs" />
     <Compile Include="Dto\Add_OperatorDto.cs" />
-    <Compile Include="Dto\InletDto.cs" />
+    <Compile Include="Dto\2016-10-25 Backup of InletDto.cs" />
     <Compile Include="Dto\Multiply_OperatorDto_ConstA_VarB.cs" />
     <Compile Include="Dto\Multiply_OperatorDto_VarA_ConstB.cs" />
     <Compile Include="Dto\Multiply_OperatorDto_VarA_VarB.cs" />

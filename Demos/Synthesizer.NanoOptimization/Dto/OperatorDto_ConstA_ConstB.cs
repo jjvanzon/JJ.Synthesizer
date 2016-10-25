@@ -10,7 +10,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
         public double B { get; set; }
 
         public OperatorDto_ConstA_ConstB(double a, double b)
-            : base(new InletDto[0])
+            : base(new OperatorDto[0])
         {
             A = a;
             B = b;

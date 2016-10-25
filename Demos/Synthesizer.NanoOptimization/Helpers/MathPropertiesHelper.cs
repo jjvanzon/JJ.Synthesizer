@@ -10,14 +10,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
 {
     internal static class MathPropertiesHelper
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MathPropertiesDto GetMathPropertiesDto(InletDto inletDto)
-        {
-            if (inletDto == null) throw new NullException(() => inletDto);
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static MathPropertiesDto GetMathPropertiesDto(OperatorDto operatorDto)
+        //{
+        //    if (operatorDto == null) throw new NullException(() => operatorDto);
 
-            MathPropertiesDto mathPropertiesDto = GetMathPropertiesDto(inletDto.InputOperatorDto);
-            return mathPropertiesDto;
-        }
+        //    MathPropertiesDto mathPropertiesDto = GetMathPropertiesDto(operatorDto.InputOperatorDto);
+        //    return mathPropertiesDto;
+        //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MathPropertiesDto GetMathPropertiesDto(OperatorDto operatorDto)

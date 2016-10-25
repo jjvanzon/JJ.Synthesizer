@@ -6,8 +6,8 @@
 //{
 //    internal class Add_OperatorDto_ConstA_VarB : OperatorDto_ConstA_VarB
 //    {
-//        public Add_OperatorDto_ConstA_VarB(double a, InletDto bInletDto)
-//            : base(a, bInletDto)
+//        public Add_OperatorDto_ConstA_VarB(double a, OperatorDto bOperatorDto)
+//            : base(a, bOperatorDto)
 //        { }
 //    }
 //}

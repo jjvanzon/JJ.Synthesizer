@@ -520,36 +520,28 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
         // Base
 
-        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //[DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_OperatorDto_Base(OperatorDto dto)
         {
-            dto.InletDtos = VisitInletDtos(dto.InletDtos);
+            dto.ChildOperatorDtos = VisitChildOperatorDtos(dto.ChildOperatorDtos);
 
             return dto;
         }
 
-        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual IList<InletDto> VisitInletDtos(IList<InletDto> inletDtos)
+        //[DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual IList<OperatorDto> VisitChildOperatorDtos(IList<OperatorDto> operatorDtos)
         {
-            for (int i = 0; i < inletDtos.Count; i++)
+            for (int i = 0; i < operatorDtos.Count; i++)
             {
-                InletDto inletDto = inletDtos[i];
-                inletDtos[i] = VisitInletDto(inletDto);
+                OperatorDto operatorDto = operatorDtos[i];
+                operatorDtos[i] = VisitOperatorDto(operatorDto);
             }
 
-            return inletDtos;
+            return operatorDtos;
         }
 
-        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual InletDto VisitInletDto(InletDto inletDto)
-        {
-            inletDto.InputOperatorDto = VisitInputOperatorDto(inletDto.InputOperatorDto);
-
-            return inletDto;
-        }
-
-        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto VisitInputOperatorDto(OperatorDto dto)
+        //[DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDto VisitOperatorDto(OperatorDto dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
         }

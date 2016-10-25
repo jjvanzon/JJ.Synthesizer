@@ -6,12 +6,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal abstract class OperatorDto_VarFrequency : OperatorDto
     {
-        public InletDto FrequencyInletDto { get; set; }
+        public OperatorDto FrequencyOperatorDto { get { return ChildOperatorDtos[0]; } }
 
-        public OperatorDto_VarFrequency(InletDto frequencyInletDto)
-            : base(new InletDto[] { frequencyInletDto })
-        {
-            FrequencyInletDto = frequencyInletDto;
-        }
+        public OperatorDto_VarFrequency(OperatorDto frequencyOperatorDto)
+            : base(new OperatorDto[] { frequencyOperatorDto })
+        { }
     }
 }

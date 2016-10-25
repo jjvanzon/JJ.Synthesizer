@@ -6,8 +6,8 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal class Sine_OperatorDto_VarFrequency_NoPhaseTracking : OperatorDto_VarFrequency
     {
-        public Sine_OperatorDto_VarFrequency_NoPhaseTracking(InletDto frequencyInletDto)
-            : base(frequencyInletDto)
+        public Sine_OperatorDto_VarFrequency_NoPhaseTracking(OperatorDto frequencyOperatorDto)
+            : base(frequencyOperatorDto)
         { }
     }
 }

@@ -32,7 +32,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             base.Visit_Multiply_OperatorDto_ConstA_VarB(dto);
 
             // Switch A and B
-            var dto2 = new Multiply_OperatorDto_VarA_ConstB(dto.BInletDto, dto.A);
+            var dto2 = new Multiply_OperatorDto_VarA_ConstB(dto.BOperatorDto, dto.A);
 
             OperatorDto dto3 = Visit_Multiply_OperatorDto_VarA_ConstB(dto2);
 
@@ -56,7 +56,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             // 1 is identity
             if (bMathPropertiesDto.IsConstOne)
             {
-                return dto.AInletDto.InputOperatorDto;
+                return dto.AOperatorDto;
             }
 
             return dto;

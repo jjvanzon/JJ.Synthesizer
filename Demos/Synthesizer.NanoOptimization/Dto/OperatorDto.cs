@@ -10,13 +10,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal abstract class OperatorDto
     {
-        public IList<InletDto> InletDtos { get; set; }
+        public IList<OperatorDto> ChildOperatorDtos { get; set; }
 
-        public OperatorDto(IList<InletDto> inletDtos)
+        public OperatorDto(IList<OperatorDto> childOperatorDtos)
         {
-            if (inletDtos == null) throw new NullException(() => inletDtos);
+            if (childOperatorDtos == null) throw new NullException(() => childOperatorDtos);
 
-            InletDtos = inletDtos;
+            ChildOperatorDtos = childOperatorDtos;
         }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);

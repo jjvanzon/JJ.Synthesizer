@@ -15,11 +15,11 @@
       <FileName>Dto\Add_OperatorDto.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.InletDto" Collapsed="true">
+  <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.OperatorDto" Collapsed="true">
     <Position X="52.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Dto\InletDto.cs</FileName>
+      <FileName>Dto\OperatorDto.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="JJ.Demos.Synthesizer.NanoOptimization.Dto.MathPropertiesDto" Collapsed="true">

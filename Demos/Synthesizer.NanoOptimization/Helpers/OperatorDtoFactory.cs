@@ -11,15 +11,15 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
         {
             int partialCount = 8;
 
-            IList<InletDto> addInletDtos = new List<InletDto>(partialCount);
+            IList<OperatorDto> partialOperatorDtos = new List<OperatorDto>(partialCount);
 
             for (int i = 0; i < partialCount; i++)
             {
                 OperatorDto partialOperatorDto = CreateOperatorDto_SinglePartial();
-                addInletDtos.Add(new InletDto { InputOperatorDto = partialOperatorDto });
+                partialOperatorDtos.Add(partialOperatorDto);
             }
 
-            OperatorDto operatorDto = new Add_OperatorDto(addInletDtos);
+            OperatorDto operatorDto = new Add_OperatorDto(partialOperatorDtos);
             return operatorDto;
         }
 
@@ -31,7 +31,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
         //    {
         //        OperatorDto nextPartial_OperatorDto = CreateOperatorDto_SinglePartial();
 
-        //        operatorDto = new Add_OperatorDto(new InletDto(operatorDto), new InletDto(nextPartial_OperatorDto));
+        //        operatorDto = new Add_OperatorDto(new OperatorDto(operatorDto), new OperatorDto(nextPartial_OperatorDto));
         //    }
 
         //    return operatorDto;
@@ -45,30 +45,15 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
 
             var dto = new Multiply_OperatorDto
             (
-                new InletDto
+                new Shift_OperatorDto
                 (
-                    new Shift_OperatorDto
+                    new Sine_OperatorDto
                     (
-                        new InletDto
-                        (
-                            new Sine_OperatorDto
-                            (
-                                new InletDto
-                                (
-                                    new VariableInput_OperatorDto(frequency)
-                                )
-                            )
-                        ),
-                        new InletDto
-                        (
-                            new Number_OperatorDto(phaseShift)
-                        )
-                    )
+                        new VariableInput_OperatorDto(frequency)
+                    ),
+                    new Number_OperatorDto(phaseShift)
                 ),
-                new InletDto
-                {
-                    InputOperatorDto = new Number_OperatorDto(volume)
-                }
+                new Number_OperatorDto(volume)
             );
 
             return dto;

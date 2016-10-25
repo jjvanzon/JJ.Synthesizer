@@ -9,7 +9,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
         public double Number { get; set; }
 
         public Number_OperatorDto(double number)
-            : base(new InletDto[0])
+            : base(new OperatorDto[0])
         {
             Number = number;
         }

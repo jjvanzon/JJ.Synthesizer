@@ -9,7 +9,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
         public double Frequency { get; set; }
 
         public OperatorDto_ConstFrequency(double frequency)
-            : base (new InletDto[0])
+            : base (new OperatorDto[0])
         {
             Frequency = frequency;
         }

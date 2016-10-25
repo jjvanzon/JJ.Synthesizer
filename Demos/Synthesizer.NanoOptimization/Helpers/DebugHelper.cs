@@ -11,28 +11,28 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
 {
     internal static class DebugHelper
     {
-        public static string GetDebuggerDisplay(InletDto inletDto)
-        {
-            if (inletDto == null) throw new NullException(() => inletDto);
+        //public static string GetDebuggerDisplay(OperatorDto operatorDto)
+        //{
+        //    if (operatorDto == null) throw new NullException(() => operatorDto);
 
-            var sb = new StringBuilder();
+        //    var sb = new StringBuilder();
 
-            sb.AppendFormat("{{{0}}}", inletDto.GetType().Name);
+        //    sb.AppendFormat("{{{0}}}", operatorDto.GetType().Name);
 
-            if (inletDto.InputOperatorDto == null)
-            {
-                sb.Append(" no input");
-            }
-            else
-            {
-                sb.Append(' ');
+        //    if (operatorDto.InputOperatorDto == null)
+        //    {
+        //        sb.Append(" no input");
+        //    }
+        //    else
+        //    {
+        //        sb.Append(' ');
 
-                string operatorDebuggerDisplay = GetDebuggerDisplay(inletDto.InputOperatorDto);
-                sb.Append(operatorDebuggerDisplay);
-            }
+        //        string operatorDebuggerDisplay = GetDebuggerDisplay(operatorDto.InputOperatorDto);
+        //        sb.Append(operatorDebuggerDisplay);
+        //    }
 
-            return sb.ToString();
-        }
+        //    return sb.ToString();
+        //}
 
         public static string GetDebuggerDisplay(OperatorDto operatorDto)
         {

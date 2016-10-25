@@ -6,13 +6,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal abstract class OperatorDto_Vars : OperatorDto
     {
-        public IList<InletDto> Vars
+        public IList<OperatorDto> Vars
         {
-            get { return InletDtos; }
-            set { InletDtos = value; }
+            get { return ChildOperatorDtos; }
+            set { ChildOperatorDtos = value; }
         }
 
-        public OperatorDto_Vars(IList<InletDto> vars)
+        public OperatorDto_Vars(IList<OperatorDto> vars)
             : base(vars)
         { }
     }

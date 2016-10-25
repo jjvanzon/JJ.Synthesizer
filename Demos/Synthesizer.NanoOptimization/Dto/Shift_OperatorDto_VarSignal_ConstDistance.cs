@@ -6,14 +6,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal class Shift_OperatorDto_VarSignal_ConstDistance : OperatorDto
     {
-        public InletDto SignalInletDto { get; set; }
+        public OperatorDto SignalOperatorDto { get { return ChildOperatorDtos[0]; } }
         public double Distance { get; set; }
 
-        public Shift_OperatorDto_VarSignal_ConstDistance(InletDto signalInletDto, double distance)
-            : base(new InletDto[] { signalInletDto })
+        public Shift_OperatorDto_VarSignal_ConstDistance(OperatorDto signalOperatorDto, double distance)
+            : base(new OperatorDto[] { signalOperatorDto })
         {
             Distance = distance;
-            SignalInletDto = signalInletDto;
         }
     }
 }

@@ -6,8 +6,8 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal class Multiply_OperatorDto_VarA_VarB : OperatorDto_VarA_VarB
     {
-        public Multiply_OperatorDto_VarA_VarB(InletDto aInletDto, InletDto bInletDto)
-            : base(aInletDto, bInletDto)
+        public Multiply_OperatorDto_VarA_VarB(OperatorDto aOperatorDto, OperatorDto bOperatorDto)
+            : base(aOperatorDto, bOperatorDto)
         { }
     }
 }
