@@ -242,14 +242,11 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStructs
                     >
                 >();
 
-            addCalculator.Calculator1 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
-            addCalculator.Calculator2 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
-            addCalculator.Calculator3 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
-            addCalculator.Calculator4 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
-            addCalculator.Calculator5 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
-            addCalculator.Calculator6 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
-            addCalculator.Calculator7 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
-            addCalculator.Calculator8 = CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+            int count = 8;
+            for (int i = 0; i < count; i++)
+            {
+                addCalculator.SetVarCalculator(i, CreateOperatorCalculatorStructure_SinglePartial(dimensionStack));
+            }
 
             return addCalculator;
         }

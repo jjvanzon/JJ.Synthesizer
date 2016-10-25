@@ -34,7 +34,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 				}
 #>
 			>
-			: IOperatorCalculator_<#= i #>Vars, IOperatorCalculator_Vars
+			: IOperatorCalculator_Vars
 <#
 			for (int j = 1; j <= i; j++)
 			{
@@ -43,26 +43,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 <#
 			}
 #>
-
 		{
 <# 
 			for (int j = 1; j <= i; j++)
 			{
 #>
-				private readonly TChildCalculator<#= j #> _operandCalculator<#= j #>;
-<# 
-			}
-
-			for (int j = 1; j <= i; j++)
-			{
-#>
-
 				private TChildCalculator<#= j #> _calculator<#= j #>;
-				public IOperatorCalculator Calculator<#= j #>
-				{
-					get { return _calculator<#= j #>; }
-					set { _calculator<#= j #> = (TChildCalculator<#= j #>)value; }
-				}
 <#
 			}
 #>

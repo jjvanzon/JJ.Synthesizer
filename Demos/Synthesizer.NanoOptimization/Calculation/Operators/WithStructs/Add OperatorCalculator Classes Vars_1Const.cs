@@ -14,7 +14,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 			<
 					TChildCalculator1
 			>
-			: IOperatorCalculator_1Vars_1Const, IOperatorCalculator_Vars_1Const
+			: IOperatorCalculator_Vars_1Const
 				where TChildCalculator1 : IOperatorCalculator
 		{
 			private double _constValue;
@@ -23,13 +23,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 				get { return _constValue; }
                 set { _constValue = value; }
             }
-
 				private TChildCalculator1 _calculator1;
-				public IOperatorCalculator Calculator1
-				{
-					get { return _calculator1; }
-					set { _calculator1 = (TChildCalculator1)value; }
-				}
 
 			public void SetVarCalculator(int i, IOperatorCalculator varOperatorCalculator)
 			{
@@ -57,7 +51,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 					TChildCalculator1
 ,					TChildCalculator2
 			>
-			: IOperatorCalculator_2Vars_1Const, IOperatorCalculator_Vars_1Const
+			: IOperatorCalculator_Vars_1Const
 				where TChildCalculator1 : IOperatorCalculator
 				where TChildCalculator2 : IOperatorCalculator
 		{
@@ -67,20 +61,8 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 				get { return _constValue; }
                 set { _constValue = value; }
             }
-
 				private TChildCalculator1 _calculator1;
-				public IOperatorCalculator Calculator1
-				{
-					get { return _calculator1; }
-					set { _calculator1 = (TChildCalculator1)value; }
-				}
-
 				private TChildCalculator2 _calculator2;
-				public IOperatorCalculator Calculator2
-				{
-					get { return _calculator2; }
-					set { _calculator2 = (TChildCalculator2)value; }
-				}
 
 			public void SetVarCalculator(int i, IOperatorCalculator varOperatorCalculator)
 			{
@@ -114,7 +96,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 ,					TChildCalculator2
 ,					TChildCalculator3
 			>
-			: IOperatorCalculator_3Vars_1Const, IOperatorCalculator_Vars_1Const
+			: IOperatorCalculator_Vars_1Const
 				where TChildCalculator1 : IOperatorCalculator
 				where TChildCalculator2 : IOperatorCalculator
 				where TChildCalculator3 : IOperatorCalculator
@@ -125,27 +107,9 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 				get { return _constValue; }
                 set { _constValue = value; }
             }
-
 				private TChildCalculator1 _calculator1;
-				public IOperatorCalculator Calculator1
-				{
-					get { return _calculator1; }
-					set { _calculator1 = (TChildCalculator1)value; }
-				}
-
 				private TChildCalculator2 _calculator2;
-				public IOperatorCalculator Calculator2
-				{
-					get { return _calculator2; }
-					set { _calculator2 = (TChildCalculator2)value; }
-				}
-
 				private TChildCalculator3 _calculator3;
-				public IOperatorCalculator Calculator3
-				{
-					get { return _calculator3; }
-					set { _calculator3 = (TChildCalculator3)value; }
-				}
 
 			public void SetVarCalculator(int i, IOperatorCalculator varOperatorCalculator)
 			{
@@ -185,7 +149,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 ,					TChildCalculator3
 ,					TChildCalculator4
 			>
-			: IOperatorCalculator_4Vars_1Const, IOperatorCalculator_Vars_1Const
+			: IOperatorCalculator_Vars_1Const
 				where TChildCalculator1 : IOperatorCalculator
 				where TChildCalculator2 : IOperatorCalculator
 				where TChildCalculator3 : IOperatorCalculator
@@ -197,34 +161,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 				get { return _constValue; }
                 set { _constValue = value; }
             }
-
 				private TChildCalculator1 _calculator1;
-				public IOperatorCalculator Calculator1
-				{
-					get { return _calculator1; }
-					set { _calculator1 = (TChildCalculator1)value; }
-				}
-
 				private TChildCalculator2 _calculator2;
-				public IOperatorCalculator Calculator2
-				{
-					get { return _calculator2; }
-					set { _calculator2 = (TChildCalculator2)value; }
-				}
-
 				private TChildCalculator3 _calculator3;
-				public IOperatorCalculator Calculator3
-				{
-					get { return _calculator3; }
-					set { _calculator3 = (TChildCalculator3)value; }
-				}
-
 				private TChildCalculator4 _calculator4;
-				public IOperatorCalculator Calculator4
-				{
-					get { return _calculator4; }
-					set { _calculator4 = (TChildCalculator4)value; }
-				}
 
 			public void SetVarCalculator(int i, IOperatorCalculator varOperatorCalculator)
 			{
@@ -270,7 +210,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 ,					TChildCalculator4
 ,					TChildCalculator5
 			>
-			: IOperatorCalculator_5Vars_1Const, IOperatorCalculator_Vars_1Const
+			: IOperatorCalculator_Vars_1Const
 				where TChildCalculator1 : IOperatorCalculator
 				where TChildCalculator2 : IOperatorCalculator
 				where TChildCalculator3 : IOperatorCalculator
@@ -283,41 +223,11 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 				get { return _constValue; }
                 set { _constValue = value; }
             }
-
 				private TChildCalculator1 _calculator1;
-				public IOperatorCalculator Calculator1
-				{
-					get { return _calculator1; }
-					set { _calculator1 = (TChildCalculator1)value; }
-				}
-
 				private TChildCalculator2 _calculator2;
-				public IOperatorCalculator Calculator2
-				{
-					get { return _calculator2; }
-					set { _calculator2 = (TChildCalculator2)value; }
-				}
-
 				private TChildCalculator3 _calculator3;
-				public IOperatorCalculator Calculator3
-				{
-					get { return _calculator3; }
-					set { _calculator3 = (TChildCalculator3)value; }
-				}
-
 				private TChildCalculator4 _calculator4;
-				public IOperatorCalculator Calculator4
-				{
-					get { return _calculator4; }
-					set { _calculator4 = (TChildCalculator4)value; }
-				}
-
 				private TChildCalculator5 _calculator5;
-				public IOperatorCalculator Calculator5
-				{
-					get { return _calculator5; }
-					set { _calculator5 = (TChildCalculator5)value; }
-				}
 
 			public void SetVarCalculator(int i, IOperatorCalculator varOperatorCalculator)
 			{
@@ -369,7 +279,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 ,					TChildCalculator5
 ,					TChildCalculator6
 			>
-			: IOperatorCalculator_6Vars_1Const, IOperatorCalculator_Vars_1Const
+			: IOperatorCalculator_Vars_1Const
 				where TChildCalculator1 : IOperatorCalculator
 				where TChildCalculator2 : IOperatorCalculator
 				where TChildCalculator3 : IOperatorCalculator
@@ -383,48 +293,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 				get { return _constValue; }
                 set { _constValue = value; }
             }
-
 				private TChildCalculator1 _calculator1;
-				public IOperatorCalculator Calculator1
-				{
-					get { return _calculator1; }
-					set { _calculator1 = (TChildCalculator1)value; }
-				}
-
 				private TChildCalculator2 _calculator2;
-				public IOperatorCalculator Calculator2
-				{
-					get { return _calculator2; }
-					set { _calculator2 = (TChildCalculator2)value; }
-				}
-
 				private TChildCalculator3 _calculator3;
-				public IOperatorCalculator Calculator3
-				{
-					get { return _calculator3; }
-					set { _calculator3 = (TChildCalculator3)value; }
-				}
-
 				private TChildCalculator4 _calculator4;
-				public IOperatorCalculator Calculator4
-				{
-					get { return _calculator4; }
-					set { _calculator4 = (TChildCalculator4)value; }
-				}
-
 				private TChildCalculator5 _calculator5;
-				public IOperatorCalculator Calculator5
-				{
-					get { return _calculator5; }
-					set { _calculator5 = (TChildCalculator5)value; }
-				}
-
 				private TChildCalculator6 _calculator6;
-				public IOperatorCalculator Calculator6
-				{
-					get { return _calculator6; }
-					set { _calculator6 = (TChildCalculator6)value; }
-				}
 
 			public void SetVarCalculator(int i, IOperatorCalculator varOperatorCalculator)
 			{
@@ -482,7 +356,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 ,					TChildCalculator6
 ,					TChildCalculator7
 			>
-			: IOperatorCalculator_7Vars_1Const, IOperatorCalculator_Vars_1Const
+			: IOperatorCalculator_Vars_1Const
 				where TChildCalculator1 : IOperatorCalculator
 				where TChildCalculator2 : IOperatorCalculator
 				where TChildCalculator3 : IOperatorCalculator
@@ -497,55 +371,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStruct
 				get { return _constValue; }
                 set { _constValue = value; }
             }
-
 				private TChildCalculator1 _calculator1;
-				public IOperatorCalculator Calculator1
-				{
-					get { return _calculator1; }
-					set { _calculator1 = (TChildCalculator1)value; }
-				}
-
 				private TChildCalculator2 _calculator2;
-				public IOperatorCalculator Calculator2
-				{
-					get { return _calculator2; }
-					set { _calculator2 = (TChildCalculator2)value; }
-				}
-
 				private TChildCalculator3 _calculator3;
-				public IOperatorCalculator Calculator3
-				{
-					get { return _calculator3; }
-					set { _calculator3 = (TChildCalculator3)value; }
-				}
-
 				private TChildCalculator4 _calculator4;
-				public IOperatorCalculator Calculator4
-				{
-					get { return _calculator4; }
-					set { _calculator4 = (TChildCalculator4)value; }
-				}
-
 				private TChildCalculator5 _calculator5;
-				public IOperatorCalculator Calculator5
-				{
-					get { return _calculator5; }
-					set { _calculator5 = (TChildCalculator5)value; }
-				}
-
 				private TChildCalculator6 _calculator6;
-				public IOperatorCalculator Calculator6
-				{
-					get { return _calculator6; }
-					set { _calculator6 = (TChildCalculator6)value; }
-				}
-
 				private TChildCalculator7 _calculator7;
-				public IOperatorCalculator Calculator7
-				{
-					get { return _calculator7; }
-					set { _calculator7 = (TChildCalculator7)value; }
-				}
 
 			public void SetVarCalculator(int i, IOperatorCalculator varOperatorCalculator)
 			{

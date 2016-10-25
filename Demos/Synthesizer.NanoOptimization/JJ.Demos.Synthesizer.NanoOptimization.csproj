@@ -74,13 +74,13 @@
     <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator_Zero.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_VarArray_1Const.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_VarArray.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator Vars 1Const.cs">
-      <DependentUpon>IOperatorCalculator Vars 1Const.tt</DependentUpon>
+    <Compile Include="Calculation\Operators\WithStructs\2016-10-25 Backup of IOperatorCalculator Vars 1Const.cs">
+      <DependentUpon>2016-10-25 Backup of IOperatorCalculator Vars 1Const.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator Vars.cs">
-      <DependentUpon>IOperatorCalculator Vars.tt</DependentUpon>
+    <Compile Include="Calculation\Operators\WithStructs\2016-10-25 Backup of IOperatorCalculator Vars.cs">
+      <DependentUpon>2016-10-25 Backup of IOperatorCalculator Vars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -251,16 +251,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Calculation\Operators\WithStructs\IOperatorCalculator Vars.tt">
+    <None Include="Calculation\Operators\WithStructs\2016-10-25 Backup of IOperatorCalculator Vars.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IOperatorCalculator Vars.cs</LastGenOutput>
+      <LastGenOutput>2016-10-25 Backup of IOperatorCalculator Vars.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Calculation\Operators\WithStructs\IOperatorCalculator Vars 1Const.tt">
+    <Content Include="Calculation\Operators\WithStructs\2016-10-25 Backup of IOperatorCalculator Vars 1Const.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IOperatorCalculator Vars 1Const.cs</LastGenOutput>
-    </None>
+      <LastGenOutput>2016-10-25 Backup of IOperatorCalculator Vars 1Const.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Helpers\WithInheritance\OperatorCalculatorFactory.CreateAddCalculator_Vars.tt">
