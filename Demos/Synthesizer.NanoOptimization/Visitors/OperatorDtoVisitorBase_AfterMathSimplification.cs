@@ -7,16 +7,6 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 {
     internal abstract class OperatorDtoVisitorBase_AfterMathSimplification : OperatorDtoVisitorBase_AfterClassSpecialization
     {
-        protected sealed override OperatorDto Visit_Add_OperatorDto_ConstA_ConstB(Add_OperatorDto_ConstA_ConstB dto)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected sealed override OperatorDto Visit_Add_OperatorDto_ConstA_VarB(Add_OperatorDto_ConstA_VarB dto)
-        {
-            throw new NotSupportedException();
-        }
-
         protected sealed override OperatorDto Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB dto)
         {
             throw new NotSupportedException();

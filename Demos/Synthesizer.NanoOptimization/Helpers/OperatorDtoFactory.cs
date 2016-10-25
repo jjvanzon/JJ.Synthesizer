@@ -19,23 +19,23 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
                 addInletDtos.Add(new InletDto { InputOperatorDto = partialOperatorDto });
             }
 
-            OperatorDto operatorDto = new Add_OperatorDto_Vars(addInletDtos);
+            OperatorDto operatorDto = new Add_OperatorDto(addInletDtos);
             return operatorDto;
         }
 
-        public static OperatorDto CreateOperatorDto_8Partials_WithMultiple2VarAdds_InsteadOfSingle8VarAdd()
-        {
-            OperatorDto operatorDto = CreateOperatorDto_SinglePartial();
+        //public static OperatorDto CreateOperatorDto_8Partials_WithMultiple2VarAdds_InsteadOfSingle8VarAdd()
+        //{
+        //    OperatorDto operatorDto = CreateOperatorDto_SinglePartial();
 
-            for (int i = 0; i < 6; i++)
-            {
-                OperatorDto nextPartial_OperatorDto = CreateOperatorDto_SinglePartial();
+        //    for (int i = 0; i < 6; i++)
+        //    {
+        //        OperatorDto nextPartial_OperatorDto = CreateOperatorDto_SinglePartial();
 
-                operatorDto = new Add_OperatorDto(new InletDto(operatorDto), new InletDto(nextPartial_OperatorDto));
-            }
+        //        operatorDto = new Add_OperatorDto(new InletDto(operatorDto), new InletDto(nextPartial_OperatorDto));
+        //    }
 
-            return operatorDto;
-        }
+        //    return operatorDto;
+        //}
 
         public static OperatorDto CreateOperatorDto_SinglePartial()
         {

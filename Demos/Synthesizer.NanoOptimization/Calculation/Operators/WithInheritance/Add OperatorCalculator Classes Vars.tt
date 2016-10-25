@@ -1,0 +1,90 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ output extension=".cs" #>
+
+<# int minOperands = 2; #>
+<# int maxOperands = 32; #>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using JJ.Framework.Reflection.Exceptions;
+
+namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithInheritance
+{
+
+<# 
+	for (int i = minOperands; i <= maxOperands; i++)
+	{
+#>
+		internal class Add_OperatorCalculator_<#= i #>Vars : OperatorCalculatorBase
+		{
+<# 
+			for (int j = 1; j <= i; j++)
+			{
+#>
+				private readonly OperatorCalculatorBase _operandCalculator<#= j #>;
+<# 
+			}
+#>
+			
+			public Add_OperatorCalculator_<#= i #>Vars(
+<#
+				for (int j = 1; j <= i; j++)
+				{
+#>
+					OperatorCalculatorBase operandCalculator<#= j #>
+<#
+					if (j != i)
+					{
+						Write(",");
+					}
+					else
+					{
+						Write(")");
+					}
+				}
+#>
+			{
+<#
+				for (int j = 1; j <= i; j++)
+				{
+#>
+					if (operandCalculator<#= j #> == null) throw new NullException(() => operandCalculator<#= j #>);
+					_operandCalculator<#= j #> = operandCalculator<#= j #>;
+<#
+				}
+#>
+			}
+			 
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+			public override double Calculate()
+			{
+				return 
+<#
+					for (int j = 1; j <= i; j++)
+					{
+#>
+						_operandCalculator<#= j #>.Calculate()
+<#
+						if (j != i)
+						{
+							Write("+");
+						}
+						else
+						{
+							Write(";");
+						}
+					}
+#>
+			}
+		}
+<# 
+	}
+#>
+}

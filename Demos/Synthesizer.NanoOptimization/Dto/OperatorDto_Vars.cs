@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
-    internal class Add_OperatorDto_Vars_Const : OperatorDto
+    internal abstract class OperatorDto_Vars : OperatorDto
     {
         public IList<InletDto> Vars
         {
@@ -12,9 +12,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
             set { InletDtos = value; }
         }
 
-        public double ConstValue { get; set; }
-
-        public Add_OperatorDto_Vars_Const(IList<InletDto> vars, double constValue)
+        public OperatorDto_Vars(IList<InletDto> vars)
             : base(vars)
         { }
     }

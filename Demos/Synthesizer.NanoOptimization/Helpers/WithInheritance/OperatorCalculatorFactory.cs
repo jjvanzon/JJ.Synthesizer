@@ -9,7 +9,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithInheritance
 {
-    internal static class OperatorCalculatorFactory
+    internal static partial class OperatorCalculatorFactory
     {
         public static OperatorCalculatorBase CreateOperatorCalculatorStructure_8Partials(DimensionStack dimensionStack)
         {

@@ -53,49 +53,42 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
 
         // Visit
 
-        protected override OperatorDto Visit_Add_OperatorDto_VarA_ConstB(Add_OperatorDto_VarA_ConstB dto)
+        protected override OperatorDto Visit_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
         {
-            base.Visit_Add_OperatorDto_VarA_ConstB(dto);
+            base.Visit_Add_OperatorDto_Vars(dto);
 
-            Process_OperatorDto_VarA_ConstB(dto);
+            IOperatorCalculator_Vars calculator = (IOperatorCalculator_Vars)CreateCalculator(dto);
 
-            return dto;
-        }
-
-        protected override OperatorDto Visit_Add_OperatorDto_VarA_VarB(Add_OperatorDto_VarA_VarB dto)
-        {
-            base.Visit_Add_OperatorDto_VarA_VarB(dto);
-
-            Process_OperatorDto_VarA_VarB(dto);
-
-            return dto;
-        }
-
-        protected override OperatorDto Visit_OperatorDto_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
-        {
-            base.Visit_OperatorDto_Add_OperatorDto_Vars(dto);
-
-            IOperatorCalculator_8Vars calculator = (IOperatorCalculator_8Vars)CreateCalculator(dto);
-
-            calculator.Calculator1 = _stack.Pop();
-            calculator.Calculator2 = _stack.Pop();
-            calculator.Calculator3 = _stack.Pop();
-            calculator.Calculator4 = _stack.Pop();
-            calculator.Calculator5 = _stack.Pop();
-            calculator.Calculator6 = _stack.Pop();
-            calculator.Calculator7 = _stack.Pop();
-            calculator.Calculator8 = _stack.Pop();
+            int varCount = dto.Vars.Count;
+            for (int i = 0; i < varCount; i++)
+            {
+                IOperatorCalculator varOperatorCalculator = _stack.Pop();
+                calculator.SetVarCalculator(i, varOperatorCalculator);
+            }
 
             _stack.Push(calculator);
 
             return dto;
         }
 
-        protected override OperatorDto Visit_OperatorDto_Add_OperatorDto_Vars_Const(Add_OperatorDto_Vars dto)
+        protected override OperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
-            // TODO: Program calculator classes for this.
-            throw new NotImplementedException();
-            return base.Visit_OperatorDto_Add_OperatorDto_Vars_Const(dto);
+            base.Visit_Add_OperatorDto_Vars_1Const(dto);
+
+            IOperatorCalculator_Vars_1Const calculator = (IOperatorCalculator_Vars_1Const)CreateCalculator(dto);
+            calculator.ConstValue = dto.ConstValue;
+
+            int varCount = dto.Vars.Count;
+            for (int i = 0; i < varCount; i++)
+            {
+                IOperatorCalculator varOperatorCalculator = _stack.Pop();
+                calculator.SetVarCalculator(i, varOperatorCalculator);
+            }
+
+            _stack.Push(calculator);
+
+            return dto;
+
         }
 
         protected override OperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)

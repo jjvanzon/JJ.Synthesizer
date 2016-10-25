@@ -4,14 +4,8 @@ using System.Linq;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
-    internal class Add_OperatorDto_Vars : OperatorDto
+    internal class Add_OperatorDto_Vars : OperatorDto_Vars
     {
-        public IList<InletDto> Vars
-        {
-            get { return InletDtos; }
-            set { InletDtos = value; }
-        }
-
         public Add_OperatorDto_Vars(IList<InletDto> vars)
             : base(vars)
         { }

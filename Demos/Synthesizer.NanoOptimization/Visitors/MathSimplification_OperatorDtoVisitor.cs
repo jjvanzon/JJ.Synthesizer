@@ -13,47 +13,6 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             return Visit_OperatorDto_Polymorphic(dto);
         }
 
-        // Add
-
-        protected override OperatorDto Visit_Add_OperatorDto_ConstA_ConstB(Add_OperatorDto_ConstA_ConstB dto)
-        {
-            base.Visit_Add_OperatorDto_ConstA_ConstB(dto);
-
-            // Pre-Calculate
-            var dto2 = new Number_OperatorDto(dto.A + dto.B);
-
-            OperatorDto dto3 = Visit_Number_OperatorDto_Concrete(dto2);
-
-            return dto3;
-        }
-
-        protected override OperatorDto Visit_Add_OperatorDto_ConstA_VarB(Add_OperatorDto_ConstA_VarB dto)
-        {
-            base.Visit_Add_OperatorDto_ConstA_VarB(dto);
-
-            // Switch A and B
-            var dto2 = new Add_OperatorDto_VarA_ConstB(dto.BInletDto, dto.A);
-
-            OperatorDto dto3 = Visit_Add_OperatorDto_VarA_ConstB(dto2);
-
-            return dto3;
-        }
-
-        protected override OperatorDto Visit_Add_OperatorDto_VarA_ConstB(Add_OperatorDto_VarA_ConstB dto)
-        {
-            base.Visit_Add_OperatorDto_VarA_ConstB(dto);
-
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.B);
-
-            // 0 is identity
-            if (bMathPropertiesDto.IsConstZero)
-            {
-                return dto.AInletDto.InputOperatorDto;
-            }
-
-            return dto;
-        }
-
         // Multiply
 
         protected override OperatorDto Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB dto)

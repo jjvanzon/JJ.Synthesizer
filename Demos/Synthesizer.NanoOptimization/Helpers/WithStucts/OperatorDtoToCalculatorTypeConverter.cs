@@ -14,9 +14,6 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts
         private static readonly Dictionary<Type, Type> _dtoType_Concrete_To_CalculatorType_OpenGeneric_Dictionary =
                             new Dictionary<Type, Type>
         {
-            { typeof(Add_OperatorDto_VarA_ConstB), typeof(Add_OperatorCalculator_VarA_ConstB<>) },
-            { typeof(Add_OperatorDto_VarA_VarB), typeof(Add_OperatorCalculator_VarA_VarB<,>) },
-            { typeof(Add_OperatorDto_Vars), typeof(Add_OperatorCalculator_8Vars<,,,,,,,>) },
             { typeof(Multiply_OperatorDto_VarA_ConstB), typeof(Multiply_OperatorCalculator_VarA_ConstB<>) },
             { typeof(Multiply_OperatorDto_VarA_VarB), typeof(Multiply_OperatorCalculator_VarA_VarB<,>) },
             { typeof(Number_OperatorDto), typeof(Number_OperatorCalculator) },
@@ -35,8 +32,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts
         {
             if (operatorDto == null) throw new NullException(() => operatorDto);
 
-            Type dtoType_Concrete = operatorDto.GetType();
-            Type calculatorType_OpenGeneric = Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(dtoType_Concrete);
+            Type calculatorType_OpenGeneric = Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(operatorDto);
 
             IList<Type> calculatorType_OpenGenericTypeArguments = calculatorType_OpenGeneric.GetGenericArguments();
             IList<InletDto> inletDtos = operatorDto.InletDtos;
@@ -74,8 +70,40 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts
 
         [DebuggerHidden]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Type Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(Type dtoType_Concrete)
+        private static Type Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(OperatorDto operatorDto)
         {
+            Type dtoType_Concrete = operatorDto.GetType();
+
+            if (dtoType_Concrete == typeof(Add_OperatorDto_Vars))
+            {
+                switch (operatorDto.InletDtos.Count)
+                {
+                    case 2: return typeof(Add_OperatorCalculator_2Vars<,>);
+                    case 3: return typeof(Add_OperatorCalculator_3Vars<,,>);
+                    case 4: return typeof(Add_OperatorCalculator_4Vars<,,,>);
+                    case 5: return typeof(Add_OperatorCalculator_5Vars<,,,,>);
+                    case 6: return typeof(Add_OperatorCalculator_6Vars<,,,,,>);
+                    case 7: return typeof(Add_OperatorCalculator_7Vars<,,,,,,>);
+                    case 8: return typeof(Add_OperatorCalculator_8Vars<,,,,,,,>);
+                    default: return typeof(Add_OperatorCalculator_VarArray);
+                }
+            }
+
+            if (dtoType_Concrete == typeof(Add_OperatorDto_Vars_1Const))
+            {
+                switch (operatorDto.InletDtos.Count)
+                {
+                    case 1: return typeof(Add_OperatorCalculator_1Vars_1Const<>);
+                    case 2: return typeof(Add_OperatorCalculator_2Vars_1Const<,>);
+                    case 3: return typeof(Add_OperatorCalculator_3Vars_1Const<,,>);
+                    case 4: return typeof(Add_OperatorCalculator_4Vars_1Const<,,,>);
+                    case 5: return typeof(Add_OperatorCalculator_5Vars_1Const<,,,,>);
+                    case 6: return typeof(Add_OperatorCalculator_6Vars_1Const<,,,,,>);
+                    case 7: return typeof(Add_OperatorCalculator_7Vars_1Const<,,,,,,>);
+                    default: return typeof(Add_OperatorCalculator_VarArray_1Const);
+                }
+            }
+
             Type type;
             if (!_dtoType_Concrete_To_CalculatorType_OpenGeneric_Dictionary.TryGetValue(dtoType_Concrete, out type))
             {

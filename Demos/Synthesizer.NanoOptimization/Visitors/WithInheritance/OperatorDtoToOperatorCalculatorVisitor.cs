@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
 using JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithInheritance;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
+using JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithInheritance;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithInheritance
@@ -51,82 +52,44 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithInheritance
 
         // Add
 
-        protected override OperatorDto Visit_Add_OperatorDto_VarA_ConstB(Add_OperatorDto_VarA_ConstB dto)
+        protected override OperatorDto Visit_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
         {
-            base.Visit_Add_OperatorDto_VarA_ConstB(dto);
+            base.Visit_Add_OperatorDto_Vars(dto);
 
-            OperatorCalculatorBase aCalculator = _stack.Pop();
+            int operandCount = dto.InletDtos.Count;
 
-            var calculator = new Add_OperatorCalculator_VarA_ConstB(aCalculator, dto.B);
+            var operandCalculators = new OperatorCalculatorBase[operandCount];
 
-            _stack.Push(calculator);
-
-            return dto;
-        }
-
-        protected override OperatorDto Visit_Add_OperatorDto_VarA_VarB(Add_OperatorDto_VarA_VarB dto)
-        {
-            base.Visit_Add_OperatorDto_VarA_VarB(dto);
-
-            OperatorCalculatorBase aCalculator = _stack.Pop();
-            OperatorCalculatorBase bCalculator = _stack.Pop();
-
-            var calculator = new Add_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
-
-            _stack.Push(calculator);
-
-            return dto;
-        }
-
-        protected override OperatorDto Visit_OperatorDto_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
-        {
-            base.Visit_OperatorDto_Add_OperatorDto_Vars(dto);
-
-            // TODO: Eventually I might need the code that is outcommented here instead.
-
-            //int operandCount = dto.InletDtos.Count;
-
-            //if (operandCount != 8)
-            //{
-            //    // TODO: Get rid of this ridiculour limitation.
-            //    throw new NotSupportedException("Only Add_Operator_Vars with exactly 8 inlets are supported.");
-            //}
-
-            //var operandCalculators = new List<OperatorCalculatorBase>(operandCount);
-
-            //for (int i = 0; i < operandCount; i++)
-            //{
-            //    operandCalculators[i] = _stack.Pop();
-            //}
-
-
-            if (dto.InletDtos.Count != 8)
+            for (int i = 0; i < operandCount; i++)
             {
-                // TODO: Get rid of this ridiculour limitation.
-                throw new NotSupportedException("Only Add_Operator_Vars with exactly 8 inlets are supported.");
+                operandCalculators[i] = _stack.Pop();
             }
 
-            // TODO: Make constructors take IList<OperatorCalculatorBase>. Just put it in separate variables internally in the class.
-            var calculator = new Add_OperatorCalculator_8Vars(
-                _stack.Pop(),
-                _stack.Pop(),
-                _stack.Pop(),
-                _stack.Pop(),
-                _stack.Pop(),
-                _stack.Pop(),
-                _stack.Pop(),
-                _stack.Pop());
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars(operandCalculators);
 
             _stack.Push(calculator);
 
             return dto;
         }
 
-        protected override OperatorDto Visit_OperatorDto_Add_OperatorDto_Vars_Const(Add_OperatorDto_Vars dto)
+        protected override OperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
-            // TODO: Program calculator classes for this.
-            throw new NotImplementedException();
-            return base.Visit_OperatorDto_Add_OperatorDto_Vars_Const(dto);
+            base.Visit_Add_OperatorDto_Vars_1Const(dto);
+
+            int varCount = dto.Vars.Count;
+
+            var varCalculators = new OperatorCalculatorBase[varCount];
+
+            for (int i = 0; i < varCount; i++)
+            {
+                varCalculators[i] = _stack.Pop();
+            }
+
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(varCalculators, dto.ConstValue);
+
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         // Multiply
