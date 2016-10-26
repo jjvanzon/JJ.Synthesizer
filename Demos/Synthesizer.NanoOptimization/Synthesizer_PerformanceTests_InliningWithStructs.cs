@@ -13,7 +13,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
     public class Synthesizer_PerformanceTests_InliningWithStructs
     {
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithoutTime_8Partials_50_000_Iterations_InliningWithStructs_NoDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_OperatorDtoToCSharpVisitorWithoutTime_8Partials_50_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -35,7 +35,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithoutTime_8Partials_50_000_Iterations_InliningWithStructs_WithDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_8Partials_50_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -58,7 +58,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithoutTime_8Partials_500_000_Iterations_InliningWithStructs_NoDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_8Partials_500_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -80,7 +80,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithoutTime_8Partials_500_000_Iterations_InliningWithStructs_WithDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_8Partials_500_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -103,7 +103,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithoutTime_SinglePartial_50_000_Iterations_InliningWithStructs_NoDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_SinglePartial_50_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -125,7 +125,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithoutTime_SinglePartial_50_000_Iterations_InliningWithStructs_WithDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_SinglePartial_50_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -148,7 +148,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithoutTime_SinglePartial_500_000_Iterations_InliningWithStructs_NoDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_SinglePartial_500_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -170,7 +170,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithoutTime_SinglePartial_500_000_Iterations_InliningWithStructs_WithDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_SinglePartial_500_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -193,7 +193,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithTime_8Partials_50_000_Iterations_InliningWithStructs_NoDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithTime_8Partials_50_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -222,7 +222,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithTime_8Partials_50_000_Iterations_InliningWithStructs_WithDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithTime_8Partials_50_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -252,7 +252,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithTime_8Partials_500_000_Iterations_InliningWithStructs_NoDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithTime_8Partials_500_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -281,7 +281,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithTime_8Partials_500_000_Iterations_InliningWithStructs_WithDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithTime_8Partials_500_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -311,7 +311,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithTime_SinglePartial_50_000_Iterations_InliningWithStructs_NoDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithTime_SinglePartial_50_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -340,7 +340,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithTime_SinglePartial_50_000_Iterations_InliningWithStructs_WithDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithTime_SinglePartial_50_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -370,7 +370,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithTime_SinglePartial_500_000_Iterations_InliningWithStructs_NoDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithTime_SinglePartial_500_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -399,7 +399,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_Inlining_WithTime_SinglePartial_500_000_Iterations_InliningWithStructs_WithDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithTime_SinglePartial_500_000_Iterations_InliningWithStructs_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -429,7 +429,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
-        public void Debug_Synthesizer_InliningWithStructs_RuntimeGeneric_DoesNotInline_ButEquates_CompileTimeGeneric_WhichDoesInline()
+        public void Debug_Synthesizer_NanoOptimization_RuntimeGeneric_DoesNotInline_ButEquates_CompileTimeGeneric_WhichDoesInline()
         {
             var dimensionStack = new DimensionStack();
 

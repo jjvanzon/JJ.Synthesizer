@@ -520,7 +520,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
         // Base
 
-        //[DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_OperatorDto_Base(OperatorDto dto)
         {
             dto.ChildOperatorDtos = VisitChildOperatorDtos(dto.ChildOperatorDtos);
@@ -528,7 +528,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             return dto;
         }
 
-        //[DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual IList<OperatorDto> VisitChildOperatorDtos(IList<OperatorDto> operatorDtos)
         {
             for (int i = 0; i < operatorDtos.Count; i++)
@@ -540,7 +540,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             return operatorDtos;
         }
 
-        //[DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto VisitOperatorDto(OperatorDto dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);

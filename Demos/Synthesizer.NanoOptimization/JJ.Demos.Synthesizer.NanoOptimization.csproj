@@ -146,6 +146,8 @@
     <Compile Include="Helpers\MathPropertiesHelper.cs" />
     <Compile Include="Helpers\VisitationCannotBeHandledException.cs" />
     <Compile Include="Helpers\OperatorDtoFactory.cs" />
+    <Compile Include="Synthesizer_PerformanceTests_WithCSharpCompilation.cs" />
+    <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToCSharpVisitor.cs" />
     <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.CreateAddCalculator_Vars.cs">
       <DependentUpon>OperatorCalculatorFactory.CreateAddCalculator_Vars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -160,7 +162,9 @@
     <Compile Include="Helpers\WithStucts\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="Calculation\DimensionStack.cs" />
-    <Compile Include="Calculation\SineCalculator.cs" />
+    <Compile Include="Calculation\SineCalculator.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Helpers\WithStucts\OperatorDtoToCalculatorTypeConverter.cs" />
     <Compile Include="Synthesizer_PerformanceTests_NoInliningWithInheritance.cs" />
     <Compile Include="Calculation\Operators\WithStructs\2016-10-24 Backup of Add_OperatorCalculator_8Vars.cs" />
@@ -198,6 +202,8 @@
     <Compile Include="Visitors\PreProcessing_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\MathSimplification_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\ClassSpecialization_OperatorDtoVisitor.cs" />
+    <Compile Include="Visitors\StackLevel_OperatorDtoVisitor_Simple.cs" />
+    <Compile Include="Visitors\StackLevel_OperatorDtoVisitor_PerDimensionWriter.cs" />
     <Compile Include="Visitors\WithInheritance\OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithStructs\OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithStructs\VariableAssignment_OperatorDtoVisitor.cs" />
