@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Framework.Common;
 
@@ -42,26 +41,29 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             }
         }
 
-        private const string MULTIPLY_OPERATOR_SYMBOL = "*";
-        private const string ADD_OPERATOR_SYMBOL = "+";
-        private const string VARIABLE_PREFIX = "v";
+        private const string MULTIPLY_SYMBOL = "*";
+        private const string PLUS_SYMBOL = "+";
+        private const string PHASE_VARIABLE_PREFIX = "phase";
+        private const string PREVIOUS_POSITION_VARIABLE_PREFIX = "prevPos";
         private const string INPUT_VARIABLE_PREFIX = "input";
-        private const string DIMENSION_VARIABLE_PREFIX = "t";
+        private const string POSITION_VARIABLE_PREFIX = "t";
 
         private static readonly CultureInfo _formattingCulture = new CultureInfo("en-US");
 
         private Stack<ValueInfo> _stack;
         private StringBuilder _sb;
         private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
-        private int _variableCounter;
+        private Dictionary<string, int> _variableNamePrefix_To_Counter_Dictionary;
         private int _inputVariableCounter;
+        private int _phaseVariableCounter;
+        private int _previousPositionVariableCounter;
 
         public string Execute(OperatorDto dto)
         {
             _stack = new Stack<ValueInfo>();
             _sb = new StringBuilder();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
-            _variableCounter = 0;
+            _variableNamePrefix_To_Counter_Dictionary = new Dictionary<string, int>();
             _inputVariableCounter = 0;
 
             var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
@@ -89,7 +91,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             base.Visit_Add_OperatorDto_Vars(dto);
 
-            ProcessMultiVarOperator(dto.Vars.Count, ADD_OPERATOR_SYMBOL);
+            ProcessMultiVarOperator(dto.OperatorName, dto.Vars.Count, PLUS_SYMBOL);
 
             return dto;
         }
@@ -99,7 +101,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
             ProcessNumber(dto.ConstValue);
-            ProcessMultiVarOperator(dto.Vars.Count + 1, ADD_OPERATOR_SYMBOL);
+            ProcessMultiVarOperator(dto.OperatorName, dto.Vars.Count + 1, PLUS_SYMBOL);
 
             return dto;
         }
@@ -109,7 +111,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);
 
             ProcessNumber(dto.B);
-            ProcessBinaryOperatorDto(MULTIPLY_OPERATOR_SYMBOL);
+            ProcessBinaryOperatorDto(dto.OperatorName, MULTIPLY_SYMBOL);
 
             return dto;
         }
@@ -118,7 +120,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             base.Visit_Multiply_OperatorDto_VarA_VarB(dto);
 
-            ProcessBinaryOperatorDto(MULTIPLY_OPERATOR_SYMBOL);
+            ProcessBinaryOperatorDto(dto.OperatorName, MULTIPLY_SYMBOL);
 
             return dto;
         }
@@ -126,6 +128,9 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         protected override OperatorDto Visit_Number_OperatorDto_ConcreteOrPolymorphic(Number_OperatorDto dto)
         {
             base.Visit_Number_OperatorDto_ConcreteOrPolymorphic(dto);
+
+            _sb.AppendLine();
+            _sb.AppendLine("// " + dto.OperatorName);
 
             ProcessNumber(dto.Number);
 
@@ -136,23 +141,21 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
 
+            _sb.AppendLine();
+            _sb.AppendLine("// " + dto.OperatorName);
+
             ValueInfo signalValueInfo = _stack.Pop();
 
             ProcessNumber(dto.Distance);
             ValueInfo distanceValueInfo = _stack.Pop();
 
             // TODO: Repeated code (see other Visit_Shift_? method).
-            string sourceDimensionVariableName = GetDimensionVariableName(dto.StackLevel);
-            string destDimensionVariableName = GetDimensionVariableName(dto.StackLevel + 1);
+            string sourcePosName = GetPositionVariableName(dto.DimensionStackLevel);
+            string destPosName = GetPositionVariableName(dto.DimensionStackLevel + 1);
+            string distanceLiteral = distanceValueInfo.GetLiteral();
 
-            string codeLine = String.Format(
-                "{0} = {1} {2} {3};",
-                destDimensionVariableName,
-                sourceDimensionVariableName,
-                ADD_OPERATOR_SYMBOL,
-                distanceValueInfo.GetLiteral());
-
-            _sb.AppendLine(codeLine);
+            string line = $"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};";
+            _sb.AppendLine(line);
 
             _stack.Push(signalValueInfo);
 
@@ -163,20 +166,18 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             base.Visit_Shift_OperatorDto_VarSignal_VarDistance(dto);
 
+            _sb.AppendLine();
+            _sb.AppendLine("// " + dto.OperatorName);
+
             ValueInfo signalValueInfo = _stack.Pop();
             ValueInfo distanceValueInfo = _stack.Pop();
 
-            string sourceDimensionVariableName = GetDimensionVariableName(dto.StackLevel);
-            string destDimensionVariableName = GetDimensionVariableName(dto.StackLevel + 1); 
+            string sourcePosName = GetPositionVariableName(dto.DimensionStackLevel);
+            string destPosName = GetPositionVariableName(dto.DimensionStackLevel + 1);
+            string distanceLiteral = distanceValueInfo.GetLiteral();
 
-            string codeLine = String.Format(
-                "{0} = {1} {2} {3};",
-                destDimensionVariableName,
-                sourceDimensionVariableName,
-                ADD_OPERATOR_SYMBOL,
-                distanceValueInfo.GetLiteral());
-
-            _sb.AppendLine(codeLine);
+            string line = $"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};";
+            _sb.AppendLine(line);
 
             _stack.Push(signalValueInfo);
 
@@ -187,11 +188,28 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             base.Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(dto);
 
-            // Temporary, unfinished implementation to make visitation succeed.
+            _sb.AppendLine();
+            _sb.AppendLine("// " + dto.OperatorName);
 
             ValueInfo frequencyValueInfo = _stack.Pop();
 
-            _stack.Push(frequencyValueInfo);
+            string phaseName = NewPhaseVariableName();
+            string posName = GetPositionVariableName(dto.DimensionStackLevel);
+            string prevPosName = NewPreviousPositionVariableName();
+            string outputName = NewOutputName(dto.OperatorName);
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+
+            string line1 = $"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};";
+            _sb.AppendLine(line1);
+
+            string line2 = $"{prevPosName} = {posName};";
+            _sb.AppendLine(line2);
+
+            string line3 = $"{outputName} = SineCalculator.Sin({phaseName});";
+            _sb.AppendLine(line3);
+
+            var valueInfo = new ValueInfo { Name = outputName };
+            _stack.Push(valueInfo);
 
             return dto;
         }
@@ -211,25 +229,37 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
         // Generalized Methods
 
-        private void ProcessBinaryOperatorDto(string operatorSymbol)
+        private void ProcessBinaryOperatorDto(string operatorName, string operatorSymbol)
         {
             ValueInfo aValueInfo = _stack.Pop();
             ValueInfo bValueInfo = _stack.Pop();
 
-            string newVariableName = NewVariableName();
+            _sb.AppendLine();
+            _sb.AppendLine("// " + operatorName);
 
-            string codeLine = String.Format("double {0} = {1} {2} {3};", newVariableName, aValueInfo.GetLiteral(), operatorSymbol, bValueInfo.GetLiteral());
-            _sb.AppendLine(codeLine);
+            string outputName = NewOutputName(operatorName);
 
-            var resultValueInfo = new ValueInfo { Name = newVariableName };
+            string line = String.Format(
+                "double {0} = {1} {2} {3};",
+                outputName,
+                aValueInfo.GetLiteral(),
+                operatorSymbol,
+                bValueInfo.GetLiteral());
+
+            _sb.AppendLine(line);
+
+            var resultValueInfo = new ValueInfo { Name = outputName };
             _stack.Push(resultValueInfo);
         }
 
-        private void ProcessMultiVarOperator(int varCount, string operatorSymbol)
+        private void ProcessMultiVarOperator(string operatorName, int varCount, string operatorSymbol)
         {
-            string newVariableName = NewVariableName();
+            _sb.AppendLine();
+            _sb.AppendLine("// " + operatorName);
 
-            _sb.AppendFormat("double {0} =", newVariableName);
+            string outputVariableName = NewOutputName(operatorName);
+
+            _sb.AppendFormat("double {0} =", outputVariableName);
 
             for (int i = 0; i < varCount; i++)
             {
@@ -249,7 +279,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _sb.Append(';');
             _sb.Append(Environment.NewLine);
 
-            var resultValueInfo = new ValueInfo { Name = newVariableName };
+            var resultValueInfo = new ValueInfo { Name = outputVariableName };
             _stack.Push(resultValueInfo);
         }
 
@@ -260,9 +290,18 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
         // Helpers
 
-        private string NewVariableName()
+        private string NewOutputName(string operatorName)
         {
-            string variableName = String.Format("{0}{1}", VARIABLE_PREFIX, _variableCounter++);
+            // TODO: Lower Priority: You need an actual ToCamelCase for any name to be turned into code.
+            string camelCaseOperatorName = operatorName.StartWithLowerCase();
+
+            int counter;
+            _variableNamePrefix_To_Counter_Dictionary.TryGetValue(camelCaseOperatorName, out counter);
+
+            string variableName = String.Format("{0}{1}", camelCaseOperatorName, counter++);
+
+            _variableNamePrefix_To_Counter_Dictionary[camelCaseOperatorName] = counter;
+
             return variableName;
         }
 
@@ -272,9 +311,21 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return inputVariableName;
         }
 
-        private string GetDimensionVariableName(int stackLevel)
+        private string NewPhaseVariableName()
         {
-            string variableName = String.Format("{0}{1}", DIMENSION_VARIABLE_PREFIX, stackLevel);
+            string inputVariableName = String.Format("{0}{1}", PHASE_VARIABLE_PREFIX, _phaseVariableCounter++);
+            return inputVariableName;
+        }
+
+        private string NewPreviousPositionVariableName()
+        {
+            string inputVariableName = String.Format("{0}{1}", PREVIOUS_POSITION_VARIABLE_PREFIX, _previousPositionVariableCounter++);
+            return inputVariableName;
+        }
+
+        private string GetPositionVariableName(int stackLevel)
+        {
+            string variableName = String.Format("{0}{1}", POSITION_VARIABLE_PREFIX, stackLevel);
             return variableName;
         }
 

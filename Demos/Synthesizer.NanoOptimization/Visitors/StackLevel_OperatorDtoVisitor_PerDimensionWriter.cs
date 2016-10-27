@@ -27,7 +27,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
         protected override OperatorDto Visit_OperatorDto_Polymorphic(OperatorDto dto)
         {
-            dto.StackLevel = _currentStackLevel;
+            dto.DimensionStackLevel = _currentStackLevel;
 
             Type dtoType = dto.GetType();
 

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 using JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation;
-using JJ.Framework.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization
