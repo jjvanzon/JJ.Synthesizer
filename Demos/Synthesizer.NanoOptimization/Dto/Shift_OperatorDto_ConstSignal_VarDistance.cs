@@ -9,7 +9,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
     {
         public double SignalValue { get; set; }
         public OperatorDto DistanceOperatorDto => ChildOperatorDtos[0];
-        public override string OperatorName => OperatorNames.Shift;
+        public override string OperatorTypeName => OperatorNames.Shift;
 
         public Shift_OperatorDto_ConstSignal_VarDistance(double signalValue, OperatorDto distanceOperatorDto)
             : base(new OperatorDto[] { distanceOperatorDto })

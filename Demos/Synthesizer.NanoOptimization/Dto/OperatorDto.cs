@@ -11,7 +11,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
     internal abstract class OperatorDto
     {
         public int DimensionStackLevel { get; set; }
-        public abstract string OperatorName { get; }
+        public abstract string OperatorTypeName { get; }
         public IList<OperatorDto> ChildOperatorDtos { get; set; }
 
         public OperatorDto(IList<OperatorDto> childOperatorDtos)

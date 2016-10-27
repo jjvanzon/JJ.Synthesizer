@@ -100,7 +100,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             base.Visit_Add_OperatorDto_Vars(dto);
 
-            ProcessMultiVarOperator(dto.OperatorName, dto.Vars.Count, PLUS_SYMBOL);
+            ProcessMultiVarOperator(dto.OperatorTypeName, dto.Vars.Count, PLUS_SYMBOL);
 
             return dto;
         }
@@ -110,7 +110,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
             ProcessNumber(dto.ConstValue);
-            ProcessMultiVarOperator(dto.OperatorName, dto.Vars.Count + 1, PLUS_SYMBOL);
+            ProcessMultiVarOperator(dto.OperatorTypeName, dto.Vars.Count + 1, PLUS_SYMBOL);
 
             return dto;
         }
@@ -120,7 +120,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);
 
             ProcessNumber(dto.B);
-            ProcessBinaryOperatorDto(dto.OperatorName, MULTIPLY_SYMBOL);
+            ProcessBinaryOperatorDto(dto.OperatorTypeName, MULTIPLY_SYMBOL);
 
             return dto;
         }
@@ -129,7 +129,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             base.Visit_Multiply_OperatorDto_VarA_VarB(dto);
 
-            ProcessBinaryOperatorDto(dto.OperatorName, MULTIPLY_SYMBOL);
+            ProcessBinaryOperatorDto(dto.OperatorTypeName, MULTIPLY_SYMBOL);
 
             return dto;
         }
@@ -139,7 +139,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             base.Visit_Number_OperatorDto_ConcreteOrPolymorphic(dto);
 
             _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorName);
+            _sb.AppendLine("// " + dto.OperatorTypeName);
 
             ProcessNumber(dto.Number);
 
@@ -151,7 +151,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
 
             _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorName);
+            _sb.AppendLine("// " + dto.OperatorTypeName);
 
             ProcessNumber(dto.Distance);
             ValueInfo distanceValueInfo = _stack.Pop();
@@ -180,7 +180,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             ValueInfo distanceValueInfo = _stack.Pop();
 
             _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorName);
+            _sb.AppendLine("// " + dto.OperatorTypeName);
 
             string sourcePosName = GetPositionVariableName(dto.DimensionStackLevel);
             string destPosName = GetPositionVariableName(dto.DimensionStackLevel + 1);
@@ -202,14 +202,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             base.Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(dto);
 
             _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorName);
+            _sb.AppendLine("// " + dto.OperatorTypeName);
 
             ValueInfo frequencyValueInfo = _stack.Pop();
 
             string phaseName = NewPhaseVariableName();
             string posName = GetPositionVariableName(dto.DimensionStackLevel);
             string prevPosName = NewPreviousPositionVariableName();
-            string outputName = NewOutputName(dto.OperatorName);
+            string outputName = NewOutputName(dto.OperatorTypeName);
             string frequencyLiteral = frequencyValueInfo.GetLiteral();
 
             string line1 = $"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};";
@@ -242,15 +242,15 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
         // Generalized Methods
 
-        private void ProcessBinaryOperatorDto(string operatorName, string operatorSymbol)
+        private void ProcessBinaryOperatorDto(string operatorTypeName, string operatorSymbol)
         {
             ValueInfo aValueInfo = _stack.Pop();
             ValueInfo bValueInfo = _stack.Pop();
 
             _sb.AppendLine();
-            _sb.AppendLine("// " + operatorName);
+            _sb.AppendLine("// " + operatorTypeName);
 
-            string outputName = NewOutputName(operatorName);
+            string outputName = NewOutputName(operatorTypeName);
             string aLiteral = aValueInfo.GetLiteral();
             string bLiteral = bValueInfo.GetLiteral();
 
@@ -261,12 +261,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _stack.Push(resultValueInfo);
         }
 
-        private void ProcessMultiVarOperator(string operatorName, int varCount, string operatorSymbol)
+        private void ProcessMultiVarOperator(string operatorTypeName, int varCount, string operatorSymbol)
         {
             _sb.AppendLine();
-            _sb.AppendLine("// " + operatorName);
+            _sb.AppendLine("// " + operatorTypeName);
 
-            string outputName = NewOutputName(operatorName);
+            string outputName = NewOutputName(operatorTypeName);
 
             _sb.Append($"double {outputName} =");
 
@@ -299,20 +299,20 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
         // Helpers
 
-        private string NewOutputName(string operatorName)
+        private string NewOutputName(string operatorTypeName)
         {
             // TODO: Lower Priority: You need an actual ToCamelCase for any name to be turned into code.
-            string camelCaseOperatorName = operatorName.StartWithLowerCase();
+            string camelCaseOperatorTypeName = operatorTypeName.StartWithLowerCase();
 
             int counter;
-            if (!_variableNamePrefix_To_Counter_Dictionary.TryGetValue(camelCaseOperatorName, out counter))
+            if (!_variableNamePrefix_To_Counter_Dictionary.TryGetValue(camelCaseOperatorTypeName, out counter))
             {
                 counter = 1;
             }
 
-            string variableName = String.Format("{0}{1}", camelCaseOperatorName, counter++);
+            string variableName = String.Format("{0}{1}", camelCaseOperatorTypeName, counter++);
 
-            _variableNamePrefix_To_Counter_Dictionary[camelCaseOperatorName] = counter;
+            _variableNamePrefix_To_Counter_Dictionary[camelCaseOperatorTypeName] = counter;
 
             return variableName;
         }

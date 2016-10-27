@@ -9,13 +9,15 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
     {
         public static OperatorDto CreateOperatorDto_8Partials()
         {
+            VariableInput_OperatorDto frequency_OperatorDto = Create_Frequency_VariableInput_OperatorDto();
+
             int partialCount = 8;
 
             IList<OperatorDto> partialOperatorDtos = new List<OperatorDto>(partialCount);
 
             for (int i = 0; i < partialCount; i++)
             {
-                OperatorDto partialOperatorDto = CreateOperatorDto_SinglePartial();
+                OperatorDto partialOperatorDto = CreateOperatorDto_SinglePartial(frequency_OperatorDto);
                 partialOperatorDtos.Add(partialOperatorDto);
             }
 
@@ -23,23 +25,15 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
             return operatorDto;
         }
 
-        //public static OperatorDto CreateOperatorDto_8Partials_WithMultiple2VarAdds_InsteadOfSingle8VarAdd()
-        //{
-        //    OperatorDto operatorDto = CreateOperatorDto_SinglePartial();
-
-        //    for (int i = 0; i < 6; i++)
-        //    {
-        //        OperatorDto nextPartial_OperatorDto = CreateOperatorDto_SinglePartial();
-
-        //        operatorDto = new Add_OperatorDto(new OperatorDto(operatorDto), new OperatorDto(nextPartial_OperatorDto));
-        //    }
-
-        //    return operatorDto;
-        //}
-
         public static OperatorDto CreateOperatorDto_SinglePartial()
         {
-            double frequency = 440.0;
+            VariableInput_OperatorDto frequency_OperatorDto = Create_Frequency_VariableInput_OperatorDto();
+            OperatorDto operatorDto = CreateOperatorDto_SinglePartial(frequency_OperatorDto);
+            return operatorDto;
+        }
+
+        public static OperatorDto CreateOperatorDto_SinglePartial(VariableInput_OperatorDto frequency_VariableInput_OperatorDto)
+        {
             double volume = 10.0;
             double phaseShift = 0.25;
 
@@ -49,7 +43,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
                 (
                     new Sine_OperatorDto
                     (
-                        new VariableInput_OperatorDto(frequency)
+                        frequency_VariableInput_OperatorDto
                     ),
                     new Number_OperatorDto(phaseShift)
                 ),
@@ -57,6 +51,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
             );
 
             return dto;
+        }
+
+
+        private static VariableInput_OperatorDto Create_Frequency_VariableInput_OperatorDto()
+        {
+            double frequency = 440.0;
+            return new VariableInput_OperatorDto(frequency);
         }
     }
 }

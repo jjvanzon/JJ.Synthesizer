@@ -7,7 +7,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal class Add_OperatorDto_Vars : OperatorDto_Vars
     {
-        public override string OperatorName => OperatorNames.Add;
+        public override string OperatorTypeName => OperatorNames.Add;
 
         public Add_OperatorDto_Vars(IList<OperatorDto> vars)
             : base(vars)

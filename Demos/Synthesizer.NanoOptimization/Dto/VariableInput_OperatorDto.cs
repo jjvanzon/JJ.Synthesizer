@@ -8,7 +8,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
     internal class VariableInput_OperatorDto : OperatorDto
     {
         public double DefaultValue { get; set; }
-        public override string OperatorName => OperatorNames.VariableInput;
+        public override string OperatorTypeName => OperatorNames.VariableInput;
 
         public VariableInput_OperatorDto(double defaultValue)
             : base(new OperatorDto[0])

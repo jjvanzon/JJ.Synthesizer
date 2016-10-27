@@ -7,7 +7,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal class Number_OperatorDto_Zero : Number_OperatorDto
     {
-        public override string OperatorName => OperatorNames.Number;
+        public override string OperatorTypeName => OperatorNames.Number;
 
         public Number_OperatorDto_Zero()
             : base(0.0)
