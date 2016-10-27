@@ -56,7 +56,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Calculation\Operators\WithInheritance\2016-10-24 Backup of Add_OperatorCalculator_8Vars.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Add OperatorCalculator Classes Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -74,16 +73,6 @@
     <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator_Zero.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_VarArray_1Const.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_VarArray.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\2016-10-25 Backup of IOperatorCalculator Vars 1Const.cs">
-      <DependentUpon>2016-10-25 Backup of IOperatorCalculator Vars 1Const.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Calculation\Operators\WithStructs\2016-10-25 Backup of IOperatorCalculator Vars.cs">
-      <DependentUpon>2016-10-25 Backup of IOperatorCalculator Vars.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Calculation\Operators\WithStructs\Add OperatorCalculator Classes Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -100,14 +89,10 @@
     <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator_Vars.cs" />
     <Compile Include="Calculation\Operators\WithStructs\IShift_OperatorCalculator_VarSignal_ConstDistance.cs" />
     <Compile Include="Calculation\Operators\WithStructs\IShift_OperatorCalculator_VarSignal_VarDistance.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\2016-10-24 Backup of IOperatorCalculator_8Vars.cs" />
     <Compile Include="Calculation\Operators\WithStructs\ISine_OperatorCalculator_VarFrequency.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_NaN.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_One.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_Zero.cs" />
-    <Compile Include="Dto\2016-10-24 Backup of Add_OperatorDto_ConstA_VarB.cs" />
-    <Compile Include="Dto\2016-10-24 Backup of Add_OperatorDto_VarA_ConstB.cs" />
-    <Compile Include="Dto\2016-10-24 Backup of Add_OperatorDto_VarA_VarB.cs" />
     <Compile Include="Dto\OperatorDto_Vars_1Const.cs" />
     <Compile Include="Dto\OperatorDto_Vars.cs" />
     <Compile Include="Dto\Add_OperatorDto_Vars_1Const.cs" />
@@ -117,11 +102,9 @@
     <Compile Include="Dto\OperatorDto_ConstA_VarB.cs" />
     <Compile Include="Dto\OperatorDto_ConstA_ConstB.cs" />
     <Compile Include="Dto\Multiply_OperatorDto_ConstA_ConstB.cs" />
-    <Compile Include="Dto\2016-10-24 Backup of Add_OperatorDto_ConstA_ConstB.cs" />
     <Compile Include="Dto\MathPropertiesDto.cs" />
     <Compile Include="Dto\Multiply_OperatorDto.cs" />
     <Compile Include="Dto\Add_OperatorDto.cs" />
-    <Compile Include="Dto\2016-10-25 Backup of InletDto.cs" />
     <Compile Include="Dto\Multiply_OperatorDto_ConstA_VarB.cs" />
     <Compile Include="Dto\Multiply_OperatorDto_VarA_ConstB.cs" />
     <Compile Include="Dto\Multiply_OperatorDto_VarA_VarB.cs" />
@@ -167,13 +150,10 @@
     </Compile>
     <Compile Include="Helpers\WithStucts\OperatorDtoToCalculatorTypeConverter.cs" />
     <Compile Include="Synthesizer_PerformanceTests_NoInliningWithInheritance.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\2016-10-24 Backup of Add_OperatorCalculator_8Vars.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Multiply_OperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\2016-10-24 Backup of Add_OperatorCalculator_VarA_ConstB.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Multiply_OperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\2016-10-24 Backup of Add_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Shift_OperatorCalculator_VarSignal_ConstDistance.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Shift_OperatorCalculator_VarSignal_VarDistance.cs" />
@@ -181,8 +161,6 @@
     <Compile Include="Calculation\Operators\WithStructs\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
     <Compile Include="Calculation\Operators\WithStructs\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
     <Compile Include="Calculation\Operators\WithStructs\VariableInput_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\2016-10-24 Backup of Add_OperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\2016-10-24 Backup of Add_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Multiply_OperatorCalculator_VarA_ConstB.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Multiply_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Synthesizer_PerformanceTests_InliningWithStructs.cs" />
@@ -255,18 +233,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Add OperatorCalculator Classes Vars_1Const.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Calculation\Operators\WithStructs\2016-10-25 Backup of IOperatorCalculator Vars.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>2016-10-25 Backup of IOperatorCalculator Vars.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Calculation\Operators\WithStructs\2016-10-25 Backup of IOperatorCalculator Vars 1Const.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>2016-10-25 Backup of IOperatorCalculator Vars 1Const.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Helpers\WithInheritance\OperatorCalculatorFactory.CreateAddCalculator_Vars.tt">
