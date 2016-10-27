@@ -67,7 +67,9 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _variableNamesToDeclareHashSet = new HashSet<string>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _variableNamePrefix_To_Counter_Dictionary = new Dictionary<string, int>();
-            _inputVariableCounter = 0;
+            _inputVariableCounter = 1;
+            _phaseVariableCounter = 1;
+            _previousPositionVariableCounter = 1;
 
             var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
             dto = preProcessingVisitor.Execute(dto);
@@ -303,7 +305,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             string camelCaseOperatorName = operatorName.StartWithLowerCase();
 
             int counter;
-            _variableNamePrefix_To_Counter_Dictionary.TryGetValue(camelCaseOperatorName, out counter);
+            if (!_variableNamePrefix_To_Counter_Dictionary.TryGetValue(camelCaseOperatorName, out counter))
+            {
+                counter = 1;
+            }
 
             string variableName = String.Format("{0}{1}", camelCaseOperatorName, counter++);
 
