@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Framework.Common;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 {
@@ -76,8 +77,17 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
             Visit_OperatorDto_Polymorphic(dto);
 
-            string variableDeclarations = String.Join(Environment.NewLine, _variableNamesToDeclareHashSet.Select(x => $"double {x};"));
+            if (_stack.Count != 1)
+            {
+                throw new NotEqualException(() => _stack.Count, 1);
+            }
 
+            ValueInfo valueInfo = _stack.Pop();
+            string returnValueLiteral = valueInfo.GetLiteral();
+            _sb.AppendLine();
+            _sb.AppendFormat("return {0};", returnValueLiteral);
+
+            string variableDeclarations = String.Join(Environment.NewLine, _variableNamesToDeclareHashSet.Select(x => $"double {x} = 0.0;"));
             string csharp = variableDeclarations + Environment.NewLine + _sb.ToString();
 
             return csharp;
@@ -218,7 +228,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             string line2 = $"{prevPosName} = {posName};";
             _sb.AppendLine(line2);
 
-            string line3 = $"{outputName} = SineCalculator.Sin({phaseName});";
+            string line3 = $"double {outputName} = SineCalculator.Sin({phaseName});";
             _sb.AppendLine(line3);
 
             var valueInfo = new ValueInfo { Name = outputName };

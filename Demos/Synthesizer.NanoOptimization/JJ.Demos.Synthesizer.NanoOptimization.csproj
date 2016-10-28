@@ -41,7 +41,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.1.0.0\lib\portable-net45+win8\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0\lib\portable-net45+win8\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>..\..\packages\System.Reflection.Metadata.1.0.21\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -68,6 +81,7 @@
     </Compile>
     <Compile Include="Calculation\Operators\WithInheritance\Add_OperatorCalculator_VarArray.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Add_OperatorCalculator_VarArray_1Const.cs" />
+    <Compile Include="Calculation\Operators\WithCSharpCompilation\IOperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator_NaN.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator_One.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator_Zero.cs" />
@@ -183,6 +197,7 @@
     <Compile Include="Visitors\ClassSpecialization_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\StackLevel_OperatorDtoVisitor_Simple.cs" />
     <Compile Include="Visitors\StackLevel_OperatorDtoVisitor_PerDimensionWriter.cs" />
+    <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithInheritance\OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithStructs\OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithStructs\VariableAssignment_OperatorDtoVisitor.cs" />
@@ -191,6 +206,10 @@
     <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\IO\JJ.Framework.IO.csproj">
+      <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>
+      <Name>JJ.Framework.IO</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Mathematics\JJ.Framework.Mathematics.csproj">
       <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Framework.Mathematics;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation
 {
@@ -13,6 +10,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation
     /// </summary>
     internal static class SineCalculator
     {
+        private const double TWO_PI = 6.2831853071795865;
         private const int SAMPLES_PER_CYCLE = 44100 / 8; // 100% precision at 8Hz.
         private static readonly double[] _samples = CreateSamples();
 
@@ -21,7 +19,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation
             var samples = new double[SAMPLES_PER_CYCLE];
 
             double t = 0;
-            double step = MathHelper.TWO_PI / SAMPLES_PER_CYCLE;
+            double step = TWO_PI / SAMPLES_PER_CYCLE;
 
             for (int i = 0; i < SAMPLES_PER_CYCLE; i++)
             {
