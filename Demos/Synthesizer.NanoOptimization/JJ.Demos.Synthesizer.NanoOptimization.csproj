@@ -144,6 +144,7 @@
     <Compile Include="Helpers\OperatorNames.cs" />
     <Compile Include="Helpers\VisitationCannotBeHandledException.cs" />
     <Compile Include="Helpers\OperatorDtoFactory.cs" />
+    <Compile Include="Helpers\WithCSharpCompilation\OperatorCalculatorFactory.cs" />
     <Compile Include="Synthesizer_PerformanceTests_WithCSharpCompilation.cs" />
     <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToCSharpVisitor.cs" />
     <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.CreateAddCalculator_Vars.cs">

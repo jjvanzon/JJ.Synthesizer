@@ -40,7 +40,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             dimensionStack.Push(0.0);
 
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -85,7 +85,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             dimensionStack.Push(0.0);
 
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -130,7 +130,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             dimensionStack.Push(0.0);
 
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -175,7 +175,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             dimensionStack.Push(0.0);
 
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -227,7 +227,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             dimensionStack.Push(0.0);
 
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             double t = 0.0;
             double dt = 1.0 / 50000.0;
@@ -286,7 +286,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             dimensionStack.Push(0.0);
 
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             double t = 0.0;
             double dt = 1.0 / 500000.0;
@@ -345,7 +345,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             dimensionStack.Push(0.0);
 
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             double t = 0.0;
             double dt = 1.0 / 50000.0;
@@ -404,7 +404,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             dimensionStack.Push(0.0);
 
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dimensionStack, dto);
+            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             double t = 0.0;
             double dt = 1.0 / 500000.0;

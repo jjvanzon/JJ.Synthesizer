@@ -13,7 +13,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
     public class Synthesizer_PerformanceTests_InliningWithStructs
     {
         [TestMethod]
-        public void PerformanceTest_Synthesizer_NanoOptimization_OperatorDtoToCSharpVisitorWithoutTime_8Partials_50_000_Iterations_InliningWithStructs_NoDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_8Partials_50_000_Iterations_InliningWithStructs_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);

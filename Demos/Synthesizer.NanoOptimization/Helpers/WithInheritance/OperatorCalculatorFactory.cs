@@ -57,10 +57,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithInheritance
         {
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
 
-            return CreateOperatorCalculatorFromDto(dimensionStack, dto);
+            return CreateOperatorCalculatorFromDto(dto, dimensionStack);
         }
 
-        public static OperatorCalculatorBase CreateOperatorCalculatorFromDto(DimensionStack dimensionStack, OperatorDto dto)
+        public static OperatorCalculatorBase CreateOperatorCalculatorFromDto(OperatorDto dto, DimensionStack dimensionStack)
         {
             var visitor = new OperatorDtoToOperatorCalculatorVisitor(dimensionStack);
             OperatorCalculatorBase calculator = visitor.Execute(dto);
