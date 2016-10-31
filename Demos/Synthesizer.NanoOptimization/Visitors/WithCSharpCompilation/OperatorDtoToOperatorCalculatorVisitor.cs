@@ -42,37 +42,52 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                 MetadataReference.CreateFromFile(typeof(IOperatorCalculator).Assembly.Location)
             };
 
+#if DEBUG
+            OptimizationLevel optimizationLevel = OptimizationLevel.Debug;
+#else
+            OptimizationLevel optimizationLevel = OptimizationLevel.Release;
+#endif
             string assemblyName = Path.GetRandomFileName();
             CSharpCompilation compilation = CSharpCompilation.Create(
                 assemblyName,
                 syntaxTrees,
                 references,
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Release));
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: optimizationLevel));
 
-            using (var memoryStream = new MemoryStream())
+            byte[] assemblyBytes;
+            byte[] pdbBytes;
+
+            using (var assemblyMemoryStream = new MemoryStream())
             {
-                EmitResult emitResult = compilation.Emit(memoryStream);
-
-                if (!emitResult.Success)
+                // TODO: Consider making PDB optional for better performance.
+                using (var pdbMemoryStream = new MemoryStream())
                 {
-                    IEnumerable<Diagnostic> failureDiagnostics = emitResult.Diagnostics.Where(x =>
-                        x.IsWarningAsError ||
-                        x.Severity == DiagnosticSeverity.Error);
+                    EmitResult emitResult = compilation.Emit(assemblyMemoryStream, pdbMemoryStream);
 
-                    // TODO: Use a max size of string?
-                    string concatinatedFailureDiagnostics = String.Join(Environment.NewLine, failureDiagnostics.Select(x => String.Format("{0} - {1}", x.Id, x.GetMessage())));
+                    if (!emitResult.Success)
+                    {
+                        IEnumerable<Diagnostic> failureDiagnostics = emitResult.Diagnostics.Where(x =>
+                            x.IsWarningAsError ||
+                            x.Severity == DiagnosticSeverity.Error);
 
-                    throw new Exception("CSharpCompilation.Emit failed. " + concatinatedFailureDiagnostics);
+                        string concatinatedFailureDiagnostics = String.Join(Environment.NewLine, failureDiagnostics.Select(x => String.Format("{0} - {1}", x.Id, x.GetMessage())));
+                        throw new Exception("CSharpCompilation.Emit failed. " + concatinatedFailureDiagnostics);
+                    }
+
+                    assemblyMemoryStream.Position = 0;
+                    assemblyBytes = StreamHelper.StreamToBytes(assemblyMemoryStream);
+
+                    pdbMemoryStream.Position = 0;
+                    pdbBytes = StreamHelper.StreamToBytes(pdbMemoryStream);
                 }
+            } 
 
-                memoryStream.Position = 0;
-                Assembly assembly = Assembly.Load(StreamHelper.StreamToBytes(memoryStream));
+            Assembly assembly = Assembly.Load(assemblyBytes, pdbBytes);
 
-                Type type = assembly.GetType(GENERATED_NAMESPACE_NAME + "." + GENERATED_CLASS_NAME);
-                IOperatorCalculator calculator = (IOperatorCalculator)Activator.CreateInstance(type);
+            Type type = assembly.GetType(GENERATED_NAMESPACE_NAME + "." + GENERATED_CLASS_NAME);
+            IOperatorCalculator calculator = (IOperatorCalculator)Activator.CreateInstance(type);
 
-                return calculator;
-            }
+            return calculator;
         }
 
         private string MethodBodyToCodeFileString(string methodBody)
