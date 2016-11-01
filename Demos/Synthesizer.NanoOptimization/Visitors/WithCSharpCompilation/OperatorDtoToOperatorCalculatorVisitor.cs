@@ -43,21 +43,21 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             if (dto == null) throw new NullException(() => dto);
 
             var operatorDtoToCSharpVisitor = new OperatorDtoToCSharpVisitor();
-            string calculationMethodBodyCSharp = operatorDtoToCSharpVisitor.Execute(dto);
+            string generatedMethodBody = operatorDtoToCSharpVisitor.Execute(dto);
+            string generatedCodeFileContent = MethodBodyToCodeFileString(generatedMethodBody);
 
-            string calculationCodeFileCSharp = MethodBodyToCodeFileString(calculationMethodBodyCSharp);
-            string calculationCodeFileName = "";
+            string generatedCodeFileName = "";
             if (_includeSymbols)
             {
-                calculationCodeFileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".cs";
-                File.WriteAllText(calculationCodeFileName, calculationCodeFileCSharp, _encoding);
+                generatedCodeFileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".cs";
+                File.WriteAllText(generatedCodeFileName, generatedCodeFileContent, _encoding);
             }
 
-            SyntaxTree calculatorSyntaxTree = CSharpSyntaxTree.ParseText(calculationCodeFileCSharp, path: calculationCodeFileName, encoding: _encoding);
+            SyntaxTree generatedSyntaxTree = CSharpSyntaxTree.ParseText(generatedCodeFileContent, path: generatedCodeFileName, encoding: _encoding);
 
             var syntaxTrees = new SyntaxTree[]
             {
-                calculatorSyntaxTree,
+                generatedSyntaxTree,
                 _sineCalculatorSyntaxTree
             };
 
@@ -90,7 +90,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             byte[] assemblyBytes = StreamHelper.StreamToBytes(assemblyStream);
 
             byte[] pdbBytes = null;
-            if (pdbStream != null)
+            if (_includeSymbols)
             {
                 pdbStream.Position = 0;
                 pdbBytes = StreamHelper.StreamToBytes(pdbStream);
