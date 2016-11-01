@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
 using JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithCSharpCompilation;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
@@ -20,6 +21,15 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         private const string GENERATED_NAMESPACE_NAME = "GeneratedCSharp";
         private const string GENERATED_CLASS_NAME = "Calculator";
 
+        private static readonly Encoding _encoding = Encoding.UTF8;
+
+        private readonly bool _includeSymbols;
+
+        public OperatorDtoToOperatorCalculatorVisitor(bool includeSymbols = true)
+        {
+            _includeSymbols = includeSymbols;
+        }
+
         public IOperatorCalculator Execute(OperatorDto dto)
         {
             if (dto == null) throw new NullException(() => dto);
@@ -30,10 +40,26 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             string calculationCodeFileCSharp = MethodBodyToCodeFileString(calculationMethodBodyCSharp);
             string sineCalculatorCodeFileCSharp = File.ReadAllText(SINE_CALCULATOR_CODE_FILE_NAME);
 
+            // TODO: This code can be simplified, because many of the parameters with ParseText are optional.
+            SyntaxTree calculatorSyntaxTree;
+            SyntaxTree sineCalculatorSyntaxTree;
+            if (_includeSymbols)
+            {
+                string calculationCodeFileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".cs";
+                File.WriteAllText(calculationCodeFileName, calculationCodeFileCSharp, _encoding);
+                calculatorSyntaxTree = CSharpSyntaxTree.ParseText(calculationCodeFileCSharp, path: calculationCodeFileName, encoding: _encoding);
+                sineCalculatorSyntaxTree = CSharpSyntaxTree.ParseText(sineCalculatorCodeFileCSharp, path: SINE_CALCULATOR_CODE_FILE_NAME, encoding: _encoding);
+            }
+            else
+            {
+                calculatorSyntaxTree = CSharpSyntaxTree.ParseText(calculationCodeFileCSharp);
+                sineCalculatorSyntaxTree = CSharpSyntaxTree.ParseText(sineCalculatorCodeFileCSharp);
+            }
+
             var syntaxTrees = new SyntaxTree[]
             {
-                CSharpSyntaxTree.ParseText(sineCalculatorCodeFileCSharp),
-                CSharpSyntaxTree.ParseText(calculationCodeFileCSharp)
+                calculatorSyntaxTree,
+                sineCalculatorSyntaxTree
             };
 
             var references = new MetadataReference[]
@@ -47,46 +73,53 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 #else
             OptimizationLevel optimizationLevel = OptimizationLevel.Release;
 #endif
-            string assemblyName = Path.GetRandomFileName();
+            string assemblyName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
             CSharpCompilation compilation = CSharpCompilation.Create(
                 assemblyName,
                 syntaxTrees,
                 references,
                 new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: optimizationLevel));
 
-            byte[] assemblyBytes;
-            byte[] pdbBytes;
-
-            using (var assemblyMemoryStream = new MemoryStream())
+            MemoryStream assemblyStream = new MemoryStream();
+            MemoryStream pdbStream = null;
+            if (_includeSymbols)
             {
-                // TODO: Consider making PDB optional for better performance.
-                using (var pdbMemoryStream = new MemoryStream())
-                {
-                    EmitResult emitResult = compilation.Emit(assemblyMemoryStream, pdbMemoryStream);
+                pdbStream = new MemoryStream();
+            }
 
-                    if (!emitResult.Success)
-                    {
-                        IEnumerable<Diagnostic> failureDiagnostics = emitResult.Diagnostics.Where(x =>
-                            x.IsWarningAsError ||
-                            x.Severity == DiagnosticSeverity.Error);
+            EmitResult emitResult = compilation.Emit(assemblyStream, pdbStream);
+            if (!emitResult.Success)
+            {
+                IEnumerable<Diagnostic> failureDiagnostics = emitResult.Diagnostics.Where(x =>
+                    x.IsWarningAsError ||
+                    x.Severity == DiagnosticSeverity.Error);
 
-                        string concatinatedFailureDiagnostics = String.Join(Environment.NewLine, failureDiagnostics.Select(x => String.Format("{0} - {1}", x.Id, x.GetMessage())));
-                        throw new Exception("CSharpCompilation.Emit failed. " + concatinatedFailureDiagnostics);
-                    }
+                string concatinatedFailureDiagnostics = String.Join(Environment.NewLine, failureDiagnostics.Select(x => String.Format("{0} - {1}", x.Id, x.GetMessage())));
+                throw new Exception("CSharpCompilation.Emit failed. " + concatinatedFailureDiagnostics);
+            }
 
-                    assemblyMemoryStream.Position = 0;
-                    assemblyBytes = StreamHelper.StreamToBytes(assemblyMemoryStream);
+            Assembly assembly;
 
-                    pdbMemoryStream.Position = 0;
-                    pdbBytes = StreamHelper.StreamToBytes(pdbMemoryStream);
-                }
-            } 
+            assemblyStream.Position = 0;
+            byte[] assemblyBytes = StreamHelper.StreamToBytes(assemblyStream);
 
-            Assembly assembly = Assembly.Load(assemblyBytes, pdbBytes);
+            if (!_includeSymbols)
+            {
+                assembly = Assembly.Load(assemblyBytes);
+            }
+            else
+            {
+                pdbStream.Position = 0;
+                byte[] pdbBytes = StreamHelper.StreamToBytes(pdbStream);
+
+                File.WriteAllBytes(assemblyName + ".dll", assemblyBytes);
+                File.WriteAllBytes(assemblyName + ".pdb", pdbBytes);
+
+                assembly = Assembly.Load(assemblyName);
+            }
 
             Type type = assembly.GetType(GENERATED_NAMESPACE_NAME + "." + GENERATED_CLASS_NAME);
             IOperatorCalculator calculator = (IOperatorCalculator)Activator.CreateInstance(type);
-
             return calculator;
         }
 
