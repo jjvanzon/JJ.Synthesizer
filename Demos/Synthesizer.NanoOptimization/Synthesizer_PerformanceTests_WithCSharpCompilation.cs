@@ -31,6 +31,15 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         }
 
         [TestMethod]
+        public void Debug_Synthesizer_NanoOptimization_OperatorDtoToOperatorCalculatorVisitor_WithoutSymbols()
+        {
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            var visitor = new OperatorDtoToOperatorCalculatorVisitor(includeSymbols: false);
+            IOperatorCalculator calculator = visitor.Execute(dto);
+            double value = calculator.Calculate();
+        }
+
+        [TestMethod]
         public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_8Partials_50_000_Iterations_WithCSharpCompilation_WithDto()
         {
             var dimensionStack = new DimensionStack();

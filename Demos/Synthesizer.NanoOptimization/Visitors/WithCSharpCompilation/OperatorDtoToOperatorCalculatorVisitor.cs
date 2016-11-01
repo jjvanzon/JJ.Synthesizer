@@ -21,13 +21,21 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         private const string GENERATED_NAMESPACE_NAME = "GeneratedCSharp";
         private const string GENERATED_CLASS_NAME = "Calculator";
         private const string GENERATED_CLASS_FULL_NAME = GENERATED_NAMESPACE_NAME + "." + GENERATED_CLASS_NAME;
-        private static readonly Encoding _encoding = Encoding.UTF8;
+
+        private static readonly IList<MetadataReference> _metaDataReferences = GetMetadataReferences();
+        private static readonly CSharpCompilationOptions _csharpCompilationOptions = GetCSharpCompilationOptions();
+        private static readonly SyntaxTree _sineCalculatorSyntaxTree = CreateSineCalculatorSyntaxTree();
 
         private readonly bool _includeSymbols;
+        private readonly Encoding _encoding;
 
         public OperatorDtoToOperatorCalculatorVisitor(bool includeSymbols = true)
         {
             _includeSymbols = includeSymbols;
+            if (_includeSymbols)
+            {
+                _encoding = Encoding.UTF8;
+            };
         }
 
         public IOperatorCalculator Execute(OperatorDto dto)
@@ -38,47 +46,27 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             string calculationMethodBodyCSharp = operatorDtoToCSharpVisitor.Execute(dto);
 
             string calculationCodeFileCSharp = MethodBodyToCodeFileString(calculationMethodBodyCSharp);
-            string sineCalculatorCodeFileCSharp = File.ReadAllText(SINE_CALCULATOR_CODE_FILE_NAME);
-
-            // TODO: This code can be simplified, because many of the parameters with ParseText are optional.
-            SyntaxTree calculatorSyntaxTree;
-            SyntaxTree sineCalculatorSyntaxTree;
+            string calculationCodeFileName = "";
             if (_includeSymbols)
             {
-                string calculationCodeFileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".cs";
+                calculationCodeFileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".cs";
                 File.WriteAllText(calculationCodeFileName, calculationCodeFileCSharp, _encoding);
-                calculatorSyntaxTree = CSharpSyntaxTree.ParseText(calculationCodeFileCSharp, path: calculationCodeFileName, encoding: _encoding);
-                sineCalculatorSyntaxTree = CSharpSyntaxTree.ParseText(sineCalculatorCodeFileCSharp, path: SINE_CALCULATOR_CODE_FILE_NAME, encoding: _encoding);
             }
-            else
-            {
-                calculatorSyntaxTree = CSharpSyntaxTree.ParseText(calculationCodeFileCSharp);
-                sineCalculatorSyntaxTree = CSharpSyntaxTree.ParseText(sineCalculatorCodeFileCSharp);
-            }
+
+            SyntaxTree calculatorSyntaxTree = CSharpSyntaxTree.ParseText(calculationCodeFileCSharp, path: calculationCodeFileName, encoding: _encoding);
 
             var syntaxTrees = new SyntaxTree[]
             {
                 calculatorSyntaxTree,
-                sineCalculatorSyntaxTree
+                _sineCalculatorSyntaxTree
             };
 
-            var references = new MetadataReference[]
-            {
-                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(IOperatorCalculator).Assembly.Location)
-            };
-
-#if DEBUG
-            OptimizationLevel optimizationLevel = OptimizationLevel.Debug;
-#else
-            OptimizationLevel optimizationLevel = OptimizationLevel.Release;
-#endif
             string assemblyName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
             CSharpCompilation compilation = CSharpCompilation.Create(
                 assemblyName,
                 syntaxTrees,
-                references,
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: optimizationLevel));
+                _metaDataReferences,
+                _csharpCompilationOptions);
 
             MemoryStream assemblyStream = new MemoryStream();
             MemoryStream pdbStream = null;
@@ -98,22 +86,17 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                 throw new Exception("CSharpCompilation.Emit failed. " + concatinatedFailureDiagnostics);
             }
 
-            Assembly assembly;
-
             assemblyStream.Position = 0;
             byte[] assemblyBytes = StreamHelper.StreamToBytes(assemblyStream);
 
-            if (!_includeSymbols)
-            {
-                assembly = Assembly.Load(assemblyBytes);
-            }
-            else
+            byte[] pdbBytes = null;
+            if (pdbStream != null)
             {
                 pdbStream.Position = 0;
-                byte[] pdbBytes = StreamHelper.StreamToBytes(pdbStream);
-
-                assembly = Assembly.Load(assemblyBytes, pdbBytes);
+                pdbBytes = StreamHelper.StreamToBytes(pdbStream);
             }
+
+            Assembly assembly = Assembly.Load(assemblyBytes, pdbBytes);
 
             Type type = assembly.GetType(GENERATED_CLASS_FULL_NAME);
             IOperatorCalculator calculator = (IOperatorCalculator)Activator.CreateInstance(type);
@@ -140,6 +123,32 @@ namespace " + GENERATED_NAMESPACE_NAME + @"
     }
 }";
             return code;
+        }
+
+        private static IList<MetadataReference> GetMetadataReferences()
+        {
+            return new MetadataReference[]
+            {
+                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(IOperatorCalculator).Assembly.Location)
+            };
+        }
+
+        private static CSharpCompilationOptions GetCSharpCompilationOptions()
+        {
+#if DEBUG
+            OptimizationLevel optimizationLevel = OptimizationLevel.Debug;
+#else
+            OptimizationLevel optimizationLevel = OptimizationLevel.Release;
+#endif
+            return new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: optimizationLevel);
+        }
+
+        private static SyntaxTree CreateSineCalculatorSyntaxTree()
+        {
+            string sineCalculatorCodeFileCSharp = File.ReadAllText(SINE_CALCULATOR_CODE_FILE_NAME);
+
+            return CSharpSyntaxTree.ParseText(sineCalculatorCodeFileCSharp, path: SINE_CALCULATOR_CODE_FILE_NAME, encoding: Encoding.UTF8);
         }
     }
 }
