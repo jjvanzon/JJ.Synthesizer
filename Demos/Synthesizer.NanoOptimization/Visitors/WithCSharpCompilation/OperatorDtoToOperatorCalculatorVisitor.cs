@@ -20,7 +20,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         private const string SINE_CALCULATOR_CODE_FILE_NAME = @"Calculation\SineCalculator.cs";
         private const string GENERATED_NAMESPACE_NAME = "GeneratedCSharp";
         private const string GENERATED_CLASS_NAME = "Calculator";
-
+        private const string GENERATED_CLASS_FULL_NAME = GENERATED_NAMESPACE_NAME + "." + GENERATED_CLASS_NAME;
         private static readonly Encoding _encoding = Encoding.UTF8;
 
         private readonly bool _includeSymbols;
@@ -112,13 +112,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                 pdbStream.Position = 0;
                 byte[] pdbBytes = StreamHelper.StreamToBytes(pdbStream);
 
-                File.WriteAllBytes(assemblyName + ".dll", assemblyBytes);
-                File.WriteAllBytes(assemblyName + ".pdb", pdbBytes);
-
-                assembly = Assembly.Load(assemblyName);
+                assembly = Assembly.Load(assemblyBytes, pdbBytes);
             }
 
-            Type type = assembly.GetType(GENERATED_NAMESPACE_NAME + "." + GENERATED_CLASS_NAME);
+            Type type = assembly.GetType(GENERATED_CLASS_FULL_NAME);
             IOperatorCalculator calculator = (IOperatorCalculator)Activator.CreateInstance(type);
             return calculator;
         }

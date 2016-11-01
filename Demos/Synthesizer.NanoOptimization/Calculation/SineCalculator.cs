@@ -11,17 +11,18 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation
     internal static class SineCalculator
     {
         private const double TWO_PI = 6.2831853071795865;
-        private const int SAMPLES_PER_CYCLE = 44100 / 8; // 100% precision at 8Hz.
+        private const int SAMPLES_PER_CYCLE_INT = 44100 / 8; // 100% precision at 8Hz.
+        private const double SAMPLES_PER_CYCLE_DOUBLE = SAMPLES_PER_CYCLE_INT;
         private static readonly double[] _samples = CreateSamples();
 
         private static double[] CreateSamples()
         {
-            var samples = new double[SAMPLES_PER_CYCLE];
+            var samples = new double[SAMPLES_PER_CYCLE_INT];
 
             double t = 0;
-            double step = TWO_PI / SAMPLES_PER_CYCLE;
+            double step = TWO_PI / SAMPLES_PER_CYCLE_INT;
 
-            for (int i = 0; i < SAMPLES_PER_CYCLE; i++)
+            for (int i = 0; i < SAMPLES_PER_CYCLE_INT; i++)
             {
                 double sample = Math.Sin(t);
                 samples[i] = sample;
@@ -36,13 +37,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Sin(double positionInCycle)
         {
-            int i = (int)(positionInCycle * SAMPLES_PER_CYCLE);
+            int i = (int)(positionInCycle * SAMPLES_PER_CYCLE_DOUBLE);
 
-            i = i % SAMPLES_PER_CYCLE;
+            i = i % SAMPLES_PER_CYCLE_INT;
 
             if (i < 0)
             {
-                i = i + SAMPLES_PER_CYCLE;
+                i = i + SAMPLES_PER_CYCLE_INT;
             }
 
             double value = _samples[i];
