@@ -142,6 +142,7 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\MathPropertiesHelper.cs" />
     <Compile Include="Helpers\OperatorNames.cs" />
+    <Compile Include="Helpers\StringBuilderWithIndentation.cs" />
     <Compile Include="Helpers\VisitationCannotBeHandledException.cs" />
     <Compile Include="Helpers\OperatorDtoFactory.cs" />
     <Compile Include="Helpers\WithCSharpCompilation\OperatorCalculatorFactory.cs" />

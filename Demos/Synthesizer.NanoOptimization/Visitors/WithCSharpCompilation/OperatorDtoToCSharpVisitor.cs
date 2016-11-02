@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
+using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -48,11 +49,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         private const string PREVIOUS_POSITION_VARIABLE_PREFIX = "prevPos";
         private const string INPUT_VARIABLE_PREFIX = "input";
         private const string POSITION_VARIABLE_PREFIX = "t";
-
         private static readonly CultureInfo _formattingCulture = new CultureInfo("en-US");
 
         private Stack<ValueInfo> _stack;
-        private StringBuilder _sb;
+        private StringBuilderWithIndentation _sb;
         /// <summary> HashSet for unicity. // </summary>
         private HashSet<string> _variableNamesToDeclareHashSet;
         private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
@@ -64,7 +64,8 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         public string Execute(OperatorDto dto)
         {
             _stack = new Stack<ValueInfo>();
-            _sb = new StringBuilder();
+            _sb = new StringBuilderWithIndentation();
+            _sb.IndentLevel = 3;
             _variableNamesToDeclareHashSet = new HashSet<string>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _variableNamePrefix_To_Counter_Dictionary = new Dictionary<string, int>();
@@ -85,9 +86,11 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             ValueInfo valueInfo = _stack.Pop();
             string returnValueLiteral = valueInfo.GetLiteral();
             _sb.AppendLine();
+            _sb.AppendTabs();
             _sb.AppendFormat("return {0};", returnValueLiteral);
 
-            string variableDeclarations = String.Join(Environment.NewLine, _variableNamesToDeclareHashSet.Select(x => $"double {x} = 0.0;"));
+            string tabs = _sb.GetTabs();
+            string variableDeclarations = tabs + String.Join(Environment.NewLine + tabs, _variableNamesToDeclareHashSet.Select(x => $"double {x} = 0.0;"));
             string csharp = variableDeclarations + Environment.NewLine + _sb.ToString();
 
             return csharp;
@@ -278,6 +281,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
             string outputName = NewOutputName(operatorTypeName);
 
+            _sb.AppendTabs();
             _sb.Append($"double {outputName} =");
 
             for (int i = 0; i < varCount; i++)

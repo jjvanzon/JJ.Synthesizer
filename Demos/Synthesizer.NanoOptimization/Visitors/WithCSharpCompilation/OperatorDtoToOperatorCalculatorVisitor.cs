@@ -118,7 +118,7 @@ namespace " + GENERATED_NAMESPACE_NAME + @"
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate()
         {
-            " + methodBody + @"
+" + methodBody + @"
         }
     }
 }";
