@@ -5,6 +5,8 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
+using JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithCSharpCompilation;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 using JJ.Framework.Common;
@@ -49,6 +51,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         private const string PREVIOUS_POSITION_VARIABLE_PREFIX = "prevPos";
         private const string INPUT_VARIABLE_PREFIX = "input";
         private const string POSITION_VARIABLE_PREFIX = "t";
+        private const string TAB_STRING = "    ";
         private static readonly CultureInfo _formattingCulture = new CultureInfo("en-US");
 
         private Stack<ValueInfo> _stack;
@@ -61,11 +64,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         private int _phaseVariableCounter;
         private int _previousPositionVariableCounter;
 
-        public string Execute(OperatorDto dto)
+        public string Execute(OperatorDto dto, string generatedNameSpace, string generatedClassName)
         {
+            // Optimize Calculation Dto
+            var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
+            dto = preProcessingVisitor.Execute(dto);
+
+            // Initialize Fields
             _stack = new Stack<ValueInfo>();
-            _sb = new StringBuilderWithIndentation();
-            _sb.IndentLevel = 3;
             _variableNamesToDeclareHashSet = new HashSet<string>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _variableNamePrefix_To_Counter_Dictionary = new Dictionary<string, int>();
@@ -73,26 +79,63 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _phaseVariableCounter = 1;
             _previousPositionVariableCounter = 1;
 
-            var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
-            dto = preProcessingVisitor.Execute(dto);
-
+            // Build up Method Body through Visitation
+            _sb = new StringBuilderWithIndentation(TAB_STRING);
+            _sb.IndentLevel = 3;
             Visit_OperatorDto_Polymorphic(dto);
-
             if (_stack.Count != 1)
             {
                 throw new NotEqualException(() => _stack.Count, 1);
             }
+            string methodBody = _sb.ToString();
 
-            ValueInfo valueInfo = _stack.Pop();
-            string returnValueLiteral = valueInfo.GetLiteral();
+            // Build up Code File
+            _sb = new StringBuilderWithIndentation(TAB_STRING);
+
+            _sb.AppendLine("using System;");
+            _sb.AppendLine("using System.Runtime.CompilerServices;");
+            _sb.AppendLine("using " + typeof(IOperatorCalculator).Namespace + ";");
+            _sb.AppendLine("using " + typeof(SineCalculator).Namespace + ";");
             _sb.AppendLine();
-            _sb.AppendTabs();
-            _sb.AppendFormat("return {0};", returnValueLiteral);
+            _sb.AppendLine($"namespace {generatedNameSpace}");
+            _sb.AppendLine("{");
+            _sb.Indent();
+            {
+                _sb.AppendLine($"public class {generatedClassName} : IOperatorCalculator");
+                _sb.AppendLine("{");
+                _sb.Indent();
+                {
+                    _sb.AppendLine("[MethodImpl(MethodImplOptions.AggressiveInlining)]");
+                    _sb.AppendLine("public double Calculate()");
+                    _sb.AppendLine("{");
+                    _sb.Indent();
+                    {
+                        // Variable Declarations
+                        foreach (string variableName in _variableNamesToDeclareHashSet)
+                        {
+                            _sb.AppendLine($"double {variableName} = 0.0;");
+                        }
 
-            string tabs = _sb.GetTabs();
-            string variableDeclarations = tabs + String.Join(Environment.NewLine + tabs, _variableNamesToDeclareHashSet.Select(x => $"double {x} = 0.0;"));
-            string csharp = variableDeclarations + Environment.NewLine + _sb.ToString();
+                        // Method Body
+                        _sb.Append(methodBody);
 
+                        // Return statement
+                        ValueInfo returnValueInfo = _stack.Pop();
+                        string returnValueLiteral = returnValueInfo.GetLiteral();
+                        _sb.AppendLine();
+                        _sb.AppendLine($"return {returnValueLiteral};");
+
+                        _sb.Unindent();
+                    }
+                    _sb.AppendLine("}");
+                    _sb.Unindent();
+                }
+                _sb.AppendLine("}");
+                _sb.Unindent();
+            }
+            _sb.AppendLine("}");
+
+            string csharp = _sb.ToString();
             return csharp;
         }
 

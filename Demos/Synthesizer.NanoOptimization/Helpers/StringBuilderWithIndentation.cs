@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
@@ -12,21 +12,33 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
     /// </summary>
     internal class StringBuilderWithIndentation
     {
-        /// <summary>
-        /// TODO: If this is to be generic enough this should be an option, the other option being use actual tab characters.
-        /// </summary>
-        private const string TAB_AS_SPACES = "    ";
+        public StringBuilderWithIndentation(string tabString)
+        {
+            _tabString = tabString;
+        }
 
+        private readonly string _tabString = "    ";
         private readonly StringBuilder _sb = new StringBuilder();
 
         public override string ToString() => _sb.ToString();
-
         public void Indent() => IndentLevel++;
         public void Unindent() => IndentLevel--;
-        public void AppendLine(string value) => AppendLineWithIndentation(value);
         public void AppendLine() => _sb.AppendLine();
-        public void AppendFormat(string format, params object[] args) => _sb.AppendFormat(format, args);
-        public void Append(object value) => _sb.Append(value);
+        public void Append(object x) => _sb.Append(x);
+
+        public void AppendLine(string value)
+        {
+            AppendTabs();
+
+            _sb.Append(value);
+
+            _sb.Append(Environment.NewLine);
+        }
+
+        public void AppendFormat(string format, params object[] args)
+        {
+            _sb.AppendFormat(format, args);
+        }
 
         private int _indentLevel = 0;
         public int IndentLevel
@@ -41,28 +53,36 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
 
         public void AppendTabs()
         {
-            _sb.Append(GetTabs());
-
-            // TODO: Remove outcommented code.
-            //for (int i = 0; i < _indentLevel; i++)
-            //{
-            //    _sb.Append(TAB_AS_SPACES);
-            //}
+            string tabs = GetTabs();
+            _sb.Append(tabs);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string GetTabs()
         {
-            // TODO: Can I do this slightly faster?
-            string tabs = String.Concat(Enumerable.Repeat(TAB_AS_SPACES, _indentLevel));
+            string tabs = Repeat(_tabString, _indentLevel);
             return tabs;
         }
 
-        private void AppendLineWithIndentation(string value)
+        /// <summary> TODO: Put this method in framework. </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private string Repeat(string stringToRepeat, int repeatCount)
         {
-            AppendTabs();
+            if (stringToRepeat == null) throw new NullException(() => stringToRepeat);
 
-            _sb.Append(value);
-            _sb.Append(Environment.NewLine);
+            char[] sourceChars = stringToRepeat.ToCharArray();
+            int sourceLength = sourceChars.Length;
+
+            int destLength = sourceLength * repeatCount;
+            var destChars = new char[destLength];
+
+            for (int i = 0; i < destLength; i += sourceLength)
+            {
+                Array.Copy(sourceChars, 0, destChars, i, sourceLength);
+            }
+
+            string destString = new string(destChars);
+            return destString;
         }
     }
 }

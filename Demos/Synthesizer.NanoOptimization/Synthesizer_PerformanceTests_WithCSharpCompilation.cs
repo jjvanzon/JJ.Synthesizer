@@ -18,7 +18,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         {
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             var visitor = new OperatorDtoToCSharpVisitor();
-            string csharp = visitor.Execute(dto);
+            string csharp = visitor.Execute(dto, "MyNameSpace", "MyClass");
         }
 
         [TestMethod]

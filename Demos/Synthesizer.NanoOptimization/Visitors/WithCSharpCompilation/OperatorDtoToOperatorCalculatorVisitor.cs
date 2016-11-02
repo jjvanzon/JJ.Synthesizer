@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
 using JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithCSharpCompilation;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Framework.IO;
@@ -18,9 +17,9 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
     internal class OperatorDtoToOperatorCalculatorVisitor
     {
         private const string SINE_CALCULATOR_CODE_FILE_NAME = @"Calculation\SineCalculator.cs";
-        private const string GENERATED_NAMESPACE_NAME = "GeneratedCSharp";
+        private const string GENERATED_NAME_SPACE = "GeneratedCSharp";
         private const string GENERATED_CLASS_NAME = "Calculator";
-        private const string GENERATED_CLASS_FULL_NAME = GENERATED_NAMESPACE_NAME + "." + GENERATED_CLASS_NAME;
+        private const string GENERATED_CLASS_FULL_NAME = GENERATED_NAME_SPACE + "." + GENERATED_CLASS_NAME;
 
         private static readonly IList<MetadataReference> _metaDataReferences = GetMetadataReferences();
         private static readonly CSharpCompilationOptions _csharpCompilationOptions = GetCSharpCompilationOptions();
@@ -43,17 +42,16 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             if (dto == null) throw new NullException(() => dto);
 
             var operatorDtoToCSharpVisitor = new OperatorDtoToCSharpVisitor();
-            string generatedMethodBody = operatorDtoToCSharpVisitor.Execute(dto);
-            string generatedCodeFileContent = MethodBodyToCodeFileString(generatedMethodBody);
+            string generatedCode = operatorDtoToCSharpVisitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             string generatedCodeFileName = "";
             if (_includeSymbols)
             {
                 generatedCodeFileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".cs";
-                File.WriteAllText(generatedCodeFileName, generatedCodeFileContent, _encoding);
+                File.WriteAllText(generatedCodeFileName, generatedCode, _encoding);
             }
 
-            SyntaxTree generatedSyntaxTree = CSharpSyntaxTree.ParseText(generatedCodeFileContent, path: generatedCodeFileName, encoding: _encoding);
+            SyntaxTree generatedSyntaxTree = CSharpSyntaxTree.ParseText(generatedCode, path: generatedCodeFileName, encoding: _encoding);
 
             var syntaxTrees = new SyntaxTree[]
             {
@@ -68,7 +66,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                 _metaDataReferences,
                 _csharpCompilationOptions);
 
-            MemoryStream assemblyStream = new MemoryStream();
+            var assemblyStream = new MemoryStream();
             MemoryStream pdbStream = null;
             if (_includeSymbols)
             {
@@ -101,28 +99,6 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             Type type = assembly.GetType(GENERATED_CLASS_FULL_NAME);
             IOperatorCalculator calculator = (IOperatorCalculator)Activator.CreateInstance(type);
             return calculator;
-        }
-
-        private string MethodBodyToCodeFileString(string methodBody)
-        {
-            string code = @"
-using System;
-using System.Runtime.CompilerServices;
-using " + typeof(IOperatorCalculator).Namespace + @";
-using " + typeof(SineCalculator).Namespace + @";
-
-namespace " + GENERATED_NAMESPACE_NAME + @"
-{
-    public class " + GENERATED_CLASS_NAME + @" : IOperatorCalculator
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Calculate()
-        {
-" + methodBody + @"
-        }
-    }
-}";
-            return code;
         }
 
         private static IList<MetadataReference> GetMetadataReferences()
