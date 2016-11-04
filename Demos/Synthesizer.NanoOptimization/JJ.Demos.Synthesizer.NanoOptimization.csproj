@@ -69,7 +69,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Calculation\WithCSharpCompilation\ExampleOutputCode.cs" />
+    <Compile Include="Calculation\WithCSharpCompilation\ExampleOperatorCalculatorOutputCode.cs" />
+    <Compile Include="Calculation\WithCSharpCompilation\ExamplePatchCalculatorOutputCode.cs" />
     <Compile Include="Calculation\WithCSharpCompilation\IPatchCalculator.cs" />
     <Compile Include="Calculation\WithInheritance\Add OperatorCalculator Classes Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
@@ -144,13 +145,13 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\MathPropertiesHelper.cs" />
     <Compile Include="Helpers\OperatorNames.cs" />
-    <Compile Include="Helpers\StringBuilderWithIndentation.cs" />
     <Compile Include="Helpers\VisitationCannotBeHandledException.cs" />
     <Compile Include="Helpers\OperatorDtoFactory.cs" />
     <Compile Include="Helpers\WithCSharpCompilation\OperatorCalculatorFactory.cs" />
     <Compile Include="Synthesizer_PerformanceTests_WithCSharpCompilation.cs" />
     <Compile Include="Visitors\WithCSharpCompilation\2016-11-02 Backup of OperatorDtoToCSharpVisitor.cs" />
-    <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToCSharpVisitor.cs" />
+    <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToPatchCalculatorCSharpVisitor.cs" />
+    <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToOperatorCalculatorCSharpVisitor.cs" />
     <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.CreateAddCalculator_Vars.cs">
       <DependentUpon>OperatorCalculatorFactory.CreateAddCalculator_Vars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -203,7 +204,7 @@
     <Compile Include="Visitors\StackLevel_OperatorDtoVisitor_Simple.cs" />
     <Compile Include="Visitors\StackLevel_OperatorDtoVisitor_PerDimensionWriter.cs" />
     <Compile Include="Visitors\WithCSharpCompilation\2016-11-01 Backup of OperatorDtoToOperatorCalculatorVisitor.cs" />
-    <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToOperatorCalculatorVisitor.cs" />
+    <Compile Include="Helpers\WithCSharpCompilation\OperatorDtoCompiler.cs" />
     <Compile Include="Visitors\WithInheritance\OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithStructs\OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithStructs\VariableAssignment_OperatorDtoVisitor.cs" />
@@ -272,9 +273,7 @@
       <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculator_Vars1Const.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Calculation\Operators\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -14,28 +14,43 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
     public class Synthesizer_PerformanceTests_WithCSharpCompilation
     {
         [TestMethod]
-        public void Debug_Synthesizer_NanoOptimization_OperatorDtoToCSharpVisitor()
+        public void Debug_Synthesizer_NanoOptimization_OperatorDtoToOperatorCalculatorCSharpVisitor()
         {
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var visitor = new OperatorDtoToCSharpVisitor();
+            var visitor = new OperatorDtoToOperatorCalculatorCSharpVisitor();
             string csharp = visitor.Execute(dto, "MyNameSpace", "MyClass");
         }
 
         [TestMethod]
-        public void Debug_Synthesizer_NanoOptimization_OperatorDtoToOperatorCalculatorVisitor()
+        public void Debug_Synthesizer_NanoOptimization_OperatorDtoCompiler_CompileToOperatorCalculator()
         {
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var visitor = new OperatorDtoToOperatorCalculatorVisitor();
-            IOperatorCalculator calculator = visitor.Execute(dto);
+            var visitor = new OperatorDtoCompiler();
+            IOperatorCalculator calculator = visitor.CompileToOperatorCalculator(dto);
             double value = calculator.Calculate();
+        }
+
+        [TestMethod]
+        public void Debug_Synthesizer_NanoOptimization_OperatorDtoCompiler_CompileToPatchCalculator()
+        {
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            var visitor = new OperatorDtoCompiler();
+            IPatchCalculator calculator = visitor.CompileToPatchCalculator(dto);
+
+            calculator.SetInput(0, 1.0);
+
+            double startTime = 0.0;
+            int frameCount = 10;
+            double frameDuration = 1.0 / frameCount;
+            double[] values = calculator.Calculate(startTime, frameDuration, frameCount);
         }
 
         [TestMethod]
         public void Debug_Synthesizer_NanoOptimization_OperatorDtoToOperatorCalculatorVisitor_WithoutSymbols()
         {
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var visitor = new OperatorDtoToOperatorCalculatorVisitor(includeSymbols: false);
-            IOperatorCalculator calculator = visitor.Execute(dto);
+            var visitor = new OperatorDtoCompiler(includeSymbols: false);
+            IOperatorCalculator calculator = visitor.CompileToOperatorCalculator(dto);
             double value = calculator.Calculate();
         }
 
@@ -76,6 +91,29 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             for (int i = 0; i < 500000; i++)
             {
                 calculator.Calculate();
+            }
+
+            stopWatch.Stop();
+
+            string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
+
+            Assert.Inconclusive(message);
+        }
+
+        [TestMethod]
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_8Partials_500_000_Iterations_WithCSharpCompilation_WithDto_ByChunk()
+        {
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            IPatchCalculator calculator = OperatorCalculatorFactory.CreatePatchCalculatorFromDto(dto);
+            calculator.SetInput(0, 440.0);
+
+            double frameDuration = 1.0 / 50000.0;
+
+            var stopWatch = Stopwatch.StartNew();
+
+            for (int i = 0; i < 100; i++)
+            {
+                double[] values = calculator.Calculate(0.0, frameDuration, 5000);
             }
 
             stopWatch.Stop();

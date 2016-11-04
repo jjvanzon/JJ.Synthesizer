@@ -6,15 +6,16 @@ using System.Reflection;
 using System.Text;
 using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilation;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
+using JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation;
 using JJ.Framework.IO;
 using JJ.Framework.Reflection.Exceptions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
+namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithCSharpCompilation
 {
-    internal class OperatorDtoToOperatorCalculatorVisitor
+    internal class OperatorDtoCompiler
     {
         private const string SINE_CALCULATOR_CODE_FILE_NAME = @"Calculation\SineCalculator.cs";
         private const string GENERATED_NAME_SPACE = "GeneratedCSharp";
@@ -28,7 +29,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         private readonly bool _includeSymbols;
         private readonly Encoding _encoding;
 
-        public OperatorDtoToOperatorCalculatorVisitor(bool includeSymbols = true)
+        public OperatorDtoCompiler(bool includeSymbols = true)
         {
             _includeSymbols = includeSymbols;
             if (_includeSymbols)
@@ -37,13 +38,30 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             };
         }
 
-        public IOperatorCalculator Execute(OperatorDto dto)
+        public IOperatorCalculator CompileToOperatorCalculator(OperatorDto dto)
         {
             if (dto == null) throw new NullException(() => dto);
 
-            var visitor = new OperatorDtoToCSharpVisitor();
+            var visitor = new OperatorDtoToOperatorCalculatorCSharpVisitor();
             string generatedCode = visitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
+            var calculator = (IOperatorCalculator)Compile(generatedCode);
+            return calculator;
+        }
+
+        public IPatchCalculator CompileToPatchCalculator(OperatorDto dto)
+        {
+            if (dto == null) throw new NullException(() => dto);
+
+            var visitor = new OperatorDtoToPatchCalculatorCSharpVisitor();
+            string generatedCode = visitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
+
+            var calculator = (IPatchCalculator)Compile(generatedCode);
+            return calculator;
+        }
+
+        private object Compile(string generatedCode)
+        {
             string generatedCodeFileName = "";
             if (_includeSymbols)
             {
@@ -98,7 +116,8 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             Assembly assembly = Assembly.Load(assemblyBytes, pdbBytes);
 
             Type type = assembly.GetType(GENERATED_CLASS_FULL_NAME);
-            var calculator = (IOperatorCalculator)Activator.CreateInstance(type);
+            object calculator = Activator.CreateInstance(type);
+
             return calculator;
         }
 

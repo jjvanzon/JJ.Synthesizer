@@ -14,7 +14,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 {
-    internal class OperatorDtoToCSharpVisitor : OperatorDtoVisitorBase_AfterMathSimplification
+    internal class OperatorDtoToOperatorCalculatorCSharpVisitor : OperatorDtoVisitorBase_AfterMathSimplification
     {
         private class ValueInfo
         {
