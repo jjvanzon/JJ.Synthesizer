@@ -69,6 +69,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Calculation\Operators\WithCSharpCompilation\ExampleOutputCode.cs" />
+    <Compile Include="Calculation\Operators\WithCSharpCompilation\IPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\WithInheritance\Add OperatorCalculator Classes Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
       <AutoGen>True</AutoGen>

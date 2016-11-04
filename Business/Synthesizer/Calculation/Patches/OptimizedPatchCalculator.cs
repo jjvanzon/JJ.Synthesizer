@@ -119,13 +119,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        public double[] Calculate(double t0, double frameDuration, int count)
+        public double[] Calculate(double t0, double frameDuration, int frameCount)
         {
             double t = t0;
 
-            double[] values = new double[count];
+            double[] values = new double[frameCount];
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < frameCount; i++)
             {
 #if !USE_INVAR_INDICES
                 _timeDimensionStack.Set(t);
@@ -147,7 +147,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             throw new NotSupportedException("Calculate with channelIndex is not supported. Use the overload without channelIndex.");
         }
 
-        public double[] Calculate(double t0, double frameDuration, int count, int channelIndex)
+        public double[] Calculate(double t0, double frameDuration, int frameCount, int channelIndex)
         {
             throw new NotSupportedException("Calculate with channelIndex is not supported. Use the overload without channelIndex.");
         }

@@ -80,7 +80,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
 
             stopWatch.Stop();
 
-            string message = TestHelper.GetPerformanceInfoMessage(50000, stopWatch.Elapsed);
+            string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
 
             Assert.Inconclusive(message);
         }

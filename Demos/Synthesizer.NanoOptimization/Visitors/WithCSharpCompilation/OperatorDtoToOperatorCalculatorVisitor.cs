@@ -41,8 +41,8 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             if (dto == null) throw new NullException(() => dto);
 
-            var operatorDtoToCSharpVisitor = new OperatorDtoToCSharpVisitor();
-            string generatedCode = operatorDtoToCSharpVisitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
+            var visitor = new OperatorDtoToCSharpVisitor();
+            string generatedCode = visitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             string generatedCodeFileName = "";
             if (_includeSymbols)
@@ -60,6 +60,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             };
 
             string assemblyName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
+
             CSharpCompilation compilation = CSharpCompilation.Create(
                 assemblyName,
                 syntaxTrees,
@@ -97,7 +98,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             Assembly assembly = Assembly.Load(assemblyBytes, pdbBytes);
 
             Type type = assembly.GetType(GENERATED_CLASS_FULL_NAME);
-            IOperatorCalculator calculator = (IOperatorCalculator)Activator.CreateInstance(type);
+            var calculator = (IOperatorCalculator)Activator.CreateInstance(type);
             return calculator;
         }
 

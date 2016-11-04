@@ -3,9 +3,11 @@
 namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithCSharpCompilation
 {
     /// <summary> Public to be accessible to run-time generated assemblies. </summary>
-    public interface IOperatorCalculator
+    public interface IPatchCalculator
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        double Calculate();
+        double[] Calculate(double startTime, double frameDuration, int frameCount);
+        void Reset();
+        void SetInput(int listIndex, double input);
     }
 }
