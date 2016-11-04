@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStructs;
+using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithStructs;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts;
 using JJ.Framework.Reflection.Exceptions;

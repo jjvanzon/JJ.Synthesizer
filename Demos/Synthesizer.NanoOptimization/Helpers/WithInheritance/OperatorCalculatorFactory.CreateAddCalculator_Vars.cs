@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithInheritance;
+using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithInheritance;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithInheritance
 {

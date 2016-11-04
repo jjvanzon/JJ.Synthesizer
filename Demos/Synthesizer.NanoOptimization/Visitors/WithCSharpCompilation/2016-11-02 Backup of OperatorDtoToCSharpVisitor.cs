@@ -6,7 +6,7 @@
 //using System.Runtime.CompilerServices;
 //using System.Text;
 //using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
-//using JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithCSharpCompilation;
+//using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilation;
 //using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 //using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 //using JJ.Framework.Common;

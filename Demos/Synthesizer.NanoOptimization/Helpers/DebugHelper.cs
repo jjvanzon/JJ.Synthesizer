@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithInheritance;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStructs;
+using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithInheritance;
+using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithStructs;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Framework.Reflection.Exceptions;
 

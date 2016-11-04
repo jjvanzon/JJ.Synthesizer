@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithStructs;
+using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithStructs;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs;
 using JJ.Framework.Reflection.Exceptions;

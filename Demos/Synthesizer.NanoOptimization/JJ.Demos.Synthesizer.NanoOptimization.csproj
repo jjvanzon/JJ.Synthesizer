@@ -69,46 +69,46 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Calculation\Operators\WithCSharpCompilation\ExampleOutputCode.cs" />
-    <Compile Include="Calculation\Operators\WithCSharpCompilation\IPatchCalculator.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Add OperatorCalculator Classes Vars.cs">
+    <Compile Include="Calculation\WithCSharpCompilation\ExampleOutputCode.cs" />
+    <Compile Include="Calculation\WithCSharpCompilation\IPatchCalculator.cs" />
+    <Compile Include="Calculation\WithInheritance\Add OperatorCalculator Classes Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\WithInheritance\Add OperatorCalculator Classes Vars_1Const.cs">
+    <Compile Include="Calculation\WithInheritance\Add OperatorCalculator Classes Vars_1Const.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars_1Const.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\WithInheritance\Add_OperatorCalculator_VarArray.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Add_OperatorCalculator_VarArray_1Const.cs" />
-    <Compile Include="Calculation\Operators\WithCSharpCompilation\IOperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator_NaN.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator_One.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator_Zero.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_VarArray_1Const.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Add_OperatorCalculator_VarArray.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Add OperatorCalculator Classes Vars.cs">
+    <Compile Include="Calculation\WithInheritance\Add_OperatorCalculator_VarArray.cs" />
+    <Compile Include="Calculation\WithInheritance\Add_OperatorCalculator_VarArray_1Const.cs" />
+    <Compile Include="Calculation\WithCSharpCompilation\IOperatorCalculator.cs" />
+    <Compile Include="Calculation\WithInheritance\Number_OperatorCalculator_NaN.cs" />
+    <Compile Include="Calculation\WithInheritance\Number_OperatorCalculator_One.cs" />
+    <Compile Include="Calculation\WithInheritance\Number_OperatorCalculator_Zero.cs" />
+    <Compile Include="Calculation\WithStructs\Add_OperatorCalculator_VarArray_1Const.cs" />
+    <Compile Include="Calculation\WithStructs\Add_OperatorCalculator_VarArray.cs" />
+    <Compile Include="Calculation\WithStructs\Add OperatorCalculator Classes Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\WithStructs\Add OperatorCalculator Classes Vars_1Const.cs">
+    <Compile Include="Calculation\WithStructs\Add OperatorCalculator Classes Vars_1Const.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars_1Const.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator_Vars_1Const.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator_Vars.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\IShift_OperatorCalculator_VarSignal_ConstDistance.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\IShift_OperatorCalculator_VarSignal_VarDistance.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\ISine_OperatorCalculator_VarFrequency.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_NaN.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_One.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator_Zero.cs" />
+    <Compile Include="Calculation\WithStructs\IOperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="Calculation\WithStructs\IOperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="Calculation\WithStructs\IOperatorCalculator_Vars_1Const.cs" />
+    <Compile Include="Calculation\WithStructs\IOperatorCalculator_Vars.cs" />
+    <Compile Include="Calculation\WithStructs\IShift_OperatorCalculator_VarSignal_ConstDistance.cs" />
+    <Compile Include="Calculation\WithStructs\IShift_OperatorCalculator_VarSignal_VarDistance.cs" />
+    <Compile Include="Calculation\WithStructs\ISine_OperatorCalculator_VarFrequency.cs" />
+    <Compile Include="Calculation\WithStructs\Number_OperatorCalculator_NaN.cs" />
+    <Compile Include="Calculation\WithStructs\Number_OperatorCalculator_One.cs" />
+    <Compile Include="Calculation\WithStructs\Number_OperatorCalculator_Zero.cs" />
     <Compile Include="Dto\OperatorDto_Vars_1Const.cs" />
     <Compile Include="Dto\OperatorDto_Vars.cs" />
     <Compile Include="Dto\Add_OperatorDto_Vars_1Const.cs" />
@@ -170,29 +170,29 @@
     </Compile>
     <Compile Include="Helpers\WithStucts\OperatorDtoToCalculatorTypeConverter.cs" />
     <Compile Include="Synthesizer_PerformanceTests_NoInliningWithInheritance.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Number_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Multiply_OperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Multiply_OperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\IOperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Shift_OperatorCalculator_VarSignal_ConstDistance.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Shift_OperatorCalculator_VarSignal_VarDistance.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
-    <Compile Include="Calculation\Operators\WithStructs\VariableInput_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Multiply_OperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Multiply_OperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="Calculation\WithStructs\Number_OperatorCalculator.cs" />
+    <Compile Include="Calculation\OperatorCalculatorHelper.cs" />
+    <Compile Include="Calculation\WithStructs\Multiply_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="Calculation\WithStructs\Multiply_OperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="Calculation\WithStructs\IOperatorCalculator.cs" />
+    <Compile Include="Calculation\WithStructs\Shift_OperatorCalculator_VarSignal_ConstDistance.cs" />
+    <Compile Include="Calculation\WithStructs\Shift_OperatorCalculator_VarSignal_VarDistance.cs" />
+    <Compile Include="Calculation\WithStructs\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
+    <Compile Include="Calculation\WithStructs\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
+    <Compile Include="Calculation\WithStructs\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
+    <Compile Include="Calculation\WithStructs\VariableInput_OperatorCalculator.cs" />
+    <Compile Include="Calculation\WithInheritance\Multiply_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="Calculation\WithInheritance\Multiply_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Synthesizer_PerformanceTests_InliningWithStructs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Number_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\OperatorCalculatorBase.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Shift_OperatorCalculator_VarSignal_ConstDifference.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Shift_OperatorCalculator_VarSignal_VarDifference.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
-    <Compile Include="Calculation\Operators\WithInheritance\VariableInput_OperatorCalculator.cs" />
+    <Compile Include="Calculation\WithInheritance\Number_OperatorCalculator.cs" />
+    <Compile Include="Calculation\WithInheritance\OperatorCalculatorBase.cs" />
+    <Compile Include="Calculation\WithInheritance\Shift_OperatorCalculator_VarSignal_ConstDifference.cs" />
+    <Compile Include="Calculation\WithInheritance\Shift_OperatorCalculator_VarSignal_VarDifference.cs" />
+    <Compile Include="Calculation\WithInheritance\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
+    <Compile Include="Calculation\WithInheritance\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
+    <Compile Include="Calculation\WithInheritance\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
+    <Compile Include="Calculation\WithInheritance\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Visitors\MachineOptimization_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
@@ -234,13 +234,13 @@
     <None Include="Dto\Dtos.cd" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Calculation\Operators\WithInheritance\Add OperatorCalculator Classes Vars.tt">
+    <None Include="Calculation\WithInheritance\Add OperatorCalculator Classes Vars.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Add OperatorCalculator Classes Vars.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Calculation\Operators\WithInheritance\Add OperatorCalculator Classes Vars_1Const.tt">
+    <None Include="Calculation\WithInheritance\Add OperatorCalculator Classes Vars_1Const.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Add OperatorCalculator Classes Vars_1Const.cs</LastGenOutput>
     </None>
@@ -249,13 +249,13 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Calculation\Operators\WithStructs\Add OperatorCalculator Classes Vars.tt">
+    <None Include="Calculation\WithStructs\Add OperatorCalculator Classes Vars.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Add OperatorCalculator Classes Vars.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Calculation\Operators\WithStructs\Add OperatorCalculator Classes Vars_1Const.tt">
+    <None Include="Calculation\WithStructs\Add OperatorCalculator Classes Vars_1Const.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Add OperatorCalculator Classes Vars_1Const.cs</LastGenOutput>
     </None>
@@ -271,6 +271,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculator_Vars1Const.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Calculation\Operators\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.Operators.WithCSharpCompilation;
+using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilation;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Framework.IO;
 using JJ.Framework.Reflection.Exceptions;
