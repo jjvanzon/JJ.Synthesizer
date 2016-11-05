@@ -45,22 +45,24 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithCSharpCompilation
             var visitor = new OperatorDtoToOperatorCalculatorCSharpVisitor();
             string generatedCode = visitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
-            var calculator = (IOperatorCalculator)Compile(generatedCode);
+            Type type = Compile(generatedCode);
+            var calculator = (IOperatorCalculator)Activator.CreateInstance(type);
             return calculator;
         }
 
-        public IPatchCalculator CompileToPatchCalculator(OperatorDto dto)
+        public IPatchCalculator CompileToPatchCalculator(OperatorDto dto, int framesPerChunk)
         {
             if (dto == null) throw new NullException(() => dto);
 
             var visitor = new OperatorDtoToPatchCalculatorCSharpVisitor();
             string generatedCode = visitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
-            var calculator = (IPatchCalculator)Compile(generatedCode);
+            Type type = Compile(generatedCode);
+            var calculator = (IPatchCalculator)Activator.CreateInstance(type, framesPerChunk);
             return calculator;
         }
 
-        private object Compile(string generatedCode)
+        private Type Compile(string generatedCode)
         {
             string generatedCodeFileName = "";
             if (_includeSymbols)
@@ -116,9 +118,8 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithCSharpCompilation
             Assembly assembly = Assembly.Load(assemblyBytes, pdbBytes);
 
             Type type = assembly.GetType(GENERATED_CLASS_FULL_NAME);
-            object calculator = Activator.CreateInstance(type);
 
-            return calculator;
+            return type;
         }
 
         private static IList<MetadataReference> GetMetadataReferences()

@@ -7,8 +7,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilatio
 {
     public class ExamplePatchCalculatorOutputCode : IPatchCalculator 
     {
-        private double _input1;
+        private double[] _values;
+        private int _framesPerChunk;
 
+        private double _input1;
         private double _phase1;
         private double _prevPos1;
         private double _phase2;
@@ -26,8 +28,11 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilatio
         private double _phase8;
         private double _prevPos8;
 
-        public ExamplePatchCalculatorOutputCode()
+        public ExamplePatchCalculatorOutputCode(int framesPerChunk)
         {
+            _framesPerChunk = framesPerChunk;
+            _values = new double[_framesPerChunk];
+
             Reset();
         }
 
@@ -62,9 +67,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilatio
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double[] Calculate(double startTime, double frameDuration, int frameCount)
+        public double[] Calculate(double startTime, double frameDuration)
         {
-            var values = new double[frameCount];
+            double[] values = _values;
+            int framesPerChunk = _framesPerChunk;
 
             double input1 = _input1;
             double phase1 = _phase1;
@@ -87,7 +93,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilatio
             double t0 = startTime;
             double t1;
 
-            for (int i = 0; i < frameCount; i++)
+            for (int i = 0; i < framesPerChunk; i++)
             {
                 // Shift
                 t1 = t0 + 0.25;

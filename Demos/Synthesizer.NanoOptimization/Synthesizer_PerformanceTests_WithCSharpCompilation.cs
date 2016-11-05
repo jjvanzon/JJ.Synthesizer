@@ -33,16 +33,17 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         [TestMethod]
         public void Debug_Synthesizer_NanoOptimization_OperatorDtoCompiler_CompileToPatchCalculator()
         {
-            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var visitor = new OperatorDtoCompiler();
-            IPatchCalculator calculator = visitor.CompileToPatchCalculator(dto);
-
-            calculator.SetInput(0, 1.0);
-
             double startTime = 0.0;
             int frameCount = 10;
             double frameDuration = 1.0 / frameCount;
-            double[] values = calculator.Calculate(startTime, frameDuration, frameCount);
+
+            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            var visitor = new OperatorDtoCompiler();
+            IPatchCalculator calculator = visitor.CompileToPatchCalculator(dto, frameCount);
+
+            calculator.SetInput(0, 1.0);
+
+            double[] values = calculator.Calculate(startTime, frameDuration);
         }
 
         [TestMethod]
@@ -103,17 +104,19 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         [TestMethod]
         public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_8Partials_500_000_Iterations_WithCSharpCompilation_WithDto_ByChunk()
         {
+            int framesPerChunk = 5000;
+            double frameDuration = 1.0 / 50000.0;
+
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            IPatchCalculator calculator = OperatorCalculatorFactory.CreatePatchCalculatorFromDto(dto);
+            IPatchCalculator calculator = OperatorCalculatorFactory.CreatePatchCalculatorFromDto(dto, framesPerChunk);
             calculator.SetInput(0, 440.0);
 
-            double frameDuration = 1.0 / 50000.0;
 
             var stopWatch = Stopwatch.StartNew();
 
             for (int i = 0; i < 100; i++)
             {
-                double[] values = calculator.Calculate(0.0, frameDuration, 5000);
+                double[] values = calculator.Calculate(0.0, frameDuration);
             }
 
             stopWatch.Stop();

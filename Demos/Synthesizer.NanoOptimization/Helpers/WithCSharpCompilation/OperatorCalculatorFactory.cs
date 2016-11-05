@@ -17,10 +17,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithCSharpCompilation
             return calculator;
         }
 
-        public static IPatchCalculator CreatePatchCalculatorFromDto(OperatorDto dto)
+        public static IPatchCalculator CreatePatchCalculatorFromDto(OperatorDto dto, int framesPerChunk)
         {
             var visitor = new OperatorDtoCompiler();
-            IPatchCalculator calculator = visitor.CompileToPatchCalculator(dto);
+            IPatchCalculator calculator = visitor.CompileToPatchCalculator(dto, framesPerChunk);
 
             return calculator;
         }

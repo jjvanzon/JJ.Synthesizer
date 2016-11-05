@@ -116,6 +116,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                 _sb.Indent();
                 {
                     // Fields
+                    _sb.AppendLine("private double[] _values;");
+                    _sb.AppendLine("private int _framesPerChunk;");
+                    _sb.AppendLine();
+
                     foreach (string variableName in _variableNamesToDeclareHashSet)
                     {
                         _sb.AppendLine($"private double _{variableName};");
@@ -123,10 +127,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
                     // Constructor
                     _sb.AppendLine();
-                    _sb.AppendLine($"public {generatedClassName}()");
+                    _sb.AppendLine($"public {generatedClassName}(int framesPerChunk)");
                     _sb.AppendLine("{");
                     _sb.Indent();
                     {
+                        _sb.AppendLine("_framesPerChunk = framesPerChunk;");
+                        _sb.AppendLine("_values = new double[_framesPerChunk];");
+                        _sb.AppendLine("");
                         _sb.AppendLine("Reset();");
                         _sb.Unindent();
                     }
@@ -180,14 +187,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
                     // Calculate Method
                     _sb.AppendLine("[MethodImpl(MethodImplOptions.AggressiveInlining)]");
-                    _sb.AppendLine("public double[] Calculate(double startTime, double frameDuration, int frameCount)");
+                    _sb.AppendLine("public double[] Calculate(double startTime, double frameDuration)");
                     _sb.AppendLine("{");
                     _sb.Indent();
                     {
-                        _sb.AppendLine("var values = new double[frameCount];");
-                        _sb.AppendLine();
-
                         // Copy Fields to Local
+                        _sb.AppendLine("double[] values = _values;");
+                        _sb.AppendLine("int framesPerChunk = _framesPerChunk;");
+                        _sb.AppendLine();
                         foreach (string variableName in _variableNamesToDeclareHashSet)
                         {
                             _sb.AppendLine($"double {variableName} = _{variableName};");
@@ -208,7 +215,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                         _sb.AppendLine();
 
                         // Loop
-                        _sb.AppendLine("for (int i = 0; i < frameCount; i++)");
+                        _sb.AppendLine("for (int i = 0; i < framesPerChunk; i++)");
                         _sb.AppendLine("{");
                         _sb.Indent();
                         {
