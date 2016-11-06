@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using JJ.Framework.Reflection.Exceptions;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 {
@@ -10,14 +12,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
     {
         private static readonly CultureInfo _formattingCulture = new CultureInfo("en-US");
 
-        public string Name { get; }
+        public string NameCamelCase { get; }
         public double? Value { get; }
 
-        public ValueInfo(string name, double value)
+        public ValueInfo(string nameCamelCase, double value)
         {
-            if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
+            if (String.IsNullOrEmpty(nameCamelCase)) throw new NullOrEmptyException(() => nameCamelCase);
 
-            Name = name;
+            NameCamelCase = nameCamelCase;
             Value = value;
         }
 
@@ -25,7 +27,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
 
-            Name = name;
+            NameCamelCase = name;
         }
 
         public ValueInfo(double value)
@@ -35,28 +37,44 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
         public string GetLiteral()
         {
-            if (!String.IsNullOrEmpty(Name))
+            if (!String.IsNullOrEmpty(NameCamelCase))
             {
-                return Name;
+                return NameCamelCase;
             }
 
             if (Value.HasValue)
             {
-                double value = Value.Value;
-
-                if (Double.IsNaN(value) || Double.IsInfinity(value))
-                {
-                    return "Double.NaN";
-                }
-                else
-                {
-                    // TODO: Consider if this produces a complete literal, with exponent, decimal symbol, full precision.
-                    string formattedValue = value.ToString(_formattingCulture);
-                    return formattedValue;
-                }
+                string formattedValue = FormatValue();
+                return formattedValue;
             }
 
-            throw new Exception("Name and value are both empty, making it impossible to generate a literal.");
+            throw new Exception($"{nameof(NameCamelCase)} and {nameof(Value)} are both empty, making it impossible to generate a literal.");
+        }
+
+        public string FormatValue()
+        {
+            if (!Value.HasValue) throw new NullException(() => Value);
+
+            double value = Value.Value;
+
+            if (Double.IsNaN(value))
+            {
+                return "Double.NaN";
+            }
+            else if (Double.IsPositiveInfinity(value))
+            {
+                return "Double.PositiveInfinity";
+            }
+            else if (Double.IsNegativeInfinity(value))
+            {
+                return "Double.NegativeInfinity";
+            }
+            else
+            {
+                // TODO: Low priority: format smaller numbers without exponential notation.
+                string formattedValue = value.ToString("0.0###############E0", _formattingCulture);
+                return formattedValue;
+            }
         }
     }
 }
