@@ -182,25 +182,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
 
-            _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-
-            ProcessNumber(dto.Distance);
-            ValueInfo distanceValueInfo = _stack.Pop();
-
-            // TODO: Repeated code (see other Visit_Shift_? method).
-            string sourcePosName = GetPositionVariableName(dto.DimensionStackLevel);
-            string destPosName = GetPositionVariableName(dto.DimensionStackLevel + 1);
-            string distanceLiteral = distanceValueInfo.GetLiteral();
-
-            string line = $"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};";
-            _sb.AppendLine(line);
-
-            VisitOperatorDto(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-
-            _stack.Push(signalValueInfo);
-
+            ProcessShift(dto, dto.SignalOperatorDto, distance: dto.Distance);
             return dto;
         }
 
@@ -208,25 +190,40 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
 
-            VisitOperatorDto(dto.DistanceOperatorDto);
+            ProcessShift(dto, dto.SignalOperatorDto, dto.DistanceOperatorDto);
+            return dto;
+        }
+
+        private void ProcessShift(OperatorDto shiftOperatorDto, OperatorDto signalOperatorDto, OperatorDto distanceOperatorDto = null, double? distance = null)
+        {
+            _sb.AppendLine();
+            _sb.AppendLine("// " + shiftOperatorDto.OperatorTypeName);
+
+            if (distanceOperatorDto != null)
+            {
+                VisitOperatorDto(distanceOperatorDto);
+            }
+            else if (distance.HasValue)
+            {
+                ProcessNumber(distance.Value);
+            }
+            else
+            {
+                throw new Exception($"{nameof(distanceOperatorDto)} and {nameof(distance)} cannot both be null.");
+            }
             ValueInfo distanceValueInfo = _stack.Pop();
 
-            _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-
-            string sourcePosName = GetPositionVariableName(dto.DimensionStackLevel);
-            string destPosName = GetPositionVariableName(dto.DimensionStackLevel + 1);
+            string sourcePosName = GetPositionVariableName(shiftOperatorDto.DimensionStackLevel);
+            string destPosName = GetPositionVariableName(shiftOperatorDto.DimensionStackLevel + 1);
             string distanceLiteral = distanceValueInfo.GetLiteral();
 
             string line = $"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};";
             _sb.AppendLine(line);
 
-            VisitOperatorDto(dto.SignalOperatorDto);
+            VisitOperatorDto(signalOperatorDto);
             ValueInfo signalValueInfo = _stack.Pop();
 
             _stack.Push(signalValueInfo);
-
-            return dto;
         }
 
         protected override OperatorDto Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
