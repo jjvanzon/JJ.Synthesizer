@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
 using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilation;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
@@ -14,37 +13,12 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 {
+    /// <summary>
+    /// This is the older version of the experiment. Newer experiments use the other visitor:
+    /// OperatorDtoToPatchCalculatorCSharpVisitor.
+    /// </summary>
     internal class OperatorDtoToOperatorCalculatorCSharpVisitor : OperatorDtoVisitorBase_AfterMathSimplification
     {
-        private class ValueInfo
-        {
-            public string Name { get; set; }
-            public double? Value { get; set; }
-
-            public string GetLiteral()
-            {
-                if (Value.HasValue)
-                {
-                    double value = Value.Value;
-
-                    if (Double.IsNaN(value) || Double.IsInfinity(value))
-                    {
-                        return "Double.NaN";
-                    }
-                    else
-                    {
-                        // TODO: Consider if this produces a complete literal, with exponent, decimal symbol, full precision.
-                        string formattedValue = value.ToString(_formattingCulture);
-                        return formattedValue;
-                    }
-                }
-                else
-                {
-                    return Name;
-                }
-            }
-        }
-
         private const string MULTIPLY_SYMBOL = "*";
         private const string PLUS_SYMBOL = "+";
         private const string PHASE_VARIABLE_PREFIX = "phase";
@@ -52,14 +26,16 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         private const string INPUT_VARIABLE_PREFIX = "input";
         private const string POSITION_VARIABLE_PREFIX = "t";
         private const string TAB_STRING = "    ";
-        private static readonly CultureInfo _formattingCulture = new CultureInfo("en-US");
+        private const int FIRST_VARIABLE_NUMBER = 0;
 
         private Stack<ValueInfo> _stack;
         private StringBuilderWithIndentation _sb;
         /// <summary> HashSet for unicity. // </summary>
         private HashSet<string> _variableNamesToDeclareHashSet;
+        /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
         private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
-        private Dictionary<string, int> _variableNamePrefix_To_Counter_Dictionary;
+        /// <summary> To maintain a counter for numbers to add to a variable names. Each operator type will get its own counter. </summary>
+        private Dictionary<string, int> _camelCaseOperatorTypeName_To_VariableCounter_Dictionary;
         private int _inputVariableCounter;
         private int _phaseVariableCounter;
         private int _previousPositionVariableCounter;
@@ -74,10 +50,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _stack = new Stack<ValueInfo>();
             _variableNamesToDeclareHashSet = new HashSet<string>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
-            _variableNamePrefix_To_Counter_Dictionary = new Dictionary<string, int>();
-            _inputVariableCounter = 1;
-            _phaseVariableCounter = 1;
-            _previousPositionVariableCounter = 1;
+            _camelCaseOperatorTypeName_To_VariableCounter_Dictionary = new Dictionary<string, int>();
+            _inputVariableCounter = FIRST_VARIABLE_NUMBER;
+            _phaseVariableCounter = FIRST_VARIABLE_NUMBER;
+            _previousPositionVariableCounter = FIRST_VARIABLE_NUMBER;
 
             // Build up Method Body through Visitation
             _sb = new StringBuilderWithIndentation(TAB_STRING);
@@ -277,7 +253,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             string line3 = $"double {outputName} = SineCalculator.Sin({phaseName});";
             _sb.AppendLine(line3);
 
-            var valueInfo = new ValueInfo { Name = outputName };
+            var valueInfo = new ValueInfo(outputName);
             _stack.Push(valueInfo);
 
             return dto;
@@ -289,7 +265,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
             string inputVariableName = GetInputVariableName(dto);
 
-            var valueInfo = new ValueInfo { Name = inputVariableName };
+            var valueInfo = new ValueInfo(inputVariableName);
 
             _stack.Push(valueInfo);
 
@@ -313,7 +289,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             string line = $"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral};";
             _sb.AppendLine(line);
 
-            var resultValueInfo = new ValueInfo { Name = outputName };
+            var resultValueInfo = new ValueInfo(outputName);
             _stack.Push(resultValueInfo);
         }
 
@@ -345,13 +321,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _sb.Append(';');
             _sb.Append(Environment.NewLine);
 
-            var resultValueInfo = new ValueInfo { Name = outputName };
+            var resultValueInfo = new ValueInfo(outputName);
             _stack.Push(resultValueInfo);
         }
 
         private void ProcessNumber(double value)
         {
-            _stack.Push(new ValueInfo { Value = value });
+            _stack.Push(new ValueInfo(value));
         }
 
         // Helpers
@@ -362,16 +338,31 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             string camelCaseOperatorTypeName = operatorTypeName.StartWithLowerCase();
 
             int counter;
-            if (!_variableNamePrefix_To_Counter_Dictionary.TryGetValue(camelCaseOperatorTypeName, out counter))
+            if (!_camelCaseOperatorTypeName_To_VariableCounter_Dictionary.TryGetValue(camelCaseOperatorTypeName, out counter))
             {
-                counter = 1;
+                counter = FIRST_VARIABLE_NUMBER;
             }
 
             string variableName = String.Format("{0}{1}", camelCaseOperatorTypeName, counter++);
 
-            _variableNamePrefix_To_Counter_Dictionary[camelCaseOperatorTypeName] = counter;
+            _camelCaseOperatorTypeName_To_VariableCounter_Dictionary[camelCaseOperatorTypeName] = counter;
 
             return variableName;
+        }
+
+        private string GetInputVariableName(VariableInput_OperatorDto dto)
+        {
+            string name;
+            if (_variableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out name))
+            {
+                return name;
+            }
+
+            name = NewInputVariableName();
+
+            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = name;
+
+            return name;
         }
 
         private string NewInputVariableName()
@@ -408,21 +399,6 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _variableNamesToDeclareHashSet.Add(variableName);
 
             return variableName;
-        }
-
-        private string GetInputVariableName(VariableInput_OperatorDto dto)
-        {
-            string name;
-            if (_variableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out name))
-            {
-                return name;
-            }
-
-            name = NewInputVariableName();
-
-            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = name;
-
-            return name;
         }
     }
 }

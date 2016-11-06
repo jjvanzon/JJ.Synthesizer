@@ -7,7 +7,11 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilatio
 {
     public class ExamplePatchCalculatorOutputCode : IPatchCalculator 
     {
-        private double[] _values;
+        // NOTE:
+        // Array access is excluded from the test, 
+        // because otherwise it would not be a fair performance comparison.
+
+        //private double[] _values;
         private int _framesPerChunk;
 
         private double _input1;
@@ -31,7 +35,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilatio
         public ExamplePatchCalculatorOutputCode(int framesPerChunk)
         {
             _framesPerChunk = framesPerChunk;
-            _values = new double[_framesPerChunk];
+            //_values = new double[_framesPerChunk];
 
             Reset();
         }
@@ -69,7 +73,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilatio
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double[] Calculate(double startTime, double frameDuration)
         {
-            double[] values = _values;
+            //double[] values = _values;
             int framesPerChunk = _framesPerChunk;
 
             double input1 = _input1;
@@ -188,7 +192,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilatio
 
                 double value = add1;
 
-                values[i] = value;
+                //values[i] = value;
 
                 t0 += frameDuration;
             }
@@ -211,7 +215,8 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilatio
             _phase8 = phase8;
             _prevPos8 = prevPos8;
 
-            return values;
+            //return values;
+            return null;
         }
     }
 }

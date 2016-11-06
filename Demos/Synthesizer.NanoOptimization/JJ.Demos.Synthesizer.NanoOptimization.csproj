@@ -205,6 +205,7 @@
     <Compile Include="Visitors\StackLevel_OperatorDtoVisitor_PerDimensionWriter.cs" />
     <Compile Include="Visitors\WithCSharpCompilation\2016-11-01 Backup of OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Helpers\WithCSharpCompilation\OperatorDtoCompiler.cs" />
+    <Compile Include="Visitors\WithCSharpCompilation\ValueInfo.cs" />
     <Compile Include="Visitors\WithInheritance\OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithStructs\OperatorDtoToOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\WithStructs\VariableAssignment_OperatorDtoVisitor.cs" />
