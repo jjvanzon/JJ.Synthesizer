@@ -75,7 +75,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             // Pick up some other output from visitation.
             ValueInfo returnValueInfo = _stack.Pop();
             string returnValueLiteral = returnValueInfo.GetLiteral();
-            IList<string> instanceVariableNames = GetInstanceVariableNames();
+            IList<string> instanceVariableNames = GetInstanceVariableNameCamelCase();
 
             // Build up Code File
             _sb = new StringBuilderWithIndentation(TAB_STRING);
@@ -327,9 +327,9 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             ProcessNumber(dto.Distance);
             ValueInfo distanceValueInfo = _stack.Pop();
 
-            // TODO: Repeated code (see other Visit_Shift_? method).
-            string sourcePosName = GeneratePositionVariableName(dto.DimensionStackLevel);
-            string destPosName = GeneratePositionVariableName(dto.DimensionStackLevel + 1);
+            // TODO: Repeated code (see other Visit_Shift_* method).
+            string sourcePosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string destPosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel + 1);
             string distanceLiteral = distanceValueInfo.GetLiteral();
 
             string line = $"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};";
@@ -347,14 +347,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
 
-            VisitOperatorDto(dto.DistanceOperatorDto);
-            ValueInfo distanceValueInfo = _stack.Pop();
-
             _sb.AppendLine();
             _sb.AppendLine("// " + dto.OperatorTypeName);
 
-            string sourcePosName = GeneratePositionVariableName(dto.DimensionStackLevel);
-            string destPosName = GeneratePositionVariableName(dto.DimensionStackLevel + 1);
+            VisitOperatorDto(dto.DistanceOperatorDto);
+            ValueInfo distanceValueInfo = _stack.Pop();
+
+            string sourcePosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string destPosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel + 1);
             string distanceLiteral = distanceValueInfo.GetLiteral();
 
             string line = $"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};";
@@ -377,10 +377,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
             ValueInfo frequencyValueInfo = _stack.Pop();
 
-            string phaseName = GeneratePhaseVariableName();
-            string posName = GeneratePositionVariableName(dto.DimensionStackLevel);
-            string prevPosName = GeneratePreviousPositionVariableName();
-            string outputName = GenerateOutputName(dto.OperatorTypeName);
+            string phaseName = GeneratePhaseVariableNameCamelCase();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string frequencyLiteral = frequencyValueInfo.GetLiteral();
 
             string line1 = $"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};";
@@ -402,7 +402,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             base.Visit_VariableInput_OperatorDto(dto);
 
-            string inputVariableName = GetInputVariableName(dto);
+            string inputVariableName = GetInputVariableNameCamelCase(dto);
 
             var valueInfo = new ValueInfo(inputVariableName);
 
@@ -421,7 +421,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _sb.AppendLine();
             _sb.AppendLine("// " + operatorTypeName);
 
-            string outputName = GenerateOutputName(operatorTypeName);
+            string outputName = GenerateOutputNameCamelCase(operatorTypeName);
             string aLiteral = aValueInfo.GetLiteral();
             string bLiteral = bValueInfo.GetLiteral();
 
@@ -437,7 +437,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _sb.AppendLine();
             _sb.AppendLine("// " + operatorTypeName);
 
-            string outputName = GenerateOutputName(operatorTypeName);
+            string outputName = GenerateOutputNameCamelCase(operatorTypeName);
 
             _sb.AppendTabs();
             _sb.Append($"double {outputName} =");
@@ -471,7 +471,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
         // Helpers
 
-        private string GenerateOutputName(string operatorTypeName)
+        private string GenerateOutputNameCamelCase(string operatorTypeName)
         {
             // TODO: Lower Priority: You need an actual ToCamelCase for any name to be turned into code.
             string camelCaseOperatorTypeName = operatorTypeName.StartWithLowerCase();
@@ -489,7 +489,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return variableName;
         }
 
-        private string GetInputVariableName(VariableInput_OperatorDto dto)
+        private string GetInputVariableNameCamelCase(VariableInput_OperatorDto dto)
         {
             string name;
             if (_variableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out name))
@@ -514,7 +514,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return valueInfo;
         }
 
-        private string GeneratePhaseVariableName()
+        private string GeneratePhaseVariableNameCamelCase()
         {
             string variableName = String.Format("{0}{1}", PHASE_VARIABLE_PREFIX, _phaseVariableCounter++);
 
@@ -523,7 +523,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return variableName;
         }
 
-        private string GeneratePreviousPositionVariableName()
+        private string GeneratePreviousPositionVariableNameCamelCase()
         {
             string variableName = String.Format("{0}{1}", PREVIOUS_POSITION_VARIABLE_PREFIX, _previousPositionVariableCounter++);
 
@@ -532,7 +532,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return variableName;
         }
 
-        private string GeneratePositionVariableName(int stackLevel)
+        private string GeneratePositionVariableNameCamelCase(int stackLevel)
         {
             string variableName = String.Format("{0}{1}", POSITION_VARIABLE_PREFIX, stackLevel);
 
@@ -541,7 +541,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return variableName;
         }
 
-        private IList<string> GetInstanceVariableNames()
+        private IList<string> GetInstanceVariableNameCamelCase()
         {
             IList<string> list = _phaseVariableNamesCamelCaseHashSet.Union(_previousPositionVariableNamesCamelCaseHashSet)
                                                                     .Union(_inputVariableInfoDictionary.Keys)
