@@ -28,13 +28,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         private Stack<ValueInfo> _stack;
         private StringBuilderWithIndentation _sb;
         
-        /// <summary> HashSet for unicity. // </summary>
-        private HashSet<string> _inputVariableNamesHashSet;
-        /// <summary> HashSet for unicity. // </summary>
+        /// <summary> Dictionary for unicity. Key is variable name camel-case. </summary>
+        private Dictionary<string, ValueInfo> _inputVariableInfoDictionary;
+        /// <summary> HashSet for unicity. </summary>
         private HashSet<string> _positionVariableNamesHashSet;
-        /// <summary> HashSet for unicity. // </summary>
+        /// <summary> HashSet for unicity. </summary>
         private HashSet<string> _previousPositionVariableNamesHashSet;
-        /// <summary> HashSet for unicity. // </summary>
+        /// <summary> HashSet for unicity. </summary>
         private HashSet<string> _phaseVariableNamesHashSet;
 
         /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
@@ -53,7 +53,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
             // Initialize Fields
             _stack = new Stack<ValueInfo>();
-            _inputVariableNamesHashSet = new HashSet<string>();
+            _inputVariableInfoDictionary = new Dictionary<string, ValueInfo>();
             _positionVariableNamesHashSet = new HashSet<string>();
             _previousPositionVariableNamesHashSet = new HashSet<string>();
             _phaseVariableNamesHashSet = new HashSet<string>();
@@ -112,6 +112,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                         _sb.AppendLine("_framesPerChunk = framesPerChunk;");
                         //_sb.AppendLine("_values = new double[_framesPerChunk];");
                         _sb.AppendLine("");
+
+                        foreach (ValueInfo variableInputValueInfo in _inputVariableInfoDictionary.Values)
+                        {
+                            _sb.AppendLine($"_{variableInputValueInfo.Name} = {variableInputValueInfo.Value};");
+                        }
+                        _sb.AppendLine("");
+
                         _sb.AppendLine("Reset();");
                         _sb.Unindent();
                     }
@@ -123,9 +130,9 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                     _sb.AppendLine("{");
                     _sb.Indent();
                     {
-                        foreach (string instanceVariableName in instanceVariableNames)
+                        foreach (string variableName in _phaseVariableNamesHashSet.Union(_previousPositionVariableNamesHashSet))
                         {
-                            _sb.AppendLine($"_{instanceVariableName} = 0.0;");
+                            _sb.AppendLine($"_{variableName} = 0.0;");
                         }
 
                         _sb.Unindent();
@@ -143,7 +150,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                         _sb.Indent();
                         {
                             int i = 0;
-                            foreach (string inputVariableName in _inputVariableNamesHashSet)
+                            foreach (string inputVariableName in _inputVariableInfoDictionary.Keys)
                             {
                                 _sb.AppendLine($"case {i}:");
                                 _sb.Indent();
@@ -490,20 +497,21 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                 return name;
             }
 
-            name = GenerateInputVariableName();
+            ValueInfo valueInfo = GenerateInputVariableInfo(dto);
 
-            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = name;
+            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = valueInfo.Name;
 
-            return name;
+            return valueInfo.Name;
         }
 
-        private string GenerateInputVariableName()
+        private ValueInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
         {
             string variableName = String.Format("{0}{1}", INPUT_VARIABLE_PREFIX, _inputVariableCounter++);
+            var valueInfo = new ValueInfo(variableName, dto.DefaultValue);
 
-            _inputVariableNamesHashSet.Add(variableName);
+            _inputVariableInfoDictionary.Add(variableName, valueInfo);
 
-            return variableName;
+            return valueInfo;
         }
 
         private string GeneratePhaseVariableName()
@@ -536,7 +544,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         private IList<string> GetInstanceVariableNames()
         {
             IList<string> list = _phaseVariableNamesHashSet.Union(_previousPositionVariableNamesHashSet)
-                                                           .Union(_inputVariableNamesHashSet)
+                                                           .Union(_inputVariableInfoDictionary.Keys)
                                                            .ToArray();
             return list;
         }

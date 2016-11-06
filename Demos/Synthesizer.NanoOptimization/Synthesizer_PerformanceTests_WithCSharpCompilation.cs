@@ -41,9 +41,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             var visitor = new OperatorDtoCompiler();
             IPatchCalculator calculator = visitor.CompileToPatchCalculator(dto, frameCount);
 
-            calculator.SetInput(0, 1.0);
-
-            double[] values = calculator.Calculate(startTime, frameDuration);
+            calculator.Calculate(startTime, frameDuration);
         }
 
         [TestMethod]
@@ -109,14 +107,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
 
             OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             IPatchCalculator calculator = OperatorCalculatorFactory.CreatePatchCalculatorFromDto(dto, framesPerChunk);
-            calculator.SetInput(0, 440.0);
-
 
             var stopWatch = Stopwatch.StartNew();
 
             for (int i = 0; i < 100; i++)
             {
-                double[] values = calculator.Calculate(0.0, frameDuration);
+                calculator.Calculate(0.0, frameDuration);
             }
 
             stopWatch.Stop();

@@ -30,7 +30,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
         private Stack<ValueInfo> _stack;
         private StringBuilderWithIndentation _sb;
-        /// <summary> HashSet for unicity. // </summary>
+        /// <summary> HashSet for unicity. </summary>
         private HashSet<string> _variableNamesToDeclareHashSet;
         /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
         private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
