@@ -27,13 +27,23 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         private const string POSITION_VARIABLE_PREFIX = "t";
         private const string TAB_STRING = "    ";
         private const int FIRST_VARIABLE_NUMBER = 0;
+        private const int RAW_CALCULATION_INDENT_LEVEL = 3;
 
         private Stack<ValueInfo> _stack;
         private StringBuilderWithIndentation _sb;
+        
+        /// <summary> Dictionary for unicity. Key is variable name camel-case. </summary>
+        private Dictionary<string, ValueInfo> _inputVariableInfoDictionary;
         /// <summary> HashSet for unicity. </summary>
-        private HashSet<string> _variableNamesToDeclareHashSet;
+        private HashSet<string> _positionVariableNamesCamelCaseHashSet;
+        /// <summary> HashSet for unicity. </summary>
+        private HashSet<string> _previousPositionVariableNamesCamelCaseHashSet;
+        /// <summary> HashSet for unicity. </summary>
+        private HashSet<string> _phaseVariableNamesCamelCaseHashSet;
+
         /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
         private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
+
         /// <summary> To maintain a counter for numbers to add to a variable names. Each operator type will get its own counter. </summary>
         private Dictionary<string, int> _camelCaseOperatorTypeName_To_VariableCounter_Dictionary;
         private int _inputVariableCounter;
@@ -48,7 +58,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
             // Initialize Fields
             _stack = new Stack<ValueInfo>();
-            _variableNamesToDeclareHashSet = new HashSet<string>();
+            _inputVariableInfoDictionary = new Dictionary<string, ValueInfo>();
+            _positionVariableNamesCamelCaseHashSet = new HashSet<string>();
+            _previousPositionVariableNamesCamelCaseHashSet = new HashSet<string>();
+            _phaseVariableNamesCamelCaseHashSet = new HashSet<string>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _camelCaseOperatorTypeName_To_VariableCounter_Dictionary = new Dictionary<string, int>();
             _inputVariableCounter = FIRST_VARIABLE_NUMBER;
@@ -57,13 +70,16 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
             // Build up Method Body through Visitation
             _sb = new StringBuilderWithIndentation(TAB_STRING);
-            _sb.IndentLevel = 3;
+            _sb.IndentLevel = RAW_CALCULATION_INDENT_LEVEL;
             Visit_OperatorDto_Polymorphic(dto);
             if (_stack.Count != 1)
             {
                 throw new NotEqualException(() => _stack.Count, 1);
             }
-            string methodBody = _sb.ToString();
+            string rawCalculationCode = _sb.ToString();
+            // Pick up some other output from visitation.
+            ValueInfo returnValueInfo = _stack.Pop();
+            string returnValueLiteral = returnValueInfo.GetLiteral();
 
             // Build up Code File
             _sb = new StringBuilderWithIndentation(TAB_STRING);
@@ -87,17 +103,19 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                     _sb.Indent();
                     {
                         // Variable Declarations
-                        foreach (string variableName in _variableNamesToDeclareHashSet)
+                        IEnumerable<string> variableNames = _positionVariableNamesCamelCaseHashSet.Union(_phaseVariableNamesCamelCaseHashSet)
+                                                                                                  .Union(_positionVariableNamesCamelCaseHashSet)
+                                                                                                  .Union(_previousPositionVariableNamesCamelCaseHashSet)
+                                                                                                  .Union(_inputVariableInfoDictionary.Keys);
+                        foreach (string variableName in variableNames)
                         {
                             _sb.AppendLine($"double {variableName} = 0.0;");
                         }
 
                         // Method Body
-                        _sb.Append(methodBody);
+                        _sb.Append(rawCalculationCode);
 
                         // Return statement
-                        ValueInfo returnValueInfo = _stack.Pop();
-                        string returnValueLiteral = returnValueInfo.GetLiteral();
                         _sb.AppendLine();
                         _sb.AppendLine($"return {returnValueLiteral};");
 
@@ -213,8 +231,8 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             }
             ValueInfo distanceValueInfo = _stack.Pop();
 
-            string sourcePosName = GetPositionVariableName(shiftOperatorDto.DimensionStackLevel);
-            string destPosName = GetPositionVariableName(shiftOperatorDto.DimensionStackLevel + 1);
+            string sourcePosName = GeneratePositionVariableNameCamelCase(shiftOperatorDto.DimensionStackLevel);
+            string destPosName = GeneratePositionVariableNameCamelCase(shiftOperatorDto.DimensionStackLevel + 1);
             string distanceLiteral = distanceValueInfo.GetLiteral();
 
             string line = $"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};";
@@ -235,10 +253,10 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
             ValueInfo frequencyValueInfo = _stack.Pop();
 
-            string phaseName = NewPhaseVariableName();
-            string posName = GetPositionVariableName(dto.DimensionStackLevel);
-            string prevPosName = NewPreviousPositionVariableName();
-            string outputName = NewOutputName(dto.OperatorTypeName);
+            string phaseName = GeneratePhaseVariableNameCamelCase();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string frequencyLiteral = frequencyValueInfo.GetLiteral();
 
             string line1 = $"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};";
@@ -260,7 +278,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         {
             base.Visit_VariableInput_OperatorDto(dto);
 
-            string inputVariableName = GetInputVariableName(dto);
+            string inputVariableName = GetInputVariableNameCamelCase(dto);
 
             var valueInfo = new ValueInfo(inputVariableName);
 
@@ -279,7 +297,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _sb.AppendLine();
             _sb.AppendLine("// " + operatorTypeName);
 
-            string outputName = NewOutputName(operatorTypeName);
+            string outputName = GenerateOutputNameCamelCase(operatorTypeName);
             string aLiteral = aValueInfo.GetLiteral();
             string bLiteral = bValueInfo.GetLiteral();
 
@@ -295,7 +313,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _sb.AppendLine();
             _sb.AppendLine("// " + operatorTypeName);
 
-            string outputName = NewOutputName(operatorTypeName);
+            string outputName = GenerateOutputNameCamelCase(operatorTypeName);
 
             _sb.AppendTabs();
             _sb.Append($"double {outputName} =");
@@ -329,7 +347,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
         // Helpers
 
-        private string NewOutputName(string operatorTypeName)
+        private string GenerateOutputNameCamelCase(string operatorTypeName)
         {
             // TODO: Lower Priority: You need an actual ToCamelCase for any name to be turned into code.
             string camelCaseOperatorTypeName = operatorTypeName.StartWithLowerCase();
@@ -347,7 +365,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return variableName;
         }
 
-        private string GetInputVariableName(VariableInput_OperatorDto dto)
+        private string GetInputVariableNameCamelCase(VariableInput_OperatorDto dto)
         {
             string name;
             if (_variableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out name))
@@ -355,45 +373,46 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
                 return name;
             }
 
-            name = NewInputVariableName();
+            ValueInfo valueInfo = GenerateInputVariableInfo(dto);
 
-            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = name;
+            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = valueInfo.NameCamelCase;
 
-            return name;
+            return valueInfo.NameCamelCase;
         }
 
-        private string NewInputVariableName()
+        private ValueInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
         {
             string variableName = String.Format("{0}{1}", INPUT_VARIABLE_PREFIX, _inputVariableCounter++);
+            var valueInfo = new ValueInfo(variableName, dto.DefaultValue);
 
-            _variableNamesToDeclareHashSet.Add(variableName);
+            _inputVariableInfoDictionary.Add(variableName, valueInfo);
 
-            return variableName;
+            return valueInfo;
         }
 
-        private string NewPhaseVariableName()
+        private string GeneratePhaseVariableNameCamelCase()
         {
             string variableName = String.Format("{0}{1}", PHASE_VARIABLE_PREFIX, _phaseVariableCounter++);
 
-            _variableNamesToDeclareHashSet.Add(variableName);
+            _phaseVariableNamesCamelCaseHashSet.Add(variableName);
 
             return variableName;
         }
 
-        private string NewPreviousPositionVariableName()
+        private string GeneratePreviousPositionVariableNameCamelCase()
         {
             string variableName = String.Format("{0}{1}", PREVIOUS_POSITION_VARIABLE_PREFIX, _previousPositionVariableCounter++);
 
-            _variableNamesToDeclareHashSet.Add(variableName);
+            _previousPositionVariableNamesCamelCaseHashSet.Add(variableName);
 
             return variableName;
         }
 
-        private string GetPositionVariableName(int stackLevel)
+        private string GeneratePositionVariableNameCamelCase(int stackLevel)
         {
             string variableName = String.Format("{0}{1}", POSITION_VARIABLE_PREFIX, stackLevel);
 
-            _variableNamesToDeclareHashSet.Add(variableName);
+            _positionVariableNamesCamelCaseHashSet.Add(variableName);
 
             return variableName;
         }

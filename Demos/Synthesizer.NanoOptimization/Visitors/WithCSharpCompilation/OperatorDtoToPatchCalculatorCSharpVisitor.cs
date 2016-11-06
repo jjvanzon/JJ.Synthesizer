@@ -39,6 +39,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 
         /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
         private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
+
         /// <summary> To maintain a counter for numbers to add to a variable names. Each operator type will get its own counter. </summary>
         private Dictionary<string, int> _camelCaseOperatorTypeName_To_VariableCounter_Dictionary;
         private int _inputVariableCounter;
@@ -75,7 +76,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             // Pick up some other output from visitation.
             ValueInfo returnValueInfo = _stack.Pop();
             string returnValueLiteral = returnValueInfo.GetLiteral();
-            IList<string> instanceVariableNames = GetInstanceVariableNameCamelCase();
+            IList<string> instanceVariableNames = GetInstanceVariableNamesCamelCase();
 
             // Build up Code File
             _sb = new StringBuilderWithIndentation(TAB_STRING);
@@ -538,7 +539,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return variableName;
         }
 
-        private IList<string> GetInstanceVariableNameCamelCase()
+        private IList<string> GetInstanceVariableNamesCamelCase()
         {
             IList<string> list = _phaseVariableNamesCamelCaseHashSet.Union(_previousPositionVariableNamesCamelCaseHashSet)
                                                                     .Union(_inputVariableInfoDictionary.Keys)
