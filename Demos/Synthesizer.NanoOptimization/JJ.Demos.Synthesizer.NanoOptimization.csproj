@@ -153,7 +153,7 @@
     <Compile Include="Helpers\WithCSharpCompilation\OperatorCalculatorFactory.cs" />
     <Compile Include="Synthesizer_PerformanceTests_WithCSharpCompilation.cs" />
     <Compile Include="Visitors\WithCSharpCompilation\2016-11-02 Backup of OperatorDtoToCSharpVisitor.cs" />
-    <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToCSharpVisitor.cs" />
+    <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToCSharpVisitorBase.cs" />
     <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToPatchCalculatorCSharpVisitor.cs" />
     <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToOperatorCalculatorCSharpVisitor.cs" />
     <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.CreateAddCalculator_Vars.cs">

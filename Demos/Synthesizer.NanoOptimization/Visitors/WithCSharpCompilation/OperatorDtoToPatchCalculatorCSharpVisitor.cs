@@ -13,7 +13,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 {
-    internal class OperatorDtoToPatchCalculatorCSharpVisitor : OperatorDtoToCSharpVisitor
+    internal class OperatorDtoToPatchCalculatorCSharpVisitor : OperatorDtoToCSharpVisitorBase
     {
         private const int RAW_CALCULATION_INDENT_LEVEL = 4;
 

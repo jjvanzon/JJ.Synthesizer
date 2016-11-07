@@ -9,7 +9,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
 {
-    internal abstract class OperatorDtoToCSharpVisitor : OperatorDtoVisitorBase_AfterMathSimplification
+    internal abstract class OperatorDtoToCSharpVisitorBase : OperatorDtoVisitorBase_AfterMathSimplification
     {
         private const string MULTIPLY_SYMBOL = "*";
         private const string PLUS_SYMBOL = "+";
@@ -111,6 +111,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
 
             ProcessShift(dto, dto.SignalOperatorDto, distance: dto.Distance);
+
             return dto;
         }
 
@@ -119,6 +120,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
 
             ProcessShift(dto, dto.SignalOperatorDto, dto.DistanceOperatorDto);
+
             return dto;
         }
 

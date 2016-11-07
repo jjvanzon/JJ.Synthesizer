@@ -17,7 +17,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
     /// This is the older version of the experiment. Newer experiments use the other visitor:
     /// OperatorDtoToPatchCalculatorCSharpVisitor.
     /// </summary>
-    internal class OperatorDtoToOperatorCalculatorCSharpVisitor : OperatorDtoToCSharpVisitor
+    internal class OperatorDtoToOperatorCalculatorCSharpVisitor : OperatorDtoToCSharpVisitorBase
     {
         private const int RAW_CALCULATION_INDENT_LEVEL = 3;
 
