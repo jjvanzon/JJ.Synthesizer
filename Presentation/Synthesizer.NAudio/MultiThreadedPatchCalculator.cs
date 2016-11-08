@@ -14,6 +14,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -174,6 +175,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 double value = patchCalculator.Calculate(t);
 
                 // TODO: Low priority: Not sure how to do a quicker interlocked add for doubles.
+                //InterlockedAddDouble(ref buffer[frameIndex], value);
+
                 lock (bufferLocks[frameIndex])
                 {
                     buffer[frameIndex] += value;
@@ -379,26 +382,26 @@ namespace JJ.Presentation.Synthesizer.NAudio
             ResultHelper.Assert(result);
         }
 
-        private bool CanCastToInt32(double value)
-        {
-            return value >= Int32.MinValue &&
-                   value <= Int32.MaxValue &&
-                   !Double.IsNaN(value) &&
-                   !Double.IsInfinity(value);
-        }
+        //private bool CanCastToInt32(double value)
+        //{
+        //    return value >= Int32.MinValue &&
+        //           value <= Int32.MaxValue &&
+        //           !Double.IsNaN(value) &&
+        //           !Double.IsInfinity(value);
+        //}
 
         // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
-        //private static double InterlockedAddDouble(ref double location1, double value)
-        //{
-        //    double newCurrentValue = 0;
-        //    while (true)
-        //    {
-        //        double currentValue = newCurrentValue;
-        //        double newValue = currentValue + value;
-        //        newCurrentValue = Interlocked.CompareExchange(ref location1, newValue, currentValue);
-        //        if (newCurrentValue == currentValue)
-        //            return newValue;
-        //    }
-        //}
+        private static double InterlockedAddDouble(ref double location1, double value)
+        {
+            double newCurrentValue = 0;
+            while (true)
+            {
+                double currentValue = newCurrentValue;
+                double newValue = currentValue + value;
+                newCurrentValue = Interlocked.CompareExchange(ref location1, newValue, currentValue);
+                if (newCurrentValue == currentValue)
+                    return newValue;
+            }
+        }
     }
 }
