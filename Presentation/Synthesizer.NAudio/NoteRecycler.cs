@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -66,6 +67,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             noteInfo.EndTime = endTime;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool NoteIsReleased(int noteListIndex, double presentTime)
         {
             if (noteListIndex < 0) throw new LessThanException(() => noteListIndex, 0);

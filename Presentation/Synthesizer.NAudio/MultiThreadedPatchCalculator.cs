@@ -26,10 +26,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// <summary> First index is NoteIndex, second index is channel. </summary>
         private readonly SingleChannelPatchCalculator[][] _patchCalculators;
 
-        private float[] _buffer;
-        private int _frameCount;
-        private double _t0;
-
         public MultiThreadedPatchCalculator(
             Patch patch,
             AudioOutput audioOutput,
@@ -90,44 +86,35 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// </param>
         public void Calculate(float[] buffer, int frameCount, double t0)
         {
-            _t0 = t0;
-            _buffer = buffer;
-            _frameCount = frameCount;
-
+            int maxConcurrentNotes = _maxConcurrentNotes;
+            int channelCount = _channelCount;
             Array.Clear(buffer, 0, buffer.Length);
 
-            var tasks = new List<Task>(_maxConcurrentNotes);
+            var tasks = new List<Task>(_maxConcurrentNotes * _channelCount);
 
-            for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
+            for (int noteIndex = 0; noteIndex < maxConcurrentNotes; noteIndex++)
             {
-                bool noteIsReleased = _noteRecycler.NoteIsReleased(noteIndex, _t0);
+                bool noteIsReleased = _noteRecycler.NoteIsReleased(noteIndex, t0);
                 if (noteIsReleased)
                 {
                     continue;
                 }
 
-                for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+                for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                 {
-                    // Capture variable in loop iteration, 
+                    // Capture variable in loop iteration,
                     // to prevent delegate from getting a value from a different iteration.
                     SingleChannelPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
 
-                    Task task = Task.Factory.StartNew(() => CalculateSingleThread(patchCalculator));
+                    Task task = Task.Factory.StartNew(() => patchCalculator.Calculate(buffer, frameCount, t0));
                     tasks.Add(task);
                 }
             }
 
+            // Note: We cannot use an array, because we do not know the array size in advance,
+            // because we skip adding tasks if note is released.
+            // Yet, Task.WaitAll wants an array.
             Task.WaitAll(tasks.ToArray());
-        }
-
-        private void CalculateSingleThread(SingleChannelPatchCalculator patchCalculator)
-        {
-            patchCalculator.Calculate(_buffer, _frameCount, _t0);
-        }
-
-        public double[] Calculate(double t0, double frameDuration, int frameCount)
-        {
-            throw new NotSupportedException("Calculate without channelIndex is not supported. Use the overload with channelIndex.");
         }
 
         public double Calculate(double time, int channelIndex)
