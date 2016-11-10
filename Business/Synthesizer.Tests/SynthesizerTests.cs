@@ -956,7 +956,7 @@ namespace JJ.Business.Synthesizer.Tests
             IPatchCalculator patchCalculator = x.CreateCalculator(
                 saw, 
                 DEFAULT_SAMPLING_RATE,
-                DEFAULT_CHANNEL_COUNT, 
+                DEFAULT_CHANNEL_COUNT,
                 DEFAULT_CHANNEL_INDEX, 
                 new CalculatorCache());
 

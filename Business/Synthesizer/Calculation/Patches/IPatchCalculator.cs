@@ -7,8 +7,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     {
         double Calculate(double time);
         double Calculate(double time, int channelIndex);
-        double[] Calculate(double t0, double frameDuration, int frameCount);
-        double[] Calculate(double t0, double frameDuration, int frameCount, int channelIndex);
+
+        /// <param name="frameCount">
+        /// You cannot use buffer.Length as a basis for frameCount, 
+        /// because if you write to the buffer beyond frameCount, then the audio driver might fail.
+        /// A frameCount based on the entity model can differ from the frameCount you get from the driver,
+        /// and you only know the frameCount at the time the driver calls us.
+        /// </param>
+        void Calculate(float[] buffer, int frameCount, double t0);
 
         double GetValue(int listIndex);
         void SetValue(int listIndex, double value);

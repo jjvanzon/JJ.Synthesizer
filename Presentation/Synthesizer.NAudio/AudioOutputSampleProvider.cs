@@ -5,9 +5,7 @@ using NAudio.Wave;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using System.Threading;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Business.Synthesizer.Calculation;
 using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
@@ -43,10 +41,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             return waveFormat;
         }
 
-        WaveFormat ISampleProvider.WaveFormat
-        {
-            get { return _waveFormat; }
-        }
+        WaveFormat ISampleProvider.WaveFormat => _waveFormat;
 
         int ISampleProvider.Read(float[] buffer, int offset, int count)
         {
@@ -65,34 +60,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                 int frameCount = count / _channelCount;
 
-                // First index is channel, second index is frame.
-                double[][] values = new double[_channelCount][];
-                for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
-                {
-                    values[channelIndex] = patchCalculator.Calculate(_time, _frameDuration, frameCount, channelIndex);
-                }
-
-                int i = 0;
-                for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
-                {
-                    for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
-                    {
-                        double value;
-
-                        value = values[channelIndex][frameIndex];
-                            
-                        // winmm will trip over NaN.
-                        if (Double.IsNaN(value))
-                        {
-                            value = 0;
-                        }
-
-                        // TODO: This seems unsafe. What happens if the cast is invalid?
-                        buffer[i] = (float)value;
-
-                        i++;
-                    }
-                }
+                patchCalculator.Calculate(buffer, frameCount, _time);
 
                 _time += _frameDuration * frameCount;
 

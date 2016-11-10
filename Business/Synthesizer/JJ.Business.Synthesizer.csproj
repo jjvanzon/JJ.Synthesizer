@@ -217,13 +217,15 @@
     <Compile Include="Calculation\Operators\One_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\IPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\Zero_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Patches\OptimizedPatchCalculator.cs" />
+    <Compile Include="Calculation\Patches\2016-11-10 Backup of MultiChannelPatchCalculator.cs" />
+    <Compile Include="Calculation\Patches\2016-11-09 Backup of SingleChannelPatchCalculator.cs" />
+    <Compile Include="Calculation\Patches\SingleChannelPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\Sample OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Curve OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitorResult.cs" />
+    <Compile Include="Calculation\Patches\PatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_VariableOutletCount.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithXAndResult.cs" />
@@ -657,7 +659,7 @@
     <Compile Include="Validation\ValidationHelper.MessagePrefixes.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
-    <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.cs" />
+    <Compile Include="Calculation\Patches\PatchCalculatorVisitor.cs" />
     <Compile Include="Calculation\Patches\OperatorVisitorBase.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Unbundle_OperatorWarningValidator.cs" />

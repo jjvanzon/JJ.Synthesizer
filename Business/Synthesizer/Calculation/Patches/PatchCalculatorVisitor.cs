@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     /// which can then pop its operands from this stack, 
     /// and decide which Calculator to push onto the stack again.
     /// </summary>
-    internal partial class OptimizedPatchCalculatorVisitor : OperatorVisitorBase
+    internal partial class PatchCalculatorVisitor : OperatorVisitorBase
     {
         /// <summary>
         /// Feature switch: not being able to vary bundle dimension values
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
         private Outlet _current_RangeOverOutlets_Outlet;
 
-        public OptimizedPatchCalculatorVisitor(
+        public PatchCalculatorVisitor(
             Outlet outlet, 
             int samplingRate,
             int channelCount,
@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         /// <param name="channelCount">Used for e.g. mixing channels of samples into one channel.</param>
-        public OptimizedPatchCalculatorVisitorResult Execute()
+        public PatchCalculatorVisitorResult Execute()
         {
             IValidator validator = new Recursive_OperatorValidator(
                 _outlet.Operator,
@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 }
             }
 
-            return new OptimizedPatchCalculatorVisitorResult(
+            return new PatchCalculatorVisitorResult(
                 _dimensionStackCollection,
                 outputOperatorCalculator,
                 _patchInlet_Calculator_Dictionary.Values.ToArray(),

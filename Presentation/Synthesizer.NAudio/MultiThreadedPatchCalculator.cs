@@ -20,23 +20,15 @@ namespace JJ.Presentation.Synthesizer.NAudio
 {
     public class MultiThreadedPatchCalculator : IPatchCalculator
     {
-        private const int TIME_DIMENSION_INDEX = (int)DimensionEnum.Time;
-        private const int CHANNEL_DIMENSION_INDEX = (int)DimensionEnum.Channel;
-
-        private readonly double _frameDuration;
         private readonly int _channelCount;
         private readonly int _maxConcurrentNotes;
         private readonly NoteRecycler _noteRecycler;
         /// <summary> First index is NoteIndex, second index is channel. </summary>
-        private readonly IPatchCalculator[][] _patchCalculators;
+        private readonly SingleChannelPatchCalculator[][] _patchCalculators;
 
+        private float[] _buffer;
         private int _frameCount;
         private double _t0;
-        private double[] _emptyBuffer;
-        /// <summary> First index is channel, second index is frame. </summary>
-        private double[][] _buffers;
-        /// <summary> First index is channel, second index is frame. </summary>
-        private object[][] _bufferLocks;
 
         public MultiThreadedPatchCalculator(
             Patch patch,
@@ -53,7 +45,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             _noteRecycler = noteRecycler;
 
-            _frameDuration = audioOutput.GetFrameDuration();
             _channelCount = audioOutput.GetChannelCount();
             _maxConcurrentNotes = audioOutput.MaxConcurrentNotes;
 
@@ -74,70 +65,34 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 signalOutlet.Operator.Name = "Dummy operator, because Auto-Patch has no signal outlets.";
             }
 
-            // Create PatchCalculator(Infos)
-            _patchCalculators = new IPatchCalculator[_maxConcurrentNotes][];
+            // Create PatchCalculators
+            _patchCalculators = new SingleChannelPatchCalculator[_maxConcurrentNotes][];
             for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
             {
-                _patchCalculators[noteIndex] = new IPatchCalculator[_channelCount];
+                _patchCalculators[noteIndex] = new SingleChannelPatchCalculator[_channelCount];
 
                 for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
                 {
-                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, samplingRate, _channelCount, channelIndex, calculatorCache);
+                    // TODO: How assumptious it is SingleChannelPatchCalculator...
+                    SingleChannelPatchCalculator patchCalculator = (SingleChannelPatchCalculator)patchManager.CreateCalculator(signalOutlet, samplingRate, _channelCount, channelIndex, calculatorCache);
                     _patchCalculators[noteIndex][channelIndex] = patchCalculator;
                 }
             }
         }
 
-        /// <summary>
-        /// The buffers cannot be initialized up front, because the NAudio API adapts the buffer size
-        /// depending on the infrastructural context, and only publically makes the buffer size known
-        /// the first time it calls ISampleProvider.Read().
-        /// The buffer size could have been guessed up front, but then it would not adapt to different 
-        /// infrastructural contexts.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void LazyInitializeBuffers(int frameCount)
-        {
-            // This makes it more than lazy initialization: if the frameCount would suddenly change,
-            // it will also adapt itself to the buffer size change.
-            if (_frameCount == frameCount) return;
-            
-            double[] emptyBuffer = new double[frameCount];
-
-            double[][] buffers = new double[_channelCount][];
-            for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
-            {
-                buffers[channelIndex] = new double[frameCount];
-            }
-
-            object[][] bufferLocks = new object[_channelCount][];
-            for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
-            {
-                bufferLocks[channelIndex] = new object[frameCount];
-
-                for (int frameIndex = 0; frameIndex < frameCount; frameIndex++)
-                {
-                    bufferLocks[channelIndex][frameIndex] = new object();
-                }
-            }
-
-            // Assign fields last
-            _frameCount = frameCount;
-            _emptyBuffer = emptyBuffer;
-            _buffers = buffers;
-            _bufferLocks = bufferLocks;
-        }
-
         // Calculate
 
-        /// <param name="frameDuration"> Not used. Alternative value is determined internally. </param>
-        public double[] Calculate(double t0, double frameDuration, int frameCount, int channelIndex)
+        /// <param name="frameCount">
+        /// You cannot use buffer.Length as a basis for frameCount, 
+        /// because if you write to the buffer beyond frameCount, then the audio driver might fail.
+        /// A frameCount based on the entity model can differ from the frameCount you get from the driver,
+        /// and you only know the frameCount at the time the driver calls us.
+        /// </param>
+        public void Calculate(float[] buffer, int frameCount, double t0)
         {
-            LazyInitializeBuffers(frameCount);
-
             _t0 = t0;
-
-            double[] buffer = _buffers[channelIndex];
+            _buffer = buffer;
+            _frameCount = frameCount;
 
             Array.Clear(buffer, 0, buffer.Length);
 
@@ -151,39 +106,23 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     continue;
                 }
 
-                // Capture variable in loop iteration, 
-                // to prevent delegate from getting a value from a different iteration.
-                IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
+                for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+                {
+                    // Capture variable in loop iteration, 
+                    // to prevent delegate from getting a value from a different iteration.
+                    SingleChannelPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
 
-                Task task = Task.Factory.StartNew(() => CalculateSingleThread(patchCalculator, channelIndex));
-                tasks.Add(task);
+                    Task task = Task.Factory.StartNew(() => CalculateSingleThread(patchCalculator));
+                    tasks.Add(task);
+                }
             }
 
             Task.WaitAll(tasks.ToArray());
-
-            return buffer;
         }
 
-        private void CalculateSingleThread(IPatchCalculator patchCalculator, int channelIndex)
+        private void CalculateSingleThread(SingleChannelPatchCalculator patchCalculator)
         {
-            double[] buffer = _buffers[channelIndex];
-            object[] bufferLocks = _bufferLocks[channelIndex];
-
-            double t = _t0;
-            for (int frameIndex = 0; frameIndex < _frameCount; frameIndex++)
-            {
-                double value = patchCalculator.Calculate(t);
-
-                // TODO: Low priority: Not sure how to do a quicker interlocked add for doubles.
-                //InterlockedAddDouble(ref buffer[frameIndex], value);
-
-                lock (bufferLocks[frameIndex])
-                {
-                    buffer[frameIndex] += value;
-                }
-
-                t += _frameDuration;
-            }
+            patchCalculator.Calculate(_buffer, _frameCount, _t0);
         }
 
         public double[] Calculate(double t0, double frameDuration, int frameCount)
@@ -241,7 +180,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             AssertPatchCalculatorNoteIndex(noteIndex);
 
-            IPatchCalculator patchCalculator = _patchCalculators[noteIndex].First();
+            IPatchCalculator patchCalculator = _patchCalculators[noteIndex][0];
 
             return patchCalculator.GetValue(name);
         }
@@ -285,7 +224,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             AssertPatchCalculatorNoteIndex(noteIndex);
 
-            IPatchCalculator patchCalculator = _patchCalculators[noteIndex].First();
+            IPatchCalculator patchCalculator = _patchCalculators[noteIndex][0];
 
             double value = patchCalculator.GetValue(dimensionEnum);
 
@@ -380,28 +319,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             VoidResult result = audioOutputManager.Save(audioOutput);
 
             ResultHelper.Assert(result);
-        }
-
-        //private bool CanCastToInt32(double value)
-        //{
-        //    return value >= Int32.MinValue &&
-        //           value <= Int32.MaxValue &&
-        //           !Double.IsNaN(value) &&
-        //           !Double.IsInfinity(value);
-        //}
-
-        // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
-        private static double InterlockedAddDouble(ref double location1, double value)
-        {
-            double newCurrentValue = 0;
-            while (true)
-            {
-                double currentValue = newCurrentValue;
-                double newValue = currentValue + value;
-                newCurrentValue = Interlocked.CompareExchange(ref location1, newValue, currentValue);
-                if (newCurrentValue == currentValue)
-                    return newValue;
-            }
         }
     }
 }

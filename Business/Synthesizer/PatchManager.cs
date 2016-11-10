@@ -518,7 +518,7 @@ namespace JJ.Business.Synthesizer
                 SubstituteSineForUnfilledInSignalPatchInlets();
             }
 
-            IPatchCalculator calculator = new OptimizedPatchCalculator(
+            IPatchCalculator calculator = new SingleChannelPatchCalculator(
                 outlet,
                 samplingRate,
                 channelCount,

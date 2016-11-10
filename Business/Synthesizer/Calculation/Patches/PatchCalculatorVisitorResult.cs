@@ -7,9 +7,9 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
-    internal class OptimizedPatchCalculatorVisitorResult
+    internal class PatchCalculatorVisitorResult
     {
-        public OptimizedPatchCalculatorVisitorResult(
+        public PatchCalculatorVisitorResult(
             DimensionStackCollection dimensionStackCollection,
             OperatorCalculatorBase output_OperatorCalculator,
             IList<VariableInput_OperatorCalculator> input_OperatorCalculators,

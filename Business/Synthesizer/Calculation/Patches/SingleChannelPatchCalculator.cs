@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
@@ -12,7 +13,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
-    internal class OptimizedPatchCalculator : IPatchCalculator
+    public class SingleChannelPatchCalculator : IPatchCalculator
     {
 #if !USE_INVAR_INDICES
         private const int TOP_LEVEL_DIMENSION_STACK_INDEX = 0;
@@ -34,7 +35,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly Dictionary<Tuple<DimensionEnum, int>, double> _dimensionEnumAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, double>();
         private readonly Dictionary<Tuple<string, int>, double> _nameAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<string, int>, double>();
 
-        public OptimizedPatchCalculator(
+        private readonly int _channelCount;
+        private readonly int _channelIndex;
+        private readonly double _frameDuration;
+
+        public SingleChannelPatchCalculator(
             Outlet outlet,
             int samplingRate,
             int channelCount,
@@ -47,8 +52,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             ISpeakerSetupRepository speakerSetupRepository)
         {
             if (outlet == null) throw new NullException(() => outlet);
+            if (channelCount <= 0) throw new LessThanOrEqualException(() => channelCount, 0);
+            if (channelIndex < 0) throw new LessThanException(() => channelIndex, 0);
 
-            var visitor = new OptimizedPatchCalculatorVisitor(
+            _channelCount = channelCount;
+            _channelIndex = channelIndex;
+            _frameDuration = 1.0 / samplingRate;
+
+            var visitor = new PatchCalculatorVisitor(
                 outlet,
                 samplingRate,
                 channelCount,
@@ -59,7 +70,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 patchRepository, 
                 speakerSetupRepository);
 
-            OptimizedPatchCalculatorVisitorResult result = visitor.Execute();
+            PatchCalculatorVisitorResult result = visitor.Execute();
 
             // Yield over results to fields.
             _dimensionStackCollection = result.DimensionStackCollection;
@@ -119,35 +130,63 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        public double[] Calculate(double t0, double frameDuration, int frameCount)
+        /// <param name="frameCount">
+        /// You cannot use buffer.Length as a basis for frameCount, 
+        /// because if you write to the buffer beyond frameCount, then the audio driver might fail.
+        /// A frameCount based on the entity model can differ from the frameCount you get from the driver,
+        /// and you only know the frameCount at the time the driver calls us.
+        /// </param>
+        public void Calculate(float[] buffer, int frameCount, double t0)
         {
+            int channelIndex = _channelIndex;
+            int channelCount = _channelCount;
+            double frameDuration = _frameDuration;
+            int valueCount = frameCount * channelCount;
+            DimensionStack timeDimensionStack = _timeDimensionStack;
+
             double t = t0;
 
-            double[] values = new double[frameCount];
-
-            for (int i = 0; i < frameCount; i++)
+            // Writes values in an interleaved way to the buffer.
+            for (int i = channelIndex; i < valueCount; i += channelCount)
             {
 #if !USE_INVAR_INDICES
-                _timeDimensionStack.Set(t);
+                timeDimensionStack.Set(t);
 #else
-                _timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, t);
+                timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, t);
 #endif
                 double value = Calculate(t);
 
-                values[i] = value;
+                // winmm will trip over NaN.
+                if (Double.IsNaN(value))
+                {
+                    value = 0;
+                }
+
+                // TODO: This seems unsafe. What happens if the cast is invalid?
+                float floatValue = (float)value;
+
+                InterlockedAdd(ref buffer[i], floatValue);
 
                 t += frameDuration;
             }
+        }
 
-            return values;
+        // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static float InterlockedAdd(ref float location1, float value)
+        {
+            float newCurrentValue = 0;
+            while (true)
+            {
+                float currentValue = newCurrentValue;
+                float newValue = currentValue + value;
+                newCurrentValue = Interlocked.CompareExchange(ref location1, newValue, currentValue);
+                if (newCurrentValue == currentValue)
+                    return newValue;
+            }
         }
 
         public double Calculate(double time, int channelIndex)
-        {
-            throw new NotSupportedException("Calculate with channelIndex is not supported. Use the overload without channelIndex.");
-        }
-
-        public double[] Calculate(double t0, double frameDuration, int frameCount, int channelIndex)
         {
             throw new NotSupportedException("Calculate with channelIndex is not supported. Use the overload without channelIndex.");
         }
@@ -296,10 +335,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             if (sourcePatchCalculator == null) throw new NullException(() => sourcePatchCalculator);
 
-            var source = sourcePatchCalculator as OptimizedPatchCalculator;
+            var source = sourcePatchCalculator as SingleChannelPatchCalculator;
             if (source == null)
             {
-                throw new InvalidTypeException<OptimizedPatchCalculator>(() => sourcePatchCalculator);
+                throw new InvalidTypeException<SingleChannelPatchCalculator>(() => sourcePatchCalculator);
             }
 
             foreach (var entry in source._listIndex_To_Value_Dictionary)
