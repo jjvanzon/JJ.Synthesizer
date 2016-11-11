@@ -227,6 +227,14 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
+    <Compile Include="Dto\Divide_OperatorDto.cs" />
+    <Compile Include="Dto\Add_OperatorDto.cs" />
+    <Compile Include="Dto\Add_OperatorDto_Vars.cs" />
+    <Compile Include="Dto\Add_OperatorDto_Vars_1Const.cs" />
+    <Compile Include="Dto\MultiplyWithOrigin_OperatorDto.cs" />
+    <Compile Include="Dto\OperatorDto.cs" />
+    <Compile Include="Dto\OperatorDto_Vars.cs" />
+    <Compile Include="Dto\OperatorDto_Vars_1Const.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_VariableOutletCount.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithXAndResult.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithSingleOutlet.cs" />
