@@ -1131,7 +1131,10 @@ Global
 		{40A53175-8048-4F2D-93CA-383074C0267E} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{F44D03E8-FEEC-40D4-B866-A87799185B4C} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{CEB85F8E-D429-4510-95A5-47CC3069D412} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{52E03E08-331A-4CA7-8D8F-6F598C94EED4} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{21802A52-F4F7-4366-B61D-06E1FB337B86} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{1ED07700-D0FE-4397-A6A2-5FAAB025A0D9} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{AE5758E9-37E7-41FE-844D-A91471DB8FA5} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{CEEB755D-DE12-4E70-816E-546C429B44B7} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{529145D5-6CC3-4016-89B5-826563024AF1} = {72857B67-3003-486C-9BB3-34AF5748BE95}
@@ -1217,9 +1220,11 @@ Global
 		SccProjectName17 = Framework/Mathematics
 		SccLocalPath17 = Framework\\Mathematics
 		SccProjectUniqueName18 = Framework\\Presentation.VectorGraphics\\JJ.Framework.Presentation.VectorGraphics.csproj
+		SccProjectTopLevelParentUniqueName18 = Synthesizer.sln
 		SccProjectName18 = Framework/Presentation.VectorGraphics
 		SccLocalPath18 = Framework\\Presentation.VectorGraphics
 		SccProjectUniqueName19 = Framework\\Presentation.Drawing\\JJ.Framework.Presentation.Drawing.csproj
+		SccProjectTopLevelParentUniqueName19 = Synthesizer.sln
 		SccProjectName19 = Framework/Presentation.Drawing
 		SccLocalPath19 = Framework\\Presentation.Drawing
 		SccProjectUniqueName20 = Framework\\Presentation\\JJ.Framework.Presentation.csproj
@@ -1290,6 +1295,7 @@ Global
 		SccProjectName38 = Framework/Presentation.WinForms.TestForms
 		SccLocalPath38 = Framework\\Presentation.WinForms.TestForms
 		SccProjectUniqueName39 = Framework\\Presentation.VectorGraphics.Tests\\JJ.Framework.Presentation.VectorGraphics.Tests.csproj
+		SccProjectTopLevelParentUniqueName39 = Synthesizer.sln
 		SccProjectName39 = Framework/Presentation.VectorGraphics.Tests
 		SccLocalPath39 = Framework\\Presentation.VectorGraphics.Tests
 		SccProjectUniqueName40 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudio\\NAudio.csproj
