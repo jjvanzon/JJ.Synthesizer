@@ -10,6 +10,8 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase TillOperatorDto => InputOperatorDtos[3];
         public OperatorDtoBase StepOperatorDto => InputOperatorDtos[4];
 
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
         public CollectionRecalculationEnum CollectionRecalculationEnum { get; set; }
 
         public ClosestOverDimension_OperatorDto(

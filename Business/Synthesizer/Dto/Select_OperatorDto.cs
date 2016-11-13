@@ -9,6 +9,9 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
         public OperatorDtoBase PositionOperatorDto => InputOperatorDtos[1];
 
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
+
         public Select_OperatorDto(OperatorDtoBase signalOperatorDto, OperatorDtoBase positionOperatorDto)
             : base(new OperatorDtoBase[] { signalOperatorDto, positionOperatorDto })
         { }

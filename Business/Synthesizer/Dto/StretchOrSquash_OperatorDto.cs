@@ -8,6 +8,9 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase FactorOperatorDto => InputOperatorDtos[1];
         public OperatorDtoBase OriginOperatorDto => InputOperatorDtos[2];
 
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
+
         public StretchOrSquash_OperatorDto(
             OperatorDtoBase signalOperatorDto,
             OperatorDtoBase factorOperatorDto,

@@ -8,6 +8,9 @@ namespace JJ.Business.Synthesizer.Dto
 
         public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
         public OperatorDtoBase SamplingRateOperatorDto => InputOperatorDtos[1];
+
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
 
         public Interpolate_OperatorDto(OperatorDtoBase signalOperatorDto, OperatorDtoBase samplingRateOperatorDto)

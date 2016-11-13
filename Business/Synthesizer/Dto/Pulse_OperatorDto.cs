@@ -9,6 +9,9 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase FrequencyOperatorDto => InputOperatorDtos[0];
         public OperatorDtoBase WidthOperatorDto => InputOperatorDtos[1];
 
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
+
         public Pulse_OperatorDto(
             OperatorDtoBase frequencyOperatorDto,
             OperatorDtoBase widthOperatorDto)

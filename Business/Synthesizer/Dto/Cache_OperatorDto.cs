@@ -11,6 +11,8 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase EndOperatorDto => InputOperatorDtos[2];
         public OperatorDtoBase SamplingRateOperatorDto => InputOperatorDtos[3];
 
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public SpeakerSetupEnum SpeakerSetupEnum { get; set; }
 

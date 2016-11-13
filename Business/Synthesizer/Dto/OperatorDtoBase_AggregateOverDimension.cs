@@ -1,4 +1,6 @@
-﻿namespace JJ.Business.Synthesizer.Dto
+﻿using JJ.Business.Synthesizer.Enums;
+
+namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_AggregateOverDimension : OperatorDtoBase
     {
@@ -6,6 +8,9 @@
         public OperatorDtoBase FromOperatorDto => InputOperatorDtos[1];
         public OperatorDtoBase TillOperatorDto => InputOperatorDtos[2];
         public OperatorDtoBase StepOperatorDto => InputOperatorDtos[3];
+
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
 
         public OperatorDtoBase_AggregateOverDimension(
             OperatorDtoBase signalOperatorDto,

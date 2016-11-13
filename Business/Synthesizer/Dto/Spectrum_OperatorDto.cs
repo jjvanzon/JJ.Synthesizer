@@ -11,6 +11,9 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase EndOperatorDto => InputOperatorDtos[2];
         public OperatorDtoBase FrequencyCountOperatorDto => InputOperatorDtos[3];
 
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
+
         public Spectrum_OperatorDto(
             OperatorDtoBase signalOperatorDto,
             OperatorDtoBase startOperatorDto,

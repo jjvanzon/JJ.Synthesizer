@@ -227,6 +227,7 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorVisitorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
+    <Compile Include="Dto\InletsToDimension_OperatorDto.cs" />
     <Compile Include="Dto\BandPassFilterConstantPeakGain_OperatorDto.cs" />
     <Compile Include="Dto\BandPassFilterConstantTransitionGain_OperatorDto.cs" />
     <Compile Include="Dto\AllPassFilter_OperatorDto.cs" />

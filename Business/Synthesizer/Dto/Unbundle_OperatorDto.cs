@@ -10,6 +10,9 @@ namespace JJ.Business.Synthesizer.Dto
 
         public OperatorDtoBase InputOperatorDto => InputOperatorDtos[0];
 
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
+
         public Unbundle_OperatorDto(OperatorDtoBase inputOperatorDto)
             : base(new OperatorDtoBase[] { inputOperatorDto })
         { }

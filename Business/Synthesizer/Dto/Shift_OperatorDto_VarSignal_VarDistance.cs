@@ -9,6 +9,9 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
         public OperatorDtoBase DifferenceOperatorDto => InputOperatorDtos[1];
 
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
+
         public Shift_OperatorDto_VarSignal_VarDistance(OperatorDtoBase signalOperatorDto, OperatorDtoBase differenceOperatorDto)
             : base(new OperatorDtoBase[] { signalOperatorDto, differenceOperatorDto })
         { }

@@ -13,6 +13,9 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase ReleaseOperatorDto => InputOperatorDtos[4];
         public OperatorDtoBase NoteDurationOperatorDto => InputOperatorDtos[5];
 
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
+
         public Loop_OperatorDto(
             OperatorDtoBase signalOperatorDto,
             OperatorDtoBase skipOperatorDto,

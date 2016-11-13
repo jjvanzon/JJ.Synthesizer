@@ -9,6 +9,9 @@ namespace JJ.Business.Synthesizer.Dto
         public double SignalValue { get; set; }
         public double Distance { get; set; }
 
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
+
         public Shift_OperatorDto_ConstSignal_ConstDistance(double signalValue, double distance)
             : base(new OperatorDtoBase[0])
         {

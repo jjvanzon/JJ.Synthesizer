@@ -9,6 +9,9 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase PassThroughInputOperatorDto => InputOperatorDtos[0];
         public OperatorDtoBase ValueOperatorDto => InputOperatorDtos[1];
 
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
+
         public SetDimension_OperatorDto(
             OperatorDtoBase passThroughInputOperatorDto,
             OperatorDtoBase valueOperatorDto)
