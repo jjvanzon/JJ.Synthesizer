@@ -7,6 +7,8 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SortOverInlets);
 
+        public int OutletIndex { get; set; }
+
         public SortOverInlets_OperatorDto(IList<OperatorDtoBase> vars)
             : base(vars)
         { }

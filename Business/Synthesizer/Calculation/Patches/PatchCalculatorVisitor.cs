@@ -3455,7 +3455,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitRangeOverOutlets(Operator op)
         {
-            base.VisitRangeOverDimension(op);
+            base.VisitRangeOverOutlets(op);
 
             OperatorCalculatorBase calculator = null;
 

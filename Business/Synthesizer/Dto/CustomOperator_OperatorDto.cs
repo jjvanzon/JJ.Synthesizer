@@ -8,7 +8,9 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.CustomOperator);
 
-        // TODO: You need information to identify which outlet of the Custom Operator is represented here.
+        public string OutletName { get; set; }
+        public DimensionEnum OutletDimensionEnum { get; set; }
+        public int? OutletListIndex { get; set; }
 
         public Patch UnderlyingPatch { get; }
 

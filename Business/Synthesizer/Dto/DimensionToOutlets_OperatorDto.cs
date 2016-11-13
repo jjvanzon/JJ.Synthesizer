@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
+        public int OutletIndex { get; set; }
 
         public DimensionToOutlets_OperatorDto(OperatorDtoBase operandOperatorDto)
             : base(new OperatorDtoBase[] { operandOperatorDto })

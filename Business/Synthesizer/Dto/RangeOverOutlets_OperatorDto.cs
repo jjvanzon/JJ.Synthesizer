@@ -9,6 +9,8 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase FromOperatorDto => InputOperatorDtos[0];
         public OperatorDtoBase StepOperatorDto => InputOperatorDtos[1];
 
+        public int OutletIndex { get; set; }
+
         public RangeOverOutlets_OperatorDto(
             OperatorDtoBase fromOperatorDto,
             OperatorDtoBase stepOperatorDto)
