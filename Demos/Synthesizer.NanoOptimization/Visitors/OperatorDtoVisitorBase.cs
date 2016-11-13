@@ -523,13 +523,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDto Visit_OperatorDto_Base(OperatorDto dto)
         {
-            dto.ChildOperatorDtos = VisitChildOperatorDtos(dto.ChildOperatorDtos);
+            dto.InputOperatorDtos = VisitInputOperatorDtos(dto.InputOperatorDtos);
 
             return dto;
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual IList<OperatorDto> VisitChildOperatorDtos(IList<OperatorDto> operatorDtos)
+        protected virtual IList<OperatorDto> VisitInputOperatorDtos(IList<OperatorDto> operatorDtos)
         {
             for (int i = 0; i < operatorDtos.Count; i++)
             {

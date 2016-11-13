@@ -11,8 +11,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     public class Random_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         private const int RATE_INDEX = 0;
-        private const int PHASE_SHIFT_INDEX = 1;
-
+        
         public Random_OperatorWrapper(Operator op)
             : base(op)
         { }

@@ -6,9 +6,9 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
 
-        public OperatorDto SignalOperatorDto => ChildOperatorDtos[0];
-        public OperatorDto ExponentOperatorDto => ChildOperatorDtos[1];
-        public OperatorDto OriginOperatorDto => ChildOperatorDtos[2];
+        public OperatorDto SignalOperatorDto => InputOperatorDtos[0];
+        public OperatorDto ExponentOperatorDto => InputOperatorDtos[1];
+        public OperatorDto OriginOperatorDto => InputOperatorDtos[2];
 
         public TimePower_OperatorDto(
             OperatorDto signalOperatorDto,

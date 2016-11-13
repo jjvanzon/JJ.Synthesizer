@@ -6,9 +6,9 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
 
-        public OperatorDto AOperatorDto => ChildOperatorDtos[0];
-        public OperatorDto BOperatorDto => ChildOperatorDtos[1];
-        public OperatorDto OriginOperatorDto => ChildOperatorDtos[2];
+        public OperatorDto AOperatorDto => InputOperatorDtos[0];
+        public OperatorDto BOperatorDto => InputOperatorDtos[1];
+        public OperatorDto OriginOperatorDto => InputOperatorDtos[2];
 
         public MultiplyWithOrigin_OperatorDto(
             OperatorDto aOperatorDto,

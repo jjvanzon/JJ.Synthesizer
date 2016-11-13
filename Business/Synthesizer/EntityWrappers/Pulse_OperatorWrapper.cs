@@ -11,7 +11,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         private const int FREQUENCY_INDEX = 0;
         private const int WIDTH_INDEX = 1;
-        private const int PHASE_SHIFT_INDEX = 2;
 
         public Pulse_OperatorWrapper(Operator op)
             : base(op)

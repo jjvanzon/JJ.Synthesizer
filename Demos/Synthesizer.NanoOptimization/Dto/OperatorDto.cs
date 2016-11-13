@@ -12,12 +12,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
     {
         public int DimensionStackLevel { get; set; }
         public abstract string OperatorTypeName { get; }
-        public IList<OperatorDto> ChildOperatorDtos { get; set; }
+        public IList<OperatorDto> InputOperatorDtos { get; set; }
 
-        public OperatorDto(IList<OperatorDto> childOperatorDtos)
+        public OperatorDto(IList<OperatorDto> inputOperatorDtos)
         {
-            if (childOperatorDtos == null) throw new NullException(() => childOperatorDtos);
-            ChildOperatorDtos = childOperatorDtos;
+            if (inputOperatorDtos == null) throw new NullException(() => inputOperatorDtos);
+            InputOperatorDtos = inputOperatorDtos;
         }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);

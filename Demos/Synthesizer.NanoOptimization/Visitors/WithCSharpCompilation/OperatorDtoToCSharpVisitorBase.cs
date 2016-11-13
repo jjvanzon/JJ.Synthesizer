@@ -44,7 +44,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         public abstract string Execute(OperatorDto dto, string generatedNameSpace, string generatedClassName);
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override IList<OperatorDto> VisitChildOperatorDtos(IList<OperatorDto> operatorDtos)
+        protected override IList<OperatorDto> VisitInputOperatorDtos(IList<OperatorDto> operatorDtos)
         {
             // Reverse the order, so calculators pop off the stack in the right order.
             for (int i = operatorDtos.Count - 1; i >= 0; i--)

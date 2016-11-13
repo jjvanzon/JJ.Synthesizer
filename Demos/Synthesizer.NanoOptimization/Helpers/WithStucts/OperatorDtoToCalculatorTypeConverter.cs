@@ -35,16 +35,16 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts
             Type calculatorType_OpenGeneric = Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(operatorDto);
 
             IList<Type> calculatorType_OpenGenericTypeArguments = calculatorType_OpenGeneric.GetGenericArguments();
-            IList<OperatorDto> childOperatorDtos = operatorDto.ChildOperatorDtos;
+            IList<OperatorDto> inputOperatorDtos = operatorDto.InputOperatorDtos;
 
-            if (calculatorType_OpenGenericTypeArguments.Count != childOperatorDtos.Count)
+            if (calculatorType_OpenGenericTypeArguments.Count != inputOperatorDtos.Count)
             {
                 throw new NotEqualException(
                     () => calculatorType_OpenGenericTypeArguments.Count,
-                    () => childOperatorDtos.Count);
+                    () => inputOperatorDtos.Count);
             }
 
-            int count = childOperatorDtos.Count;
+            int count = inputOperatorDtos.Count;
 
             // .NET does not believe in generic types with 0 type arguments, so handle that.
             if (count == 0)
@@ -56,9 +56,9 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts
             for (int i = 0; i < count; i++)
             {
                 Type calculatorType_OpenGenericTypeArgument = calculatorType_OpenGenericTypeArguments[i];
-                OperatorDto childOperatorDto = childOperatorDtos[i];
+                OperatorDto inputOperatorDto = inputOperatorDtos[i];
 
-                Type calculatorType_ClosedGenericTypeArgument = ConvertToClosedGenericType(childOperatorDto);
+                Type calculatorType_ClosedGenericTypeArgument = ConvertToClosedGenericType(inputOperatorDto);
 
                 calculatorType_ClosedGenericTypeArguments[i] = calculatorType_ClosedGenericTypeArgument;
             }
@@ -75,7 +75,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts
 
             if (dtoType_Concrete == typeof(Add_OperatorDto_Vars))
             {
-                switch (operatorDto.ChildOperatorDtos.Count)
+                switch (operatorDto.InputOperatorDtos.Count)
                 {
                     case 2: return typeof(Add_OperatorCalculator_2Vars<,>);
                     case 3: return typeof(Add_OperatorCalculator_3Vars<,,>);
@@ -90,7 +90,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts
 
             if (dtoType_Concrete == typeof(Add_OperatorDto_Vars_1Const))
             {
-                switch (operatorDto.ChildOperatorDtos.Count)
+                switch (operatorDto.InputOperatorDtos.Count)
                 {
                     case 1: return typeof(Add_OperatorCalculator_1Vars_1Const<>);
                     case 2: return typeof(Add_OperatorCalculator_2Vars_1Const<,>);

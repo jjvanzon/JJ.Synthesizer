@@ -6,8 +6,8 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
-        public OperatorDto NumeratorOperatorDto => ChildOperatorDtos[0];
-        public OperatorDto DenominatorOperatorDto => ChildOperatorDtos[1];
+        public OperatorDto NumeratorOperatorDto => InputOperatorDtos[0];
+        public OperatorDto DenominatorOperatorDto => InputOperatorDtos[1];
 
         public Divide_OperatorDto(OperatorDto numeratorOperatorDto, OperatorDto denominatorOperatorDto)
             : base(new OperatorDto[] { numeratorOperatorDto, denominatorOperatorDto })

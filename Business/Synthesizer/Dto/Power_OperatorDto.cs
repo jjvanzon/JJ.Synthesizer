@@ -6,8 +6,8 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Power);
 
-        public OperatorDto BaseOperatorDto => ChildOperatorDtos[0];
-        public OperatorDto ExponentOperatorDto => ChildOperatorDtos[1];
+        public OperatorDto BaseOperatorDto => InputOperatorDtos[0];
+        public OperatorDto ExponentOperatorDto => InputOperatorDtos[1];
 
         public Power_OperatorDto(
             OperatorDto baseOperatorDto,

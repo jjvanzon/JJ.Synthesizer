@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Shift_OperatorWrapper : OperatorWrapperBase_WithResult
     {
-        private const int DIFFERENCE_INDEX = 1;
         private const int SIGNAL_INDEX = 0;
+        private const int DIFFERENCE_INDEX = 1;
 
         public Shift_OperatorWrapper(Operator op)
             : base(op)

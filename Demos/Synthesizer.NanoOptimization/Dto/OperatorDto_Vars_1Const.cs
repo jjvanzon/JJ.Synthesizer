@@ -8,8 +8,8 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
     {
         public IList<OperatorDto> Vars
         {
-            get { return ChildOperatorDtos; }
-            set { ChildOperatorDtos = value; }
+            get { return InputOperatorDtos; }
+            set { InputOperatorDtos = value; }
         }
 
         public double ConstValue { get; set; }

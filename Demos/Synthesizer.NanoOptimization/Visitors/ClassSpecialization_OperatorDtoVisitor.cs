@@ -19,14 +19,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         {
             base.Visit_Add_OperatorDto(dto);
 
-            IList<OperatorDto> childOperatorDtos = dto.ChildOperatorDtos;
+            IList<OperatorDto> inputOperatorDtos = dto.InputOperatorDtos;
 
-            childOperatorDtos = TruncateOperatorDtoList(childOperatorDtos, x => x.Sum());
+            inputOperatorDtos = TruncateOperatorDtoList(inputOperatorDtos, x => x.Sum());
 
             // Get rid of const zero.
-            childOperatorDtos.TryRemoveFirst(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConstZero);
+            inputOperatorDtos.TryRemoveFirst(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConstZero);
 
-            switch (childOperatorDtos.Count)
+            switch (inputOperatorDtos.Count)
             {
                 case 0:
                     {
@@ -36,23 +36,23 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
                 case 1:
                     {
-                        OperatorDto dto2 = childOperatorDtos[0];
+                        OperatorDto dto2 = inputOperatorDtos[0];
                         return dto2;
                     }
 
                 default:
-                    OperatorDto constChildOperatorDto = childOperatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst)
+                    OperatorDto constInputOperatorDto = inputOperatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst)
                                                                          .SingleOrDefault();
-                    if (constChildOperatorDto == null)
+                    if (constInputOperatorDto == null)
                     {
-                        OperatorDto dto2 = new Add_OperatorDto_Vars(childOperatorDtos);
+                        OperatorDto dto2 = new Add_OperatorDto_Vars(inputOperatorDtos);
                         return dto2;
                     }
                     else
                     {
-                        IList<OperatorDto> varChildOperatorDtos = childOperatorDtos.Except(constChildOperatorDto).ToArray();
-                        double constValue = MathPropertiesHelper.GetMathPropertiesDto(constChildOperatorDto).Value;
-                        OperatorDto dto2 = new Add_OperatorDto_Vars_1Const(varChildOperatorDtos, constValue);
+                        IList<OperatorDto> varInputOperatorDtos = inputOperatorDtos.Except(constInputOperatorDto).ToArray();
+                        double constValue = MathPropertiesHelper.GetMathPropertiesDto(constInputOperatorDto).Value;
+                        OperatorDto dto2 = new Add_OperatorDto_Vars_1Const(varInputOperatorDtos, constValue);
                         return dto2;
                     }
             }

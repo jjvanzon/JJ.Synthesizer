@@ -38,7 +38,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithInheritance
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override IList<OperatorDto> VisitChildOperatorDtos(IList<OperatorDto> operatorDtos)
+        protected override IList<OperatorDto> VisitInputOperatorDtos(IList<OperatorDto> operatorDtos)
         {
             // Reverse the order, so calculators pop off the stack in the right order.
             for (int i = operatorDtos.Count - 1; i >= 0; i--)
@@ -56,7 +56,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithInheritance
         {
             base.Visit_Add_OperatorDto_Vars(dto);
 
-            int operandCount = dto.ChildOperatorDtos.Count;
+            int operandCount = dto.InputOperatorDtos.Count;
 
             var operandCalculators = new OperatorCalculatorBase[operandCount];
 

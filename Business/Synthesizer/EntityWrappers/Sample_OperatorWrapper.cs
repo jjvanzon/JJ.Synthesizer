@@ -2,16 +2,11 @@
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using System;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Sample_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class Sample_OperatorWrapper : OperatorWrapperBase_WithFrequency
     {
-        private const int FREQUENCY_INDEX = 0;
-
         private readonly ISampleRepository _sampleRepository;
 
         public Sample_OperatorWrapper(Operator op, ISampleRepository sampleRepository)
@@ -21,14 +16,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             _sampleRepository = sampleRepository;
         }
-
-        public Outlet Frequency
-        {
-            get { return FrequencyInlet.InputOutlet; }
-            set { FrequencyInlet.LinkTo(value); }
-        }
-
-        public Inlet FrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX);
 
         public int? SampleID
         {
@@ -87,14 +74,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                     Bytes = this.SampleBytes
                 };
             }
-        }
-
-        public override string GetInletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Frequency);
-            return name;
         }
     }
 }
