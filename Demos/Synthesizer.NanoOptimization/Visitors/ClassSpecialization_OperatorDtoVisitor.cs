@@ -134,7 +134,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
             if (frequencyMathPropertiesDto.IsConst)
             {
-                return new Sine_OperatorDto_ConstFrequency_NoOriginShifting(frequencyMathPropertiesDto.Value);
+                return new Sine_OperatorDto_ConstFrequency_WithOriginShifting(frequencyMathPropertiesDto.Value);
             }
 
             if (frequencyMathPropertiesDto.IsVar)

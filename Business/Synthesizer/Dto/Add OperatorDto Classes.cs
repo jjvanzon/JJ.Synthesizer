@@ -1,0 +1,32 @@
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
+
+namespace JJ.Business.Synthesizer.Dto
+{
+    internal class Add_OperatorDto : OperatorDtoBase_Vars
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Add);
+
+        public Add_OperatorDto(IList<OperatorDtoBase> vars)
+            : base(vars)
+        { }
+    }
+
+    internal class Add_OperatorDto_Vars : OperatorDtoBase_Vars
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Add);
+
+        public Add_OperatorDto_Vars(IList<OperatorDtoBase> vars)
+            : base(vars)
+        { }
+    }
+
+    internal class Add_OperatorDto_Vars_1Const : OperatorDtoBase_Vars_1Const
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Add);
+
+        public Add_OperatorDto_Vars_1Const(IList<OperatorDtoBase> vars, double constValue)
+            : base(vars, constValue)
+        { }
+    }
+}

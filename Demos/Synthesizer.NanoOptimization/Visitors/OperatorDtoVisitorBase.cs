@@ -319,12 +319,19 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
                     return Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(castedDto);
                 }
             }
+            {
+                var castedDto = dto as Sine_OperatorDto_ConstFrequency_WithOriginShifting;
+                if (castedDto != null)
+                {
+                    return Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(castedDto);
+                }
+            }
 
             throw new UnexpectedTypeException(() => dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDtoBase Visit_OperatorDtoBase_ConstFrequency_Base(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_ConstFrequency_Base(OperatorDtoBase_ConstFrequency)
         {
             return Visit_OperatorDto_Base(dto);
         }
@@ -506,6 +513,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        {
+            return Visit_OperatorDtoBase_ConstFrequency_Base(dto);
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(Sine_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
             return Visit_OperatorDtoBase_ConstFrequency_Base(dto);
         }
