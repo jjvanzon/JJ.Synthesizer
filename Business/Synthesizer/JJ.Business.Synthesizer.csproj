@@ -237,6 +237,10 @@
     <Compile Include="Dto\OperatorDtoBase_ShelfFilter.cs" />
     <Compile Include="Dto\PeakingEQFilter_OperatorDto.cs" />
     <Compile Include="Dto\RangeOverOutlets_OperatorDto.cs" />
+    <Compile Include="Dto\Shift_OperatorDto_ConstSignal_ConstDistance.cs" />
+    <Compile Include="Dto\Shift_OperatorDto_ConstSignal_VarDistance.cs" />
+    <Compile Include="Dto\Shift_OperatorDto_VarSignal_ConstDistance.cs" />
+    <Compile Include="Dto\Shift_OperatorDto_VarSignal_VarDistance.cs" />
     <Compile Include="Dto\SortOverDimension_OperatorDto.cs" />
     <Compile Include="Dto\SortOverInlets_OperatorDto.cs" />
     <Compile Include="Dto\ClosestOverInletsExp_OperatorDto.cs" />

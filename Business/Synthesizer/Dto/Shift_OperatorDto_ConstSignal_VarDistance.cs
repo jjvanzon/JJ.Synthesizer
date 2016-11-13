@@ -1,10 +1,10 @@
-﻿using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+﻿using JJ.Business.Synthesizer.Enums;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
+namespace JJ.Business.Synthesizer.Dto
 {
     internal class Shift_OperatorDto_ConstSignal_VarDistance : OperatorDtoBase
     {
-        public override string OperatorTypeName => OperatorNames.Shift;
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
         public double SignalValue { get; set; }
         public OperatorDtoBase DistanceOperatorDto => InputOperatorDtos[0];
