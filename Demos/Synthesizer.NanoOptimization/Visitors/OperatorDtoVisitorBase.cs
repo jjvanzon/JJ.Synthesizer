@@ -13,69 +13,69 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         // Polymorphic
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_Polymorphic(OperatorDto dto)
+        protected virtual OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
         {
             {
-                var castedDto = dto as OperatorDto_VarA_VarB;
+                var castedDto = dto as OperatorDtoBase_VarA_VarB;
                 if (castedDto != null)
                 {
-                    return Visit_OperatorDto_VarA_VarB_Polymorphic(castedDto);
+                    return Visit_OperatorDtoBase_VarA_VarB_Polymorphic(castedDto);
                 }
             }
 
             {
-                var castedDto = dto as OperatorDto_VarA_ConstB;
+                var castedDto = dto as OperatorDtoBase_VarA_ConstB;
                 if (castedDto != null)
                 {
-                    return Visit_OperatorDto_VarA_ConstB_Polymorphic(castedDto);
+                    return Visit_OperatorDtoBase_VarA_ConstB_Polymorphic(castedDto);
                 }
             }
 
             {
-                var castedDto = dto as OperatorDto_ConstA_VarB;
+                var castedDto = dto as OperatorDtoBase_ConstA_VarB;
                 if (castedDto != null)
                 {
-                    return Visit_OperatorDto_ConstA_VarB_Polymorphic(castedDto);
+                    return Visit_OperatorDtoBase_ConstA_VarB_Polymorphic(castedDto);
                 }
             }
 
             {
-                var castedDto = dto as OperatorDto_ConstA_ConstB;
+                var castedDto = dto as OperatorDtoBase_ConstA_ConstB;
                 if (castedDto != null)
                 {
-                    return Visit_OperatorDto_ConstA_ConstB_Polymorphic(castedDto);
+                    return Visit_OperatorDtoBase_ConstA_ConstB_Polymorphic(castedDto);
                 }
             }
 
             {
-                var castedDto = dto as OperatorDto_Vars;
+                var castedDto = dto as OperatorDtoBase_Vars;
                 if (castedDto != null)
                 {
-                    return Visit_OperatorDto_OperatorDto_Vars_Polymorphic(castedDto);
+                    return Visit_OperatorDtoBase_OperatorDto_Vars_Polymorphic(castedDto);
                 }
             }
 
             {
-                var castedDto = dto as OperatorDto_Vars_1Const;
+                var castedDto = dto as OperatorDtoBase_Vars_1Const;
                 if (castedDto != null)
                 {
-                    return Visit_OperatorDto_OperatorDto_Vars_1Const_Polymorphic(castedDto);
+                    return Visit_OperatorDtoBase_OperatorDto_Vars_1Const_Polymorphic(castedDto);
                 }
             }
 
             {
-                var castedDto = dto as OperatorDto_VarFrequency;
+                var castedDto = dto as OperatorDtoBase_VarFrequency;
                 if (castedDto != null)
                 {
-                    return Visit_OperatorDto_VarFrequency_Polymorphic(castedDto);
+                    return Visit_OperatorDtoBase_VarFrequency_Polymorphic(castedDto);
                 }
             }
 
             {
-                var castedDto = dto as OperatorDto_ConstFrequency;
+                var castedDto = dto as OperatorDtoBase_ConstFrequency;
                 if (castedDto != null)
                 {
-                    return Visit_OperatorDto_ConstFrequency_Polymorphic(castedDto);
+                    return Visit_OperatorDtoBase_ConstFrequency_Polymorphic(castedDto);
                 }
             }
 
@@ -139,7 +139,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_VarA_VarB_Polymorphic(OperatorDto_VarA_VarB dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_VarA_VarB_Polymorphic(OperatorDtoBase_VarA_VarB dto)
         {
             {
                 var castedDto = dto as Multiply_OperatorDto;
@@ -161,13 +161,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_VarA_VarB_Base(OperatorDto_VarA_VarB dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_VarA_VarB_Base(OperatorDtoBase_VarA_VarB dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_VarA_ConstB_Polymorphic(OperatorDto_VarA_ConstB dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_VarA_ConstB_Polymorphic(OperatorDtoBase_VarA_ConstB dto)
         {
             {
                 var castedDto = dto as Multiply_OperatorDto_VarA_ConstB;
@@ -181,13 +181,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_VarA_ConstB_Base(OperatorDto_VarA_ConstB dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_VarA_ConstB_Base(OperatorDtoBase_VarA_ConstB dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_ConstA_VarB_Polymorphic(OperatorDto_ConstA_VarB dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_ConstA_VarB_Polymorphic(OperatorDtoBase_ConstA_VarB dto)
         {
             {
                 var castedDto = dto as Multiply_OperatorDto_ConstA_VarB;
@@ -201,13 +201,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_ConstA_VarB_Base(OperatorDto_ConstA_VarB dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_ConstA_VarB_Base(OperatorDtoBase_ConstA_VarB dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_ConstA_ConstB_Polymorphic(OperatorDto_ConstA_ConstB dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_ConstA_ConstB_Polymorphic(OperatorDtoBase_ConstA_ConstB dto)
         {
             {
                 var castedDto = dto as Multiply_OperatorDto_ConstA_ConstB;
@@ -221,13 +221,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_ConstA_ConstB_Base(OperatorDto_ConstA_ConstB dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_ConstA_ConstB_Base(OperatorDtoBase_ConstA_ConstB dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_OperatorDto_Vars_Polymorphic(OperatorDto_Vars dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_OperatorDto_Vars_Polymorphic(OperatorDtoBase_Vars dto)
         {
             {
                 var castedDto = dto as Add_OperatorDto;
@@ -249,13 +249,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_Vars_Base(Add_OperatorDto_Vars dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_Vars_Base(OperatorDtoBase_Vars dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_OperatorDto_Vars_1Const_Polymorphic(OperatorDto_Vars_1Const dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_OperatorDto_Vars_1Const_Polymorphic(OperatorDtoBase_Vars_1Const dto)
         {
             {
                 var castedDto = dto as Add_OperatorDto_Vars_1Const;
@@ -269,13 +269,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_Vars_1Const_Base(OperatorDto_Vars_1Const dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_Vars_1Const_Base(OperatorDtoBase_Vars_1Const dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_VarFrequency_Polymorphic(OperatorDto_VarFrequency dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_VarFrequency_Polymorphic(OperatorDtoBase_VarFrequency dto)
         {
             {
                 var castedDto = dto as Sine_OperatorDto;
@@ -304,13 +304,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_VarFrequency_Base(OperatorDto_VarFrequency dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_VarFrequency_Base(OperatorDtoBase_VarFrequency dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_ConstFrequency_Polymorphic(OperatorDto_ConstFrequency dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_ConstFrequency_Polymorphic(OperatorDtoBase_ConstFrequency dto)
         {
             {
                 var castedDto = dto as Sine_OperatorDto_ConstFrequency_NoOriginShifting;
@@ -324,7 +324,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_ConstFrequency_Base(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_ConstFrequency_Base(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
@@ -332,59 +332,59 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         // Add
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
+        protected virtual OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
-            return Visit_OperatorDto_Vars_Base(dto);
+            return Visit_OperatorDtoBase_Vars_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
+        protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
         {
-            return Visit_OperatorDto_Vars_Base(dto);
+            return Visit_OperatorDtoBase_Vars_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
+        protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
-            return Visit_OperatorDto_Vars_1Const_Base(dto);
+            return Visit_OperatorDtoBase_Vars_1Const_Base(dto);
         }
 
         // Multiply
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
+        protected virtual OperatorDtoBase Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
         {
-            return Visit_OperatorDto_VarA_VarB_Base(dto);
+            return Visit_OperatorDtoBase_VarA_VarB_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
+        protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
         {
-            return Visit_OperatorDto_VarA_VarB_Base(dto);
+            return Visit_OperatorDtoBase_VarA_VarB_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
+        protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
         {
-            return Visit_OperatorDto_VarA_ConstB_Base(dto);
+            return Visit_OperatorDtoBase_VarA_ConstB_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Multiply_OperatorDto_ConstA_VarB(Multiply_OperatorDto_ConstA_VarB dto)
+        protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_ConstA_VarB(Multiply_OperatorDto_ConstA_VarB dto)
         {
-            return Visit_OperatorDto_ConstA_VarB_Base(dto);
+            return Visit_OperatorDtoBase_ConstA_VarB_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB dto)
+        protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB dto)
         {
-            return Visit_OperatorDto_ConstA_ConstB_Base(dto);
+            return Visit_OperatorDtoBase_ConstA_ConstB_Base(dto);
         }
 
         // Number
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Number_OperatorDto_ConcreteOrPolymorphic(Number_OperatorDto dto)
+        protected virtual OperatorDtoBase Visit_Number_OperatorDto_ConcreteOrPolymorphic(Number_OperatorDto dto)
         {
             bool isConcrete = dto.GetType() == typeof(Number_OperatorDto);
 
@@ -399,13 +399,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
+        protected virtual OperatorDtoBase Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Number_OperatorDto_Polymorphic(Number_OperatorDto dto)
+        protected virtual OperatorDtoBase Visit_Number_OperatorDto_Polymorphic(Number_OperatorDto dto)
         {
             var number_OperatorDto_NaN = dto as Number_OperatorDto_NaN;
             if (number_OperatorDto_NaN != null)
@@ -429,25 +429,25 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
+        protected virtual OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
+        protected virtual OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
+        protected virtual OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
         {
             return Visit_Number_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Number_OperatorDto_Base(Number_OperatorDto dto)
+        protected virtual OperatorDtoBase Visit_Number_OperatorDto_Base(Number_OperatorDto dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
@@ -455,31 +455,31 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         // Shift
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Shift_OperatorDto(Shift_OperatorDto dto)
+        protected virtual OperatorDtoBase Visit_Shift_OperatorDto(Shift_OperatorDto dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
+        protected virtual OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
+        protected virtual OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto)
+        protected virtual OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto)
+        protected virtual OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
@@ -487,33 +487,33 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         // Sine
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto)
+        protected virtual OperatorDtoBase Visit_Sine_OperatorDto(Sine_OperatorDto dto)
         {
-            return Visit_OperatorDto_VarFrequency_Base(dto);
+            return Visit_OperatorDtoBase_VarFrequency_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected virtual OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return Visit_OperatorDto_VarFrequency_Base(dto);
+            return Visit_OperatorDtoBase_VarFrequency_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        protected virtual OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            return Visit_OperatorDto_VarFrequency_Base(dto);
+            return Visit_OperatorDtoBase_VarFrequency_Base(dto);
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected virtual OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            return Visit_OperatorDto_ConstFrequency_Base(dto);
+            return Visit_OperatorDtoBase_ConstFrequency_Base(dto);
         }
 
         // VariableInput
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
+        protected virtual OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {
             return Visit_OperatorDto_Base(dto);
         }
@@ -521,7 +521,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         // Base
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto Visit_OperatorDto_Base(OperatorDto dto)
+        protected virtual OperatorDtoBase Visit_OperatorDto_Base(OperatorDtoBase dto)
         {
             dto.InputOperatorDtos = VisitInputOperatorDtos(dto.InputOperatorDtos);
 
@@ -529,11 +529,11 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual IList<OperatorDto> VisitInputOperatorDtos(IList<OperatorDto> operatorDtos)
+        protected virtual IList<OperatorDtoBase> VisitInputOperatorDtos(IList<OperatorDtoBase> operatorDtos)
         {
             for (int i = 0; i < operatorDtos.Count; i++)
             {
-                OperatorDto operatorDto = operatorDtos[i];
+                OperatorDtoBase operatorDto = operatorDtos[i];
                 operatorDtos[i] = VisitOperatorDto(operatorDto);
             }
 
@@ -541,7 +541,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDto VisitOperatorDto(OperatorDto dto)
+        protected virtual OperatorDtoBase VisitOperatorDto(OperatorDtoBase dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
         }

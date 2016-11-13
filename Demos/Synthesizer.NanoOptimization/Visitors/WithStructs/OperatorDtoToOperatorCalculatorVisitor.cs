@@ -19,7 +19,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             _dimensionStack = dimensionStack;
         }
 
-        public IOperatorCalculator Execute(OperatorDto sourceOperatorDto)
+        public IOperatorCalculator Execute(OperatorDtoBase sourceOperatorDto)
         {
             var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
             sourceOperatorDto = preProcessingVisitor.Execute(sourceOperatorDto);

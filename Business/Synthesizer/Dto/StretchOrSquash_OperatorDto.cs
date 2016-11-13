@@ -2,17 +2,17 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class StretchOrSquash_OperatorDto : OperatorDto
+    internal abstract class StretchOrSquash_OperatorDto : OperatorDtoBase
     {
-        public OperatorDto SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDto FactorOperatorDto => InputOperatorDtos[1];
-        public OperatorDto OriginOperatorDto => InputOperatorDtos[2];
+        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase FactorOperatorDto => InputOperatorDtos[1];
+        public OperatorDtoBase OriginOperatorDto => InputOperatorDtos[2];
 
         public StretchOrSquash_OperatorDto(
-            OperatorDto signalOperatorDto,
-            OperatorDto factorOperatorDto,
-            OperatorDto originOperatorDto)
-            : base(new OperatorDto[] 
+            OperatorDtoBase signalOperatorDto,
+            OperatorDtoBase factorOperatorDto,
+            OperatorDtoBase originOperatorDto)
+            : base(new OperatorDtoBase[] 
             {
                 signalOperatorDto,
                 factorOperatorDto,

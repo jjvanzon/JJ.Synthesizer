@@ -2,11 +2,11 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Negative_OperatorDto : OperatorDto_VarX
+    internal class Negative_OperatorDto : OperatorDtoBase_VarX
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Negative);
 
-        public Negative_OperatorDto(OperatorDto xOperatorDto)
+        public Negative_OperatorDto(OperatorDtoBase xOperatorDto)
             : base(xOperatorDto)
         { }
     }

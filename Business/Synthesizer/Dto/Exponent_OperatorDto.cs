@@ -2,19 +2,19 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Exponent_OperatorDto : OperatorDto
+    internal class Exponent_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Exponent);
 
-        public OperatorDto LowOperatorDto => InputOperatorDtos[0];
-        public OperatorDto HighOperatorDto => InputOperatorDtos[1];
-        public OperatorDto RatioOperatorDto => InputOperatorDtos[2];
+        public OperatorDtoBase LowOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase HighOperatorDto => InputOperatorDtos[1];
+        public OperatorDtoBase RatioOperatorDto => InputOperatorDtos[2];
 
         public Exponent_OperatorDto(
-            OperatorDto lowOperatorDto,
-            OperatorDto highOperatorDto,
-            OperatorDto ratioOperatorDto)
-            : base(new OperatorDto[] { lowOperatorDto, highOperatorDto, ratioOperatorDto })
+            OperatorDtoBase lowOperatorDto,
+            OperatorDtoBase highOperatorDto,
+            OperatorDtoBase ratioOperatorDto)
+            : base(new OperatorDtoBase[] { lowOperatorDto, highOperatorDto, ratioOperatorDto })
         { }
     }
 }

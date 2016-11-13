@@ -20,7 +20,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
         //}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MathPropertiesDto GetMathPropertiesDto(OperatorDto operatorDto)
+        public static MathPropertiesDto GetMathPropertiesDto(OperatorDtoBase operatorDto)
         {
             var number_OperatorDto = operatorDto as Number_OperatorDto;
             if (number_OperatorDto != null)

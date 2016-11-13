@@ -23,7 +23,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
 
         // Execute
 
-        public IOperatorCalculator Execute(OperatorDto sourceDto, IOperatorCalculator destCalculator)
+        public IOperatorCalculator Execute(OperatorDtoBase sourceDto, IOperatorCalculator destCalculator)
         {
             if (sourceDto == null) throw new NullException(() => sourceDto);
             if (destCalculator == null) throw new NullException(() => destCalculator);
@@ -39,12 +39,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override IList<OperatorDto> VisitInputOperatorDtos(IList<OperatorDto> operatorDtos)
+        protected override IList<OperatorDtoBase> VisitInputOperatorDtos(IList<OperatorDtoBase> operatorDtos)
         {
             // Reverse the order, so calculators pop off the stack in the right order.
             for (int i = operatorDtos.Count - 1; i >= 0; i--)
             {
-                OperatorDto operatorDto = operatorDtos[i];
+                OperatorDtoBase operatorDto = operatorDtos[i];
                 VisitOperatorDto(operatorDto);
             }
 
@@ -53,7 +53,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
 
         // Visit
 
-        protected override OperatorDto Visit_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
+        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
         {
             base.Visit_Add_OperatorDto_Vars(dto);
 
@@ -71,7 +71,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
+        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
@@ -91,7 +91,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
 
         }
 
-        protected override OperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
+        protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
         {
             base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);
 
@@ -100,7 +100,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
+        protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
         {
             base.Visit_Multiply_OperatorDto_VarA_VarB(dto);
 
@@ -109,7 +109,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
         {
             base.Visit_Number_OperatorDto_Concrete(dto);
 
@@ -121,7 +121,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
+        protected override OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
             base.Visit_Number_OperatorDto_NaN(dto);
 
@@ -130,7 +130,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
+        protected override OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
         {
             base.Visit_Number_OperatorDto_One(dto);
 
@@ -139,7 +139,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
+        protected override OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
         {
             base.Visit_Number_OperatorDto_Zero(dto);
 
@@ -148,7 +148,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
+        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
             base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
 
@@ -164,7 +164,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
+        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
             base.Visit_Shift_OperatorDto_VarSignal_VarDistance(dto);
 
@@ -181,7 +181,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             base.Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(dto);
 
@@ -194,7 +194,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
             base.Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(dto);
 
@@ -203,7 +203,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             base.Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(dto);
 
@@ -212,7 +212,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
+        protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {
             base.Visit_VariableInput_OperatorDto(dto);
 
@@ -226,7 +226,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
 
         // Reused Methods
 
-        private void Process_OperatorDto_VarA_VarB(OperatorDto dto)
+        private void Process_OperatorDto_VarA_VarB(OperatorDtoBase dto)
         {
             IOperatorCalculator aCalculator = _stack.Pop();
             IOperatorCalculator bCalculator = _stack.Pop();
@@ -238,7 +238,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             _stack.Push(calculator);
         }
 
-        private void Process_OperatorDto_VarA_ConstB(OperatorDto_VarA_ConstB dto)
+        private void Process_OperatorDto_VarA_ConstB(OperatorDtoBase_VarA_ConstB dto)
         {
             IOperatorCalculator aCalculator = _stack.Pop();
 
@@ -249,7 +249,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             _stack.Push(calculator);
         }
 
-        private void Process_OperatorDto_VarFrequency(OperatorDto_VarFrequency dto)
+        private void Process_OperatorDto_VarFrequency(OperatorDtoBase_VarFrequency dto)
         {
             IOperatorCalculator frequencyCalculator = _stack.Pop();
 
@@ -260,14 +260,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
             _stack.Push(calculator);
         }
 
-        private void Process_OperatorDto_WithoutVariables(OperatorDto dto)
+        private void Process_OperatorDto_WithoutVariables(OperatorDtoBase dto)
         {
             var calculator = (IOperatorCalculator)CreateCalculator(dto);
 
             _stack.Push(calculator);
         }
 
-        private object CreateCalculator(OperatorDto dto)
+        private object CreateCalculator(OperatorDtoBase dto)
         {
             Type calculatorType = OperatorDtoToCalculatorTypeConverter.ConvertToClosedGenericType(dto);
             var calculator = Activator.CreateInstance(calculatorType);

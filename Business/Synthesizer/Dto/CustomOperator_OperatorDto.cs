@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class CustomOperator_OperatorDto : OperatorDto
+    internal class CustomOperator_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.CustomOperator);
 
@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public Patch UnderlyingPatch { get; }
 
-        public CustomOperator_OperatorDto(Patch underlyingPatch, IList<OperatorDto> inputOperatorDtos)
+        public CustomOperator_OperatorDto(Patch underlyingPatch, IList<OperatorDtoBase> inputOperatorDtos)
             : base(inputOperatorDtos)
         {
             UnderlyingPatch = underlyingPatch;

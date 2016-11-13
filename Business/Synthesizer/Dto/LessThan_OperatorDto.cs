@@ -2,11 +2,11 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class LessThan_OperatorDto : OperatorDto_VarA_VarB
+    internal class LessThan_OperatorDto : OperatorDtoBase_VarA_VarB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.LessThan);
 
-        public LessThan_OperatorDto(OperatorDto aOperatorDto, OperatorDto bOperatorDto)
+        public LessThan_OperatorDto(OperatorDtoBase aOperatorDto, OperatorDtoBase bOperatorDto)
             : base(aOperatorDto, bOperatorDto)
         { }
     }

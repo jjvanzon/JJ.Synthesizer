@@ -41,22 +41,22 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
         protected int _phaseVariableCounter;
         protected int _previousPositionVariableCounter;
 
-        public abstract string Execute(OperatorDto dto, string generatedNameSpace, string generatedClassName);
+        public abstract string Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName);
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override IList<OperatorDto> VisitInputOperatorDtos(IList<OperatorDto> operatorDtos)
+        protected override IList<OperatorDtoBase> VisitInputOperatorDtos(IList<OperatorDtoBase> operatorDtos)
         {
             // Reverse the order, so calculators pop off the stack in the right order.
             for (int i = operatorDtos.Count - 1; i >= 0; i--)
             {
-                OperatorDto operatorDto = operatorDtos[i];
+                OperatorDtoBase operatorDto = operatorDtos[i];
                 VisitOperatorDto(operatorDto);
             }
 
             return operatorDtos;
         }
 
-        protected override OperatorDto Visit_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
+        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
         {
             base.Visit_Add_OperatorDto_Vars(dto);
 
@@ -65,7 +65,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return dto;
         }
 
-        protected override OperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
+        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
@@ -75,7 +75,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return dto;
         }
 
-        protected override OperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
+        protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
         {
             base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);
 
@@ -85,7 +85,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return dto;
         }
 
-        protected override OperatorDto Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
+        protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
         {
             base.Visit_Multiply_OperatorDto_VarA_VarB(dto);
 
@@ -94,7 +94,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return dto;
         }
 
-        protected override OperatorDto Visit_Number_OperatorDto_ConcreteOrPolymorphic(Number_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Number_OperatorDto_ConcreteOrPolymorphic(Number_OperatorDto dto)
         {
             base.Visit_Number_OperatorDto_ConcreteOrPolymorphic(dto);
 
@@ -106,7 +106,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return dto;
         }
 
-        protected override OperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
+        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
             // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
 
@@ -115,7 +115,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return dto;
         }
 
-        protected override OperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
+        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
             // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
 
@@ -124,7 +124,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return dto;
         }
 
-        private void ProcessShift(OperatorDto shiftOperatorDto, OperatorDto signalOperatorDto, OperatorDto distanceOperatorDto = null, double? distance = null)
+        private void ProcessShift(OperatorDtoBase shiftOperatorDto, OperatorDtoBase signalOperatorDto, OperatorDtoBase distanceOperatorDto = null, double? distance = null)
         {
             _sb.AppendLine();
             _sb.AppendLine("// " + shiftOperatorDto.OperatorTypeName);
@@ -156,7 +156,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             _stack.Push(signalValueInfo);
         }
 
-        protected override OperatorDto Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             base.Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(dto);
 
@@ -186,7 +186,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
             return dto;
         }
 
-        protected override OperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
+        protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {
             base.Visit_VariableInput_OperatorDto(dto);
 

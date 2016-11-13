@@ -2,17 +2,17 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Power_OperatorDto : OperatorDto
+    internal class Power_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Power);
 
-        public OperatorDto BaseOperatorDto => InputOperatorDtos[0];
-        public OperatorDto ExponentOperatorDto => InputOperatorDtos[1];
+        public OperatorDtoBase BaseOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase ExponentOperatorDto => InputOperatorDtos[1];
 
         public Power_OperatorDto(
-            OperatorDto baseOperatorDto,
-            OperatorDto exponentOperatorDto)
-            : base(new OperatorDto[] { baseOperatorDto, exponentOperatorDto })
+            OperatorDtoBase baseOperatorDto,
+            OperatorDtoBase exponentOperatorDto)
+            : base(new OperatorDtoBase[] { baseOperatorDto, exponentOperatorDto })
         { }
     }
 }

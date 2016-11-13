@@ -2,19 +2,19 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class If_OperatorDto : OperatorDto
+    internal class If_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.If);
 
-        public OperatorDto ConditionOperatorDto => InputOperatorDtos[0];
-        public OperatorDto ThenOperatorDto => InputOperatorDtos[1];
-        public OperatorDto ElseOperatorDto => InputOperatorDtos[2];
+        public OperatorDtoBase ConditionOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase ThenOperatorDto => InputOperatorDtos[1];
+        public OperatorDtoBase ElseOperatorDto => InputOperatorDtos[2];
 
         public If_OperatorDto(
-            OperatorDto conditionOperatorDto,
-            OperatorDto thenOperatorDto,
-            OperatorDto elseOperatorDto)
-            : base(new OperatorDto[] { conditionOperatorDto, thenOperatorDto, elseOperatorDto })
+            OperatorDtoBase conditionOperatorDto,
+            OperatorDtoBase thenOperatorDto,
+            OperatorDtoBase elseOperatorDto)
+            : base(new OperatorDtoBase[] { conditionOperatorDto, thenOperatorDto, elseOperatorDto })
         { }
     }
 }

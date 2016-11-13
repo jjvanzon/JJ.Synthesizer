@@ -9,14 +9,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
     {
         private int _currentStackLevel;
 
-        public void Execute(OperatorDto dto)
+        public void Execute(OperatorDtoBase dto)
         {
             _currentStackLevel = 0;
 
             Visit_OperatorDto_Polymorphic(dto);
         }
 
-        protected override OperatorDto Visit_OperatorDto_Polymorphic(OperatorDto dto)
+        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
         {
             dto.DimensionStackLevel = _currentStackLevel;
 

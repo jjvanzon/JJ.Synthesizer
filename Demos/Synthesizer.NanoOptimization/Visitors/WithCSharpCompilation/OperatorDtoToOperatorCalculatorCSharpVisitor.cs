@@ -21,7 +21,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
     {
         private const int RAW_CALCULATION_INDENT_LEVEL = 3;
 
-        public override string Execute(OperatorDto dto, string generatedNameSpace, string generatedClassName)
+        public override string Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName)
         {
             // Optimize Calculation Dto
             var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();

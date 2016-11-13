@@ -16,7 +16,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         [TestMethod]
         public void Debug_Synthesizer_NanoOptimization_OperatorDtoToOperatorCalculatorCSharpVisitor()
         {
-            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             var visitor = new OperatorDtoToOperatorCalculatorCSharpVisitor();
             string csharp = visitor.Execute(dto, "MyNameSpace", "MyClass");
         }
@@ -24,7 +24,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         [TestMethod]
         public void Debug_Synthesizer_NanoOptimization_OperatorDtoCompiler_CompileToOperatorCalculator()
         {
-            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             var visitor = new OperatorDtoCompiler();
             IOperatorCalculator calculator = visitor.CompileToOperatorCalculator(dto);
             double value = calculator.Calculate();
@@ -37,7 +37,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             int frameCount = 10;
             double frameDuration = 1.0 / frameCount;
 
-            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             var visitor = new OperatorDtoCompiler();
             IPatchCalculator calculator = visitor.CompileToPatchCalculator(dto, frameCount);
 
@@ -47,7 +47,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
         [TestMethod]
         public void Debug_Synthesizer_NanoOptimization_OperatorDtoToOperatorCalculatorVisitor_WithoutSymbols()
         {
-            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             var visitor = new OperatorDtoCompiler(includeSymbols: false);
             IOperatorCalculator calculator = visitor.CompileToOperatorCalculator(dto);
             double value = calculator.Calculate();
@@ -59,7 +59,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
@@ -82,7 +82,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
@@ -105,7 +105,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization
             int framesPerChunk = 5000;
             double frameDuration = 1.0 / 50000.0;
 
-            OperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             IPatchCalculator calculator = OperatorCalculatorFactory.CreatePatchCalculatorFromDto(dto, framesPerChunk);
 
             var stopWatch = Stopwatch.StartNew();

@@ -5,11 +5,11 @@ using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
-    internal class Sine_OperatorDto : OperatorDto_VarFrequency
+    internal class Sine_OperatorDto : OperatorDtoBase_VarFrequency
     {
         public override string OperatorTypeName => OperatorNames.Sine;
 
-        public Sine_OperatorDto(OperatorDto frequencyOperatorDto)
+        public Sine_OperatorDto(OperatorDtoBase frequencyOperatorDto)
             : base(frequencyOperatorDto)
         { }
     }

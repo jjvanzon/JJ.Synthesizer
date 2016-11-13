@@ -2,11 +2,11 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class OneOverX_OperatorDto : OperatorDto_VarX
+    internal class OneOverX_OperatorDto : OperatorDtoBase_VarX
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.OneOverX);
 
-        public OneOverX_OperatorDto(OperatorDto xOperatorDto)
+        public OneOverX_OperatorDto(OperatorDtoBase xOperatorDto)
             : base(xOperatorDto)
         { }
     }

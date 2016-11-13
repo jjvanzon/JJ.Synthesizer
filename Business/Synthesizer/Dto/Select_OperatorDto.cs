@@ -2,15 +2,15 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Select_OperatorDto : OperatorDto
+    internal class Select_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Select);
 
-        public OperatorDto SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDto PositionOperatorDto => InputOperatorDtos[1];
+        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase PositionOperatorDto => InputOperatorDtos[1];
 
-        public Select_OperatorDto(OperatorDto signalOperatorDto, OperatorDto positionOperatorDto)
-            : base(new OperatorDto[] { signalOperatorDto, positionOperatorDto })
+        public Select_OperatorDto(OperatorDtoBase signalOperatorDto, OperatorDtoBase positionOperatorDto)
+            : base(new OperatorDtoBase[] { signalOperatorDto, positionOperatorDto })
         { }
     }
 }

@@ -10,16 +10,16 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 {
     internal class ClassSpecialization_OperatorDtoVisitor : OperatorDtoVisitorBase
     {
-        public OperatorDto Execute(OperatorDto operatorDto)
+        public OperatorDtoBase Execute(OperatorDtoBase operatorDto)
         {
             return Visit_OperatorDto_Polymorphic(operatorDto);
         }
 
-        protected override OperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
             base.Visit_Add_OperatorDto(dto);
 
-            IList<OperatorDto> inputOperatorDtos = dto.InputOperatorDtos;
+            IList<OperatorDtoBase> inputOperatorDtos = dto.InputOperatorDtos;
 
             inputOperatorDtos = TruncateOperatorDtoList(inputOperatorDtos, x => x.Sum());
 
@@ -30,40 +30,40 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             {
                 case 0:
                     {
-                        OperatorDto dto2 = new Number_OperatorDto_Zero();
+                        OperatorDtoBase dto2 = new Number_OperatorDto_Zero();
                         return dto2;
                     }
 
                 case 1:
                     {
-                        OperatorDto dto2 = inputOperatorDtos[0];
+                        OperatorDtoBase dto2 = inputOperatorDtos[0];
                         return dto2;
                     }
 
                 default:
-                    OperatorDto constInputOperatorDto = inputOperatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst)
+                    OperatorDtoBase constInputOperatorDto = inputOperatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst)
                                                                          .SingleOrDefault();
                     if (constInputOperatorDto == null)
                     {
-                        OperatorDto dto2 = new Add_OperatorDto_Vars(inputOperatorDtos);
+                        OperatorDtoBase dto2 = new Add_OperatorDto_Vars(inputOperatorDtos);
                         return dto2;
                     }
                     else
                     {
-                        IList<OperatorDto> varInputOperatorDtos = inputOperatorDtos.Except(constInputOperatorDto).ToArray();
+                        IList<OperatorDtoBase> varInputOperatorDtos = inputOperatorDtos.Except(constInputOperatorDto).ToArray();
                         double constValue = MathPropertiesHelper.GetMathPropertiesDto(constInputOperatorDto).Value;
-                        OperatorDto dto2 = new Add_OperatorDto_Vars_1Const(varInputOperatorDtos, constValue);
+                        OperatorDtoBase dto2 = new Add_OperatorDto_Vars_1Const(varInputOperatorDtos, constValue);
                         return dto2;
                     }
             }
         }
 
-        protected override OperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
         {
             base.Visit_Multiply_OperatorDto(dto);
 
-            OperatorDto aOperatorDto = dto.AOperatorDto;
-            OperatorDto bOperatorDto = dto.BOperatorDto;
+            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
+            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
 
             MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
             MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
@@ -92,12 +92,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDto Visit_Shift_OperatorDto(Shift_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Shift_OperatorDto(Shift_OperatorDto dto)
         {
             base.Visit_Shift_OperatorDto(dto);
 
-            OperatorDto signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDto distanceOperatorDto = dto.DistanceOperatorDto;
+            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
+            OperatorDtoBase distanceOperatorDto = dto.DistanceOperatorDto;
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
             MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(distanceOperatorDto);
@@ -125,11 +125,11 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Sine_OperatorDto(Sine_OperatorDto dto)
         {
             base.Visit_Sine_OperatorDto(dto);
 
-            OperatorDto frequencyOperatorDto = dto.FrequencyOperatorDto;
+            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(frequencyOperatorDto);
 
             if (frequencyMathPropertiesDto.IsConst)
@@ -149,14 +149,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
         /// <summary> Collapses invariant operands to one and gets rid of nulls. </summary>
         /// <param name="constantsCombiningDelegate">The method that combines multiple invariant doubles to one.</param>
-        private static IList<OperatorDto> TruncateOperatorDtoList(
-            IList<OperatorDto> operatorDtos,
+        private static IList<OperatorDtoBase> TruncateOperatorDtoList(
+            IList<OperatorDtoBase> operatorDtos,
             Func<IEnumerable<double>, double> constantsCombiningDelegate)
         {
-            IList<OperatorDto> constOperatorDtos = operatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).ToArray();
-            IList<OperatorDto> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
+            IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).ToArray();
+            IList<OperatorDtoBase> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
 
-            OperatorDto aggregatedConstOperatorDto = null;
+            OperatorDtoBase aggregatedConstOperatorDto = null;
             if (constOperatorDtos.Count != 0)
             {
                 IEnumerable<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).Value);
@@ -164,7 +164,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
                 aggregatedConstOperatorDto = new Number_OperatorDto(aggregatedConsts);
             }
 
-            IList<OperatorDto> truncatedOperatorDtoList = varOperatorDtos.Union(aggregatedConstOperatorDto)
+            IList<OperatorDtoBase> truncatedOperatorDtoList = varOperatorDtos.Union(aggregatedConstOperatorDto)
                                                                          .Where(x => x != null)
                                                                          .ToList();
             return truncatedOperatorDtoList;

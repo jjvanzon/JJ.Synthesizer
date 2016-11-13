@@ -6,11 +6,11 @@ using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Subtract_OperatorDto_VarA_VarB : OperatorDto_VarA_VarB
+    internal class Subtract_OperatorDto_VarA_VarB : OperatorDtoBase_VarA_VarB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Subtract);
 
-        public Subtract_OperatorDto_VarA_VarB(OperatorDto aOperatorDto, OperatorDto bOperatorDto)
+        public Subtract_OperatorDto_VarA_VarB(OperatorDtoBase aOperatorDto, OperatorDtoBase bOperatorDto)
             : base(aOperatorDto, bOperatorDto)
         { }
     }

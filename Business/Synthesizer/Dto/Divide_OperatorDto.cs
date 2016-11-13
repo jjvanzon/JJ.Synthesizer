@@ -2,15 +2,15 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Divide_OperatorDto : OperatorDto
+    internal class Divide_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
-        public OperatorDto NumeratorOperatorDto => InputOperatorDtos[0];
-        public OperatorDto DenominatorOperatorDto => InputOperatorDtos[1];
+        public OperatorDtoBase NumeratorOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase DenominatorOperatorDto => InputOperatorDtos[1];
 
-        public Divide_OperatorDto(OperatorDto numeratorOperatorDto, OperatorDto denominatorOperatorDto)
-            : base(new OperatorDto[] { numeratorOperatorDto, denominatorOperatorDto })
+        public Divide_OperatorDto(OperatorDtoBase numeratorOperatorDto, OperatorDtoBase denominatorOperatorDto)
+            : base(new OperatorDtoBase[] { numeratorOperatorDto, denominatorOperatorDto })
         { }
     }
 }

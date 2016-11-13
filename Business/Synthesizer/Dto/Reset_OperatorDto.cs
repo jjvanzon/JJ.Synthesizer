@@ -2,14 +2,14 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Reset_OperatorDto : OperatorDto
+    internal class Reset_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Reset);
 
-        public OperatorDto PassThroughInputOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase PassThroughInputOperatorDto => InputOperatorDtos[0];
 
-        public Reset_OperatorDto(OperatorDto passThroughInputOperatorDto)
-            : base(new OperatorDto[] { passThroughInputOperatorDto })
+        public Reset_OperatorDto(OperatorDtoBase passThroughInputOperatorDto)
+            : base(new OperatorDtoBase[] { passThroughInputOperatorDto })
         { }
     }
 }

@@ -5,11 +5,11 @@ using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
-    internal class Multiply_OperatorDto : OperatorDto_VarA_VarB
+    internal class Multiply_OperatorDto : OperatorDtoBase_VarA_VarB
     {
         public override string OperatorTypeName => OperatorNames.Multiply;
 
-        public Multiply_OperatorDto(OperatorDto aOperatorDto, OperatorDto bOperatorDto)
+        public Multiply_OperatorDto(OperatorDtoBase aOperatorDto, OperatorDtoBase bOperatorDto)
             : base(aOperatorDto, bOperatorDto)
         { }
     }

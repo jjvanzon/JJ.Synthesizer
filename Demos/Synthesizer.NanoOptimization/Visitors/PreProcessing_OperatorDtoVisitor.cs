@@ -8,7 +8,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 {
     internal class PreProcessing_OperatorDtoVisitor
     {
-        public OperatorDto Execute(OperatorDto dto)
+        public OperatorDtoBase Execute(OperatorDtoBase dto)
         {
             if (dto == null) throw new NullException(() => dto);
 

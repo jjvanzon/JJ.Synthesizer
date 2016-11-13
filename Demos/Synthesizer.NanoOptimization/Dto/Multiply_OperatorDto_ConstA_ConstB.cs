@@ -5,7 +5,7 @@ using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
-    internal class Multiply_OperatorDto_ConstA_ConstB : OperatorDto_ConstA_ConstB
+    internal class Multiply_OperatorDto_ConstA_ConstB : OperatorDtoBase_ConstA_ConstB
     {
         public override string OperatorTypeName => OperatorNames.Multiply;
 

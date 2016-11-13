@@ -9,7 +9,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithCSharpCompilation
 {
     internal static class OperatorCalculatorFactory
     {
-        public static IOperatorCalculator CreateOperatorCalculatorFromDto(OperatorDto dto, DimensionStack dimensionStack)
+        public static IOperatorCalculator CreateOperatorCalculatorFromDto(OperatorDtoBase dto, DimensionStack dimensionStack)
         {
             var visitor = new OperatorDtoCompiler();
             IOperatorCalculator calculator = visitor.CompileToOperatorCalculator(dto);
@@ -17,7 +17,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithCSharpCompilation
             return calculator;
         }
 
-        public static IPatchCalculator CreatePatchCalculatorFromDto(OperatorDto dto, int framesPerChunk)
+        public static IPatchCalculator CreatePatchCalculatorFromDto(OperatorDtoBase dto, int framesPerChunk)
         {
             var visitor = new OperatorDtoCompiler();
             IPatchCalculator calculator = visitor.CompileToPatchCalculator(dto, framesPerChunk);

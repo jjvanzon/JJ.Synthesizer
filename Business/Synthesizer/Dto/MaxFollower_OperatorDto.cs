@@ -2,14 +2,14 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class MaxFollower_OperatorDto : OperatorDto_AggregateFollower
+    internal class MaxFollower_OperatorDto : OperatorDtoBase_AggregateFollower
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MaxFollower);
 
         public MaxFollower_OperatorDto(
-            OperatorDto signalOperatorDto, 
-            OperatorDto sliceLengthOperatorDto, 
-            OperatorDto sampleCountOperatorDto)
+            OperatorDtoBase signalOperatorDto, 
+            OperatorDtoBase sliceLengthOperatorDto, 
+            OperatorDtoBase sampleCountOperatorDto)
             : base(signalOperatorDto, sliceLengthOperatorDto, sampleCountOperatorDto)
         { }
     }

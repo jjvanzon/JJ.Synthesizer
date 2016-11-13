@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Stretch);
 
-        public Stretch_OperatorDto(OperatorDto signalOperatorDto, OperatorDto factorOperatorDto, OperatorDto originOperatorDto)
+        public Stretch_OperatorDto(OperatorDtoBase signalOperatorDto, OperatorDtoBase factorOperatorDto, OperatorDtoBase originOperatorDto)
             : base(signalOperatorDto, factorOperatorDto, originOperatorDto)
         { }
     }

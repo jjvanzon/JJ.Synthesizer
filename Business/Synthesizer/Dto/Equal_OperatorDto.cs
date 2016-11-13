@@ -2,11 +2,11 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Equal_OperatorDto : OperatorDto_VarA_VarB
+    internal class Equal_OperatorDto : OperatorDtoBase_VarA_VarB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Equal);
 
-        public Equal_OperatorDto(OperatorDto aOperatorDto, OperatorDto bOperatorDto)
+        public Equal_OperatorDto(OperatorDtoBase aOperatorDto, OperatorDtoBase bOperatorDto)
             : base(aOperatorDto, bOperatorDto)
         { }
     }

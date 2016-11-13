@@ -2,16 +2,16 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Random_OperatorDto : OperatorDto
+    internal class Random_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Random);
 
-        public OperatorDto RateOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase RateOperatorDto => InputOperatorDtos[0];
 
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
 
-        public Random_OperatorDto(OperatorDto rateOperatorDto)
-            : base(new OperatorDto[] { rateOperatorDto })
+        public Random_OperatorDto(OperatorDtoBase rateOperatorDto)
+            : base(new OperatorDtoBase[] { rateOperatorDto })
         { }
     }
 }

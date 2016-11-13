@@ -8,12 +8,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 {
     internal class MachineOptimization_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterMathSimplification
     {
-        public OperatorDto Execute(OperatorDto dto)
+        public OperatorDtoBase Execute(OperatorDtoBase dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
         }
 
-        protected override OperatorDto Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
         {
             base.Visit_Number_OperatorDto_Concrete(dto);
 

@@ -34,7 +34,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
         //    return sb.ToString();
         //}
 
-        public static string GetDebuggerDisplay(OperatorDto operatorDto)
+        public static string GetDebuggerDisplay(OperatorDtoBase operatorDto)
         {
             if (operatorDto == null) throw new NullException(() => operatorDto);
 

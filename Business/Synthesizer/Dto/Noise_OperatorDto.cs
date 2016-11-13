@@ -2,11 +2,11 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Noise_OperatorDto : OperatorDto_VarFrequency
+    internal class Noise_OperatorDto : OperatorDtoBase_VarFrequency
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Noise);
 
-        public Noise_OperatorDto(OperatorDto frequencyOperatorDto)
+        public Noise_OperatorDto(OperatorDtoBase frequencyOperatorDto)
             : base(frequencyOperatorDto)
         { }
     }

@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class SawUp_OperatorDto_ConstFrequency_WithOriginShifting : OperatorDto_ConstFrequency
+    internal class SawUp_OperatorDto_ConstFrequency_WithOriginShifting : OperatorDtoBase_ConstFrequency
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SawUp);
 

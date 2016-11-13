@@ -2,17 +2,17 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Reverse_OperatorDto : OperatorDto
+    internal class Reverse_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Reverse);
 
-        public OperatorDto SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDto SpeedOperatorDto => InputOperatorDtos[1];
+        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase SpeedOperatorDto => InputOperatorDtos[1];
 
         public Reverse_OperatorDto(
-            OperatorDto signalOperatorDto, 
-            OperatorDto speedOperatorDto)
-            : base(new OperatorDto[] { signalOperatorDto, speedOperatorDto })
+            OperatorDtoBase signalOperatorDto, 
+            OperatorDtoBase speedOperatorDto)
+            : base(new OperatorDtoBase[] { signalOperatorDto, speedOperatorDto })
         { }
     }
 }

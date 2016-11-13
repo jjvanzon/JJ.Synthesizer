@@ -7,32 +7,32 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
 {
     internal static class OperatorDtoFactory
     {
-        public static OperatorDto CreateOperatorDto_8Partials()
+        public static OperatorDtoBase CreateOperatorDto_8Partials()
         {
             VariableInput_OperatorDto frequency_OperatorDto = Create_Frequency_VariableInput_OperatorDto();
 
             int partialCount = 8;
 
-            IList<OperatorDto> partialOperatorDtos = new List<OperatorDto>(partialCount);
+            IList<OperatorDtoBase> partialOperatorDtos = new List<OperatorDtoBase>(partialCount);
 
             for (int i = 0; i < partialCount; i++)
             {
-                OperatorDto partialOperatorDto = CreateOperatorDto_SinglePartial(frequency_OperatorDto);
+                OperatorDtoBase partialOperatorDto = CreateOperatorDto_SinglePartial(frequency_OperatorDto);
                 partialOperatorDtos.Add(partialOperatorDto);
             }
 
-            OperatorDto operatorDto = new Add_OperatorDto(partialOperatorDtos);
+            OperatorDtoBase operatorDto = new Add_OperatorDto(partialOperatorDtos);
             return operatorDto;
         }
 
-        public static OperatorDto CreateOperatorDto_SinglePartial()
+        public static OperatorDtoBase CreateOperatorDto_SinglePartial()
         {
             VariableInput_OperatorDto frequency_OperatorDto = Create_Frequency_VariableInput_OperatorDto();
-            OperatorDto operatorDto = CreateOperatorDto_SinglePartial(frequency_OperatorDto);
+            OperatorDtoBase operatorDto = CreateOperatorDto_SinglePartial(frequency_OperatorDto);
             return operatorDto;
         }
 
-        public static OperatorDto CreateOperatorDto_SinglePartial(VariableInput_OperatorDto frequency_VariableInput_OperatorDto)
+        public static OperatorDtoBase CreateOperatorDto_SinglePartial(VariableInput_OperatorDto frequency_VariableInput_OperatorDto)
         {
             double volume = 10.0;
             double phaseShift = 0.25;

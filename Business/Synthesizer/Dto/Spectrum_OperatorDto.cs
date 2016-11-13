@@ -2,21 +2,21 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Spectrum_OperatorDto : OperatorDto
+    internal class Spectrum_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Spectrum);
 
-        public OperatorDto SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDto StartOperatorDto => InputOperatorDtos[1];
-        public OperatorDto EndOperatorDto => InputOperatorDtos[2];
-        public OperatorDto FrequencyCountOperatorDto => InputOperatorDtos[3];
+        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase StartOperatorDto => InputOperatorDtos[1];
+        public OperatorDtoBase EndOperatorDto => InputOperatorDtos[2];
+        public OperatorDtoBase FrequencyCountOperatorDto => InputOperatorDtos[3];
 
         public Spectrum_OperatorDto(
-            OperatorDto signalOperatorDto,
-            OperatorDto startOperatorDto,
-            OperatorDto endOperatorDto,
-            OperatorDto frequencyCountOperatorDto)
-            : base(new OperatorDto[] { signalOperatorDto, startOperatorDto, endOperatorDto, frequencyCountOperatorDto })
+            OperatorDtoBase signalOperatorDto,
+            OperatorDtoBase startOperatorDto,
+            OperatorDtoBase endOperatorDto,
+            OperatorDtoBase frequencyCountOperatorDto)
+            : base(new OperatorDtoBase[] { signalOperatorDto, startOperatorDto, endOperatorDto, frequencyCountOperatorDto })
         { }
     }
 }

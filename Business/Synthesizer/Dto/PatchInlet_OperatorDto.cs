@@ -7,12 +7,12 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class PatchInlet_OperatorDto : OperatorDto
+    internal class PatchInlet_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.PatchInlet);
 
         public PatchInlet_OperatorDto()
-            : base(new OperatorDto[0])
+            : base(new OperatorDtoBase[0])
         { }
 
         public double DefaultValue { get; set; }

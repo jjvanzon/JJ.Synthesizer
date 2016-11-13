@@ -28,14 +28,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts
             { typeof(VariableInput_OperatorDto), typeof(VariableInput_OperatorCalculator) },
         };
 
-        public static Type ConvertToClosedGenericType(OperatorDto operatorDto)
+        public static Type ConvertToClosedGenericType(OperatorDtoBase operatorDto)
         {
             if (operatorDto == null) throw new NullException(() => operatorDto);
 
             Type calculatorType_OpenGeneric = Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(operatorDto);
 
             IList<Type> calculatorType_OpenGenericTypeArguments = calculatorType_OpenGeneric.GetGenericArguments();
-            IList<OperatorDto> inputOperatorDtos = operatorDto.InputOperatorDtos;
+            IList<OperatorDtoBase> inputOperatorDtos = operatorDto.InputOperatorDtos;
 
             if (calculatorType_OpenGenericTypeArguments.Count != inputOperatorDtos.Count)
             {
@@ -56,7 +56,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts
             for (int i = 0; i < count; i++)
             {
                 Type calculatorType_OpenGenericTypeArgument = calculatorType_OpenGenericTypeArguments[i];
-                OperatorDto inputOperatorDto = inputOperatorDtos[i];
+                OperatorDtoBase inputOperatorDto = inputOperatorDtos[i];
 
                 Type calculatorType_ClosedGenericTypeArgument = ConvertToClosedGenericType(inputOperatorDto);
 
@@ -69,7 +69,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Type Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(OperatorDto operatorDto)
+        private static Type Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(OperatorDtoBase operatorDto)
         {
             Type dtoType_Concrete = operatorDto.GetType();
 

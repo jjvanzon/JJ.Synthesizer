@@ -5,13 +5,13 @@ using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
-    internal class Number_OperatorDto : OperatorDto
+    internal class Number_OperatorDto : OperatorDtoBase
     {
         public double Number { get; set; }
         public override string OperatorTypeName => OperatorNames.Number;
 
         public Number_OperatorDto(double number)
-            : base(new OperatorDto[0])
+            : base(new OperatorDtoBase[0])
         {
             Number = number;
         }

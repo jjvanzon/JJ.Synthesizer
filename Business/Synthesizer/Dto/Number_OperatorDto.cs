@@ -2,14 +2,14 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Number_OperatorDto : OperatorDto
+    internal class Number_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Number);
 
         public double Number { get; set; }
 
         public Number_OperatorDto(double number)
-            : base(new OperatorDto[0])
+            : base(new OperatorDtoBase[0])
         {
             Number = number;
         }

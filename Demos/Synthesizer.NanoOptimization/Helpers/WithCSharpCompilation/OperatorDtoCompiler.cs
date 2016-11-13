@@ -38,7 +38,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithCSharpCompilation
             };
         }
 
-        public IOperatorCalculator CompileToOperatorCalculator(OperatorDto dto)
+        public IOperatorCalculator CompileToOperatorCalculator(OperatorDtoBase dto)
         {
             if (dto == null) throw new NullException(() => dto);
 
@@ -50,7 +50,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithCSharpCompilation
             return calculator;
         }
 
-        public IPatchCalculator CompileToPatchCalculator(OperatorDto dto, int framesPerChunk)
+        public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int framesPerChunk)
         {
             if (dto == null) throw new NullException(() => dto);
 

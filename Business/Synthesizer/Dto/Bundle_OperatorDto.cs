@@ -4,11 +4,11 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Bundle_OperatorDto : OperatorDto
+    internal class Bundle_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Bundle);
 
-        public Bundle_OperatorDto(IList<OperatorDto> inputOperatorDtos)
+        public Bundle_OperatorDto(IList<OperatorDtoBase> inputOperatorDtos)
             : base(inputOperatorDtos)
         { }
     }

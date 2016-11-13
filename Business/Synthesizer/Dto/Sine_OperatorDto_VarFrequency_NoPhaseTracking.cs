@@ -6,11 +6,11 @@ using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Sine_OperatorDto_VarFrequency_NoPhaseTracking : OperatorDto_VarFrequency
+    internal class Sine_OperatorDto_VarFrequency_NoPhaseTracking : OperatorDtoBase_VarFrequency
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Sine);
 
-        public Sine_OperatorDto_VarFrequency_NoPhaseTracking(OperatorDto frequencyOperatorDto)
+        public Sine_OperatorDto_VarFrequency_NoPhaseTracking(OperatorDtoBase frequencyOperatorDto)
             : base(frequencyOperatorDto)
         { }
     }

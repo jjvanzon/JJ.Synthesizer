@@ -2,17 +2,17 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Pulse_OperatorDto : OperatorDto
+    internal class Pulse_OperatorDto : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
 
-        public OperatorDto FrequencyOperatorDto => InputOperatorDtos[0];
-        public OperatorDto WidthOperatorDto => InputOperatorDtos[1];
+        public OperatorDtoBase FrequencyOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase WidthOperatorDto => InputOperatorDtos[1];
 
         public Pulse_OperatorDto(
-            OperatorDto frequencyOperatorDto,
-            OperatorDto widthOperatorDto)
-            : base(new OperatorDto[] { frequencyOperatorDto, widthOperatorDto})
+            OperatorDtoBase frequencyOperatorDto,
+            OperatorDtoBase widthOperatorDto)
+            : base(new OperatorDtoBase[] { frequencyOperatorDto, widthOperatorDto})
         { }
     }
 }
