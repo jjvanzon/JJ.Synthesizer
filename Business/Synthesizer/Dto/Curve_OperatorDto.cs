@@ -17,4 +17,32 @@ namespace JJ.Business.Synthesizer.Dto
             Curve = curve;
         }
     }
+
+    internal class Curve_OperatorDto_MinX_NoOriginShifting : Curve_OperatorDto
+    {
+        public Curve_OperatorDto_MinX_NoOriginShifting(Curve curve) 
+            : base(curve)
+        { }
+    }
+
+    internal class Curve_OperatorDto_MinX_MinX_WithOriginShifting : Curve_OperatorDto
+    {
+        public Curve_OperatorDto_MinX_MinX_WithOriginShifting(Curve curve)
+            : base(curve)
+        { }
+    }
+
+    internal class Curve_OperatorDto_MinXZero_NoOriginShifting : Curve_OperatorDto
+    {
+        public Curve_OperatorDto_MinXZero_NoOriginShifting(Curve curve)
+            : base(curve)
+        { }
+    }
+
+    internal class Curve_OperatorDto_MinXZero_WithOriginShifting : Curve_OperatorDto
+    {
+        public Curve_OperatorDto_MinXZero_WithOriginShifting(Curve curve)
+            : base(curve)
+        { }
+    }
 }

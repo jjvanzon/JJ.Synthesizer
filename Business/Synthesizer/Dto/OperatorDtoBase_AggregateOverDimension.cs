@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
+        public CollectionRecalculationEnum CollectionRecalculationEnum { get; set; }
 
         public OperatorDtoBase_AggregateOverDimension(
             OperatorDtoBase signalOperatorDto,

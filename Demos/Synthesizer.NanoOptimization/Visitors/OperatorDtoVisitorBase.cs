@@ -331,7 +331,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         }
 
         [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDtoBase Visit_OperatorDtoBase_ConstFrequency_Base(OperatorDtoBase_ConstFrequency)
+        protected virtual OperatorDtoBase Visit_OperatorDtoBase_ConstFrequency_Base(OperatorDtoBase_ConstFrequency dto)
         {
             return Visit_OperatorDto_Base(dto);
         }

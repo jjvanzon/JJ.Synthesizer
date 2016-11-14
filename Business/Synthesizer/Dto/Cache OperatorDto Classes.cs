@@ -30,4 +30,26 @@ namespace JJ.Business.Synthesizer.Dto
             })
         { }
     }
+
+    internal class Cache_OperatorDto_SingleChannel : Cache_OperatorDto
+    {
+        public Cache_OperatorDto_SingleChannel(
+            OperatorDtoBase signalOperatorDto,
+            OperatorDtoBase startOperatorDto,
+            OperatorDtoBase endOperatorDto,
+            OperatorDtoBase samplingRateOperatorDto)
+            : base(signalOperatorDto, startOperatorDto, endOperatorDto, samplingRateOperatorDto)
+        { }
+    }
+
+    internal class Cache_OperatorDto_MultiChannel : Cache_OperatorDto
+    {
+        public Cache_OperatorDto_MultiChannel(
+            OperatorDtoBase signalOperatorDto,
+            OperatorDtoBase startOperatorDto,
+            OperatorDtoBase endOperatorDto,
+            OperatorDtoBase samplingRateOperatorDto)
+            : base(signalOperatorDto, startOperatorDto, endOperatorDto, samplingRateOperatorDto)
+        { }
+    }
 }

@@ -1381,43 +1381,43 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (originIsConstZero && numeratorIsConst && !denominatorIsConst)
             {
-                calculator = new Divide_ConstNumerator_VarDenominator_ZeroOrigin_OperatorCalculator(numerator, denominatorCalculator);
+                calculator = new Divide_OperatorCalculator_ConstNumerator_VarDenominator_ZeroOrigin(numerator, denominatorCalculator);
             }
             else if (originIsConstZero && !numeratorIsConst && denominatorIsConst)
             {
-                calculator = new Divide_VarNumerator_ConstDenominator_ZeroOrigin_OperatorCalculator(numeratorCalculator, denominator);
+                calculator = new Divide_OperatorCalculator_VarNumerator_ConstDenominator_ZeroOrigin(numeratorCalculator, denominator);
             }
             else if (originIsConstZero && !numeratorIsConst && !denominatorIsConst)
             {
-                calculator = new Divide_WithoutOrigin_OperatorCalculator(numeratorCalculator, denominatorCalculator);
+                calculator = new Divide_OperatorCalculator_VarNumerator_VarDenominator_ZeroOrigin(numeratorCalculator, denominatorCalculator);
             }
             else if (originIsConst && numeratorIsConst && !denominatorIsConst)
             {
-                calculator = new Divide_ConstNumerator_VarDenominator_ConstOrigin_OperatorCalculator(numerator, denominatorCalculator, origin);
+                calculator = new Divide_OperatorCalculator_ConstNumerator_VarDenominator_ConstOrigin(numerator, denominatorCalculator, origin);
             }
             else if (originIsConst && !numeratorIsConst && denominatorIsConst)
             {
-                calculator = new Divide_VarNumerator_ConstDenominator_ConstOrigin_OperatorCalculator(numeratorCalculator, denominator, origin);
+                calculator = new Divide_OperatorCalculator_VarNumerator_ConstDenominator_ConstOrigin(numeratorCalculator, denominator, origin);
             }
             else if (originIsConst && !numeratorIsConst && !denominatorIsConst)
             {
-                calculator = new Divide_VarNumerator_VarDenominator_ConstOrigin_OperatorCalculator(numeratorCalculator, denominatorCalculator, origin);
+                calculator = new Divide_OperatorCalculator_VarNumerator_VarDenominator_ConstOrigin(numeratorCalculator, denominatorCalculator, origin);
             }
             else if (!originIsConst && numeratorIsConst && denominatorIsConst)
             {
-                calculator = new Divide_WithOrigin_AndConstNumerator_AndDenominator_OperatorCalculator(numerator, denominator, originCalculator);
+                calculator = new Divide_OperatorCalculator_ConstNumerator_ConstDenominator_VarOrigin(numerator, denominator, originCalculator);
             }
             else if (!originIsConst && numeratorIsConst && !denominatorIsConst)
             {
-                calculator = new Divide_WithOrigin_AndConstNumerator_OperatorCalculator(numerator, denominatorCalculator, originCalculator);
+                calculator = new Divide_OperatorCalculator_ConstNumerator_VarDenominator_VarOrigin(numerator, denominatorCalculator, originCalculator);
             }
             else if (!originIsConst && !numeratorIsConst && denominatorIsConst)
             {
-                calculator = new Divide_WithOrigin_AndConstDenominator_OperatorCalculator(numeratorCalculator, denominator, originCalculator);
+                calculator = new Divide_OperatorCalculator_VarNumerator_ConstDenominator_VarOrigin(numeratorCalculator, denominator, originCalculator);
             }
             else
             {
-                calculator = new Divide_WithOrigin_OperatorCalculator(numeratorCalculator, denominatorCalculator, originCalculator);
+                calculator = new Divide_OperatorCalculator_VarNumerator_VarDenominator_VarOrigin(numeratorCalculator, denominatorCalculator, originCalculator);
             }
 
             _stack.Push(calculator);

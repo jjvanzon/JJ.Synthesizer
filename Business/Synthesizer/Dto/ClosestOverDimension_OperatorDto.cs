@@ -30,4 +30,38 @@ namespace JJ.Business.Synthesizer.Dto
             })
         { }
     }
+
+    internal abstract class ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous : ClosestOverDimension_OperatorDto
+    {
+        public ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(
+            OperatorDtoBase inputOperatorDto, 
+            OperatorDtoBase collectionOperatorDto, 
+            OperatorDtoBase fromOperatorDto, 
+            OperatorDtoBase tillOperatorDto, 
+            OperatorDtoBase stepOperatorDto) 
+            : base(
+                  inputOperatorDto, 
+                  collectionOperatorDto, 
+                  fromOperatorDto, 
+                  tillOperatorDto, 
+                  stepOperatorDto)
+        { }
+    }
+
+    internal abstract class ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset : ClosestOverDimension_OperatorDto
+    {
+        public ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(
+            OperatorDtoBase inputOperatorDto,
+            OperatorDtoBase collectionOperatorDto,
+            OperatorDtoBase fromOperatorDto,
+            OperatorDtoBase tillOperatorDto,
+            OperatorDtoBase stepOperatorDto)
+            : base(
+                  inputOperatorDto,
+                  collectionOperatorDto,
+                  fromOperatorDto,
+                  tillOperatorDto,
+                  stepOperatorDto)
+        { }
+    }
 }

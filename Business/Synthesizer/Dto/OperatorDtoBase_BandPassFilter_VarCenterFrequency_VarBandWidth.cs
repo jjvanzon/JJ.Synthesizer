@@ -1,16 +1,12 @@
-﻿using JJ.Business.Synthesizer.Enums;
-
-namespace JJ.Business.Synthesizer.Dto
+﻿namespace JJ.Business.Synthesizer.Dto
 {
-    internal class AllPassFilter_OperatorDto : OperatorDtoBase
+    internal abstract class OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.AllPassFilter);
-
         public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
         public OperatorDtoBase CenterFrequencyOperatorDto => InputOperatorDtos[1];
         public OperatorDtoBase BandWidthOperatorDto => InputOperatorDtos[2];
 
-        public AllPassFilter_OperatorDto(
+        public OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(
             OperatorDtoBase signalOperatorDto,
             OperatorDtoBase centerFrequencyOperatorDto,
             OperatorDtoBase bandWidthOperatorDto)
