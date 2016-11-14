@@ -96,6 +96,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             }
 
             {
+                var castedDto = dto as Shift_OperatorDto;
+                if (castedDto != null)
+                {
+                    return Visit_Shift_OperatorDto(castedDto);
+                }
+            }
+
+            {
                 var castedDto = dto as Shift_OperatorDto_ConstSignal_ConstDistance;
                 if (castedDto != null)
                 {
@@ -124,14 +132,6 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
                 if (castedDto != null)
                 {
                     return Visit_Shift_OperatorDto_VarSignal_VarDistance(castedDto);
-                }
-            }
-
-            {
-                var castedDto = dto as Shift_OperatorDto;
-                if (castedDto != null)
-                {
-                    return Visit_Shift_OperatorDto(castedDto);
                 }
             }
 
