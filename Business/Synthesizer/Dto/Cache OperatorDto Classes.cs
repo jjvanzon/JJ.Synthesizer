@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,50 +7,22 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Cache);
 
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase StartOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase EndOperatorDto => InputOperatorDtos[2];
-        public OperatorDtoBase SamplingRateOperatorDto => InputOperatorDtos[3];
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public OperatorDtoBase StartOperatorDto { get; set; }
+        public OperatorDtoBase EndOperatorDto { get; set; }
+        public OperatorDtoBase SamplingRateOperatorDto { get; set; }
 
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public SpeakerSetupEnum SpeakerSetupEnum { get; set; }
 
-        public Cache_OperatorDto(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase startOperatorDto,
-            OperatorDtoBase endOperatorDto,
-            OperatorDtoBase samplingRateOperatorDto)
-            : base(new OperatorDtoBase[] 
-            {
-                signalOperatorDto,
-                startOperatorDto,
-                endOperatorDto,
-                samplingRateOperatorDto
-            })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos => new OperatorDtoBase[] { SignalOperatorDto, StartOperatorDto, EndOperatorDto, SamplingRateOperatorDto };
     }
 
     internal class Cache_OperatorDto_SingleChannel : Cache_OperatorDto
-    {
-        public Cache_OperatorDto_SingleChannel(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase startOperatorDto,
-            OperatorDtoBase endOperatorDto,
-            OperatorDtoBase samplingRateOperatorDto)
-            : base(signalOperatorDto, startOperatorDto, endOperatorDto, samplingRateOperatorDto)
-        { }
-    }
+    { }
 
     internal class Cache_OperatorDto_MultiChannel : Cache_OperatorDto
-    {
-        public Cache_OperatorDto_MultiChannel(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase startOperatorDto,
-            OperatorDtoBase endOperatorDto,
-            OperatorDtoBase samplingRateOperatorDto)
-            : base(signalOperatorDto, startOperatorDto, endOperatorDto, samplingRateOperatorDto)
-        { }
-    }
+    { }
 }

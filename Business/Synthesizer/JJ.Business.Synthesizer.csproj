@@ -237,6 +237,7 @@
     <Compile Include="Dto\Multiply OperatorDto Classes.cs" />
     <Compile Include="Dto\NotchFilter_OperatorDto.cs" />
     <Compile Include="Dto\Number OperatorDto Classes.cs" />
+    <Compile Include="Dto\2016-11-14 Backup of OperatorDtoBase %28attempt get InputOperatorDtos with reflection%29.cs" />
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_ConstCenterFrequency_ConstBandWidth.cs" />
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth.cs" />
     <Compile Include="Dto\OperatorDtoBase_ShelfFilter.cs" />

@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal abstract class OperatorDtoBase_VarA_ConstB : OperatorDtoBase
     {
-        public OperatorDtoBase AOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase AOperatorDto { get; set; }
         public double B { get; set; }
 
-        public OperatorDtoBase_VarA_ConstB(OperatorDtoBase aOperatorDto, double b)
-            : base(new OperatorDtoBase[] { aOperatorDto })
+        public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            B = b;
+            get { return new OperatorDtoBase[] { AOperatorDto }; }
+            set { AOperatorDto = value[0]; }
         }
     }
 }

@@ -136,6 +136,7 @@
     <Compile Include="Dto\2016-11-13 Backup of Number_OperatorDto_NaN.cs" />
     <Compile Include="Dto\2016-11-13 Backup of Number_OperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase.cs" />
+    <Compile Include="Dto\OperatorDtoBase_WithoutInputOperatorDtos.cs" />
     <Compile Include="Dto\Shift OperatorDto Classes.cs" />
     <Compile Include="Dto\2016-11-13 Backup of Shift_OperatorDto.cs" />
     <Compile Include="Dto\2016-11-13 Backup of Shift_OperatorDto_ConstSignal_ConstDistance.cs" />

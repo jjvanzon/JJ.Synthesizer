@@ -1,24 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Framework.Common;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
 {
     internal static class MathPropertiesHelper
     {
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        //public static MathPropertiesDto GetMathPropertiesDto(OperatorDto operatorDto)
-        //{
-        //    if (operatorDto == null) throw new NullException(() => operatorDto);
-
-        //    MathPropertiesDto mathPropertiesDto = GetMathPropertiesDto(operatorDto.InputOperatorDto);
-        //    return mathPropertiesDto;
-        //}
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MathPropertiesDto GetMathPropertiesDto(OperatorDtoBase operatorDto)
         {

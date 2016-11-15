@@ -21,7 +21,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
                 partialOperatorDtos.Add(partialOperatorDto);
             }
 
-            OperatorDtoBase operatorDto = new Add_OperatorDto(partialOperatorDtos);
+            OperatorDtoBase operatorDto = new Add_OperatorDto { Vars = partialOperatorDtos };
             return operatorDto;
         }
 
@@ -38,17 +38,20 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
             double phaseShift = 0.25;
 
             var dto = new Multiply_OperatorDto
-            (
-                new Shift_OperatorDto
-                (
-                    new Sine_OperatorDto
-                    (
-                        frequency_VariableInput_OperatorDto
-                    ),
-                    new Number_OperatorDto(phaseShift)
-                ),
-                new Number_OperatorDto(volume)
-            );
+            {
+                AOperatorDto = new Shift_OperatorDto
+                {
+                    SignalOperatorDto = new Sine_OperatorDto
+                    {
+                        FrequencyOperatorDto = frequency_VariableInput_OperatorDto
+                    },
+                    DistanceOperatorDto = new Number_OperatorDto
+                    {
+                        Number = phaseShift
+                    }
+                },
+                BOperatorDto = new Number_OperatorDto { Number = volume }
+            };
 
             return dto;
         }
@@ -57,7 +60,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
         private static VariableInput_OperatorDto Create_Frequency_VariableInput_OperatorDto()
         {
             double frequency = 440.0;
-            return new VariableInput_OperatorDto(frequency);
+            return new VariableInput_OperatorDto { DefaultValue = frequency };
         }
     }
 }

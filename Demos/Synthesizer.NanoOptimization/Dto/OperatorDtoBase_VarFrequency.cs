@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal abstract class OperatorDtoBase_VarFrequency : OperatorDtoBase
     {
-        public OperatorDtoBase FrequencyOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase FrequencyOperatorDto { get; set; }
 
-        public OperatorDtoBase_VarFrequency(OperatorDtoBase frequencyOperatorDto)
-            : base(new OperatorDtoBase[] { frequencyOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { FrequencyOperatorDto }; }
+            set { FrequencyOperatorDto = value[0]; }
+        }
     }
 }

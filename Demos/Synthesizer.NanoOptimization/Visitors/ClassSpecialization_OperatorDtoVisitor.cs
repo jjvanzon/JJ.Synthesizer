@@ -45,14 +45,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
                                                                          .SingleOrDefault();
                     if (constInputOperatorDto == null)
                     {
-                        OperatorDtoBase dto2 = new Add_OperatorDto_Vars(inputOperatorDtos);
+                        OperatorDtoBase dto2 = new Add_OperatorDto_Vars { Vars = inputOperatorDtos };
                         return dto2;
                     }
                     else
                     {
                         IList<OperatorDtoBase> varInputOperatorDtos = inputOperatorDtos.Except(constInputOperatorDto).ToArray();
                         double constValue = MathPropertiesHelper.GetMathPropertiesDto(constInputOperatorDto).Value;
-                        OperatorDtoBase dto2 = new Add_OperatorDto_Vars_1Const(varInputOperatorDtos, constValue);
+                        OperatorDtoBase dto2 = new Add_OperatorDto_Vars_1Const { Vars = varInputOperatorDtos, ConstValue = constValue };
                         return dto2;
                     }
             }
@@ -70,23 +70,22 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
-                return new Multiply_OperatorDto_ConstA_ConstB(aMathPropertiesDto.Value, bMathPropertiesDto.Value);
+                return new Multiply_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.Value, B = bMathPropertiesDto.Value };
             }
 
             if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new Multiply_OperatorDto_VarA_ConstB(aOperatorDto, bMathPropertiesDto.Value);
+                return new Multiply_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.Value };
             }
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new Multiply_OperatorDto_ConstA_VarB(aMathPropertiesDto.Value, bOperatorDto);
+                return new Multiply_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.Value, BOperatorDto = bOperatorDto };
             }
 
             if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
-                return new Multiply_OperatorDto_VarA_VarB(bOperatorDto, aOperatorDto);
-
+                return new Multiply_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -104,22 +103,22 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
             if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsConst)
             {
-                return new Shift_OperatorDto_ConstSignal_ConstDistance(signalMathPropertiesDto.Value, distanceMathPropertiesDto.Value);
+                return new Shift_OperatorDto_ConstSignal_ConstDistance { SignalValue = signalMathPropertiesDto.Value, Distance = distanceMathPropertiesDto.Value };
             }
 
             if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsConst)
             {
-                return new Shift_OperatorDto_VarSignal_ConstDistance(signalOperatorDto, distanceMathPropertiesDto.Value);
+                return new Shift_OperatorDto_VarSignal_ConstDistance { SignalOperatorDto = signalOperatorDto, Distance = distanceMathPropertiesDto.Value };
             }
 
             if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsVar)
             {
-                return new Shift_OperatorDto_ConstSignal_VarDistance(signalMathPropertiesDto.Value, distanceOperatorDto);
+                return new Shift_OperatorDto_ConstSignal_VarDistance { SignalValue = signalMathPropertiesDto.Value, DistanceOperatorDto = distanceOperatorDto };
             }
 
             if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsVar)
             {
-                return new Shift_OperatorDto_VarSignal_VarDistance(signalOperatorDto, distanceOperatorDto);
+                return new Shift_OperatorDto_VarSignal_VarDistance { SignalOperatorDto = signalOperatorDto, DistanceOperatorDto = distanceOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -134,12 +133,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
             if (frequencyMathPropertiesDto.IsConst)
             {
-                return new Sine_OperatorDto_ConstFrequency_WithOriginShifting(frequencyMathPropertiesDto.Value);
+                return new Sine_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
             }
 
             if (frequencyMathPropertiesDto.IsVar)
             {
-                return new Sine_OperatorDto_VarFrequency_WithPhaseTracking(frequencyOperatorDto);
+                return new Sine_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -161,12 +160,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             {
                 IEnumerable<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).Value);
                 double aggregatedConsts = constantsCombiningDelegate(consts);
-                aggregatedConstOperatorDto = new Number_OperatorDto(aggregatedConsts);
+                aggregatedConstOperatorDto = new Number_OperatorDto { Number = aggregatedConsts };
             }
 
             IList<OperatorDtoBase> truncatedOperatorDtoList = varOperatorDtos.Union(aggregatedConstOperatorDto)
-                                                                         .Where(x => x != null)
-                                                                         .ToList();
+                                                                             .Where(x => x != null)
+                                                                             .ToList();
             return truncatedOperatorDtoList;
         }
     }

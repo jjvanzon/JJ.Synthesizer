@@ -12,9 +12,5 @@ namespace JJ.Business.Synthesizer.Dto
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
-
-        public InletsToDimension_OperatorDto(IList<OperatorDtoBase> vars)
-            : base(vars)
-        { }
     }
 }

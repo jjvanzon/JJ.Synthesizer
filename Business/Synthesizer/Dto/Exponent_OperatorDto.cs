@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,15 +8,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Exponent);
 
-        public OperatorDtoBase LowOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase HighOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase RatioOperatorDto => InputOperatorDtos[2];
+        public OperatorDtoBase LowOperatorDto { get; set; }
+        public OperatorDtoBase HighOperatorDto { get; set; }
+        public OperatorDtoBase RatioOperatorDto { get; set; }
 
-        public Exponent_OperatorDto(
-            OperatorDtoBase lowOperatorDto,
-            OperatorDtoBase highOperatorDto,
-            OperatorDtoBase ratioOperatorDto)
-            : base(new OperatorDtoBase[] { lowOperatorDto, highOperatorDto, ratioOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos => new OperatorDtoBase[] { LowOperatorDto, HighOperatorDto, RatioOperatorDto };
     }
 }

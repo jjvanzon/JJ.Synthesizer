@@ -1,29 +1,17 @@
-﻿using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+﻿using System.Collections.Generic;
+using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
 {
     internal class Shift_OperatorDto : Shift_OperatorDto_VarSignal_VarDistance
-    {
-        public Shift_OperatorDto(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase distanceOperatorDto)
-            : base(signalOperatorDto, distanceOperatorDto)
-        { }
-    }
+    { }
 
-    internal class Shift_OperatorDto_ConstSignal_ConstDistance : OperatorDtoBase
+    internal class Shift_OperatorDto_ConstSignal_ConstDistance : OperatorDtoBase_WithoutInputOperatorDtos
     {
         public override string OperatorTypeName => OperatorNames.Shift;
 
         public double SignalValue { get; set; }
         public double Distance { get; set; }
-
-        public Shift_OperatorDto_ConstSignal_ConstDistance(double signalValue, double distance)
-            : base(new OperatorDtoBase[0])
-        {
-            SignalValue = signalValue;
-            Distance = distance;
-        }
     }
 
     internal class Shift_OperatorDto_ConstSignal_VarDistance : OperatorDtoBase
@@ -31,12 +19,12 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
         public override string OperatorTypeName => OperatorNames.Shift;
 
         public double SignalValue { get; set; }
-        public OperatorDtoBase DistanceOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase DistanceOperatorDto { get; set; }
 
-        public Shift_OperatorDto_ConstSignal_VarDistance(double signalValue, OperatorDtoBase distanceOperatorDto)
-            : base(new OperatorDtoBase[] { distanceOperatorDto })
+        public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            SignalValue = signalValue;
+            get { return new OperatorDtoBase[] { DistanceOperatorDto }; }
+            set { DistanceOperatorDto = value[0]; }
         }
     }
 
@@ -44,13 +32,13 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
     {
         public override string OperatorTypeName => OperatorNames.Shift;
 
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase SignalOperatorDto { get; set; }
         public double Distance { get; set; }
 
-        public Shift_OperatorDto_VarSignal_ConstDistance(OperatorDtoBase signalOperatorDto, double distance)
-            : base(new OperatorDtoBase[] { signalOperatorDto })
+        public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            Distance = distance;
+            get { return new OperatorDtoBase[] { SignalOperatorDto }; }
+            set { SignalOperatorDto = value[0]; }
         }
     }
 
@@ -58,11 +46,14 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
     {
         public override string OperatorTypeName => OperatorNames.Shift;
 
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase DistanceOperatorDto => InputOperatorDtos[1];
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public OperatorDtoBase DistanceOperatorDto { get; set; }
 
-        public Shift_OperatorDto_VarSignal_VarDistance(OperatorDtoBase signalOperatorDto, OperatorDtoBase distanceOperatorDto)
-            : base(new OperatorDtoBase[] { signalOperatorDto, distanceOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { SignalOperatorDto, DistanceOperatorDto }; }
+            set { SignalOperatorDto = value[0]; DistanceOperatorDto = value[1]; }
+        }
+
     }
 }

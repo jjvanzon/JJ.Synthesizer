@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
+﻿using JJ.Demos.Synthesizer.NanoOptimization.Dto;
 using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
 
 namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
@@ -20,7 +17,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             base.Visit_Multiply_OperatorDto_ConstA_ConstB(dto);
 
             // Pre-Calculate
-            var dto2 = new Number_OperatorDto(dto.A * dto.B);
+            var dto2 = new Number_OperatorDto { Number = dto.A * dto.B };
 
             OperatorDtoBase dto3 = Visit_Number_OperatorDto_Concrete(dto2);
 
@@ -32,7 +29,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             base.Visit_Multiply_OperatorDto_ConstA_VarB(dto);
 
             // Switch A and B
-            var dto2 = new Multiply_OperatorDto_VarA_ConstB(dto.BOperatorDto, dto.A);
+            var dto2 = new Multiply_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A };
 
             OperatorDtoBase dto3 = Visit_Multiply_OperatorDto_VarA_ConstB(dto2);
 
@@ -48,7 +45,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
             // 0
             if (bMathPropertiesDto.IsConstZero)
             {
-                var dto2 = new Number_OperatorDto(0.0);
+                var dto2 = new Number_OperatorDto_Zero();
 
                 OperatorDtoBase dto3 = Visit_Number_OperatorDto_Concrete(dto2);
             }
@@ -68,7 +65,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         {
             base.Visit_Shift_OperatorDto_ConstSignal_ConstDistance(dto);
 
-            var dto2 = new Number_OperatorDto(dto.SignalValue);
+            var dto2 = new Number_OperatorDto { Number = dto.SignalValue };
 
             OperatorDtoBase dto3 = Visit_Number_OperatorDto_Concrete(dto2);
 
@@ -79,7 +76,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
         {
             base.Visit_Shift_OperatorDto_ConstSignal_VarDistance(dto);
 
-            var dto2 = new Number_OperatorDto(dto.SignalValue);
+            var dto2 = new Number_OperatorDto { Number = dto.SignalValue };
 
             OperatorDtoBase dto3 = Visit_Number_OperatorDto_Concrete(dto2);
 
@@ -96,7 +93,7 @@ namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
 
             if (frequencyMathPropertiesDto.IsConstZero)
             {
-                var dto2 = new Number_OperatorDto(0.0);
+                var dto2 = new Number_OperatorDto_Zero();
 
                 OperatorDtoBase dto3 = Visit_Number_OperatorDto_Concrete(dto2);
 
