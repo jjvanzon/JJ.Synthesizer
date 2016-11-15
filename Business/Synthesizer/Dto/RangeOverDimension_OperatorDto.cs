@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,18 +8,16 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverDimension);
 
-        public OperatorDtoBase FromOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase TillOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase StepOperatorDto => InputOperatorDtos[2];
-
+        public OperatorDtoBase FromOperatorDto { get; set; }
+        public OperatorDtoBase TillOperatorDto { get; set; }
+        public OperatorDtoBase StepOperatorDto { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
 
-        public RangeOverDimension_OperatorDto(
-            OperatorDtoBase fromOperatorDto,
-            OperatorDtoBase tillOperatorDto,
-            OperatorDtoBase stepOperatorDto)
-            : base(new OperatorDtoBase[] { fromOperatorDto, tillOperatorDto, stepOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { FromOperatorDto, TillOperatorDto, StepOperatorDto }; }
+            set { FromOperatorDto = value[0]; TillOperatorDto = value[1]; StepOperatorDto = value[2]; }
+        }
     }
 }

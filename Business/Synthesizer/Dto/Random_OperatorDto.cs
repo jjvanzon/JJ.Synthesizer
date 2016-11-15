@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,14 +7,15 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Random);
 
-        public OperatorDtoBase RateOperatorDto => InputOperatorDtos[0];
-
+        public OperatorDtoBase RateOperatorDto { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
 
-        public Random_OperatorDto(OperatorDtoBase rateOperatorDto)
-            : base(new OperatorDtoBase[] { rateOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { RateOperatorDto }; }
+            set { RateOperatorDto = value[0]; }
+        }
     }
 }

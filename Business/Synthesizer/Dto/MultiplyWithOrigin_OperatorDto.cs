@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,15 +7,14 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
 
-        public OperatorDtoBase AOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase BOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase OriginOperatorDto => InputOperatorDtos[2];
+        public OperatorDtoBase AOperatorDto { get; set; }
+        public OperatorDtoBase BOperatorDto { get; set; }
+        public OperatorDtoBase OriginOperatorDto { get; set; }
 
-        public MultiplyWithOrigin_OperatorDto(
-            OperatorDtoBase aOperatorDto,
-            OperatorDtoBase bOperatorDto,
-            OperatorDtoBase originOperatorDto)
-            : base(new OperatorDtoBase[] { aOperatorDto, bOperatorDto, originOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { AOperatorDto, BOperatorDto, OriginOperatorDto }; }
+            set { AOperatorDto = value[0]; BOperatorDto = value[1]; OriginOperatorDto = value[2]; }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,18 +7,16 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
 
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase ExponentOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase OriginOperatorDto => InputOperatorDtos[2];
-
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public OperatorDtoBase ExponentOperatorDto { get; set; }
+        public OperatorDtoBase OriginOperatorDto { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
 
-        public TimePower_OperatorDto(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase exponentOperatorDto,
-            OperatorDtoBase originOperatorDto)
-            : base(new OperatorDtoBase[] { signalOperatorDto, exponentOperatorDto, originOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { SignalOperatorDto, ExponentOperatorDto, OriginOperatorDto }; }
+            set { SignalOperatorDto = value[0]; ExponentOperatorDto = value[1]; OriginOperatorDto = value[2]; }
+        }
     }
 }

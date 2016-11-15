@@ -1,16 +1,17 @@
-﻿namespace JJ.Business.Synthesizer.Dto
+﻿using System.Collections.Generic;
+
+namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth : OperatorDtoBase
     {
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase CenterFrequencyOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase BandWidthOperatorDto => InputOperatorDtos[2];
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public OperatorDtoBase CenterFrequencyOperatorDto { get; set; }
+        public OperatorDtoBase BandWidthOperatorDto { get; set; }
 
-        public OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase centerFrequencyOperatorDto,
-            OperatorDtoBase bandWidthOperatorDto)
-            : base(new OperatorDtoBase[] { signalOperatorDto, centerFrequencyOperatorDto, bandWidthOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { SignalOperatorDto, CenterFrequencyOperatorDto, BandWidthOperatorDto }; }
+            set { SignalOperatorDto = value[0]; CenterFrequencyOperatorDto = value[1]; BandWidthOperatorDto = value[2]; }
+        }
     }
 }

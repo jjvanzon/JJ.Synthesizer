@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,15 +7,14 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.NotchFilter);
 
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase CenterFrequencyOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase BandWidthOperatorDto => InputOperatorDtos[2];
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public OperatorDtoBase CenterFrequencyOperatorDto { get; set; }
+        public OperatorDtoBase BandWidthOperatorDto { get; set; }
 
-        public NotchFilter_OperatorDto(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase centerFrequencyOperatorDto,
-            OperatorDtoBase bandWidthOperatorDto)
-            : base(new OperatorDtoBase[] { signalOperatorDto, centerFrequencyOperatorDto, bandWidthOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { SignalOperatorDto, CenterFrequencyOperatorDto, BandWidthOperatorDto }; }
+            set { SignalOperatorDto = value[0]; CenterFrequencyOperatorDto = value[1]; BandWidthOperatorDto = value[2]; }
+        }
     }
 }

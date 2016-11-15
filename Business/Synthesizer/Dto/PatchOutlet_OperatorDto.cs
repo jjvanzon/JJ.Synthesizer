@@ -2,13 +2,9 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class PatchOutlet_OperatorDto : OperatorDtoBase
+    internal class PatchOutlet_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.PatchOutlet);
-
-        public PatchOutlet_OperatorDto()
-            : base(new OperatorDtoBase[0])
-        { }
 
         public int? ListIndex { get; set; }
         public string Name { get; set; }

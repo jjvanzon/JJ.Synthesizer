@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,20 +8,23 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Spectrum);
 
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase StartOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase EndOperatorDto => InputOperatorDtos[2];
-        public OperatorDtoBase FrequencyCountOperatorDto => InputOperatorDtos[3];
-
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public OperatorDtoBase StartOperatorDto { get; set; }
+        public OperatorDtoBase EndOperatorDto { get; set; }
+        public OperatorDtoBase FrequencyCountOperatorDto { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
 
-        public Spectrum_OperatorDto(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase startOperatorDto,
-            OperatorDtoBase endOperatorDto,
-            OperatorDtoBase frequencyCountOperatorDto)
-            : base(new OperatorDtoBase[] { signalOperatorDto, startOperatorDto, endOperatorDto, frequencyCountOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { SignalOperatorDto, StartOperatorDto, EndOperatorDto, FrequencyCountOperatorDto }; } 
+            set
+            {
+                SignalOperatorDto = value[0];
+                StartOperatorDto = value[1];
+                EndOperatorDto = value[2];
+                FrequencyCountOperatorDto = value[3];
+            }
+        }
     }
 }

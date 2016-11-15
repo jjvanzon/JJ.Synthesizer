@@ -2,43 +2,31 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Number_OperatorDto : OperatorDtoBase
+    internal class Number_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Number);
 
-        public double Number { get; set; }
-
-        public Number_OperatorDto(double number)
-            : base(new OperatorDtoBase[0])
-        {
-            Number = number;
-        }
+        public virtual double Number { get; set; }
     }
 
     internal class Number_OperatorDto_NaN : Number_OperatorDto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Number);
 
-        public Number_OperatorDto_NaN()
-            : base(double.NaN)
-        { }
+        public override double Number => double.NaN;
     }
 
     internal class Number_OperatorDto_One : Number_OperatorDto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Number);
 
-        public Number_OperatorDto_One()
-            : base(1.0)
-        { }
+        public override double Number => 1.0;
     }
 
     internal class Number_OperatorDto_Zero : Number_OperatorDto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Number);
 
-        public Number_OperatorDto_Zero()
-            : base(0.0)
-        { }
+        public override double Number => 0.0;
     }
 }

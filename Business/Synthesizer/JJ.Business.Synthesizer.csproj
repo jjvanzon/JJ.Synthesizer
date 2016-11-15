@@ -241,6 +241,7 @@
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_ConstCenterFrequency_ConstBandWidth.cs" />
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth.cs" />
     <Compile Include="Dto\OperatorDtoBase_ShelfFilter.cs" />
+    <Compile Include="Dto\OperatorDtoBase_WithoutInputOperatorDtos.cs" />
     <Compile Include="Dto\PeakingEQFilter_OperatorDto.cs" />
     <Compile Include="Dto\RangeOverOutlets_OperatorDto.cs" />
     <Compile Include="Dto\SawUp OperatorDto Classes.cs" />

@@ -17,7 +17,11 @@ namespace JJ.Business.Synthesizer.Dto
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public SpeakerSetupEnum SpeakerSetupEnum { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos => new OperatorDtoBase[] { SignalOperatorDto, StartOperatorDto, EndOperatorDto, SamplingRateOperatorDto };
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        { 
+            get { return new OperatorDtoBase[] { SignalOperatorDto, StartOperatorDto, EndOperatorDto, SamplingRateOperatorDto }; }
+            set { SignalOperatorDto = value[0]; StartOperatorDto = value[1]; EndOperatorDto = value[2]; SamplingRateOperatorDto = value[3]; }
+        }
     }
 
     internal class Cache_OperatorDto_SingleChannel : Cache_OperatorDto

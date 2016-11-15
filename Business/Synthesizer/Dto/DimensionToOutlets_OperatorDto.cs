@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -7,14 +7,15 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.DimensionToOutlets);
 
-        public OperatorDtoBase OperandOperatorDto => InputOperatorDtos[0];
-
+        public OperatorDtoBase OperandOperatorDto { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
         public int OutletIndex { get; set; }
 
-        public DimensionToOutlets_OperatorDto(OperatorDtoBase operandOperatorDto)
-            : base(new OperatorDtoBase[] { operandOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { OperandOperatorDto }; }
+            set { OperandOperatorDto = value[0]; }
+        }
     }
 }

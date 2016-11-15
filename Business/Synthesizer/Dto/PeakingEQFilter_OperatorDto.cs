@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,23 +7,30 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.PeakingEQFilter);
 
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase CenterFrequencyOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase BandWidthOperatorDto => InputOperatorDtos[2];
-        public OperatorDtoBase DBGainOperatorDto => InputOperatorDtos[3];
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public OperatorDtoBase CenterFrequencyOperatorDto { get; set; }
+        public OperatorDtoBase BandWidthOperatorDto { get; set; }
+        public OperatorDtoBase DBGainOperatorDto { get; set; }
 
-        public PeakingEQFilter_OperatorDto(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase centerFrequencyOperatorDto,
-            OperatorDtoBase bandWidthOperatorDto,
-            OperatorDtoBase dbGainOperatorDto)
-            : base(new OperatorDtoBase[] 
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get
             {
-                signalOperatorDto,
-                centerFrequencyOperatorDto,
-                bandWidthOperatorDto,
-                dbGainOperatorDto
-            })
-        { }
+                return new OperatorDtoBase[]
+                {
+                    SignalOperatorDto,
+                    CenterFrequencyOperatorDto,
+                    BandWidthOperatorDto,
+                    DBGainOperatorDto
+                };
+            }
+            set
+            {
+                SignalOperatorDto = value[0];
+                CenterFrequencyOperatorDto = value[1];
+                BandWidthOperatorDto = value[2];
+                DBGainOperatorDto = value[3];
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,16 +7,15 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Unbundle);
         
-        // TODO: You need information to identify which outlet of the Unbundle Operator is represented here.
-
-        public OperatorDtoBase InputOperatorDto => InputOperatorDtos[0];
-
+        public OperatorDtoBase InputOperatorDto { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
         public int OutletIndex { get; set; }
 
-        public Unbundle_OperatorDto(OperatorDtoBase inputOperatorDto)
-            : base(new OperatorDtoBase[] { inputOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { InputOperatorDto }; }
+            set { InputOperatorDto = value[0]; }
+        }
     }
 }

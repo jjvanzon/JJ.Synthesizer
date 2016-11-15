@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,32 +8,39 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase SkipOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase LoopStartMarkerOperatorDto => InputOperatorDtos[2];
-        public OperatorDtoBase LoopEndMarkerOperatorDto => InputOperatorDtos[3];
-        public OperatorDtoBase ReleaseOperatorDto => InputOperatorDtos[4];
-        public OperatorDtoBase NoteDurationOperatorDto => InputOperatorDtos[5];
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public OperatorDtoBase SkipOperatorDto { get; set; }
+        public OperatorDtoBase LoopStartMarkerOperatorDto { get; set; }
+        public OperatorDtoBase LoopEndMarkerOperatorDto { get; set; }
+        public OperatorDtoBase ReleaseEndMarkerOperatorDto { get; set; }
+        public OperatorDtoBase NoteDurationOperatorDto { get; set; }
 
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
 
-        public Loop_OperatorDto(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase skipOperatorDto,
-            OperatorDtoBase loopStartMarkerOperatorDto,
-            OperatorDtoBase loopEndMarkerOperatorDto,
-            OperatorDtoBase releaseEndMarkerOperatorDto,
-            OperatorDtoBase noteDurationOperatorDto)
-            : base(new OperatorDtoBase[]
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get
             {
-                signalOperatorDto,
-                skipOperatorDto,
-                loopStartMarkerOperatorDto,
-                loopEndMarkerOperatorDto,
-                releaseEndMarkerOperatorDto,
-                noteDurationOperatorDto
-            })
-        { }
+                return new OperatorDtoBase[]
+                {
+                    SignalOperatorDto,
+                    SkipOperatorDto,
+                    LoopStartMarkerOperatorDto,
+                    LoopEndMarkerOperatorDto,
+                    ReleaseEndMarkerOperatorDto,
+                    NoteDurationOperatorDto
+                };
+            }
+            set
+            {
+                SignalOperatorDto = value[0];
+                SkipOperatorDto = value[1];
+                LoopStartMarkerOperatorDto = value[2];
+                LoopEndMarkerOperatorDto = value[3];
+                ReleaseEndMarkerOperatorDto = value[4];
+                NoteDurationOperatorDto = value[5];
+            }
+        }
     }
 }

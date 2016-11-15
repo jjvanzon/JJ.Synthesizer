@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -12,6 +11,10 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase HighOperatorDto { get; set; }
         public OperatorDtoBase RatioOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos => new OperatorDtoBase[] { LowOperatorDto, HighOperatorDto, RatioOperatorDto };
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { LowOperatorDto, HighOperatorDto, RatioOperatorDto }; }
+            set { LowOperatorDto = value[0]; HighOperatorDto = value[1]; RatioOperatorDto = value[2]; }
+        }
     }
 }

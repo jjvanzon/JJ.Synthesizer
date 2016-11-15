@@ -1,24 +1,18 @@
-﻿namespace JJ.Business.Synthesizer.Dto
+﻿using System.Collections.Generic;
+
+namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_ShelfFilter : OperatorDtoBase
     {
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase TransitionFrequencyOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase TransitionSlopeOperatorDto => InputOperatorDtos[2];
-        public OperatorDtoBase DBGainOperatorDto => InputOperatorDtos[3];
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public OperatorDtoBase TransitionFrequencyOperatorDto { get; set; }
+        public OperatorDtoBase TransitionSlopeOperatorDto { get; set; }
+        public OperatorDtoBase DBGainOperatorDto { get; set; }
 
-        public OperatorDtoBase_ShelfFilter(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase transitionFrequencyOperatorDto,
-            OperatorDtoBase transitionSlopeOperatorDto,
-            OperatorDtoBase dbGainOperatorDto)
-            : base(new OperatorDtoBase[] 
-            {
-                signalOperatorDto,
-                transitionFrequencyOperatorDto,
-                transitionSlopeOperatorDto,
-                dbGainOperatorDto
-            })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { SignalOperatorDto, TransitionFrequencyOperatorDto, TransitionSlopeOperatorDto, DBGainOperatorDto }; }
+            set { SignalOperatorDto = value[0]; TransitionFrequencyOperatorDto = value[1]; TransitionSlopeOperatorDto = value[2]; DBGainOperatorDto = value[3]; }
+        }
     }
 }

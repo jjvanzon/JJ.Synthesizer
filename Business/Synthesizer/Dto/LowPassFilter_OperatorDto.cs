@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,15 +7,14 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.LowPassFilter);
 
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase MaxFrequencyOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase BandWidthOperatorDto => InputOperatorDtos[2];
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public OperatorDtoBase MaxFrequencyOperatorDto { get; set; }
+        public OperatorDtoBase BandWidthOperatorDto { get; set; }
 
-        public LowPassFilter_OperatorDto(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase maxFrequencyOperatorDto,
-            OperatorDtoBase bandWidthOperatorDto)
-            : base(new OperatorDtoBase[] { signalOperatorDto, maxFrequencyOperatorDto, bandWidthOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { SignalOperatorDto, MaxFrequencyOperatorDto, BandWidthOperatorDto }; }
+            set { SignalOperatorDto = value[0]; MaxFrequencyOperatorDto = value[1]; BandWidthOperatorDto = value[2]; }
+        }
     }
 }

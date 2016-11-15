@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,24 +7,33 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Scaler);
 
-        public OperatorDtoBase SignalOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase SourceValueAOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase SourceValueBOperatorDto => InputOperatorDtos[2];
-        public OperatorDtoBase TargetValueAOperatorDto => InputOperatorDtos[3];
-        public OperatorDtoBase TargetValueBOperatorDto => InputOperatorDtos[4];
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public OperatorDtoBase SourceValueAOperatorDto { get; set; }
+        public OperatorDtoBase SourceValueBOperatorDto { get; set; }
+        public OperatorDtoBase TargetValueAOperatorDto { get; set; }
+        public OperatorDtoBase TargetValueBOperatorDto { get; set; }
 
-        public ScalerWithOrigin_OperatorDto(
-            OperatorDtoBase signalOperatorDto,
-            OperatorDtoBase sourceValueAOperatorDto,
-            OperatorDtoBase sourceValueBOperatorDto,
-            OperatorDtoBase targetValueAOperatorDto,
-            OperatorDtoBase targetValueBOperatorDto)
-            : base(new OperatorDtoBase[] {
-                signalOperatorDto,
-                sourceValueAOperatorDto,
-                sourceValueBOperatorDto,
-
-                targetValueAOperatorDto, targetValueBOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get
+            {
+                return new OperatorDtoBase[]
+                {
+                    SignalOperatorDto,
+                    SourceValueAOperatorDto,
+                    SourceValueBOperatorDto,
+                    TargetValueAOperatorDto,
+                    TargetValueBOperatorDto
+                };
+            }
+            set
+            {
+                SignalOperatorDto = value[0];
+                SourceValueAOperatorDto = value[1];
+                SourceValueBOperatorDto = value[2];
+                TargetValueAOperatorDto = value[3];
+                TargetValueBOperatorDto = value[4];
+            }
+        }
     }
 }

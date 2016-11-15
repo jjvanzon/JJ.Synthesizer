@@ -8,11 +8,5 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
 
         public Sample Sample { get; }
-
-        public Sample_OperatorDto(Sample sample, OperatorDtoBase frequencyOperatorDto)
-            : base(frequencyOperatorDto)
-        {
-            Sample = sample;
-        }
     }
 }

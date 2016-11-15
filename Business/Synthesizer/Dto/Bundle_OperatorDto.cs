@@ -10,8 +10,6 @@ namespace JJ.Business.Synthesizer.Dto
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
 
-        public Bundle_OperatorDto(IList<OperatorDtoBase> inputOperatorDtos)
-            : base(inputOperatorDtos)
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; }
     }
 }

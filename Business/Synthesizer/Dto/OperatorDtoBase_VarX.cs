@@ -1,11 +1,15 @@
-﻿namespace JJ.Business.Synthesizer.Dto
+﻿using System.Collections.Generic;
+
+namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_VarX : OperatorDtoBase
     {
-        public OperatorDtoBase XOperatorDto => InputOperatorDtos[0];
+        public OperatorDtoBase XOperatorDto { get; set; }
 
-        public OperatorDtoBase_VarX(OperatorDtoBase xOperatorDto)
-            : base(new OperatorDtoBase[] { xOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { XOperatorDto }; }
+            set { XOperatorDto = value[0]; }
+        }
     }
 }

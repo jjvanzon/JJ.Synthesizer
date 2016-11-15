@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,19 +7,14 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
 
-        public OperatorDtoBase FromOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase StepOperatorDto => InputOperatorDtos[1];
-
+        public OperatorDtoBase FromOperatorDto { get; set; }
+        public OperatorDtoBase StepOperatorDto { get; set; }
         public int OutletIndex { get; set; }
 
-        public RangeOverOutlets_OperatorDto(
-            OperatorDtoBase fromOperatorDto,
-            OperatorDtoBase stepOperatorDto)
-            : base(new OperatorDtoBase[] 
-            {
-                fromOperatorDto,
-                stepOperatorDto
-            })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { FromOperatorDto, StepOperatorDto }; }
+            set { FromOperatorDto = value[0]; StepOperatorDto = value[1]; }
+        }
     }
 }

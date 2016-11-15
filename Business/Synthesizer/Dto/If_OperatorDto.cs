@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,15 +7,14 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.If);
 
-        public OperatorDtoBase ConditionOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase ThenOperatorDto => InputOperatorDtos[1];
-        public OperatorDtoBase ElseOperatorDto => InputOperatorDtos[2];
+        public OperatorDtoBase ConditionOperatorDto { get; set; }
+        public OperatorDtoBase ThenOperatorDto { get; set; }
+        public OperatorDtoBase ElseOperatorDto { get; set; }
 
-        public If_OperatorDto(
-            OperatorDtoBase conditionOperatorDto,
-            OperatorDtoBase thenOperatorDto,
-            OperatorDtoBase elseOperatorDto)
-            : base(new OperatorDtoBase[] { conditionOperatorDto, thenOperatorDto, elseOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { ConditionOperatorDto, ThenOperatorDto, ElseOperatorDto }; }
+            set { ConditionOperatorDto = value[0]; ThenOperatorDto = value[1]; ElseOperatorDto = value[2]; }
+        }
     }
 }

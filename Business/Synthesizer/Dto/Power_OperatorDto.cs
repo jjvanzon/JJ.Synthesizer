@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -6,13 +7,13 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Power);
 
-        public OperatorDtoBase BaseOperatorDto => InputOperatorDtos[0];
-        public OperatorDtoBase ExponentOperatorDto => InputOperatorDtos[1];
+        public OperatorDtoBase BaseOperatorDto { get; set; }
+        public OperatorDtoBase ExponentOperatorDto { get; set; }
 
-        public Power_OperatorDto(
-            OperatorDtoBase baseOperatorDto,
-            OperatorDtoBase exponentOperatorDto)
-            : base(new OperatorDtoBase[] { baseOperatorDto, exponentOperatorDto })
-        { }
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { BaseOperatorDto, ExponentOperatorDto }; }
+            set { BaseOperatorDto = value[0]; ExponentOperatorDto = value[1]; }
+        }
     }
 }
