@@ -2260,13 +2260,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     {
                         OperatorCalculatorBase aCalculator = operandCalculators[0];
                         OperatorCalculatorBase bCalculator = operandCalculators[1];
-                        calculator = new MaxOverInlets_OperatorCalculator_TwoVars(aCalculator, bCalculator);
+                        calculator = new MaxOverInlets_OperatorCalculator_2Vars(aCalculator, bCalculator);
                     }
                     else
                     {
                         double constValue = constOperandCalculator.Calculate();
                         OperatorCalculatorBase varCalculator = operandCalculators.Except(constOperandCalculator).Single();
-                        calculator = new MaxOverInlets_OperatorCalculator_OneConst_OneVar(constValue, varCalculator);
+                        calculator = new MaxOverInlets_OperatorCalculator_1Var_1Const(constValue, varCalculator);
                     }
                     break;
 
@@ -2281,7 +2281,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
                         double constValue = constOperandCalculator.Calculate();
 
-                        calculator =  new MaxOverInlets_OperatorCalculator_WithConst_AndVarArray(constValue, varOperandCalculators);
+                        calculator =  new MaxOverInlets_OperatorCalculator_Vars_1Const(constValue, varOperandCalculators);
                     }
                     break;
             }
@@ -2436,13 +2436,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     {
                         OperatorCalculatorBase aCalculator = operandCalculators[0];
                         OperatorCalculatorBase bCalculator = operandCalculators[1];
-                        calculator = new MinOverInlets_OperatorCalculator_TwoVars(aCalculator, bCalculator);
+                        calculator = new MinOverInlets_OperatorCalculator_2Vars(aCalculator, bCalculator);
                     }
                     else
                     {
                         double constValue = constOperandCalculator.Calculate();
                         OperatorCalculatorBase varCalculator = operandCalculators.Except(constOperandCalculator).Single();
-                        calculator = new MinOverInlets_OperatorCalculator_OneConst_OneVar(constValue, varCalculator);
+                        calculator = new MinOverInlets_OperatorCalculator_1Var_1Const(constValue, varCalculator);
                     }
                     break;
 
@@ -2456,7 +2456,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
                         double constValue = constOperandCalculator.Calculate();
 
-                        calculator = new MinOverInlets_OperatorCalculator_WithConst_AndVarArray(constValue, varOperandCalculators);
+                        calculator = new MinOverInlets_OperatorCalculator_Vars_1Const(constValue, varOperandCalculators);
                     }
 
                     break;

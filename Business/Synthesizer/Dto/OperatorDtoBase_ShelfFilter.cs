@@ -16,17 +16,10 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal abstract class OperatorDtoBase_ShelfFilter_ManyConsts : OperatorDtoBase
+    internal abstract class OperatorDtoBase_ShelfFilter_ManyConsts : OperatorDtoBase_VarSignal
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
         public double TransitionFrequency { get; set; }
         public double TransitionSlope { get; set; }
         public double DBGain { get; set; }
-
-        public override IList<OperatorDtoBase> InputOperatorDtos
-        {
-            get { return new OperatorDtoBase[] { SignalOperatorDto }; }
-            set { SignalOperatorDto = value[0]; }
-        }
     }
 }

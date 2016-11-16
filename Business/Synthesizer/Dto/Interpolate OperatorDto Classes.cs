@@ -35,21 +35,14 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Interpolate_OperatorDto_Hermite_LagBehind : Interpolate_OperatorDto
     { }
 
-    internal class Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate : OperatorDtoBase
+    internal class Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate : OperatorDtoBase_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Interpolate);
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
         public double SamplingRate { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
-
-        public override IList<OperatorDtoBase> InputOperatorDtos
-        {
-            get { return new OperatorDtoBase[] { SignalOperatorDto }; }
-            set { SignalOperatorDto = value[0]; }
-        }
     }
 
     internal class Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate : Interpolate_OperatorDto

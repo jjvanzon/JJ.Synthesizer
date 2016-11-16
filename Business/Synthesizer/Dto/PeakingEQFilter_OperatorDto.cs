@@ -3,7 +3,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class PeakingEQFilter_OperatorDto : OperatorDtoBase
+    internal class PeakingEQFilter_OperatorDto : PeakingEQFilter_OperatorDto_AllVars
+    { }
+
+    internal class PeakingEQFilter_OperatorDto_AllVars : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.PeakingEQFilter);
 
@@ -32,5 +35,14 @@ namespace JJ.Business.Synthesizer.Dto
                 DBGainOperatorDto = value[3];
             }
         }
+    }
+
+    internal class PeakingEQFilter_OperatorDto_ManyConsts : OperatorDtoBase_VarSignal
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.PeakingEQFilter);
+
+        public double CenterFrequency { get; set; }
+        public double BandWidth { get; set; }
+        public double DBGain { get; set; }
     }
 }

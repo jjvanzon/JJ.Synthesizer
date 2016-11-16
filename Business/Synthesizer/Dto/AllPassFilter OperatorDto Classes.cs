@@ -21,18 +21,11 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class AllPassFilter_OperatorDto_ManyConsts : OperatorDtoBase
+    internal class AllPassFilter_OperatorDto_ManyConsts : OperatorDtoBase_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.AllPassFilter);
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
         public double CenterFrequency { get; set; }
         public double BandWidth { get; set; }
-
-        public override IList<OperatorDtoBase> InputOperatorDtos
-        {
-            get { return new OperatorDtoBase[] { SignalOperatorDto }; }
-            set { SignalOperatorDto = value[0]; }
-        }
     }
 }

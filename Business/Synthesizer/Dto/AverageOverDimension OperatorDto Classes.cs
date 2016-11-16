@@ -7,13 +7,9 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.AverageOverDimension);
     }
 
-    internal class AverageOverDimension_OperatorDto_CollectionRecalculationContinuous : OperatorDtoBase_AggregateOverDimension
-    {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.AverageOverDimension);
-    }
+    internal class AverageOverDimension_OperatorDto_CollectionRecalculationContinuous : AverageOverDimension_OperatorDto
+    { }
 
-    internal class AverageOverDimension_OperatorDto_CollectionRecalculationUponReset : OperatorDtoBase_AggregateOverDimension
-    {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.AverageOverDimension);
-    }
+    internal class AverageOverDimension_OperatorDto_CollectionRecalculationUponReset : AverageOverDimension_OperatorDto
+    { }
 }

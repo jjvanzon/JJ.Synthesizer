@@ -6,16 +6,13 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    // You could imagine many more optimized calculations, such as first operand is const and several,
-    // that omit the loop, but future optimizations will just make that work obsolete again.
-
-    internal class MinOverInlets_OperatorCalculator_WithConst_AndVarArray : OperatorCalculatorBase_WithChildCalculators
+    internal class MinOverInlets_OperatorCalculator_Vars_1Const : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _constValue;
         private readonly OperatorCalculatorBase[] _varOperandCalculators;
         private readonly double _varOperandCalculatorsCount;
 
-        public MinOverInlets_OperatorCalculator_WithConst_AndVarArray(double constValue, IList<OperatorCalculatorBase> operandCalculators)
+        public MinOverInlets_OperatorCalculator_Vars_1Const(double constValue, IList<OperatorCalculatorBase> operandCalculators)
             : base(operandCalculators)
         {
             if (operandCalculators == null) throw new NullException(() => operandCalculators);
@@ -80,12 +77,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class MinOverInlets_OperatorCalculator_OneConst_OneVar : OperatorCalculatorBase_WithChildCalculators
+    internal class MinOverInlets_OperatorCalculator_1Var_1Const : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _constValue;
         private readonly OperatorCalculatorBase _varCalculator;
 
-        public MinOverInlets_OperatorCalculator_OneConst_OneVar(double constValue, OperatorCalculatorBase varCalculator)
+        public MinOverInlets_OperatorCalculator_1Var_1Const(double constValue, OperatorCalculatorBase varCalculator)
             : base(new OperatorCalculatorBase[] { varCalculator })
         {
             if (varCalculator == null) throw new NullException(() => varCalculator);
@@ -110,12 +107,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class MinOverInlets_OperatorCalculator_TwoVars : OperatorCalculatorBase_WithChildCalculators
+    internal class MinOverInlets_OperatorCalculator_2Vars : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
 
-        public MinOverInlets_OperatorCalculator_TwoVars(
+        public MinOverInlets_OperatorCalculator_2Vars(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })

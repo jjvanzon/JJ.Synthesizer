@@ -6,4 +6,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MaxOverDimension);
     }
+
+    internal class MaxOverDimension_OperatorDto_CollectionRecalculationContinuous : MaxOverDimension_OperatorDto
+    { }
+
+    internal class MaxOverDimension_OperatorDto_CollectionRecalculationUponReset : MaxOverDimension_OperatorDto
+    { }
 }
