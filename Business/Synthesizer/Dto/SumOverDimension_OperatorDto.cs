@@ -6,4 +6,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SumOverDimension);
     }
+
+    internal class SumOverDimension_OperatorDto_CollectionRecalculationContinuous : SumOverDimension_OperatorDto
+    { }
+
+    internal class SumOverDimension_OperatorDto_CollectionRecalculationUponReset : SumOverDimension_OperatorDto
+    { }
 }

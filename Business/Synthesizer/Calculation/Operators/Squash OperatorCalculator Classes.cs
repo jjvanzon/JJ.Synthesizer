@@ -5,10 +5,7 @@ using System.Runtime.CompilerServices;
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     // Const-Const-Zero does not exist.
-
     // Const-Var-Zero does not exist.
-
-    // Var-Const-Zero
 
     internal class Squash_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
     {
@@ -99,8 +96,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return transformedPosition;
         }
     }
-
-    // Var-Var-Zero
 
     internal class Squash_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
     {
@@ -194,14 +189,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     }
 
     // Const-Const-Const does not exist.
-
     // Const-Const-Var does not exist.
-
     // Const-Var-Const does not exist.
-
     // Const-Var-Var does not exist.
-
-    // Var-Const-Const
 
     internal class Squash_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
@@ -293,8 +283,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return transformedPosition;
         }
     }
-
-    // Var-Const-Var
 
     internal class Squash_OperatorCalculator_VarSignal_ConstFactor_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
@@ -391,8 +379,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    // Var-Var-Const
-
     internal class Squash_OperatorCalculator_VarSignal_VarFactor_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -485,8 +471,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return transformedPosition;
         }
     }
-
-    // Var-Var-Var
 
     internal class Squash_OperatorCalculator_VarSignal_VarFactor_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {

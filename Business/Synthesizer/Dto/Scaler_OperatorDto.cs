@@ -3,7 +3,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class ScalerWithOrigin_OperatorDto : OperatorDtoBase
+    internal class Scaler_OperatorDto : Scaler_OperatorDto_AllVars
+    { }
+
+    internal class Scaler_OperatorDto_AllVars : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Scaler);
 
@@ -35,5 +38,15 @@ namespace JJ.Business.Synthesizer.Dto
                 TargetValueBOperatorDto = value[4];
             }
         }
+    }
+
+    internal class Scaler_OperatorDto_ManyConsts : OperatorDtoBase_VarSignal
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Scaler);
+
+        public double SourceValueA { get; set; }
+        public double SourceValueB { get; set; }
+        public double TargetValueA { get; set; }
+        public double TargetValueB { get; set; }
     }
 }

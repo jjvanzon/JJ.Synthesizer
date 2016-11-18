@@ -6,7 +6,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Scaler_OperatorCalculator_AllVariables : OperatorCalculatorBase_WithChildCalculators
+    internal class Scaler_OperatorCalculator_AllVars : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _sourceValueACalculator;
@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _targetValueACalculator;
         private readonly OperatorCalculatorBase _targetValueBCalculator;
 
-        public Scaler_OperatorCalculator_AllVariables(
+        public Scaler_OperatorCalculator_AllVars(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase sourceValueACalculator,
             OperatorCalculatorBase sourceValueBCalculator,
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Scaler_OperatorCalculator_ManyConstants : OperatorCalculatorBase_WithChildCalculators
+    internal class Scaler_OperatorCalculator_ManyConsts : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _sourceValueA;
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _targetValueB;
         private readonly double _slope;
 
-        public Scaler_OperatorCalculator_ManyConstants(
+        public Scaler_OperatorCalculator_ManyConsts(
             OperatorCalculatorBase signalCalculator,
             double sourceValueA,
             double sourceValueB,

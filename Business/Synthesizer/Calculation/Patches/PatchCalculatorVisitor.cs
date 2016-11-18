@@ -3439,11 +3439,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (fromIsConst && tillIsConst && stepIsConst)
             {
-                operatorCalculator = new RangeOverDimension_OperatorCalculator_WithConstants(from, till, step, dimensionStack);
+                operatorCalculator = new RangeOverDimension_OperatorCalculator_OnlyConsts(from, till, step, dimensionStack);
             }
             else if (!fromIsConst && !tillIsConst && !stepIsConst)
             {
-                operatorCalculator = new RangeOverDimension_OperatorCalculator_WithVariables(fromCalculator, tillCalculator, stepCalculator, dimensionStack);
+                operatorCalculator = new RangeOverDimension_OperatorCalculator_OnlyVars(fromCalculator, tillCalculator, stepCalculator, dimensionStack);
             }
             else
             {
@@ -3952,11 +3952,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             if (sourceValueAIsConst && sourceValueBIsConst && targetValueAIsConst && targetValueBIsConst)
             {
-                calculator = new Scaler_OperatorCalculator_ManyConstants(signalCalculator, sourceValueA, sourceValueB, targetValueA, targetValueB);
+                calculator = new Scaler_OperatorCalculator_ManyConsts(signalCalculator, sourceValueA, sourceValueB, targetValueA, targetValueB);
             }
             else
             {
-                calculator = new Scaler_OperatorCalculator_AllVariables(signalCalculator, sourceValueACalculator, sourceValueBCalculator, targetValueACalculator, targetValueBCalculator);
+                calculator = new Scaler_OperatorCalculator_AllVars(signalCalculator, sourceValueACalculator, sourceValueBCalculator, targetValueACalculator, targetValueBCalculator);
             }
 
             _stack.Push(calculator);

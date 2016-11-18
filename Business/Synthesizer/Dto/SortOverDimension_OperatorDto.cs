@@ -6,4 +6,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SortOverDimension);
     }
+
+    internal class SortOverDimension_OperatorDto_CollectionRecalculationContinuous : SortOverDimension_OperatorDto
+    { }
+
+    internal class SortOverDimension_OperatorDto_CollectionRecalculationUponReset : SortOverDimension_OperatorDto
+    { }
 }

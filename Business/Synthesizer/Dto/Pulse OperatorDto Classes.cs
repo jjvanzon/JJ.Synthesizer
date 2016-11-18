@@ -3,14 +3,11 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Pulse_OperatorDto : OperatorDtoBase
+    internal class Pulse_OperatorDto : OperatorDtoBase_VarFrequency
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
 
-        public OperatorDtoBase FrequencyOperatorDto { get; set; }
         public OperatorDtoBase WidthOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -19,33 +16,23 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting : OperatorDtoBase_ConstFrequency
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
-
-        public double FrequencyOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
     }
 
-    internal class Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting : OperatorDtoBase_ConstFrequency
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
 
-        public double Frequency { get; set; }
         public double Width { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
     }
 
-    internal class Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting : OperatorDtoBase
+    internal class Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting : OperatorDtoBase_ConstFrequency
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
 
-        public double Frequency { get; set; }
         public OperatorDtoBase WidthOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

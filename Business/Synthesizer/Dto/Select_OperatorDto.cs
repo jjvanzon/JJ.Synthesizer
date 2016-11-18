@@ -3,7 +3,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Select_OperatorDto : OperatorDtoBase
+    internal class Select_OperatorDto : Select_OperatorDto_VarPosition
+    { }
+
+    internal class Select_OperatorDto_VarPosition : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Select);
 
@@ -16,6 +19,22 @@ namespace JJ.Business.Synthesizer.Dto
         {
             get { return new OperatorDtoBase[] { SignalOperatorDto, PositionOperatorDto }; }
             set { SignalOperatorDto = value[0]; PositionOperatorDto = value[1]; }
+        }
+    }
+
+    internal class Select_OperatorDto_ConstPosition : OperatorDtoBase
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Select);
+
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public double Position { get; set; }
+        public DimensionEnum StandardDimensionEnum { get; set; }
+        public string CustomDimensionName { get; set; }
+
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { SignalOperatorDto }; }
+            set { SignalOperatorDto = value[0]; }
         }
     }
 }

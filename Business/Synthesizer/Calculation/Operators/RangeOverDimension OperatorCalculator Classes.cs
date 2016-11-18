@@ -5,7 +5,7 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class RangeOverDimension_OperatorCalculator_WithVariables : OperatorCalculatorBase_WithChildCalculators
+    internal class RangeOverDimension_OperatorCalculator_OnlyVars : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _fromCalculator;
         private readonly OperatorCalculatorBase _tillCalculator;
@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public RangeOverDimension_OperatorCalculator_WithVariables(
+        public RangeOverDimension_OperatorCalculator_OnlyVars(
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class RangeOverDimension_OperatorCalculator_WithConstants : OperatorCalculatorBase
+    internal class RangeOverDimension_OperatorCalculator_OnlyConsts : OperatorCalculatorBase
     {
         private readonly double _from;
         private readonly double _till;
@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public RangeOverDimension_OperatorCalculator_WithConstants(
+        public RangeOverDimension_OperatorCalculator_OnlyConsts(
             double from,
             double till,
             double step,

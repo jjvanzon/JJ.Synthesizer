@@ -18,4 +18,25 @@ namespace JJ.Business.Synthesizer.Dto
             set { RateOperatorDto = value[0]; }
         }
     }
+
+    internal class Random_OperatorDto_Block : Random_OperatorDto
+    { }
+
+    internal class Random_OperatorDto_Stripe : Random_OperatorDto
+    { }
+
+    internal class Random_OperatorDto_Line : Random_OperatorDto
+    { }
+
+    internal class Random_OperatorDto_CubicEquidistant : Random_OperatorDto
+    { }
+
+    internal class Random_OperatorDto_CubicAbruptSlope : Random_OperatorDto
+    { }
+
+    internal class Random_OperatorDto_CubicSmoothSlope : Random_OperatorDto
+    { }
+
+    internal class Random_OperatorDto_Hermite : Random_OperatorDto
+    { }
 }
