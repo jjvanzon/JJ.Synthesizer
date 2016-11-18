@@ -3,8 +3,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class ClosestOverDimension_OperatorDto : OperatorDtoBase
+    internal class ClosestOverDimension_OperatorDto : OperatorDtoBase
     {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverDimension);
+        
         public OperatorDtoBase InputOperatorDto { get; set; }
         public OperatorDtoBase CollectionOperatorDto { get; set; }
         public OperatorDtoBase FromOperatorDto { get; set; }

@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Business.Synthesizer.Calculation.Patches
+namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorVisitorBase
     {
@@ -265,6 +265,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
+        protected virtual void VisitDimensionToOutlets(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
         protected virtual void VisitDivide(Operator op)
         {
             VisitOperatorBase(op);
@@ -325,6 +331,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         [DebuggerHidden]
+        protected virtual void VisitInletsToDimension(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
         protected virtual void VisitLessThan(Operator op)
         {
             VisitOperatorBase(op);
@@ -350,18 +362,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitLowShelfFilter(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
-        protected virtual void VisitInletsToDimension(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
-        protected virtual void VisitDimensionToOutlets(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -410,12 +410,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitMultiplyWithOrigin(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
-        protected virtual void VisitSquash(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -614,6 +608,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         [DebuggerHidden]
         protected virtual void VisitSquare(Operator op)
+        {
+            VisitOperatorBase(op);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitSquash(Operator op)
         {
             VisitOperatorBase(op);
         }

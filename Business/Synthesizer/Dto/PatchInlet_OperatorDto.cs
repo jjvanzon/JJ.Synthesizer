@@ -6,8 +6,8 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.PatchInlet);
 
-        public double DefaultValue { get; set; }
-        public int ListIndex { get; set; }
+        public double? DefaultValue { get; set; }
+        public int? ListIndex { get; set; }
         public string Name { get; set; }
         public DimensionEnum DimensionEnum { get; set; }
     }

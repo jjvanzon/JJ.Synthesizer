@@ -635,6 +635,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
+    <Compile Include="Visitors\OperatorToDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\CurveWarningValidator.cs" />
@@ -768,7 +769,7 @@
     <Compile Include="Validation\Operators\OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorVisitor.cs" />
-    <Compile Include="Calculation\Patches\OperatorVisitorBase.cs" />
+    <Compile Include="Visitors\OperatorVisitorBase.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Unbundle_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Bundle_OperatorWarningValidator.cs" />

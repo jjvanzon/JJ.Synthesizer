@@ -11,13 +11,13 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.LowPassFilter);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase MixFrequencyOperatorDto { get; set; }
+        public OperatorDtoBase MaxFrequencyOperatorDto { get; set; }
         public OperatorDtoBase BandWidthOperatorDto { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, MixFrequencyOperatorDto, BandWidthOperatorDto }; }
-            set { SignalOperatorDto = value[0]; MixFrequencyOperatorDto = value[1]; BandWidthOperatorDto = value[2]; }
+            get { return new OperatorDtoBase[] { SignalOperatorDto, MaxFrequencyOperatorDto, BandWidthOperatorDto }; }
+            set { SignalOperatorDto = value[0]; MaxFrequencyOperatorDto = value[1]; BandWidthOperatorDto = value[2]; }
         }
     }
 
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.LowPassFilter);
 
-        public double MixFrequency { get; set; }
+        public double MaxFrequency { get; set; }
         public double BandWidth { get; set; }
     }
 }

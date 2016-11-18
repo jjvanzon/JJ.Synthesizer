@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitorBase
     {
-        private Dictionary<Type, Func<OperatorDtoBase, OperatorDtoBase>> _delegateDictionary;
+        private readonly Dictionary<Type, Func<OperatorDtoBase, OperatorDtoBase>> _delegateDictionary;
 
         public OperatorDtoVisitorBase()
         {

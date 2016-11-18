@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
         public string OutletName { get; set; }
         public DimensionEnum OutletDimensionEnum { get; set; }
         public int? OutletListIndex { get; set; }
-        public Patch UnderlyingPatch { get; }
+        public Patch UnderlyingPatch { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos { get; set; }
     }
