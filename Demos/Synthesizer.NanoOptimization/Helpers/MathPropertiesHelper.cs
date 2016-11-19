@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Framework.Common;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers
 {
     internal static class MathPropertiesHelper
     {

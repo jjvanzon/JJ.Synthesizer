@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
-using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
-using JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithInheritance;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers.WithInheritance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization
 {
     [TestClass]
     public class Synthesizer_PerformanceTests_NoInliningWithInheritance

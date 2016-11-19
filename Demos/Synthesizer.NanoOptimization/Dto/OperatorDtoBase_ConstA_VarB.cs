@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 {
     internal abstract class OperatorDtoBase_ConstA_VarB : OperatorDtoBase
     {

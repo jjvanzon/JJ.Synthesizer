@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation
 {
     /// <summary>
     /// These operations may seem to trivial to extract into methods,

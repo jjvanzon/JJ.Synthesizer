@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers
 {
     public class VisitationCannotBeHandledException : Exception
     {

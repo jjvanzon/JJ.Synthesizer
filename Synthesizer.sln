@@ -101,7 +101,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Collections", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection.Tests", "Framework\Reflection.Tests\JJ.Framework.Reflection.Tests.csproj", "{E150EBF6-16F7-4299-B4BD-791757D6CC9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Demos.Synthesizer.NanoOptimization", "Demos\Synthesizer.NanoOptimization\JJ.Demos.Synthesizer.NanoOptimization.csproj", "{58794EC8-775B-4EA6-A12C-F330AB03B0F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Synthesizer.Tests.NanoOptimization", "Demos\Synthesizer.NanoOptimization\JJ.Business.Synthesizer.Tests.NanoOptimization.csproj", "{58794EC8-775B-4EA6-A12C-F330AB03B0F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1329,7 +1329,7 @@ Global
 		SccProjectTopLevelParentUniqueName48 = Synthesizer.sln
 		SccProjectName48 = Framework/Reflection.Tests
 		SccLocalPath48 = Framework\\Reflection.Tests
-		SccProjectUniqueName49 = Demos\\Synthesizer.NanoOptimization\\JJ.Demos.Synthesizer.NanoOptimization.csproj
+		SccProjectUniqueName49 = Demos\\Synthesizer.NanoOptimization\\JJ.Business.Synthesizer.Tests.NanoOptimization.csproj
 		SccProjectName49 = Demos/Synthesizer.NanoOptimization
 		SccLocalPath49 = Demos\\Synthesizer.NanoOptimization
 	EndGlobalSection

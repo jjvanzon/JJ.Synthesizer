@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithInheritance
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithInheritance
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal abstract class OperatorCalculatorBase

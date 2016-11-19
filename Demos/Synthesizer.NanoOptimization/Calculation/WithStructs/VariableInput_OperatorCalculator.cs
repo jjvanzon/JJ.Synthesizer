@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithStructs
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithStructs
 {
     /// <summary>
     /// This is the only calculator that needs to be a reference type,

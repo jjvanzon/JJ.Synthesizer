@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithStructs;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
-using JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithStructs;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithStructs;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStructs
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers.WithStructs
 {
     internal static class OperatorCalculatorFactory
     {

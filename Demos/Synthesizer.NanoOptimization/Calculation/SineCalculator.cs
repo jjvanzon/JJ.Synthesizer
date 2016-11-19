@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation
 {
     /// <summary>
     /// +/- 20% faster than Math.Sin.

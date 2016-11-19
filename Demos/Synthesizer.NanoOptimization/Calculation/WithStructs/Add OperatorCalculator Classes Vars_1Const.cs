@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithStructs
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithStructs
 {
 
 		internal class Add_OperatorCalculator_1Vars_1Const

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
-using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Framework.Common;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpCompilation
 {
     internal abstract class OperatorDtoToCSharpVisitorBase : OperatorDtoVisitorBase_AfterMathSimplification
     {

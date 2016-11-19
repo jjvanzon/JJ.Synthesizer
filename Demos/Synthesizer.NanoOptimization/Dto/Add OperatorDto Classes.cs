@@ -1,6 +1,6 @@
-﻿using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+﻿using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 {
     internal class Add_OperatorDto : OperatorDtoBase_Vars
     {

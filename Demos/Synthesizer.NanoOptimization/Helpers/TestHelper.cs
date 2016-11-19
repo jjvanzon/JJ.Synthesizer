@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers
 {
     internal class TestHelper
     {

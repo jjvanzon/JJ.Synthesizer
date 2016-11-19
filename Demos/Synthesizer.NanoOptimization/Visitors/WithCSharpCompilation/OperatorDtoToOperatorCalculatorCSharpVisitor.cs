@@ -4,14 +4,14 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilation;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
-using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithCSharpCompilation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpCompilation
 {
     /// <summary>
     /// This is the older version of the experiment. Newer experiments use the other visitor:

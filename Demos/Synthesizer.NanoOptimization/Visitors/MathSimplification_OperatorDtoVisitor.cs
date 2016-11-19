@@ -1,7 +1,7 @@
-﻿using JJ.Demos.Synthesizer.NanoOptimization.Dto;
-using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+﻿using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
     internal class MathSimplification_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterClassSpecialization
     {

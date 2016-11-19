@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithStructs
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithStructs
 {
     internal interface IOperatorCalculator_Vars : IOperatorCalculator
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithStructs
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithStructs
 {
     internal struct Add_OperatorCalculator_VarArray : IOperatorCalculator_Vars
     {

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
-using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 using JJ.Framework.Common;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
     internal class ClassSpecialization_OperatorDtoVisitor : OperatorDtoVisitorBase
     {

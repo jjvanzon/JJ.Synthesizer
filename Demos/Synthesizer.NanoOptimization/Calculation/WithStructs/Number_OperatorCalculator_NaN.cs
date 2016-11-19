@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithStructs
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithStructs
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal struct Number_OperatorCalculator_NaN : IOperatorCalculator

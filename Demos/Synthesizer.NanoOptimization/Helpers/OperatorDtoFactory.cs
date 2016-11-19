@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers
 {
     internal static class OperatorDtoFactory
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilation;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithCSharpCompilation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilation
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithCSharpCompilation
 {
     public class ExamplePatchCalculatorOutputCode : IPatchCalculator 
     {

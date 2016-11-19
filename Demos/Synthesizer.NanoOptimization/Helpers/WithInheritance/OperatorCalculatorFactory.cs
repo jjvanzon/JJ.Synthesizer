@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithInheritance;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
-using JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithInheritance;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithInheritance;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritance;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithInheritance
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers.WithInheritance
 {
     internal static partial class OperatorCalculatorFactory
     {

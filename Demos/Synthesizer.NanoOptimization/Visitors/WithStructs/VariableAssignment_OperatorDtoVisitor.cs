@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithStructs;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
-using JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithStucts;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithStructs;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers.WithStucts;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithStructs
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithStructs
 {
     internal class VariableAssignment_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterMathSimplification
     {

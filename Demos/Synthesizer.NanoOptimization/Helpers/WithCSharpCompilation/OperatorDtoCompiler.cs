@@ -4,16 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilation;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
-using JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithCSharpCompilation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpCompilation;
 using JJ.Framework.IO;
 using JJ.Framework.Reflection.Exceptions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithCSharpCompilation
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers.WithCSharpCompilation
 {
     internal class OperatorDtoCompiler
     {

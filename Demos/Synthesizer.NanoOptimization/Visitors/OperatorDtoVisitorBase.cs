@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
     internal abstract class OperatorDtoVisitorBase
     {

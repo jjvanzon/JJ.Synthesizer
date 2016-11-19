@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation;
-using JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithCSharpCompilation;
-using JJ.Demos.Synthesizer.NanoOptimization.Dto;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithCSharpCompilation;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Helpers.WithCSharpCompilation
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers.WithCSharpCompilation
 {
     internal static class OperatorCalculatorFactory
     {

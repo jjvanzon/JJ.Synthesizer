@@ -1,4 +1,4 @@
-﻿namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
+﻿namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 {
     internal class MathPropertiesDto
     {

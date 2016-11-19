@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation.WithInheritance
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithInheritance
 {
     internal class Sine_OperatorCalculator_ConstFrequency_NoOriginShifting : OperatorCalculatorBase
     {

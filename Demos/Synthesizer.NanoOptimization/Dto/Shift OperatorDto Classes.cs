@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using JJ.Demos.Synthesizer.NanoOptimization.Helpers;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 {
     internal class Shift_OperatorDto : Shift_OperatorDto_VarSignal_VarDistance
     { }

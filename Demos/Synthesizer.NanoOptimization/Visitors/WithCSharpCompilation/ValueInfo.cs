@@ -6,7 +6,7 @@ using JJ.Framework.Reflection.Exceptions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Visitors.WithCSharpCompilation
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpCompilation
 {
     internal class ValueInfo
     {

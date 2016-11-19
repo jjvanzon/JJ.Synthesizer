@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Dto
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 {
     internal abstract class OperatorDtoBase_VarA_ConstB : OperatorDtoBase
     {

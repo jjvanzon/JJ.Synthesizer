@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace JJ.Demos.Synthesizer.NanoOptimization.Calculation
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation
 {
     internal class DimensionStack
     {
