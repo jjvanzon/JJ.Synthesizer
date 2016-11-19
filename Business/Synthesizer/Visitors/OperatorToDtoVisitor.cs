@@ -14,16 +14,22 @@ namespace JJ.Business.Synthesizer.Visitors
     {
         private readonly ICurveRepository _curveRepository;
         private readonly IPatchRepository _patchRepository;
+        private readonly ISampleRepository _sampleRepository;
 
         private Stack<OperatorDtoBase> _stack;
 
-        public OperatorToDtoVisitor(ICurveRepository curveRepository, IPatchRepository patchRepository)
+        public OperatorToDtoVisitor(
+            ICurveRepository curveRepository, 
+            IPatchRepository patchRepository, 
+            ISampleRepository sampleRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             _curveRepository = curveRepository;
             _patchRepository = patchRepository;
+            _sampleRepository = sampleRepository;
         }
 
         public OperatorDtoBase Execute(Operator op)
@@ -552,62 +558,170 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitPeakingEQFilter(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitPeakingEQFilter(op);
+
+            var dto = new PeakingEQFilter_OperatorDto
+            {
+                SignalOperatorDto = _stack.Pop(),
+                CenterFrequencyOperatorDto = _stack.Pop(),
+                BandWidthOperatorDto = _stack.Pop(),
+                DBGainOperatorDto = _stack.Pop()
+            };
+
+            _stack.Push(dto);
         }
         
         protected override void VisitPower(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitPower(op);
+
+            var dto = new Power_OperatorDto
+            {
+                BaseOperatorDto = _stack.Pop(),
+                ExponentOperatorDto = _stack.Pop()
+            };
+
+            _stack.Push(dto);
         }
         
         protected override void VisitPulse(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitPulse(op);
+
+            var dto = new Pulse_OperatorDto
+            {
+                FrequencyOperatorDto = _stack.Pop(),
+                WidthOperatorDto = _stack.Pop()
+            };
+
+            _stack.Push(dto);
         }
         
         protected override void VisitPulseTrigger(Operator op)
         {
-            throw new NotImplementedException();
+            var dto = new PulseTrigger_OperatorDto();
+            Visit_OperatorDtoBase_Trigger(op, dto);
         }
-        
+
         protected override void VisitRandom(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitRandom(op);
+
+            var wrapper = new Random_OperatorWrapper(op);
+
+            var dto = new Random_OperatorDto
+            {
+                RateOperatorDto = _stack.Pop(),
+                StandardDimensionEnum = op.GetStandardDimensionEnum(),
+                CustomDimensionName = op.CustomDimensionName,
+                ResampleInterpolationTypeEnum = wrapper.InterpolationType
+            };
+
+            _stack.Push(dto);
         }
         
         protected override void VisitRangeOverDimension(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitRangeOverDimension(op);
+
+            var dto = new RangeOverDimension_OperatorDto
+            {
+                FromOperatorDto = _stack.Pop(),
+                TillOperatorDto = _stack.Pop(),
+                StepOperatorDto = _stack.Pop(),
+                StandardDimensionEnum = op.GetStandardDimensionEnum(),
+                CustomDimensionName = op.CustomDimensionName
+            };
+
+            _stack.Push(dto);
         }
-        
+
         protected override void VisitRangeOverOutlets(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitRangeOverOutlets(op);
+
+            var wrapper = new RangeOverOutlets_OperatorWrapper(op);
+
+            var dto = new RangeOverOutlets_OperatorDto
+            {
+                FromOperatorDto = _stack.Pop(),
+                StepOperatorDto = _stack.Pop()
+            };
+
+            _stack.Push(dto);
         }
-        
+
         protected override void VisitInterpolate(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitInterpolate(op);
+
+            var wrapper = new Interpolate_OperatorWrapper(op);
+
+            var dto = new Interpolate_OperatorDto
+            {
+                SignalOperatorDto = _stack.Pop(),
+                SamplingRateOperatorDto = _stack.Pop(),
+                StandardDimensionEnum = op.GetStandardDimensionEnum(),
+                CustomDimensionName = op.CustomDimensionName,
+                ResampleInterpolationTypeEnum = wrapper.InterpolationType
+            };
+
+            _stack.Push(dto);
         }
 
         protected override void VisitReset(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitReset(op);
+
+            var dto = new Reset_OperatorDto
+            {
+                PassThroughInputOperatorDto = _stack.Pop()
+            };
+
+            _stack.Push(dto);
         }
         
         protected override void VisitReverse(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitReverse(op);
+
+            var dto = new Reverse_OperatorDto
+            {
+                SignalOperatorDto = _stack.Pop(),
+                SpeedOperatorDto = _stack.Pop(),
+                StandardDimensionEnum = op.GetStandardDimensionEnum(),
+                CustomDimensionName = op.CustomDimensionName
+            };
+
+            _stack.Push(dto);
         }
         
         protected override void VisitRound(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitRound(op);
+
+            var dto = new Round_OperatorDto
+            {
+                SignalOperatorDto = _stack.Pop(),
+                StepOperatorDto = _stack.Pop(),
+                OffsetOperatorDto = _stack.Pop()
+            };
+
+            _stack.Push(dto);
         }
 
         protected override void VisitSampleOperator(Operator op)
         {
-            throw new NotImplementedException();
+            var dto = new Sample_OperatorDto();
+            Visit_OperatorDtoBase_VarFrequency(op, dto);
+
+            var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
+            Sample sample = wrapper.Sample;
+
+            dto.Sample = sample;
+            dto.InterpolationTypeEnum = sample.GetInterpolationTypeEnum();
+
+            _stack.Push(dto);
         }
 
         protected override void VisitSawDown(Operator op)
@@ -624,24 +738,65 @@ namespace JJ.Business.Synthesizer.Visitors
         
         protected override void VisitScaler(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitScaler(op);
+
+            var dto = new Scaler_OperatorDto
+            {
+                SignalOperatorDto = _stack.Pop(),
+                SourceValueAOperatorDto = _stack.Pop(),
+                SourceValueBOperatorDto = _stack.Pop(),
+                TargetValueAOperatorDto = _stack.Pop(),
+                TargetValueBOperatorDto = _stack.Pop()
+            };
+
+            _stack.Push(dto);
         }
         
         protected override void VisitSelect(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitSelect(op);
+
+            var dto = new Select_OperatorDto
+            {
+                SignalOperatorDto  = _stack.Pop(),
+                PositionOperatorDto = _stack.Pop(),
+                StandardDimensionEnum = op.GetStandardDimensionEnum(),
+                CustomDimensionName = op.CustomDimensionName
+            };
+
+            _stack.Push(dto);
         }
 
         protected override void VisitSetDimension(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitSetDimension(op);
+
+            var dto = new SetDimension_OperatorDto
+            {
+                PassThroughInputOperatorDto = _stack.Pop(),
+                ValueOperatorDto = _stack.Pop(),
+                StandardDimensionEnum = op.GetStandardDimensionEnum(),
+                CustomDimensionName = op.CustomDimensionName
+            };
+
+            _stack.Push(dto);
         }
 
         protected override void VisitShift(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitShift(op);
+
+            var dto = new Shift_OperatorDto
+            {
+                SignalOperatorDto = _stack.Pop(),
+                DifferenceOperatorDto = _stack.Pop(),
+                StandardDimensionEnum = op.GetStandardDimensionEnum(),
+                CustomDimensionName = op.CustomDimensionName
+            };
+
+            _stack.Push(dto);
         }
-        
+
         protected override void VisitSine(Operator op)
         {
             var dto = new Sine_OperatorDto();
@@ -662,7 +817,19 @@ namespace JJ.Business.Synthesizer.Visitors
         
         protected override void VisitSpectrum(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitSpectrum(op);
+
+            var dto = new Spectrum_OperatorDto
+            {
+                SignalOperatorDto = _stack.Pop(),
+                StartOperatorDto = _stack.Pop(),
+                EndOperatorDto = _stack.Pop(),
+                FrequencyCountOperatorDto = _stack.Pop(),
+                StandardDimensionEnum = op.GetStandardDimensionEnum(),
+                CustomDimensionName = op.CustomDimensionName
+            };
+
+            _stack.Push(dto);
         }
         
         protected override void VisitSquare(Operator op)
@@ -725,12 +892,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitToggleTrigger(Operator op)
         {
-            throw new NotImplementedException();
+            var dto = new ToggleTrigger_OperatorDto();
+            Visit_OperatorDtoBase_Trigger(op, dto);
         }
 
         protected override void VisitUnbundle(Operator op)
         {
-            throw new NotImplementedException();
+            base.VisitUnbundle(op);
+
+            var dto = new Unbundle_OperatorDto
+            {
+                InputOperatorDto = _stack.Pop(),
+                StandardDimensionEnum = op.GetStandardDimensionEnum(),
+                CustomDimensionName = op.CustomDimensionName
+            };
+
+            _stack.Push(dto);
         }
 
         // Private Methods

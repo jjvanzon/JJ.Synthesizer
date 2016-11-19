@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
 
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-        public Sample Sample { get; }
+        public Sample Sample { get; set; }
     }
 
     internal abstract class Sample_OperatorDto_ConstFrequency : OperatorDtoBase_ConstFrequency
@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
 
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-        public Sample Sample { get; }
+        public Sample Sample { get; set; }
     }
 
     internal class Sample_OperatorDto_VarFrequency_WithPhaseTracking : Sample_OperatorDto_VarFrequency
