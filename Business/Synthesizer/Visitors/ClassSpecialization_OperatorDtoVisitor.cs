@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
@@ -18,48 +19,33 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Add_OperatorDto(dto);
 
-            IList<OperatorDtoBase> inputOperatorDtos = dto.InputOperatorDtos;
+            IList<OperatorDtoBase> operatorDtos = dto.InputOperatorDtos;
 
-            inputOperatorDtos = TruncateOperatorDtoList(inputOperatorDtos, x => x.Sum());
-
-            OperatorDtoBase constInputOperatorDto = inputOperatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).SingleOrDefault();
-            if (constInputOperatorDto == null)
-            {
-                OperatorDtoBase dto2 = new Add_OperatorDto_Vars { Vars = inputOperatorDtos };
-                return dto2;
-            }
-            else
-            {
-                IList<OperatorDtoBase> varInputOperatorDtos = inputOperatorDtos.Except(constInputOperatorDto).ToArray();
-                double constValue = MathPropertiesHelper.GetMathPropertiesDto(constInputOperatorDto).Value;
-                OperatorDtoBase dto2 = new Add_OperatorDto_Vars_1Const { Vars = varInputOperatorDtos, ConstValue = constValue };
-                return dto2;
-            }
-        }
-
-        // Helpers
-
-        /// <summary> Collapses invariant operands to one and gets rid of nulls. </summary>
-        /// <param name="constantsCombiningDelegate">The method that combines multiple invariant doubles to one.</param>
-        private static IList<OperatorDtoBase> TruncateOperatorDtoList(
-            IList<OperatorDtoBase> operatorDtos,
-            Func<IEnumerable<double>, double> constantsCombiningDelegate)
-        {
             IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).ToArray();
             IList<OperatorDtoBase> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
+            IList<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).Value).ToArray();
 
-            OperatorDtoBase aggregatedConstOperatorDto = null;
-            if (constOperatorDtos.Count != 0)
+            bool hasVars = varOperatorDtos.Any();
+            bool hasConsts = constOperatorDtos.Any();
+
+            if (hasVars && hasConsts)
             {
-                IEnumerable<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).Value);
-                double aggregatedConsts = constantsCombiningDelegate(consts);
-                aggregatedConstOperatorDto = new Number_OperatorDto { Number = aggregatedConsts };
+                return new Add_OperatorDto_Vars_Consts { Vars = varOperatorDtos, Consts = consts };
+            }
+            else if (hasVars && !hasConsts)
+            {
+                return new Add_OperatorDto_Vars_NoConsts { Vars = varOperatorDtos };
+            }
+            else if (!hasVars && hasConsts)
+            {
+                return new Add_OperatorDto_NoVars_Consts { Consts = consts };
+            }
+            else if (!hasVars && !hasConsts)
+            {
+                return new Add_OperatorDto_NoVars_NoConsts();
             }
 
-            IList<OperatorDtoBase> truncatedOperatorDtoList = varOperatorDtos.Union(aggregatedConstOperatorDto)
-                                                                             .Where(x => x != null)
-                                                                             .ToList();
-            return truncatedOperatorDtoList;
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
     }
 }

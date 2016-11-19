@@ -116,11 +116,11 @@
     <Compile Include="Dto\Add OperatorDto Classes.cs" />
     <Compile Include="Dto\Multiply OperatorDto Classes.cs" />
     <Compile Include="Dto\Number OperatorDto Classes.cs" />
-    <Compile Include="Dto\OperatorDtoBase_NoVars_NoConsts.cs" />
+    <Compile Include="Dto\2016-11-19 Backup of OperatorDtoBase_NoVars_NoConsts.cs" />
     <Compile Include="Dto\OperatorDtoBase_Vars_1Const.cs" />
-    <Compile Include="Dto\OperatorDtoBase_NoVars_Consts.cs" />
+    <Compile Include="Dto\OperatorDtoBase_Consts.cs" />
     <Compile Include="Dto\OperatorDtoBase_Vars_Consts.cs" />
-    <Compile Include="Dto\OperatorDtoBase_Vars_NoConsts.cs" />
+    <Compile Include="Dto\OperatorDtoBase_Vars.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarA_VarB.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarA_ConstB.cs" />
     <Compile Include="Dto\OperatorDtoBase_ConstA_VarB.cs" />
@@ -135,7 +135,8 @@
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\MathPropertiesHelper.cs" />
-    <Compile Include="Helpers\OperatorNames.cs" />
+    <Compile Include="Helpers\2016-11-19 Backup of OperatorNames.cs" />
+    <Compile Include="Helpers\OperatorTypeEnum.cs" />
     <Compile Include="Helpers\VisitationCannotBeHandledException.cs" />
     <Compile Include="Helpers\OperatorDtoFactory.cs" />
     <Compile Include="Helpers\WithCSharpCompilation\OperatorCalculatorFactory.cs" />

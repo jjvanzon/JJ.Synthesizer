@@ -239,9 +239,12 @@
     <Compile Include="Dto\Number OperatorDto Classes.cs" />
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_ConstCenterFrequency_ConstBandWidth.cs" />
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth.cs" />
+    <Compile Include="Dto\OperatorDtoBase_Consts.cs" />
+    <Compile Include="Dto\2016-11-19 Backup of OperatorDtoBase_NoVars_NoConsts.cs" />
     <Compile Include="Dto\OperatorDtoBase_ShelfFilter.cs" />
     <Compile Include="Dto\OperatorDtoBase_ConstX.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarSignal.cs" />
+    <Compile Include="Dto\OperatorDtoBase_Vars_Consts.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithDimension.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithoutInputOperatorDtos.cs" />
     <Compile Include="Dto\PeakingEQFilter OperatorDto Classes.cs" />
@@ -495,6 +498,7 @@
     <Compile Include="Helpers\SampleInfo.cs" />
     <Compile Include="Helpers\ScaleRepositories.cs" />
     <Compile Include="Helpers\UsedInDto.cs" />
+    <Compile Include="Helpers\VisitationCannotBeHandledException.cs" />
     <Compile Include="Helpers\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />

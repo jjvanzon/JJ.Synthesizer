@@ -4,7 +4,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 {
     internal class Number_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => OperatorNames.Number;
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Number);
         public virtual double Number { get; set; }
     }
 

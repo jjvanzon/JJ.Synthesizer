@@ -16,7 +16,10 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 { typeof(Absolute_OperatorDto), x => Visit_Absolute_OperatorDto((Absolute_OperatorDto)x ) },
                 { typeof(Add_OperatorDto), x => Visit_Add_OperatorDto((Add_OperatorDto)x ) },
-                { typeof(Add_OperatorDto_Vars), x => Visit_Add_OperatorDto_Vars((Add_OperatorDto_Vars)x ) },
+                { typeof(Add_OperatorDto_Vars_Consts), x => Visit_Add_OperatorDto_Vars_Consts((Add_OperatorDto_Vars_Consts)x ) },
+                { typeof(Add_OperatorDto_Vars_NoConsts), x => Visit_Add_OperatorDto_Vars_NoConsts((Add_OperatorDto_Vars_NoConsts)x ) },
+                { typeof(Add_OperatorDto_NoVars_Consts), x => Visit_Add_OperatorDto_NoVars_Consts((Add_OperatorDto_NoVars_Consts)x ) },
+                { typeof(Add_OperatorDto_NoVars_NoConsts), x => Visit_Add_OperatorDto_NoVars_NoConsts((Add_OperatorDto_NoVars_NoConsts)x ) },
                 { typeof(Add_OperatorDto_Vars_1Const), x => Visit_Add_OperatorDto_Vars_1Const((Add_OperatorDto_Vars_1Const)x ) },
                 { typeof(AllPassFilter_OperatorDto), x => Visit_AllPassFilter_OperatorDto((AllPassFilter_OperatorDto)x ) },
                 { typeof(AllPassFilter_OperatorDto_AllVars), x => Visit_AllPassFilter_OperatorDto_AllVars((AllPassFilter_OperatorDto_AllVars)x ) },
@@ -396,7 +399,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Absolute_OperatorDto(Absolute_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_Consts(Add_OperatorDto_Vars_Consts dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_NoVars_Consts(Add_OperatorDto_NoVars_Consts dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_NoVars_NoConsts(Add_OperatorDto_NoVars_NoConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_AllPassFilter_OperatorDto_AllVars(AllPassFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);

@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 
     internal class Shift_OperatorDto_ConstSignal_ConstDistance : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => OperatorNames.Shift;
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
         public double SignalValue { get; set; }
         public double Distance { get; set; }
@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 
     internal class Shift_OperatorDto_ConstSignal_VarDistance : OperatorDtoBase
     {
-        public override string OperatorTypeName => OperatorNames.Shift;
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
         public double SignalValue { get; set; }
         public OperatorDtoBase DistanceOperatorDto { get; set; }
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 
     internal class Shift_OperatorDto_VarSignal_ConstDistance : OperatorDtoBase
     {
-        public override string OperatorTypeName => OperatorNames.Shift;
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double Distance { get; set; }
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 
     internal class Shift_OperatorDto_VarSignal_VarDistance : OperatorDtoBase
     {
-        public override string OperatorTypeName => OperatorNames.Shift;
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase DistanceOperatorDto { get; set; }

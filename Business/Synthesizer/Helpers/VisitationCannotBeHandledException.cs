@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers
+namespace JJ.Business.Synthesizer.Helpers
 {
     public class VisitationCannotBeHandledException : Exception
     {

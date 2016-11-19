@@ -5,6 +5,6 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
     internal class VariableInput_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
     {
         public double DefaultValue { get; set; }
-        public override string OperatorTypeName => OperatorNames.VariableInput;
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.VariableInput);
     }
 }
