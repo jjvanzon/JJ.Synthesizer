@@ -10,9 +10,9 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             return Visit_OperatorDto_Polymorphic(dto);
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
-            base.Visit_Number_OperatorDto_Concrete(dto);
+            base.Visit_Number_OperatorDto(dto);
 
             double value = dto.Number;
 

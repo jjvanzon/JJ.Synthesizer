@@ -233,6 +233,7 @@
     <Compile Include="Dto\HighShelfFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\IOperatorDto_WithDimension.cs" />
     <Compile Include="Dto\LowShelfFilter OperatorDto Classes.cs" />
+    <Compile Include="Dto\MathPropertiesDto.cs" />
     <Compile Include="Dto\Multiply OperatorDto Classes.cs" />
     <Compile Include="Dto\NotchFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\Number OperatorDto Classes.cs" />
@@ -343,6 +344,7 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithFrequency.cs" />
     <Compile Include="EntityWrappers\StretchOrSquash_OperatorWrapperBase.cs" />
     <Compile Include="Extensions\InletExtensions.cs" />
+    <Compile Include="Helpers\MathPropertiesHelper.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="Helpers\PatchGroupDto.cs" />
     <Compile Include="Extensions\OperatorExtensions.cs" />
@@ -637,6 +639,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
+    <Compile Include="Visitors\ClassSpecialization_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorToDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />

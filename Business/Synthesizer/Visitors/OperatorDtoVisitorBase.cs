@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Business.Synthesizer.Visitors
@@ -373,7 +374,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        [DebuggerHidden]
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDtoBase Visit_OperatorDto_Base(OperatorDtoBase dto)
         {
             dto.InputOperatorDtos = VisitInputOperatorDtos(dto.InputOperatorDtos);

@@ -53,9 +53,9 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithStructs
 
         // Visit
 
-        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
+        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
-            base.Visit_Add_OperatorDto_Vars(dto);
+            base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
 
             IOperatorCalculator_Vars calculator = (IOperatorCalculator_Vars)CreateCalculator(dto);
 
@@ -109,9 +109,9 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithStructs
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_Concrete(Number_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
-            base.Visit_Number_OperatorDto_Concrete(dto);
+            base.Visit_Number_OperatorDto(dto);
 
             var calculator = (Number_OperatorCalculator)CreateCalculator(dto);
             calculator.Number = dto.Number;

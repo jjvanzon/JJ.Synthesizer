@@ -55,9 +55,9 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpComp
             return operatorDtos;
         }
 
-        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars(Add_OperatorDto_Vars dto)
+        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
-            base.Visit_Add_OperatorDto_Vars(dto);
+            base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
 
             ProcessMultiVarOperator(dto.OperatorTypeName, dto.Vars.Count, PLUS_SYMBOL);
 
@@ -93,14 +93,38 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpComp
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_ConcreteOrPolymorphic(Number_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
-            base.Visit_Number_OperatorDto_ConcreteOrPolymorphic(dto);
+            base.Visit_Number_OperatorDto(dto);
 
-            _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            ProcessNumberOperatorDto(dto);
 
-            ProcessNumber(dto.Number);
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
+        {
+            base.Visit_Number_OperatorDto_NaN(dto);
+
+            ProcessNumberOperatorDto(dto);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
+        {
+            base.Visit_Number_OperatorDto_One(dto);
+
+            ProcessNumberOperatorDto(dto);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
+        {
+            base.Visit_Number_OperatorDto_Zero(dto);
+
+            ProcessNumberOperatorDto(dto);
 
             return dto;
         }
@@ -254,6 +278,14 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpComp
         private void ProcessNumber(double value)
         {
             _stack.Push(new ValueInfo(value));
+        }
+
+        private void ProcessNumberOperatorDto(Number_OperatorDto dto)
+        {
+            _sb.AppendLine();
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+
+            ProcessNumber(dto.Number);
         }
 
         // Helpers

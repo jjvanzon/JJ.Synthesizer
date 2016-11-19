@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_8Partials_50_000_Iterations_WithCSharpCompilation_WithDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_8Partials_50_000_Iterations_WithCSharpCompilation_WithDto_NotByChunk()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization
         }
 
         [TestMethod]
-        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_8Partials_500_000_Iterations_WithCSharpCompilation_WithDto()
+        public void PerformanceTest_Synthesizer_NanoOptimization_WithoutTime_8Partials_500_000_Iterations_WithCSharpCompilation_WithDto_NotByChunk()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);

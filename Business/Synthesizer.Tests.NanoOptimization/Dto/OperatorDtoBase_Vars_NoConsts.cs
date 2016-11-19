@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 {
-    internal abstract class OperatorDtoBase_Vars : OperatorDtoBase
+    internal abstract class OperatorDtoBase_Vars_NoConsts : OperatorDtoBase
     {
         public IList<OperatorDtoBase> Vars { get; set; }
 

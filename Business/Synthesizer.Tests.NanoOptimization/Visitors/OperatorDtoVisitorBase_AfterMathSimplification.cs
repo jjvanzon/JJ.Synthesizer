@@ -7,6 +7,21 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
     internal abstract class OperatorDtoVisitorBase_AfterMathSimplification : OperatorDtoVisitorBase_AfterClassSpecialization
     {
+        protected sealed override OperatorDtoBase Visit_Add_OperatorDto_NoVars_Consts(Add_OperatorDto_NoVars_Consts dto)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected sealed override OperatorDtoBase Visit_Add_OperatorDto_NoVars_NoConsts(Add_OperatorDto_NoVars_NoConsts dto)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected sealed override OperatorDtoBase Visit_Add_OperatorDto_Vars_Consts(Add_OperatorDto_Vars_Consts dto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB dto)
         {
             throw new NotSupportedException();

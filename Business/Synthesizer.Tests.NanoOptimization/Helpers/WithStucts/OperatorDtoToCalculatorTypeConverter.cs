@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers.WithStucts
         {
             Type dtoType_Concrete = operatorDto.GetType();
 
-            if (dtoType_Concrete == typeof(Add_OperatorDto_Vars))
+            if (dtoType_Concrete == typeof(Add_OperatorDto_Vars_NoConsts))
             {
                 switch (operatorDto.InputOperatorDtos.Count)
                 {
