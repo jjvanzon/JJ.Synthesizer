@@ -114,11 +114,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitBundle(op);
 
-            var dto = new Bundle_OperatorDto
-            {
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
-            };
+            var dto = new Bundle_OperatorDto();
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -166,11 +163,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 EndOperatorDto = _stack.Pop(),
                 SamplingRateOperatorDto = _stack.Pop(),
 
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName,
                 InterpolationTypeEnum = wrapper.InterpolationType,
                 SpeakerSetupEnum = wrapper.SpeakerSetup
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -183,10 +180,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new Curve_OperatorDto
             {
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName,
                 Curve = wrapper.Curve
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -220,9 +217,9 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new DimensionToOutlets_OperatorDto
             {
                 OperandOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);        
         }
@@ -265,11 +262,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitGetDimension(op);
 
-            var dto = new GetDimension_OperatorDto
-            {
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
-            };
+            var dto = new GetDimension_OperatorDto();
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -337,10 +331,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new InletsToDimension_OperatorDto
             {
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName,
                 ResampleInterpolationTypeEnum = wrapper.InterpolationType
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -369,9 +363,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 LoopEndMarkerOperatorDto = _stack.Pop(),
                 ReleaseEndMarkerOperatorDto = _stack.Pop(),
                 NoteDurationOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -462,11 +456,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitNoise(op);
 
-            var dto = new Noise_OperatorDto
-            {
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
-            };
+            var dto = new Noise_OperatorDto();
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -612,10 +603,10 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new Random_OperatorDto
             {
                 RateOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName,
                 ResampleInterpolationTypeEnum = wrapper.InterpolationType
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -629,9 +620,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 FromOperatorDto = _stack.Pop(),
                 TillOperatorDto = _stack.Pop(),
                 StepOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -661,10 +652,10 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 SignalOperatorDto = _stack.Pop(),
                 SamplingRateOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName,
                 ResampleInterpolationTypeEnum = wrapper.InterpolationType
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -689,9 +680,9 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 SignalOperatorDto = _stack.Pop(),
                 SpeedOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -760,9 +751,9 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 SignalOperatorDto  = _stack.Pop(),
                 PositionOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -775,9 +766,9 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 PassThroughInputOperatorDto = _stack.Pop(),
                 ValueOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -790,9 +781,9 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 SignalOperatorDto = _stack.Pop(),
                 DifferenceOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -825,9 +816,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 StartOperatorDto = _stack.Pop(),
                 EndOperatorDto = _stack.Pop(),
                 FrequencyCountOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -877,9 +868,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 SignalOperatorDto = _stack.Pop(),
                 ExponentOperatorDto = _stack.Pop(),
                 OriginOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -903,9 +894,9 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new Unbundle_OperatorDto
             {
                 InputOperatorDto = _stack.Pop(),
-                StandardDimensionEnum = op.GetStandardDimensionEnum(),
-                CustomDimensionName = op.CustomDimensionName
             };
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -923,9 +914,9 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.FromOperatorDto = _stack.Pop();
             dto.TillOperatorDto = _stack.Pop();
             dto.StepOperatorDto = _stack.Pop();
-            dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
-            dto.CustomDimensionName = op.CustomDimensionName;
             dto.CollectionRecalculationEnum = wrapper.CollectionRecalculation;
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -951,12 +942,11 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             VisitOperatorBase(op);
 
-            dto.CustomDimensionName = op.CustomDimensionName;
-            dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
-
             dto.SignalOperatorDto = _stack.Pop();
             dto.SliceLengthOperatorDto = _stack.Pop();
             dto.SampleCountOperatorDto = _stack.Pop();
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -970,8 +960,7 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.TillOperatorDto = _stack.Pop();
             dto.StepOperatorDto = _stack.Pop();
 
-            dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
-            dto.CustomDimensionName = op.CustomDimensionName;
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -994,8 +983,8 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.SignalOperatorDto = _stack.Pop();
             dto.FactorOperatorDto = _stack.Pop();
             dto.OriginOperatorDto = _stack.Pop();
-            dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
-            dto.CustomDimensionName = op.CustomDimensionName;
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -1037,8 +1026,8 @@ namespace JJ.Business.Synthesizer.Visitors
             VisitOperatorBase(op);
 
             dto.FrequencyOperatorDto = _stack.Pop();
-            dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
-            dto.CustomDimensionName = op.CustomDimensionName;
+
+            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -1065,6 +1054,12 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.XOperatorDto = _stack.Pop();
 
             _stack.Push(dto);
+        }
+
+        private void SetDimensionProperties(Operator op, IOperatorDto_WithDimension dto)
+        {
+            dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
+            dto.CustomDimensionName = op.CustomDimensionName;
         }
     }
 }
