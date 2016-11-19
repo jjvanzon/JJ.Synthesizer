@@ -4,14 +4,11 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_AggregateFollower : OperatorDtoBase
+    internal abstract class OperatorDtoBase_AggregateFollower : OperatorDtoBase_WithDimension
     {
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase SliceLengthOperatorDto { get; set; }
         public OperatorDtoBase SampleCountOperatorDto { get; set; }
-
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

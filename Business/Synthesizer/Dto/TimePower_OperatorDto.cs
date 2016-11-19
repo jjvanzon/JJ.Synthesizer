@@ -6,15 +6,13 @@ namespace JJ.Business.Synthesizer.Dto
     internal class TimePower_OperatorDto : TimePower_OperatorDto_VarOrigin
     { }
 
-    internal class TimePower_OperatorDto_VarOrigin : OperatorDtoBase
+    internal class TimePower_OperatorDto_VarOrigin : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase ExponentOperatorDto { get; set; }
         public OperatorDtoBase OriginOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -23,15 +21,13 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class TimePower_OperatorDto_ConstOrigin : OperatorDtoBase
+    internal class TimePower_OperatorDto_ConstOrigin : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase ExponentOperatorDto { get; set; }
         public double Origin { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

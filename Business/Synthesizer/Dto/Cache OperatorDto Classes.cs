@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Cache_OperatorDto : OperatorDtoBase
+    internal class Cache_OperatorDto : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Cache);
 
@@ -12,8 +12,6 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase EndOperatorDto { get; set; }
         public OperatorDtoBase SamplingRateOperatorDto { get; set; }
 
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public SpeakerSetupEnum SpeakerSetupEnum { get; set; }
 

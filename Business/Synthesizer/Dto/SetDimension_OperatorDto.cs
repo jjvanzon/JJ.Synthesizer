@@ -6,14 +6,12 @@ namespace JJ.Business.Synthesizer.Dto
     internal class SetDimension_OperatorDto : SetDimension_OperatorDto_VarValue
     { }
 
-    internal class SetDimension_OperatorDto_VarValue : OperatorDtoBase
+    internal class SetDimension_OperatorDto_VarValue : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SetDimension);
 
         public OperatorDtoBase PassThroughInputOperatorDto { get; set; }
         public OperatorDtoBase ValueOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -22,14 +20,12 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class SetDimension_OperatorDto_ConstValue : OperatorDtoBase
+    internal class SetDimension_OperatorDto_ConstValue : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SetDimension);
 
         public OperatorDtoBase PassThroughInputOperatorDto { get; set; }
         public double ValueOperator { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

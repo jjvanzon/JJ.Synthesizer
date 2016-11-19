@@ -3,12 +3,9 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Bundle_OperatorDto : OperatorDtoBase
+    internal class Bundle_OperatorDto : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Bundle);
-
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos { get; set; }
     }

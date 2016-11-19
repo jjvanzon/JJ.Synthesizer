@@ -3,12 +3,9 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_VarFrequency : OperatorDtoBase
+    internal abstract class OperatorDtoBase_VarFrequency : OperatorDtoBase_WithDimension
     {
         public OperatorDtoBase FrequencyOperatorDto { get; set; }
-
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

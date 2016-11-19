@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Loop_OperatorDto : Loop_OperatorDto_AllVars
     { }
 
-    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration : OperatorDtoBase
+    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
@@ -15,9 +15,6 @@ namespace JJ.Business.Synthesizer.Dto
         public double LoopEndMarker { get; set; }
         public OperatorDtoBase ReleaseEndMarkerOperatorDto { get; set; }
 
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
-
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
             get { return new OperatorDtoBase[] { SignalOperatorDto, ReleaseEndMarkerOperatorDto }; }
@@ -25,7 +22,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration : OperatorDtoBase
+    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
@@ -34,9 +31,6 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase LoopEndMarkerOperatorDto { get; set; }
         public OperatorDtoBase ReleaseEndMarkerOperatorDto { get; set; }
 
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
-
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
             get { return new OperatorDtoBase[] { SignalOperatorDto, LoopEndMarkerOperatorDto, ReleaseEndMarkerOperatorDto, }; }
@@ -44,7 +38,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Loop_OperatorDto_ManyConstants : OperatorDtoBase
+    internal class Loop_OperatorDto_ManyConstants : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
@@ -55,9 +49,6 @@ namespace JJ.Business.Synthesizer.Dto
         public double ReleaseEndMarkerOperatorDto { get; set; }
         public OperatorDtoBase NoteDurationOperatorDto { get; set; }
 
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
-
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
             get { return new OperatorDtoBase[] { SignalOperatorDto, NoteDurationOperatorDto }; }
@@ -65,7 +56,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Loop_OperatorDto_AllVars : OperatorDtoBase
+    internal class Loop_OperatorDto_AllVars : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
@@ -75,9 +66,6 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase LoopEndMarkerOperatorDto { get; set; }
         public OperatorDtoBase ReleaseEndMarkerOperatorDto { get; set; }
         public OperatorDtoBase NoteDurationOperatorDto { get; set; }
-
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -105,7 +93,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Loop_OperatorDto_NoSkipOrRelease : OperatorDtoBase
+    internal class Loop_OperatorDto_NoSkipOrRelease : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
@@ -113,9 +101,6 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase LoopStartMarkerOperatorDto { get; set; }
         public OperatorDtoBase LoopEndMarkerOperatorDto { get; set; }
         public OperatorDtoBase NoteDurationOperatorDto { get; set; }
-
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -139,7 +124,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Loop_OperatorDto_NoSkipOrRelease_ManyConstants : OperatorDtoBase
+    internal class Loop_OperatorDto_NoSkipOrRelease_ManyConstants : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
@@ -147,9 +132,6 @@ namespace JJ.Business.Synthesizer.Dto
         public double LoopStartMarkerOperatorDto { get; set; }
         public double LoopEndMarkerOperatorDto { get; set; }
         public OperatorDtoBase NoteDurationOperatorDto { get; set; }
-
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

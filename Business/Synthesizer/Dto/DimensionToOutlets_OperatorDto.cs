@@ -3,13 +3,11 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class DimensionToOutlets_OperatorDto : OperatorDtoBase
+    internal class DimensionToOutlets_OperatorDto : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.DimensionToOutlets);
 
         public OperatorDtoBase OperandOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
         public int OutletIndex { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos

@@ -6,14 +6,12 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Select_OperatorDto : Select_OperatorDto_VarPosition
     { }
 
-    internal class Select_OperatorDto_VarPosition : OperatorDtoBase
+    internal class Select_OperatorDto_VarPosition : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Select);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase PositionOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -22,14 +20,12 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Select_OperatorDto_ConstPosition : OperatorDtoBase
+    internal class Select_OperatorDto_ConstPosition : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Select);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double Position { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

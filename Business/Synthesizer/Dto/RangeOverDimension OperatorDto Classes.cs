@@ -4,15 +4,13 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class RangeOverDimension_OperatorDto : OperatorDtoBase
+    internal class RangeOverDimension_OperatorDto : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverDimension);
 
         public OperatorDtoBase FromOperatorDto { get; set; }
         public OperatorDtoBase TillOperatorDto { get; set; }
         public OperatorDtoBase StepOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -24,7 +22,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class RangeOverDimension_OperatorCalculator_OnlyVars : RangeOverDimension_OperatorDto
     { }
 
-    internal class RangeOverDimension_OperatorCalculator_OnlyConsts : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class RangeOverDimension_OperatorCalculator_OnlyConsts : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDto_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverDimension);
 

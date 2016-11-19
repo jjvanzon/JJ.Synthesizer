@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Curve_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Curve_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDto_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Curve);
 

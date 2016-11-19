@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_ConstFrequency : OperatorDtoBase_WithoutInputOperatorDtos
+    internal abstract class OperatorDtoBase_ConstFrequency : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDto_WithDimension
     {
         public double Frequency { get; set; }
 

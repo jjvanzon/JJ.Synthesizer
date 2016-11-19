@@ -3,14 +3,12 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Interpolate_OperatorDto : OperatorDtoBase
+    internal class Interpolate_OperatorDto : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Interpolate);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase SamplingRateOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
@@ -35,7 +33,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Interpolate_OperatorDto_Hermite_LagBehind : Interpolate_OperatorDto
     { }
 
-    internal class Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate : OperatorDtoBase_VarSignal
+    internal class Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate : OperatorDtoBase_VarSignal, IOperatorDto_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Interpolate);
 

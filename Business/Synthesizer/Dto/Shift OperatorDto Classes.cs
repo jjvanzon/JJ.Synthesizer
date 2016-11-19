@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Shift_OperatorDto : Shift_OperatorDto_VarSignal_VarDistance
     { }
 
-    internal class Shift_OperatorDto_ConstSignal_ConstDistance : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Shift_OperatorDto_ConstSignal_ConstDistance : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDto_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
@@ -16,14 +16,12 @@ namespace JJ.Business.Synthesizer.Dto
         public string CustomDimensionName { get; set; }
     }
 
-    internal class Shift_OperatorDto_ConstSignal_VarDistance : OperatorDtoBase
+    internal class Shift_OperatorDto_ConstSignal_VarDistance : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
         public double SignalValue { get; set; }
         public OperatorDtoBase DistanceOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -32,7 +30,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Shift_OperatorDto_VarSignal_ConstDistance : OperatorDtoBase_VarSignal
+    internal class Shift_OperatorDto_VarSignal_ConstDistance : OperatorDtoBase_VarSignal, IOperatorDto_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
@@ -41,14 +39,12 @@ namespace JJ.Business.Synthesizer.Dto
         public string CustomDimensionName { get; set; }
     }
 
-    internal class Shift_OperatorDto_VarSignal_VarDistance : OperatorDtoBase
+    internal class Shift_OperatorDto_VarSignal_VarDistance : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase DifferenceOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

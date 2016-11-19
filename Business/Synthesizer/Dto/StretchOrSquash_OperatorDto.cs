@@ -9,19 +9,17 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class StretchOrSquash_OperatorDto : StretchOrSquash_OperatorDto_VarSignal_VarFactor_VarOrigin
     { }
 
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin : OperatorDtoBase_VarSignal
+    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin : OperatorDtoBase_VarSignal, IOperatorDto_WithDimension
     {
         public double Factor { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
     }
 
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_ZeroOrigin : OperatorDtoBase
+    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_ZeroOrigin : OperatorDtoBase_WithDimension
     {
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase FactorOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -35,13 +33,11 @@ namespace JJ.Business.Synthesizer.Dto
     // Const-Var-Const does not exist.
     // Const-Var-Var does not exist.
 
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ConstOrigin : OperatorDtoBase
+    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ConstOrigin : OperatorDtoBase_WithDimension
     {
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double Factor { get; set; }
         public double Origin { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -50,13 +46,11 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_VarOrigin : OperatorDtoBase
+    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_VarOrigin : OperatorDtoBase_WithDimension
     {
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double Factor { get; set; }
         public OperatorDtoBase OriginOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -65,13 +59,11 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_ConstOrigin : OperatorDtoBase
+    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_ConstOrigin : OperatorDtoBase_WithDimension
     {
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase FactorOperatorDto { get; set; }
         public double Origin { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -80,13 +72,11 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_VarOrigin : OperatorDtoBase
+    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_VarOrigin : OperatorDtoBase_WithDimension
     {
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase FactorOperatorDto { get; set; }
         public OperatorDtoBase OriginOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

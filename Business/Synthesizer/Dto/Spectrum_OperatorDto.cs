@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Spectrum_OperatorDto : OperatorDtoBase
+    internal class Spectrum_OperatorDto : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Spectrum);
 
@@ -12,8 +12,6 @@ namespace JJ.Business.Synthesizer.Dto
         public OperatorDtoBase StartOperatorDto { get; set; }
         public OperatorDtoBase EndOperatorDto { get; set; }
         public OperatorDtoBase FrequencyCountOperatorDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

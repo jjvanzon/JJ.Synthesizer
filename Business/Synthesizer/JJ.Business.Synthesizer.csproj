@@ -231,6 +231,7 @@
     <Compile Include="Dto\BandPassFilterConstantTransitionGain OperatorDto Classes.cs" />
     <Compile Include="Dto\AllPassFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\HighShelfFilter OperatorDto Classes.cs" />
+    <Compile Include="Dto\IOperatorDto_WithDimension.cs" />
     <Compile Include="Dto\LowShelfFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\Multiply OperatorDto Classes.cs" />
     <Compile Include="Dto\NotchFilter OperatorDto Classes.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Dto\OperatorDtoBase_ShelfFilter.cs" />
     <Compile Include="Dto\OperatorDtoBase_ConstX.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarSignal.cs" />
+    <Compile Include="Dto\OperatorDtoBase_WithDimension.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithoutInputOperatorDtos.cs" />
     <Compile Include="Dto\PeakingEQFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\RangeOverOutlets OperatorDto Classes.cs" />
