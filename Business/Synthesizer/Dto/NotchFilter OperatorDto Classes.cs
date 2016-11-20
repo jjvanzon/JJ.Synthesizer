@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class NotchFilter_OperatorDto_ManyConst : OperatorDtoBase_VarSignal
+    internal class NotchFilter_OperatorDto_ManyConsts : OperatorDtoBase_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.LowPassFilter);
 

@@ -25,6 +25,24 @@ namespace JJ.Business.Synthesizer.Visitors
             return Visit_OperatorDto_Polymorphic(dto);
         }
 
+        protected override OperatorDtoBase Visit_Absolute_OperatorDto(Absolute_OperatorDto dto)
+        {
+            base.Visit_Absolute_OperatorDto(dto);
+
+            OperatorDtoBase xOperatorDto = dto.XOperatorDto;
+
+            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(xOperatorDto);
+
+            if (xMathPropertiesDto.IsConst)
+            {
+                return new Absolute_OperatorDto_ConstX { X = xMathPropertiesDto.Value };
+            }
+            else
+            {
+                return new Absolute_OperatorDto_VarX { XOperatorDto = xOperatorDto };
+            }
+        }
+
         protected override OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
             base.Visit_Add_OperatorDto(dto);
@@ -98,18 +116,15 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new And_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.Value, B = bMathPropertiesDto.Value };
             }
-
-            if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
                 return new And_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.Value };
             }
-
-            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
                 return new And_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.Value, BOperatorDto = bOperatorDto };
             }
-
-            if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
                 return new And_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
             }
@@ -426,37 +441,242 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Equal_OperatorDto(Equal_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Equal_OperatorDto(dto);
+
+            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
+            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
+
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+
+            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
+            {
+                return new Equal_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.Value, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
+            {
+                return new Equal_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
+            {
+                return new Equal_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.Value, BOperatorDto = bOperatorDto };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
+            {
+                return new Equal_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto(Exponent_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Exponent_OperatorDto(dto);
+
+            OperatorDtoBase lowOperatorDto = dto.LowOperatorDto;
+            OperatorDtoBase highOperatorDto = dto.HighOperatorDto;
+            OperatorDtoBase ratioOperatorDto = dto.RatioOperatorDto;
+
+            MathPropertiesDto lowMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(lowOperatorDto);
+            MathPropertiesDto highMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(highOperatorDto);
+            MathPropertiesDto ratioMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(ratioOperatorDto);
+
+            if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsVar)
+            {
+                return new Exponent_OperatorDto_VarLow_VarHigh_VarRatio { LowOperatorDto = lowOperatorDto, HighOperatorDto = highOperatorDto, RatioOperatorDto = ratioOperatorDto };
+            }
+            else if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsConst)
+            {
+                return new Exponent_OperatorDto_VarLow_VarHigh_ConstRatio { LowOperatorDto = lowOperatorDto, HighOperatorDto = highOperatorDto, Ratio = ratioMathPropertiesDto.Value };
+            }
+            else if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsVar)
+            {
+                return new Exponent_OperatorDto_VarLow_ConstHigh_VarRatio { LowOperatorDto = lowOperatorDto, High = highMathPropertiesDto.Value, RatioOperatorDto = ratioOperatorDto };
+            }
+            else if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsConst)
+            {
+                return new Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio { LowOperatorDto = lowOperatorDto, High = highMathPropertiesDto.Value, Ratio = ratioMathPropertiesDto.Value };
+            }
+            else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsVar)
+            {
+                return new Exponent_OperatorDto_ConstLow_VarHigh_VarRatio { Low = lowMathPropertiesDto.Value, HighOperatorDto = highOperatorDto, RatioOperatorDto = ratioOperatorDto };
+            }
+            else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsConst)
+            {
+                return new Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio { Low = lowMathPropertiesDto.Value, HighOperatorDto = highOperatorDto, Ratio = ratioMathPropertiesDto.Value };
+            }
+            else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsVar)
+            {
+                return new Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio { Low = lowMathPropertiesDto.Value, High = highMathPropertiesDto.Value, RatioOperatorDto = ratioOperatorDto };
+            }
+            else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsConst)
+            {
+                return new Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio { Low = lowMathPropertiesDto.Value, High = highMathPropertiesDto.Value, Ratio = ratioMathPropertiesDto.Value };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_GreaterThan_OperatorDto(dto);
+
+            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
+            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
+
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+
+            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
+            {
+                return new GreaterThan_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.Value, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
+            {
+                return new GreaterThan_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
+            {
+                return new GreaterThan_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.Value, BOperatorDto = bOperatorDto };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
+            {
+                return new GreaterThan_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_GreaterThanOrEqual_OperatorDto(dto);
+
+            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
+            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
+
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+
+            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
+            {
+                return new GreaterThanOrEqual_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.Value, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
+            {
+                return new GreaterThanOrEqual_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
+            {
+                return new GreaterThanOrEqual_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.Value, BOperatorDto = bOperatorDto };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
+            {
+                return new GreaterThanOrEqual_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_HighPassFilter_OperatorDto(dto);
+
+            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
+            OperatorDtoBase minFrequencyOperatorDto = dto.MinFrequencyOperatorDto;
+            OperatorDtoBase bandWidthOperatorDto = dto.BandWidthOperatorDto;
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
+            MathPropertiesDto minFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(minFrequencyOperatorDto);
+            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bandWidthOperatorDto);
+
+            if (signalMathPropertiesDto.IsConst)
+            {
+                return signalOperatorDto;
+            }
+            else if (minFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
+            {
+                return new HighPassFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, MinFrequency = minFrequencyMathPropertiesDto.Value, BandWidth = bandWidthMathPropertiesDto.Value };
+            }
+            else
+            {
+                return new HighPassFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, MinFrequencyOperatorDto = minFrequencyOperatorDto, BandWidthOperatorDto = bandWidthOperatorDto };
+            }
         }
 
         protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_HighShelfFilter_OperatorDto(dto);
+
+            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
+            OperatorDtoBase transitionFrequencyOperatorDto = dto.TransitionFrequencyOperatorDto;
+            OperatorDtoBase transitionSlopeOperatorDto = dto.TransitionSlopeOperatorDto;
+            OperatorDtoBase dbGainOperatorDto = dto.DBGainOperatorDto;
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
+            MathPropertiesDto transitionFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(transitionFrequencyOperatorDto);
+            MathPropertiesDto transitionSlopeMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(transitionSlopeOperatorDto);
+            MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dbGainOperatorDto);
+
+            if (signalMathPropertiesDto.IsConst)
+            {
+                return signalOperatorDto;
+            }
+            else if (transitionFrequencyMathPropertiesDto.IsConst && transitionSlopeMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
+            {
+                return new HighShelfFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, TransitionFrequency = transitionFrequencyMathPropertiesDto.Value, TransitionSlope = transitionSlopeMathPropertiesDto.Value, DBGain = dbGainMathPropertiesDto.Value };
+            }
+            else
+            {
+                return new HighShelfFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, TransitionFrequencyOperatorDto = transitionFrequencyOperatorDto, TransitionSlopeOperatorDto = transitionSlopeOperatorDto, DBGainOperatorDto = dbGainOperatorDto };
+            }
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto(If_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_If_OperatorDto(dto);
+
+            OperatorDtoBase conditionOperatorDto = dto.ConditionOperatorDto;
+            OperatorDtoBase thenOperatorDto = dto.ThenOperatorDto;
+            OperatorDtoBase elseOperatorDto = dto.ElseOperatorDto;
+
+            MathPropertiesDto conditionMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(conditionOperatorDto);
+            MathPropertiesDto thenMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(thenOperatorDto);
+            MathPropertiesDto elseMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(elseOperatorDto);
+
+            if (conditionMathPropertiesDto.IsVar && thenMathPropertiesDto.IsVar && elseMathPropertiesDto.IsVar)
+            {
+                return new If_OperatorDto_VarCondition_VarThen_VarElse { ConditionOperatorDto = conditionOperatorDto, ThenOperatorDto = thenOperatorDto, ElseOperatorDto = elseOperatorDto };
+            }
+            else if (conditionMathPropertiesDto.IsVar && thenMathPropertiesDto.IsVar && elseMathPropertiesDto.IsConst)
+            {
+                return new If_OperatorDto_VarCondition_VarThen_ConstElse { ConditionOperatorDto = conditionOperatorDto, ThenOperatorDto = thenOperatorDto, Else = elseMathPropertiesDto.Value };
+            }
+            else if (conditionMathPropertiesDto.IsVar && thenMathPropertiesDto.IsConst && elseMathPropertiesDto.IsVar)
+            {
+                return new If_OperatorDto_VarCondition_ConstThen_VarElse { ConditionOperatorDto = conditionOperatorDto, Then = thenMathPropertiesDto.Value, ElseOperatorDto = elseOperatorDto };
+            }
+            else if (conditionMathPropertiesDto.IsVar && thenMathPropertiesDto.IsConst && elseMathPropertiesDto.IsConst)
+            {
+                return new If_OperatorDto_VarCondition_ConstThen_ConstElse { ConditionOperatorDto = conditionOperatorDto, Then = thenMathPropertiesDto.Value, Else = elseMathPropertiesDto.Value };
+            }
+            else if (conditionMathPropertiesDto.IsConst && thenMathPropertiesDto.IsVar && elseMathPropertiesDto.IsVar)
+            {
+                return new If_OperatorDto_ConstCondition_VarThen_VarElse { Condition = conditionMathPropertiesDto.Value, ThenOperatorDto = thenOperatorDto, ElseOperatorDto = elseOperatorDto };
+            }
+            else if (conditionMathPropertiesDto.IsConst && thenMathPropertiesDto.IsVar && elseMathPropertiesDto.IsConst)
+            {
+                return new If_OperatorDto_ConstCondition_VarThen_ConstElse { Condition = conditionMathPropertiesDto.Value, ThenOperatorDto = thenOperatorDto, Else = elseMathPropertiesDto.Value };
+            }
+            else if (conditionMathPropertiesDto.IsConst && thenMathPropertiesDto.IsConst && elseMathPropertiesDto.IsVar)
+            {
+                return new If_OperatorDto_ConstCondition_ConstThen_VarElse { Condition = conditionMathPropertiesDto.Value, Then = thenMathPropertiesDto.Value, ElseOperatorDto = elseOperatorDto };
+            }
+            else if (conditionMathPropertiesDto.IsConst && thenMathPropertiesDto.IsConst && elseMathPropertiesDto.IsConst)
+            {
+                return new If_OperatorDto_ConstCondition_ConstThen_ConstElse { Condition = conditionMathPropertiesDto.Value, Then = thenMathPropertiesDto.Value, Else = elseMathPropertiesDto.Value };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto)
@@ -466,12 +686,62 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_LessThan_OperatorDto(dto);
+
+            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
+            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
+
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+
+            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
+            {
+                return new LessThan_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.Value, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
+            {
+                return new LessThan_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
+            {
+                return new LessThan_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.Value, BOperatorDto = bOperatorDto };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
+            {
+                return new LessThan_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_LessThanOrEqual_OperatorDto(dto);
+
+            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
+            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
+
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+
+            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
+            {
+                return new LessThanOrEqual_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.Value, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
+            {
+                return new LessThanOrEqual_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
+            {
+                return new LessThanOrEqual_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.Value, BOperatorDto = bOperatorDto };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
+            {
+                return new LessThanOrEqual_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Loop_OperatorDto(Loop_OperatorDto dto)
@@ -481,17 +751,81 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_LowPassFilter_OperatorDto(dto);
+
+            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
+            OperatorDtoBase maxFrequencyOperatorDto = dto.MaxFrequencyOperatorDto;
+            OperatorDtoBase bandWidthOperatorDto = dto.BandWidthOperatorDto;
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
+            MathPropertiesDto maxFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(maxFrequencyOperatorDto);
+            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bandWidthOperatorDto);
+
+            if (signalMathPropertiesDto.IsConst)
+            {
+                return signalOperatorDto;
+            }
+            else if (maxFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
+            {
+                return new LowPassFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, MaxFrequency = maxFrequencyMathPropertiesDto.Value, BandWidth = bandWidthMathPropertiesDto.Value };
+            }
+            else
+            {
+                return new LowPassFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, MaxFrequencyOperatorDto = maxFrequencyOperatorDto, BandWidthOperatorDto = bandWidthOperatorDto };
+            }
         }
 
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_LowShelfFilter_OperatorDto(dto);
+
+            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
+            OperatorDtoBase transitionFrequencyOperatorDto = dto.TransitionFrequencyOperatorDto;
+            OperatorDtoBase transitionSlopeOperatorDto = dto.TransitionSlopeOperatorDto;
+            OperatorDtoBase dbGainOperatorDto = dto.DBGainOperatorDto;
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
+            MathPropertiesDto transitionFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(transitionFrequencyOperatorDto);
+            MathPropertiesDto transitionSlopeMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(transitionSlopeOperatorDto);
+            MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dbGainOperatorDto);
+
+            if (signalMathPropertiesDto.IsConst)
+            {
+                return signalOperatorDto;
+            }
+            else if (transitionFrequencyMathPropertiesDto.IsConst && transitionSlopeMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
+            {
+                return new LowShelfFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, TransitionFrequency = transitionFrequencyMathPropertiesDto.Value, TransitionSlope = transitionSlopeMathPropertiesDto.Value, DBGain = dbGainMathPropertiesDto.Value };
+            }
+            else
+            {
+                return new LowShelfFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, TransitionFrequencyOperatorDto = transitionFrequencyOperatorDto, TransitionSlopeOperatorDto = transitionSlopeOperatorDto, DBGainOperatorDto = dbGainOperatorDto };
+            }
         }
 
         protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_MaxOverDimension_OperatorDto(dto);
+
+            MaxOverDimension_OperatorDto dto2;
+
+            switch (dto.CollectionRecalculationEnum)
+            {
+                case CollectionRecalculationEnum.Continuous:
+                    dto2 = new MaxOverDimension_OperatorDto_CollectionRecalculationContinuous();
+                    break;
+
+                case CollectionRecalculationEnum.UponReset:
+                    dto2 = new MaxOverDimension_OperatorDto_CollectionRecalculationUponReset();
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
+            }
+
+            Clone_AggregateOverDimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
@@ -501,7 +835,27 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_MinOverDimension_OperatorDto(dto);
+
+            MinOverDimension_OperatorDto dto2;
+
+            switch (dto.CollectionRecalculationEnum)
+            {
+                case CollectionRecalculationEnum.Continuous:
+                    dto2 = new MinOverDimension_OperatorDto_CollectionRecalculationContinuous();
+                    break;
+
+                case CollectionRecalculationEnum.UponReset:
+                    dto2 = new MinOverDimension_OperatorDto_CollectionRecalculationUponReset();
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
+            }
+
+            Clone_AggregateOverDimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
@@ -580,37 +934,170 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Negative_OperatorDto(Negative_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Negative_OperatorDto(dto);
+
+            OperatorDtoBase xOperatorDto = dto.XOperatorDto;
+
+            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(xOperatorDto);
+
+            if (xMathPropertiesDto.IsConst)
+            {
+                return new Negative_OperatorDto_ConstX { X = xMathPropertiesDto.Value };
+            }
+            else
+            {
+                return new Negative_OperatorDto_VarX { XOperatorDto = xOperatorDto };
+            }
         }
 
         protected override OperatorDtoBase Visit_Not_OperatorDto(Not_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Not_OperatorDto(dto);
+
+            OperatorDtoBase xOperatorDto = dto.XOperatorDto;
+
+            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(xOperatorDto);
+
+            if (xMathPropertiesDto.IsConst)
+            {
+                return new Not_OperatorDto_ConstX { X = xMathPropertiesDto.Value };
+            }
+            else
+            {
+                return new Not_OperatorDto_VarX { XOperatorDto = xOperatorDto };
+            }
         }
 
         protected override OperatorDtoBase Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_NotchFilter_OperatorDto(dto);
+
+            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
+            OperatorDtoBase centerFrequencyOperatorDto = dto.CenterFrequencyOperatorDto;
+            OperatorDtoBase bandWidthOperatorDto = dto.BandWidthOperatorDto;
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
+            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(centerFrequencyOperatorDto);
+            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bandWidthOperatorDto);
+
+            if (signalMathPropertiesDto.IsConst)
+            {
+                return signalOperatorDto;
+            }
+            else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
+            {
+                return new NotchFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.Value, BandWidth = bandWidthMathPropertiesDto.Value };
+            }
+            else
+            {
+                return new NotchFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, CenterFrequencyOperatorDto = centerFrequencyOperatorDto, BandWidthOperatorDto = bandWidthOperatorDto };
+            }
         }
 
         protected override OperatorDtoBase Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_NotEqual_OperatorDto(dto);
+
+            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
+            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
+
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+
+            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
+            {
+                return new NotEqual_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.Value, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
+            {
+                return new NotEqual_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
+            {
+                return new NotEqual_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.Value, BOperatorDto = bOperatorDto };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
+            {
+                return new NotEqual_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_OneOverX_OperatorDto(OneOverX_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_OneOverX_OperatorDto(dto);
+
+            OperatorDtoBase xOperatorDto = dto.XOperatorDto;
+
+            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(xOperatorDto);
+
+            if (xMathPropertiesDto.IsConst)
+            {
+                return new OneOverX_OperatorDto_ConstX { X = xMathPropertiesDto.Value };
+            }
+            else
+            {
+                return new OneOverX_OperatorDto_VarX { XOperatorDto = xOperatorDto };
+            }
         }
 
         protected override OperatorDtoBase Visit_Or_OperatorDto(Or_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Or_OperatorDto(dto);
+
+            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
+            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
+
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+
+            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
+            {
+                return new Or_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.Value, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
+            {
+                return new Or_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
+            {
+                return new Or_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.Value, BOperatorDto = bOperatorDto };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
+            {
+                return new Or_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_PeakingEQFilter_OperatorDto(dto);
+
+            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
+            OperatorDtoBase centerFrequencyOperatorDto = dto.CenterFrequencyOperatorDto;
+            OperatorDtoBase bandWidthOperatorDto = dto.BandWidthOperatorDto;
+            OperatorDtoBase dbGainOperatorDto = dto.DBGainOperatorDto;
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
+            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(centerFrequencyOperatorDto);
+            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bandWidthOperatorDto);
+            MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dbGainOperatorDto);
+
+            if (signalMathPropertiesDto.IsConst)
+            {
+                return signalOperatorDto;
+            }
+            else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
+            {
+                return new PeakingEQFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.Value, BandWidth = bandWidthMathPropertiesDto.Value, DBGain = dbGainMathPropertiesDto.Value };
+            }
+            else
+            {
+                return new PeakingEQFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, CenterFrequencyOperatorDto = centerFrequencyOperatorDto, BandWidthOperatorDto = bandWidthOperatorDto, DBGainOperatorDto = dbGainOperatorDto };
+            }
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto(Power_OperatorDto dto)
@@ -655,12 +1142,56 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto(SawDown_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_SawDown_OperatorDto(dto);
+
+            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
+
+            if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                return new SawDown_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                return new SawDown_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                return new SawDown_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                return new SawDown_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_SawUp_OperatorDto(SawUp_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_SawUp_OperatorDto(dto);
+
+            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
+
+            if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                return new SawUp_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                return new SawUp_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                return new SawUp_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                return new SawUp_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Scaler_OperatorDto(Scaler_OperatorDto dto)
@@ -685,17 +1216,81 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto(Sine_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Sine_OperatorDto(dto);
+
+            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
+
+            if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                return new Sine_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                return new Sine_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                return new Sine_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                return new Sine_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_SortOverDimension_OperatorDto(dto);
+
+            SortOverDimension_OperatorDto dto2;
+
+            switch (dto.CollectionRecalculationEnum)
+            {
+                case CollectionRecalculationEnum.Continuous:
+                    dto2 = new SortOverDimension_OperatorDto_CollectionRecalculationContinuous();
+                    break;
+
+                case CollectionRecalculationEnum.UponReset:
+                    dto2 = new SortOverDimension_OperatorDto_CollectionRecalculationUponReset();
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
+            }
+
+            Clone_AggregateOverDimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto(Square_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Square_OperatorDto(dto);
+
+            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
+
+            if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                return new Square_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                return new Square_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                return new Square_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                return new Square_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto(Squash_OperatorDto dto)
@@ -710,12 +1305,57 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Subtract_OperatorDto(dto);
+
+            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
+            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
+
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+
+            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
+            {
+                return new Subtract_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.Value, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
+            {
+                return new Subtract_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.Value };
+            }
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
+            {
+                return new Subtract_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.Value, BOperatorDto = bOperatorDto };
+            }
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
+            {
+                return new Subtract_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_SumOverDimension_OperatorDto(dto);
+
+            SumOverDimension_OperatorDto dto2;
+
+            switch (dto.CollectionRecalculationEnum)
+            {
+                case CollectionRecalculationEnum.Continuous:
+                    dto2 = new SumOverDimension_OperatorDto_CollectionRecalculationContinuous();
+                    break;
+
+                case CollectionRecalculationEnum.UponReset:
+                    dto2 = new SumOverDimension_OperatorDto_CollectionRecalculationUponReset();
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
+            }
+
+            Clone_AggregateOverDimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_TimePower_OperatorDto(TimePower_OperatorDto dto)
@@ -725,7 +1365,29 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto(Triangle_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Triangle_OperatorDto(dto);
+
+            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
+
+            if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                return new Triangle_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                return new Triangle_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                return new Triangle_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                return new Triangle_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         // Clone

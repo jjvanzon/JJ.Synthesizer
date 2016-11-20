@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(GreaterThanOrEqual_OperatorDto_VarA_VarB), x => Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB((GreaterThanOrEqual_OperatorDto_VarA_VarB)x ) },
                 { typeof(HighPassFilter_OperatorDto), x => Visit_HighPassFilter_OperatorDto((HighPassFilter_OperatorDto)x ) },
                 { typeof(HighPassFilter_OperatorDto_AllVars), x => Visit_HighPassFilter_OperatorDto_AllVars((HighPassFilter_OperatorDto_AllVars)x ) },
-                { typeof(HighPassFilter_OperatorDto_ManyConst), x => Visit_HighPassFilter_OperatorDto_ManyConst((HighPassFilter_OperatorDto_ManyConst)x ) },
+                { typeof(HighPassFilter_OperatorDto_ManyConsts), x => Visit_HighPassFilter_OperatorDto_ManyConst((HighPassFilter_OperatorDto_ManyConsts)x ) },
                 { typeof(HighShelfFilter_OperatorDto), x => Visit_HighShelfFilter_OperatorDto((HighShelfFilter_OperatorDto)x ) },
                 { typeof(HighShelfFilter_OperatorDto_AllVars), x => Visit_HighShelfFilter_OperatorDto_AllVars((HighShelfFilter_OperatorDto_AllVars)x ) },
                 { typeof(HighShelfFilter_OperatorDto_ManyConsts), x => Visit_HighShelfFilter_OperatorDto_ManyConsts((HighShelfFilter_OperatorDto_ManyConsts)x ) },
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Loop_OperatorDto_NoSkipOrRelease_ManyConstants), x => Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants((Loop_OperatorDto_NoSkipOrRelease_ManyConstants)x ) },
                 { typeof(LowPassFilter_OperatorDto), x => Visit_LowPassFilter_OperatorDto((LowPassFilter_OperatorDto)x ) },
                 { typeof(LowPassFilter_OperatorDto_AllVars), x => Visit_LowPassFilter_OperatorDto_AllVars((LowPassFilter_OperatorDto_AllVars)x ) },
-                { typeof(LowPassFilter_OperatorDto_ManyConst), x => Visit_LowPassFilter_OperatorDto_ManyConst((LowPassFilter_OperatorDto_ManyConst)x ) },
+                { typeof(LowPassFilter_OperatorDto_ManyConsts), x => Visit_LowPassFilter_OperatorDto_ManyConst((LowPassFilter_OperatorDto_ManyConsts)x ) },
                 { typeof(LowShelfFilter_OperatorDto), x => Visit_LowShelfFilter_OperatorDto((LowShelfFilter_OperatorDto)x ) },
                 { typeof(LowShelfFilter_OperatorDto_AllVars), x => Visit_LowShelfFilter_OperatorDto_AllVars((LowShelfFilter_OperatorDto_AllVars)x ) },
                 { typeof(LowShelfFilter_OperatorDto_ManyConsts), x => Visit_LowShelfFilter_OperatorDto_ManyConsts((LowShelfFilter_OperatorDto_ManyConsts)x ) },
@@ -196,7 +196,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Not_OperatorDto_ConstX), x => Visit_Not_OperatorDto_ConstX((Not_OperatorDto_ConstX)x ) },
                 { typeof(NotchFilter_OperatorDto), x => Visit_NotchFilter_OperatorDto((NotchFilter_OperatorDto)x ) },
                 { typeof(NotchFilter_OperatorDto_AllVars), x => Visit_NotchFilter_OperatorDto_AllVars((NotchFilter_OperatorDto_AllVars)x ) },
-                { typeof(NotchFilter_OperatorDto_ManyConst), x => Visit_NotchFilter_OperatorDto_ManyConst((NotchFilter_OperatorDto_ManyConst)x ) },
+                { typeof(NotchFilter_OperatorDto_ManyConsts), x => Visit_NotchFilter_OperatorDto_ManyConst((NotchFilter_OperatorDto_ManyConsts)x ) },
                 { typeof(NotEqual_OperatorDto), x => Visit_NotEqual_OperatorDto((NotEqual_OperatorDto)x ) },
                 { typeof(NotEqual_OperatorDto_ConstA_ConstB), x => Visit_NotEqual_OperatorDto_ConstA_ConstB((NotEqual_OperatorDto_ConstA_ConstB)x ) },
                 { typeof(NotEqual_OperatorDto_ConstA_VarB), x => Visit_NotEqual_OperatorDto_ConstA_VarB((NotEqual_OperatorDto_ConstA_VarB)x ) },
@@ -489,7 +489,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(GreaterThanOrEqual_OperatorDto_VarA_VarB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_HighPassFilter_OperatorDto_AllVars(HighPassFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_HighPassFilter_OperatorDto_ManyConst(HighPassFilter_OperatorDto_ManyConst dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_HighPassFilter_OperatorDto_ManyConst(HighPassFilter_OperatorDto_ManyConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_HighShelfFilter_OperatorDto_AllVars(HighShelfFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_HighShelfFilter_OperatorDto_ManyConsts(HighShelfFilter_OperatorDto_ManyConsts dto) => Visit_OperatorDto_Base(dto);
@@ -532,7 +532,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants(Loop_OperatorDto_NoSkipOrRelease_ManyConstants dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_LowPassFilter_OperatorDto_ManyConst(LowPassFilter_OperatorDto_ManyConst dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_LowPassFilter_OperatorDto_ManyConst(LowPassFilter_OperatorDto_ManyConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_LowShelfFilter_OperatorDto_ManyConsts(LowShelfFilter_OperatorDto_ManyConsts dto) => Visit_OperatorDto_Base(dto);
@@ -579,7 +579,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Not_OperatorDto_ConstX(Not_OperatorDto_ConstX dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_NotchFilter_OperatorDto_AllVars(NotchFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_NotchFilter_OperatorDto_ManyConst(NotchFilter_OperatorDto_ManyConst dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_NotchFilter_OperatorDto_ManyConst(NotchFilter_OperatorDto_ManyConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_NotEqual_OperatorDto_ConstA_ConstB(NotEqual_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_NotEqual_OperatorDto_ConstA_VarB(NotEqual_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
