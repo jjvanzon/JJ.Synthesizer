@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public SpeakerSetupEnum SpeakerSetupEnum { get; set; }
+        public int ChannelCount { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         { 

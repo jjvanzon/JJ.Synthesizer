@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -15,21 +16,25 @@ namespace JJ.Business.Synthesizer.Visitors
         private readonly ICurveRepository _curveRepository;
         private readonly IPatchRepository _patchRepository;
         private readonly ISampleRepository _sampleRepository;
+        private readonly ISpeakerSetupRepository _speakerSetupRepository;
 
         private Stack<OperatorDtoBase> _stack;
 
         public OperatorToDtoVisitor(
             ICurveRepository curveRepository, 
             IPatchRepository patchRepository, 
-            ISampleRepository sampleRepository)
+            ISampleRepository sampleRepository,
+            ISpeakerSetupRepository speakerSetupRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
 
             _curveRepository = curveRepository;
             _patchRepository = patchRepository;
             _sampleRepository = sampleRepository;
+            _speakerSetupRepository = speakerSetupRepository;
         }
 
         public OperatorDtoBase Execute(Operator op)
@@ -155,6 +160,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.VisitCache(op);
 
             var wrapper = new Cache_OperatorWrapper(op);
+            SpeakerSetupEnum speakerSetupEnum = wrapper.SpeakerSetup;
 
             var dto = new Cache_OperatorDto
             {
@@ -164,8 +170,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 SamplingRateOperatorDto = _stack.Pop(),
 
                 InterpolationTypeEnum = wrapper.InterpolationType,
-                SpeakerSetupEnum = wrapper.SpeakerSetup
+                SpeakerSetupEnum = speakerSetupEnum
             };
+
+            SpeakerSetup speakerSetup = _speakerSetupRepository.Get((int)speakerSetupEnum);
+            dto.ChannelCount = speakerSetup.SpeakerSetupChannels.Count;
 
             SetDimensionProperties(op, dto);
 
