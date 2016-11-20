@@ -12,6 +12,14 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class ClassSpecialization_OperatorDtoVisitor : OperatorDtoVisitorBase
     {
+        private class ClosestOverInlets_MathPropertiesDto
+        {
+            public MathPropertiesDto InputMathPropertiesDto { get; set; }
+            public IList<MathPropertiesDto> ItemMathPropertiesDtos { get; set; }
+            public bool AllItemsAreConst { get; set; }
+            public IList<double> ItemsValues { get; set; }
+        }
+
         public OperatorDtoBase Execute(OperatorDtoBase dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
@@ -260,37 +268,345 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_ClosestOverInlets_OperatorDto(dto);
 
-            OperatorDtoBase inputOperatorDto = dto.InputOperatorDto;
-            IList<OperatorDtoBase> itemOperatorDtos = dto.ItemOperatorDtos;
+            var mathPropertiesDto = Get_ClosestOverInlets_MathPropertiesDto(dto);
 
-            MathPropertiesDto inputMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(inputOperatorDto);
-
-            int count = itemOperatorDtos.Count;
-            var itemMathPropertiesDtos = new MathPropertiesDto[count];
-            for (int i = 0; i < count; i++)
+            if (mathPropertiesDto.InputMathPropertiesDto.IsConst)
             {
-                OperatorDtoBase itemOperatorDto = itemOperatorDtos[i];
-                MathPropertiesDto itemMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(itemOperatorDto);
-                itemMathPropertiesDtos[i] = itemMathPropertiesDto;
+                return dto.InputOperatorDto;
             }
-
-            bool allItemsAreConst = itemMathPropertiesDtos.All(x => x.IsConst);
-
-            if (itemOperatorDtos.Count == 2 && allItemsAreConst)
+            if (dto.ItemOperatorDtos.Count == 2 && mathPropertiesDto.AllItemsAreConst)
             {
-                double item1 = itemMathPropertiesDtos[0].Value;
-                double item2 = itemMathPropertiesDtos[1].Value;
-                return new ClosestOverInlets_OperatorDto_VarInput_2ConstItems { InputOperatorDto = inputOperatorDto, Item1 = item1, Item2 = item2 };
+                double item1 = mathPropertiesDto.ItemsValues[0];
+                double item2 = mathPropertiesDto.ItemsValues[1];
+
+                return new ClosestOverInlets_OperatorDto_VarInput_2ConstItems { InputOperatorDto = dto.InputOperatorDto, Item1 = item1, Item2 = item2 };
             }
-            else if (allItemsAreConst)
+            else if (mathPropertiesDto.AllItemsAreConst)
             {
-                IList<double> items = itemMathPropertiesDtos.Select(x => x.Value).ToArray();
-                return new ClosestOverInlets_OperatorDto_VarInput_ConstItems { InputOperatorDto = inputOperatorDto, Items = items };
+                return new ClosestOverInlets_OperatorDto_VarInput_ConstItems { InputOperatorDto = dto.InputOperatorDto, Items = mathPropertiesDto.ItemsValues };
             }
             else
             {
-                return new ClosestOverInlets_OperatorDto_AllVars { InputOperatorDto = inputOperatorDto, ItemOperatorDtos = itemOperatorDtos };
+                return new ClosestOverInlets_OperatorDto_AllVars { InputOperatorDto = dto.InputOperatorDto, ItemOperatorDtos = dto.ItemOperatorDtos };
             }
+        }
+
+        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
+        {
+            base.Visit_ClosestOverInlets_OperatorDto(dto);
+
+            var mathPropertiesDto = Get_ClosestOverInlets_MathPropertiesDto(dto);
+
+            if (mathPropertiesDto.InputMathPropertiesDto.IsConst)
+            {
+                return dto.InputOperatorDto;
+            }
+            if (dto.ItemOperatorDtos.Count == 2 && mathPropertiesDto.AllItemsAreConst)
+            {
+                double item1 = mathPropertiesDto.ItemsValues[0];
+                double item2 = mathPropertiesDto.ItemsValues[1];
+
+                return new ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems { InputOperatorDto = dto.InputOperatorDto, Item1 = item1, Item2 = item2 };
+            }
+            else if (mathPropertiesDto.AllItemsAreConst)
+            {
+                return new ClosestOverInletsExp_OperatorDto_VarInput_ConstItems { InputOperatorDto = dto.InputOperatorDto, Items = mathPropertiesDto.ItemsValues };
+            }
+            else
+            {
+                return new ClosestOverInletsExp_OperatorDto_AllVars { InputOperatorDto = dto.InputOperatorDto, ItemOperatorDtos = dto.ItemOperatorDtos };
+            }
+        }
+
+        protected override OperatorDtoBase Visit_Curve_OperatorDto(Curve_OperatorDto dto)
+        {
+            base.Visit_Curve_OperatorDto(dto);
+
+            if (dto.Curve == null)
+            {
+                return new Number_OperatorDto_Zero();
+            }
+
+            if (dto.MinX == 0.0)
+            {
+                if (dto.StandardDimensionEnum == DimensionEnum.Time)
+                {
+                    var dto2 = new Curve_OperatorDto_MinXZero_WithOriginShifting();
+                    Clone_CurveProperties(dto, dto2);
+                    return dto2;
+                }
+                else
+                {
+                    var dto2 = new Curve_OperatorDto_MinXZero_NoOriginShifting();
+                    Clone_CurveProperties(dto, dto2);
+                    return dto2;
+                }
+            }
+            else
+            {
+                if (dto.StandardDimensionEnum == DimensionEnum.Time)
+                {
+                    var dto2 = new Curve_OperatorDto_MinX_WithOriginShifting();
+                    Clone_CurveProperties(dto, dto2);
+                    return dto2;
+                }
+                else
+                {
+                    var dto2 = new Curve_OperatorDto_MinX_NoOriginShifting();
+                    Clone_CurveProperties(dto, dto2);
+                    return dto2;
+                }
+            }
+        }
+
+        protected override OperatorDtoBase Visit_Divide_OperatorDto(Divide_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Equal_OperatorDto(Equal_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Exponent_OperatorDto(Exponent_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_If_OperatorDto(If_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Loop_OperatorDto(Loop_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto(MultiplyWithOrigin_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Negative_OperatorDto(Negative_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Not_OperatorDto(Not_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_OneOverX_OperatorDto(OneOverX_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Or_OperatorDto(Or_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Power_OperatorDto(Power_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Pulse_OperatorDto(Pulse_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Random_OperatorDto(Random_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(RangeOverDimension_OperatorCalculator_OnlyConsts dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto(RangeOverOutlets_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Reverse_OperatorDto(Reverse_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Round_OperatorDto(Round_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto(Sample_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_SawDown_OperatorDto(SawDown_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_SawUp_OperatorDto(SawUp_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Scaler_OperatorDto(Scaler_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Select_OperatorDto(Select_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Shift_OperatorDto(Shift_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Sine_OperatorDto(Sine_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Square_OperatorDto(Square_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Squash_OperatorDto(Squash_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto(Stretch_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_TimePower_OperatorDto(TimePower_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Triangle_OperatorDto(Triangle_OperatorDto dto)
+        {
+            throw new NotImplementedException();
         }
 
         // Clone
@@ -329,10 +645,49 @@ namespace JJ.Business.Synthesizer.Visitors
             Clone_DimensionProperties(source, dest);
         }
 
+        private void Clone_CurveProperties(Curve_OperatorDto source, Curve_OperatorDto dest)
+        {
+            dest.Curve = source.Curve;
+            dest.MinX = source.MinX;
+            Clone_DimensionProperties(source, dest);
+        }
+
         private void Clone_DimensionProperties(IOperatorDto_WithDimension source, IOperatorDto_WithDimension dest)
         {
             dest.CustomDimensionName = source.CustomDimensionName;
             dest.StandardDimensionEnum = source.StandardDimensionEnum;
+        }
+
+        // Helpers
+
+        private ClosestOverInlets_MathPropertiesDto Get_ClosestOverInlets_MathPropertiesDto(ClosestOverInlets_OperatorDto dto)
+        {
+            OperatorDtoBase inputOperatorDto = dto.InputOperatorDto;
+            IList<OperatorDtoBase> itemOperatorDtos = dto.ItemOperatorDtos;
+
+            MathPropertiesDto inputMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(inputOperatorDto);
+
+            int count = itemOperatorDtos.Count;
+            IList<MathPropertiesDto> itemMathPropertiesDtos = new MathPropertiesDto[count];
+            for (int i = 0; i < count; i++)
+            {
+                OperatorDtoBase itemOperatorDto = itemOperatorDtos[i];
+                MathPropertiesDto itemMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(itemOperatorDto);
+                itemMathPropertiesDtos[i] = itemMathPropertiesDto;
+            }
+
+            bool allItemsAreConst = itemMathPropertiesDtos.All(x => x.IsConst);
+            IList<double> itemsValues = itemMathPropertiesDtos.Select(x => x.Value).ToArray();
+
+            var mathPropertiesDto = new ClosestOverInlets_MathPropertiesDto
+            {
+                InputMathPropertiesDto = inputMathPropertiesDto,
+                ItemMathPropertiesDtos = itemMathPropertiesDtos,
+                AllItemsAreConst = allItemsAreConst,
+                ItemsValues = itemsValues
+            };
+
+            return mathPropertiesDto;
         }
     }
 }

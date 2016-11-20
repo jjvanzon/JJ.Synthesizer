@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -21,7 +23,7 @@ using JJ.Framework.Common.Exceptions;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Calculation.Patches
+namespace JJ.Business.Synthesizer.Visitors
 {
     /// <summary>
     /// The way this class works, is that the base visitor visits an Operator's Inlets,

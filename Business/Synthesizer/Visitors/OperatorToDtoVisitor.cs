@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
@@ -187,9 +188,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
 
+            Curve curve = wrapper.Curve;
+            
+            double minX = curve.Nodes
+                               .OrderBy(x => x.X)
+                               .First()
+                               .X;
+
             var dto = new Curve_OperatorDto
             {
-                Curve = wrapper.Curve
+                Curve = curve,
+                MinX = minX
             };
 
             SetDimensionProperties(op, dto);

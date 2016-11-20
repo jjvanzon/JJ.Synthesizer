@@ -10,12 +10,13 @@ namespace JJ.Business.Synthesizer.Dto
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
         public Curve Curve { get; set; }
+        public double MinX { get; set; }
     }
 
     internal class Curve_OperatorDto_MinX_NoOriginShifting : Curve_OperatorDto
     { }
 
-    internal class Curve_OperatorDto_MinX_MinX_WithOriginShifting : Curve_OperatorDto
+    internal class Curve_OperatorDto_MinX_WithOriginShifting : Curve_OperatorDto
     { }
 
     internal class Curve_OperatorDto_MinXZero_NoOriginShifting : Curve_OperatorDto

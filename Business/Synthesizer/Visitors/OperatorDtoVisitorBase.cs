@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems), x => Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems((ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems)x ) },
                 { typeof(Curve_OperatorDto), x => Visit_Curve_OperatorDto((Curve_OperatorDto)x ) },
                 { typeof(Curve_OperatorDto_MinX_NoOriginShifting), x => Visit_Curve_OperatorDto_MinX_NoOriginShifting((Curve_OperatorDto_MinX_NoOriginShifting)x ) },
-                { typeof(Curve_OperatorDto_MinX_MinX_WithOriginShifting), x => Visit_Curve_OperatorDto_MinX_MinX_WithOriginShifting((Curve_OperatorDto_MinX_MinX_WithOriginShifting)x ) },
+                { typeof(Curve_OperatorDto_MinX_WithOriginShifting), x => Visit_Curve_OperatorDto_MinX_WithOriginShifting((Curve_OperatorDto_MinX_WithOriginShifting)x ) },
                 { typeof(Curve_OperatorDto_MinXZero_NoOriginShifting), x => Visit_Curve_OperatorDto_MinXZero_NoOriginShifting((Curve_OperatorDto_MinXZero_NoOriginShifting)x ) },
                 { typeof(Curve_OperatorDto_MinXZero_WithOriginShifting), x => Visit_Curve_OperatorDto_MinXZero_WithOriginShifting((Curve_OperatorDto_MinXZero_WithOriginShifting)x ) },
                 { typeof(CustomOperator_OperatorDto), x => Visit_CustomOperator_OperatorDto((CustomOperator_OperatorDto)x ) },
@@ -444,7 +444,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Curve_OperatorDto(Curve_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Curve_OperatorDto_MinX_NoOriginShifting(Curve_OperatorDto_MinX_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Curve_OperatorDto_MinX_MinX_WithOriginShifting(Curve_OperatorDto_MinX_MinX_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(Curve_OperatorDto_MinXZero_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_CustomOperator_OperatorDto(CustomOperator_OperatorDto dto) => Visit_OperatorDto_Base(dto);
