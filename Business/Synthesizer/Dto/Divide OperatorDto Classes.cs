@@ -21,13 +21,12 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Divide_OperatorDto_VarNumerator_VarDenominator_ConstOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_VarNumerator_VarDenominator_ZeroOrigin : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
         public OperatorDtoBase NumeratorOperatorDto { get; set; }
         public OperatorDtoBase DenominatorOperatorDto { get; set; }
-        public double Origin { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -36,12 +35,13 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Divide_OperatorDto_VarNumerator_VarDenominator_ZeroOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_VarNumerator_VarDenominator_ConstOrigin : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
         public OperatorDtoBase NumeratorOperatorDto { get; set; }
         public OperatorDtoBase DenominatorOperatorDto { get; set; }
+        public double Origin { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -65,13 +65,12 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Divide_OperatorDto_VarNumerator_ConstDenominator_ConstOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_VarNumerator_ConstDenominator_ZeroOrigin : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
         public OperatorDtoBase NumeratorOperatorDto { get; set; }
         public double Denominator { get; set; }
-        public double Origin { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -80,12 +79,13 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Divide_OperatorDto_VarNumerator_ConstDenominator_ZeroOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_VarNumerator_ConstDenominator_ConstOrigin : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
         public OperatorDtoBase NumeratorOperatorDto { get; set; }
         public double Denominator { get; set; }
+        public double Origin { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -109,13 +109,12 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Divide_OperatorDto_ConstNumerator_VarDenominator_ConstOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_ConstNumerator_VarDenominator_ZeroOrigin : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
         public double Numerator { get; set; }
         public OperatorDtoBase DenominatorOperatorDto { get; set; }
-        public double Origin { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -124,12 +123,13 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Divide_OperatorDto_ConstNumerator_VarDenominator_ZeroOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_ConstNumerator_VarDenominator_ConstOrigin : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
         public double Numerator { get; set; }
         public OperatorDtoBase DenominatorOperatorDto { get; set; }
+        public double Origin { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -153,6 +153,14 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
+    internal class Divide_OperatorDto_ConstNumerator_ConstDenominator_ZeroOrigin : OperatorDtoBase_WithoutInputOperatorDtos
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
+
+        public double Numerator { get; set; }
+        public double Denominator { get; set; }
+    }
+
     internal class Divide_OperatorDto_ConstNumerator_ConstDenominator_ConstOrigin : OperatorDtoBase_WithoutInputOperatorDtos
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
@@ -160,13 +168,5 @@ namespace JJ.Business.Synthesizer.Dto
         public double Numerator { get; set; }
         public double Denominator { get; set; }
         public double Origin { get; set; }
-    }
-
-    internal class Divide_OperatorDto_ConstNumerator_ConstDenominator_ZeroOrigin : OperatorDtoBase_WithoutInputOperatorDtos
-    {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
-
-        public double Numerator { get; set; }
-        public double Denominator { get; set; }
     }
 }

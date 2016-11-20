@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Dto
         public double Origin { get; set; }
     }
 
-    internal class MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin : OperatorDtoBase_VarA_ConstB
+    internal class MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin : OperatorDtoBase_ConstA_VarB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
     }
