@@ -7,12 +7,29 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MaxOverInlets);
     }
 
-    internal class MaxOverInlets_OperatorDto_Vars_1Const : OperatorDtoBase_Vars_1Const
+    internal class MaxOverInlets_OperatorDto_Vars_Consts : OperatorDtoBase_Vars_Consts
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MaxOverInlets);
     }
 
-    internal class MaxOverInlets_OperatorDto_AllVars : OperatorDtoBase_Vars
+    internal class MaxOverInlets_OperatorDto_Vars_NoConsts : OperatorDtoBase_Vars
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.MaxOverInlets);
+    }
+
+    internal class MaxOverInlets_OperatorDto_NoVars_NoConsts : OperatorDtoBase_WithoutInputOperatorDtos
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.MaxOverInlets);
+    }
+
+    internal class MaxOverInlets_OperatorDto_NoVars_Consts : OperatorDtoBase_Consts
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.MaxOverInlets);
+    }
+
+    // Special Cases
+
+    internal class MaxOverInlets_OperatorDto_Vars_1Const : OperatorDtoBase_Vars_1Const
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MaxOverInlets);
     }

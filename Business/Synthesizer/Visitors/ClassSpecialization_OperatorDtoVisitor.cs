@@ -830,7 +830,35 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_MaxOverInlets_OperatorDto(dto);
+
+            IList<OperatorDtoBase> operatorDtos = dto.InputOperatorDtos;
+
+            IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).ToArray();
+            IList<OperatorDtoBase> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
+            IList<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).Value).ToArray();
+
+            bool hasVars = varOperatorDtos.Any();
+            bool hasConsts = constOperatorDtos.Any();
+
+            if (hasVars && hasConsts)
+            {
+                return new MaxOverInlets_OperatorDto_Vars_Consts { Vars = varOperatorDtos, Consts = consts };
+            }
+            else if (hasVars && !hasConsts)
+            {
+                return new MaxOverInlets_OperatorDto_Vars_NoConsts { Vars = varOperatorDtos };
+            }
+            else if (!hasVars && hasConsts)
+            {
+                return new MaxOverInlets_OperatorDto_NoVars_Consts { Consts = consts };
+            }
+            else if (!hasVars && !hasConsts)
+            {
+                return new MaxOverInlets_OperatorDto_NoVars_NoConsts();
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto)

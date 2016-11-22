@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(MaxOverDimension_OperatorDto_CollectionRecalculationUponReset), x => Visit_MaxOverDimension_OperatorDto_CollectionRecalculationUponReset((MaxOverDimension_OperatorDto_CollectionRecalculationUponReset)x ) },
                 { typeof(MaxOverInlets_OperatorDto), x => Visit_MaxOverInlets_OperatorDto((MaxOverInlets_OperatorDto)x ) },
                 { typeof(MaxOverInlets_OperatorDto_Vars_1Const), x => Visit_MaxOverInlets_OperatorDto_Vars_1Const((MaxOverInlets_OperatorDto_Vars_1Const)x ) },
-                { typeof(MaxOverInlets_OperatorDto_AllVars), x => Visit_MaxOverInlets_OperatorDto_AllVars((MaxOverInlets_OperatorDto_AllVars)x ) },
+                { typeof(MaxOverInlets_OperatorDto_Vars_NoConsts), x => Visit_MaxOverInlets_OperatorDto_AllVars((MaxOverInlets_OperatorDto_Vars_NoConsts)x ) },
                 { typeof(MaxOverInlets_OperatorDto_1Var_1Const), x => Visit_MaxOverInlets_OperatorDto_1Var_1Const((MaxOverInlets_OperatorDto_1Var_1Const)x ) },
                 { typeof(MaxOverInlets_OperatorDto_2Vars), x => Visit_MaxOverInlets_OperatorDto_2Vars((MaxOverInlets_OperatorDto_2Vars)x ) },
                 { typeof(MinFollower_OperatorDto), x => Visit_MinFollower_OperatorDto((MinFollower_OperatorDto)x ) },
@@ -542,7 +542,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_MaxOverDimension_OperatorDto_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_MaxOverInlets_OperatorDto_AllVars(MaxOverInlets_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_MaxOverInlets_OperatorDto_AllVars(MaxOverInlets_OperatorDto_Vars_NoConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_MaxOverInlets_OperatorDto_1Var_1Const(MaxOverInlets_OperatorDto_1Var_1Const dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_MaxOverInlets_OperatorDto_2Vars(MaxOverInlets_OperatorDto_2Vars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
