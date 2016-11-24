@@ -10,7 +10,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class AudioOutputValidator : FluentValidator<AudioOutput>
+    internal class AudioOutputValidator : VersatileValidator<AudioOutput>
     {
         public AudioOutputValidator(AudioOutput obj)
             : base(obj)

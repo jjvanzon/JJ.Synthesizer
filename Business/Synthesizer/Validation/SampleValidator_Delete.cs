@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class SampleValidator_Delete : FluentValidator<Sample>
+    internal class SampleValidator_Delete : VersatileValidator<Sample>
     {
         private ISampleRepository _sampleRepository;
 

@@ -11,7 +11,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator : FluentValidator<Patch>
+    internal class PatchValidator : VersatileValidator<Patch>
     {
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;

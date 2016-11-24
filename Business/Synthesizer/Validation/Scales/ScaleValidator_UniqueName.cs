@@ -9,7 +9,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {
-    internal class ScaleValidator_UniqueName : FluentValidator<Scale>
+    internal class ScaleValidator_UniqueName : VersatileValidator<Scale>
     {
         /// <summary>
         /// NOTE:

@@ -3,7 +3,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class WavHeaderStructValidator : FluentValidator<WavHeaderStruct>
+    internal class WavHeaderStructValidator : VersatileValidator<WavHeaderStruct>
     {
         public WavHeaderStructValidator(WavHeaderStruct obj)
             : base(obj)

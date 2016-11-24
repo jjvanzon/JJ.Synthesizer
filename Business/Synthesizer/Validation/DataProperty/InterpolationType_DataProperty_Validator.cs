@@ -8,7 +8,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
-    internal class InterpolationType_DataProperty_Validator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
+    internal class InterpolationType_DataProperty_Validator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
         public InterpolationType_DataProperty_Validator(string obj) 
             : base(obj)

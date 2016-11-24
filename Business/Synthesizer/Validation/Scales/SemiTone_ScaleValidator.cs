@@ -9,7 +9,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {
-    internal class SemiTone_ScaleValidator : FluentValidator<Scale>
+    internal class SemiTone_ScaleValidator : VersatileValidator<Scale>
     {
         public SemiTone_ScaleValidator(Scale obj)
             : base(obj)

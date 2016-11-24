@@ -18,7 +18,7 @@ using System.Text;
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
     /// <summary> Does not derive from OperatorValidator_Base, because CustomOperator has very specific requirements. </summary>
-    internal class CustomOperator_OperatorValidator : FluentValidator<Operator>
+    internal class CustomOperator_OperatorValidator : VersatileValidator<Operator>
     {
         private static readonly string[] _allowedDataKeys = new string[] { PropertyNames.UnderlyingPatchID };
 

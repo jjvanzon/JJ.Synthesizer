@@ -8,7 +8,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_IsCircular : FluentValidator<Operator>
+    internal class OperatorValidator_IsCircular : VersatileValidator<Operator>
     {
         private readonly IPatchRepository _patchRepository;
 

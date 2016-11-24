@@ -6,7 +6,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class NameValidator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
+    internal class NameValidator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
         private const bool DEFAULT_REQUIRED = true;
         private readonly static string _defaultPropertyDisplayName = CommonTitles.Name;

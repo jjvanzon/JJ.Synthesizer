@@ -7,7 +7,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
-    internal class CollectionRecalculation_DataProperty_Validator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
+    internal class CollectionRecalculation_DataProperty_Validator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
         public CollectionRecalculation_DataProperty_Validator(string obj) 
             : base(obj)

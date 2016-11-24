@@ -11,7 +11,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_SetInletCount : FluentValidator<Operator>
+    internal class OperatorValidator_SetInletCount : VersatileValidator<Operator>
     {
         private static readonly HashSet<OperatorTypeEnum> _allowedOperatorTypeEnums = new HashSet<OperatorTypeEnum>
         {

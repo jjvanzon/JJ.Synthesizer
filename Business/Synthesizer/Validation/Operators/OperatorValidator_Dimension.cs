@@ -10,7 +10,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_Dimension : FluentValidator<Operator>
+    internal class OperatorValidator_Dimension : VersatileValidator<Operator>
     {
         public OperatorValidator_Dimension(Operator op)
             : base(op)

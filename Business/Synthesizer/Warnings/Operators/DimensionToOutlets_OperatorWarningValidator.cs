@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class DimensionToOutlets_OperatorWarningValidator : FluentValidator<Operator>
+    internal class DimensionToOutlets_OperatorWarningValidator : VersatileValidator<Operator>
     {
         public DimensionToOutlets_OperatorWarningValidator(Operator obj)
             : base(obj)

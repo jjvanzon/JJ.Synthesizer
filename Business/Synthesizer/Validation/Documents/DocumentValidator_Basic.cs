@@ -4,7 +4,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
-    internal class DocumentValidator_Basic : FluentValidator<Document>
+    internal class DocumentValidator_Basic : VersatileValidator<Document>
     {
         public DocumentValidator_Basic(Document obj)
             : base(obj)

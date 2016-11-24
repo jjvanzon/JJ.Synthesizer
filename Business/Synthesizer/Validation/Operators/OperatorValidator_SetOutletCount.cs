@@ -12,7 +12,7 @@ using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_SetOutletCount : FluentValidator<Operator>
+    internal class OperatorValidator_SetOutletCount : VersatileValidator<Operator>
     {
         private readonly int _newOutletCount;
         private static OperatorTypeEnum[] _allowedOperatorTypeEnums = new OperatorTypeEnum[]

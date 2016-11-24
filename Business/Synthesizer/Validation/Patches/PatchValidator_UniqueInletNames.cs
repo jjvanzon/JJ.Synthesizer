@@ -8,7 +8,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_UniqueInletNames : FluentValidator<Patch>
+    internal class PatchValidator_UniqueInletNames : VersatileValidator<Patch>
     {
         public PatchValidator_UniqueInletNames(Patch obj)
             : base(obj)

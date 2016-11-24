@@ -7,7 +7,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    internal class ScaleWarningValidator : FluentValidator<Scale>
+    internal class ScaleWarningValidator : VersatileValidator<Scale>
     {
         public ScaleWarningValidator(Scale obj)
             : base(obj)

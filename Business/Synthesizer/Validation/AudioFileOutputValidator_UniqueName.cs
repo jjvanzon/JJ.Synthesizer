@@ -9,7 +9,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class AudioFileOutputValidator_UniqueName : FluentValidator<AudioFileOutput>
+    internal class AudioFileOutputValidator_UniqueName : VersatileValidator<AudioFileOutput>
     {
         /// <summary>
         /// NOTE:

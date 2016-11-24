@@ -7,7 +7,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class ToneValidator : FluentValidator<Tone>
+    internal class ToneValidator : VersatileValidator<Tone>
     {
         public ToneValidator(Tone obj)
             : base(obj)

@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {
-    internal class Basic_ScaleValidator : FluentValidator<Scale>
+    internal class Basic_ScaleValidator : VersatileValidator<Scale>
     {
         public Basic_ScaleValidator(Scale obj)
             : base(obj)

@@ -4,7 +4,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_Name : FluentValidator<Patch>
+    internal class PatchValidator_Name : VersatileValidator<Patch>
     {
         public PatchValidator_Name(Patch obj)
             : base(obj)

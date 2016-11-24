@@ -11,7 +11,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_UniqueOutletNames : FluentValidator<Patch>
+    internal class PatchValidator_UniqueOutletNames : VersatileValidator<Patch>
     {
         public PatchValidator_UniqueOutletNames(Patch obj)
             : base(obj)

@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Basic_OperatorValidator : FluentValidator<Operator>
+    internal class Basic_OperatorValidator : VersatileValidator<Operator>
     {
         public Basic_OperatorValidator(Operator obj)
             : base(obj)

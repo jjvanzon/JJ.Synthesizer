@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_IsOperatorsListComplete : FluentValidator<Patch>
+    internal class PatchValidator_IsOperatorsListComplete : VersatileValidator<Patch>
     {
         public PatchValidator_IsOperatorsListComplete(Patch obj) 
             : base(obj)

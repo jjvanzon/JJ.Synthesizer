@@ -10,7 +10,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
-    internal class DocumentValidator_Delete : FluentValidator<Document>
+    internal class DocumentValidator_Delete : VersatileValidator<Document>
     {
         private IPatchRepository _patchRepository;
 

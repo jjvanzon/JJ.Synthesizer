@@ -7,7 +7,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    internal class CurveWarningValidator : FluentValidator<Curve>
+    internal class CurveWarningValidator : VersatileValidator<Curve>
     {
         public CurveWarningValidator(Curve obj) 
             : base(obj)

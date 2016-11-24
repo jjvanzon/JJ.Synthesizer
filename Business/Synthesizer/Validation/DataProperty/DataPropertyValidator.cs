@@ -11,7 +11,7 @@ using JJ.Business.Synthesizer.Helpers;
 namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
     /// <summary> Validates the inlet and outlet ListIndexes and that the inlet names are NOT filled in. </summary>
-    internal class DataPropertyValidator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
+    internal class DataPropertyValidator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
         private readonly static int? _dataMaxLength = GetDataMaxLength();
 

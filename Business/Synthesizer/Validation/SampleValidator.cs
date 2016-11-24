@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class SampleValidator : FluentValidator<Sample>
+    internal class SampleValidator : VersatileValidator<Sample>
     {
         public SampleValidator(Sample obj)
             : base(obj)

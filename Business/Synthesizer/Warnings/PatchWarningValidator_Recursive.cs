@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Warnings.Operators;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    internal class PatchWarningValidator_Recursive : FluentValidator<Patch>
+    internal class PatchWarningValidator_Recursive : VersatileValidator<Patch>
     {
         private ISampleRepository _sampleRepository;
 

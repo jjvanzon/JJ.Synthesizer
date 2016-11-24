@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Validation.Curves
 {
-    internal class CurveValidator_Delete : FluentValidator<Curve>
+    internal class CurveValidator_Delete : VersatileValidator<Curve>
     {
         private ICurveRepository _curveRepository;
 

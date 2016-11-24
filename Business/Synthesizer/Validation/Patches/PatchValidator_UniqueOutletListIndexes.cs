@@ -10,7 +10,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_UniqueOutletListIndexes : FluentValidator<Patch>
+    internal class PatchValidator_UniqueOutletListIndexes : VersatileValidator<Patch>
     {
         public PatchValidator_UniqueOutletListIndexes(Patch obj)
             : base(obj)

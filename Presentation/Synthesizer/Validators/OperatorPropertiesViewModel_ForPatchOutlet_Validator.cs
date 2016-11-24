@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.Validators
     /// Validate the Number property of the view model, which is 1-based,
     /// to not confuse the user with a validation message talking about the 0-based ListIndex property,
     /// </summary>
-    internal class OperatorPropertiesViewModel_ForPatchOutlet_Validator : FluentValidator<OperatorPropertiesViewModel_ForPatchOutlet>
+    internal class OperatorPropertiesViewModel_ForPatchOutlet_Validator : VersatileValidator<OperatorPropertiesViewModel_ForPatchOutlet>
     {
         public OperatorPropertiesViewModel_ForPatchOutlet_Validator(OperatorPropertiesViewModel_ForPatchOutlet obj)
             : base(obj)

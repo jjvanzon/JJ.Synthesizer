@@ -11,7 +11,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_Delete : FluentValidator<Patch>
+    internal class PatchValidator_Delete : VersatileValidator<Patch>
     {
         private readonly IPatchRepository _patchRepository;
 

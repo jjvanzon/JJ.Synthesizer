@@ -9,7 +9,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class SampleValidator_UniqueName : FluentValidator<Sample>
+    internal class SampleValidator_UniqueName : VersatileValidator<Sample>
     {
         /// <summary>
         /// NOTE:

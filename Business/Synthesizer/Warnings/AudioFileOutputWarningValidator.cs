@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    internal class AudioFileOutputWarningValidator : FluentValidator<AudioFileOutput>
+    internal class AudioFileOutputWarningValidator : VersatileValidator<AudioFileOutput>
     {
         public AudioFileOutputWarningValidator(AudioFileOutput obj)
             : base(obj)

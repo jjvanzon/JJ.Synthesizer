@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Validation.Patches;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
-    internal class Recursive_DocumentValidator : FluentValidator<Document>
+    internal class Recursive_DocumentValidator : VersatileValidator<Document>
     {
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;

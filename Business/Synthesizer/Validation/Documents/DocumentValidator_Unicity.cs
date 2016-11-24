@@ -8,7 +8,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
-    internal class DocumentValidator_Unicity : FluentValidator<Document>
+    internal class DocumentValidator_Unicity : VersatileValidator<Document>
     {
         public DocumentValidator_Unicity(Document obj)
             : base(obj)

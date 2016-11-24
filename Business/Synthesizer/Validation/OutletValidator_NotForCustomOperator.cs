@@ -8,7 +8,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class OutletValidator_NotForCustomOperator : FluentValidator<Outlet>
+    internal class OutletValidator_NotForCustomOperator : VersatileValidator<Outlet>
     {
         private readonly int _expectedListIndex;
         private readonly DimensionEnum _expectedDimensionEnum;

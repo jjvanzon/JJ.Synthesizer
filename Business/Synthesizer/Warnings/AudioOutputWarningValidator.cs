@@ -7,7 +7,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    internal class AudioOutputWarningValidator : FluentValidator<AudioOutput>
+    internal class AudioOutputWarningValidator : VersatileValidator<AudioOutput>
     {
         public AudioOutputWarningValidator(AudioOutput obj)
             : base(obj)

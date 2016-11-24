@@ -8,7 +8,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Validators
 {
-    internal class ToneGridEditViewModelValidator : FluentValidator<ToneGridEditViewModel>
+    internal class ToneGridEditViewModelValidator : VersatileValidator<ToneGridEditViewModel>
     {
         public ToneGridEditViewModelValidator(ToneGridEditViewModel obj)
             : base(obj)

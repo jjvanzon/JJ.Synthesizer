@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Unbundle_OperatorWarningValidator : FluentValidator<Operator>
+    internal class Unbundle_OperatorWarningValidator : VersatileValidator<Operator>
     {
         public Unbundle_OperatorWarningValidator(Operator obj)
             : base(obj)

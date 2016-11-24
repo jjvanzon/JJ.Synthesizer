@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    internal class DocumentWarningValidator_Recursive : FluentValidator<Document>
+    internal class DocumentWarningValidator_Recursive : VersatileValidator<Document>
     {
         private ISampleRepository _sampleRepository;
         private HashSet<object> _alreadyDone;

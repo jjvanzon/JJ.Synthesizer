@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class NodeValidator_Parent : FluentValidator<Node>
+    internal class NodeValidator_Parent : VersatileValidator<Node>
     {
         public NodeValidator_Parent(Node obj)
             : base(obj)

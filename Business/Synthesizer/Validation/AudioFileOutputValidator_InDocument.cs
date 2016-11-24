@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class AudioFileOutputValidator_InDocument : FluentValidator<AudioFileOutput>
+    internal class AudioFileOutputValidator_InDocument : VersatileValidator<AudioFileOutput>
     {
         public AudioFileOutputValidator_InDocument(AudioFileOutput obj)
             : base(obj)

@@ -9,7 +9,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_UniqueName : FluentValidator<Patch>
+    internal class PatchValidator_UniqueName : VersatileValidator<Patch>
     {
         /// <summary>
         /// NOTE:

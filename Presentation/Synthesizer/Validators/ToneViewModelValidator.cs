@@ -7,7 +7,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Validators
 {
-    internal class ToneViewModelValidator : FluentValidator<ToneViewModel>
+    internal class ToneViewModelValidator : VersatileValidator<ToneViewModel>
     {
         private readonly string _numberPropertyDisplayName;
 

@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Curves
 {
-    internal class CurveValidator_InDocument : FluentValidator<Curve>
+    internal class CurveValidator_InDocument : VersatileValidator<Curve>
     {
         public CurveValidator_InDocument(Curve obj)
             : base(obj)
