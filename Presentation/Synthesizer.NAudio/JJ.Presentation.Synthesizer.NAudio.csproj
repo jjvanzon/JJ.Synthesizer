@@ -75,7 +75,7 @@
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Data.Synthesizer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\External Components\NAudio\Source Code\1.7.2\NAudio\NAudio.csproj">
+    <ProjectReference Include="..\..\Third Party\NAudio\Source Code\1.7.2\NAudio\NAudio.csproj">
       <Project>{da4f02e3-0b5e-42cd-b8d9-5583fa51d66e}</Project>
       <Name>NAudio</Name>
     </ProjectReference>
