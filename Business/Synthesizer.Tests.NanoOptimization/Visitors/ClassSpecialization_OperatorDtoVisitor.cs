@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
             IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).ToArray();
             IList<OperatorDtoBase> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
-            IList<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).Value).ToArray();
+            IList<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).ConstValue).ToArray();
 
             bool hasVars = varOperatorDtos.Any();
             bool hasConsts = constOperatorDtos.Any();
@@ -60,17 +60,17 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
-                return new Multiply_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.Value, B = bMathPropertiesDto.Value };
+                return new Multiply_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.ConstValue, B = bMathPropertiesDto.ConstValue };
             }
 
             if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new Multiply_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.Value };
+                return new Multiply_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new Multiply_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.Value, BOperatorDto = bOperatorDto };
+                return new Multiply_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = bOperatorDto };
             }
 
             if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
@@ -93,17 +93,17 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
             if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsConst)
             {
-                return new Shift_OperatorDto_ConstSignal_ConstDistance { SignalValue = signalMathPropertiesDto.Value, Distance = distanceMathPropertiesDto.Value };
+                return new Shift_OperatorDto_ConstSignal_ConstDistance { SignalValue = signalMathPropertiesDto.ConstValue, Distance = distanceMathPropertiesDto.ConstValue };
             }
 
             if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsConst)
             {
-                return new Shift_OperatorDto_VarSignal_ConstDistance { SignalOperatorDto = signalOperatorDto, Distance = distanceMathPropertiesDto.Value };
+                return new Shift_OperatorDto_VarSignal_ConstDistance { SignalOperatorDto = signalOperatorDto, Distance = distanceMathPropertiesDto.ConstValue };
             }
 
             if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsVar)
             {
-                return new Shift_OperatorDto_ConstSignal_VarDistance { SignalValue = signalMathPropertiesDto.Value, DistanceOperatorDto = distanceOperatorDto };
+                return new Shift_OperatorDto_ConstSignal_VarDistance { SignalValue = signalMathPropertiesDto.ConstValue, DistanceOperatorDto = distanceOperatorDto };
             }
 
             if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsVar)
@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
             if (frequencyMathPropertiesDto.IsConst)
             {
-                return new Sine_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.Value };
+                return new Sine_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
             }
 
             if (frequencyMathPropertiesDto.IsVar)

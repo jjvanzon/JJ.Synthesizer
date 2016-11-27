@@ -7,6 +7,6 @@
         public bool IsConstZero { get; set; }
         public bool IsConstOne { get; set; }
         public bool IsConstSpecialValue { get; set; }
-        public double Value { get; set; }
+        public double ConstValue { get; set; }
     }
 }

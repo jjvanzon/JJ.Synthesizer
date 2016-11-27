@@ -50,6 +50,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set { base.ViewModel = value; }
         }
 
+        /// <summary>
+        /// TODO: Either check _applyViewModelIsBusy in ApplyViewModelToControls for some threading safety,
+        /// or if it is not needed, remove this variable and all of its references.
+        /// </summary>
         private bool _applyViewModelIsBusy = false;
 
         protected override void ApplyViewModelToControls()

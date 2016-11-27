@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers
             {
                 IsConst = true,
                 IsVar = false,
-                Value = value
+                ConstValue = value
             };
 
             if (value == 0.0)
