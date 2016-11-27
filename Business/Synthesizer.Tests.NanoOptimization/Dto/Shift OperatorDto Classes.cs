@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
-        public double SignalValue { get; set; }
+        public double Signal { get; set; }
         public double Distance { get; set; }
     }
 
@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
-        public double SignalValue { get; set; }
+        public double Signal { get; set; }
         public OperatorDtoBase DistanceOperatorDto { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos

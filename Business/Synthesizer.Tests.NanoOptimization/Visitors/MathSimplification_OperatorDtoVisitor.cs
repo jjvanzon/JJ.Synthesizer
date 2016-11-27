@@ -147,7 +147,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
         {
             base.Visit_Shift_OperatorDto_ConstSignal_ConstDistance(dto);
 
-            var dto2 = new Number_OperatorDto { Number = dto.SignalValue };
+            var dto2 = new Number_OperatorDto { Number = dto.Signal };
 
             OperatorDtoBase dto3 = Visit_Number_OperatorDto(dto2);
 
@@ -158,7 +158,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
         {
             base.Visit_Shift_OperatorDto_ConstSignal_VarDistance(dto);
 
-            var dto2 = new Number_OperatorDto { Number = dto.SignalValue };
+            var dto2 = new Number_OperatorDto { Number = dto.Signal };
 
             OperatorDtoBase dto3 = Visit_Number_OperatorDto(dto2);
 

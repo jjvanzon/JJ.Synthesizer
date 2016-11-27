@@ -1168,9 +1168,9 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(RangeOverDimension_OperatorCalculator_OnlyConsts dto)
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            return base.Visit_RangeOverDimension_OperatorDto(dto);
         }
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto(RangeOverOutlets_OperatorDto dto)
@@ -1264,7 +1264,32 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto(Shift_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Shift_OperatorDto(dto);
+
+            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
+            OperatorDtoBase distanceOperatorDto = dto.DistanceOperatorDto;
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
+            MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(distanceOperatorDto);
+
+            if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsConst)
+            {
+                return new Shift_OperatorDto_ConstSignal_ConstDistance { Signal = signalMathPropertiesDto.ConstValue, Distance = distanceMathPropertiesDto.ConstValue };
+            }
+            else if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsConst)
+            {
+                return new Shift_OperatorDto_VarSignal_ConstDistance { SignalOperatorDto = signalOperatorDto, Distance = distanceMathPropertiesDto.ConstValue };
+            }
+            else if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsVar)
+            {
+                return new Shift_OperatorDto_ConstSignal_VarDistance { Signal = signalMathPropertiesDto.ConstValue, DistanceOperatorDto = distanceOperatorDto };
+            }
+            else if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsVar)
+            {
+                return new Shift_OperatorDto_VarSignal_VarDistance { SignalOperatorDto = signalOperatorDto, DistanceOperatorDto = distanceOperatorDto };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto(Sine_OperatorDto dto)

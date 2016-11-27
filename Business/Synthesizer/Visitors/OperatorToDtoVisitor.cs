@@ -798,7 +798,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new Shift_OperatorDto
             {
                 SignalOperatorDto = _stack.Pop(),
-                DifferenceOperatorDto = _stack.Pop(),
+                DistanceOperatorDto = _stack.Pop(),
             };
 
             SetDimensionProperties(op, dto);

@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
             if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsConst)
             {
-                return new Shift_OperatorDto_ConstSignal_ConstDistance { SignalValue = signalMathPropertiesDto.ConstValue, Distance = distanceMathPropertiesDto.ConstValue };
+                return new Shift_OperatorDto_ConstSignal_ConstDistance { Signal = signalMathPropertiesDto.ConstValue, Distance = distanceMathPropertiesDto.ConstValue };
             }
 
             if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsConst)
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
             if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsVar)
             {
-                return new Shift_OperatorDto_ConstSignal_VarDistance { SignalValue = signalMathPropertiesDto.ConstValue, DistanceOperatorDto = distanceOperatorDto };
+                return new Shift_OperatorDto_ConstSignal_VarDistance { Signal = signalMathPropertiesDto.ConstValue, DistanceOperatorDto = distanceOperatorDto };
             }
 
             if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsVar)

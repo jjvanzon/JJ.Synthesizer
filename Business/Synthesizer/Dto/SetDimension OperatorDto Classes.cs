@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SetDimension);
 
         public OperatorDtoBase PassThroughInputOperatorDto { get; set; }
-        public double ValueOperator { get; set; }
+        public double Value { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
