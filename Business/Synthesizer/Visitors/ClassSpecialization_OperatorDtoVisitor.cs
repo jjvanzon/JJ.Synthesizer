@@ -1421,7 +1421,100 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto(Stretch_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Stretch_OperatorDto(dto);
+
+            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
+            OperatorDtoBase factorOperatorDto = dto.FactorOperatorDto;
+            OperatorDtoBase originOperatorDto = dto.OriginOperatorDto;
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
+            MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(factorOperatorDto);
+            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(originOperatorDto);
+
+            if (dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar)
+                {
+                    return new Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto };
+                }
+                else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst)
+                {
+                    return new Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
+                }
+                else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar)
+                {
+                    return new Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto };
+                }
+                else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst)
+                {
+                    return new Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue };
+                }
+                else
+                {
+                    throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                }
+            }
+            else
+            {
+                OperatorDtoBase_WithDimension dto2;
+
+                if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
+                {
+                    dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto, OriginOperatorDto = originOperatorDto };
+                }
+                else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
+                {
+                    dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto };
+                }
+                else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
+                {
+                    dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                }
+                else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
+                {
+                    dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue, OriginOperatorDto = originOperatorDto };
+                }
+                else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
+                {
+                    dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
+                }
+                else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
+                {
+                    dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
+                }
+                else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
+                {
+                    dto2 = new Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto, OriginOperatorDto = originOperatorDto };
+                }
+                else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
+                {
+                    dto2 = new Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto };
+                }
+                else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
+                {
+                    dto2 = new Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                }
+                else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
+                {
+                    dto2 = new Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue, OriginOperatorDto = originOperatorDto };
+                }
+                else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
+                {
+                    dto2 = new Stretch_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue };
+                }
+                else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
+                {
+                    dto2 = new Stretch_OperatorDto_ConstSignal_ConstFactor_ConstOrigin { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
+                }
+                else
+                {
+                    throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                }
+
+                Clone_DimensionProperties(dto, dto2);
+
+                return dto2;
+            }
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
