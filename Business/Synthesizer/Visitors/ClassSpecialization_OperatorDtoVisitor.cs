@@ -1130,7 +1130,32 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Power_OperatorDto(Power_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Power_OperatorDto(dto);
+
+            OperatorDtoBase baseOperatorDto = dto.BaseOperatorDto;
+            OperatorDtoBase exponentOperatorDto = dto.ExponentOperatorDto;
+
+            MathPropertiesDto baseMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(baseOperatorDto);
+            MathPropertiesDto exponentMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(exponentOperatorDto);
+
+            if (baseMathPropertiesDto.IsConst && exponentMathPropertiesDto.IsConst)
+            {
+                return new Power_OperatorDto_ConstBase_ConstExponent { Base = baseMathPropertiesDto.ConstValue, Exponent = exponentMathPropertiesDto.ConstValue };
+            }
+            else if (baseMathPropertiesDto.IsVar && exponentMathPropertiesDto.IsConst)
+            {
+                return new Power_OperatorDto_VarBase_ConstExponent { BaseOperatorDto = baseOperatorDto, Exponent = exponentMathPropertiesDto.ConstValue };
+            }
+            else if (baseMathPropertiesDto.IsConst && exponentMathPropertiesDto.IsVar)
+            {
+                return new Power_OperatorDto_ConstBase_VarExponent { Base = baseMathPropertiesDto.ConstValue, ExponentOperatorDto = exponentOperatorDto };
+            }
+            else if (baseMathPropertiesDto.IsVar && exponentMathPropertiesDto.IsVar)
+            {
+                return new Power_OperatorDto_VarBase_VarExponent { BaseOperatorDto = baseOperatorDto, ExponentOperatorDto = exponentOperatorDto };
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto(Pulse_OperatorDto dto)
