@@ -5,10 +5,10 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class ClosestOverInlets_OperatorDto : ClosestOverInlets_OperatorDto_AllVars
+    internal class ClosestOverInlets_OperatorDto : ClosestOverInlets_OperatorDto_VarInput_VarItems
     { }
 
-    internal class ClosestOverInlets_OperatorDto_AllVars : OperatorDtoBase
+    internal class ClosestOverInlets_OperatorDto_VarInput_VarItems : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInlets);
 

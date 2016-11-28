@@ -644,6 +644,7 @@
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
     <Compile Include="Visitors\ClassSpecialization_OperatorDtoVisitor.cs" />
+    <Compile Include="Visitors\MachineOptimization_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorToDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />

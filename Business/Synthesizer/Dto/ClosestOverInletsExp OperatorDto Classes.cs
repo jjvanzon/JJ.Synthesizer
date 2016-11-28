@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInletsExp);
     }
 
-    internal class ClosestOverInletsExp_OperatorDto_AllVars : ClosestOverInlets_OperatorDto_AllVars
+    internal class ClosestOverInletsExp_OperatorDto_VarInput_VarItems : ClosestOverInlets_OperatorDto_VarInput_VarItems
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInletsExp);
     }

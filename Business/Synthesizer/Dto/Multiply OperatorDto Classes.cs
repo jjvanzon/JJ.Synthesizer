@@ -27,7 +27,6 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Multiply);
     }
 
-
     // Special Cases
 
     /// <summary>
