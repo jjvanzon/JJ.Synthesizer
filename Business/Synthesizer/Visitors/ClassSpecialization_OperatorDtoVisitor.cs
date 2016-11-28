@@ -1208,24 +1208,32 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
 
+            OperatorDtoBase_WithDimension dto2;
+
             if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                return new SawDown_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new SawDown_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                return new SawDown_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new SawDown_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                return new SawDown_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+                dto2 = new SawDown_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                return new SawDown_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+                dto2 = new SawDown_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            Clone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_SawUp_OperatorDto(SawUp_OperatorDto dto)
@@ -1235,24 +1243,32 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
 
+            OperatorDtoBase_WithDimension dto2;
+
             if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                return new SawUp_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new SawUp_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                return new SawUp_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new SawUp_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                return new SawUp_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+                dto2 = new SawUp_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                return new SawUp_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+                dto2 = new SawUp_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            Clone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Scaler_OperatorDto(Scaler_OperatorDto dto)
@@ -1307,24 +1323,32 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
 
+            OperatorDtoBase_WithDimension dto2;
+
             if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                return new Sine_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Sine_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                return new Sine_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Sine_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                return new Sine_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+                dto2 = new Sine_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                return new Sine_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+                dto2 = new Sine_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            Clone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto)
@@ -1359,24 +1383,32 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
 
+            OperatorDtoBase_WithDimension dto2;
+
             if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                return new Square_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                return new Square_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                return new Square_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+                dto2 = new Square_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                return new Square_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+                dto2 = new Square_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            Clone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto(Squash_OperatorDto dto)
@@ -1664,24 +1696,32 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
 
+            OperatorDtoBase_WithDimension dto2;
+
             if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                return new Triangle_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Triangle_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                return new Triangle_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Triangle_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                return new Triangle_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+                dto2 = new Triangle_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                return new Triangle_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+                dto2 = new Triangle_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            Clone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         // Clone
@@ -1724,6 +1764,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             dest.Curve = source.Curve;
             dest.MinX = source.MinX;
+
             Clone_DimensionProperties(source, dest);
         }
 
