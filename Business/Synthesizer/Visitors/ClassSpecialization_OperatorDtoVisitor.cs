@@ -1349,7 +1349,28 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_SetDimension_OperatorDto(dto);
+
+            MathPropertiesDto valueMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.ValueOperatorDto);
+
+            OperatorDtoBase_WithDimension dto2;
+
+            if (valueMathProperties.IsVar)
+            {
+                dto2 = new SetDimension_OperatorDto_VarValue { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, ValueOperatorDto = dto.ValueOperatorDto };
+            }
+            else if (valueMathProperties.IsConst)
+            {
+                dto2 = new SetDimension_OperatorDto_ConstValue { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, Value = valueMathProperties.ConstValue };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            }
+
+            Clone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto(Shift_OperatorDto dto)
