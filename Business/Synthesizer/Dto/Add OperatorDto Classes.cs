@@ -27,8 +27,10 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Add);
     }
 
+    // Special Cases
+
     /// <summary>
-    /// Only created in MathSimplification_OperatorDtoVisitor,
+    /// Only to be created in MathSimplification_OperatorDtoVisitor,
     /// not yet in ClassSpecialization_OperatorDtoVisitor.
     /// </summary>
     internal class Add_OperatorDto_Vars_1Const : OperatorDtoBase_Vars_1Const

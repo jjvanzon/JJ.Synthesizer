@@ -7,12 +7,29 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MinOverInlets);
     }
 
-    internal class MinOverInlets_OperatorDto_Vars_1Const : OperatorDtoBase_Vars_1Const
+    internal class MinOverInlets_OperatorDto_Vars_Consts : OperatorDtoBase_Vars_Consts
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MinOverInlets);
     }
 
-    internal class MinOverInlets_OperatorDto_AllVars : OperatorDtoBase_Vars
+    internal class MinOverInlets_OperatorDto_Vars_NoConsts : OperatorDtoBase_Vars
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.MinOverInlets);
+    }
+
+    internal class MinOverInlets_OperatorDto_NoVars_NoConsts : OperatorDtoBase_WithoutInputOperatorDtos
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.MinOverInlets);
+    }
+
+    internal class MinOverInlets_OperatorDto_NoVars_Consts : OperatorDtoBase_Consts
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.MinOverInlets);
+    }
+
+    // Special Cases
+
+    internal class MinOverInlets_OperatorDto_Vars_1Const : OperatorDtoBase_Vars_1Const
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MinOverInlets);
     }

@@ -20,6 +20,14 @@ namespace JJ.Business.Synthesizer.Visitors
             public IList<double> ItemsValues { get; set; }
         }
 
+        private class VarsConsts_MathPropetiesDto
+        {
+            public IList<OperatorDtoBase> VarOperatorDtos { get; set; }
+            public IList<double> Consts { get; set; }
+            public bool HasVars { get; set; }
+            public bool HasConsts { get; set; }
+        }
+
         public OperatorDtoBase Execute(OperatorDtoBase dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
@@ -47,28 +55,21 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Add_OperatorDto(dto);
 
-            IList<OperatorDtoBase> operatorDtos = dto.InputOperatorDtos;
+            VarsConsts_MathPropetiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
-            IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).ToArray();
-            IList<OperatorDtoBase> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
-            IList<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).ConstValue).ToArray();
-
-            bool hasVars = varOperatorDtos.Any();
-            bool hasConsts = constOperatorDtos.Any();
-
-            if (hasVars && hasConsts)
+            if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
-                return new Add_OperatorDto_Vars_Consts { Vars = varOperatorDtos, Consts = consts };
+                return new Add_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.VarOperatorDtos, Consts = mathPropertiesDto.Consts };
             }
-            else if (hasVars && !hasConsts)
+            else if (mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
             {
-                return new Add_OperatorDto_Vars_NoConsts { Vars = varOperatorDtos };
+                return new Add_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.VarOperatorDtos };
             }
-            else if (!hasVars && hasConsts)
+            else if (!mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
-                return new Add_OperatorDto_NoVars_Consts { Consts = consts };
+                return new Add_OperatorDto_NoVars_Consts { Consts = mathPropertiesDto.Consts };
             }
-            else if (!hasVars && !hasConsts)
+            else if (!mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
             {
                 return new Add_OperatorDto_NoVars_NoConsts();
             }
@@ -156,6 +157,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
             return dto2;
         }
+
+        // Visit_AverageOverInlets_OperatorDto not overridden, because it AverageOverInlets currently has no optimized calculation variations.
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto)
         {
@@ -287,6 +290,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var mathPropertiesDto = Get_ClosestOverInlets_MathPropertiesDto(dto);
 
+            // TODO: This code is more for the MachineOptimization_OperatorDtoVisitor.
             if (mathPropertiesDto.InputMathPropertiesDto.IsConst)
             {
                 return dto.InputOperatorDto;
@@ -832,28 +836,21 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MaxOverInlets_OperatorDto(dto);
 
-            IList<OperatorDtoBase> operatorDtos = dto.InputOperatorDtos;
+            VarsConsts_MathPropetiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
-            IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).ToArray();
-            IList<OperatorDtoBase> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
-            IList<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).ConstValue).ToArray();
-
-            bool hasVars = varOperatorDtos.Any();
-            bool hasConsts = constOperatorDtos.Any();
-
-            if (hasVars && hasConsts)
+            if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
-                return new MaxOverInlets_OperatorDto_Vars_Consts { Vars = varOperatorDtos, Consts = consts };
+                return new MaxOverInlets_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.VarOperatorDtos, Consts = mathPropertiesDto.Consts };
             }
-            else if (hasVars && !hasConsts)
+            else if (mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
             {
-                return new MaxOverInlets_OperatorDto_Vars_NoConsts { Vars = varOperatorDtos };
+                return new MaxOverInlets_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.VarOperatorDtos };
             }
-            else if (!hasVars && hasConsts)
+            else if (!mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
-                return new MaxOverInlets_OperatorDto_NoVars_Consts { Consts = consts };
+                return new MaxOverInlets_OperatorDto_NoVars_Consts { Consts = mathPropertiesDto.Consts };
             }
-            else if (!hasVars && !hasConsts)
+            else if (!mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
             {
                 return new MaxOverInlets_OperatorDto_NoVars_NoConsts();
             }
@@ -888,12 +885,54 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_MinOverInlets_OperatorDto(dto);
+
+            VarsConsts_MathPropetiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+
+            if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
+            {
+                return new MinOverInlets_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.VarOperatorDtos, Consts = mathPropertiesDto.Consts };
+            }
+            else if (mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
+            {
+                return new MinOverInlets_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.VarOperatorDtos };
+            }
+            else if (!mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
+            {
+                return new MinOverInlets_OperatorDto_NoVars_Consts { Consts = mathPropertiesDto.Consts };
+            }
+            else if (!mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
+            {
+                return new MinOverInlets_OperatorDto_NoVars_NoConsts();
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Multiply_OperatorDto(dto);
+
+            VarsConsts_MathPropetiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+
+            if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
+            {
+                return new Multiply_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.VarOperatorDtos, Consts = mathPropertiesDto.Consts };
+            }
+            else if (mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
+            {
+                return new Multiply_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.VarOperatorDtos };
+            }
+            else if (!mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
+            {
+                return new Multiply_OperatorDto_NoVars_Consts { Consts = mathPropertiesDto.Consts };
+            }
+            else if (!mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
+            {
+                return new Multiply_OperatorDto_NoVars_NoConsts();
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto(MultiplyWithOrigin_OperatorDto dto)
@@ -1726,6 +1765,27 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         // Helpers
+
+        private static VarsConsts_MathPropetiesDto Get_VarsConsts_MathPropertiesDto(IList<OperatorDtoBase> operatorDtos)
+        {
+            IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).ToArray();
+
+            IList<OperatorDtoBase> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
+            IList<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).ConstValue).ToArray();
+
+            bool hasVars = varOperatorDtos.Any();
+            bool hasConsts = constOperatorDtos.Any();
+
+            var mathPropertiesDto = new VarsConsts_MathPropetiesDto
+            {
+                VarOperatorDtos = varOperatorDtos,
+                Consts = consts,
+                HasConsts = hasConsts,
+                HasVars = hasVars
+            };
+
+            return mathPropertiesDto;
+        }
 
         private ClosestOverInlets_MathPropertiesDto Get_ClosestOverInlets_MathPropertiesDto(ClosestOverInlets_OperatorDto dto)
         {
