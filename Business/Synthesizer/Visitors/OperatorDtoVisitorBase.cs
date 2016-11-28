@@ -274,7 +274,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Round_OperatorDto_VarSignal_VarStep_ConstOffset), x => Visit_Round_OperatorDto_VarSignal_VarStep_ConstOffset((Round_OperatorDto_VarSignal_VarStep_ConstOffset)x ) },
                 { typeof(Round_OperatorDto_VarSignal_VarStep_ZeroOffset), x => Visit_Round_OperatorDto_VarSignal_VarStep_ZeroOffset((Round_OperatorDto_VarSignal_VarStep_ZeroOffset)x ) },
                 { typeof(Round_OperatorDto_VarSignal_ConstStep_VarOffset), x => Visit_Round_OperatorDto_VarSignal_ConstStep_VarOffset((Round_OperatorDto_VarSignal_ConstStep_VarOffset)x ) },
-                { typeof(Round_OperatorDto_VarSignal_ConstStep_ConstOffSet), x => Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffSet((Round_OperatorDto_VarSignal_ConstStep_ConstOffSet)x ) },
+                { typeof(Round_OperatorDto_VarSignal_ConstStep_ConstOffset), x => Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffSet((Round_OperatorDto_VarSignal_ConstStep_ConstOffset)x ) },
                 { typeof(Round_OperatorDto_VarSignal_ConstStep_ZeroOffset), x => Visit_Round_OperatorDto_VarSignal_ConstStep_ZeroOffset((Round_OperatorDto_VarSignal_ConstStep_ZeroOffset)x ) },
                 { typeof(Round_OperatorDto_ConstSignal), x => Visit_Round_OperatorDto_ConstSignal((Round_OperatorDto_ConstSignal)x ) },
                 { typeof(Round_OperatorDto_VarSignal_StepOne_OffsetZero), x => Visit_Round_OperatorDto_VarSignal_StepOne_OffsetZero((Round_OperatorDto_VarSignal_StepOne_OffsetZero)x ) },
@@ -668,7 +668,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_ConstOffset(Round_OperatorDto_VarSignal_VarStep_ConstOffset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_ZeroOffset(Round_OperatorDto_VarSignal_VarStep_ZeroOffset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_VarOffset(Round_OperatorDto_VarSignal_ConstStep_VarOffset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffSet(Round_OperatorDto_VarSignal_ConstStep_ConstOffSet dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffSet(Round_OperatorDto_VarSignal_ConstStep_ConstOffset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_ZeroOffset(Round_OperatorDto_VarSignal_ConstStep_ZeroOffset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_VarSignal_StepOne_OffsetZero(Round_OperatorDto_VarSignal_StepOne_OffsetZero dto) => Visit_OperatorDto_Base(dto);

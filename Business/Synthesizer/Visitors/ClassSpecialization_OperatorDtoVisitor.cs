@@ -1110,11 +1110,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Power_OperatorDto(dto);
 
-            OperatorDtoBase baseOperatorDto = dto.BaseOperatorDto;
-            OperatorDtoBase exponentOperatorDto = dto.ExponentOperatorDto;
-
-            MathPropertiesDto baseMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(baseOperatorDto);
-            MathPropertiesDto exponentMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(exponentOperatorDto);
+            MathPropertiesDto baseMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BaseOperatorDto);
+            MathPropertiesDto exponentMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.ExponentOperatorDto);
 
             if (baseMathPropertiesDto.IsConst && exponentMathPropertiesDto.IsConst)
             {
@@ -1122,15 +1119,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (baseMathPropertiesDto.IsVar && exponentMathPropertiesDto.IsConst)
             {
-                return new Power_OperatorDto_VarBase_ConstExponent { BaseOperatorDto = baseOperatorDto, Exponent = exponentMathPropertiesDto.ConstValue };
+                return new Power_OperatorDto_VarBase_ConstExponent { BaseOperatorDto = dto.BaseOperatorDto, Exponent = exponentMathPropertiesDto.ConstValue };
             }
             else if (baseMathPropertiesDto.IsConst && exponentMathPropertiesDto.IsVar)
             {
-                return new Power_OperatorDto_ConstBase_VarExponent { Base = baseMathPropertiesDto.ConstValue, ExponentOperatorDto = exponentOperatorDto };
+                return new Power_OperatorDto_ConstBase_VarExponent { Base = baseMathPropertiesDto.ConstValue, ExponentOperatorDto = dto.ExponentOperatorDto };
             }
             else if (baseMathPropertiesDto.IsVar && exponentMathPropertiesDto.IsVar)
             {
-                return new Power_OperatorDto_VarBase_VarExponent { BaseOperatorDto = baseOperatorDto, ExponentOperatorDto = exponentOperatorDto };
+                return new Power_OperatorDto_VarBase_VarExponent { BaseOperatorDto = dto.BaseOperatorDto, ExponentOperatorDto = dto.ExponentOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -1246,18 +1243,17 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_SawDown_OperatorDto(dto);
 
-            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
-            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
             OperatorDtoBase_WithDimension dto2;
 
             if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new SawDown_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new SawDown_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new SawDown_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new SawDown_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -1281,18 +1277,17 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_SawUp_OperatorDto(dto);
 
-            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
-            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
             OperatorDtoBase_WithDimension dto2;
 
             if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new SawUp_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new SawUp_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new SawUp_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new SawUp_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -1391,18 +1386,17 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Sine_OperatorDto(dto);
 
-            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
-            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
             OperatorDtoBase_WithDimension dto2;
 
             if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new Sine_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Sine_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new Sine_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Sine_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -1451,18 +1445,17 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Square_OperatorDto(dto);
 
-            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
-            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
             OperatorDtoBase_WithDimension dto2;
 
             if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -1764,18 +1757,17 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Triangle_OperatorDto(dto);
 
-            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
-            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto);
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
             OperatorDtoBase_WithDimension dto2;
 
             if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new Triangle_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Triangle_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new Triangle_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
+                dto2 = new Triangle_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             }
             else if (frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
