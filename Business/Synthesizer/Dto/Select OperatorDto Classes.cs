@@ -3,10 +3,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Select_OperatorDto : Select_OperatorDto_VarPosition
+    internal class Select_OperatorDto : Select_OperatorDto_VarSignal_VarPosition
     { }
 
-    internal class Select_OperatorDto_VarPosition : OperatorDtoBase_WithDimension
+    internal class Select_OperatorDto_VarSignal_VarPosition : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Select);
 
@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Select_OperatorDto_ConstPosition : OperatorDtoBase_WithDimension
+    internal class Select_OperatorDto_VarSignal_ConstPosition : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Select);
 
@@ -32,5 +32,29 @@ namespace JJ.Business.Synthesizer.Dto
             get { return new OperatorDtoBase[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }
         }
+    }
+
+    internal class Select_OperatorDto_ConstSignal_VarPosition : OperatorDtoBase_WithDimension
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Select);
+
+        public double Signal { get; set; }
+        public OperatorDtoBase PositionOperatorDto { get; set; }
+
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { PositionOperatorDto }; }
+            set { PositionOperatorDto = value[0]; }
+        }
+    }
+
+    internal class Select_OperatorDto_ConstSignal_ConstPosition : OperatorDtoBase_WithDimension
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Select);
+
+        public double Signal { get; set; }
+        public double Position { get; set; }
+
+        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
     }
 }

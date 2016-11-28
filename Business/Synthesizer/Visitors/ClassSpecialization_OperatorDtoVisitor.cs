@@ -1319,7 +1319,37 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Select_OperatorDto(Select_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Select_OperatorDto(dto);
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto positionMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.PositionOperatorDto);
+
+            OperatorDtoBase_WithDimension dto2;
+
+            if (signalMathPropertiesDto.IsConst && positionMathPropertiesDto.IsConst)
+            {
+                dto2 = new Select_OperatorDto_ConstSignal_ConstPosition { Signal = signalMathPropertiesDto.ConstValue, Position = positionMathPropertiesDto.ConstValue };
+            }
+            else if (signalMathPropertiesDto.IsVar && positionMathPropertiesDto.IsConst)
+            {
+                dto2 = new Select_OperatorDto_VarSignal_ConstPosition { SignalOperatorDto = dto.SignalOperatorDto, Position = positionMathPropertiesDto.ConstValue };
+            }
+            else if (signalMathPropertiesDto.IsConst && positionMathPropertiesDto.IsVar)
+            {
+                dto2 = new Select_OperatorDto_ConstSignal_VarPosition { Signal = signalMathPropertiesDto.ConstValue, PositionOperatorDto = dto.PositionOperatorDto };
+            }
+            else if (signalMathPropertiesDto.IsVar && positionMathPropertiesDto.IsVar)
+            {
+                dto2 = new Select_OperatorDto_VarSignal_VarPosition { SignalOperatorDto = dto.SignalOperatorDto, PositionOperatorDto = dto.PositionOperatorDto };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            }
+
+            Clone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)

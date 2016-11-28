@@ -305,8 +305,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Scaler_OperatorDto_AllVars), x => Visit_Scaler_OperatorDto_AllVars((Scaler_OperatorDto_AllVars)x ) },
                 { typeof(Scaler_OperatorDto_ManyConsts), x => Visit_Scaler_OperatorDto_ManyConsts((Scaler_OperatorDto_ManyConsts)x ) },
                 { typeof(Select_OperatorDto), x => Visit_Select_OperatorDto((Select_OperatorDto)x ) },
-                { typeof(Select_OperatorDto_VarPosition), x => Visit_Select_OperatorDto_VarPosition((Select_OperatorDto_VarPosition)x ) },
-                { typeof(Select_OperatorDto_ConstPosition), x => Visit_Select_OperatorDto_ConstPosition((Select_OperatorDto_ConstPosition)x ) },
+                { typeof(Select_OperatorDto_VarSignal_VarPosition), x => Visit_Select_OperatorDto_VarPosition((Select_OperatorDto_VarSignal_VarPosition)x ) },
+                { typeof(Select_OperatorDto_VarSignal_ConstPosition), x => Visit_Select_OperatorDto_ConstPosition((Select_OperatorDto_VarSignal_ConstPosition)x ) },
                 { typeof(SetDimension_OperatorDto), x => Visit_SetDimension_OperatorDto((SetDimension_OperatorDto)x ) },
                 { typeof(SetDimension_OperatorDto_VarValue), x => Visit_SetDimension_OperatorDto_VarValue((SetDimension_OperatorDto_VarValue)x ) },
                 { typeof(SetDimension_OperatorDto_ConstValue), x => Visit_SetDimension_OperatorDto_ConstValue((SetDimension_OperatorDto_ConstValue)x ) },
@@ -697,8 +697,8 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Scaler_OperatorDto_AllVars(Scaler_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Scaler_OperatorDto_ManyConsts(Scaler_OperatorDto_ManyConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Select_OperatorDto(Select_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Select_OperatorDto_VarPosition(Select_OperatorDto_VarPosition dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Select_OperatorDto_ConstPosition(Select_OperatorDto_ConstPosition dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Select_OperatorDto_VarPosition(Select_OperatorDto_VarSignal_VarPosition dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Select_OperatorDto_ConstPosition(Select_OperatorDto_VarSignal_ConstPosition dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_SetDimension_OperatorDto_VarValue(SetDimension_OperatorDto_VarValue dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_SetDimension_OperatorDto_ConstValue(SetDimension_OperatorDto_ConstValue dto) => Visit_OperatorDto_Base(dto);
