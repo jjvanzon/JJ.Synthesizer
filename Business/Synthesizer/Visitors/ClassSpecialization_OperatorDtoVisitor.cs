@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return dto.SignalOperatorDto;
+                return new AllPassFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
@@ -164,7 +164,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return dto.SignalOperatorDto;
+                return new BandPassFilterConstantPeakGain_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
@@ -186,7 +186,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return dto.SignalOperatorDto;
+                return new BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
@@ -506,7 +506,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return dto.SignalOperatorDto;
+                return new HighPassFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (minFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
@@ -529,7 +529,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return dto.SignalOperatorDto;
+                return new HighShelfFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (transitionFrequencyMathPropertiesDto.IsConst && transitionSlopeMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
             {
@@ -790,7 +790,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return dto.SignalOperatorDto;
+                return new LowPassFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (maxFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
@@ -813,7 +813,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return dto.SignalOperatorDto;
+                return new LowShelfFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (transitionFrequencyMathPropertiesDto.IsConst && transitionSlopeMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
             {
@@ -1055,7 +1055,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return dto.SignalOperatorDto;
+                return new NotchFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
@@ -1152,7 +1152,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return dto.SignalOperatorDto;
+                return new PeakingEQFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
             {

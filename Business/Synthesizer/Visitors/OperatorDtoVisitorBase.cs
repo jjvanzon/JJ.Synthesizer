@@ -10,6 +10,42 @@ namespace JJ.Business.Synthesizer.Visitors
     {
         private readonly Dictionary<Type, Func<OperatorDtoBase, OperatorDtoBase>> _delegateDictionary;
 
+        [DebuggerHidden]
+        protected virtual OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        {
+            Type type = dto.GetType();
+
+            Func<OperatorDtoBase, OperatorDtoBase> func;
+            if (!_delegateDictionary.TryGetValue(type, out func))
+            {
+                throw new Exception($"No Visit method delegate found in the dictionary for {type.Name}.");
+            }
+
+            OperatorDtoBase dto2 = func(dto);
+
+            return dto2;
+        }
+
+        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected virtual OperatorDtoBase Visit_OperatorDto_Base(OperatorDtoBase dto)
+        {
+            dto.InputOperatorDtos = VisitInputOperatorDtos(dto.InputOperatorDtos);
+
+            return dto;
+        }
+
+        [DebuggerHidden]
+        protected virtual IList<OperatorDtoBase> VisitInputOperatorDtos(IList<OperatorDtoBase> operatorDtos)
+        {
+            for (int i = operatorDtos.Count - 1; i >= 0; i--)
+            {
+                OperatorDtoBase operatorDto = operatorDtos[i];
+                operatorDtos[i] = Visit_OperatorDto_Polymorphic(operatorDto);
+            }
+
+            return operatorDtos;
+        }
+
         public OperatorDtoVisitorBase()
         {
             _delegateDictionary = new Dictionary<Type, Func<OperatorDtoBase, OperatorDtoBase>>
@@ -370,42 +406,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Triangle_OperatorDto_VarFrequency_WithPhaseTracking), x => Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking((Triangle_OperatorDto_VarFrequency_WithPhaseTracking)x ) },
                 { typeof(Unbundle_OperatorDto), x => Visit_Unbundle_OperatorDto((Unbundle_OperatorDto)x ) },
             };
-        }
-
-        [DebuggerHidden]
-        protected virtual OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
-        {
-            Type type = dto.GetType();
-
-            Func<OperatorDtoBase, OperatorDtoBase> func;
-            if (!_delegateDictionary.TryGetValue(type, out func))
-            {
-                throw new Exception($"No Visit method delegate found in the dictionary for {type.Name}.");
-            }
-
-            OperatorDtoBase dto2 = func(dto);
-
-            return dto2;
-        }
-
-        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected virtual OperatorDtoBase Visit_OperatorDto_Base(OperatorDtoBase dto)
-        {
-            dto.InputOperatorDtos = VisitInputOperatorDtos(dto.InputOperatorDtos);
-
-            return dto;
-        }
-
-        [DebuggerHidden]
-        protected virtual IList<OperatorDtoBase> VisitInputOperatorDtos(IList<OperatorDtoBase> operatorDtos)
-        {
-            for (int i = 0; i < operatorDtos.Count; i++)
-            {
-                OperatorDtoBase operatorDto = operatorDtos[i];
-                operatorDtos[i] = Visit_OperatorDto_Polymorphic(operatorDto);
-            }
-
-            return operatorDtos;
         }
 
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Absolute_OperatorDto(Absolute_OperatorDto dto) => Visit_OperatorDto_Base(dto);

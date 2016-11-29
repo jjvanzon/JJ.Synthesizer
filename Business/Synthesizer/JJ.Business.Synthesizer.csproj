@@ -241,6 +241,7 @@
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth.cs" />
     <Compile Include="Dto\OperatorDtoBase_Consts.cs" />
     <Compile Include="Dto\2016-11-19 Backup of OperatorDtoBase_NoVars_NoConsts.cs" />
+    <Compile Include="Dto\OperatorDtoBase_Filter_ConstSignal.cs" />
     <Compile Include="Dto\OperatorDtoBase_ShelfFilter.cs" />
     <Compile Include="Dto\OperatorDtoBase_ConstX.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarSignal.cs" />

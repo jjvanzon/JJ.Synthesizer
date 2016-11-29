@@ -6,6 +6,11 @@ namespace JJ.Business.Synthesizer.Dto
     internal class AllPassFilter_OperatorDto : AllPassFilter_OperatorDto_AllVars
     { }
 
+    internal class AllPassFilter_OperatorDto_ConstSignal : OperatorDtoBase_Filter_ConstSignal
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.AllPassFilter);
+    }
+
     internal class AllPassFilter_OperatorDto_AllVars : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.AllPassFilter);

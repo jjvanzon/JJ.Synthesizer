@@ -6,6 +6,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.BandPassFilterConstantPeakGain);
     }
+    
+    internal class BandPassFilterConstantPeakGain_OperatorDto_ConstSignal : OperatorDtoBase_Filter_ConstSignal
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.BandPassFilterConstantPeakGain);
+    }
 
     internal class BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth : OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth
     {

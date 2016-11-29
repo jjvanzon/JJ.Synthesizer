@@ -6,6 +6,11 @@ namespace JJ.Business.Synthesizer.Dto
     internal class PeakingEQFilter_OperatorDto : PeakingEQFilter_OperatorDto_AllVars
     { }
 
+    internal class PeakingEQFilter_OperatorDto_ConstSignal : OperatorDtoBase_Filter_ConstSignal
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.PeakingEQFilter);
+    }
+
     internal class PeakingEQFilter_OperatorDto_AllVars : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.PeakingEQFilter);
