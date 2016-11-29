@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
-        public Curve Curve { get; set; }
+        public int? CurveID { get; set; }
         public double MinX { get; set; }
     }
 

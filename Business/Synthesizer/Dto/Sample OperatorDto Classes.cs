@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Dto
     {
         InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         int ChannelCount { get; set; }
-        Sample Sample { get; set; }
+        int? SampleID { get; set; }
     }
 
     internal abstract class Sample_OperatorDto_VarFrequency : OperatorDtoBase_VarFrequency, ISample_OperatorDto
@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public int ChannelCount { get; set; }
-        public Sample Sample { get; set; }
+        public int? SampleID { get; set; }
     }
 
     internal abstract class Sample_OperatorDto_ConstFrequency : OperatorDtoBase_ConstFrequency, ISample_OperatorDto
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public int ChannelCount { get; set; }
-        public Sample Sample { get; set; }
+        public int? SampleID { get; set; }
     }
 
     internal class Sample_OperatorDto : Sample_OperatorDto_VarFrequency

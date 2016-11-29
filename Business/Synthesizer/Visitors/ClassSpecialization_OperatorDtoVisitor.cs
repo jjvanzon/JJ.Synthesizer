@@ -276,35 +276,34 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Curve_OperatorDto(dto);
 
-            if (dto.Curve == null)
+            if (dto.CurveID == null)
             {
                 return new Number_OperatorDto_Zero();
             }
 
+            bool hasMinX = dto.MinX != 0.0;
+
             Curve_OperatorDto dto2;
 
-            if (dto.MinX == 0.0)
+            if (!hasMinX && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                if (dto.StandardDimensionEnum == DimensionEnum.Time)
-                {
-                    dto2 = new Curve_OperatorDto_MinXZero_WithOriginShifting();
-
-                }
-                else
-                {
-                    dto2 = new Curve_OperatorDto_MinXZero_NoOriginShifting();
-                }
+                dto2 = new Curve_OperatorDto_MinXZero_WithOriginShifting();
+            }
+            else if (!hasMinX && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Curve_OperatorDto_MinXZero_NoOriginShifting();
+            }
+            else if (hasMinX && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Curve_OperatorDto_MinX_WithOriginShifting();
+            }
+            else if (hasMinX && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Curve_OperatorDto_MinX_NoOriginShifting();
             }
             else
             {
-                if (dto.StandardDimensionEnum == DimensionEnum.Time)
-                {
-                    dto2 = new Curve_OperatorDto_MinX_WithOriginShifting();
-                }
-                else
-                {
-                    dto2 = new Curve_OperatorDto_MinX_NoOriginShifting();
-                }
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
             Clone_CurveProperties(dto, dto2);
@@ -1050,7 +1049,6 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_NotchFilter_OperatorDto(dto);
 
-
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
@@ -1106,9 +1104,13 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new OneOverX_OperatorDto_ConstX { X = xMathPropertiesDto.ConstValue };
             }
-            else
+            else if (xMathPropertiesDto.IsVar)
             {
                 return new OneOverX_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
         }
 
@@ -2146,7 +2148,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private void Clone_CurveProperties(Curve_OperatorDto source, Curve_OperatorDto dest)
         {
-            dest.Curve = source.Curve;
+            dest.CurveID = source.CurveID;
             dest.MinX = source.MinX;
 
             Clone_DimensionProperties(source, dest);
@@ -2176,7 +2178,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private void Clone_SampleOperatorProperties(ISample_OperatorDto dto, ISample_OperatorDto dto2)
         {
-            dto2.Sample = dto.Sample;
+            dto2.SampleID = dto.SampleID;
             dto2.ChannelCount = dto.ChannelCount;
             dto2.InterpolationTypeEnum = dto.InterpolationTypeEnum;
         }

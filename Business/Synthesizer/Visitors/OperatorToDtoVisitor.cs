@@ -188,18 +188,18 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
 
-            Curve curve = wrapper.Curve;
-            
-            double minX = curve.Nodes
-                               .OrderBy(x => x.X)
-                               .First()
-                               .X;
+            var dto = new Curve_OperatorDto();
 
-            var dto = new Curve_OperatorDto
+            Curve curve = wrapper.Curve;
+
+            if (curve != null)
             {
-                Curve = curve,
-                MinX = minX
-            };
+                dto.CurveID = curve.ID;
+                dto.MinX = curve.Nodes
+                                .OrderBy(x => x.X)
+                                .First()
+                                .X;
+            }
 
             SetDimensionProperties(op, dto);
 
@@ -214,8 +214,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new CustomOperator_OperatorDto
             {
-                UnderlyingPatch = wrapper.UnderlyingPatch
-            };
+                UnderlyingPatchID = wrapper.UnderlyingPatchID
+            };  
 
             int count = op.Inlets.Count;
             var inputOperatorDtos = new OperatorDtoBase[count];
@@ -224,6 +224,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 inputOperatorDtos[i] = _stack.Pop();
             }
             dto.InputOperatorDtos = inputOperatorDtos;
+
 
             _stack.Push(dto);
         }
@@ -727,9 +728,12 @@ namespace JJ.Business.Synthesizer.Visitors
             var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
             Sample sample = wrapper.Sample;
 
-            dto.Sample = sample;
-            dto.InterpolationTypeEnum = sample.GetInterpolationTypeEnum();
-            dto.ChannelCount = sample.GetChannelCount();
+            if (sample != null)
+            {
+                dto.SampleID = sample.ID;
+                dto.InterpolationTypeEnum = sample.GetInterpolationTypeEnum();
+                dto.ChannelCount = sample.GetChannelCount();
+            }
         }
 
         protected override void VisitSawDown(Operator op)
