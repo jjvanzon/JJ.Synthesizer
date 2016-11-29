@@ -1480,7 +1480,38 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Scaler_OperatorDto(Scaler_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Scaler_OperatorDto(dto);
+
+            MathPropertiesDto sourceValueAMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SourceValueAOperatorDto);
+            MathPropertiesDto sourceValueBMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SourceValueBOperatorDto);
+            MathPropertiesDto targetValueAMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TargetValueAOperatorDto);
+            MathPropertiesDto targetValueBMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TargetValueBOperatorDto);
+
+            if (sourceValueAMathPropertiesDto.IsConst &&
+                sourceValueBMathPropertiesDto.IsConst &&
+                targetValueAMathPropertiesDto.IsConst &&
+                targetValueBMathPropertiesDto.IsConst)
+            {
+                return new Scaler_OperatorDto_ManyConsts
+                {
+                    SignalOperatorDto = dto.SignalOperatorDto,
+                    SourceValueA = sourceValueAMathPropertiesDto.ConstValue,
+                    SourceValueB = sourceValueBMathPropertiesDto.ConstValue,
+                    TargetValueA = targetValueAMathPropertiesDto.ConstValue,
+                    TargetValueB = targetValueBMathPropertiesDto.ConstValue
+                };
+            }
+            else
+            {
+                return new Scaler_OperatorDto_AllVars
+                {
+                    SignalOperatorDto = dto.SignalOperatorDto,
+                    SourceValueAOperatorDto = dto.SourceValueAOperatorDto,
+                    SourceValueBOperatorDto = dto.SourceValueBOperatorDto,
+                    TargetValueAOperatorDto = dto.TargetValueAOperatorDto,
+                    TargetValueBOperatorDto = dto.TargetValueBOperatorDto
+                };
+            }
         }
 
         protected override OperatorDtoBase Visit_Select_OperatorDto(Select_OperatorDto dto)
