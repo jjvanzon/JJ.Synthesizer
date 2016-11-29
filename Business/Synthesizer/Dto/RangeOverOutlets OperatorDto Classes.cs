@@ -25,14 +25,14 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
 
-        public double From { get; set; }
-        public OperatorDtoBase StepOperatorDto { get; set; }
+        public OperatorDtoBase FromOperatorDto { get; set; }
+        public double Step { get; set; }
         public int OutletIndex { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { StepOperatorDto }; }
-            set { StepOperatorDto = value[0]; }
+            get { return new OperatorDtoBase[] { FromOperatorDto }; }
+            set { FromOperatorDto = value[0]; }
         }
     }
 

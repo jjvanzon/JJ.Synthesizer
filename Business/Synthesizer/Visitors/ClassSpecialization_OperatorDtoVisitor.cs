@@ -1248,7 +1248,31 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto(RangeOverOutlets_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_RangeOverOutlets_OperatorDto(dto);
+
+            MathPropertiesDto fromMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FromOperatorDto);
+            MathPropertiesDto stepMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.StepOperatorDto);
+
+            if (fromMathPropertiesDto.IsConst && stepMathPropertiesDto.IsConst)
+            {
+                return new RangeOverOutlets_OperatorDto_ConstFrom_ConstStep { From = fromMathPropertiesDto.ConstValue, Step = stepMathPropertiesDto.ConstValue };
+            }
+            else if (fromMathPropertiesDto.IsVar && stepMathPropertiesDto.IsConst)
+            {
+                return new RangeOverOutlets_OperatorDto_VarFrom_ConstStep { FromOperatorDto = dto.FromOperatorDto, Step = stepMathPropertiesDto.ConstValue };
+            }
+            else if (fromMathPropertiesDto.IsConst && stepMathPropertiesDto.IsVar)
+            {
+                return new RangeOverOutlets_OperatorDto_ConstFrom_VarStep { From = fromMathPropertiesDto.ConstValue, StepOperatorDto = dto.StepOperatorDto };
+            }
+            else if (fromMathPropertiesDto.IsVar && stepMathPropertiesDto.IsVar)
+            {
+                return new RangeOverOutlets_OperatorDto_VarFrom_VarStep { FromOperatorDto = dto.FromOperatorDto, StepOperatorDto = dto.StepOperatorDto };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            }
         }
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto(Reverse_OperatorDto dto)
