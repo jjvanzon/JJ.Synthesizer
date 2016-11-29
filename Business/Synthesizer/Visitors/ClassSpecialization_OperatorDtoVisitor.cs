@@ -40,9 +40,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Absolute_OperatorDto(dto);
 
-            OperatorDtoBase xOperatorDto = dto.XOperatorDto;
-
-            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(xOperatorDto);
+            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.XOperatorDto);
 
             if (xMathPropertiesDto.IsConst)
             {
@@ -50,7 +48,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                return new Absolute_OperatorDto_VarX { XOperatorDto = xOperatorDto };
+                return new Absolute_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
             }
         }
 
@@ -84,25 +82,21 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_AllPassFilter_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase centerFrequencyOperatorDto = dto.CenterFrequencyOperatorDto;
-            OperatorDtoBase bandWidthOperatorDto = dto.BandWidthOperatorDto;
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(centerFrequencyOperatorDto);
-            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bandWidthOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
+            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return signalOperatorDto;
+                return dto.SignalOperatorDto;
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new AllPassFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                return new AllPassFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new AllPassFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, CenterFrequencyOperatorDto = centerFrequencyOperatorDto, BandWidthOperatorDto = bandWidthOperatorDto };
+                return new AllPassFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
         }
 
@@ -110,11 +104,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_And_OperatorDto(dto);
 
-            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
-            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
-
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.AOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BOperatorDto);
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
@@ -122,15 +113,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new And_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.ConstValue };
+                return new And_OperatorDto_VarA_ConstB { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
             else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new And_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = bOperatorDto };
+                return new And_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto };
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
-                return new And_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+                return new And_OperatorDto_VarA_VarB { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -167,25 +158,21 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_BandPassFilterConstantPeakGain_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase centerFrequencyOperatorDto = dto.CenterFrequencyOperatorDto;
-            OperatorDtoBase bandWidthOperatorDto = dto.BandWidthOperatorDto;
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(centerFrequencyOperatorDto);
-            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bandWidthOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
+            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return signalOperatorDto;
+                return dto.SignalOperatorDto;
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth { SignalOperatorDto = signalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                return new BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth { SignalOperatorDto = signalOperatorDto, CenterFrequencyOperatorDto = centerFrequencyOperatorDto, BandWidthOperatorDto = bandWidthOperatorDto };
+                return new BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
         }
 
@@ -193,25 +180,21 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_BandPassFilterConstantTransitionGain_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase centerFrequencyOperatorDto = dto.CenterFrequencyOperatorDto;
-            OperatorDtoBase bandWidthOperatorDto = dto.BandWidthOperatorDto;
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(centerFrequencyOperatorDto);
-            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bandWidthOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
+            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return signalOperatorDto;
+                return dto.SignalOperatorDto;
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth { SignalOperatorDto = signalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                return new BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth { SignalOperatorDto = signalOperatorDto, CenterFrequencyOperatorDto = centerFrequencyOperatorDto, BandWidthOperatorDto = bandWidthOperatorDto };
+                return new BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
         }
 
@@ -333,53 +316,49 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Divide_OperatorDto(dto);
 
-            OperatorDtoBase numeratorOperatorDto = dto.NumeratorOperatorDto;
-            OperatorDtoBase denominatorOperatorDto = dto.DenominatorOperatorDto;
-            OperatorDtoBase originOperatorDto = dto.OriginOperatorDto;
-
-            MathPropertiesDto numeratorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(numeratorOperatorDto);
-            MathPropertiesDto denominatorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(denominatorOperatorDto);
-            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(originOperatorDto);
+            MathPropertiesDto numeratorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.NumeratorOperatorDto);
+            MathPropertiesDto denominatorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DenominatorOperatorDto);
+            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
             if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
             {
-                return new Divide_OperatorDto_VarNumerator_VarDenominator_VarOrigin { NumeratorOperatorDto = numeratorOperatorDto, DenominatorOperatorDto = denominatorOperatorDto, OriginOperatorDto = originOperatorDto };
+                return new Divide_OperatorDto_VarNumerator_VarDenominator_VarOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, DenominatorOperatorDto = dto.DenominatorOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
             }
             else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
             {
-                return new Divide_OperatorDto_VarNumerator_VarDenominator_ZeroOrigin { NumeratorOperatorDto = numeratorOperatorDto, DenominatorOperatorDto = denominatorOperatorDto };
+                return new Divide_OperatorDto_VarNumerator_VarDenominator_ZeroOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, DenominatorOperatorDto = dto.DenominatorOperatorDto };
             }
             else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
             {
-                return new Divide_OperatorDto_VarNumerator_VarDenominator_ConstOrigin { NumeratorOperatorDto = numeratorOperatorDto, DenominatorOperatorDto = denominatorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                return new Divide_OperatorDto_VarNumerator_VarDenominator_ConstOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, DenominatorOperatorDto = dto.DenominatorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
             }
             else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
             {
-                return new Divide_OperatorDto_VarNumerator_ConstDenominator_VarOrigin { NumeratorOperatorDto = numeratorOperatorDto, Denominator = denominatorMathPropertiesDto.ConstValue, OriginOperatorDto = originOperatorDto };
+                return new Divide_OperatorDto_VarNumerator_ConstDenominator_VarOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, Denominator = denominatorMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
             }
             else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
             {
-                return new Divide_OperatorDto_VarNumerator_ConstDenominator_ZeroOrigin { NumeratorOperatorDto = numeratorOperatorDto, Denominator = denominatorMathPropertiesDto.ConstValue };
+                return new Divide_OperatorDto_VarNumerator_ConstDenominator_ZeroOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, Denominator = denominatorMathPropertiesDto.ConstValue };
             }
             else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
             {
-                return new Divide_OperatorDto_VarNumerator_ConstDenominator_ConstOrigin { NumeratorOperatorDto = numeratorOperatorDto, Denominator = denominatorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
+                return new Divide_OperatorDto_VarNumerator_ConstDenominator_ConstOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, Denominator = denominatorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
             }
             else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
             {
-                return new Divide_OperatorDto_ConstNumerator_VarDenominator_VarOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, DenominatorOperatorDto = denominatorOperatorDto, OriginOperatorDto = originOperatorDto };
+                return new Divide_OperatorDto_ConstNumerator_VarDenominator_VarOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, DenominatorOperatorDto = dto.DenominatorOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
             }
             else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
             {
-                return new Divide_OperatorDto_ConstNumerator_VarDenominator_ZeroOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, DenominatorOperatorDto = denominatorOperatorDto };
+                return new Divide_OperatorDto_ConstNumerator_VarDenominator_ZeroOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, DenominatorOperatorDto = dto.DenominatorOperatorDto };
             }
             else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
             {
-                return new Divide_OperatorDto_ConstNumerator_VarDenominator_ConstOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, DenominatorOperatorDto = denominatorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                return new Divide_OperatorDto_ConstNumerator_VarDenominator_ConstOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, DenominatorOperatorDto = dto.DenominatorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
             }
             else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
             {
-                return new Divide_OperatorDto_ConstNumerator_ConstDenominator_VarOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, Denominator = denominatorMathPropertiesDto.ConstValue, OriginOperatorDto = originOperatorDto };
+                return new Divide_OperatorDto_ConstNumerator_ConstDenominator_VarOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, Denominator = denominatorMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
             }
             else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
             {
@@ -397,11 +376,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Equal_OperatorDto(dto);
 
-            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
-            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
-
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.AOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BOperatorDto);
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
@@ -409,15 +385,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new Equal_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.ConstValue };
+                return new Equal_OperatorDto_VarA_ConstB { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
             else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new Equal_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = bOperatorDto };
+                return new Equal_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto };
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
-                return new Equal_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+                return new Equal_OperatorDto_VarA_VarB { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -427,41 +403,37 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Exponent_OperatorDto(dto);
 
-            OperatorDtoBase lowOperatorDto = dto.LowOperatorDto;
-            OperatorDtoBase highOperatorDto = dto.HighOperatorDto;
-            OperatorDtoBase ratioOperatorDto = dto.RatioOperatorDto;
-
-            MathPropertiesDto lowMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(lowOperatorDto);
-            MathPropertiesDto highMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(highOperatorDto);
-            MathPropertiesDto ratioMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(ratioOperatorDto);
+            MathPropertiesDto lowMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.LowOperatorDto);
+            MathPropertiesDto highMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.HighOperatorDto);
+            MathPropertiesDto ratioMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.RatioOperatorDto);
 
             if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsVar)
             {
-                return new Exponent_OperatorDto_VarLow_VarHigh_VarRatio { LowOperatorDto = lowOperatorDto, HighOperatorDto = highOperatorDto, RatioOperatorDto = ratioOperatorDto };
+                return new Exponent_OperatorDto_VarLow_VarHigh_VarRatio { LowOperatorDto = dto.LowOperatorDto, HighOperatorDto = dto.HighOperatorDto, RatioOperatorDto = dto.RatioOperatorDto };
             }
             else if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsConst)
             {
-                return new Exponent_OperatorDto_VarLow_VarHigh_ConstRatio { LowOperatorDto = lowOperatorDto, HighOperatorDto = highOperatorDto, Ratio = ratioMathPropertiesDto.ConstValue };
+                return new Exponent_OperatorDto_VarLow_VarHigh_ConstRatio { LowOperatorDto = dto.LowOperatorDto, HighOperatorDto = dto.HighOperatorDto, Ratio = ratioMathPropertiesDto.ConstValue };
             }
             else if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsVar)
             {
-                return new Exponent_OperatorDto_VarLow_ConstHigh_VarRatio { LowOperatorDto = lowOperatorDto, High = highMathPropertiesDto.ConstValue, RatioOperatorDto = ratioOperatorDto };
+                return new Exponent_OperatorDto_VarLow_ConstHigh_VarRatio { LowOperatorDto = dto.LowOperatorDto, High = highMathPropertiesDto.ConstValue, RatioOperatorDto = dto.RatioOperatorDto };
             }
             else if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsConst)
             {
-                return new Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio { LowOperatorDto = lowOperatorDto, High = highMathPropertiesDto.ConstValue, Ratio = ratioMathPropertiesDto.ConstValue };
+                return new Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio { LowOperatorDto = dto.LowOperatorDto, High = highMathPropertiesDto.ConstValue, Ratio = ratioMathPropertiesDto.ConstValue };
             }
             else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsVar)
             {
-                return new Exponent_OperatorDto_ConstLow_VarHigh_VarRatio { Low = lowMathPropertiesDto.ConstValue, HighOperatorDto = highOperatorDto, RatioOperatorDto = ratioOperatorDto };
+                return new Exponent_OperatorDto_ConstLow_VarHigh_VarRatio { Low = lowMathPropertiesDto.ConstValue, HighOperatorDto = dto.HighOperatorDto, RatioOperatorDto = dto.RatioOperatorDto };
             }
             else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsConst)
             {
-                return new Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio { Low = lowMathPropertiesDto.ConstValue, HighOperatorDto = highOperatorDto, Ratio = ratioMathPropertiesDto.ConstValue };
+                return new Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio { Low = lowMathPropertiesDto.ConstValue, HighOperatorDto = dto.HighOperatorDto, Ratio = ratioMathPropertiesDto.ConstValue };
             }
             else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsVar)
             {
-                return new Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio { Low = lowMathPropertiesDto.ConstValue, High = highMathPropertiesDto.ConstValue, RatioOperatorDto = ratioOperatorDto };
+                return new Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio { Low = lowMathPropertiesDto.ConstValue, High = highMathPropertiesDto.ConstValue, RatioOperatorDto = dto.RatioOperatorDto };
             }
             else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsConst)
             {
@@ -475,11 +447,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_GreaterThan_OperatorDto(dto);
 
-            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
-            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
-
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.AOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BOperatorDto);
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
@@ -487,15 +456,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new GreaterThan_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.ConstValue };
+                return new GreaterThan_OperatorDto_VarA_ConstB { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
             else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new GreaterThan_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = bOperatorDto };
+                return new GreaterThan_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto };
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
-                return new GreaterThan_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+                return new GreaterThan_OperatorDto_VarA_VarB { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -505,11 +474,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_GreaterThanOrEqual_OperatorDto(dto);
 
-            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
-            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
-
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.AOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BOperatorDto);
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
@@ -517,15 +483,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new GreaterThanOrEqual_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.ConstValue };
+                return new GreaterThanOrEqual_OperatorDto_VarA_ConstB { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
             else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new GreaterThanOrEqual_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = bOperatorDto };
+                return new GreaterThanOrEqual_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto };
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
-                return new GreaterThanOrEqual_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+                return new GreaterThanOrEqual_OperatorDto_VarA_VarB { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -535,25 +501,21 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_HighPassFilter_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase minFrequencyOperatorDto = dto.MinFrequencyOperatorDto;
-            OperatorDtoBase bandWidthOperatorDto = dto.BandWidthOperatorDto;
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto minFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(minFrequencyOperatorDto);
-            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bandWidthOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto minFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.MinFrequencyOperatorDto);
+            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return signalOperatorDto;
+                return dto.SignalOperatorDto;
             }
             else if (minFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new HighPassFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, MinFrequency = minFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                return new HighPassFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, MinFrequency = minFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new HighPassFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, MinFrequencyOperatorDto = minFrequencyOperatorDto, BandWidthOperatorDto = bandWidthOperatorDto };
+                return new HighPassFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, MinFrequencyOperatorDto = dto.MinFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
         }
 
@@ -561,27 +523,22 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_HighShelfFilter_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase transitionFrequencyOperatorDto = dto.TransitionFrequencyOperatorDto;
-            OperatorDtoBase transitionSlopeOperatorDto = dto.TransitionSlopeOperatorDto;
-            OperatorDtoBase dbGainOperatorDto = dto.DBGainOperatorDto;
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto transitionFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(transitionFrequencyOperatorDto);
-            MathPropertiesDto transitionSlopeMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(transitionSlopeOperatorDto);
-            MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dbGainOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto transitionFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TransitionFrequencyOperatorDto);
+            MathPropertiesDto transitionSlopeMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TransitionSlopeOperatorDto);
+            MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DBGainOperatorDto);
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return signalOperatorDto;
+                return dto.SignalOperatorDto;
             }
             else if (transitionFrequencyMathPropertiesDto.IsConst && transitionSlopeMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
             {
-                return new HighShelfFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, TransitionFrequency = transitionFrequencyMathPropertiesDto.ConstValue, TransitionSlope = transitionSlopeMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
+                return new HighShelfFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, TransitionFrequency = transitionFrequencyMathPropertiesDto.ConstValue, TransitionSlope = transitionSlopeMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new HighShelfFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, TransitionFrequencyOperatorDto = transitionFrequencyOperatorDto, TransitionSlopeOperatorDto = transitionSlopeOperatorDto, DBGainOperatorDto = dbGainOperatorDto };
+                return new HighShelfFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, TransitionFrequencyOperatorDto = dto.TransitionFrequencyOperatorDto, TransitionSlopeOperatorDto = dto.TransitionSlopeOperatorDto, DBGainOperatorDto = dto.DBGainOperatorDto };
             }
         }
 
@@ -589,41 +546,37 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_If_OperatorDto(dto);
 
-            OperatorDtoBase conditionOperatorDto = dto.ConditionOperatorDto;
-            OperatorDtoBase thenOperatorDto = dto.ThenOperatorDto;
-            OperatorDtoBase elseOperatorDto = dto.ElseOperatorDto;
-
-            MathPropertiesDto conditionMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(conditionOperatorDto);
-            MathPropertiesDto thenMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(thenOperatorDto);
-            MathPropertiesDto elseMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(elseOperatorDto);
+            MathPropertiesDto conditionMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.ConditionOperatorDto);
+            MathPropertiesDto thenMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.ThenOperatorDto);
+            MathPropertiesDto elseMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.ElseOperatorDto);
 
             if (conditionMathPropertiesDto.IsVar && thenMathPropertiesDto.IsVar && elseMathPropertiesDto.IsVar)
             {
-                return new If_OperatorDto_VarCondition_VarThen_VarElse { ConditionOperatorDto = conditionOperatorDto, ThenOperatorDto = thenOperatorDto, ElseOperatorDto = elseOperatorDto };
+                return new If_OperatorDto_VarCondition_VarThen_VarElse { ConditionOperatorDto = dto.ConditionOperatorDto, ThenOperatorDto = dto.ThenOperatorDto, ElseOperatorDto = dto.ElseOperatorDto };
             }
             else if (conditionMathPropertiesDto.IsVar && thenMathPropertiesDto.IsVar && elseMathPropertiesDto.IsConst)
             {
-                return new If_OperatorDto_VarCondition_VarThen_ConstElse { ConditionOperatorDto = conditionOperatorDto, ThenOperatorDto = thenOperatorDto, Else = elseMathPropertiesDto.ConstValue };
+                return new If_OperatorDto_VarCondition_VarThen_ConstElse { ConditionOperatorDto = dto.ConditionOperatorDto, ThenOperatorDto = dto.ThenOperatorDto, Else = elseMathPropertiesDto.ConstValue };
             }
             else if (conditionMathPropertiesDto.IsVar && thenMathPropertiesDto.IsConst && elseMathPropertiesDto.IsVar)
             {
-                return new If_OperatorDto_VarCondition_ConstThen_VarElse { ConditionOperatorDto = conditionOperatorDto, Then = thenMathPropertiesDto.ConstValue, ElseOperatorDto = elseOperatorDto };
+                return new If_OperatorDto_VarCondition_ConstThen_VarElse { ConditionOperatorDto = dto.ConditionOperatorDto, Then = thenMathPropertiesDto.ConstValue, ElseOperatorDto = dto.ElseOperatorDto };
             }
             else if (conditionMathPropertiesDto.IsVar && thenMathPropertiesDto.IsConst && elseMathPropertiesDto.IsConst)
             {
-                return new If_OperatorDto_VarCondition_ConstThen_ConstElse { ConditionOperatorDto = conditionOperatorDto, Then = thenMathPropertiesDto.ConstValue, Else = elseMathPropertiesDto.ConstValue };
+                return new If_OperatorDto_VarCondition_ConstThen_ConstElse { ConditionOperatorDto = dto.ConditionOperatorDto, Then = thenMathPropertiesDto.ConstValue, Else = elseMathPropertiesDto.ConstValue };
             }
             else if (conditionMathPropertiesDto.IsConst && thenMathPropertiesDto.IsVar && elseMathPropertiesDto.IsVar)
             {
-                return new If_OperatorDto_ConstCondition_VarThen_VarElse { Condition = conditionMathPropertiesDto.ConstValue, ThenOperatorDto = thenOperatorDto, ElseOperatorDto = elseOperatorDto };
+                return new If_OperatorDto_ConstCondition_VarThen_VarElse { Condition = conditionMathPropertiesDto.ConstValue, ThenOperatorDto = dto.ThenOperatorDto, ElseOperatorDto = dto.ElseOperatorDto };
             }
             else if (conditionMathPropertiesDto.IsConst && thenMathPropertiesDto.IsVar && elseMathPropertiesDto.IsConst)
             {
-                return new If_OperatorDto_ConstCondition_VarThen_ConstElse { Condition = conditionMathPropertiesDto.ConstValue, ThenOperatorDto = thenOperatorDto, Else = elseMathPropertiesDto.ConstValue };
+                return new If_OperatorDto_ConstCondition_VarThen_ConstElse { Condition = conditionMathPropertiesDto.ConstValue, ThenOperatorDto = dto.ThenOperatorDto, Else = elseMathPropertiesDto.ConstValue };
             }
             else if (conditionMathPropertiesDto.IsConst && thenMathPropertiesDto.IsConst && elseMathPropertiesDto.IsVar)
             {
-                return new If_OperatorDto_ConstCondition_ConstThen_VarElse { Condition = conditionMathPropertiesDto.ConstValue, Then = thenMathPropertiesDto.ConstValue, ElseOperatorDto = elseOperatorDto };
+                return new If_OperatorDto_ConstCondition_ConstThen_VarElse { Condition = conditionMathPropertiesDto.ConstValue, Then = thenMathPropertiesDto.ConstValue, ElseOperatorDto = dto.ElseOperatorDto };
             }
             else if (conditionMathPropertiesDto.IsConst && thenMathPropertiesDto.IsConst && elseMathPropertiesDto.IsConst)
             {
@@ -691,11 +644,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_LessThan_OperatorDto(dto);
 
-            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
-            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
-
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.AOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BOperatorDto);
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
@@ -703,15 +653,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new LessThan_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.ConstValue };
+                return new LessThan_OperatorDto_VarA_ConstB { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
             else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new LessThan_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = bOperatorDto };
+                return new LessThan_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto };
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
-                return new LessThan_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+                return new LessThan_OperatorDto_VarA_VarB { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -721,11 +671,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_LessThanOrEqual_OperatorDto(dto);
 
-            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
-            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
-
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.AOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BOperatorDto);
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
@@ -733,15 +680,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new LessThanOrEqual_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.ConstValue };
+                return new LessThanOrEqual_OperatorDto_VarA_ConstB { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
             else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new LessThanOrEqual_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = bOperatorDto };
+                return new LessThanOrEqual_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto };
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
-                return new LessThanOrEqual_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+                return new LessThanOrEqual_OperatorDto_VarA_VarB { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -838,25 +785,21 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_LowPassFilter_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase maxFrequencyOperatorDto = dto.MaxFrequencyOperatorDto;
-            OperatorDtoBase bandWidthOperatorDto = dto.BandWidthOperatorDto;
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto maxFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(maxFrequencyOperatorDto);
-            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bandWidthOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto maxFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.MaxFrequencyOperatorDto);
+            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return signalOperatorDto;
+                return dto.SignalOperatorDto;
             }
             else if (maxFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new LowPassFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, MaxFrequency = maxFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                return new LowPassFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, MaxFrequency = maxFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new LowPassFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, MaxFrequencyOperatorDto = maxFrequencyOperatorDto, BandWidthOperatorDto = bandWidthOperatorDto };
+                return new LowPassFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, MaxFrequencyOperatorDto = dto.MaxFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
         }
 
@@ -864,27 +807,22 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_LowShelfFilter_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase transitionFrequencyOperatorDto = dto.TransitionFrequencyOperatorDto;
-            OperatorDtoBase transitionSlopeOperatorDto = dto.TransitionSlopeOperatorDto;
-            OperatorDtoBase dbGainOperatorDto = dto.DBGainOperatorDto;
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto transitionFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(transitionFrequencyOperatorDto);
-            MathPropertiesDto transitionSlopeMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(transitionSlopeOperatorDto);
-            MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dbGainOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto transitionFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TransitionSlopeOperatorDto);
+            MathPropertiesDto transitionSlopeMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TransitionSlopeOperatorDto);
+            MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DBGainOperatorDto);
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return signalOperatorDto;
+                return dto.SignalOperatorDto;
             }
             else if (transitionFrequencyMathPropertiesDto.IsConst && transitionSlopeMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
             {
-                return new LowShelfFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, TransitionFrequency = transitionFrequencyMathPropertiesDto.ConstValue, TransitionSlope = transitionSlopeMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
+                return new LowShelfFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, TransitionFrequency = transitionFrequencyMathPropertiesDto.ConstValue, TransitionSlope = transitionSlopeMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new LowShelfFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, TransitionFrequencyOperatorDto = transitionFrequencyOperatorDto, TransitionSlopeOperatorDto = transitionSlopeOperatorDto, DBGainOperatorDto = dbGainOperatorDto };
+                return new LowShelfFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, TransitionFrequencyOperatorDto = dto.TransitionSlopeOperatorDto, TransitionSlopeOperatorDto = dto.TransitionSlopeOperatorDto, DBGainOperatorDto = dto.DBGainOperatorDto };
             }
         }
 
@@ -1020,61 +958,57 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MultiplyWithOrigin_OperatorDto(dto);
 
-            OperatorDtoBase numeratorOperatorDto = dto.AOperatorDto;
-            OperatorDtoBase denominatorOperatorDto = dto.BOperatorDto;
-            OperatorDtoBase originOperatorDto = dto.OriginOperatorDto;
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.AOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BOperatorDto);
+            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
-            MathPropertiesDto numeratorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(numeratorOperatorDto);
-            MathPropertiesDto denominatorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(denominatorOperatorDto);
-            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(originOperatorDto);
-
-            if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
+            if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
             {
-                return new MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin { AOperatorDto = numeratorOperatorDto, BOperatorDto = denominatorOperatorDto, OriginOperatorDto = originOperatorDto };
+                return new MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
             {
-                return new MultiplyWithOrigin_OperatorDto_VarA_VarB_ZeroOrigin { AOperatorDto = numeratorOperatorDto, BOperatorDto = denominatorOperatorDto };
+                return new MultiplyWithOrigin_OperatorDto_VarA_VarB_ZeroOrigin { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
             {
-                return new MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin { AOperatorDto = numeratorOperatorDto, BOperatorDto = denominatorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                return new MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto, Origin = originMathPropertiesDto.ConstValue };
             }
-            else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
             {
-                return new MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin { AOperatorDto = numeratorOperatorDto, B = denominatorMathPropertiesDto.ConstValue, OriginOperatorDto = originOperatorDto };
+                return new MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
             {
-                return new MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin { AOperatorDto = numeratorOperatorDto, B = denominatorMathPropertiesDto.ConstValue };
+                return new MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
-            else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
             {
-                return new MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin { AOperatorDto = numeratorOperatorDto, B = denominatorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
+                return new MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
             {
-                return new MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin { A = numeratorMathPropertiesDto.ConstValue, BOperatorDto = denominatorOperatorDto, OriginOperatorDto = originOperatorDto };
+                return new MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
             {
-                return new MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin { A = numeratorMathPropertiesDto.ConstValue, BOperatorDto = denominatorOperatorDto };
+                return new MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
             {
-                return new MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin { A = numeratorMathPropertiesDto.ConstValue, BOperatorDto = denominatorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                return new MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto, Origin = originMathPropertiesDto.ConstValue };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
             {
-                return new MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin { A = numeratorMathPropertiesDto.ConstValue, B = denominatorMathPropertiesDto.ConstValue, OriginOperatorDto = originOperatorDto };
+                return new MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin { A = aMathPropertiesDto.ConstValue, B = bMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
             {
-                return new MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin { A = numeratorMathPropertiesDto.ConstValue, B = denominatorMathPropertiesDto.ConstValue };
+                return new MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin { A = aMathPropertiesDto.ConstValue, B = bMathPropertiesDto.ConstValue };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
             {
-                return new MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin { A = numeratorMathPropertiesDto.ConstValue, B = denominatorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
+                return new MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin { A = aMathPropertiesDto.ConstValue, B = bMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -1084,9 +1018,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Negative_OperatorDto(dto);
 
-            OperatorDtoBase xOperatorDto = dto.XOperatorDto;
-
-            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(xOperatorDto);
+            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.XOperatorDto);
 
             if (xMathPropertiesDto.IsConst)
             {
@@ -1094,7 +1026,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                return new Negative_OperatorDto_VarX { XOperatorDto = xOperatorDto };
+                return new Negative_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
             }
         }
 
@@ -1102,9 +1034,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Not_OperatorDto(dto);
 
-            OperatorDtoBase xOperatorDto = dto.XOperatorDto;
-
-            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(xOperatorDto);
+            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.XOperatorDto);
 
             if (xMathPropertiesDto.IsConst)
             {
@@ -1112,7 +1042,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                return new Not_OperatorDto_VarX { XOperatorDto = xOperatorDto };
+                return new Not_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
             }
         }
 
@@ -1120,25 +1050,22 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_NotchFilter_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase centerFrequencyOperatorDto = dto.CenterFrequencyOperatorDto;
-            OperatorDtoBase bandWidthOperatorDto = dto.BandWidthOperatorDto;
 
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(centerFrequencyOperatorDto);
-            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bandWidthOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
+            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return signalOperatorDto;
+                return dto.SignalOperatorDto;
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new NotchFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                return new NotchFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new NotchFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, CenterFrequencyOperatorDto = centerFrequencyOperatorDto, BandWidthOperatorDto = bandWidthOperatorDto };
+                return new NotchFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
         }
 
@@ -1146,11 +1073,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_NotEqual_OperatorDto(dto);
 
-            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
-            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
-
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.AOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BOperatorDto);
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
@@ -1158,15 +1082,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new NotEqual_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.ConstValue };
+                return new NotEqual_OperatorDto_VarA_ConstB { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
             else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new NotEqual_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = bOperatorDto };
+                return new NotEqual_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto };
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
-                return new NotEqual_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+                return new NotEqual_OperatorDto_VarA_VarB { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -1176,9 +1100,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_OneOverX_OperatorDto(dto);
 
-            OperatorDtoBase xOperatorDto = dto.XOperatorDto;
-
-            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(xOperatorDto);
+            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.XOperatorDto);
 
             if (xMathPropertiesDto.IsConst)
             {
@@ -1186,7 +1108,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                return new OneOverX_OperatorDto_VarX { XOperatorDto = xOperatorDto };
+                return new OneOverX_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
             }
         }
 
@@ -1194,11 +1116,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Or_OperatorDto(dto);
 
-            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
-            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
-
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.AOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BOperatorDto);
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
@@ -1206,15 +1125,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new Or_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.ConstValue };
+                return new Or_OperatorDto_VarA_ConstB { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
             else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new Or_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = bOperatorDto };
+                return new Or_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto };
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
-                return new Or_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+                return new Or_OperatorDto_VarA_VarB { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -1224,27 +1143,22 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_PeakingEQFilter_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase centerFrequencyOperatorDto = dto.CenterFrequencyOperatorDto;
-            OperatorDtoBase bandWidthOperatorDto = dto.BandWidthOperatorDto;
-            OperatorDtoBase dbGainOperatorDto = dto.DBGainOperatorDto;
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(centerFrequencyOperatorDto);
-            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bandWidthOperatorDto);
-            MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dbGainOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
+            MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
+            MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DBGainOperatorDto);
 
             if (signalMathPropertiesDto.IsConst)
             {
-                return signalOperatorDto;
+                return dto.SignalOperatorDto;
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
             {
-                return new PeakingEQFilter_OperatorDto_ManyConsts { SignalOperatorDto = signalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
+                return new PeakingEQFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new PeakingEQFilter_OperatorDto_AllVars { SignalOperatorDto = signalOperatorDto, CenterFrequencyOperatorDto = centerFrequencyOperatorDto, BandWidthOperatorDto = bandWidthOperatorDto, DBGainOperatorDto = dbGainOperatorDto };
+                return new PeakingEQFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto, DBGainOperatorDto = dto.DBGainOperatorDto };
             }
         }
 
@@ -1898,27 +1812,23 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Squash_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase factorOperatorDto = dto.FactorOperatorDto;
-            OperatorDtoBase originOperatorDto = dto.OriginOperatorDto;
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(factorOperatorDto);
-            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(originOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FactorOperatorDto);
+            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
             if (dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar)
                 {
-                    return new Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto };
+                    return new Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst)
                 {
-                    return new Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
+                    return new Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar)
                 {
-                    return new Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto };
+                    return new Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst)
                 {
@@ -1935,43 +1845,43 @@ namespace JJ.Business.Synthesizer.Visitors
 
                 if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
                 {
-                    dto2 = new Squash_OperatorDto_VarSignal_VarFactor_VarOrigin { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto, OriginOperatorDto = originOperatorDto };
+                    dto2 = new Squash_OperatorDto_VarSignal_VarFactor_VarOrigin { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
                 {
-                    dto2 = new Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto };
+                    dto2 = new Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
                 {
-                    dto2 = new Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                    dto2 = new Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
                 {
-                    dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue, OriginOperatorDto = originOperatorDto };
+                    dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
                 {
-                    dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
+                    dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
                 {
-                    dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
+                    dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
                 {
-                    dto2 = new Squash_OperatorDto_ConstSignal_VarFactor_VarOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto, OriginOperatorDto = originOperatorDto };
+                    dto2 = new Squash_OperatorDto_ConstSignal_VarFactor_VarOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
                 {
-                    dto2 = new Squash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto };
+                    dto2 = new Squash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
                 {
-                    dto2 = new Squash_OperatorDto_ConstSignal_VarFactor_ConstOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                    dto2 = new Squash_OperatorDto_ConstSignal_VarFactor_ConstOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
                 {
-                    dto2 = new Squash_OperatorDto_ConstSignal_ConstFactor_VarOrigin { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue, OriginOperatorDto = originOperatorDto };
+                    dto2 = new Squash_OperatorDto_ConstSignal_ConstFactor_VarOrigin { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
                 {
@@ -1996,27 +1906,23 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Stretch_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase factorOperatorDto = dto.FactorOperatorDto;
-            OperatorDtoBase originOperatorDto = dto.OriginOperatorDto;
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(factorOperatorDto);
-            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(originOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FactorOperatorDto);
+            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
             if (dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar)
                 {
-                    return new Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto };
+                    return new Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst)
                 {
-                    return new Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
+                    return new Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar)
                 {
-                    return new Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto };
+                    return new Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst)
                 {
@@ -2033,43 +1939,43 @@ namespace JJ.Business.Synthesizer.Visitors
 
                 if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
                 {
-                    dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto, OriginOperatorDto = originOperatorDto };
+                    dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
                 {
-                    dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto };
+                    dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
                 {
-                    dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin { SignalOperatorDto = signalOperatorDto, FactorOperatorDto = factorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                    dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
                 {
-                    dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue, OriginOperatorDto = originOperatorDto };
+                    dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
                 {
-                    dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
+                    dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
                 {
-                    dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin { SignalOperatorDto = signalOperatorDto, Factor = factorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
+                    dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
                 {
-                    dto2 = new Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto, OriginOperatorDto = originOperatorDto };
+                    dto2 = new Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
                 {
-                    dto2 = new Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto };
+                    dto2 = new Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
                 {
-                    dto2 = new Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = factorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                    dto2 = new Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
                 {
-                    dto2 = new Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue, OriginOperatorDto = originOperatorDto };
+                    dto2 = new Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
                 {
@@ -2094,11 +2000,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Subtract_OperatorDto(dto);
 
-            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
-            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
-
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.AOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BOperatorDto);
 
             if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst)
             {
@@ -2106,15 +2009,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
-                return new Subtract_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.ConstValue };
+                return new Subtract_OperatorDto_VarA_ConstB { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
             else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
-                return new Subtract_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = bOperatorDto };
+                return new Subtract_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto };
             }
             else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
-                return new Subtract_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
+                return new Subtract_OperatorDto_VarA_VarB { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -2149,8 +2052,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_TimePower_OperatorDto(dto);
 
-            OperatorDtoBase originOperatorDto = dto.OriginOperatorDto;
-            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(originOperatorDto);
+            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
             OperatorDtoBase_WithDimension dto2;
 
