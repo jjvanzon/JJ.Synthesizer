@@ -1194,7 +1194,70 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto(Pulse_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Pulse_OperatorDto(dto);
+
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
+            MathPropertiesDto widthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.WidthOperatorDto);
+            bool isHalfWidth = widthMathPropertiesDto.IsConst && widthMathPropertiesDto.ConstValue == 0.5;
+
+            OperatorDtoBase_WithDimension dto2;
+
+            if (frequencyMathPropertiesDto.IsConst && isHalfWidth && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && widthMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue, Width = widthMathPropertiesDto.ConstValue };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && widthMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue, WidthOperatorDto = dto.WidthOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsVar && isHalfWidth && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsVar && widthMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto, Width = widthMathPropertiesDto.ConstValue };
+            }
+            else if (frequencyMathPropertiesDto.IsVar && widthMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto, WidthOperatorDto = dto.WidthOperatorDto };
+            }
+            if (frequencyMathPropertiesDto.IsConst && isHalfWidth && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && widthMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue, Width = widthMathPropertiesDto.ConstValue };
+            }
+            else if (frequencyMathPropertiesDto.IsConst && widthMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue, WidthOperatorDto = dto.WidthOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsVar && isHalfWidth && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
+            }
+            else if (frequencyMathPropertiesDto.IsVar && widthMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto, Width = widthMathPropertiesDto.ConstValue };
+            }
+            else if (frequencyMathPropertiesDto.IsVar && widthMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto, WidthOperatorDto = dto.WidthOperatorDto };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            }
+
+            Clone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Random_OperatorDto(Random_OperatorDto dto)
@@ -1243,7 +1306,36 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto)
         {
-            return base.Visit_RangeOverDimension_OperatorDto(dto);
+            base.Visit_RangeOverDimension_OperatorDto(dto);
+
+            MathPropertiesDto fromMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FromOperatorDto);
+            MathPropertiesDto tillMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TillOperatorDto);
+            MathPropertiesDto stepMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.StepOperatorDto);
+
+            if (fromMathPropertiesDto.IsConst &&
+                tillMathPropertiesDto.IsConst &&
+                stepMathPropertiesDto.IsConst)
+            {
+                return new RangeOverDimension_OperatorCalculator_OnlyConsts
+                {
+                    From = fromMathPropertiesDto.ConstValue,
+                    Till = tillMathPropertiesDto.ConstValue,
+                    Step = stepMathPropertiesDto.ConstValue,
+                    StandardDimensionEnum = dto.StandardDimensionEnum,
+                    CustomDimensionName = dto.CustomDimensionName
+                };
+            }
+            else
+            {
+                return new RangeOverDimension_OperatorCalculator_OnlyVars
+                {
+                    FromOperatorDto = dto.FromOperatorDto,
+                    TillOperatorDto = dto.TillOperatorDto,
+                    StepOperatorDto = dto.StepOperatorDto,
+                    StandardDimensionEnum = dto.StandardDimensionEnum,
+                    CustomDimensionName = dto.CustomDimensionName
+                };
+            }
         }
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto(RangeOverOutlets_OperatorDto dto)
