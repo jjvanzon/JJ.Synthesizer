@@ -1199,7 +1199,46 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Random_OperatorDto(Random_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Random_OperatorDto(dto);
+
+            Random_OperatorDto dto2;
+
+            if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Block)
+            {
+                dto2 = new Random_OperatorDto_Block();
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Stripe)
+            {
+                dto2 = new Random_OperatorDto_Stripe();
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Line)
+            {
+                dto2 = new Random_OperatorDto_Line();
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicEquidistant)
+            {
+                dto2 = new Random_OperatorDto_CubicEquidistant();
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicAbruptSlope)
+            {
+                dto2 = new Random_OperatorDto_CubicAbruptSlope();
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicSmoothSlope)
+            {
+                dto2 = new Random_OperatorDto_CubicSmoothSlope();
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Hermite)
+            {
+                dto2 = new Random_OperatorDto_Hermite();
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            }
+
+            Clone_RandomOperatorProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto)
@@ -1992,6 +2031,14 @@ namespace JJ.Business.Synthesizer.Visitors
             dest.ResampleInterpolationTypeEnum = source.ResampleInterpolationTypeEnum;
             dest.SignalOperatorDto = source.SignalOperatorDto;
 
+            Clone_DimensionProperties(source, dest);
+        }
+
+        private void Clone_RandomOperatorProperties(Random_OperatorDto source, Random_OperatorDto dest)
+        {
+            dest.RateOperatorDto = source.RateOperatorDto;
+            dest.ResampleInterpolationTypeEnum = source.ResampleInterpolationTypeEnum;
+            
             Clone_DimensionProperties(source, dest);
         }
 
