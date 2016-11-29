@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
@@ -748,7 +749,89 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Loop_OperatorDto(Loop_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Loop_OperatorDto(dto);
+
+            MathPropertiesDto skipMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SkipOperatorDto);
+            MathPropertiesDto loopStartMarkerMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.LoopStartMarkerOperatorDto);
+            MathPropertiesDto loopEndMarkerMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.LoopEndMarkerOperatorDto);
+            MathPropertiesDto releaseEndMarkerMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.ReleaseEndMarkerOperatorDto);
+            MathPropertiesDto noteDurationMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.NoteDurationOperatorDto);
+
+            bool skipEqualsLoopStartMarker = skipMathPropertiesDto.IsConst && loopStartMarkerMathPropertiesDto.IsConst && skipMathPropertiesDto.ConstValue == loopStartMarkerMathPropertiesDto.ConstValue;
+            bool noNoteDuration = noteDurationMathPropertiesDto.IsConst && noteDurationMathPropertiesDto.ConstValue >= CalculationHelper.VERY_HIGH_VALUE;
+            bool noReleaseEndMarker = releaseEndMarkerMathPropertiesDto.IsConst && releaseEndMarkerMathPropertiesDto.ConstValue >= CalculationHelper.VERY_HIGH_VALUE;
+            bool noSkip = skipMathPropertiesDto.IsConstZero;
+
+            OperatorDtoBase_WithDimension dto2;
+
+            if (noSkip && noReleaseEndMarker && loopStartMarkerMathPropertiesDto.IsConst && loopEndMarkerMathPropertiesDto.IsConst)
+            {
+                dto2 = new Loop_OperatorDto_NoSkipOrRelease_ManyConstants
+                {
+                    SignalOperatorDto = dto.SignalOperatorDto,
+                    LoopStartMarker = loopStartMarkerMathPropertiesDto.ConstValue,
+                    LoopEndMarker = loopEndMarkerMathPropertiesDto.ConstValue,
+                    NoteDurationOperatorDto = dto.NoteDurationOperatorDto
+                };
+            }
+            else if (skipMathPropertiesDto.IsConst && loopStartMarkerMathPropertiesDto.IsConst && loopEndMarkerMathPropertiesDto.IsConst && releaseEndMarkerMathPropertiesDto.IsConst)
+            {
+                dto2 = new Loop_OperatorDto_ManyConstants
+                {
+                    SignalOperatorDto = dto.SignalOperatorDto,
+                    Skip = skipMathPropertiesDto.ConstValue,
+                    LoopStartMarker = loopStartMarkerMathPropertiesDto.ConstValue,
+                    LoopEndMarker = loopEndMarkerMathPropertiesDto.ConstValue,
+                    ReleaseEndMarker = releaseEndMarkerMathPropertiesDto.ConstValue,
+                    NoteDurationOperatorDto = dto.NoteDurationOperatorDto
+                };
+            }
+            else if (skipMathPropertiesDto.IsConst && skipEqualsLoopStartMarker && loopEndMarkerMathPropertiesDto.IsConst && noNoteDuration)
+            {
+                dto2 = new Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration
+                {
+                    SignalOperatorDto = dto.SignalOperatorDto,
+                    SkipAndLoopStartMarker = skipMathPropertiesDto.ConstValue,
+                    LoopEndMarker = loopEndMarkerMathPropertiesDto.ConstValue,
+                    ReleaseEndMarkerOperatorDto = dto.ReleaseEndMarkerOperatorDto
+                };
+            }
+            else if (skipMathPropertiesDto.IsConst && skipEqualsLoopStartMarker && loopEndMarkerMathPropertiesDto.IsVar && noNoteDuration)
+            {
+                dto2 = new Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration
+                {
+                    SignalOperatorDto = dto.SignalOperatorDto,
+                    SkipAndLoopStartMarker = skipMathPropertiesDto.ConstValue,
+                    LoopEndMarkerOperatorDto = dto.LoopEndMarkerOperatorDto,
+                    ReleaseEndMarkerOperatorDto = dto.ReleaseEndMarkerOperatorDto
+                };
+            }
+            else if (noSkip && noReleaseEndMarker)
+            {
+                dto2 = new Loop_OperatorDto_NoSkipOrRelease
+                {
+                    SignalOperatorDto = dto.SignalOperatorDto,
+                    LoopStartMarkerOperatorDto = dto.LoopStartMarkerOperatorDto,
+                    LoopEndMarkerOperatorDto = dto.LoopEndMarkerOperatorDto,
+                    NoteDurationOperatorDto = dto.NoteDurationOperatorDto
+                };
+            }
+            else
+            {
+                dto2 = new Loop_OperatorDto_AllVars
+                {
+                    SignalOperatorDto = dto.SignalOperatorDto,
+                    SkipOperatorDto = dto.SkipOperatorDto,
+                    LoopStartMarkerOperatorDto = dto.LoopStartMarkerOperatorDto,
+                    LoopEndMarkerOperatorDto = dto.LoopEndMarkerOperatorDto,
+                    ReleaseEndMarkerOperatorDto = dto.ReleaseEndMarkerOperatorDto,
+                    NoteDurationOperatorDto = dto.NoteDurationOperatorDto
+                };
+            }
+
+            Clone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto)

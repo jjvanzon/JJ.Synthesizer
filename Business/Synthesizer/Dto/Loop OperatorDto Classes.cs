@@ -6,6 +6,40 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Loop_OperatorDto : Loop_OperatorDto_AllVars
     { }
 
+    internal class Loop_OperatorDto_NoSkipOrRelease_ManyConstants : OperatorDtoBase_WithDimension
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
+
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public double LoopStartMarker { get; set; }
+        public double LoopEndMarker { get; set; }
+        public OperatorDtoBase NoteDurationOperatorDto { get; set; }
+
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { SignalOperatorDto, NoteDurationOperatorDto }; }
+            set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
+        }
+    }
+
+    internal class Loop_OperatorDto_ManyConstants : OperatorDtoBase_WithDimension
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
+
+        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public double Skip { get; set; }
+        public double LoopStartMarker { get; set; }
+        public double LoopEndMarker { get; set; }
+        public double ReleaseEndMarker { get; set; }
+        public OperatorDtoBase NoteDurationOperatorDto { get; set; }
+
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { SignalOperatorDto, NoteDurationOperatorDto }; }
+            set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
+        }
+    }
+
     internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
@@ -38,21 +72,34 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Loop_OperatorDto_ManyConstants : OperatorDtoBase_WithDimension
+    internal class Loop_OperatorDto_NoSkipOrRelease : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
-        public double SkipOperatorDto { get; set; }
-        public double LoopStartMarkerOperatorDto { get; set; }
-        public double LoopEndMarkerOperatorDto { get; set; }
-        public double ReleaseEndMarkerOperatorDto { get; set; }
+        public OperatorDtoBase LoopStartMarkerOperatorDto { get; set; }
+        public OperatorDtoBase LoopEndMarkerOperatorDto { get; set; }
         public OperatorDtoBase NoteDurationOperatorDto { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, NoteDurationOperatorDto }; }
-            set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
+            get
+            {
+                return new OperatorDtoBase[]
+                {
+                    SignalOperatorDto,
+                    LoopStartMarkerOperatorDto,
+                    LoopEndMarkerOperatorDto,
+                    NoteDurationOperatorDto
+                };
+            }
+            set
+            {
+                SignalOperatorDto = value[0];
+                LoopStartMarkerOperatorDto = value[1];
+                LoopEndMarkerOperatorDto = value[2];
+                NoteDurationOperatorDto = value[3];
+            }
         }
     }
 
@@ -90,53 +137,6 @@ namespace JJ.Business.Synthesizer.Dto
                 ReleaseEndMarkerOperatorDto = value[4];
                 NoteDurationOperatorDto = value[5];
             }
-        }
-    }
-
-    internal class Loop_OperatorDto_NoSkipOrRelease : OperatorDtoBase_WithDimension
-    {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
-
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase LoopStartMarkerOperatorDto { get; set; }
-        public OperatorDtoBase LoopEndMarkerOperatorDto { get; set; }
-        public OperatorDtoBase NoteDurationOperatorDto { get; set; }
-
-        public override IList<OperatorDtoBase> InputOperatorDtos
-        {
-            get
-            {
-                return new OperatorDtoBase[]
-                {
-                    SignalOperatorDto,
-                    LoopStartMarkerOperatorDto,
-                    LoopEndMarkerOperatorDto,
-                    NoteDurationOperatorDto
-                };
-            }
-            set
-            {
-                SignalOperatorDto = value[0];
-                LoopStartMarkerOperatorDto = value[1];
-                LoopEndMarkerOperatorDto = value[2];
-                NoteDurationOperatorDto = value[3];
-            }
-        }
-    }
-
-    internal class Loop_OperatorDto_NoSkipOrRelease_ManyConstants : OperatorDtoBase_WithDimension
-    {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
-
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public double LoopStartMarkerOperatorDto { get; set; }
-        public double LoopEndMarkerOperatorDto { get; set; }
-        public OperatorDtoBase NoteDurationOperatorDto { get; set; }
-
-        public override IList<OperatorDtoBase> InputOperatorDtos
-        {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, NoteDurationOperatorDto }; }
-            set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
         }
     }
 }
