@@ -3,24 +3,33 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Dto
 {
+    internal interface ISample_OperatorDto
+    {
+        InterpolationTypeEnum InterpolationTypeEnum { get; set; }
+        int ChannelCount { get; set; }
+        Sample Sample { get; set; }
+    }
+
+    internal abstract class Sample_OperatorDto_VarFrequency : OperatorDtoBase_VarFrequency, ISample_OperatorDto
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
+
+        public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
+        public int ChannelCount { get; set; }
+        public Sample Sample { get; set; }
+    }
+
+    internal abstract class Sample_OperatorDto_ConstFrequency : OperatorDtoBase_ConstFrequency, ISample_OperatorDto
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
+
+        public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
+        public int ChannelCount { get; set; }
+        public Sample Sample { get; set; }
+    }
+
     internal class Sample_OperatorDto : Sample_OperatorDto_VarFrequency
     { }
-
-    internal abstract class Sample_OperatorDto_VarFrequency : OperatorDtoBase_VarFrequency
-    {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
-
-        public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-        public Sample Sample { get; set; }
-    }
-
-    internal abstract class Sample_OperatorDto_ConstFrequency : OperatorDtoBase_ConstFrequency
-    {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
-
-        public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-        public Sample Sample { get; set; }
-    }
 
     internal class Sample_OperatorDto_VarFrequency_WithPhaseTracking : Sample_OperatorDto_VarFrequency
     { }

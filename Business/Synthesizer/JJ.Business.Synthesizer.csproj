@@ -249,6 +249,7 @@
     <Compile Include="Dto\OperatorDtoBase_WithoutInputOperatorDtos.cs" />
     <Compile Include="Dto\PeakingEQFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\RangeOverOutlets OperatorDto Classes.cs" />
+    <Compile Include="Dto\2016-11-29 Backup of Sample OperatorDto Classes.cs" />
     <Compile Include="Dto\SawUp OperatorDto Classes.cs" />
     <Compile Include="Dto\Shift OperatorDto Classes.cs" />
     <Compile Include="Dto\Sine OperatorDto Classes.cs" />

@@ -729,8 +729,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             dto.Sample = sample;
             dto.InterpolationTypeEnum = sample.GetInterpolationTypeEnum();
-
-            _stack.Push(dto);
+            dto.ChannelCount = sample.GetChannelCount();
         }
 
         protected override void VisitSawDown(Operator op)

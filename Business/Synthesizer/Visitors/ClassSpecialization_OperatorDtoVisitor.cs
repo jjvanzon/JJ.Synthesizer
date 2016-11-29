@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Common.Exceptions;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -18,6 +19,15 @@ namespace JJ.Business.Synthesizer.Visitors
             public IList<double> Consts { get; set; }
             public bool HasVars { get; set; }
             public bool HasConsts { get; set; }
+        }
+
+        private readonly int _targetChannelCount;
+
+        public ClassSpecialization_OperatorDtoVisitor(int targetChannelCount)
+        {
+            if (targetChannelCount <= 0) throw new LessThanOrEqualException(() => targetChannelCount, 0);
+
+            _targetChannelCount = targetChannelCount;
         }
 
         public OperatorDtoBase Execute(OperatorDtoBase dto)
@@ -1157,18 +1167,17 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Reverse_OperatorDto(dto);
 
-            OperatorDtoBase speedOperatorDto = dto.SpeedOperatorDto;
-            MathPropertiesDto speedMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(speedOperatorDto);
+            MathPropertiesDto speedMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SpeedOperatorDto);
 
             OperatorDtoBase_WithDimension dto2;
 
             if (speedMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new Reverse_OperatorDtoBase_VarSpeed_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, SpeedOperatorDto = speedOperatorDto };
+                dto2 = new Reverse_OperatorDtoBase_VarSpeed_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, SpeedOperatorDto = dto.SpeedOperatorDto };
             }
             else if (speedMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new Reverse_OperatorDtoBase_VarSpeed_NoPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, SpeedOperatorDto = speedOperatorDto };
+                dto2 = new Reverse_OperatorDtoBase_VarSpeed_NoPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, SpeedOperatorDto = dto.SpeedOperatorDto };
             }
             else if (speedMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -1236,7 +1245,81 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto(Sample_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
+
+            int sampleChannelCount = dto.ChannelCount;
+            bool hasTargetChannelCount = sampleChannelCount == _targetChannelCount;
+            bool isFromMonoToStereo = sampleChannelCount == 1 && _targetChannelCount == 2;
+            bool isFromStereoToMono = sampleChannelCount == 2 && _targetChannelCount == 1;
+
+            OperatorDtoBase dto2;
+
+            if (hasTargetChannelCount && frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else if (hasTargetChannelCount && frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else if (hasTargetChannelCount && frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
+            }
+            else if (hasTargetChannelCount && frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
+            }
+            else if (isFromMonoToStereo && frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else if (isFromMonoToStereo && frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else if (isFromMonoToStereo && frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
+            }
+            else if (isFromMonoToStereo && frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
+            }
+            else if (isFromStereoToMono && frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else if (isFromStereoToMono && frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
+            }
+            else if (isFromStereoToMono && frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
+            }
+            else if (isFromStereoToMono && frequencyMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            }
+
+            var asISample_OperatorDto = dto2 as ISample_OperatorDto;
+            if (asISample_OperatorDto != null)
+            {
+                Clone_SampleOperatorProperties(dto, asISample_OperatorDto);
+            }
+
+            var asIOperatorDto_WithDimension = dto2 as IOperatorDto_WithDimension;
+            if (asIOperatorDto_WithDimension != null)
+            {
+                Clone_DimensionProperties(dto, asIOperatorDto_WithDimension);
+            }
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto(SawDown_OperatorDto dto)
@@ -1377,11 +1460,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Shift_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase distanceOperatorDto = dto.DistanceOperatorDto;
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
-            MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(distanceOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DistanceOperatorDto);
 
             if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsConst)
             {
@@ -1389,15 +1469,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsConst)
             {
-                return new Shift_OperatorDto_VarSignal_ConstDistance { SignalOperatorDto = signalOperatorDto, Distance = distanceMathPropertiesDto.ConstValue };
+                return new Shift_OperatorDto_VarSignal_ConstDistance { SignalOperatorDto = dto.SignalOperatorDto, Distance = distanceMathPropertiesDto.ConstValue };
             }
             else if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsVar)
             {
-                return new Shift_OperatorDto_ConstSignal_VarDistance { Signal = signalMathPropertiesDto.ConstValue, DistanceOperatorDto = distanceOperatorDto };
+                return new Shift_OperatorDto_ConstSignal_VarDistance { Signal = signalMathPropertiesDto.ConstValue, DistanceOperatorDto = dto.DistanceOperatorDto };
             }
             else if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsVar)
             {
-                return new Shift_OperatorDto_VarSignal_VarDistance { SignalOperatorDto = signalOperatorDto, DistanceOperatorDto = distanceOperatorDto };
+                return new Shift_OperatorDto_VarSignal_VarDistance { SignalOperatorDto = dto.SignalOperatorDto, DistanceOperatorDto = dto.DistanceOperatorDto };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -1856,6 +1936,13 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             dest.CustomDimensionName = source.CustomDimensionName;
             dest.StandardDimensionEnum = source.StandardDimensionEnum;
+        }
+
+        private void Clone_SampleOperatorProperties(ISample_OperatorDto dto, ISample_OperatorDto dto2)
+        {
+            dto2.Sample = dto.Sample;
+            dto2.ChannelCount = dto.ChannelCount;
+            dto2.InterpolationTypeEnum = dto.InterpolationTypeEnum;
         }
 
         // Helpers
