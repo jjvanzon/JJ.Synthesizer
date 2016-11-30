@@ -235,6 +235,7 @@
     <Compile Include="Dto\LowShelfFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\MathPropertiesDto.cs" />
     <Compile Include="Dto\Multiply OperatorDto Classes.cs" />
+    <Compile Include="Dto\OperatorDtoBase With A B and Origin Classes.cs" />
     <Compile Include="Dto\NotchFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\Number OperatorDto Classes.cs" />
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_ConstCenterFrequency_ConstBandWidth.cs" />
@@ -338,6 +339,7 @@
     <Compile Include="Dto\PatchOutlet_OperatorDto.cs" />
     <Compile Include="Dto\PatchInlet_OperatorDto.cs" />
     <Compile Include="Dto\TimePower OperatorDto Classes.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase_WithABAndOrigin.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_BandPassFilter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_VariableOutletCount.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithXAndResult.cs" />

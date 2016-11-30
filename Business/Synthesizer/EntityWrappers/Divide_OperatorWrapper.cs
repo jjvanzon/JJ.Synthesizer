@@ -1,39 +1,11 @@
 ﻿using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Divide_OperatorWrapper : OperatorWrapperBase_WithAAndB
+    public class Divide_OperatorWrapper : OperatorWrapperBase_WithABAndOrigin
     {
-        private const int ORIGIN_INDEX = 2;
-
         public Divide_OperatorWrapper(Operator op)
             : base(op)
         { }
-
-        public Outlet Origin
-        {
-            get { return OriginInlet.InputOutlet; }
-            set { OriginInlet.LinkTo(value); }
-        }
-
-        public Inlet OriginInlet => OperatorHelper.GetInlet(WrappedOperator, ORIGIN_INDEX);
-
-        public override string GetInletDisplayName(int listIndex)
-        {
-            switch (listIndex)
-            {
-                case ORIGIN_INDEX:
-                    {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Origin);
-                        return name;
-                    }
-
-                default:
-                    return base.GetInletDisplayName(listIndex);
-            }
-        }
     }
 }
