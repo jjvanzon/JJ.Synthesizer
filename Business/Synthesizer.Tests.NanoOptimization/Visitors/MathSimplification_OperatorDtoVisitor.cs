@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
-using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
@@ -16,15 +13,6 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
         // Add
 
-        protected override OperatorDtoBase Visit_Add_OperatorDto_NoVars_NoConsts(Add_OperatorDto_NoVars_NoConsts dto)
-        {
-            base.Visit_Add_OperatorDto_NoVars_NoConsts(dto);
-
-            var dto2 = new Number_OperatorDto_Zero();
-
-            return dto2;
-        }
-
         protected override OperatorDtoBase Visit_Add_OperatorDto_NoVars_Consts(Add_OperatorDto_NoVars_Consts dto)
         {
             base.Visit_Add_OperatorDto_NoVars_Consts(dto);
@@ -32,6 +20,15 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             double number = dto.Consts.Sum();
 
             var dto2 = new Number_OperatorDto { Number = number };
+
+            return dto2;
+        }
+
+        protected override OperatorDtoBase Visit_Add_OperatorDto_NoVars_NoConsts(Add_OperatorDto_NoVars_NoConsts dto)
+        {
+            base.Visit_Add_OperatorDto_NoVars_NoConsts(dto);
+
+            var dto2 = new Number_OperatorDto_Zero();
 
             return dto2;
         }
@@ -72,7 +69,10 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             return dto3;
         }
 
-        /// <summary> TODO: This method seems unnecessary. It seems all of this has already been handled. </summary>
+        /// <summary>
+        /// In practice this method is not fired, because the previously run visitors do not produce this DTO,
+        /// but if it ended up in the structure for some reason, it is handled here.
+        /// </summary>
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
@@ -94,11 +94,11 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
         // Multiply
 
+        /// <summary> Pre-calculate </summary>
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB dto)
         {
             base.Visit_Multiply_OperatorDto_ConstA_ConstB(dto);
 
-            // Pre-Calculate
             var dto2 = new Number_OperatorDto { Number = dto.A * dto.B };
 
             OperatorDtoBase dto3 = Visit_Number_OperatorDto(dto2);
@@ -106,11 +106,11 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             return dto3;
         }
 
+        /// <summary> Switch A and B </summary>
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_ConstA_VarB(Multiply_OperatorDto_ConstA_VarB dto)
         {
             base.Visit_Multiply_OperatorDto_ConstA_VarB(dto);
 
-            // Switch A and B
             var dto2 = new Multiply_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A };
 
             OperatorDtoBase dto3 = Visit_Multiply_OperatorDto_VarA_ConstB(dto2);

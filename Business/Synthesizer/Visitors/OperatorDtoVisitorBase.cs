@@ -51,6 +51,8 @@ namespace JJ.Business.Synthesizer.Visitors
             _delegateDictionary = new Dictionary<Type, Func<OperatorDtoBase, OperatorDtoBase>>
             {
                 { typeof(Absolute_OperatorDto), x => Visit_Absolute_OperatorDto((Absolute_OperatorDto)x ) },
+                { typeof(Absolute_OperatorDto_ConstX), x => Visit_Absolute_OperatorDto_ConstX((Absolute_OperatorDto_ConstX)x ) },
+                { typeof(Absolute_OperatorDto_VarX), x => Visit_Absolute_OperatorDto_VarX((Absolute_OperatorDto_VarX)x ) },
                 { typeof(Add_OperatorDto), x => Visit_Add_OperatorDto((Add_OperatorDto)x ) },
                 { typeof(Add_OperatorDto_Vars_Consts), x => Visit_Add_OperatorDto_Vars_Consts((Add_OperatorDto_Vars_Consts)x ) },
                 { typeof(Add_OperatorDto_Vars_NoConsts), x => Visit_Add_OperatorDto_Vars_NoConsts((Add_OperatorDto_Vars_NoConsts)x ) },
@@ -409,6 +411,8 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Absolute_OperatorDto(Absolute_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Absolute_OperatorDto_ConstX(Absolute_OperatorDto_ConstX dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_Consts(Add_OperatorDto_Vars_Consts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto) => Visit_OperatorDto_Base(dto);
