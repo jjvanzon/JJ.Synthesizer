@@ -317,57 +317,57 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Divide_OperatorDto(dto);
 
-            MathPropertiesDto numeratorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.NumeratorOperatorDto);
-            MathPropertiesDto denominatorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DenominatorOperatorDto);
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.AOperatorDto);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BOperatorDto);
             MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
-            if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
+            if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
             {
-                return new Divide_OperatorDto_VarNumerator_VarDenominator_VarOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, DenominatorOperatorDto = dto.DenominatorOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
+                return new Divide_OperatorDto_VarA_VarB_VarOrigin { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
             {
-                return new Divide_OperatorDto_VarNumerator_VarDenominator_ZeroOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, DenominatorOperatorDto = dto.DenominatorOperatorDto };
+                return new Divide_OperatorDto_VarA_VarB_ZeroOrigin { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
             {
-                return new Divide_OperatorDto_VarNumerator_VarDenominator_ConstOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, DenominatorOperatorDto = dto.DenominatorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                return new Divide_OperatorDto_VarA_VarB_ConstOrigin { AOperatorDto = dto.AOperatorDto, BOperatorDto = dto.BOperatorDto, Origin = originMathPropertiesDto.ConstValue };
             }
-            else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
             {
-                return new Divide_OperatorDto_VarNumerator_ConstDenominator_VarOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, Denominator = denominatorMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
+                return new Divide_OperatorDto_VarA_ConstB_VarOrigin { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
             {
-                return new Divide_OperatorDto_VarNumerator_ConstDenominator_ZeroOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, Denominator = denominatorMathPropertiesDto.ConstValue };
+                return new Divide_OperatorDto_VarA_ConstB_ZeroOrigin { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
-            else if (numeratorMathPropertiesDto.IsVar && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
             {
-                return new Divide_OperatorDto_VarNumerator_ConstDenominator_ConstOrigin { NumeratorOperatorDto = dto.NumeratorOperatorDto, Denominator = denominatorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
+                return new Divide_OperatorDto_VarA_ConstB_ConstOrigin { AOperatorDto = dto.AOperatorDto, B = bMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
             {
-                return new Divide_OperatorDto_ConstNumerator_VarDenominator_VarOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, DenominatorOperatorDto = dto.DenominatorOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
+                return new Divide_OperatorDto_ConstA_VarB_VarOrigin { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsConstZero)
             {
-                return new Divide_OperatorDto_ConstNumerator_VarDenominator_ZeroOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, DenominatorOperatorDto = dto.DenominatorOperatorDto };
+                return new Divide_OperatorDto_ConstA_VarB_ZeroOrigin { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar && originMathPropertiesDto.IsConst)
             {
-                return new Divide_OperatorDto_ConstNumerator_VarDenominator_ConstOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, DenominatorOperatorDto = dto.DenominatorOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                return new Divide_OperatorDto_ConstA_VarB_ConstOrigin { A = aMathPropertiesDto.ConstValue, BOperatorDto = dto.BOperatorDto, Origin = originMathPropertiesDto.ConstValue };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsVar)
             {
-                return new Divide_OperatorDto_ConstNumerator_ConstDenominator_VarOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, Denominator = denominatorMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
+                return new Divide_OperatorDto_ConstA_ConstB_VarOrigin { A = aMathPropertiesDto.ConstValue, B = bMathPropertiesDto.ConstValue, OriginOperatorDto = dto.OriginOperatorDto };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsConstZero)
             {
-                return new Divide_OperatorDto_ConstNumerator_ConstDenominator_ZeroOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, Denominator = denominatorMathPropertiesDto.ConstValue };
+                return new Divide_OperatorDto_ConstA_ConstB_ZeroOrigin { A = aMathPropertiesDto.ConstValue, B = bMathPropertiesDto.ConstValue };
             }
-            else if (numeratorMathPropertiesDto.IsConst && denominatorMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsConst && originMathPropertiesDto.IsConst)
             {
-                return new Divide_OperatorDto_ConstNumerator_ConstDenominator_ConstOrigin { Numerator = numeratorMathPropertiesDto.ConstValue, Denominator = denominatorMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
+                return new Divide_OperatorDto_ConstA_ConstB_ConstOrigin { A = aMathPropertiesDto.ConstValue, B = bMathPropertiesDto.ConstValue, Origin = originMathPropertiesDto.ConstValue };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());

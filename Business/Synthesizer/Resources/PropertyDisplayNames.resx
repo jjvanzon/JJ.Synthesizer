@@ -662,9 +662,6 @@
   <data name="Base" xml:space="preserve">
     <value>Base</value>
   </data>
-  <data name="Denominator" xml:space="preserve">
-    <value>Denominator</value>
-  </data>
   <data name="Difference" xml:space="preserve">
     <value>Difference</value>
   </data>
@@ -676,9 +673,6 @@
   </data>
   <data name="MinFrequency" xml:space="preserve">
     <value>Min Frequency</value>
-  </data>
-  <data name="Numerator" xml:space="preserve">
-    <value>Numerator</value>
   </data>
   <data name="Offset" xml:space="preserve">
     <value>Offset</value>

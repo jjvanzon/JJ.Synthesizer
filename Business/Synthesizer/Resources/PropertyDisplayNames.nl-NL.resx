@@ -662,9 +662,6 @@
   <data name="Base" xml:space="preserve">
     <value>Basis</value>
   </data>
-  <data name="Denominator" xml:space="preserve">
-    <value>Noemer</value>
-  </data>
   <data name="Difference" xml:space="preserve">
     <value>Verschil</value>
   </data>
@@ -676,9 +673,6 @@
   </data>
   <data name="MinFrequency" xml:space="preserve">
     <value>Minimum frequentie</value>
-  </data>
-  <data name="Numerator" xml:space="preserve">
-    <value>Teller</value>
   </data>
   <data name="Offset" xml:space="preserve">
     <value>Begin</value>

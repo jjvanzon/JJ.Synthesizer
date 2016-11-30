@@ -545,7 +545,7 @@ namespace JJ.Business.Synthesizer
             return CustomOperator(underlyingPatch, (IList<Outlet>)operands);
         }
 
-        public Divide_OperatorWrapper Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
+        public Divide_OperatorWrapper Divide(Outlet a = null, Outlet b = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Divide,
@@ -554,8 +554,8 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Divide_OperatorWrapper(op)
             {
-                Numerator = numerator,
-                Denominator = denominator,
+                A = a,
+                B = b,
                 Origin = origin
             };
 

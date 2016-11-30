@@ -158,8 +158,8 @@ namespace JJ.Business.Synthesizer.Api
         public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch, IList<Outlet> operands)
             => _patchManager.CustomOperator(underlyingPatch, operands);
 
-        public Divide_OperatorWrapper Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
-            => _patchManager.Divide(numerator, denominator, origin);
+        public Divide_OperatorWrapper Divide(Outlet a = null, Outlet b = null, Outlet origin = null)
+            => _patchManager.Divide(a, b, origin);
 
         public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
             => _patchManager.Equal(a, b);

@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -35,14 +34,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 default:
                     return base.GetInletDisplayName(listIndex);
             }
-        }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
-            return name;
         }
     }
 }

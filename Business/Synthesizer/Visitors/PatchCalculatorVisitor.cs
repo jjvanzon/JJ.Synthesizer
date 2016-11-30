@@ -1334,93 +1334,93 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase numeratorCalculator = _stack.Pop();
-            OperatorCalculatorBase denominatorCalculator = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
 
             // When nulls should make the operator do nothing but pass the signal.
-            if (denominatorCalculator == null && numeratorCalculator != null)
+            if (bCalculator == null && aCalculator != null)
             {
-                _stack.Push(numeratorCalculator);
+                _stack.Push(aCalculator);
                 return;
             }
 
-            numeratorCalculator = numeratorCalculator ?? new Zero_OperatorCalculator();
-            denominatorCalculator = denominatorCalculator ?? new One_OperatorCalculator();
+            aCalculator = aCalculator ?? new Zero_OperatorCalculator();
+            bCalculator = bCalculator ?? new One_OperatorCalculator();
             originCalculator = originCalculator ?? new Zero_OperatorCalculator();
 
-            double numerator = numeratorCalculator.Calculate();
-            double denominator = denominatorCalculator.Calculate();
+            double a = aCalculator.Calculate();
+            double b = bCalculator.Calculate();
             double origin = originCalculator.Calculate();
-            bool denominatorIsConst = denominatorCalculator is Number_OperatorCalculator;
-            bool numeratorIsConst = numeratorCalculator is Number_OperatorCalculator;
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
             bool originIsConst = originCalculator is Number_OperatorCalculator;
-            bool numeratorIsConstZero = numeratorIsConst && numerator == 0;
-            bool denominatorIsConstZero = denominatorIsConst && denominator == 0;
+            bool aIsConstZero = aIsConst && a == 0;
+            bool bIsConstZero = bIsConst && b == 0;
             bool originIsConstZero = originIsConst && origin == 0;
-            bool denominatorIsConstOne = denominatorIsConst && denominator == 1;
-
-            if (denominatorIsConstZero)
+            bool bIsConstOne = bIsConst && b == 1;
+            
+            if (bIsConstZero)
             {
                 // Special Value
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (numeratorIsConstZero)
+            else if (aIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (denominatorIsConstOne)
+            else if (bIsConstOne)
             {
-                calculator = numeratorCalculator;
+                calculator = aCalculator;
             }
-            else if (originIsConstZero && numeratorIsConst & denominatorIsConst)
+            else if (originIsConstZero && aIsConst & bIsConst)
             {
-                calculator = new Number_OperatorCalculator(numerator / denominator);
+                calculator = new Number_OperatorCalculator(a / b);
             }
-            else if (originIsConst && numeratorIsConst && denominatorIsConst)
+            else if (originIsConst && aIsConst && bIsConst)
             {
-                double value = (numerator - origin) / denominator + origin;
+                double value = (a - origin) / b + origin;
                 calculator = new Number_OperatorCalculator(value);
             }
-            else if (originIsConstZero && numeratorIsConst && !denominatorIsConst)
+            else if (originIsConstZero && aIsConst && !bIsConst)
             {
-                calculator = new Divide_OperatorCalculator_ConstNumerator_VarDenominator_ZeroOrigin(numerator, denominatorCalculator);
+                calculator = new Divide_OperatorCalculator_ConstA_VarB_ZeroOrigin(a, bCalculator);
             }
-            else if (originIsConstZero && !numeratorIsConst && denominatorIsConst)
+            else if (originIsConstZero && !aIsConst && bIsConst)
             {
-                calculator = new Divide_OperatorCalculator_VarNumerator_ConstDenominator_ZeroOrigin(numeratorCalculator, denominator);
+                calculator = new Divide_OperatorCalculator_VarA_ConstB_ZeroOrigin(aCalculator, b);
             }
-            else if (originIsConstZero && !numeratorIsConst && !denominatorIsConst)
+            else if (originIsConstZero && !aIsConst && !bIsConst)
             {
-                calculator = new Divide_OperatorCalculator_VarNumerator_VarDenominator_ZeroOrigin(numeratorCalculator, denominatorCalculator);
+                calculator = new Divide_OperatorCalculator_VarA_VarB_ZeroOrigin(aCalculator, bCalculator);
             }
-            else if (originIsConst && numeratorIsConst && !denominatorIsConst)
+            else if (originIsConst && aIsConst && !bIsConst)
             {
-                calculator = new Divide_OperatorCalculator_ConstNumerator_VarDenominator_ConstOrigin(numerator, denominatorCalculator, origin);
+                calculator = new Divide_OperatorCalculator_ConstA_VarB_ConstOrigin(a, bCalculator, origin);
             }
-            else if (originIsConst && !numeratorIsConst && denominatorIsConst)
+            else if (originIsConst && !aIsConst && bIsConst)
             {
-                calculator = new Divide_OperatorCalculator_VarNumerator_ConstDenominator_ConstOrigin(numeratorCalculator, denominator, origin);
+                calculator = new Divide_OperatorCalculator_VarA_ConstB_ConstOrigin(aCalculator, b, origin);
             }
-            else if (originIsConst && !numeratorIsConst && !denominatorIsConst)
+            else if (originIsConst && !aIsConst && !bIsConst)
             {
-                calculator = new Divide_OperatorCalculator_VarNumerator_VarDenominator_ConstOrigin(numeratorCalculator, denominatorCalculator, origin);
+                calculator = new Divide_OperatorCalculator_VarA_VarB_ConstOrigin(aCalculator, bCalculator, origin);
             }
-            else if (!originIsConst && numeratorIsConst && denominatorIsConst)
+            else if (!originIsConst && aIsConst && bIsConst)
             {
-                calculator = new Divide_OperatorCalculator_ConstNumerator_ConstDenominator_VarOrigin(numerator, denominator, originCalculator);
+                calculator = new Divide_OperatorCalculator_ConstA_ConstB_VarOrigin(a, b, originCalculator);
             }
-            else if (!originIsConst && numeratorIsConst && !denominatorIsConst)
+            else if (!originIsConst && aIsConst && !bIsConst)
             {
-                calculator = new Divide_OperatorCalculator_ConstNumerator_VarDenominator_VarOrigin(numerator, denominatorCalculator, originCalculator);
+                calculator = new Divide_OperatorCalculator_ConstA_VarB_VarOrigin(a, bCalculator, originCalculator);
             }
-            else if (!originIsConst && !numeratorIsConst && denominatorIsConst)
+            else if (!originIsConst && !aIsConst && bIsConst)
             {
-                calculator = new Divide_OperatorCalculator_VarNumerator_ConstDenominator_VarOrigin(numeratorCalculator, denominator, originCalculator);
+                calculator = new Divide_OperatorCalculator_VarA_ConstB_VarOrigin(aCalculator, b, originCalculator);
             }
             else
             {
-                calculator = new Divide_OperatorCalculator_VarNumerator_VarDenominator_VarOrigin(numeratorCalculator, denominatorCalculator, originCalculator);
+                calculator = new Divide_OperatorCalculator_VarA_VarB_VarOrigin(aCalculator, bCalculator, originCalculator);
             }
 
             _stack.Push(calculator);

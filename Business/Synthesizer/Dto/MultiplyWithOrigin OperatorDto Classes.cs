@@ -21,16 +21,16 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
+    internal class MultiplyWithOrigin_OperatorDto_VarA_VarB_ZeroOrigin : OperatorDtoBase_VarA_VarB
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
+    }
+
     internal class MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin : OperatorDtoBase_VarA_VarB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
 
         public double Origin { get; set; }
-    }
-
-    internal class MultiplyWithOrigin_OperatorDto_VarA_VarB_ZeroOrigin : OperatorDtoBase_VarA_VarB
-    {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
     }
 
     internal class MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin : OperatorDtoBase
@@ -48,16 +48,16 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
+    internal class MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin : OperatorDtoBase_VarA_ConstB
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
+    }
+
     internal class MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin : OperatorDtoBase_VarA_ConstB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
 
         public double Origin { get; set; }
-    }
-
-    internal class MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin : OperatorDtoBase_VarA_ConstB
-    {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
     }
 
     internal class MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin : OperatorDtoBase
@@ -75,16 +75,16 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
+    internal class MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin : OperatorDtoBase_ConstA_VarB
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
+    }
+
     internal class MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin : OperatorDtoBase_ConstA_VarB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
 
         public double Origin { get; set; }
-    }
-
-    internal class MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin : OperatorDtoBase_ConstA_VarB
-    {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
     }
 
     internal class MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin : OperatorDtoBase_ConstA_ConstB
@@ -100,15 +100,15 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
+    internal class MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin : OperatorDtoBase_ConstA_ConstB
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
+    }
+
     internal class MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin : OperatorDtoBase_ConstA_ConstB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
 
         public double Origin { get; set; }
-    }
-
-    internal class MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin : OperatorDtoBase_ConstA_ConstB
-    {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.MultiplyWithOrigin);
     }
 }

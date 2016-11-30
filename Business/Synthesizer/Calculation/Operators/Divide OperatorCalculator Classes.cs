@@ -6,126 +6,126 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Divide_OperatorCalculator_VarNumerator_ConstDenominator_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_OperatorCalculator_VarA_ConstB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _numeratorCalculator;
-        private readonly double _denominatorValue;
-        private readonly double _originValue;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly double _b;
+        private readonly double _origin;
 
-        public Divide_OperatorCalculator_VarNumerator_ConstDenominator_ConstOrigin(
-            OperatorCalculatorBase numeratorCalculator,
-            double denominatorValue,
-            double originValue)
-            : base(new OperatorCalculatorBase[] { numeratorCalculator })
+        public Divide_OperatorCalculator_VarA_ConstB_ConstOrigin(
+            OperatorCalculatorBase aCalculator,
+            double b,
+            double origin)
+            : base(new OperatorCalculatorBase[] { aCalculator })
         {
-            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
-            if (denominatorValue == 0) throw new ZeroException(() => denominatorValue);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            if (b == 0) throw new ZeroException(() => b);
 
-            _numeratorCalculator = numeratorCalculator;
-            _denominatorValue = denominatorValue;
-            _originValue = originValue;
+            _aCalculator = aCalculator;
+            _b = b;
+            _origin = origin;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double a = _numeratorCalculator.Calculate();
-            return (a - _originValue) / _denominatorValue + _originValue;
+            double a = _aCalculator.Calculate();
+            return (a - _origin) / _b + _origin;
         }
     }
 
-    internal class Divide_OperatorCalculator_ConstNumerator_VarDenominator_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_OperatorCalculator_ConstA_VarB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _numeratorValue;
-        private readonly OperatorCalculatorBase _denominatorCalculator;
-        private readonly double _originValue;
+        private readonly double _a;
+        private readonly OperatorCalculatorBase _bCalculator;
+        private readonly double _origin;
 
-        public Divide_OperatorCalculator_ConstNumerator_VarDenominator_ConstOrigin(
-            double numeratorValue,
-            OperatorCalculatorBase denominatorCalculator,
-            double originValue)
-            : base(new OperatorCalculatorBase[] { denominatorCalculator })
+        public Divide_OperatorCalculator_ConstA_VarB_ConstOrigin(
+            double a,
+            OperatorCalculatorBase bCalculator,
+            double origin)
+            : base(new OperatorCalculatorBase[] { bCalculator })
         {
-            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
 
-            _numeratorValue = numeratorValue;
-            _denominatorCalculator = denominatorCalculator;
-            _originValue = originValue;
+            _a = a;
+            _bCalculator = bCalculator;
+            _origin = origin;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double denominator = _denominatorCalculator.Calculate();
+            double b = _bCalculator.Calculate();
 
-            if (denominator == 0)
+            if (b == 0)
             {
-                return _numeratorValue;
+                return _a;
             }
 
-            return (_numeratorValue - _originValue) / denominator + _originValue;
+            return (_a - _origin) / b + _origin;
         }
     }
 
-    internal class Divide_OperatorCalculator_VarNumerator_VarDenominator_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_OperatorCalculator_VarA_VarB_ConstOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _numeratorCalculator;
-        private readonly OperatorCalculatorBase _denominatorCalculator;
-        private readonly double _originValue;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly OperatorCalculatorBase _bCalculator;
+        private readonly double _origin;
 
-        public Divide_OperatorCalculator_VarNumerator_VarDenominator_ConstOrigin(
-            OperatorCalculatorBase numeratorCalculator,
-            OperatorCalculatorBase denominatorCalculator,
-            double originValue)
-            : base(new OperatorCalculatorBase[] { numeratorCalculator, denominatorCalculator })
+        public Divide_OperatorCalculator_VarA_VarB_ConstOrigin(
+            OperatorCalculatorBase aCalculator,
+            OperatorCalculatorBase bCalculator,
+            double origin)
+            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
-            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
-            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
 
-            _numeratorCalculator = numeratorCalculator;
-            _denominatorCalculator = denominatorCalculator;
-            _originValue = originValue;
+            _aCalculator = aCalculator;
+            _bCalculator = bCalculator;
+            _origin = origin;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double numerator = _numeratorCalculator.Calculate();
-            double denominator = _denominatorCalculator.Calculate();
+            double a = _aCalculator.Calculate();
+            double b = _bCalculator.Calculate();
 
-            if (denominator == 0)
+            if (b == 0)
             {
-                return numerator;
+                return a;
             }
 
-            return (numerator - _originValue) / denominator + _originValue;
+            return (a - _origin) / b + _origin;
         }
     }
 
-    internal class Divide_OperatorCalculator_VarNumerator_ConstDenominator_VarOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_OperatorCalculator_VarA_ConstB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _numeratorCalculator;
-        private readonly double _denominatorValue;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly double _b;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Divide_OperatorCalculator_VarNumerator_ConstDenominator_VarOrigin(
-            OperatorCalculatorBase numeratorCalculator,
-            double denominatorValue,
+        public Divide_OperatorCalculator_VarA_ConstB_VarOrigin(
+            OperatorCalculatorBase aCalculator,
+            double b,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { numeratorCalculator, originCalculator })
+            : base(new OperatorCalculatorBase[] { aCalculator, originCalculator })
         {
-            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
-            if (denominatorValue == 0) throw new ZeroException(() => denominatorValue);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            if (b == 0) throw new ZeroException(() => b);
             if (originCalculator == null) throw new NullException(() => originCalculator);
             if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
-            _numeratorCalculator = numeratorCalculator;
-            _denominatorValue = denominatorValue;
+            _aCalculator = aCalculator;
+            _b = b;
             _originCalculator = originCalculator;
         }
 
@@ -133,29 +133,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double origin = _originCalculator.Calculate();
-            double a = _numeratorCalculator.Calculate();
-            return (a - origin) / _denominatorValue + origin;
+            double a = _aCalculator.Calculate();
+            return (a - origin) / _b + origin;
         }
     }
 
-    internal class Divide_OperatorCalculator_ConstNumerator_ConstDenominator_VarOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_OperatorCalculator_ConstA_ConstB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _numeratorValue;
-        private readonly double _denominatorValue;
+        private readonly double _a;
+        private readonly double _b;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Divide_OperatorCalculator_ConstNumerator_ConstDenominator_VarOrigin(
-            double numeratorValue,
-            double denominatorValue,
+        public Divide_OperatorCalculator_ConstA_ConstB_VarOrigin(
+            double a,
+            double b,
             OperatorCalculatorBase originCalculator)
             : base(new OperatorCalculatorBase[] { originCalculator })
         {
-            if (denominatorValue == 0) throw new ZeroException(() => denominatorValue);
+            if (b == 0) throw new ZeroException(() => b);
             if (originCalculator == null) throw new NullException(() => originCalculator);
             if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
-            _numeratorValue = numeratorValue;
-            _denominatorValue = denominatorValue;
+            _a = a;
+            _b = b;
             _originCalculator = originCalculator;
         }
 
@@ -163,171 +163,171 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double origin = _originCalculator.Calculate();
-            return (_numeratorValue - origin) / _denominatorValue + origin;
+            return (_a - origin) / _b + origin;
         }
     }
 
-    internal class Divide_OperatorCalculator_ConstNumerator_VarDenominator_VarOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_OperatorCalculator_ConstA_VarB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _numeratorValue;
-        private readonly OperatorCalculatorBase _denominatorCalculator;
+        private readonly double _a;
+        private readonly OperatorCalculatorBase _bCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Divide_OperatorCalculator_ConstNumerator_VarDenominator_VarOrigin(
-            double numeratorValue,
-            OperatorCalculatorBase denominatorCalculator,
+        public Divide_OperatorCalculator_ConstA_VarB_VarOrigin(
+            double a,
+            OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { denominatorCalculator, originCalculator })
+            : base(new OperatorCalculatorBase[] { bCalculator, originCalculator })
         {
-            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
             if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
-            _numeratorValue = numeratorValue;
-            _denominatorCalculator = denominatorCalculator;
+            _a = a;
+            _bCalculator = bCalculator;
             _originCalculator = originCalculator;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double denominator = _denominatorCalculator.Calculate();
+            double b = _bCalculator.Calculate();
 
-            if (denominator == 0)
+            if (b == 0)
             {
-                return _numeratorValue;
+                return _a;
             }
 
             double origin = _originCalculator.Calculate();
 
-            return (_numeratorValue - origin) / denominator + origin;
+            return (_a - origin) / b + origin;
         }
     }
 
-    internal class Divide_OperatorCalculator_VarNumerator_VarDenominator_VarOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_OperatorCalculator_VarA_VarB_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _numeratorCalculator;
-        private readonly OperatorCalculatorBase _denominatorCalculator;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly OperatorCalculatorBase _bCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
 
-        public Divide_OperatorCalculator_VarNumerator_VarDenominator_VarOrigin(
-            OperatorCalculatorBase numeratorCalculator,
-            OperatorCalculatorBase denominatorCalculator,
+        public Divide_OperatorCalculator_VarA_VarB_VarOrigin(
+            OperatorCalculatorBase aCalculator,
+            OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { numeratorCalculator, denominatorCalculator, originCalculator })
+            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator, originCalculator })
         {
-            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
-            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
             if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
-            _numeratorCalculator = numeratorCalculator;
-            _denominatorCalculator = denominatorCalculator;
+            _aCalculator = aCalculator;
+            _bCalculator = bCalculator;
             _originCalculator = originCalculator;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double numerator = _numeratorCalculator.Calculate();
-            double denominator = _denominatorCalculator.Calculate();
+            double a = _aCalculator.Calculate();
+            double b = _bCalculator.Calculate();
 
-            if (denominator == 0)
+            if (b == 0)
             {
-                return numerator;
+                return a;
             }
 
             double origin = _originCalculator.Calculate();
 
-            return (numerator - origin) / denominator + origin;
+            return (a - origin) / b + origin;
         }
     }
 
-    internal class Divide_OperatorCalculator_VarNumerator_VarDenominator_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_OperatorCalculator_VarA_VarB_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _numeratorCalculator;
-        private readonly OperatorCalculatorBase _denominatorCalculator;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly OperatorCalculatorBase _bCalculator;
 
-        public Divide_OperatorCalculator_VarNumerator_VarDenominator_ZeroOrigin(OperatorCalculatorBase numeratorCalculator, OperatorCalculatorBase denominatorCalculator)
-            : base(new OperatorCalculatorBase[] { numeratorCalculator, denominatorCalculator })
+        public Divide_OperatorCalculator_VarA_VarB_ZeroOrigin(OperatorCalculatorBase aCalculator, OperatorCalculatorBase bCalculator)
+            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
-            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
-            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
 
-            _numeratorCalculator = numeratorCalculator;
-            _denominatorCalculator = denominatorCalculator;
+            _aCalculator = aCalculator;
+            _bCalculator = bCalculator;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double numerator = _numeratorCalculator.Calculate();
-            double denominator = _denominatorCalculator.Calculate();
+            double a = _aCalculator.Calculate();
+            double b = _bCalculator.Calculate();
 
-            if (denominator == 0)
+            if (b == 0)
             {
-                return numerator;
+                return a;
             }
 
-            return numerator / denominator;
+            return a / b;
         }
     }
 
-    internal class Divide_OperatorCalculator_VarNumerator_ConstDenominator_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_OperatorCalculator_VarA_ConstB_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _numeratorCalculator;
-        private readonly double _denominatorValue;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly double _b;
 
-        public Divide_OperatorCalculator_VarNumerator_ConstDenominator_ZeroOrigin(OperatorCalculatorBase numeratorCalculator, double denominatorValue)
-            : base(new OperatorCalculatorBase[] { numeratorCalculator })
+        public Divide_OperatorCalculator_VarA_ConstB_ZeroOrigin(OperatorCalculatorBase aCalculator, double b)
+            : base(new OperatorCalculatorBase[] { aCalculator })
         {
-            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
-            if (denominatorValue == 0) throw new ZeroException(() => denominatorValue);
+            if (aCalculator == null) throw new NullException(() => aCalculator);
+            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
+            if (b == 0) throw new ZeroException(() => b);
 
-            _numeratorCalculator = numeratorCalculator;
-            _denominatorValue = denominatorValue;
+            _aCalculator = aCalculator;
+            _b = b;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double numerator = _numeratorCalculator.Calculate();
-            return numerator / _denominatorValue;
+            double numerator = _aCalculator.Calculate();
+            return numerator / _b;
         }
     }
 
-    internal class Divide_OperatorCalculator_ConstNumerator_VarDenominator_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class Divide_OperatorCalculator_ConstA_VarB_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _numeratorValue;
-        private readonly OperatorCalculatorBase _denominatorCalculator;
+        private readonly double _a;
+        private readonly OperatorCalculatorBase _bCalculator;
 
-        public Divide_OperatorCalculator_ConstNumerator_VarDenominator_ZeroOrigin(double numeratorValue, OperatorCalculatorBase denominatorCalculator)
-            : base(new OperatorCalculatorBase[] { denominatorCalculator })
+        public Divide_OperatorCalculator_ConstA_VarB_ZeroOrigin(double a, OperatorCalculatorBase bCalculator)
+            : base(new OperatorCalculatorBase[] { bCalculator })
         {
-            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
+            if (bCalculator == null) throw new NullException(() => bCalculator);
+            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
 
-            _numeratorValue = numeratorValue;
-            _denominatorCalculator = denominatorCalculator;
+            _a = a;
+            _bCalculator = bCalculator;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double denominator = _denominatorCalculator.Calculate();
+            double b = _bCalculator.Calculate();
 
-            if (denominator == 0)
+            if (b == 0)
             {
-                return _numeratorValue;
+                return _a;
             }
 
-            return _numeratorValue / denominator;
+            return _a / b;
         }
     }
 }

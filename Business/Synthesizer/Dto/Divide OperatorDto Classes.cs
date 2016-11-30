@@ -3,147 +3,94 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Divide_OperatorDto : Divide_OperatorDto_VarNumerator_VarDenominator_VarOrigin
+    internal class Divide_OperatorDto : Divide_OperatorDto_VarA_VarB_VarOrigin
     { }
 
-    internal class Divide_OperatorDto_VarNumerator_VarDenominator_VarOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_VarA_VarB_VarOrigin : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
-        public OperatorDtoBase NumeratorOperatorDto { get; set; }
-        public OperatorDtoBase DenominatorOperatorDto { get; set; }
+        public OperatorDtoBase AOperatorDto { get; set; }
+        public OperatorDtoBase BOperatorDto { get; set; }
         public OperatorDtoBase OriginOperatorDto { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { NumeratorOperatorDto, DenominatorOperatorDto, OriginOperatorDto }; }
-            set { NumeratorOperatorDto = value[0]; DenominatorOperatorDto = value[1]; OriginOperatorDto = value[2]; }
+            get { return new OperatorDtoBase[] { AOperatorDto, BOperatorDto, OriginOperatorDto }; }
+            set { AOperatorDto = value[0]; BOperatorDto = value[1]; OriginOperatorDto = value[2]; }
         }
     }
 
-    internal class Divide_OperatorDto_VarNumerator_VarDenominator_ZeroOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_VarA_VarB_ZeroOrigin : OperatorDtoBase_VarA_VarB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
-
-        public OperatorDtoBase NumeratorOperatorDto { get; set; }
-        public OperatorDtoBase DenominatorOperatorDto { get; set; }
-
-        public override IList<OperatorDtoBase> InputOperatorDtos
-        {
-            get { return new OperatorDtoBase[] { NumeratorOperatorDto, DenominatorOperatorDto }; }
-            set { NumeratorOperatorDto = value[0]; DenominatorOperatorDto = value[1]; }
-        }
     }
 
-    internal class Divide_OperatorDto_VarNumerator_VarDenominator_ConstOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_VarA_VarB_ConstOrigin : OperatorDtoBase_VarA_VarB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
-        public OperatorDtoBase NumeratorOperatorDto { get; set; }
-        public OperatorDtoBase DenominatorOperatorDto { get; set; }
         public double Origin { get; set; }
-
-        public override IList<OperatorDtoBase> InputOperatorDtos
-        {
-            get { return new OperatorDtoBase[] { NumeratorOperatorDto, DenominatorOperatorDto }; }
-            set { NumeratorOperatorDto = value[0]; DenominatorOperatorDto = value[1]; }
-        }
     }
 
-    internal class Divide_OperatorDto_VarNumerator_ConstDenominator_VarOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_VarA_ConstB_VarOrigin : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
-        public OperatorDtoBase NumeratorOperatorDto { get; set; }
-        public double Denominator { get; set; }
+        public OperatorDtoBase AOperatorDto { get; set; }
+        public double B { get; set; }
         public OperatorDtoBase OriginOperatorDto { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { NumeratorOperatorDto, OriginOperatorDto }; }
-            set { NumeratorOperatorDto = value[0]; OriginOperatorDto = value[1]; }
+            get { return new OperatorDtoBase[] { AOperatorDto, OriginOperatorDto }; }
+            set { AOperatorDto = value[0]; OriginOperatorDto = value[1]; }
         }
     }
 
-    internal class Divide_OperatorDto_VarNumerator_ConstDenominator_ZeroOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_VarA_ConstB_ZeroOrigin : OperatorDtoBase_VarA_ConstB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
-
-        public OperatorDtoBase NumeratorOperatorDto { get; set; }
-        public double Denominator { get; set; }
-
-        public override IList<OperatorDtoBase> InputOperatorDtos
-        {
-            get { return new OperatorDtoBase[] { NumeratorOperatorDto }; }
-            set { NumeratorOperatorDto = value[0]; }
-        }
     }
 
-    internal class Divide_OperatorDto_VarNumerator_ConstDenominator_ConstOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_VarA_ConstB_ConstOrigin : OperatorDtoBase_VarA_ConstB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
-        public OperatorDtoBase NumeratorOperatorDto { get; set; }
-        public double Denominator { get; set; }
         public double Origin { get; set; }
-
-        public override IList<OperatorDtoBase> InputOperatorDtos
-        {
-            get { return new OperatorDtoBase[] { NumeratorOperatorDto }; }
-            set { NumeratorOperatorDto = value[0]; }
-        }
     }
 
-    internal class Divide_OperatorDto_ConstNumerator_VarDenominator_VarOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_ConstA_VarB_VarOrigin : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
-        public double Numerator { get; set; }
-        public OperatorDtoBase DenominatorOperatorDto { get; set; }
+        public double A { get; set; }
+        public OperatorDtoBase BOperatorDto { get; set; }
         public OperatorDtoBase OriginOperatorDto { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { DenominatorOperatorDto, OriginOperatorDto }; }
-            set { DenominatorOperatorDto = value[0]; OriginOperatorDto = value[1]; }
+            get { return new OperatorDtoBase[] { BOperatorDto, OriginOperatorDto }; }
+            set { BOperatorDto = value[0]; OriginOperatorDto = value[1]; }
         }
     }
 
-    internal class Divide_OperatorDto_ConstNumerator_VarDenominator_ZeroOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_ConstA_VarB_ZeroOrigin : OperatorDtoBase_ConstA_VarB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
-
-        public double Numerator { get; set; }
-        public OperatorDtoBase DenominatorOperatorDto { get; set; }
-
-        public override IList<OperatorDtoBase> InputOperatorDtos
-        {
-            get { return new OperatorDtoBase[] { DenominatorOperatorDto }; }
-            set { DenominatorOperatorDto = value[0]; }
-        }
     }
 
-    internal class Divide_OperatorDto_ConstNumerator_VarDenominator_ConstOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_ConstA_VarB_ConstOrigin : OperatorDtoBase_ConstA_VarB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
-        public double Numerator { get; set; }
-        public OperatorDtoBase DenominatorOperatorDto { get; set; }
         public double Origin { get; set; }
-
-        public override IList<OperatorDtoBase> InputOperatorDtos
-        {
-            get { return new OperatorDtoBase[] { DenominatorOperatorDto }; }
-            set { DenominatorOperatorDto = value[0]; }
-        }
     }
 
-    internal class Divide_OperatorDto_ConstNumerator_ConstDenominator_VarOrigin : OperatorDtoBase
+    internal class Divide_OperatorDto_ConstA_ConstB_VarOrigin : OperatorDtoBase_ConstA_ConstB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
-        public double Numerator { get; set; }
-        public double Denominator { get; set; }
         public OperatorDtoBase OriginOperatorDto { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
@@ -153,20 +100,15 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Divide_OperatorDto_ConstNumerator_ConstDenominator_ZeroOrigin : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Divide_OperatorDto_ConstA_ConstB_ZeroOrigin : OperatorDtoBase_ConstA_ConstB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
-
-        public double Numerator { get; set; }
-        public double Denominator { get; set; }
     }
 
-    internal class Divide_OperatorDto_ConstNumerator_ConstDenominator_ConstOrigin : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Divide_OperatorDto_ConstA_ConstB_ConstOrigin : OperatorDtoBase_ConstA_ConstB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Divide);
 
-        public double Numerator { get; set; }
-        public double Denominator { get; set; }
         public double Origin { get; set; }
     }
 }
