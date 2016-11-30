@@ -241,7 +241,6 @@
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_ConstCenterFrequency_ConstBandWidth.cs" />
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth.cs" />
     <Compile Include="Dto\OperatorDtoBase_Consts.cs" />
-    <Compile Include="Dto\2016-11-19 Backup of OperatorDtoBase_NoVars_NoConsts.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_ConstSignal.cs" />
     <Compile Include="Dto\OperatorDtoBase_ShelfFilter.cs" />
     <Compile Include="Dto\OperatorDtoBase_ConstX.cs" />
@@ -251,7 +250,6 @@
     <Compile Include="Dto\OperatorDtoBase_WithoutInputOperatorDtos.cs" />
     <Compile Include="Dto\PeakingEQFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\RangeOverOutlets OperatorDto Classes.cs" />
-    <Compile Include="Dto\2016-11-29 Backup of Sample OperatorDto Classes.cs" />
     <Compile Include="Dto\SawUp OperatorDto Classes.cs" />
     <Compile Include="Dto\Shift OperatorDto Classes.cs" />
     <Compile Include="Dto\Sine OperatorDto Classes.cs" />
