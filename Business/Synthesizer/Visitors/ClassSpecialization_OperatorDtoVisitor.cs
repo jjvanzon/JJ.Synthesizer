@@ -46,10 +46,12 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new Absolute_OperatorDto_ConstX { X = xMathPropertiesDto.ConstValue };
             }
-            else
+            else if (xMathPropertiesDto.IsVar)
             {
                 return new Absolute_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
             }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto)
@@ -1023,10 +1025,12 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new Negative_OperatorDto_ConstX { X = xMathPropertiesDto.ConstValue };
             }
-            else
+            else if (xMathPropertiesDto.IsVar)
             {
                 return new Negative_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
             }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Not_OperatorDto(Not_OperatorDto dto)
@@ -1039,10 +1043,12 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new Not_OperatorDto_ConstX { X = xMathPropertiesDto.ConstValue };
             }
-            else
+            else if (xMathPropertiesDto.IsVar)
             {
                 return new Not_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
             }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto)
@@ -1108,10 +1114,8 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new OneOverX_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
             }
-            else
-            {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
-            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Or_OperatorDto(Or_OperatorDto dto)
@@ -1311,9 +1315,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto tillMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TillOperatorDto);
             MathPropertiesDto stepMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.StepOperatorDto);
 
-            if (fromMathPropertiesDto.IsConst &&
-                tillMathPropertiesDto.IsConst &&
-                stepMathPropertiesDto.IsConst)
+            if (fromMathPropertiesDto.IsConst && tillMathPropertiesDto.IsConst && stepMathPropertiesDto.IsConst)
             {
                 return new RangeOverDimension_OperatorCalculator_OnlyConsts
                 {
@@ -1360,10 +1362,8 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new RangeOverOutlets_OperatorDto_VarFrom_VarStep { FromOperatorDto = dto.FromOperatorDto, StepOperatorDto = dto.StepOperatorDto };
             }
-            else
-            {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
-            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto(Reverse_OperatorDto dto)
