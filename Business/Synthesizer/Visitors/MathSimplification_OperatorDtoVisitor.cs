@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -11,6 +14,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Visit_OperatorDto_Polymorphic(dto);
         }
 
+        // Absolute
+
         protected override OperatorDtoBase Visit_Absolute_OperatorDto_ConstX(Absolute_OperatorDto_ConstX dto)
         {
             base.Visit_Absolute_OperatorDto_ConstX(dto);
@@ -20,24 +25,24 @@ namespace JJ.Business.Synthesizer.Visitors
             return new Number_OperatorDto { Number = result };
         }
 
+        // Add
+
         protected override OperatorDtoBase Visit_Add_OperatorDto_NoVars_Consts(Add_OperatorDto_NoVars_Consts dto)
         {
             base.Visit_Add_OperatorDto_NoVars_Consts(dto);
 
-            double number = dto.Consts.Sum();
+            double result = dto.Consts.Sum();
 
-            var dto2 = new Number_OperatorDto { Number = number };
+            return new Number_OperatorDto { Number = result };
 
-            return dto2;
+            //Process_OperatorDtoBase_NoVars_Consts(x => x.Sum());
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_NoVars_NoConsts(Add_OperatorDto_NoVars_NoConsts dto)
         {
             base.Visit_Add_OperatorDto_NoVars_NoConsts(dto);
 
-            var dto2 = new Number_OperatorDto_Zero();
-
-            return dto2;
+            return new Number_OperatorDto_Zero();
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
@@ -47,19 +52,13 @@ namespace JJ.Business.Synthesizer.Visitors
             switch (dto.Vars.Count)
             {
                 case 0:
-                    {
-                        OperatorDtoBase dto2 = new Number_OperatorDto_Zero();
-                        return dto2;
-                    }
+                    return new Number_OperatorDto_Zero();
+
                 case 1:
-                    {
-                        OperatorDtoBase dto2 = dto.Vars[0];
-                        return dto2;
-                    }
+                    return dto.Vars[0];
+
                 default:
-                    {
-                        return dto;
-                    }
+                    return dto;
             }
         }
 
@@ -69,39 +68,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             double constValue = dto.Consts.Sum();
 
-            var dto2 = new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
-
-            OperatorDtoBase dto3 = Visit_Add_OperatorDto_Vars_1Const(dto2);
-
-            return dto3;
-        }
-
-        /// <summary>
-        /// In practice this method is not fired, because the previously run visitors do not produce this DTO,
-        /// but if it ended up in the structure for some reason, it is handled here.
-        /// </summary>
-        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
-        {
-            base.Visit_Add_OperatorDto_Vars_1Const(dto);
-
-            if (dto.Vars.Count == 0)
-            {
-                OperatorDtoBase dto2 = new Number_OperatorDto { Number = dto.ConstValue };
-                return dto2;
-            }
-
-            if (dto.ConstValue == 0.0)
-            {
-                OperatorDtoBase dto2 = new Add_OperatorDto_Vars_NoConsts { Vars = dto.Vars };
-                return dto2;
-            }
-
-            return dto;
+            return new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
         }
 
         protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_AllVars(AllPassFilter_OperatorDto_AllVars dto)
         {
-
             throw new NotImplementedException();
         }
 
@@ -807,29 +778,52 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
+        // Multiply
+
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_NoVars_Consts(Multiply_OperatorDto_NoVars_Consts dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Multiply_OperatorDto_NoVars_Consts(dto);
+
+            double result = dto.Consts.Product();
+
+            return new Number_OperatorDto { Number = result };
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_NoVars_NoConsts(Multiply_OperatorDto_NoVars_NoConsts dto)
         {
-            throw new NotImplementedException();
-        }
+            base.Visit_Multiply_OperatorDto_NoVars_NoConsts(dto);
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_Consts(Multiply_OperatorDto_Vars_Consts dto)
-        {
-            throw new NotImplementedException();
+            return new Number_OperatorDto_Zero();
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Multiply_OperatorDto_Vars_NoConsts(dto);
+
+            switch (dto.Vars.Count)
+            {
+                case 0:
+                    return new Number_OperatorDto_Zero();
+
+                case 1:
+                    return dto.Vars[0];
+
+                default:
+                    return dto;
+            }
+        }
+
+        protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_Consts(Multiply_OperatorDto_Vars_Consts dto)
+        {
+            base.Visit_Multiply_OperatorDto_Vars_Consts(dto);
+
+            double constValue = dto.Consts.Product();
+
+            var dto2 = new Multiply_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
+
+            OperatorDtoBase dto3 = Visit_Multiply_OperatorDto_Vars_1Const(dto2);
+
+            return dto3;
         }
 
         protected override OperatorDtoBase Visit_Negative_OperatorDto_ConstX(Negative_OperatorDto_ConstX dto)
@@ -876,6 +870,8 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
+        // Not
+
         protected override OperatorDtoBase Visit_Not_OperatorDto_ConstX(Not_OperatorDto_ConstX dto)
         {
             base.Visit_Not_OperatorDto_ConstX(dto);
@@ -910,6 +906,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             throw new NotImplementedException();
         }
+
+        // OneOverX
 
         protected override OperatorDtoBase Visit_OneOverX_OperatorDto_ConstX(OneOverX_OperatorDto_ConstX dto)
         {

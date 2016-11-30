@@ -17,20 +17,16 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
         {
             base.Visit_Add_OperatorDto_NoVars_Consts(dto);
 
-            double number = dto.Consts.Sum();
+            double result = dto.Consts.Sum();
 
-            var dto2 = new Number_OperatorDto { Number = number };
-
-            return dto2;
+            return new Number_OperatorDto { Number = result };
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_NoVars_NoConsts(Add_OperatorDto_NoVars_NoConsts dto)
         {
             base.Visit_Add_OperatorDto_NoVars_NoConsts(dto);
 
-            var dto2 = new Number_OperatorDto_Zero();
-
-            return dto2;
+            return new Number_OperatorDto_Zero();
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
@@ -40,19 +36,13 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             switch (dto.Vars.Count)
             {
                 case 0:
-                    {
-                        OperatorDtoBase dto2 = new Number_OperatorDto_Zero();
-                        return dto2;
-                    }
+                    return new Number_OperatorDto_Zero();
+
                 case 1:
-                    {
-                        OperatorDtoBase dto2 = dto.Vars[0];
-                        return dto2;
-                    }
+                    return dto.Vars[0];
+
                 default:
-                    {
-                        return dto;
-                    }
+                    return dto;
             }
         }
 
@@ -69,28 +59,26 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             return dto3;
         }
 
-        /// <summary>
-        /// In practice this method is not fired, because the previously run visitors do not produce this DTO,
-        /// but if it ended up in the structure for some reason, it is handled here.
-        /// </summary>
-        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
-        {
-            base.Visit_Add_OperatorDto_Vars_1Const(dto);
+        ///// <summary>
+        ///// In practice this method is not fired, because the previously run visitors do not produce this DTO,
+        ///// but if it ended up in the structure for some reason, it is handled here.
+        ///// </summary>
+        //protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
+        //{
+        //    base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
-            if (dto.Vars.Count == 0)
-            {
-                OperatorDtoBase dto2 = new Number_OperatorDto { Number = dto.ConstValue };
-                return dto2;
-            }
+        //    if (dto.Vars.Count == 0)
+        //    {
+        //        return new Number_OperatorDto { Number = dto.ConstValue };
+        //    }
 
-            if (dto.ConstValue == 0.0)
-            {
-                OperatorDtoBase dto2 = new Add_OperatorDto_Vars_NoConsts { Vars = dto.Vars };
-                return dto2;
-            }
+        //    if (dto.ConstValue == 0.0)
+        //    {
+        //        return new Add_OperatorDto_Vars_NoConsts { Vars = dto.Vars };
+        //    }
 
-            return dto;
-        }
+        //    return dto;
+        //}
 
         // Multiply
 
