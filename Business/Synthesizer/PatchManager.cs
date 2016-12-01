@@ -341,9 +341,6 @@ namespace JJ.Business.Synthesizer
 
         // Grouping
 
-
-        // Grouping 
-
         public IList<PatchGroupDto> GetPatchGroupDtos_IncludingGroupless(IList<Patch> patchesInDocument)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);

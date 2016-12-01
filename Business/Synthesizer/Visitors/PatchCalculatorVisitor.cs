@@ -15,7 +15,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Operators;
-using JJ.Business.Synthesizer.Visitors;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Common;
@@ -3137,14 +3136,24 @@ namespace JJ.Business.Synthesizer.Visitors
             double exponent = exponentCalculator.Calculate();
             bool baseIsConst = baseCalculator is Number_OperatorCalculator;
             bool exponentIsConst = exponentCalculator is Number_OperatorCalculator;
-            bool baseIsConstZero = baseIsConst && @base == 0;
-            bool exponentIsConstZero = exponentIsConst && exponent == 0;
+            bool baseIsConstZero = baseIsConst && @base == 0.0;
+            bool baseIsConstOne = baseIsConst && @base == 1.0;
+            bool exponentIsConstZero = exponentIsConst && exponent == 0.0;
+            bool exponentIsConstOne = exponentIsConst && exponent == 1.0;
 
             if (baseIsConstZero)
             {
                 calculator = new Zero_OperatorCalculator();
             }
+            if (baseIsConstOne)
+            {
+                calculator = new One_OperatorCalculator();
+            }
             else if (exponentIsConstZero)
+            {
+                calculator = new One_OperatorCalculator();
+            }
+            else if (exponentIsConstOne)
             {
                 calculator = baseCalculator;
             }

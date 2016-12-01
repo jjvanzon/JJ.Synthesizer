@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
@@ -72,6 +73,24 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new ClosestOverInletsExp_OperatorDto_VarInput_VarItems { InputOperatorDto = dto.InputOperatorDto, ItemOperatorDtos = dto.ItemOperatorDtos };
             }
+        }
+
+        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
+        {
+            // TODO: Specialize to these:
+            // MaxOverInlets_OperatorDto_1Var_1Const
+            // MaxOverInlets_OperatorDto_2Vars
+
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto)
+        {
+            // TODO: Specialize to these:
+            // MinOverInlets_OperatorDto_1Var_1Const
+            // MinOverInlets_OperatorDto_2Vars
+
+            throw new NotImplementedException();
         }
 
         // Helpers

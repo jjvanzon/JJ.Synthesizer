@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 
@@ -15,35 +17,17 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_NoVars_Consts(Add_OperatorDto_NoVars_Consts dto)
         {
-            base.Visit_Add_OperatorDto_NoVars_Consts(dto);
-
-            double result = dto.Consts.Sum();
-
-            return new Number_OperatorDto { Number = result };
+            return Process_OperatorDto_NoVars_Consts(dto, Enumerable.Sum);
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_NoVars_NoConsts(Add_OperatorDto_NoVars_NoConsts dto)
         {
-            base.Visit_Add_OperatorDto_NoVars_NoConsts(dto);
-
-            return new Number_OperatorDto_Zero();
+            return Process_OperatorDto_NoVars_NoConsts(dto);
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
-            base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
-
-            switch (dto.Vars.Count)
-            {
-                case 0:
-                    return new Number_OperatorDto_Zero();
-
-                case 1:
-                    return dto.Vars[0];
-
-                default:
-                    return dto;
-            }
+            return Process_OperatorDto_Vars_NoConsts(dto);
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_Consts(Add_OperatorDto_Vars_Consts dto)
@@ -52,33 +36,8 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
             double constValue = dto.Consts.Sum();
 
-            var dto2 = new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
-
-            OperatorDtoBase dto3 = Visit_Add_OperatorDto_Vars_1Const(dto2);
-
-            return dto3;
+            return new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
         }
-
-        ///// <summary>
-        ///// In practice this method is not fired, because the previously run visitors do not produce this DTO,
-        ///// but if it ended up in the structure for some reason, it is handled here.
-        ///// </summary>
-        //protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
-        //{
-        //    base.Visit_Add_OperatorDto_Vars_1Const(dto);
-
-        //    if (dto.Vars.Count == 0)
-        //    {
-        //        return new Number_OperatorDto { Number = dto.ConstValue };
-        //    }
-
-        //    if (dto.ConstValue == 0.0)
-        //    {
-        //        return new Add_OperatorDto_Vars_NoConsts { Vars = dto.Vars };
-        //    }
-
-        //    return dto;
-        //}
 
         // Multiply
 
@@ -87,11 +46,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
         {
             base.Visit_Multiply_OperatorDto_ConstA_ConstB(dto);
 
-            var dto2 = new Number_OperatorDto { Number = dto.A * dto.B };
-
-            OperatorDtoBase dto3 = Visit_Number_OperatorDto(dto2);
-
-            return dto3;
+            return new Number_OperatorDto { Number = dto.A * dto.B };
         }
 
         /// <summary> Switch A and B </summary>
@@ -101,9 +56,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
             var dto2 = new Multiply_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A };
 
-            OperatorDtoBase dto3 = Visit_Multiply_OperatorDto_VarA_ConstB(dto2);
-
-            return dto3;
+            return Visit_Multiply_OperatorDto_VarA_ConstB(dto2);
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
@@ -115,9 +68,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             // 0
             if (bMathPropertiesDto.IsConstZero)
             {
-                var dto2 = new Number_OperatorDto_Zero();
-
-                OperatorDtoBase dto3 = Visit_Number_OperatorDto(dto2);
+                return new Number_OperatorDto_Zero();
             }
 
             // 1 is identity
@@ -135,22 +86,14 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
         {
             base.Visit_Shift_OperatorDto_ConstSignal_ConstDistance(dto);
 
-            var dto2 = new Number_OperatorDto { Number = dto.Signal };
-
-            OperatorDtoBase dto3 = Visit_Number_OperatorDto(dto2);
-
-            return dto3;
+            return new Number_OperatorDto { Number = dto.Signal };
         }
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto)
         {
             base.Visit_Shift_OperatorDto_ConstSignal_VarDistance(dto);
 
-            var dto2 = new Number_OperatorDto { Number = dto.Signal };
-
-            OperatorDtoBase dto3 = Visit_Number_OperatorDto(dto2);
-
-            return dto3;
+            return new Number_OperatorDto { Number = dto.Signal };
         }
 
         // Sine
@@ -163,14 +106,47 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
             if (frequencyMathPropertiesDto.IsConstZero)
             {
-                var dto2 = new Number_OperatorDto_Zero();
-
-                OperatorDtoBase dto3 = Visit_Number_OperatorDto(dto2);
-
-                return dto3;
+                return new Number_OperatorDto_Zero();
             }
 
             return dto;
+        }
+
+        // Helpers
+
+        private OperatorDtoBase Process_OperatorDto_NoVars_Consts(
+            OperatorDtoBase_Consts dto,
+            Func<IEnumerable<double>, double> constantsCombiningDelegate)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            double result = constantsCombiningDelegate(dto.Consts);
+
+            return new Number_OperatorDto { Number = result };
+        }
+
+        private OperatorDtoBase Process_OperatorDto_NoVars_NoConsts(OperatorDtoBase dto)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            return new Number_OperatorDto_Zero();
+        }
+
+        private OperatorDtoBase Process_OperatorDto_Vars_NoConsts(OperatorDtoBase_Vars dto)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            switch (dto.Vars.Count)
+            {
+                case 0:
+                    return new Number_OperatorDto_Zero();
+
+                case 1:
+                    return dto.Vars[0];
+
+                default:
+                    return dto;
+            }
         }
     }
 }

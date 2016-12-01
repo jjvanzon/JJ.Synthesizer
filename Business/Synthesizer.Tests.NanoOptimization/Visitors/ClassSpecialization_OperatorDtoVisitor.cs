@@ -62,18 +62,15 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             {
                 return new Multiply_OperatorDto_ConstA_ConstB { A = aMathPropertiesDto.ConstValue, B = bMathPropertiesDto.ConstValue };
             }
-
-            if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsConst)
             {
                 return new Multiply_OperatorDto_VarA_ConstB { AOperatorDto = aOperatorDto, B = bMathPropertiesDto.ConstValue };
             }
-
-            if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
+            else if (aMathPropertiesDto.IsConst && bMathPropertiesDto.IsVar)
             {
                 return new Multiply_OperatorDto_ConstA_VarB { A = aMathPropertiesDto.ConstValue, BOperatorDto = bOperatorDto };
             }
-
-            if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
+            else if (aMathPropertiesDto.IsVar && bMathPropertiesDto.IsVar)
             {
                 return new Multiply_OperatorDto_VarA_VarB { AOperatorDto = aOperatorDto, BOperatorDto = bOperatorDto };
             }
@@ -95,18 +92,15 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             {
                 return new Shift_OperatorDto_ConstSignal_ConstDistance { Signal = signalMathPropertiesDto.ConstValue, Distance = distanceMathPropertiesDto.ConstValue };
             }
-
-            if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsConst)
+            else if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsConst)
             {
                 return new Shift_OperatorDto_VarSignal_ConstDistance { SignalOperatorDto = signalOperatorDto, Distance = distanceMathPropertiesDto.ConstValue };
             }
-
-            if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsVar)
+            else if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsVar)
             {
                 return new Shift_OperatorDto_ConstSignal_VarDistance { Signal = signalMathPropertiesDto.ConstValue, DistanceOperatorDto = distanceOperatorDto };
             }
-
-            if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsVar)
+            else if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsVar)
             {
                 return new Shift_OperatorDto_VarSignal_VarDistance { SignalOperatorDto = signalOperatorDto, DistanceOperatorDto = distanceOperatorDto };
             }
@@ -125,8 +119,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             {
                 return new Sine_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
             }
-
-            if (frequencyMathPropertiesDto.IsVar)
+            else if (frequencyMathPropertiesDto.IsVar)
             {
                 return new Sine_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = frequencyOperatorDto };
             }
