@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
@@ -60,24 +61,62 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
+        // And
+
+        /// <summary> Pre-calculate </summary>
         protected override OperatorDtoBase Visit_And_OperatorDto_ConstA_ConstB(And_OperatorDto_ConstA_ConstB dto)
         {
-            throw new NotImplementedException();
+            base.Visit_And_OperatorDto_ConstA_ConstB(dto);
+
+            MathPropertiesDto aMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.A);
+            MathPropertiesDto bMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.B);
+
+            if (aMathProperties.IsConstNonZero && bMathProperties.IsConstNonZero)
+            {
+                return new Number_OperatorDto_One();
+            }
+            else if (aMathProperties.IsConstZero || bMathProperties.IsConstZero)
+            {
+                return new Number_OperatorDto_Zero();
+            }
+            else if (aMathProperties.IsConstSpecialValue || bMathProperties.IsConstSpecialValue)
+            {
+                return new Number_OperatorDto_NaN();
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
+        /// <summary> Switch A and B </summary>
         protected override OperatorDtoBase Visit_And_OperatorDto_ConstA_VarB(And_OperatorDto_ConstA_VarB dto)
         {
-            throw new NotImplementedException();
+            base.Visit_And_OperatorDto_ConstA_VarB(dto);
+
+            var dto2 = new And_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A };
+
+            return Visit_And_OperatorDto_VarA_ConstB(dto2);
         }
 
         protected override OperatorDtoBase Visit_And_OperatorDto_VarA_ConstB(And_OperatorDto_VarA_ConstB dto)
         {
-            throw new NotImplementedException();
-        }
+            base.Visit_And_OperatorDto_VarA_ConstB(dto);
 
-        protected override OperatorDtoBase Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto)
-        {
-            throw new NotImplementedException();
+            MathPropertiesDto bMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.B);
+
+            if (bMathProperties.IsConstZero)
+            {
+                return new Number_OperatorDto_Zero();
+            }
+            else if (bMathProperties.IsConstNonZero)
+            {
+                return dto.AOperatorDto;
+            }
+            else if (bMathProperties.IsConstSpecialValue)
+            {
+                return new Number_OperatorDto_NaN();
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
         protected override OperatorDtoBase Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
@@ -882,24 +921,62 @@ namespace JJ.Business.Synthesizer.Visitors
             return new Number_OperatorDto { Number = 1.0 / dto.X };
         }
 
+        // Or
+
+        /// <summary> Pre-calculate // </summary>
         protected override OperatorDtoBase Visit_Or_OperatorDto_ConstA_ConstB(Or_OperatorDto_ConstA_ConstB dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Or_OperatorDto_ConstA_ConstB(dto);
+
+            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.A);
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.B);
+
+            if (aMathPropertiesDto.IsConstNonZero || bMathPropertiesDto.IsConstNonZero)
+            {
+                return new Number_OperatorDto_One();
+            }
+            else if (aMathPropertiesDto.IsConstZero && bMathPropertiesDto.IsConstZero)
+            {
+                return new Number_OperatorDto_Zero();
+            }
+            else if (aMathPropertiesDto.IsConstSpecialValue || bMathPropertiesDto.IsConstSpecialValue)
+            {
+                return new Number_OperatorDto_NaN();
+            }
+
+            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
+        /// <summary> Switch A and B </summary>
         protected override OperatorDtoBase Visit_Or_OperatorDto_ConstA_VarB(Or_OperatorDto_ConstA_VarB dto)
         {
-            throw new NotImplementedException();
+            base.Visit_Or_OperatorDto_ConstA_VarB(dto);
+
+            var dto2 = new Or_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A };
+
+            return Visit_Or_OperatorDto_VarA_ConstB(dto2);
         }
 
         protected override OperatorDtoBase Visit_Or_OperatorDto_VarA_ConstB(Or_OperatorDto_VarA_ConstB dto)
         {
-            throw new NotImplementedException();
-        }
+            base.Visit_Or_OperatorDto_VarA_ConstB(dto);
 
-        protected override OperatorDtoBase Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
-        {
-            throw new NotImplementedException();
+            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.B);
+
+            if (bMathPropertiesDto.IsConstSpecialValue)
+            {
+                return new Number_OperatorDto_NaN();
+            }
+            else if (bMathPropertiesDto.IsConstNonZero)
+            {
+                return new Number_OperatorDto_One();
+            }
+            else if (bMathPropertiesDto.IsConstZero)
+            {
+                return dto.AOperatorDto;
+            }
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_PatchInlet_OperatorDto(PatchInlet_OperatorDto dto)

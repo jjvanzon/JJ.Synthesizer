@@ -6,6 +6,7 @@
         public bool IsConst { get; set; }
         public bool IsConstZero { get; set; }
         public bool IsConstOne { get; set; }
+        public bool IsConstNonZero { get; internal set; }
         public bool IsConstSpecialValue { get; set; }
         public double ConstValue { get; set; }
     }

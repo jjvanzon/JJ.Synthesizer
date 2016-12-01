@@ -39,11 +39,16 @@ namespace JJ.Business.Synthesizer.Helpers
             }
             else if (value == 1.0)
             {
-                mathPropertiesDto.IsConstZero = true;
+                mathPropertiesDto.IsConstOne = true;
             }
             else if (DoubleHelper.IsSpecialValue(value))
             {
                 mathPropertiesDto.IsConstSpecialValue = true;
+            }
+
+            if (value != 0.0 && !DoubleHelper.IsSpecialValue(value))
+            {
+                mathPropertiesDto.IsConstNonZero = true;
             }
 
             return mathPropertiesDto;
