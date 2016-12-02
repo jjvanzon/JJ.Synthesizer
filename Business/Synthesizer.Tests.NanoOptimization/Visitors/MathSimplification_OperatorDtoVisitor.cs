@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
                 return new Number_OperatorDto_Zero();
             }
 
-            // 1 is identity
+            // Identity
             if (bMathPropertiesDto.IsConstOne)
             {
                 return dto.AOperatorDto;
@@ -84,16 +84,27 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto)
         {
-            base.Visit_Shift_OperatorDto_ConstSignal_ConstDistance(dto);
-
-            return new Number_OperatorDto { Number = dto.Signal };
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto)
         {
-            base.Visit_Shift_OperatorDto_ConstSignal_VarDistance(dto);
+            return Process_ConstSignal(dto.Signal);
+        }
 
-            return new Number_OperatorDto { Number = dto.Signal };
+        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
+        {
+            base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
+
+            MathPropertiesDto distanceMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.Distance);
+
+            bool isIdentity = distanceMathProperties.IsConstZero;
+            if (isIdentity)
+            {
+                return dto.SignalOperatorDto;
+            }
+
+            return dto;
         }
 
         // Sine
@@ -116,11 +127,11 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
         private OperatorDtoBase Process_OperatorDto_NoVars_Consts(
             OperatorDtoBase_Consts dto,
-            Func<IEnumerable<double>, double> constantsCombiningDelegate)
+            Func<IEnumerable<double>, double> aggregatingDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            double result = constantsCombiningDelegate(dto.Consts);
+            double result = aggregatingDelegate(dto.Consts);
 
             return new Number_OperatorDto { Number = result };
         }
@@ -147,6 +158,11 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
                 default:
                     return dto;
             }
+        }
+
+        private OperatorDtoBase Process_ConstSignal(double signal)
+        {
+            return new Number_OperatorDto { Number = signal };
         }
     }
 }

@@ -1352,12 +1352,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Select_OperatorDto_ConstSignal_ConstPosition(Select_OperatorDto_ConstSignal_ConstPosition dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Select_OperatorDto_ConstSignal_VarPosition(Select_OperatorDto_ConstSignal_VarPosition dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Select_OperatorDto_VarSignal_ConstPosition(Select_OperatorDto_VarSignal_ConstPosition dto)
@@ -1380,24 +1380,30 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
+        // Shift
+
         protected override OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
-            throw new NotImplementedException();
-        }
+            base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
 
-        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
-        {
-            throw new NotImplementedException();
+            MathPropertiesDto distanceMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.Distance);
+            bool isIdentity = distanceMathProperties.IsConstZero;
+            if (isIdentity)
+            {
+                return dto.SignalOperatorDto;
+            }
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -1637,11 +1643,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private OperatorDtoBase Process_OperatorDto_NoVars_Consts(
             OperatorDtoBase_Consts dto,
-            Func<IEnumerable<double>, double> constantsCombiningDelegate)
+            Func<IEnumerable<double>, double> aggregatingDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            double result = constantsCombiningDelegate(dto.Consts);
+            double result = aggregatingDelegate(dto.Consts);
 
             return new Number_OperatorDto { Number = result };
         }
@@ -1668,6 +1674,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 default:
                     return dto;
             }
+        }
+
+        private OperatorDtoBase Process_ConstSignal(double signal)
+        {
+            return new Number_OperatorDto { Number = signal };
         }
     }
 }
