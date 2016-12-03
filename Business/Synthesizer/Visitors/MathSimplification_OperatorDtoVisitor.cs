@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_ConstSignal(AllPassFilter_OperatorDto_ConstSignal dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         // And
@@ -201,12 +201,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstSignal(BandPassFilterConstantPeakGain_OperatorDto_ConstSignal dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal(BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Bundle_OperatorDto(Bundle_OperatorDto dto)
@@ -543,7 +543,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_ConstSignal(HighPassFilter_OperatorDto_ConstSignal dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_AllVars(HighShelfFilter_OperatorDto_AllVars dto)
@@ -558,7 +558,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_ConstSignal(HighShelfFilter_OperatorDto_ConstSignal dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Hold_OperatorDto(Hold_OperatorDto dto)
@@ -766,7 +766,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ConstSignal(LowPassFilter_OperatorDto_ConstSignal dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto)
@@ -781,7 +781,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_ConstSignal(LowShelfFilter_OperatorDto_ConstSignal dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
@@ -1040,7 +1040,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_ConstSignal(NotchFilter_OperatorDto_ConstSignal dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         // NotEqual
@@ -1231,7 +1231,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ConstSignal(PeakingEQFilter_OperatorDto_ConstSignal dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         // Power
@@ -1755,42 +1755,42 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_ConstSignal_ConstFactor_VarOrigin(Squash_OperatorDto_ConstSignal_ConstFactor_VarOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_ConstSignal_VarFactor_ConstOrigin(Squash_OperatorDto_ConstSignal_VarFactor_ConstOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_ConstSignal_VarFactor_VarOrigin(Squash_OperatorDto_ConstSignal_VarFactor_VarOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin(Squash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
@@ -1835,42 +1835,42 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_ConstSignal_ConstFactor_ConstOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin(Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_ConstSignal(dto.Signal);
         }
 
         // Subtract
