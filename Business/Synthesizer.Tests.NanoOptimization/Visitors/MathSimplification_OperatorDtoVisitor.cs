@@ -34,9 +34,28 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
         {
             base.Visit_Add_OperatorDto_Vars_Consts(dto);
 
+            // Pre-calculate
             double constValue = dto.Consts.Sum();
 
-            return new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
+            var dto2 = new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
+
+            return Visit_Add_OperatorDto_Vars_1Const(dto2);
+        }
+
+        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
+        {
+            base.Visit_Add_OperatorDto_Vars_1Const(dto);
+
+            MathPropertiesDto constMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.ConstValue);
+
+            // Identity
+            if (constMathProperties.IsConstZero)
+            {
+                var dto2 = new Add_OperatorDto_Vars_NoConsts { Vars = dto.Vars };
+                return Visit_Add_OperatorDto_Vars_NoConsts(dto2);
+            }
+
+            return dto;
         }
 
         // Multiply
@@ -98,9 +117,9 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
             MathPropertiesDto distanceMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.Distance);
 
-            bool isIdentity = distanceMathProperties.IsConstZero;
-            if (isIdentity)
+            if (distanceMathProperties.IsConstZero)
             {
+                // Identity
                 return dto.SignalOperatorDto;
             }
 
@@ -131,6 +150,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
         {
             base.Visit_OperatorDto_Base(dto);
 
+            // Pre-calculate
             double result = aggregatingDelegate(dto.Consts);
 
             return new Number_OperatorDto { Number = result };
@@ -140,6 +160,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
         {
             base.Visit_OperatorDto_Base(dto);
 
+            // 0
             return new Number_OperatorDto_Zero();
         }
 
@@ -150,6 +171,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             switch (dto.Vars.Count)
             {
                 case 0:
+                    // 0
                     return new Number_OperatorDto_Zero();
 
                 case 1:
