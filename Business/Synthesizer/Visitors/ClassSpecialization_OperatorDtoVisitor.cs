@@ -129,20 +129,20 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto)
+        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto_AllVars dto)
         {
             base.Visit_AverageOverDimension_OperatorDto(dto);
 
-            AverageOverDimension_OperatorDto dto2;
+            AverageOverDimension_OperatorDto_AllVars dto2;
 
             switch (dto.CollectionRecalculationEnum)
             {
                 case CollectionRecalculationEnum.Continuous:
-                    dto2 = new AverageOverDimension_OperatorDto_CollectionRecalculationContinuous();
+                    dto2 = new AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
                     break;
 
                 case CollectionRecalculationEnum.UponReset:
-                    dto2 = new AverageOverDimension_OperatorDto_CollectionRecalculationUponReset();
+                    dto2 = new AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
                     break;
 
                 default:
@@ -632,10 +632,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            var asIInterpolate_OperatorDto = dto2 as IInterpolate_OperatorDto;
-            if (asIInterpolate_OperatorDto != null)
+            var asIInterpolate_OperatorDto_VarSignal = dto2 as IInterpolate_OperatorDto_VarSignal;
+            if (asIInterpolate_OperatorDto_VarSignal != null)
             {
-                Clone_InterpolateOperatorProperties(dto, asIInterpolate_OperatorDto);
+                Clone_InterpolateOperatorProperties(dto, asIInterpolate_OperatorDto_VarSignal);
             }
 
             return dto2;
@@ -827,20 +827,20 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto)
+        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto_AllVars dto)
         {
             base.Visit_MaxOverDimension_OperatorDto(dto);
 
-            MaxOverDimension_OperatorDto dto2;
+            MaxOverDimension_OperatorDto_AllVars dto2;
 
             switch (dto.CollectionRecalculationEnum)
             {
                 case CollectionRecalculationEnum.Continuous:
-                    dto2 = new MaxOverDimension_OperatorDto_CollectionRecalculationContinuous();
+                    dto2 = new MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
                     break;
 
                 case CollectionRecalculationEnum.UponReset:
-                    dto2 = new MaxOverDimension_OperatorDto_CollectionRecalculationUponReset();
+                    dto2 = new MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
                     break;
 
                 default:
@@ -878,20 +878,20 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto)
+        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto_AllVars dto)
         {
             base.Visit_MinOverDimension_OperatorDto(dto);
 
-            MinOverDimension_OperatorDto dto2;
+            MinOverDimension_OperatorDto_AllVars dto2;
 
             switch (dto.CollectionRecalculationEnum)
             {
                 case CollectionRecalculationEnum.Continuous:
-                    dto2 = new MinOverDimension_OperatorDto_CollectionRecalculationContinuous();
+                    dto2 = new MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
                     break;
 
                 case CollectionRecalculationEnum.UponReset:
-                    dto2 = new MinOverDimension_OperatorDto_CollectionRecalculationUponReset();
+                    dto2 = new MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
                     break;
 
                 default:
@@ -1751,20 +1751,20 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto)
+        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto_AllVars dto)
         {
             base.Visit_SortOverDimension_OperatorDto(dto);
 
-            SortOverDimension_OperatorDto dto2;
+            SortOverDimension_OperatorDto_AllVars dto2;
 
             switch (dto.CollectionRecalculationEnum)
             {
                 case CollectionRecalculationEnum.Continuous:
-                    dto2 = new SortOverDimension_OperatorDto_CollectionRecalculationContinuous();
+                    dto2 = new SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
                     break;
 
                 case CollectionRecalculationEnum.UponReset:
-                    dto2 = new SortOverDimension_OperatorDto_CollectionRecalculationUponReset();
+                    dto2 = new SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
                     break;
 
                 default:
@@ -2025,20 +2025,20 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto)
+        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto_AllVars dto)
         {
             base.Visit_SumOverDimension_OperatorDto(dto);
 
-            SumOverDimension_OperatorDto dto2;
+            SumOverDimension_OperatorDto_AllVars dto2;
 
             switch (dto.CollectionRecalculationEnum)
             {
                 case CollectionRecalculationEnum.Continuous:
-                    dto2 = new SumOverDimension_OperatorDto_CollectionRecalculationContinuous();
+                    dto2 = new SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
                     break;
 
                 case CollectionRecalculationEnum.UponReset:
-                    dto2 = new SumOverDimension_OperatorDto_CollectionRecalculationUponReset();
+                    dto2 = new SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
                     break;
 
                 default:
@@ -2112,7 +2112,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Clone
 
-        private void Clone_AggregateOverDimensionProperties(OperatorDtoBase_AggregateOverDimension source, OperatorDtoBase_AggregateOverDimension dest)
+        private void Clone_AggregateOverDimensionProperties(OperatorDtoBase_AggregateOverDimension_AllVars source, OperatorDtoBase_AggregateOverDimension_AllVars dest)
         {
             dest.SignalOperatorDto = source.SignalOperatorDto;
             dest.FromOperatorDto = source.FromOperatorDto;
@@ -2160,7 +2160,7 @@ namespace JJ.Business.Synthesizer.Visitors
             dest.StandardDimensionEnum = source.StandardDimensionEnum;
         }
 
-        private void Clone_InterpolateOperatorProperties(IInterpolate_OperatorDto source, IInterpolate_OperatorDto dest)
+        private void Clone_InterpolateOperatorProperties(IInterpolate_OperatorDto_VarSignal source, IInterpolate_OperatorDto_VarSignal dest)
         {
             dest.ResampleInterpolationTypeEnum = source.ResampleInterpolationTypeEnum;
             dest.SignalOperatorDto = source.SignalOperatorDto;

@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class HighPassFilter_OperatorDto : HighPassFilter_OperatorDto_AllVars
     { }
 
-    internal class HighPassFilter_OperatorDto_ConstSignal : OperatorDtoBase_Filter_ConstSignal
+    internal class HighPassFilter_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.HighPassFilter);
     }

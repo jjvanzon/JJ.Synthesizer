@@ -23,6 +23,11 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
+    internal class Cache_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Cache);
+    }
+
     internal class Cache_OperatorDto_SingleChannel : Cache_OperatorDto
     { }
 

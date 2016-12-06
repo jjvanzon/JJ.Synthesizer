@@ -4,7 +4,12 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Spectrum_OperatorDto : OperatorDtoBase_WithDimension
+    internal class Spectrum_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Spectrum);
+    }
+
+    internal class Spectrum_OperatorDto_AllVars : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Spectrum);
 

@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_AggregateOverDimension : OperatorDtoBase_WithDimension
+    internal abstract class OperatorDtoBase_AggregateOverDimension_AllVars : OperatorDtoBase_WithDimension
     {
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase FromOperatorDto { get; set; }

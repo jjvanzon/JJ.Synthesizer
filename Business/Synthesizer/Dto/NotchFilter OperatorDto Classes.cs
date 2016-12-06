@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class NotchFilter_OperatorDto : NotchFilter_OperatorDto_AllVars
     { }
 
-    internal class NotchFilter_OperatorDto_ConstSignal : OperatorDtoBase_Filter_ConstSignal
+    internal class NotchFilter_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.NotchFilter);
     }

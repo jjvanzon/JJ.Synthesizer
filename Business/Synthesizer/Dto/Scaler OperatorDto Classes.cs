@@ -6,6 +6,38 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Scaler_OperatorDto : Scaler_OperatorDto_AllVars
     { }
 
+    internal class Scalaer_OperatorDto_ConstSignal : OperatorDtoBase
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Scaler);
+
+        public double Signal { get; set; }
+        public OperatorDtoBase SourceValueAOperatorDto { get; set; }
+        public OperatorDtoBase SourceValueBOperatorDto { get; set; }
+        public OperatorDtoBase TargetValueAOperatorDto { get; set; }
+        public OperatorDtoBase TargetValueBOperatorDto { get; set; }
+
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get
+            {
+                return new OperatorDtoBase[]
+                {
+                    SourceValueAOperatorDto,
+                    SourceValueBOperatorDto,
+                    TargetValueAOperatorDto,
+                    TargetValueBOperatorDto
+                };
+            }
+            set
+            {
+                SourceValueAOperatorDto = value[0];
+                SourceValueBOperatorDto = value[1];
+                TargetValueAOperatorDto = value[2];
+                TargetValueBOperatorDto = value[3];
+            }
+        }
+    }
+
     internal class Scaler_OperatorDto_AllVars : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Scaler);

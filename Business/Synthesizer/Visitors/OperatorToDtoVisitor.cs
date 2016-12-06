@@ -88,13 +88,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitAverageFollower(Operator op)
         {
-            var dto = new AverageFollower_OperatorDto();
+            var dto = new AverageFollower_OperatorDto_AllVars();
             Visit_OperatorDtoBase_AggregateFollower(op, dto);
         }
 
         protected override void VisitAverageOverDimension(Operator op)
         {
-            var dto = new AverageOverDimension_OperatorDto();
+            var dto = new AverageOverDimension_OperatorDto_AllVars();
             Visit_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
 
@@ -303,7 +303,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitHold(op);
 
-            var dto = new Hold_OperatorDto();
+            var dto = new Hold_OperatorDto_VarSignal();
 
             _stack.Push(dto);
         }
@@ -411,7 +411,7 @@ namespace JJ.Business.Synthesizer.Visitors
         
         protected override void VisitMaxOverDimension(Operator op)
         {
-            var dto = new MaxOverDimension_OperatorDto();
+            var dto = new MaxOverDimension_OperatorDto_AllVars();
             Visit_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
         
@@ -423,13 +423,13 @@ namespace JJ.Business.Synthesizer.Visitors
         
         protected override void VisitMaxFollower(Operator op)
         {
-            var dto = new MaxFollower_OperatorDto();
+            var dto = new MaxFollower_OperatorDto_AllVars();
             Visit_OperatorDtoBase_AggregateFollower(op, dto);
         }
 
         protected override void VisitMinOverDimension(Operator op)
         {
-            var dto = new MinOverDimension_OperatorDto();
+            var dto = new MinOverDimension_OperatorDto_AllVars();
             Visit_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
 
@@ -823,7 +823,7 @@ namespace JJ.Business.Synthesizer.Visitors
         
         protected override void VisitSortOverDimension(Operator op)
         {
-            var dto = new SortOverDimension_OperatorDto();
+            var dto = new SortOverDimension_OperatorDto_AllVars();
             Visit_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
         
@@ -831,7 +831,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitSpectrum(op);
 
-            var dto = new Spectrum_OperatorDto
+            var dto = new Spectrum_OperatorDto_AllVars
             {
                 SignalOperatorDto = _stack.Pop(),
                 StartOperatorDto = _stack.Pop(),
@@ -870,13 +870,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitSumOverDimension(Operator op)
         {
-            var dto = new SumOverDimension_OperatorDto();
+            var dto = new SumOverDimension_OperatorDto_AllVars();
             Visit_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
         
         protected override void VisitSumFollower(Operator op)
         {
-            var dto = new SumFollower_OperatorDto();
+            var dto = new SumFollower_OperatorDto_AllVars();
             Visit_OperatorDtoBase_AggregateFollower(op, dto);
         }
 
@@ -959,7 +959,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_OperatorDtoBase_AggregateFollower(Operator op, OperatorDtoBase_AggregateFollower dto)
+        private void Visit_OperatorDtoBase_AggregateFollower(Operator op, OperatorDtoBase_AggregateFollower_AllVars dto)
         {
             VisitOperatorBase(op);
 
@@ -972,7 +972,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_OperatorDtoBase_AggregateOverDimension(Operator op, OperatorDtoBase_AggregateOverDimension dto)
+        private void Visit_OperatorDtoBase_AggregateOverDimension(Operator op, OperatorDtoBase_AggregateOverDimension_AllVars dto)
         {
             VisitOperatorBase(op);
 

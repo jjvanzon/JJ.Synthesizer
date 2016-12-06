@@ -158,17 +158,17 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
+        protected override OperatorDtoBase Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto_AllVars dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
+        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
+        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -560,7 +560,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_ConstSignal(dto.Signal);
         }
 
-        protected override OperatorDtoBase Visit_Hold_OperatorDto(Hold_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Hold_OperatorDto(Hold_OperatorDto_VarSignal dto)
         {
             throw new NotImplementedException();
         }
@@ -783,17 +783,17 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_ConstSignal(dto.Signal);
         }
 
-        protected override OperatorDtoBase Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
+        protected override OperatorDtoBase Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto_AllVars dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
+        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
+        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -848,12 +848,12 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
+        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
+        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -1672,12 +1672,12 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
+        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
+        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -1687,7 +1687,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
+        protected override OperatorDtoBase Visit_Spectrum_OperatorDto(Spectrum_OperatorDto_AllVars dto)
         {
             throw new NotImplementedException();
         }
@@ -1918,17 +1918,17 @@ namespace JJ.Business.Synthesizer.Visitors
             return base.Visit_Subtract_OperatorDto_VarA_VarB(dto);
         }
 
-        protected override OperatorDtoBase Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto)
+        protected override OperatorDtoBase Visit_SumFollower_OperatorDto(SumFollower_OperatorDto_AllVars dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
+        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
+        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }

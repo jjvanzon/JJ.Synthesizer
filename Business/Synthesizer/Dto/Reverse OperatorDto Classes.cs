@@ -6,6 +6,11 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Reverse_OperatorDto : Reverse_OperatorDtoBase_VarSpeed
     { }
 
+    internal class Reverse_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Reverse);
+    }
+
     internal class Reverse_OperatorDtoBase_VarSpeed_WithPhaseTracking : Reverse_OperatorDtoBase_VarSpeed
     { }
 

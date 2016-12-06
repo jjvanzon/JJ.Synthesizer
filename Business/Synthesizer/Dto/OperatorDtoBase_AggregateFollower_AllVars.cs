@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_AggregateFollower : OperatorDtoBase_WithDimension
+    internal abstract class OperatorDtoBase_AggregateFollower_AllVars : OperatorDtoBase_WithDimension
     {
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase SliceLengthOperatorDto { get; set; }

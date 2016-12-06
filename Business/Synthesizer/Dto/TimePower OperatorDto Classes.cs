@@ -6,6 +6,11 @@ namespace JJ.Business.Synthesizer.Dto
     internal class TimePower_OperatorDto : TimePower_OperatorDto_VarOrigin
     { }
 
+    internal class TimePower_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
+    }
+
     internal class TimePower_OperatorDto_VarOrigin : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);

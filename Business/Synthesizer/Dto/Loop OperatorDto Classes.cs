@@ -6,6 +6,11 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Loop_OperatorDto : Loop_OperatorDto_AllVars
     { }
 
+    internal class Loop_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
+    }
+
     internal class Loop_OperatorDto_NoSkipOrRelease_ManyConstants : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
