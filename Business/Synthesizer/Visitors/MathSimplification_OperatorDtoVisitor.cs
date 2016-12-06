@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Absolute
 
-        /// <summary> Pre-calculate </summary>
         protected override OperatorDtoBase Visit_Absolute_OperatorDto_ConstX(Absolute_OperatorDto_ConstX dto)
         {
             base.Visit_Absolute_OperatorDto_ConstX(dto);
@@ -1009,11 +1008,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Negative
 
-        /// <summary> Pre-calculate </summary>
         protected override OperatorDtoBase Visit_Negative_OperatorDto_ConstX(Negative_OperatorDto_ConstX dto)
         {
             base.Visit_Negative_OperatorDto_ConstX(dto);
 
+            // Pre-calculate
             return new Number_OperatorDto { Number = -dto.X };
         }
 
@@ -1977,13 +1976,13 @@ namespace JJ.Business.Synthesizer.Visitors
         // Helpers
 
         private OperatorDtoBase Process_OperatorDto_NoVars_Consts(
-            OperatorDtoBase_Consts dto,
-            Func<IEnumerable<double>, double> aggregatingDelegate)
+            OperatorDtoBase_Consts dto, 
+            Func<IEnumerable<double>, double> aggregationDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
 
             // Pre-calculate
-            double result = aggregatingDelegate(dto.Consts);
+            double result = aggregationDelegate(dto.Consts);
 
             return new Number_OperatorDto { Number = result };
         }

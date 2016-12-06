@@ -146,12 +146,12 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
         private OperatorDtoBase Process_OperatorDto_NoVars_Consts(
             OperatorDtoBase_Consts dto,
-            Func<IEnumerable<double>, double> aggregatingDelegate)
+            Func<IEnumerable<double>, double> aggregationDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
 
             // Pre-calculate
-            double result = aggregatingDelegate(dto.Consts);
+            double result = aggregationDelegate(dto.Consts);
 
             return new Number_OperatorDto { Number = result };
         }
