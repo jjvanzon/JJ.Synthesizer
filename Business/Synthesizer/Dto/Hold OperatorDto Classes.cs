@@ -2,6 +2,11 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
+    internal class Hold_OperatorDto : OperatorDtoBase_VarSignal
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Hold);
+    }
+
     internal class Hold_OperatorDto_VarSignal : OperatorDtoBase_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Hold);

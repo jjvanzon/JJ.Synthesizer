@@ -3,6 +3,11 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
+    internal class SumFollower_OperatorDto : OperatorDtoBase_AggregateFollower_AllVars
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.SumFollower);
+    }
+
     internal class SumFollower_OperatorDto_AllVars : OperatorDtoBase_AggregateFollower_AllVars
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SumFollower);

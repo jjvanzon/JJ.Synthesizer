@@ -11,10 +11,10 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Reverse);
     }
 
-    internal class Reverse_OperatorDtoBase_VarSpeed_WithPhaseTracking : Reverse_OperatorDtoBase_VarSpeed
+    internal class Reverse_OperatorDto_VarSpeed_WithPhaseTracking : Reverse_OperatorDtoBase_VarSpeed
     { }
 
-    internal class Reverse_OperatorDtoBase_VarSpeed_NoPhaseTracking : Reverse_OperatorDtoBase_VarSpeed
+    internal class Reverse_OperatorDto_VarSpeed_NoPhaseTracking : Reverse_OperatorDtoBase_VarSpeed
     { }
 
     internal abstract class Reverse_OperatorDtoBase_VarSpeed : OperatorDtoBase_WithDimension
@@ -31,10 +31,10 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Reverse_OperatorDtoBase_ConstSpeed_WithOriginShifting : Reverse_OperatorDtoBase_ConstSpeed
+    internal class Reverse_OperatorDto_ConstSpeed_WithOriginShifting : Reverse_OperatorDtoBase_ConstSpeed
     { }
 
-    internal class Reverse_OperatorDtoBase_ConstSpeed_NoOriginShifting : Reverse_OperatorDtoBase_ConstSpeed
+    internal class Reverse_OperatorDto_ConstSpeed_NoOriginShifting : Reverse_OperatorDtoBase_ConstSpeed
     { }
 
     internal abstract class Reverse_OperatorDtoBase_ConstSpeed : OperatorDtoBase_WithDimension

@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Scaler_OperatorDto : Scaler_OperatorDto_AllVars
     { }
 
-    internal class Scalaer_OperatorDto_ConstSignal : OperatorDtoBase
+    internal class Scaler_OperatorDto_ConstSignal : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Scaler);
 

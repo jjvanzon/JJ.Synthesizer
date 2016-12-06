@@ -129,32 +129,63 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto_AllVars dto)
+        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto)
         {
             base.Visit_AverageOverDimension_OperatorDto(dto);
 
-            AverageOverDimension_OperatorDto_AllVars dto2;
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            switch (dto.CollectionRecalculationEnum)
+            OperatorDtoBase dto2;
+
+            if (signalMathPropertiesDto.IsConst)
             {
-                case CollectionRecalculationEnum.Continuous:
-                    dto2 = new AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
-                    break;
-
-                case CollectionRecalculationEnum.UponReset:
-                    dto2 = new AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
-                    break;
-
-                default:
-                    throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
+                dto2 = new AverageOverDimension_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
+            {
+                dto2 = new AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
+            }
+            else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
+            {
+                dto2 = new AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_AggregateOverDimensionProperties(dto, dto2);
+            TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
 
-        // AverageOverInlets not visited: It currently has no optimized calculation variations.
+        protected override OperatorDtoBase Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
+        {
+            base.Visit_AverageFollower_OperatorDto(dto);
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+
+            OperatorDtoBase dto2;
+
+            if (signalMathPropertiesDto.IsConst)
+            {
+                dto2 = new AverageFollower_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else
+            {
+                dto2 = new AverageFollower_OperatorDto_AllVars();
+            }
+
+            TryClone_AggregateFollowerProperties(dto, dto2);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
+        {
+            // Do nothing: no optimized calculation variations.
+            return base.Visit_AverageOverInlets_OperatorDto(dto);
+        }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto)
         {
@@ -203,6 +234,12 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override OperatorDtoBase Visit_Cache_OperatorDto(Cache_OperatorDto dto)
         {
             base.Visit_Cache_OperatorDto(dto);
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            if (signalMathPropertiesDto.IsConst)
+            {
+                return new Cache_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
 
             Cache_OperatorDto dto2;
 
@@ -272,7 +309,17 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        // ClosestOverInlets and ClosestOverInletsExp not visited: It does not split up into vars/consts variations, only specific machine optimizations in the MachineOptimization_OperatorDtoVisitor.
+        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
+        {
+            // Do nothing: no optimized calculation variations.
+            return base.Visit_ClosestOverInlets_OperatorDto(dto);
+        }
+
+        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
+        {
+            // Do nothing: no optimized calculation variations.
+            return base.Visit_ClosestOverInletsExp_OperatorDto(dto);
+        }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto(Curve_OperatorDto dto)
         {
@@ -543,6 +590,22 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
+        protected override OperatorDtoBase Visit_Hold_OperatorDto(Hold_OperatorDto dto)
+        {
+            base.Visit_Hold_OperatorDto(dto);
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+
+            if (signalMathPropertiesDto.IsConst)
+            {
+                return new Hold_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else
+            {
+                return new Hold_OperatorDto_VarSignal { InputOperatorDtos = dto.InputOperatorDtos, SignalOperatorDto = dto.SignalOperatorDto };
+            }
+        }
+
         protected override OperatorDtoBase Visit_If_OperatorDto(If_OperatorDto dto)
         {
             base.Visit_If_OperatorDto(dto);
@@ -591,11 +654,16 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Interpolate_OperatorDto(dto);
 
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto samplingRateMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SamplingRateOperatorDto);
 
             OperatorDtoBase dto2;
 
-            if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Block)
+            if (signalMathPropertiesDto.IsConst)
+            {
+                dto2 = new Interpolate_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Block)
             {
                 dto2 = new Interpolate_OperatorDto_Block { SamplingRateOperatorDto = dto.SamplingRateOperatorDto };
             }
@@ -627,16 +695,12 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto2 = new Interpolate_OperatorDto_Hermite_LagBehind { SamplingRateOperatorDto = dto.SamplingRateOperatorDto };
             }
-            else 
+            else
             {
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            var asIInterpolate_OperatorDto_VarSignal = dto2 as IInterpolate_OperatorDto_VarSignal;
-            if (asIInterpolate_OperatorDto_VarSignal != null)
-            {
-                Clone_InterpolateOperatorProperties(dto, asIInterpolate_OperatorDto_VarSignal);
-            }
+            TryClone_InterpolateOperatorProperties(dto, dto2);
 
             return dto2;
         }
@@ -699,6 +763,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Loop_OperatorDto(dto);
 
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto skipMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SkipOperatorDto);
             MathPropertiesDto loopStartMarkerMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.LoopStartMarkerOperatorDto);
             MathPropertiesDto loopEndMarkerMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.LoopEndMarkerOperatorDto);
@@ -710,9 +775,13 @@ namespace JJ.Business.Synthesizer.Visitors
             bool noReleaseEndMarker = releaseEndMarkerMathPropertiesDto.IsConst && releaseEndMarkerMathPropertiesDto.ConstValue >= CalculationHelper.VERY_HIGH_VALUE;
             bool noSkip = skipMathPropertiesDto.IsConstZero;
 
-            OperatorDtoBase_WithDimension dto2;
+            OperatorDtoBase dto2;
 
-            if (noSkip && noReleaseEndMarker && loopStartMarkerMathPropertiesDto.IsConst && loopEndMarkerMathPropertiesDto.IsConst)
+            if (signalMathPropertiesDto.IsConst)
+            {
+                dto2 = new Loop_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else if (noSkip && noReleaseEndMarker && loopStartMarkerMathPropertiesDto.IsConst && loopEndMarkerMathPropertiesDto.IsConst)
             {
                 dto2 = new Loop_OperatorDto_NoSkipOrRelease_ManyConstants
                 {
@@ -777,7 +846,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 };
             }
 
-            Clone_DimensionProperties(dto, dto2);
+            TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -827,29 +896,56 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto_AllVars dto)
+        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto)
         {
             base.Visit_MaxOverDimension_OperatorDto(dto);
 
-            MaxOverDimension_OperatorDto_AllVars dto2;
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            switch (dto.CollectionRecalculationEnum)
+            OperatorDtoBase dto2;
+
+            if (signalMathPropertiesDto.IsConst)
             {
-                case CollectionRecalculationEnum.Continuous:
-                    dto2 = new MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
-                    break;
-
-                case CollectionRecalculationEnum.UponReset:
-                    dto2 = new MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
-                    break;
-
-                default:
-                    throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
+                dto2 = new MaxOverDimension_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
+            {
+                dto2 = new MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
+            }
+            else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
+            {
+                dto2 = new MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_AggregateOverDimensionProperties(dto, dto2);
+            TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
+        }
+
+        protected override OperatorDtoBase Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
+        {
+            base.Visit_MaxFollower_OperatorDto(dto);
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+
+            OperatorDtoBase dto2;
+
+            if (signalMathPropertiesDto.IsConst)
+            {
+                dto2 = new MaxFollower_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else
+            {
+                dto2 = new MaxFollower_OperatorDto_AllVars();
+            }
+
+            TryClone_AggregateFollowerProperties(dto, dto2);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
@@ -878,29 +974,56 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto_AllVars dto)
+        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto)
         {
             base.Visit_MinOverDimension_OperatorDto(dto);
 
-            MinOverDimension_OperatorDto_AllVars dto2;
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            switch (dto.CollectionRecalculationEnum)
+            OperatorDtoBase dto2;
+
+            if (signalMathPropertiesDto.IsConst)
             {
-                case CollectionRecalculationEnum.Continuous:
-                    dto2 = new MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
-                    break;
-
-                case CollectionRecalculationEnum.UponReset:
-                    dto2 = new MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
-                    break;
-
-                default:
-                    throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
+                dto2 = new MinOverDimension_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
+            {
+                dto2 = new MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
+            }
+            else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
+            {
+                dto2 = new MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_AggregateOverDimensionProperties(dto, dto2);
+            TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
+        }
+
+        protected override OperatorDtoBase Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto)
+        {
+            base.Visit_MinFollower_OperatorDto(dto);
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+
+            OperatorDtoBase dto2;
+
+            if (signalMathPropertiesDto.IsConst)
+            {
+                dto2 = new MinFollower_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else
+            {
+                dto2 = new MinFollower_OperatorDto_AllVars();
+            }
+
+            TryClone_AggregateFollowerProperties(dto, dto2);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
@@ -1370,32 +1493,37 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Reverse_OperatorDto(dto);
 
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto speedMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SpeedOperatorDto);
 
-            OperatorDtoBase_WithDimension dto2;
+            OperatorDtoBase dto2;
 
-            if (speedMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (signalMathPropertiesDto.IsConst)
             {
-                dto2 = new Reverse_OperatorDtoBase_VarSpeed_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, SpeedOperatorDto = dto.SpeedOperatorDto };
+                dto2 = new Reverse_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else if (speedMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Reverse_OperatorDto_VarSpeed_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, SpeedOperatorDto = dto.SpeedOperatorDto };
             }
             else if (speedMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new Reverse_OperatorDtoBase_VarSpeed_NoPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, SpeedOperatorDto = dto.SpeedOperatorDto };
+                dto2 = new Reverse_OperatorDto_VarSpeed_NoPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, SpeedOperatorDto = dto.SpeedOperatorDto };
             }
             else if (speedMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new Reverse_OperatorDtoBase_ConstSpeed_WithOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Speed = speedMathPropertiesDto.ConstValue };
+                dto2 = new Reverse_OperatorDto_ConstSpeed_WithOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Speed = speedMathPropertiesDto.ConstValue };
             }
             else if (speedMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new Reverse_OperatorDtoBase_ConstSpeed_NoOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Speed = speedMathPropertiesDto.ConstValue };
+                dto2 = new Reverse_OperatorDto_ConstSpeed_NoOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Speed = speedMathPropertiesDto.ConstValue };
             }
             else
             {
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_DimensionProperties(dto, dto2);
+            TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1510,17 +1638,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            var asISample_OperatorDto = dto2 as ISample_OperatorDto;
-            if (asISample_OperatorDto != null)
-            {
-                Clone_SampleOperatorProperties(dto, asISample_OperatorDto);
-            }
-
-            var asIOperatorDto_WithDimension = dto2 as IOperatorDto_WithDimension;
-            if (asIOperatorDto_WithDimension != null)
-            {
-                Clone_DimensionProperties(dto, asIOperatorDto_WithDimension);
-            }
+            TryClone_SampleOperatorProperties(dto, dto2);
+            TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1597,6 +1716,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Scaler_OperatorDto(dto);
 
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto sourceValueAMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SourceValueAOperatorDto);
             MathPropertiesDto sourceValueBMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SourceValueBOperatorDto);
             MathPropertiesDto targetValueAMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TargetValueAOperatorDto);
@@ -1751,29 +1871,60 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto_AllVars dto)
+        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto)
         {
             base.Visit_SortOverDimension_OperatorDto(dto);
 
-            SortOverDimension_OperatorDto_AllVars dto2;
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            switch (dto.CollectionRecalculationEnum)
+            OperatorDtoBase dto2;
+
+            if (signalMathPropertiesDto.IsConst)
             {
-                case CollectionRecalculationEnum.Continuous:
-                    dto2 = new SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
-                    break;
-
-                case CollectionRecalculationEnum.UponReset:
-                    dto2 = new SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
-                    break;
-
-                default:
-                    throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
+                dto2 = new SortOverDimension_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
+            {
+                dto2 = new SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
+            }
+            else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
+            {
+                dto2 = new SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_AggregateOverDimensionProperties(dto, dto2);
+            TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
+        }
+
+        protected override OperatorDtoBase Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
+        {
+            base.Visit_Spectrum_OperatorDto(dto);
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+
+            if (signalMathPropertiesDto.IsConst)
+            {
+                return new Spectrum_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
+            else
+            {
+                var dto2 = new Spectrum_OperatorDto_AllVars
+                {
+                    SignalOperatorDto = dto.SignalOperatorDto,
+                    StartOperatorDto = dto.StartOperatorDto,
+                    EndOperatorDto = dto.EndOperatorDto,
+                    FrequencyCountOperatorDto = dto.FrequencyCountOperatorDto
+                };
+
+                Clone_DimensionProperties(dto, dto2);
+
+                return dto2;
+            }
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto(Square_OperatorDto dto)
@@ -2025,11 +2176,11 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto_AllVars dto)
+        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto)
         {
             base.Visit_SumOverDimension_OperatorDto(dto);
 
-            SumOverDimension_OperatorDto_AllVars dto2;
+            SumOverDimension_OperatorDto dto2;
 
             switch (dto.CollectionRecalculationEnum)
             {
@@ -2050,14 +2201,25 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
+        protected override OperatorDtoBase Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+            return base.Visit_SumFollower_OperatorDto(dto);
+        }
+
         protected override OperatorDtoBase Visit_TimePower_OperatorDto(TimePower_OperatorDto dto)
         {
             base.Visit_TimePower_OperatorDto(dto);
 
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
-            OperatorDtoBase_WithDimension dto2;
+            OperatorDtoBase dto2;
 
+            if (signalMathPropertiesDto.IsConst)
+            {
+                dto2 = new TimePower_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+            }
             if (originMathPropertiesDto.IsVar)
             {
                 dto2 = new TimePower_OperatorDto_VarOrigin { SignalOperatorDto = dto.SignalOperatorDto, ExponentOperatorDto = dto.ExponentOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
@@ -2071,7 +2233,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_DimensionProperties(dto, dto2);
+            TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2123,6 +2285,33 @@ namespace JJ.Business.Synthesizer.Visitors
             Clone_DimensionProperties(source, dest);
         }
 
+        private void TryClone_AggregateOverDimensionProperties(OperatorDtoBase_AggregateOverDimension_AllVars source, OperatorDtoBase dest)
+        {
+            var castedDest = dest as OperatorDtoBase_AggregateOverDimension_AllVars;
+            if (castedDest != null)
+            {
+                Clone_AggregateOverDimensionProperties(source, castedDest);
+            }
+        }
+
+        private void Clone_AggregateFollowerProperties(OperatorDtoBase_AggregateFollower_AllVars source, OperatorDtoBase_AggregateFollower_AllVars dest)
+        {
+            dest.SignalOperatorDto = source.SignalOperatorDto;
+            dest.SliceLengthOperatorDto = source.SliceLengthOperatorDto;
+            dest.SampleCountOperatorDto = source.SampleCountOperatorDto;
+
+            Clone_DimensionProperties(source, dest);
+        }
+
+        private void TryClone_AggregateFollowerProperties(OperatorDtoBase_AggregateFollower_AllVars source, OperatorDtoBase dest)
+        {
+            var castedDest = dest as OperatorDtoBase_AggregateFollower_AllVars;
+            if (castedDest != null)
+            {
+                Clone_AggregateFollowerProperties(source, castedDest);
+            }
+        }
+
         private void Clone_CacheOperatorProperties(Cache_OperatorDto source, Cache_OperatorDto dest)
         {
             dest.SignalOperatorDto = source.SignalOperatorDto;
@@ -2160,12 +2349,30 @@ namespace JJ.Business.Synthesizer.Visitors
             dest.StandardDimensionEnum = source.StandardDimensionEnum;
         }
 
+        private void TryClone_DimensionProperties(IOperatorDto_WithDimension source, OperatorDtoBase dest)
+        {
+            var asIOperatorDto_WithDimension = dest as IOperatorDto_WithDimension;
+            if (asIOperatorDto_WithDimension != null)
+            {
+                Clone_DimensionProperties(source, asIOperatorDto_WithDimension);
+            }
+        }
+
         private void Clone_InterpolateOperatorProperties(IInterpolate_OperatorDto_VarSignal source, IInterpolate_OperatorDto_VarSignal dest)
         {
             dest.ResampleInterpolationTypeEnum = source.ResampleInterpolationTypeEnum;
             dest.SignalOperatorDto = source.SignalOperatorDto;
 
             Clone_DimensionProperties(source, dest);
+        }
+
+        private void TryClone_InterpolateOperatorProperties(Interpolate_OperatorDto source, OperatorDtoBase dest)
+        {
+            var asIInterpolate_OperatorDto_VarSignal = dest as IInterpolate_OperatorDto_VarSignal;
+            if (asIInterpolate_OperatorDto_VarSignal != null)
+            {
+                Clone_InterpolateOperatorProperties(source, asIInterpolate_OperatorDto_VarSignal);
+            }
         }
 
         private void Clone_RandomOperatorProperties(Random_OperatorDto source, Random_OperatorDto dest)
@@ -2181,6 +2388,15 @@ namespace JJ.Business.Synthesizer.Visitors
             dto2.SampleID = dto.SampleID;
             dto2.ChannelCount = dto.ChannelCount;
             dto2.InterpolationTypeEnum = dto.InterpolationTypeEnum;
+        }
+
+        private void TryClone_SampleOperatorProperties(Sample_OperatorDto source, OperatorDtoBase dest)
+        {
+            var asISample_OperatorDto = dest as ISample_OperatorDto;
+            if (asISample_OperatorDto != null)
+            {
+                Clone_SampleOperatorProperties(source, asISample_OperatorDto);
+            }
         }
 
         // Helpers

@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class MaxOverDimension_OperatorDto_AllVars : OperatorDtoBase_AggregateOverDimension_AllVars
+    internal class MaxOverDimension_OperatorDto : OperatorDtoBase_AggregateOverDimension_AllVars
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MaxOverDimension);
     }
@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.MaxOverDimension);
     }
 
-    internal class MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous : MaxOverDimension_OperatorDto_AllVars
+    internal class MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous : MaxOverDimension_OperatorDto
     { }
 
-    internal class MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset : MaxOverDimension_OperatorDto_AllVars
+    internal class MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset : MaxOverDimension_OperatorDto
     { }
 }

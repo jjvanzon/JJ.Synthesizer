@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override OperatorDtoBase Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto_AllVars dto)
+        protected sealed override OperatorDtoBase Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto)
         {
             throw new NotSupportedException();
         }
@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override OperatorDtoBase Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto_AllVars dto)
+        protected sealed override OperatorDtoBase Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto)
         {
             throw new NotSupportedException();
         }
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override OperatorDtoBase Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto_AllVars dto)
+        protected sealed override OperatorDtoBase Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto)
         {
             throw new NotSupportedException();
         }
@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override OperatorDtoBase Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto_AllVars dto)
+        protected sealed override OperatorDtoBase Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto)
         {
             throw new NotSupportedException();
         }
@@ -295,7 +295,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override OperatorDtoBase Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto_AllVars dto)
+        protected sealed override OperatorDtoBase Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto)
         {
             throw new NotSupportedException();
         }

@@ -3,12 +3,12 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class SumOverDimension_OperatorDto_AllVars : OperatorDtoBase_AggregateOverDimension_AllVars
+    internal class SumOverDimension_OperatorDto : OperatorDtoBase_AggregateOverDimension_AllVars
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SumOverDimension);
     }
 
-    internal class SumOverDimension_OperatotrDto_AllConsts : OperatorDtoBase_WithDimension
+    internal class SumOverDimension_OperatorDto_AllConsts : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SumOverDimension);
 
@@ -38,9 +38,9 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous : SumOverDimension_OperatorDto_AllVars
+    internal class SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous : SumOverDimension_OperatorDto
     { }
 
-    internal class SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset : SumOverDimension_OperatorDto_AllVars
+    internal class SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset : SumOverDimension_OperatorDto
     { }
 }
