@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -49,10 +50,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double targetValueA = _targetValueACalculator.Calculate();
             double targetValueB = _targetValueBCalculator.Calculate();
 
-            double sourceRange = sourceValueB - sourceValueA;
-            double targetRange = targetValueB - targetValueA;
-            double between0And1 = (signal - sourceValueA) / sourceRange;
-            double result = between0And1 * targetRange + targetValueA;
+            double result = MathHelper.ScaleLinearly(signal, sourceValueA, sourceValueB, targetValueA, targetValueB);
 
             return result;
         }
@@ -62,9 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _sourceValueA;
-        private readonly double _sourceValueB;
         private readonly double _targetValueA;
-        private readonly double _targetValueB;
         private readonly double _slope;
 
         public Scaler_OperatorCalculator_ManyConsts(
@@ -79,12 +75,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
             _sourceValueA = sourceValueA;
-            _sourceValueB = sourceValueB;
             _targetValueA = targetValueA;
-            _targetValueB = targetValueB;
 
-            double sourceRange = _sourceValueB - _sourceValueA;
-            double targetRange = _targetValueB - _targetValueA;
+            double sourceRange = sourceValueB - _sourceValueA;
+            double targetRange = targetValueB - _targetValueA;
             _slope = targetRange / sourceRange;
         }
 
@@ -93,7 +87,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double signal = _signalCalculator.Calculate();
 
-            double result = (signal - _sourceValueA) * _slope + _targetValueA;
+            double result = MathHelper.ScaleLinearly(signal, _sourceValueA, _targetValueA, _slope);
 
             return result;
         }

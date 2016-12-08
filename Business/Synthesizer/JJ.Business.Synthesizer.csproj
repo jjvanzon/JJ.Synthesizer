@@ -165,7 +165,7 @@
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\AverageFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaxFollower_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Absolute_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Absolute_OperatorCalculator_VarX.cs" />
     <Compile Include="Calculation\Operators\OneOverX_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Negative_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Not_OperatorCalculator.cs" />
@@ -357,7 +357,7 @@
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
     <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
     <Compile Include="CopiedCode\FromFramework\Interpolator.cs" />
-    <Compile Include="CopiedCode\FromFramework\Maths.cs" />
+    <Compile Include="CopiedCode\FromFramework\MathHelper.cs" />
     <Compile Include="EntityWrappers\HighShelfFilter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\LowShelfFilter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\AllPassFilter_OperatorWrapper.cs" />

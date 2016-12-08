@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Absolute_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Absolute_OperatorCalculator_VarX : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _calculatorX;
 
-        public Absolute_OperatorCalculator(OperatorCalculatorBase calculatorX)
+        public Absolute_OperatorCalculator_VarX(OperatorCalculatorBase calculatorX)
             : base(new OperatorCalculatorBase[] { calculatorX })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorX, () => calculatorX);

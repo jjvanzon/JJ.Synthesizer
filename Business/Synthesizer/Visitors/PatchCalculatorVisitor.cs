@@ -169,7 +169,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!xIsConst)
             {
-                calculator = new Absolute_OperatorCalculator(calculatorX);
+                calculator = new Absolute_OperatorCalculator_VarX(calculatorX);
             }
             else
             {
