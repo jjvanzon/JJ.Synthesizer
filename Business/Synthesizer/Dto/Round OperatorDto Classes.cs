@@ -6,6 +6,15 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Round_OperatorDto : Round_OperatorDto_VarSignal_VarStep_VarOffset
     { }
 
+    internal class Round_OperatorDto_AllConsts : OperatorDtoBase_WithoutInputOperatorDtos
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);
+
+        public double Signal { get; set; }
+        public double Step { get; set; }
+        public double Offset { get; set; }
+    }
+
     internal class Round_OperatorDto_ConstSignal : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);

@@ -13,7 +13,8 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SumFollower);
     }
 
-    internal class SumFollower_OperatorDto_ConstSignal_VarSampleCount : OperatorDtoBase_WithDimension
+    /// <summary> Slice length does not matter in this case. </summary>
+    internal class SumFollower_OperatorDto_ConstSignal_VarSampleCount : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SumFollower);
 
@@ -27,7 +28,8 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class SumFollower_OperatorDto_ConstSignal_ConstSampleCount : OperatorDtoBase_WithDimension
+    /// <summary> Slice length does not matter in this case. </summary>
+    internal class SumFollower_OperatorDto_ConstSignal_ConstSampleCount : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SumFollower);
 

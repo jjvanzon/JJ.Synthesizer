@@ -332,6 +332,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Reverse_OperatorDto_ConstSpeed_WithOriginShifting), x => Visit_Reverse_OperatorDto_ConstSpeed_WithOriginShifting((Reverse_OperatorDto_ConstSpeed_WithOriginShifting)x ) },
                 { typeof(Reverse_OperatorDto_ConstSpeed_NoOriginShifting), x => Visit_Reverse_OperatorDto_ConstSpeed_NoOriginShifting((Reverse_OperatorDto_ConstSpeed_NoOriginShifting)x ) },
                 { typeof(Round_OperatorDto), x => Visit_Round_OperatorDto((Round_OperatorDto)x ) },
+                { typeof(Round_OperatorDto_AllConsts), x => Visit_Round_OperatorDto_AllConsts((Round_OperatorDto_AllConsts)x ) },
                 { typeof(Round_OperatorDto_ConstSignal), x => Visit_Round_OperatorDto_ConstSignal((Round_OperatorDto_ConstSignal)x ) },
                 { typeof(Round_OperatorDto_VarSignal_StepOne_OffsetZero), x => Visit_Round_OperatorDto_VarSignal_StepOne_OffsetZero((Round_OperatorDto_VarSignal_StepOne_OffsetZero)x ) },
                 { typeof(Round_OperatorDto_VarSignal_VarStep_VarOffset), x => Visit_Round_OperatorDto_VarSignal_VarStep_VarOffset((Round_OperatorDto_VarSignal_VarStep_VarOffset)x ) },
@@ -364,7 +365,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(SawUp_OperatorDto_VarFrequency_NoPhaseTracking), x => Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking((SawUp_OperatorDto_VarFrequency_NoPhaseTracking)x ) },
                 { typeof(SawUp_OperatorDto_VarFrequency_WithPhaseTracking), x => Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking((SawUp_OperatorDto_VarFrequency_WithPhaseTracking)x ) },
                 { typeof(Scaler_OperatorDto), x => Visit_Scaler_OperatorDto((Scaler_OperatorDto)x ) },
-                { typeof(Scaler_OperatorDto_ConstSignal), x => Visit_Scaler_OperatorDto_ConstSignal((Scaler_OperatorDto_ConstSignal)x ) },
+                { typeof(Scaler_OperatorDto_AllConsts), x => Visit_Scaler_OperatorDto_AllConsts((Scaler_OperatorDto_AllConsts)x ) },
                 { typeof(Scaler_OperatorDto_AllVars), x => Visit_Scaler_OperatorDto_AllVars((Scaler_OperatorDto_AllVars)x ) },
                 { typeof(Scaler_OperatorDto_ManyConsts), x => Visit_Scaler_OperatorDto_ManyConsts((Scaler_OperatorDto_ManyConsts)x ) },
                 { typeof(Select_OperatorDto), x => Visit_Select_OperatorDto((Select_OperatorDto)x ) },
@@ -443,7 +444,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(SumFollower_OperatorDto_ConstSignal_ConstSampleCount), x => Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount((SumFollower_OperatorDto_ConstSignal_ConstSampleCount)x ) },
                 { typeof(SumOverDimension_OperatorDto), x => Visit_SumOverDimension_OperatorDto((SumOverDimension_OperatorDto)x ) },
                 { typeof(SumOverDimension_OperatorDto_AllConsts), x => Visit_SumOverDimension_OperatorDto_AllConsts((SumOverDimension_OperatorDto_AllConsts)x ) },
-                { typeof(SumOverDimension_OperatorDto_ConstSignal_VarFrom_VarTill_VarStep), x => Visit_SumOverDimension_OperatorDto_ConstSignal_VarFrom_VarTill_VarStep((SumOverDimension_OperatorDto_ConstSignal_VarFrom_VarTill_VarStep)x ) },
                 { typeof(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous), x => Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous((SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous)x ) },
                 { typeof(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset), x => Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset((SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset)x ) },
                 { typeof(TimePower_OperatorDto), x => Visit_TimePower_OperatorDto((TimePower_OperatorDto)x ) },
@@ -742,6 +742,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_WithOriginShifting(Reverse_OperatorDto_ConstSpeed_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_NoOriginShifting(Reverse_OperatorDto_ConstSpeed_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto(Round_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_AllConsts(Round_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_VarSignal_StepOne_OffsetZero(Round_OperatorDto_VarSignal_StepOne_OffsetZero dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_VarOffset(Round_OperatorDto_VarSignal_VarStep_VarOffset dto) => Visit_OperatorDto_Base(dto);
@@ -774,7 +775,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Scaler_OperatorDto(Scaler_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Scaler_OperatorDto_ConstSignal(Scaler_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Scaler_OperatorDto_AllConsts(Scaler_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Scaler_OperatorDto_AllVars(Scaler_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Scaler_OperatorDto_ManyConsts(Scaler_OperatorDto_ManyConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Select_OperatorDto(Select_OperatorDto dto) => Visit_OperatorDto_Base(dto);
@@ -853,7 +854,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount(SumFollower_OperatorDto_ConstSignal_ConstSampleCount dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_SumOverDimension_OperatorDto_AllConsts(SumOverDimension_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_SumOverDimension_OperatorDto_ConstSignal_VarFrom_VarTill_VarStep(SumOverDimension_OperatorDto_ConstSignal_VarFrom_VarTill_VarStep dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_TimePower_OperatorDto(TimePower_OperatorDto dto) => Visit_OperatorDto_Base(dto);

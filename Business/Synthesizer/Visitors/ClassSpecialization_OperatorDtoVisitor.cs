@@ -236,25 +236,23 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Cache_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+
+            OperatorDtoBase dto2;
+
             if (signalMathPropertiesDto.IsConst)
             {
-                return new Cache_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+                dto2 = new Cache_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
-
-            Cache_OperatorDto dto2;
-
-            switch (dto.ChannelCount)
+            else if (dto.ChannelCount == 1)
             {
-                case 1:
-                    dto2 = new Cache_OperatorDto_SingleChannel();
-                    break;
-
-                default:
-                    dto2 = new Cache_OperatorDto_MultiChannel();
-                    break;
+                dto2 = new Cache_OperatorDto_SingleChannel();
+            }
+            else
+            {
+                dto2 = new Cache_OperatorDto_MultiChannel();
             }
 
-            Clone_CacheOperatorProperties(dto, dto2);
+            TryClone_CacheOperatorProperties(dto, dto2);
 
             return dto2;
         }
@@ -1536,7 +1534,11 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto stepMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.StepOperatorDto);
             MathPropertiesDto offsetMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OffsetOperatorDto);
 
-            if (signalMathPropertiesDto.IsConst)
+            if (signalMathPropertiesDto.IsConst && stepMathPropertiesDto.IsConst && offsetMathPropertiesDto.IsConst)
+            {
+                return new Round_OperatorDto_AllConsts { Signal = signalMathPropertiesDto.ConstValue, Step = stepMathPropertiesDto.ConstValue, Offset = offsetMathPropertiesDto.ConstValue };
+            }
+            else if (signalMathPropertiesDto.IsConst)
             {
                 return new Round_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue, StepOperatorDto = dto.StepOperatorDto, OffsetOperatorDto = dto.OffsetOperatorDto };
             }
@@ -1722,7 +1724,22 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto targetValueAMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TargetValueAOperatorDto);
             MathPropertiesDto targetValueBMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TargetValueBOperatorDto);
 
-            if (sourceValueAMathPropertiesDto.IsConst &&
+            if (signalMathPropertiesDto.IsConst &&
+                sourceValueAMathPropertiesDto.IsConst &&
+                sourceValueBMathPropertiesDto.IsConst &&
+                targetValueAMathPropertiesDto.IsConst &&
+                targetValueBMathPropertiesDto.IsConst)
+            {
+                return new Scaler_OperatorDto_AllConsts
+                {
+                    Signal = signalMathPropertiesDto.ConstValue,
+                    SourceValueA = sourceValueAMathPropertiesDto.ConstValue,
+                    SourceValueB = sourceValueBMathPropertiesDto.ConstValue,
+                    TargetValueA = targetValueAMathPropertiesDto.ConstValue,
+                    TargetValueB = targetValueBMathPropertiesDto.ConstValue
+                };
+            }
+            else if (sourceValueAMathPropertiesDto.IsConst &&
                 sourceValueBMathPropertiesDto.IsConst &&
                 targetValueAMathPropertiesDto.IsConst &&
                 targetValueBMathPropertiesDto.IsConst)
@@ -2180,31 +2197,61 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_SumOverDimension_OperatorDto(dto);
 
-            SumOverDimension_OperatorDto dto2;
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto fromMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FromOperatorDto);
+            MathPropertiesDto tillMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TillOperatorDto);
+            MathPropertiesDto stepMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.StepOperatorDto);
 
-            switch (dto.CollectionRecalculationEnum)
+            OperatorDtoBase dto2;
+
+            if (signalMathPropertiesDto.IsConst && fromMathPropertiesDto.IsConst && tillMathPropertiesDto.IsConst && stepMathPropertiesDto.IsConst)
             {
-                case CollectionRecalculationEnum.Continuous:
-                    dto2 = new SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
-                    break;
-
-                case CollectionRecalculationEnum.UponReset:
-                    dto2 = new SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
-                    break;
-
-                default:
-                    throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
+                dto2 = new SumOverDimension_OperatorDto_AllConsts { Signal = signalMathPropertiesDto.ConstValue, From = fromMathPropertiesDto.ConstValue, Till = tillMathPropertiesDto.ConstValue, Step = stepMathPropertiesDto.ConstValue };
+            }
+            else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
+            {
+                dto2 = new SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
+            }
+            else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
+            {
+                dto2 = new SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_AggregateOverDimensionProperties(dto, dto2);
+            TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
 
         protected override OperatorDtoBase Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_SumFollower_OperatorDto(dto);
+            base.Visit_SumFollower_OperatorDto(dto);
+
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
+            MathPropertiesDto sliceLengthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SliceLengthOperatorDto);
+            MathPropertiesDto sampleCountMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SampleCountOperatorDto);
+
+            OperatorDtoBase dto2;
+
+            if (signalMathPropertiesDto.IsConst && sampleCountMathPropertiesDto.IsConst)
+            {
+                dto2 = new SumFollower_OperatorDto_ConstSignal_ConstSampleCount { Signal = signalMathPropertiesDto.ConstValue, SampleCount = sampleCountMathPropertiesDto.ConstValue };
+            }
+            else if (signalMathPropertiesDto.IsConst && sampleCountMathPropertiesDto.IsVar)
+            {
+                dto2 = new SumFollower_OperatorDto_ConstSignal_VarSampleCount { Signal = signalMathPropertiesDto.ConstValue, SampleCountOperatorDto = dto.SampleCountOperatorDto };
+            }
+            else
+            {
+                dto2 = new SumFollower_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, SliceLengthOperatorDto = dto.SliceLengthOperatorDto, SampleCountOperatorDto = dto.SampleCountOperatorDto };
+            }
+
+            TryClone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_TimePower_OperatorDto(TimePower_OperatorDto dto)
@@ -2321,6 +2368,15 @@ namespace JJ.Business.Synthesizer.Visitors
             dest.InterpolationTypeEnum = source.InterpolationTypeEnum;
             dest.SpeakerSetupEnum = source.SpeakerSetupEnum;
             dest.ChannelCount = source.ChannelCount;
+        }
+
+        private void TryClone_CacheOperatorProperties(Cache_OperatorDto source, OperatorDtoBase dest)
+        {
+            var castedDest = dest as Cache_OperatorDto;
+            if (castedDest != null)
+            {
+                Clone_CacheOperatorProperties(source, castedDest);
+            }
         }
 
         private void Clone_ClosestOverDimensionProperties(ClosestOverDimension_OperatorDto source, ClosestOverDimension_OperatorDto dest)
