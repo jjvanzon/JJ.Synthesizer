@@ -30,6 +30,11 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
+        protected sealed override OperatorDtoBase Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto)
         {
             throw new NotSupportedException();
@@ -95,6 +100,11 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
+        protected sealed override OperatorDtoBase Visit_Hold_OperatorDto(Hold_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_If_OperatorDto(If_OperatorDto dto)
         {
             throw new NotSupportedException();
@@ -135,7 +145,17 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
+        protected sealed override OperatorDtoBase Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected sealed override OperatorDtoBase Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto)
         {
             throw new NotSupportedException();
         }
@@ -275,6 +295,11 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
+        protected sealed override OperatorDtoBase Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_Square_OperatorDto(Square_OperatorDto dto)
         {
             throw new NotSupportedException();
@@ -296,6 +321,11 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         protected sealed override OperatorDtoBase Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected sealed override OperatorDtoBase Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto)
         {
             throw new NotSupportedException();
         }
