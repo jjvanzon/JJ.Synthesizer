@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
@@ -75,6 +77,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
             return dto;
         }
+
+        // AllPassFilter
 
         protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_AllVars(AllPassFilter_OperatorDto_AllVars dto)
         {
@@ -158,6 +162,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_DoNothing(dto);
         }
 
+        // AverageFollower
+
         protected override OperatorDtoBase Visit_AverageFollower_OperatorDto_AllVars(AverageFollower_OperatorDto_AllVars dto)
         {
             return Process_DoNothing(dto);
@@ -167,6 +173,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_ConstSignal_Identity(dto.Signal);
         }
+
+        // AverageOverDimension
 
         protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
@@ -183,29 +191,28 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_ConstSignal_Identity(dto.Signal);
         }
 
-        protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
+        // AverageOverInlets
+
+        protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto_AllConsts(AverageOverInlets_OperatorDto_AllConsts dto)
         {
-            throw new NotImplementedException();
+            return Process_NoVars_Consts(dto, Enumerable.Average);
         }
+
+        protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
+        {
+            return Process_DoNothing(dto);
+        }
+
+        // BandPassFilterConstantPeakGain
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
         {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
-        {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstSignal(BandPassFilterConstantPeakGain_OperatorDto_ConstSignal dto)
@@ -213,15 +220,31 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_ConstSignal_Identity(dto.Signal);
         }
 
+        // BandPassFilterConstantTransitionGain
+
+        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        {
+            return Process_DoNothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        {
+            return Process_DoNothing(dto);
+        }
+
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal(BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal dto)
         {
             return Process_ConstSignal_Identity(dto.Signal);
         }
 
+        // Bundle
+
         protected override OperatorDtoBase Visit_Bundle_OperatorDto(Bundle_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
+
+        // Cache
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_ConstSignal(Cache_OperatorDto_ConstSignal dto)
         {
@@ -230,12 +253,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel(Cache_OperatorDto_MultiChannel dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel(Cache_OperatorDto_SingleChannel dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
@@ -243,94 +266,110 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
-        {
-            throw new NotImplementedException();
-        }
+        // ClosestOverDimension
 
         protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
+        protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
+        }
+
+        // ClosestOverDimensionExp
+
+        protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
+        {
+            return Process_DoNothing(dto);
+        }
+
+        // ClosestOverInletsExp
+
+        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems(ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems dto)
+        {
+            base.Visit_ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems(dto);
+
+            // Pre-calculate
+            double result = AggregateCalculator.ClosestExp(dto.Input, dto.Items);
+            return new Number_OperatorDto { Number = result };
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
+        // ClosestOverInlets
+
+        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_ConstInput_ConstItems(ClosestOverInlets_OperatorDto_ConstInput_ConstItems dto)
         {
-            throw new NotImplementedException();
+            base.Visit_ClosestOverInlets_OperatorDto_ConstInput_ConstItems(dto);
+
+            // Pre-calculate
+            double result = AggregateCalculator.Closest(dto.Input, dto.Items);
+            return new Number_OperatorDto { Number = result };
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(ClosestOverInlets_OperatorDto_VarInput_2ConstItems dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(Curve_OperatorDto_MinXZero_WithOriginShifting dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_NoOriginShifting(Curve_OperatorDto_MinX_NoOriginShifting dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_CustomOperator_OperatorDto(CustomOperator_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_DimensionToOutlets_OperatorDto(DimensionToOutlets_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_ConstOrigin(Divide_OperatorDto_ConstA_ConstB_ConstOrigin dto)
@@ -340,7 +379,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_ZeroOrigin(Divide_OperatorDto_ConstA_ConstB_ZeroOrigin dto)
@@ -350,37 +389,37 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(Divide_OperatorDto_ConstA_VarB_ConstOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(Divide_OperatorDto_ConstA_VarB_VarOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(Divide_OperatorDto_VarA_ConstB_ConstOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(Divide_OperatorDto_VarA_ConstB_VarOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(Divide_OperatorDto_VarA_VarB_ConstOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(Divide_OperatorDto_VarA_VarB_VarOrigin dto)
@@ -390,7 +429,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(Divide_OperatorDto_VarA_VarB_ZeroOrigin dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         // Equal
@@ -435,37 +474,37 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio(Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio(Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_VarHigh_VarRatio(Exponent_OperatorDto_ConstLow_VarHigh_VarRatio dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio(Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_ConstHigh_VarRatio(Exponent_OperatorDto_VarLow_ConstHigh_VarRatio dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_VarHigh_ConstRatio(Exponent_OperatorDto_VarLow_VarHigh_ConstRatio dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_VarHigh_VarRatio(Exponent_OperatorDto_VarLow_VarHigh_VarRatio dto)
         {
-            throw new NotImplementedException();
+            return Process_DoNothing(dto);
         }
 
         protected override OperatorDtoBase Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
@@ -2072,6 +2111,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Helpers
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private OperatorDtoBase Process_DoNothing(OperatorDtoBase dto)
         {
             return Visit_OperatorDto_Base(dto);

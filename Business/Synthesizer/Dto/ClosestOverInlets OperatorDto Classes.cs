@@ -8,6 +8,14 @@ namespace JJ.Business.Synthesizer.Dto
     internal class ClosestOverInlets_OperatorDto : ClosestOverInlets_OperatorDto_VarInput_VarItems
     { }
 
+    internal class ClosestOverInlets_OperatorDto_ConstInput_ConstItems : OperatorDtoBase_WithoutInputOperatorDtos
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInlets);
+
+        public double Input { get; set; }
+        public IList<double> Items { get; set; }
+    }
+
     internal class ClosestOverInlets_OperatorDto_VarInput_VarItems : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInlets);

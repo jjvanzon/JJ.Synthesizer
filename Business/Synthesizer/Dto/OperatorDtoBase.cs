@@ -7,6 +7,7 @@ namespace JJ.Business.Synthesizer.Dto
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal abstract class OperatorDtoBase
     {
+        /// <summary> Only used to add comment to output generated C# code. </summary>
         public abstract string OperatorTypeName { get; }
         public abstract IList<OperatorDtoBase> InputOperatorDtos { get; set; }
 

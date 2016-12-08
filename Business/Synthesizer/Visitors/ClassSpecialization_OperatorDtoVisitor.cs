@@ -14,12 +14,14 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class ClassSpecialization_OperatorDtoVisitor : OperatorDtoVisitorBase
     {
-        private class VarsConsts_MathPropetiesDto
+        private class VarsConsts_MathPropertiesDto
         {
             public IList<OperatorDtoBase> VarOperatorDtos { get; set; }
             public IList<double> Consts { get; set; }
             public bool HasVars { get; set; }
             public bool HasConsts { get; set; }
+            public bool AllVars { get; set; }
+            public bool AllConsts { get; set; }
         }
 
         private readonly int _targetChannelCount;
@@ -58,7 +60,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Add_OperatorDto(dto);
 
-            VarsConsts_MathPropetiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+            VarsConsts_MathPropertiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
@@ -183,8 +185,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
         {
-            // Do nothing: no optimized calculation variations.
-            return base.Visit_AverageOverInlets_OperatorDto(dto);
+            base.Visit_AverageOverInlets_OperatorDto(dto);
+
+            VarsConsts_MathPropertiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+
+            if (mathPropertiesDto.AllConsts)
+            {
+                return new AverageOverInlets_OperatorDto_AllConsts { Consts = mathPropertiesDto.Consts };
+            }
+            else if (mathPropertiesDto.HasVars)
+            {
+                return new AverageOverInlets_OperatorDto_Vars { Vars = dto.Vars };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            }
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto)
@@ -309,14 +325,52 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
         {
-            // Do nothing: no optimized calculation variations.
-            return base.Visit_ClosestOverInlets_OperatorDto(dto);
+            base.Visit_ClosestOverInlets_OperatorDto(dto);
+
+            MathPropertiesDto inputMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.InputOperatorDto);
+            VarsConsts_MathPropertiesDto itemsMathProperties = Get_VarsConsts_MathPropertiesDto(dto.ItemOperatorDtos);
+
+            if (inputMathProperties.IsConst && itemsMathProperties.AllConsts)
+            {
+                return new ClosestOverInlets_OperatorDto_ConstInput_ConstItems { Input = inputMathProperties.ConstValue, Items = itemsMathProperties.Consts };
+            }
+            else if (inputMathProperties.IsVar && itemsMathProperties.AllConsts && itemsMathProperties.Consts.Count == 2)
+            {
+                return new ClosestOverInlets_OperatorDto_VarInput_2ConstItems { InputOperatorDto = dto.InputOperatorDto, Item1 = itemsMathProperties.Consts[0], Item2 = itemsMathProperties.Consts[1] };
+            }
+            else if (inputMathProperties.IsVar && itemsMathProperties.AllConsts)
+            {
+                return new ClosestOverInlets_OperatorDto_VarInput_ConstItems { InputOperatorDto = dto.InputOperatorDto, Items = itemsMathProperties.Consts };
+            }
+            else
+            {
+                return new ClosestOverInlets_OperatorDto_VarInput_VarItems { InputOperatorDto = dto.InputOperatorDto, ItemOperatorDtos = dto.ItemOperatorDtos };
+            }
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
         {
-            // Do nothing: no optimized calculation variations.
-            return base.Visit_ClosestOverInletsExp_OperatorDto(dto);
+            base.Visit_ClosestOverInletsExp_OperatorDto(dto);
+
+            MathPropertiesDto inputMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.InputOperatorDto);
+            VarsConsts_MathPropertiesDto itemsMathProperties = Get_VarsConsts_MathPropertiesDto(dto.ItemOperatorDtos);
+
+            if (inputMathProperties.IsConst && itemsMathProperties.AllConsts)
+            {
+                return new ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems { Input = inputMathProperties.ConstValue, Items = itemsMathProperties.Consts };
+            }
+            else if (inputMathProperties.IsVar && itemsMathProperties.AllConsts && itemsMathProperties.Consts.Count == 2)
+            {
+                return new ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems { InputOperatorDto = dto.InputOperatorDto, Item1 = itemsMathProperties.Consts[0], Item2 = itemsMathProperties.Consts[1] };
+            }
+            else if (inputMathProperties.IsVar && itemsMathProperties.AllConsts)
+            {
+                return new ClosestOverInletsExp_OperatorDto_VarInput_ConstItems { InputOperatorDto = dto.InputOperatorDto, Items = itemsMathProperties.Consts };
+            }
+            else
+            {
+                return new ClosestOverInletsExp_OperatorDto_VarInput_VarItems { InputOperatorDto = dto.InputOperatorDto, ItemOperatorDtos = dto.ItemOperatorDtos };
+            }
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto(Curve_OperatorDto dto)
@@ -950,7 +1004,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MaxOverInlets_OperatorDto(dto);
 
-            VarsConsts_MathPropetiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+            VarsConsts_MathPropertiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
@@ -1028,7 +1082,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MinOverInlets_OperatorDto(dto);
 
-            VarsConsts_MathPropetiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+            VarsConsts_MathPropertiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
@@ -1054,7 +1108,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Multiply_OperatorDto(dto);
 
-            VarsConsts_MathPropetiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+            VarsConsts_MathPropertiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
@@ -2457,7 +2511,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Helpers
 
-        private static VarsConsts_MathPropetiesDto Get_VarsConsts_MathPropertiesDto(IList<OperatorDtoBase> operatorDtos)
+        private static VarsConsts_MathPropertiesDto Get_VarsConsts_MathPropertiesDto(IList<OperatorDtoBase> operatorDtos)
         {
             IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).ToArray();
 
@@ -2467,12 +2521,14 @@ namespace JJ.Business.Synthesizer.Visitors
             bool hasVars = varOperatorDtos.Any();
             bool hasConsts = constOperatorDtos.Any();
 
-            var mathPropertiesDto = new VarsConsts_MathPropetiesDto
+            var mathPropertiesDto = new VarsConsts_MathPropertiesDto
             {
                 VarOperatorDtos = varOperatorDtos,
                 Consts = consts,
                 HasConsts = hasConsts,
-                HasVars = hasVars
+                HasVars = hasVars,
+                AllConsts = !hasVars,
+                AllVars = !hasConsts
             };
 
             return mathPropertiesDto;

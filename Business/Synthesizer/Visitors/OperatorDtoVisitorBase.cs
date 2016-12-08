@@ -76,6 +76,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous), x => Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous((AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous)x ) },
                 { typeof(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset), x => Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset((AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset)x ) },
                 { typeof(AverageOverInlets_OperatorDto), x => Visit_AverageOverInlets_OperatorDto((AverageOverInlets_OperatorDto)x ) },
+                { typeof(AverageOverInlets_OperatorDto_AllConsts), x => Visit_AverageOverInlets_OperatorDto_AllConsts((AverageOverInlets_OperatorDto_AllConsts)x ) },
+                { typeof(AverageOverInlets_OperatorDto_Vars), x => Visit_AverageOverInlets_OperatorDto_Vars((AverageOverInlets_OperatorDto_Vars)x ) },
                 { typeof(BandPassFilterConstantPeakGain_OperatorDto), x => Visit_BandPassFilterConstantPeakGain_OperatorDto((BandPassFilterConstantPeakGain_OperatorDto)x ) },
                 { typeof(BandPassFilterConstantPeakGain_OperatorDto_ConstSignal), x => Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstSignal((BandPassFilterConstantPeakGain_OperatorDto_ConstSignal)x ) },
                 { typeof(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth), x => Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth((BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth)x ) },
@@ -97,10 +99,12 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous), x => Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous((ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous)x ) },
                 { typeof(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset), x => Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset((ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset)x ) },
                 { typeof(ClosestOverInlets_OperatorDto), x => Visit_ClosestOverInlets_OperatorDto((ClosestOverInlets_OperatorDto)x ) },
+                { typeof(ClosestOverInlets_OperatorDto_ConstInput_ConstItems), x => Visit_ClosestOverInlets_OperatorDto_ConstInput_ConstItems((ClosestOverInlets_OperatorDto_ConstInput_ConstItems)x ) },
                 { typeof(ClosestOverInlets_OperatorDto_VarInput_VarItems), x => Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems((ClosestOverInlets_OperatorDto_VarInput_VarItems)x ) },
                 { typeof(ClosestOverInlets_OperatorDto_VarInput_ConstItems), x => Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems((ClosestOverInlets_OperatorDto_VarInput_ConstItems)x ) },
                 { typeof(ClosestOverInlets_OperatorDto_VarInput_2ConstItems), x => Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems((ClosestOverInlets_OperatorDto_VarInput_2ConstItems)x ) },
                 { typeof(ClosestOverInletsExp_OperatorDto), x => Visit_ClosestOverInletsExp_OperatorDto((ClosestOverInletsExp_OperatorDto)x ) },
+                { typeof(ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems), x => Visit_ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems((ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems)x ) },
                 { typeof(ClosestOverInletsExp_OperatorDto_VarInput_VarItems), x => Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems((ClosestOverInletsExp_OperatorDto_VarInput_VarItems)x ) },
                 { typeof(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems), x => Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems((ClosestOverInletsExp_OperatorDto_VarInput_ConstItems)x ) },
                 { typeof(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems), x => Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems((ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems)x ) },
@@ -486,6 +490,8 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_AverageOverInlets_OperatorDto_AllConsts(AverageOverInlets_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstSignal(BandPassFilterConstantPeakGain_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto) => Visit_OperatorDto_Base(dto);
@@ -507,10 +513,12 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_ConstInput_ConstItems(ClosestOverInlets_OperatorDto_ConstInput_ConstItems dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(ClosestOverInlets_OperatorDto_VarInput_2ConstItems dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems(ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto) => Visit_OperatorDto_Base(dto);

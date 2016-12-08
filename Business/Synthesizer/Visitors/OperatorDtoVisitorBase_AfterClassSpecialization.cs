@@ -25,12 +25,17 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
+        protected sealed override OperatorDtoBase Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto)
         {
             throw new NotSupportedException();
         }
 
-        protected sealed override OperatorDtoBase Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
+        protected sealed override OperatorDtoBase Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
         {
             throw new NotSupportedException();
         }
@@ -56,6 +61,16 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         protected sealed override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto(ClosestOverDimensionExp_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected sealed override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected sealed override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
         {
             throw new NotSupportedException();
         }
