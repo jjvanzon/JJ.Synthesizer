@@ -150,7 +150,7 @@
     <Compile Include="Calculation\Operators\Unbundle_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Bundle_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Hold_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Hold_OperatorCalculator_VarSignal.cs" />
     <Compile Include="Calculation\Operators\SetDimension OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\GetDimension_OperatorCalculator.cs" />

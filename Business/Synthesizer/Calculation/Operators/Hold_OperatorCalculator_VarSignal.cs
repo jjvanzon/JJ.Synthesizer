@@ -5,12 +5,12 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Hold_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Hold_OperatorCalculator_VarSignal : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private double _value;
 
-        public Hold_OperatorCalculator(OperatorCalculatorBase signalCalculator)
+        public Hold_OperatorCalculator_VarSignal(OperatorCalculatorBase signalCalculator)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);

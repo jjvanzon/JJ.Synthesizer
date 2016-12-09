@@ -4,14 +4,14 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Select_OperatorCalculator_VarPosition : OperatorCalculatorBase_WithChildCalculators
+    internal class Select_OperatorCalculator_VarSignal_VarPosition : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _positionCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _nextDimensionStackIndex;
 
-        public Select_OperatorCalculator_VarPosition(
+        public Select_OperatorCalculator_VarSignal_VarPosition(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase positionCalculator,
             DimensionStack dimensionStack)
@@ -72,14 +72,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Select_OperatorCalculator_ConstPosition : OperatorCalculatorBase_WithChildCalculators
+    internal class Select_OperatorCalculator_VarSignal_ConstPosition : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _position;
         private readonly DimensionStack _dimensionStack;
         private readonly int _nextDimensionStackIndex;
 
-        public Select_OperatorCalculator_ConstPosition(
+        public Select_OperatorCalculator_VarSignal_ConstPosition(
             OperatorCalculatorBase signalCalculator,
             double position,
             DimensionStack dimensionStack)

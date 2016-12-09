@@ -6,13 +6,13 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Round_VarStep_VarOffSet_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Round_OperatorCalculator_VarSignal_VarStep_VarOffset : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _stepCalculator;
         private readonly OperatorCalculatorBase _offsetCalculator;
 
-        public Round_VarStep_VarOffSet_OperatorCalculator(
+        public Round_OperatorCalculator_VarSignal_VarStep_VarOffset(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase stepCalculator,
             OperatorCalculatorBase offsetCalculator)
@@ -39,13 +39,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Round_VarStep_ConstOffSet_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Round_OperatorCalculator_VarSignal_VarStep_ConstOffset : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _stepCalculator;
         private readonly double _offset;
 
-        public Round_VarStep_ConstOffSet_OperatorCalculator(
+        public Round_OperatorCalculator_VarSignal_VarStep_ConstOffset(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase stepCalculator,
             double offset)
@@ -71,12 +71,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Round_VarStep_ZeroOffSet_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Round_OperatorCalculator_VarSignal_VarStep_ZeroOffset : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _stepCalculator;
 
-        public Round_VarStep_ZeroOffSet_OperatorCalculator(
+        public Round_OperatorCalculator_VarSignal_VarStep_ZeroOffset(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase stepCalculator)
             : base(new OperatorCalculatorBase[] { signalCalculator, stepCalculator })
@@ -99,13 +99,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Round_ConstStep_VarOffSet_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Round_OperatorCalculator_VarSignal_ConstStep_VarOffset : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _step;
         private readonly OperatorCalculatorBase _offsetCalculator;
 
-        public Round_ConstStep_VarOffSet_OperatorCalculator(
+        public Round_OperatorCalculator_VarSignal_ConstStep_VarOffset(
             OperatorCalculatorBase signalCalculator,
             double step,
             OperatorCalculatorBase offsetCalculator)
@@ -131,13 +131,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Round_ConstStep_ConstOffSet_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Round_OperatorCalculator_VarSignal_ConstStep_ConstOffset : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _step;
         private readonly double _offset;
 
-        public Round_ConstStep_ConstOffSet_OperatorCalculator(
+        public Round_OperatorCalculator_VarSignal_ConstStep_ConstOffset(
             OperatorCalculatorBase signalCalculator,
             double step,
             double offset)
@@ -162,12 +162,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Round_ConstStep_ZeroOffSet_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Round_OperatorCalculator_VarSignal_ConstStep_ZeroOffset : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _step;
 
-        public Round_ConstStep_ZeroOffSet_OperatorCalculator(
+        public Round_OperatorCalculator_VarSignal_ConstStep_ZeroOffset(
             OperatorCalculatorBase signalCalculator,
             double step)
             : base(new OperatorCalculatorBase[] { signalCalculator })
@@ -191,13 +191,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // Special cases
 
-    internal class Round_ConstSignal_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Round_OperatorCalculator_ConstSignal : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _signal;
         private readonly OperatorCalculatorBase _stepCalculator;
         private readonly OperatorCalculatorBase _offsetCalculator;
 
-        public Round_ConstSignal_OperatorCalculator(
+        public Round_OperatorCalculator_ConstSignal(
             double signal,
             OperatorCalculatorBase stepCalculator,
             OperatorCalculatorBase offsetCalculator)
@@ -222,11 +222,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Round_VarSignal_StepOne_OffsetZero : OperatorCalculatorBase_WithChildCalculators
+    internal class Round_OperatorCalculator_VarSignal_StepOne_OffsetZero : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
 
-        public Round_VarSignal_StepOne_OffsetZero(OperatorCalculatorBase signalCalculator)
+        public Round_OperatorCalculator_VarSignal_StepOne_OffsetZero(OperatorCalculatorBase signalCalculator)
             : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);

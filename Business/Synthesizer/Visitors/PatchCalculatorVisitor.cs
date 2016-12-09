@@ -1798,7 +1798,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new Hold_OperatorCalculator(signalCalculator);
+                calculator = new Hold_OperatorCalculator_VarSignal(signalCalculator);
             }
 
             _stack.Push(calculator);
@@ -1840,19 +1840,19 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (thenIsConst && elseIsConst)
             {
-                calculator = new If_VarCondition_ConstThen_ConstElse_OperatorCalculator(conditionCalculator, then, @else);
+                calculator = new If_VarCondition_VarCondition_ConstThen_ConstElse_OperatorCalculator(conditionCalculator, then, @else);
             }
             else if (thenIsConst && !elseIsConst)
             {
-                calculator = new If_VarCondition_ConstThen_VarElse_OperatorCalculator(conditionCalculator, then, elseCalculator);
+                calculator = new If_VarCondition_VarCondition_ConstThen_VarElse_OperatorCalculator(conditionCalculator, then, elseCalculator);
             }
             else if (!thenIsConst && elseIsConst)
             {
-                calculator = new If_VarCondition_VarThen_ConstElse_OperatorCalculator(conditionCalculator, thenCalculator, @else);
+                calculator = new If_VarCondition_VarCondition_VarThen_ConstElse_OperatorCalculator(conditionCalculator, thenCalculator, @else);
             }
             else if (!thenIsConst && !elseIsConst)
             {
-                calculator = new If_VarCondition_VarThen_VarElse_OperatorCalculator(conditionCalculator, thenCalculator, elseCalculator);
+                calculator = new If_VarCondition_VarCondition_VarThen_VarElse_OperatorCalculator(conditionCalculator, thenCalculator, elseCalculator);
             }
             else
             {
@@ -3684,37 +3684,37 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (signalIsConst)
             {
-                calculator = new Round_ConstSignal_OperatorCalculator(signal, stepCalculator, offsetCalculator);
+                calculator = new Round_OperatorCalculator_ConstSignal(signal, stepCalculator, offsetCalculator);
             }
             else if (stepIsConstOne && offsetIsConstZero)
             {
-                calculator = new Round_VarSignal_StepOne_OffsetZero(signalCalculator);
+                calculator = new Round_OperatorCalculator_VarSignal_StepOne_OffsetZero(signalCalculator);
             }
             else
             {
                 if (stepIsConst && offsetIsConstZero)
                 {
-                    calculator = new Round_ConstStep_ZeroOffSet_OperatorCalculator(signalCalculator, step);
+                    calculator = new Round_OperatorCalculator_VarSignal_ConstStep_ZeroOffset(signalCalculator, step);
                 }
                 else if (stepIsConst && offsetIsConst)
                 {
-                    calculator = new Round_ConstStep_ConstOffSet_OperatorCalculator(signalCalculator, step, offset);
+                    calculator = new Round_OperatorCalculator_VarSignal_ConstStep_ConstOffset(signalCalculator, step, offset);
                 }
                 else if (stepIsConst && !offsetIsConst)
                 {
-                    calculator = new Round_ConstStep_VarOffSet_OperatorCalculator(signalCalculator, step, offsetCalculator);
+                    calculator = new Round_OperatorCalculator_VarSignal_ConstStep_VarOffset(signalCalculator, step, offsetCalculator);
                 }
                 else if (!stepIsConst && offsetIsConstZero)
                 {
-                    calculator = new Round_VarStep_ZeroOffSet_OperatorCalculator(signalCalculator, stepCalculator);
+                    calculator = new Round_OperatorCalculator_VarSignal_VarStep_ZeroOffset(signalCalculator, stepCalculator);
                 }
                 else if (!stepIsConst && offsetIsConst)
                 {
-                    calculator = new Round_VarStep_ConstOffSet_OperatorCalculator(signalCalculator, stepCalculator, offset);
+                    calculator = new Round_OperatorCalculator_VarSignal_VarStep_ConstOffset(signalCalculator, stepCalculator, offset);
                 }
                 else if (!stepIsConst && !offsetIsConst)
                 {
-                    calculator = new Round_VarStep_VarOffSet_OperatorCalculator(signalCalculator, stepCalculator, offsetCalculator);
+                    calculator = new Round_OperatorCalculator_VarSignal_VarStep_VarOffset(signalCalculator, stepCalculator, offsetCalculator);
                 }
                 else
                 {
@@ -4002,11 +4002,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (positionIsConst)
             {
-                calculator = new Select_OperatorCalculator_ConstPosition(signalCalculator, position, dimensionStack);
+                calculator = new Select_OperatorCalculator_VarSignal_ConstPosition(signalCalculator, position, dimensionStack);
             }
             else
             {
-                calculator = new Select_OperatorCalculator_VarPosition(signalCalculator, positionCalculator, dimensionStack);
+                calculator = new Select_OperatorCalculator_VarSignal_VarPosition(signalCalculator, positionCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
