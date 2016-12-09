@@ -261,6 +261,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // ChangeTrigger
+
         protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
         {
             // TODO: Needs a full cartesion product of Const/Var variations.
@@ -279,12 +281,12 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // ClosestOverDimensionExp
+
         protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
         {
             return Process_Nothing(dto);
         }
-
-        // ClosestOverDimensionExp
 
         protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
         {
@@ -343,6 +345,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // Curve
+
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto)
         {
             return Process_Nothing(dto);
@@ -363,15 +367,21 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // CustomOperator
+
         protected override OperatorDtoBase Visit_CustomOperator_OperatorDto(CustomOperator_OperatorDto dto)
         {
             return Process_Nothing(dto);
         }
 
+        // DimensionToOutlets
+
         protected override OperatorDtoBase Visit_DimensionToOutlets_OperatorDto(DimensionToOutlets_OperatorDto dto)
         {
             return Process_Nothing(dto);
         }
+
+        // Divide
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_ConstOrigin(Divide_OperatorDto_ConstA_ConstB_ConstOrigin dto)
         {
@@ -475,6 +485,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // Exponent
+
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio(Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio dto)
         {
             base.Visit_Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio(dto);
@@ -519,6 +531,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // GetDimension
+
         protected override OperatorDtoBase Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
         {
             return Process_Nothing(dto);
@@ -559,6 +573,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // GreaterThan
+
         protected override OperatorDtoBase Visit_GreaterThan_OperatorDto_ConstA_ConstB(GreaterThan_OperatorDto_ConstA_ConstB dto)
         {
             base.Visit_GreaterThan_OperatorDto_ConstA_ConstB(dto);
@@ -592,6 +608,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // HighPassFilter
+
         protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_AllVars(HighPassFilter_OperatorDto_AllVars dto)
         {
             return Process_Nothing(dto);
@@ -606,6 +624,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_ConstSignal_Identity(dto.Signal);
         }
+
+        // HighShelfFilter
 
         protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_AllVars(HighShelfFilter_OperatorDto_AllVars dto)
         {
@@ -622,6 +642,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_ConstSignal_Identity(dto.Signal);
         }
 
+        // Hold
+
         protected override OperatorDtoBase Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
         {
             return Process_Nothing(dto);
@@ -631,6 +653,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_ConstSignal_Identity(dto.Signal);
         }
+
+        // If
 
         protected override OperatorDtoBase Visit_If_OperatorDto_ConstCondition_ConstThen_ConstElse(If_OperatorDto_ConstCondition_ConstThen_ConstElse dto)
         {
@@ -726,10 +750,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // InletsToDimension
+
         protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto)
         {
             return Process_Nothing(dto);
         }
+
+        // Interpolate
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
         {
@@ -845,6 +873,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // Loop
+
         protected override OperatorDtoBase Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
         {
             return Process_Nothing(dto);
@@ -880,6 +910,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // LowPassFilter
+
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
         {
             return Process_Nothing(dto);
@@ -894,6 +926,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_ConstSignal_Identity(dto.Signal);
         }
+
+        // LowShelfFilter
 
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto)
         {
@@ -910,6 +944,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_ConstSignal_Identity(dto.Signal);
         }
 
+        // MaxFollower
+
         protected override OperatorDtoBase Visit_MaxFollower_OperatorDto_AllVars(MaxFollower_OperatorDto_AllVars dto)
         {
             return Process_Nothing(dto);
@@ -919,6 +955,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_ConstSignal_Identity(dto.Signal);
         }
+
+        // MaxOverDimension
 
         protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
@@ -977,6 +1015,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // MinFollower
+
         protected override OperatorDtoBase Visit_MinFollower_OperatorDto_AllVars(MinFollower_OperatorDto_AllVars dto)
         {
             return Process_Nothing(dto);
@@ -986,6 +1026,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_ConstSignal_Identity(dto.Signal);
         }
+
+        // MinOverDimension
 
         protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
@@ -1043,6 +1085,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Nothing(dto);
         }
+
+        // MultiplyWithOrigin
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin dto)
         {
@@ -1184,10 +1228,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // Noise
+
         protected override OperatorDtoBase Visit_Noise_OperatorDto(Noise_OperatorDto dto)
         {
             return Process_Nothing(dto);
         }
+
+        // NotchFilter
 
         protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_AllVars(NotchFilter_OperatorDto_AllVars dto)
         {
@@ -1261,6 +1309,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Nothing(dto);
         }
+
+        // Number
 
         protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
@@ -1361,6 +1411,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // PatchInlets
+
         protected override OperatorDtoBase Visit_PatchInlet_OperatorDto(PatchInlet_OperatorDto dto)
         {
             return Process_Nothing(dto);
@@ -1370,6 +1422,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Nothing(dto);
         }
+
+        // PeakingEQFilter
 
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto)
         {
@@ -1441,11 +1495,15 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // PulseTrigger
+
         protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
         {
             // TODO: Needs more variations with consts.
             throw new NotImplementedException();
         }
+
+        // Pulse
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
         {
@@ -1507,6 +1565,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // Random
+
         protected override OperatorDtoBase Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
         {
             return Process_Nothing(dto);
@@ -1542,6 +1602,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // RangeOverDimension
+
         protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(RangeOverDimension_OperatorCalculator_OnlyConsts dto)
         {
             return Process_Nothing(dto);
@@ -1551,6 +1613,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Nothing(dto);
         }
+
+        // RangeOverOutlets
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_ConstFrom_ConstStep(RangeOverOutlets_OperatorDto_ConstFrom_ConstStep dto)
         {
@@ -1573,11 +1637,15 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // Reset
+
         protected override OperatorDtoBase Visit_Reset_OperatorDto(Reset_OperatorDto dto)
         {
             // Requires special visitation
             return Process_Nothing(dto);
         }
+
+        // Reverse
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSignal(Reverse_OperatorDto_ConstSignal dto)
         {
@@ -1603,6 +1671,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Nothing(dto);
         }
+
+        // Round
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_AllConsts(Round_OperatorDto_AllConsts dto)
         {
@@ -1652,6 +1722,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Nothing(dto);
         }
+
+        // Sample
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
         {
@@ -1713,6 +1785,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // SawDown
+
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             return Process_Nothing(dto);
@@ -1733,6 +1807,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // SawUp
+
         protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             return Process_Nothing(dto);
@@ -1752,6 +1828,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Nothing(dto);
         }
+
+        // Scaler
 
         protected override OperatorDtoBase Visit_Scaler_OperatorDto_AllConsts(Scaler_OperatorDto_AllConsts dto)
         {
@@ -1778,6 +1856,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // Select
+
         protected override OperatorDtoBase Visit_Select_OperatorDto_ConstSignal_ConstPosition(Select_OperatorDto_ConstSignal_ConstPosition dto)
         {
             return Process_ConstSignal_Identity(dto.Signal);
@@ -1797,6 +1877,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Nothing(dto);
         }
+
+        // SetDimension
 
         protected override OperatorDtoBase Visit_SetDimension_OperatorDto_ConstValue(SetDimension_OperatorDto_ConstValue dto)
         {
@@ -1839,6 +1921,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // Sine
+
         protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             return Process_Nothing(dto);
@@ -1859,6 +1943,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // SortOverDimension
+
         protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             return Process_Nothing(dto);
@@ -1874,10 +1960,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_ConstSignal_Identity(dto.Signal);
         }
 
+        // SortOverInlets
+
         protected override OperatorDtoBase Visit_SortOverInlets_OperatorDto(SortOverInlets_OperatorDto dto)
         {
             return Process_Nothing(dto);
         }
+
+        // Spectrum
 
         protected override OperatorDtoBase Visit_Spectrum_OperatorDto_AllVars(Spectrum_OperatorDto_AllVars dto)
         {
@@ -1891,6 +1981,8 @@ namespace JJ.Business.Synthesizer.Visitors
             // 0
             return new Number_OperatorDto_Zero();
         }
+
+        // Square
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
@@ -1915,6 +2007,8 @@ namespace JJ.Business.Synthesizer.Visitors
             // TODO: Refactor Square and Pulse handling.
             throw new NotImplementedException();
         }
+
+        // Squash
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
         {
@@ -1995,6 +2089,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_ConstSignal_Identity(dto.Signal);
         }
+
+        // Stretch
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
         {
@@ -2121,6 +2217,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // SumFollower
+
         protected override OperatorDtoBase Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto)
         {
             return Process_Nothing(dto);
@@ -2138,6 +2236,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Nothing(dto);
         }
+
+        // SumOverDimension
 
         protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
@@ -2159,6 +2259,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        // TimePower
+
         protected override OperatorDtoBase Visit_TimePower_OperatorDto_ConstOrigin(TimePower_OperatorDto_ConstOrigin dto)
         {
             // TODO: Refactor the DTO and calculator variations.
@@ -2176,10 +2278,14 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
+        // ToggleTrigger
+
         protected override OperatorDtoBase Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
         {
             return Process_Nothing(dto);
         }
+
+        // Triangle
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
@@ -2200,6 +2306,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Nothing(dto);
         }
+
+        // Unbundle
 
         protected override OperatorDtoBase Visit_Unbundle_OperatorDto(Unbundle_OperatorDto dto)
         {
