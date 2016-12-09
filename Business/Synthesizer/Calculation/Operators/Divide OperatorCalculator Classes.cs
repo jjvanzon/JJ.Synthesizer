@@ -59,12 +59,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double b = _bCalculator.Calculate();
-
-            if (b == 0)
-            {
-                return _a;
-            }
-
             return (_a - _origin) / b + _origin;
         }
     }
@@ -96,11 +90,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double a = _aCalculator.Calculate();
             double b = _bCalculator.Calculate();
-
-            if (b == 0)
-            {
-                return a;
-            }
 
             return (a - _origin) / b + _origin;
         }
@@ -194,11 +183,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double b = _bCalculator.Calculate();
 
-            if (b == 0)
-            {
-                return _a;
-            }
-
             double origin = _originCalculator.Calculate();
 
             return (_a - origin) / b + origin;
@@ -235,11 +219,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double a = _aCalculator.Calculate();
             double b = _bCalculator.Calculate();
 
-            if (b == 0)
-            {
-                return a;
-            }
-
             double origin = _originCalculator.Calculate();
 
             return (a - origin) / b + origin;
@@ -268,11 +247,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double a = _aCalculator.Calculate();
             double b = _bCalculator.Calculate();
-
-            if (b == 0)
-            {
-                return a;
-            }
 
             return a / b;
         }
@@ -321,11 +295,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double b = _bCalculator.Calculate();
-
-            if (b == 0)
-            {
-                return _a;
-            }
 
             return _a / b;
         }

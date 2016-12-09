@@ -375,8 +375,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_ConstOrigin(Divide_OperatorDto_ConstA_ConstB_ConstOrigin dto)
         {
-            // TODO: Precalculate
-            throw new NotImplementedException();
+            base.Visit_Divide_OperatorDto_ConstA_ConstB_ConstOrigin(dto);
+
+            // Pre-calculate
+            double result = (dto.A - dto.Origin) / dto.B + dto.Origin;
+            return new Number_OperatorDto { Number = result };
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
@@ -386,8 +389,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_ZeroOrigin(Divide_OperatorDto_ConstA_ConstB_ZeroOrigin dto)
         {
-            // TODO: Pre-calculate
-            throw new NotImplementedException();
+            base.Visit_Divide_OperatorDto_ConstA_ConstB_ZeroOrigin(dto);
+
+            // Pre-calculate
+            return new Number_OperatorDto { Number = dto.A / dto.B };
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(Divide_OperatorDto_ConstA_VarB_ConstOrigin dto)
@@ -472,8 +477,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio(Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio dto)
         {
-            // TODO: Pre-calculate
-            throw new NotImplementedException();
+            base.Visit_Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio(dto);
+
+            // Pre-calculate
+            double result = dto.Low * Math.Pow(dto.High / dto.Low, dto.Ratio);
+            return new Number_OperatorDto { Number = result };
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio(Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio dto)
@@ -626,32 +634,81 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_If_OperatorDto_ConstCondition_ConstThen_ConstElse(If_OperatorDto_ConstCondition_ConstThen_ConstElse dto)
         {
-            // TODO: Return either Then or Else.
-            throw new NotImplementedException();
+            base.Visit_If_OperatorDto_ConstCondition_ConstThen_ConstElse(dto);
+
+            // Pre-calculate
+            bool isTrue = dto.Condition != 0.0;
+            if (isTrue)
+            {
+                return new Number_OperatorDto { Number = dto.Then };
+            }
+            else
+            {
+                return new Number_OperatorDto { Number = dto.Else };
+            }
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto_ConstCondition_ConstThen_VarElse(If_OperatorDto_ConstCondition_ConstThen_VarElse dto)
         {
-            // TODO: Return either Then or Else.
-            throw new NotImplementedException();
+            base.Visit_If_OperatorDto_ConstCondition_ConstThen_VarElse(dto);
+
+            // Pre-calculate
+            bool isTrue = dto.Condition != 0.0;
+            if (isTrue)
+            {
+                return new Number_OperatorDto { Number = dto.Then };
+            }
+            else
+            {
+                return dto.ElseOperatorDto;
+            }
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto_ConstCondition_VarThen_ConstElse(If_OperatorDto_ConstCondition_VarThen_ConstElse dto)
         {
-            // TODO: Return either Then or Else.
-            throw new NotImplementedException();
+            base.Visit_If_OperatorDto_ConstCondition_VarThen_ConstElse(dto);
+
+            // Pre-calculate
+            bool isTrue = dto.Condition != 0.0;
+            if (isTrue)
+            {
+                return dto.ThenOperatorDto;
+            }
+            else
+            {
+                return new Number_OperatorDto { Number = dto.Else };
+            }
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto_ConstCondition_VarThen_VarElse(If_OperatorDto_ConstCondition_VarThen_VarElse dto)
         {
-            // TODO: Return either Then or Else.
-            throw new NotImplementedException();
+            base.Visit_If_OperatorDto_ConstCondition_VarThen_VarElse(dto);
+
+            // Pre-calculate
+            bool isTrue = dto.Condition != 0.0;
+            if (isTrue)
+            {
+                return dto.ThenOperatorDto;
+            }
+            else
+            {
+                return dto.ElseOperatorDto;
+            }
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
         {
-            // TODO: Then and Else the same? Return it. Otherwise process nothing.
-            throw new NotImplementedException();
+            base.Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(dto);
+
+            if (dto.Then == dto.Else)
+            {
+                // Identity
+                return new Number_OperatorDto { Number = dto.Then };
+            }
+            else
+            {
+                return dto;
+            }
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_VarElse(If_OperatorDto_VarCondition_ConstThen_VarElse dto)
@@ -989,8 +1046,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin dto)
         {
-            // TODO: Pre-calculate
-            throw new NotImplementedException();
+            base.Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin(dto);
+
+            // Pre-calculate
+            double result = (dto.A - dto.Origin) * dto.B + dto.Origin;
+            return new Number_OperatorDto { Number = result };
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin dto)
@@ -1000,8 +1060,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin dto)
         {
-            // TODO: Pre-calculate
-            throw new NotImplementedException();
+            base.Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin(dto);
+
+            // Pre-calculate
+            return new Number_OperatorDto { Number = dto.A * dto.B };
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin dto)
@@ -1016,8 +1078,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin dto)
         {
-            // TODO: Replace with a normal multiply and revisit.
-            throw new NotImplementedException();
+            base.Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin(dto);
+
+            // Commute
+            var dto2 = new MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin { AOperatorDto = dto.BOperatorDto, B = dto.A };
+
+            return Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin(dto2);
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin dto)
@@ -1032,8 +1098,16 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin dto)
         {
-            // TODO: Replace with a normal multiply and revisit.
-            throw new NotImplementedException();
+            base.Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin(dto);
+
+            // Simplify
+            var dto2 = new Multiply_OperatorDto_Vars_1Const
+            {
+                Vars = new OperatorDtoBase[] { dto.AOperatorDto },
+                ConstValue = dto.B
+            };
+
+            return Visit_Multiply_OperatorDto_Vars_1Const(dto2);
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin dto)
@@ -2087,6 +2161,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_TimePower_OperatorDto_ConstOrigin(TimePower_OperatorDto_ConstOrigin dto)
         {
+            // TODO: Refactor the DTO and calculator variations.
             throw new NotImplementedException();
         }
 
@@ -2097,6 +2172,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_TimePower_OperatorDto_VarOrigin(TimePower_OperatorDto_VarOrigin dto)
         {
+            // TODO: Refactor the DTO and calculator variations.
             throw new NotImplementedException();
         }
 
