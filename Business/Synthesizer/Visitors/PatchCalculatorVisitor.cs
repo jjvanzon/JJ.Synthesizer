@@ -90,12 +90,18 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _nyquistFrequency = _samplingRate / 2.0;
 
+            _samplesBetweenApplyFilterVariables = GetSamplesBetweenApplyFilterVariables(secondsBetweenApplyFilterVariables, samplingRate);
+        }
+
+        private int GetSamplesBetweenApplyFilterVariables(double secondsBetweenApplyFilterVariables, int samplingRate)
+        {
             double samplesBetweenApplyFilterVariablesDouble = secondsBetweenApplyFilterVariables * samplingRate;
             if (!ConversionHelper.CanCastToPositiveInt32(samplesBetweenApplyFilterVariablesDouble))
             {
                 throw new Exception(String.Format("samplesBetweenApplyFilterVariablesDouble {0} cannot be cast to positive Int32.", samplesBetweenApplyFilterVariablesDouble));
             }
-            _samplesBetweenApplyFilterVariables = (int)(secondsBetweenApplyFilterVariables * samplingRate);
+            int samplesBetweenApplyFilterVariables = (int)(secondsBetweenApplyFilterVariables * samplingRate);
+            return samplesBetweenApplyFilterVariables;
         }
 
         /// <param name="channelCount">Used for e.g. mixing channels of samples into one channel.</param>

@@ -4,20 +4,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Absolute_OperatorCalculator_VarX : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _calculatorX;
+        private readonly OperatorCalculatorBase _xCalculator;
 
-        public Absolute_OperatorCalculator_VarX(OperatorCalculatorBase calculatorX)
-            : base(new OperatorCalculatorBase[] { calculatorX })
+        public Absolute_OperatorCalculator_VarX(OperatorCalculatorBase xCalculator)
+            : base(new OperatorCalculatorBase[] { xCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorX, () => calculatorX);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(xCalculator, () => xCalculator);
 
-            _calculatorX = calculatorX;
+            _xCalculator = xCalculator;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double x = _calculatorX.Calculate();
+            double x = _xCalculator.Calculate();
 
             if (x >= 0.0)
             {

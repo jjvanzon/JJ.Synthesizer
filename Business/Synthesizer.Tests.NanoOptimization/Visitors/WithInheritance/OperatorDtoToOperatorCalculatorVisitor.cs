@@ -67,9 +67,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
             base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
-
             var calculator = new Multiply_OperatorCalculator_VarA_ConstB(aCalculator, dto.B);
-
             _stack.Push(calculator);
 
             return dto;
@@ -81,9 +79,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
             OperatorCalculatorBase bCalculator = _stack.Pop();
-
             var calculator = new Multiply_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
-
             _stack.Push(calculator);
 
             return dto;
@@ -96,7 +92,6 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
             base.Visit_Number_OperatorDto(dto);
 
             var calculator = new Number_OperatorCalculator(dto.Number);
-
             _stack.Push(calculator);
 
             return dto;
@@ -107,7 +102,6 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
             base.Visit_Number_OperatorDto_NaN(dto);
 
             var calculator = new Number_OperatorCalculator_NaN();
-
             _stack.Push(calculator);
 
             return dto;
@@ -118,7 +112,6 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
             base.Visit_Number_OperatorDto_One(dto);
 
             var calculator = new Number_OperatorCalculator_One();
-
             _stack.Push(calculator);
 
             return dto;
@@ -129,7 +122,6 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
             base.Visit_Number_OperatorDto_Zero(dto);
 
             var calculator = new Number_OperatorCalculator_Zero();
-
             _stack.Push(calculator);
 
             return dto;

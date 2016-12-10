@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
@@ -9,11 +11,26 @@ namespace JJ.Business.Synthesizer.Visitors
     internal class OperatorDtoToCalculatorVisitor : OperatorDtoVisitorBase_AfterMathSimplification
     {
         private readonly int _targetChannelCount;
+        private readonly double _samplingRate;
+        private readonly int _samplesBetweenApplyFilterVariables;
         private readonly Stack<OperatorCalculatorBase> _stack = new Stack<OperatorCalculatorBase>();
 
-        public OperatorDtoToCalculatorVisitor(int targetChannelCount)
+        public OperatorDtoToCalculatorVisitor(int samplingRate, int targetChannelCount, double secondsBetweenApplyFilterVariables)
         {
+            _samplingRate = samplingRate;
             _targetChannelCount = targetChannelCount;
+            _samplesBetweenApplyFilterVariables = GetSamplesBetweenApplyFilterVariables(secondsBetweenApplyFilterVariables, samplingRate);
+        }
+
+        private int GetSamplesBetweenApplyFilterVariables(double secondsBetweenApplyFilterVariables, int samplingRate)
+        {
+            double samplesBetweenApplyFilterVariablesDouble = secondsBetweenApplyFilterVariables * samplingRate;
+            if (!ConversionHelper.CanCastToPositiveInt32(samplesBetweenApplyFilterVariablesDouble))
+            {
+                throw new Exception(String.Format("samplesBetweenApplyFilterVariablesDouble {0} cannot be cast to positive Int32.", samplesBetweenApplyFilterVariablesDouble));
+            }
+            int samplesBetweenApplyFilterVariables = (int)(secondsBetweenApplyFilterVariables * samplingRate);
+            return samplesBetweenApplyFilterVariables;
         }
 
         public OperatorCalculatorBase Execute(OperatorDtoBase dto)
@@ -34,26 +51,53 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Absolute_OperatorDto_VarX(dto);
+            base.Visit_Absolute_OperatorDto_VarX(dto);
+
+            OperatorCalculatorBase xCalculator = _stack.Pop();
+
+            var calculator = new Absolute_OperatorCalculator_VarX(xCalculator);
+
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Add_OperatorDto_Vars_1Const(dto);
+            base.Visit_Add_OperatorDto_Vars_1Const(dto);
+
+            IList<OperatorCalculatorBase> varCalculators = dto.Vars.Select(x => _stack.Pop()).ToArray();
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculatorWithConst(dto.ConstValue, varCalculators);
+
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
+            base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
+
+            IList<OperatorCalculatorBase> operandCalculators = dto.InputOperatorDtos.Select(x => _stack.Pop()).ToArray();
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculatorOnlyVars(operandCalculators);
+
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_AllVars(AllPassFilter_OperatorDto_AllVars dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_AllPassFilter_OperatorDto_AllVars(dto);
+            base.Visit_AllPassFilter_OperatorDto_AllVars(dto);
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
+            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+            var calculator = new AllPassFilter_OperatorCalculator_AllVars(signalCalculator, centerFrequencyCalculator, bandWidthCalculator, _samplingRate, _samplesBetweenApplyFilterVariables);
+
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto)
