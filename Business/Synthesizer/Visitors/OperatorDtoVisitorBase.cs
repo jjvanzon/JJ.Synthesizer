@@ -331,6 +331,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(RangeOverDimension_OperatorDto), x => Visit_RangeOverDimension_OperatorDto((RangeOverDimension_OperatorDto)x ) },
                 { typeof(RangeOverDimension_OperatorCalculator_OnlyVars), x => Visit_RangeOverDimension_OperatorCalculator_OnlyVars((RangeOverDimension_OperatorCalculator_OnlyVars)x ) },
                 { typeof(RangeOverDimension_OperatorCalculator_OnlyConsts), x => Visit_RangeOverDimension_OperatorCalculator_OnlyConsts((RangeOverDimension_OperatorCalculator_OnlyConsts)x ) },
+                { typeof(RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne), x => Visit_RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne((RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne)x ) },
                 { typeof(RangeOverOutlets_OperatorDto), x => Visit_RangeOverOutlets_OperatorDto((RangeOverOutlets_OperatorDto)x ) },
                 { typeof(RangeOverOutlets_OperatorDto_VarFrom_VarStep), x => Visit_RangeOverOutlets_OperatorDto_VarFrom_VarStep((RangeOverOutlets_OperatorDto_VarFrom_VarStep)x ) },
                 { typeof(RangeOverOutlets_OperatorDto_VarFrom_ConstStep), x => Visit_RangeOverOutlets_OperatorDto_VarFrom_ConstStep((RangeOverOutlets_OperatorDto_VarFrom_ConstStep)x ) },
@@ -757,6 +758,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyVars(RangeOverDimension_OperatorCalculator_OnlyVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(RangeOverDimension_OperatorCalculator_OnlyConsts dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverOutlets_OperatorDto(RangeOverOutlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_VarFrom_VarStep(RangeOverOutlets_OperatorDto_VarFrom_VarStep dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_VarFrom_ConstStep(RangeOverOutlets_OperatorDto_VarFrom_ConstStep dto) => Visit_OperatorDto_Base(dto);

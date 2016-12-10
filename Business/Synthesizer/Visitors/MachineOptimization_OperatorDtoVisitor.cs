@@ -93,6 +93,12 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
         }
 
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(RangeOverDimension_OperatorCalculator_OnlyConsts dto)
+        {
+            // TODO: Specialize to RangeOverDimension_OperatorCalculator_WithConstants_AndStepOne
+            throw new NotImplementedException();
+        }
+
         // Helpers
 
         private ClosestOverInlets_MathPropertiesDto Get_ClosestOverInlets_MathPropertiesDto(ClosestOverInlets_OperatorDto dto)

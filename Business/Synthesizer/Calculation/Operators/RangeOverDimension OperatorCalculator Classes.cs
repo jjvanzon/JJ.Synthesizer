@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class RangeOverDimension_OperatorCalculator_WithConstants_AndStepOne : OperatorCalculatorBase
+    internal class RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne : OperatorCalculatorBase
     {
         private readonly double _from;
         private readonly double _till;
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public RangeOverDimension_OperatorCalculator_WithConstants_AndStepOne(
+        public RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(
             double from,
             double till,
             DimensionStack dimensionStack)

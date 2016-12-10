@@ -3447,7 +3447,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (fromIsConst && tillIsConst && stepIsConstOne)
             {
-                operatorCalculator = new RangeOverDimension_OperatorCalculator_WithConstants_AndStepOne(from, till, dimensionStack);
+                operatorCalculator = new RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(from, till, dimensionStack);
             }
             else if (fromIsConst && tillIsConst && stepIsConst)
             {

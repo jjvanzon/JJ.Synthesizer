@@ -1409,10 +1409,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (bMathPropertiesDto.IsConstSpecialValue)
             {
+                // Simplify
                 return new Number_OperatorDto_NaN();
             }
             else if (bMathPropertiesDto.IsConstNonZero)
             {
+                // Simplify
                 return new Number_OperatorDto_One();
             }
             else if (bMathPropertiesDto.IsConstZero)
