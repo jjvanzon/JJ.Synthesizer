@@ -44,6 +44,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
+    /// <summary> For Machine Optimization </summary>
     internal class ClosestOverInlets_OperatorDto_VarInput_2ConstItems : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInlets);

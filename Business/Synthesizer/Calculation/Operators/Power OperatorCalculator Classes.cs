@@ -12,10 +12,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Power_OperatorCalculator_VarBase_VarExponent(OperatorCalculatorBase baseCalculator, OperatorCalculatorBase exponentCalculator)
             : base(new OperatorCalculatorBase[] { baseCalculator, exponentCalculator })
         {
-            if (baseCalculator == null) throw new NullException(() => baseCalculator);
-            if (baseCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => baseCalculator);
-            if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
-            if (exponentCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => exponentCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(baseCalculator, () => baseCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(exponentCalculator, () => exponentCalculator);
 
             _baseCalculator = baseCalculator;
             _exponentCalculator = exponentCalculator;
@@ -38,8 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Power_OperatorCalculator_ConstBase_VarExponent(double baseValue, OperatorCalculatorBase exponentCalculator)
             : base(new OperatorCalculatorBase[] { exponentCalculator })
         {
-            if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
-            if (exponentCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => exponentCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(exponentCalculator, () => exponentCalculator);
 
             _baseValue = baseValue;
             _exponentCalculator = exponentCalculator;
@@ -61,8 +58,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Power_OperatorCalculator_VarBase_ConstExponent(OperatorCalculatorBase baseCalculator, double exponentValue)
             : base(new OperatorCalculatorBase[] { baseCalculator })
         {
-            if (baseCalculator == null) throw new NullException(() => baseCalculator);
-            if (baseCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => baseCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(baseCalculator, () => baseCalculator);
 
             _baseCalculator = baseCalculator;
             _exponentValue = exponentValue;
@@ -73,6 +69,71 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double @base = _baseCalculator.Calculate();
             return Math.Pow(@base, _exponentValue);
+        }
+    }
+
+    internal class Power_OperatorCalculator_VarBase_Exponent2 : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly OperatorCalculatorBase _baseCalculator;
+
+        public Power_OperatorCalculator_VarBase_Exponent2(OperatorCalculatorBase baseCalculator)
+            : base(new OperatorCalculatorBase[] { baseCalculator })
+        {
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(baseCalculator, () => baseCalculator);
+
+            _baseCalculator = baseCalculator;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double @base = _baseCalculator.Calculate();
+
+            return @base * @base;
+        }
+    }
+
+    internal class Power_OperatorCalculator_VarBase_Exponent3 : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly OperatorCalculatorBase _baseCalculator;
+
+        public Power_OperatorCalculator_VarBase_Exponent3(OperatorCalculatorBase baseCalculator)
+            : base(new OperatorCalculatorBase[] { baseCalculator })
+        {
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(baseCalculator, () => baseCalculator);
+
+            _baseCalculator = baseCalculator;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double @base = _baseCalculator.Calculate();
+
+            return @base * @base * @base;
+        }
+    }
+
+    internal class Power_OperatorCalculator_VarBase_Exponent4 : OperatorCalculatorBase_WithChildCalculators
+    {
+        private readonly OperatorCalculatorBase _baseCalculator;
+
+        public Power_OperatorCalculator_VarBase_Exponent4(OperatorCalculatorBase baseCalculator)
+            : base(new OperatorCalculatorBase[] { baseCalculator })
+        {
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(baseCalculator, () => baseCalculator);
+
+            _baseCalculator = baseCalculator;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override double Calculate()
+        {
+            double @base = _baseCalculator.Calculate();
+
+            double powerOf2 = @base * @base;
+            double powerOf4 = powerOf2 * powerOf2;
+            return powerOf4;
         }
     }
 }

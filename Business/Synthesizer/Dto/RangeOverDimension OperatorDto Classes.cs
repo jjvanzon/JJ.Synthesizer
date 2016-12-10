@@ -32,7 +32,8 @@ namespace JJ.Business.Synthesizer.Dto
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
     }
-    
+
+    /// <summary> For Machine Optimization </summary>
     internal class RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDto_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverDimension);

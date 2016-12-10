@@ -97,7 +97,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // And
 
-        /// <summary> Pre-calculate </summary>
         protected override OperatorDtoBase Visit_And_OperatorDto_ConstA_ConstB(And_OperatorDto_ConstA_ConstB dto)
         {
             base.Visit_And_OperatorDto_ConstA_ConstB(dto);
@@ -325,7 +324,20 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
         {
-            return Process_Nothing(dto);
+            base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(dto);
+
+            if (dto.Items.Count == 0)
+            {
+                // 0
+                return new Number_OperatorDto_Zero();
+            }
+            else if (dto.Items.Count == 1)
+            {
+                // Identity
+                return new Number_OperatorDto { Number = dto.Items[0] };
+            }
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto)
@@ -351,7 +363,20 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
         {
-            return Process_Nothing(dto);
+            base.Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(dto);
+
+            if (dto.Items.Count == 0)
+            {
+                // 0
+                return new Number_OperatorDto_Zero();
+            }
+            if (dto.Items.Count == 1)
+            {
+                // Identity
+                return new Number_OperatorDto { Number = dto.Items[0] };
+            }
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto)

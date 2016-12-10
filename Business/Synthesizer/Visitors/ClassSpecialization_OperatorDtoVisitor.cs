@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             VarsConsts_MathPropertiesDto mathPropertiesDto = MathPropertiesHelper.Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
-            if (mathPropertiesDto.AllConsts)
+            if (mathPropertiesDto.AllAreConst)
             {
                 return new AverageOverInlets_OperatorDto_AllConsts { Consts = mathPropertiesDto.Consts };
             }
@@ -349,15 +349,11 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto inputMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.InputOperatorDto);
             VarsConsts_MathPropertiesDto itemsMathProperties = MathPropertiesHelper.Get_VarsConsts_MathPropertiesDto(dto.ItemOperatorDtos);
 
-            if (inputMathProperties.IsConst && itemsMathProperties.AllConsts)
+            if (inputMathProperties.IsConst && itemsMathProperties.AllAreConst)
             {
                 return new ClosestOverInlets_OperatorDto_ConstInput_ConstItems { Input = inputMathProperties.ConstValue, Items = itemsMathProperties.Consts };
             }
-            else if (inputMathProperties.IsVar && itemsMathProperties.AllConsts && itemsMathProperties.Consts.Count == 2)
-            {
-                return new ClosestOverInlets_OperatorDto_VarInput_2ConstItems { InputOperatorDto = dto.InputOperatorDto, Item1 = itemsMathProperties.Consts[0], Item2 = itemsMathProperties.Consts[1] };
-            }
-            else if (inputMathProperties.IsVar && itemsMathProperties.AllConsts)
+            else if (inputMathProperties.IsVar && itemsMathProperties.AllAreConst)
             {
                 return new ClosestOverInlets_OperatorDto_VarInput_ConstItems { InputOperatorDto = dto.InputOperatorDto, Items = itemsMathProperties.Consts };
             }
@@ -374,15 +370,11 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto inputMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.InputOperatorDto);
             VarsConsts_MathPropertiesDto itemsMathProperties = MathPropertiesHelper.Get_VarsConsts_MathPropertiesDto(dto.ItemOperatorDtos);
 
-            if (inputMathProperties.IsConst && itemsMathProperties.AllConsts)
+            if (inputMathProperties.IsConst && itemsMathProperties.AllAreConst)
             {
                 return new ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems { Input = inputMathProperties.ConstValue, Items = itemsMathProperties.Consts };
             }
-            else if (inputMathProperties.IsVar && itemsMathProperties.AllConsts && itemsMathProperties.Consts.Count == 2)
-            {
-                return new ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems { InputOperatorDto = dto.InputOperatorDto, Item1 = itemsMathProperties.Consts[0], Item2 = itemsMathProperties.Consts[1] };
-            }
-            else if (inputMathProperties.IsVar && itemsMathProperties.AllConsts)
+            else if (inputMathProperties.IsVar && itemsMathProperties.AllAreConst)
             {
                 return new ClosestOverInletsExp_OperatorDto_VarInput_ConstItems { InputOperatorDto = dto.InputOperatorDto, Items = itemsMathProperties.Consts };
             }

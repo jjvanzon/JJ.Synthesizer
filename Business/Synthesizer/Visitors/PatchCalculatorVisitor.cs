@@ -3145,7 +3145,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 calculator = new Zero_OperatorCalculator();
             }
-            if (baseIsConstOne)
+            else if (baseIsConstOne)
             {
                 calculator = new One_OperatorCalculator();
             }
@@ -3164,6 +3164,18 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (baseIsConst)
             {
                 calculator = new Power_OperatorCalculator_ConstBase_VarExponent(@base, exponentCalculator);
+            }
+            else if (!baseIsConst && exponentIsConst && exponent == 2.0)
+            {
+                calculator = new Power_OperatorCalculator_VarBase_Exponent2(baseCalculator);
+            }
+            else if (!baseIsConst && exponentIsConst && exponent == 3.0)
+            {
+                calculator = new Power_OperatorCalculator_VarBase_Exponent3(baseCalculator);
+            }
+            else if (!baseIsConst && exponentIsConst && exponent == 4.0)
+            {
+                calculator = new Power_OperatorCalculator_VarBase_Exponent4(baseCalculator);
             }
             else if (exponentIsConst)
             {

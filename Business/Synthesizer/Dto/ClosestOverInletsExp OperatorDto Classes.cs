@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInletsExp);
     }
 
+    /// <summary> For Machine Optimization </summary>
     internal class ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems : ClosestOverInlets_OperatorDto_VarInput_2ConstItems
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInletsExp);

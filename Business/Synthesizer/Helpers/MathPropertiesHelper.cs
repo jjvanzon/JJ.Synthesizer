@@ -72,8 +72,8 @@ namespace JJ.Business.Synthesizer.Helpers
                 Consts = consts,
                 HasConsts = hasConsts,
                 HasVars = hasVars,
-                AllConsts = !hasVars,
-                AllVars = !hasConsts
+                AllAreConst = !hasVars,
+                AllAreVar = !hasConsts
             };
 
             return varsConsts_MathPropertiesDto;
