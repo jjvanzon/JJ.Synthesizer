@@ -651,6 +651,7 @@
     <Compile Include="Visitors\ClassSpecialization_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\MachineOptimization_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\MathSimplification_OperatorDtoVisitor.cs" />
+    <Compile Include="Visitors\OperatorDtoToCalculatorVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterClassSpecialization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
     <Compile Include="Visitors\OperatorToDtoVisitor.cs" />

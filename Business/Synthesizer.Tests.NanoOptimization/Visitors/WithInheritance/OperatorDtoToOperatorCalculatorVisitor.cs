@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithInheritance;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
@@ -37,34 +34,13 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
             return _stack.Pop();
         }
 
-        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override IList<OperatorDtoBase> VisitInputOperatorDtos(IList<OperatorDtoBase> operatorDtos)
-        {
-            // Reverse the order, so calculators pop off the stack in the right order.
-            for (int i = operatorDtos.Count - 1; i >= 0; i--)
-            {
-                OperatorDtoBase operatorDto = operatorDtos[i];
-                VisitOperatorDto(operatorDto);
-            }
-
-            return operatorDtos;
-        }
-
         // Add
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
             base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
 
-            int operandCount = dto.InputOperatorDtos.Count;
-
-            var operandCalculators = new OperatorCalculatorBase[operandCount];
-
-            for (int i = 0; i < operandCount; i++)
-            {
-                operandCalculators[i] = _stack.Pop();
-            }
-
+            IList<OperatorCalculatorBase> operandCalculators = dto.InputOperatorDtos.Select(x => _stack.Pop()).ToArray();
             OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars(operandCalculators);
 
             _stack.Push(calculator);
@@ -76,15 +52,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
         {
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
-            int varCount = dto.Vars.Count;
-
-            var varCalculators = new OperatorCalculatorBase[varCount];
-
-            for (int i = 0; i < varCount; i++)
-            {
-                varCalculators[i] = _stack.Pop();
-            }
-
+            IList<OperatorCalculatorBase> varCalculators = dto.Vars.Select(x => _stack.Pop()).ToArray();
             OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(varCalculators, dto.ConstValue);
 
             _stack.Push(calculator);

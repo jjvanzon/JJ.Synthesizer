@@ -38,19 +38,6 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithStructs
             return _stack.Pop();
         }
 
-        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override IList<OperatorDtoBase> VisitInputOperatorDtos(IList<OperatorDtoBase> operatorDtos)
-        {
-            // Reverse the order, so calculators pop off the stack in the right order.
-            for (int i = operatorDtos.Count - 1; i >= 0; i--)
-            {
-                OperatorDtoBase operatorDto = operatorDtos[i];
-                VisitOperatorDto(operatorDto);
-            }
-
-            return operatorDtos;
-        }
-
         // Visit
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
