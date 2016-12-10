@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -91,6 +92,30 @@ namespace JJ.Business.Synthesizer.Visitors
             // MinOverInlets_OperatorDto_2Vars
 
             throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
+        {
+            base.Visit_Number_OperatorDto(dto);
+
+            double value = dto.Number;
+
+            if (DoubleHelper.IsSpecialValue(value))
+            {
+                return new Number_OperatorDto_NaN();
+            }
+
+            if (value == 1.0)
+            {
+                return new Number_OperatorDto_One();
+            }
+
+            if (value == 0.0)
+            {
+                return new Number_OperatorDto_Zero();
+            }
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(RangeOverDimension_OperatorCalculator_OnlyConsts dto)

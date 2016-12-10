@@ -144,7 +144,11 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
         // Helpers
 
-        /// <summary> For overrides that do not add any processing. They are overridden so only new virtual methods show up when typing 'override '. </summary>
+        /// <summary> 
+        /// For overrides that do not add any processing. 
+        /// They are overridden for maintainability purposes,
+        /// so only new virtual methods show up when typing 'override'.
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private OperatorDtoBase Process_Nothing(OperatorDtoBase dto)
         {
