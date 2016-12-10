@@ -655,6 +655,7 @@
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
     <Compile Include="Visitors\OperatorToDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
+    <Compile Include="Visitors\PreProcessing_OperatorDtoVisitor.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\CurveWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />
