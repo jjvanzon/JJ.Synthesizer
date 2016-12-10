@@ -2369,17 +2369,13 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto2 = new TimePower_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
-            if (originMathPropertiesDto.IsVar)
+            else if (originMathPropertiesDto.IsConstZero)
             {
-                dto2 = new TimePower_OperatorDto_VarOrigin { SignalOperatorDto = dto.SignalOperatorDto, ExponentOperatorDto = dto.ExponentOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
-            }
-            else if (originMathPropertiesDto.IsConst)
-            {
-                dto2 = new TimePower_OperatorDto_ConstOrigin { SignalOperatorDto = dto.SignalOperatorDto, ExponentOperatorDto = dto.ExponentOperatorDto, Origin = originMathPropertiesDto.ConstValue };
+                dto2 = new TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin { SignalOperatorDto = dto.SignalOperatorDto, ExponentOperatorDto = dto.ExponentOperatorDto };
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                dto2 = new TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin { SignalOperatorDto = dto.SignalOperatorDto, ExponentOperatorDto = dto.ExponentOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
             }
 
             DtoHelper.TryClone_DimensionProperties(dto, dto2);

@@ -460,8 +460,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset), x => Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset((SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset)x ) },
                 { typeof(TimePower_OperatorDto), x => Visit_TimePower_OperatorDto((TimePower_OperatorDto)x ) },
                 { typeof(TimePower_OperatorDto_ConstSignal), x => Visit_TimePower_OperatorDto_ConstSignal((TimePower_OperatorDto_ConstSignal)x ) },
-                { typeof(TimePower_OperatorDto_VarOrigin), x => Visit_TimePower_OperatorDto_VarOrigin((TimePower_OperatorDto_VarOrigin)x ) },
-                { typeof(TimePower_OperatorDto_ConstOrigin), x => Visit_TimePower_OperatorDto_ConstOrigin((TimePower_OperatorDto_ConstOrigin)x ) },
+                { typeof(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin), x => Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin((TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin)x ) },
+                { typeof(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin), x => Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin((TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin)x ) },
                 { typeof(ToggleTrigger_OperatorDto), x => Visit_ToggleTrigger_OperatorDto((ToggleTrigger_OperatorDto)x ) },
                 { typeof(ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset), x => Visit_ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset((ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset)x ) },
                 { typeof(ToggleTrigger_OperatorDto_ConstPassThrough_VarReset), x => Visit_ToggleTrigger_OperatorDto_ConstPassThrough_VarReset((ToggleTrigger_OperatorDto_ConstPassThrough_VarReset)x ) },
@@ -886,8 +886,8 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_TimePower_OperatorDto(TimePower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_TimePower_OperatorDto_ConstSignal(TimePower_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_TimePower_OperatorDto_VarOrigin(TimePower_OperatorDto_VarOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_TimePower_OperatorDto_ConstOrigin(TimePower_OperatorDto_ConstOrigin dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset(ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_ToggleTrigger_OperatorDto_ConstPassThrough_VarReset(ToggleTrigger_OperatorDto_ConstPassThrough_VarReset dto) => Visit_OperatorDto_Base(dto);

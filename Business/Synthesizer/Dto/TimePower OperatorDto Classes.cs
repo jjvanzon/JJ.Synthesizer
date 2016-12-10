@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class TimePower_OperatorDto : TimePower_OperatorDto_VarOrigin
+    internal class TimePower_OperatorDto : TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin
     { }
 
     internal class TimePower_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
     }
 
-    internal class TimePower_OperatorDto_VarOrigin : OperatorDtoBase_WithDimension
+    internal class TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
 
@@ -26,13 +26,12 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class TimePower_OperatorDto_ConstOrigin : OperatorDtoBase_WithDimension
+    internal class TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase ExponentOperatorDto { get; set; }
-        public double Origin { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

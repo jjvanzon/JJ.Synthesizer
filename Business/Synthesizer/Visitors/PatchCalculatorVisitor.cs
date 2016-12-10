@@ -4759,11 +4759,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (originIsConstZero)
             {
-                calculator = new TimePower_OperatorCalculator_NoOrigin(signalCalculator, exponentCalculator, dimensionStack);
+                calculator = new TimePower_OperatorCalculator_VarSignal_VarExponent_ZeroOrigin(signalCalculator, exponentCalculator, dimensionStack);
             }
             else
             {
-                calculator = new TimePower_OperatorCalculator_WithOrigin(signalCalculator, exponentCalculator, originCalculator, dimensionStack);
+                calculator = new TimePower_OperatorCalculator_VarSignal_VarExponent_VarOrigin(signalCalculator, exponentCalculator, originCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);

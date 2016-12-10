@@ -2313,10 +2313,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // TimePower
 
-        protected override OperatorDtoBase Visit_TimePower_OperatorDto_ConstOrigin(TimePower_OperatorDto_ConstOrigin dto)
+        protected override OperatorDtoBase Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin dto)
         {
-            // TODO: Refactor the DTO and calculator variations.
-            throw new NotImplementedException();
+            return Process_Nothing(dto);
         }
 
         protected override OperatorDtoBase Visit_TimePower_OperatorDto_ConstSignal(TimePower_OperatorDto_ConstSignal dto)
@@ -2324,10 +2323,9 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_ConstSignal_Identity(dto.Signal);
         }
 
-        protected override OperatorDtoBase Visit_TimePower_OperatorDto_VarOrigin(TimePower_OperatorDto_VarOrigin dto)
+        protected override OperatorDtoBase Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin dto)
         {
-            // TODO: Refactor the DTO and calculator variations.
-            throw new NotImplementedException();
+            return Process_Nothing(dto);
         }
 
         // ToggleTrigger

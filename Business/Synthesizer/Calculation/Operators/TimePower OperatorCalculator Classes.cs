@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class TimePower_OperatorCalculator_WithOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class TimePower_OperatorCalculator_VarSignal_VarExponent_VarOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public TimePower_OperatorCalculator_WithOrigin(
+        public TimePower_OperatorCalculator_VarSignal_VarExponent_VarOrigin(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase exponentCalculator,
             OperatorCalculatorBase originCalculator,
@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class TimePower_OperatorCalculator_NoOrigin : OperatorCalculatorBase_WithChildCalculators
+    internal class TimePower_OperatorCalculator_VarSignal_VarExponent_ZeroOrigin : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
-        public TimePower_OperatorCalculator_NoOrigin(
+        public TimePower_OperatorCalculator_VarSignal_VarExponent_ZeroOrigin(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase exponentCalculator,
             DimensionStack dimensionStack)
