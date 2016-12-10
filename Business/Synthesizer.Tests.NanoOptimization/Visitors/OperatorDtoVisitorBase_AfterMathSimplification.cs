@@ -41,5 +41,10 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
         {
             throw new NotSupportedException();
         }
+
+        protected sealed override OperatorDtoBase Visit_Sine_OperatorDto_ZeroFrequency(Sine_OperatorDto_ZeroFrequency dto)
+        {
+            throw new NotSupportedException();
+        }
     }
 }

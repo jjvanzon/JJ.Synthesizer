@@ -35,6 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
                 { typeof(Shift_OperatorDto_VarSignal_ConstDistance), x => Visit_Shift_OperatorDto_VarSignal_ConstDistance((Shift_OperatorDto_VarSignal_ConstDistance)x ) },
                 { typeof(Shift_OperatorDto_VarSignal_VarDistance), x => Visit_Shift_OperatorDto_VarSignal_VarDistance((Shift_OperatorDto_VarSignal_VarDistance)x ) },
                 { typeof(Sine_OperatorDto), x => Visit_Sine_OperatorDto((Sine_OperatorDto)x ) },
+                { typeof(Sine_OperatorDto_ZeroFrequency), x => Visit_Sine_OperatorDto_ZeroFrequency((Sine_OperatorDto_ZeroFrequency)x ) },
                 { typeof(Sine_OperatorDto_ConstFrequency_NoOriginShifting), x => Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting((Sine_OperatorDto_ConstFrequency_NoOriginShifting)x ) },
                 { typeof(Sine_OperatorDto_ConstFrequency_WithOriginShifting), x => Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting((Sine_OperatorDto_ConstFrequency_WithOriginShifting)x ) },
                 { typeof(Sine_OperatorDto_VarFrequency_NoPhaseTracking), x => Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking((Sine_OperatorDto_VarFrequency_NoPhaseTracking)x ) },
@@ -106,6 +107,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Sine_OperatorDto(Sine_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Sine_OperatorDto_ZeroFrequency(Sine_OperatorDto_ZeroFrequency dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);

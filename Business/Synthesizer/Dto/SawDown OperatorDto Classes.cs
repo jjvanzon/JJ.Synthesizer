@@ -7,6 +7,11 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SawDown);
     }
 
+    internal class SawDown_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputOperatorDtos
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.SawDown);
+    }
+
     internal class SawDown_OperatorDto_ConstFrequency_NoOriginShifting : OperatorDtoBase_ConstFrequency
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SawDown);

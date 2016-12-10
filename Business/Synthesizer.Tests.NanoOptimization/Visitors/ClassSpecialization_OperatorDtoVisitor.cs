@@ -115,7 +115,11 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(frequencyOperatorDto);
 
-            if (frequencyMathPropertiesDto.IsConst)
+            if (frequencyMathPropertiesDto.IsConstZero)
+            {
+                return new Sine_OperatorDto_ZeroFrequency();
+            }
+            else if (frequencyMathPropertiesDto.IsConst)
             {
                 return new Sine_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
             }

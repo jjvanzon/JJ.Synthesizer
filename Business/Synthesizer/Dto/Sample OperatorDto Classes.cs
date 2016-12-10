@@ -31,6 +31,11 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Sample_OperatorDto : Sample_OperatorDto_VarFrequency
     { }
 
+    internal class Sample_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputOperatorDtos
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
+    }
+
     internal class Sample_OperatorDto_VarFrequency_WithPhaseTracking : Sample_OperatorDto_VarFrequency
     { }
 

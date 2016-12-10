@@ -1623,6 +1623,11 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        protected override OperatorDtoBase Visit_Pulse_OperatorDto_ZeroFrequency(Pulse_OperatorDto_ZeroFrequency dto)
+        {
+            return Process_ZeroFrequency(dto);
+        }
+
         // Random
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
@@ -1669,6 +1674,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyVars(RangeOverDimension_OperatorCalculator_OnlyVars dto)
         {
+            return Process_Nothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne dto)
+        {
+            // Done in MachineOptimization_OperatorDtoVisitor instead.
             return Process_Nothing(dto);
         }
 
@@ -1843,6 +1854,11 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_ZeroFrequency(Sample_OperatorDto_ZeroFrequency dto)
+        {
+            return Process_ZeroFrequency(dto);
+        }
+
         // SawDown
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -1865,6 +1881,11 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        protected override OperatorDtoBase Visit_SawDown_OperatorDto_ZeroFrequency(SawDown_OperatorDto_ZeroFrequency dto)
+        {
+            return Process_ZeroFrequency(dto);
+        }
+
         // SawUp
 
         protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -1885,6 +1906,11 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             return Process_Nothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_SawUp_OperatorDto_ZeroFrequency(SawUp_OperatorDto_ZeroFrequency dto)
+        {
+            return Process_ZeroFrequency(dto);
         }
 
         // Scaler
@@ -2002,6 +2028,11 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        protected override OperatorDtoBase Visit_Sine_OperatorDto_ZeroFrequency(Sine_OperatorDto_ZeroFrequency dto)
+        {
+            return Process_ZeroFrequency(dto);
+        }
+
         // SortOverDimension
 
         protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
@@ -2061,6 +2092,11 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             return Process_Nothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Square_OperatorDto_ZeroFrequency(Square_OperatorDto_ZeroFrequency dto)
+        {
+            return Process_ZeroFrequency(dto);
         }
 
         // Squash
@@ -2375,6 +2411,11 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
+        protected override OperatorDtoBase Visit_Triangle_OperatorDto_ZeroFrequency(Triangle_OperatorDto_ZeroFrequency dto)
+        {
+            return Process_ZeroFrequency(dto);
+        }
+
         // Unbundle
 
         protected override OperatorDtoBase Visit_Unbundle_OperatorDto(Unbundle_OperatorDto dto)
@@ -2452,6 +2493,14 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             // Identity
             return dto.PassThroughInputOperatorDto;
+        }
+
+        private OperatorDtoBase Process_ZeroFrequency(OperatorDtoBase dto)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            // 0
+            return new Number_OperatorDto_Zero();
         }
     }
 }

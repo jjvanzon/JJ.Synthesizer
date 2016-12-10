@@ -134,18 +134,12 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
         // Sine
 
-        protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override OperatorDtoBase Visit_Sine_OperatorDto_ZeroFrequency(Sine_OperatorDto_ZeroFrequency dto)
         {
-            base.Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(dto);
+            base.Visit_Sine_OperatorDto_ZeroFrequency(dto);
 
-            MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.Frequency);
-
-            if (frequencyMathPropertiesDto.IsConstZero)
-            {
-                return new Number_OperatorDto_Zero();
-            }
-
-            return dto;
+            // 0
+            return new Number_OperatorDto_Zero();
         }
 
         // Helpers
