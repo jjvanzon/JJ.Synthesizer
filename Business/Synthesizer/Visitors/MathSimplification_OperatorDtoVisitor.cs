@@ -1965,6 +1965,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
 
             MathPropertiesDto distanceMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.Distance);
+
             if (distanceMathProperties.IsConstZero)
             {
                 // Identity
@@ -2384,6 +2385,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Helpers
 
+        /// <summary> For overrides that do not add any processing. They are overridden so only new virtual methods show up when typing 'override '. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private OperatorDtoBase Process_Nothing(OperatorDtoBase dto)
         {
