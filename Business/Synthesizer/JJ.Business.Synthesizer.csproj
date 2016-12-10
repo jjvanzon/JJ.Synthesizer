@@ -136,6 +136,7 @@
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
+    <Compile Include="Calculation\Operators\Square OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
@@ -337,6 +338,7 @@
     <Compile Include="Dto\PatchOutlet_OperatorDto.cs" />
     <Compile Include="Dto\PatchInlet_OperatorDto.cs" />
     <Compile Include="Dto\TimePower OperatorDto Classes.cs" />
+    <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithABAndOrigin.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_BandPassFilter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_VariableOutletCount.cs" />
@@ -349,9 +351,10 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithFrequency.cs" />
     <Compile Include="EntityWrappers\StretchOrSquash_OperatorWrapperBase.cs" />
     <Compile Include="Extensions\InletExtensions.cs" />
+    <Compile Include="Helpers\DtoHelper.cs" />
     <Compile Include="Helpers\MathPropertiesHelper.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
-    <Compile Include="Helpers\PatchGroupDto.cs" />
+    <Compile Include="Dto\PatchGroupDto.cs" />
     <Compile Include="Extensions\OperatorExtensions.cs" />
     <Compile Include="Calculation\BiQuadFilter.cs" />
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
@@ -499,7 +502,7 @@
     <Compile Include="Helpers\PatchRepositories.cs" />
     <Compile Include="Helpers\SampleInfo.cs" />
     <Compile Include="Helpers\ScaleRepositories.cs" />
-    <Compile Include="Helpers\UsedInDto.cs" />
+    <Compile Include="Dto\UsedInDto.cs" />
     <Compile Include="Helpers\VisitationCannotBeHandledException.cs" />
     <Compile Include="Helpers\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />

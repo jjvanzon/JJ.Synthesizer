@@ -12,6 +12,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Dtos;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

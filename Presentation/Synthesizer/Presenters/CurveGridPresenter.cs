@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Dtos;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

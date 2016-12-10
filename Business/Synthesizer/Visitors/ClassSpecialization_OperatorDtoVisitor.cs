@@ -14,16 +14,6 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class ClassSpecialization_OperatorDtoVisitor : OperatorDtoVisitorBase
     {
-        private class VarsConsts_MathPropertiesDto
-        {
-            public IList<OperatorDtoBase> VarOperatorDtos { get; set; }
-            public IList<double> Consts { get; set; }
-            public bool HasVars { get; set; }
-            public bool HasConsts { get; set; }
-            public bool AllVars { get; set; }
-            public bool AllConsts { get; set; }
-        }
-
         private readonly int _targetChannelCount;
 
         public ClassSpecialization_OperatorDtoVisitor(int targetChannelCount)
@@ -60,7 +50,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Add_OperatorDto(dto);
 
-            VarsConsts_MathPropertiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+            VarsConsts_MathPropertiesDto mathPropertiesDto = MathPropertiesHelper.Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
@@ -156,7 +146,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            TryClone_AggregateOverDimensionProperties(dto, dto2);
+            DtoHelper.TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -178,7 +168,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto2 = new AverageFollower_OperatorDto_AllVars();
             }
 
-            TryClone_AggregateFollowerProperties(dto, dto2);
+            DtoHelper.TryClone_AggregateFollowerProperties(dto, dto2);
 
             return dto;
         }
@@ -187,7 +177,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_AverageOverInlets_OperatorDto(dto);
 
-            VarsConsts_MathPropertiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+            VarsConsts_MathPropertiesDto mathPropertiesDto = MathPropertiesHelper.Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
             if (mathPropertiesDto.AllConsts)
             {
@@ -268,7 +258,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto2 = new Cache_OperatorDto_MultiChannel();
             }
 
-            TryClone_CacheOperatorProperties(dto, dto2);
+            DtoHelper.TryClone_CacheOperatorProperties(dto, dto2);
 
             return dto2;
         }
@@ -322,7 +312,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
             }
 
-            Clone_ClosestOverDimensionProperties(dto, dto2);
+            DtoHelper.Clone_ClosestOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -347,7 +337,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
             }
 
-            Clone_ClosestOverDimensionProperties(dto, dto2);
+            DtoHelper.Clone_ClosestOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -357,7 +347,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_ClosestOverInlets_OperatorDto(dto);
 
             MathPropertiesDto inputMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.InputOperatorDto);
-            VarsConsts_MathPropertiesDto itemsMathProperties = Get_VarsConsts_MathPropertiesDto(dto.ItemOperatorDtos);
+            VarsConsts_MathPropertiesDto itemsMathProperties = MathPropertiesHelper.Get_VarsConsts_MathPropertiesDto(dto.ItemOperatorDtos);
 
             if (inputMathProperties.IsConst && itemsMathProperties.AllConsts)
             {
@@ -382,7 +372,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_ClosestOverInletsExp_OperatorDto(dto);
 
             MathPropertiesDto inputMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.InputOperatorDto);
-            VarsConsts_MathPropertiesDto itemsMathProperties = Get_VarsConsts_MathPropertiesDto(dto.ItemOperatorDtos);
+            VarsConsts_MathPropertiesDto itemsMathProperties = MathPropertiesHelper.Get_VarsConsts_MathPropertiesDto(dto.ItemOperatorDtos);
 
             if (inputMathProperties.IsConst && itemsMathProperties.AllConsts)
             {
@@ -436,7 +426,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_CurveProperties(dto, dto2);
+            DtoHelper.Clone_CurveProperties(dto, dto2);
 
             return dto2;
         }
@@ -781,7 +771,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            TryClone_InterpolateOperatorProperties(dto, dto2);
+            DtoHelper.TryClone_InterpolateOperatorProperties(dto, dto2);
 
             return dto2;
         }
@@ -927,7 +917,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 };
             }
 
-            TryClone_DimensionProperties(dto, dto2);
+            DtoHelper.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1002,7 +992,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            TryClone_AggregateOverDimensionProperties(dto, dto2);
+            DtoHelper.TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1024,7 +1014,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto2 = new MaxFollower_OperatorDto_AllVars();
             }
 
-            TryClone_AggregateFollowerProperties(dto, dto2);
+            DtoHelper.TryClone_AggregateFollowerProperties(dto, dto2);
 
             return dto;
         }
@@ -1033,7 +1023,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MaxOverInlets_OperatorDto(dto);
 
-            VarsConsts_MathPropertiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+            VarsConsts_MathPropertiesDto mathPropertiesDto = MathPropertiesHelper.Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
@@ -1080,7 +1070,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            TryClone_AggregateOverDimensionProperties(dto, dto2);
+            DtoHelper.TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1102,7 +1092,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto2 = new MinFollower_OperatorDto_AllVars();
             }
 
-            TryClone_AggregateFollowerProperties(dto, dto2);
+            DtoHelper.TryClone_AggregateFollowerProperties(dto, dto2);
 
             return dto;
         }
@@ -1111,7 +1101,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MinOverInlets_OperatorDto(dto);
 
-            VarsConsts_MathPropertiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+            VarsConsts_MathPropertiesDto mathPropertiesDto = MathPropertiesHelper.Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
@@ -1137,7 +1127,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Multiply_OperatorDto(dto);
 
-            VarsConsts_MathPropertiesDto mathPropertiesDto = Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
+            VarsConsts_MathPropertiesDto mathPropertiesDto = MathPropertiesHelper.Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
@@ -1462,7 +1452,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_DimensionProperties(dto, dto2);
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1535,7 +1525,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_RandomOperatorProperties(dto, dto2);
+            DtoHelper.Clone_RandomOperatorProperties(dto, dto2);
 
             return dto2;
         }
@@ -1633,7 +1623,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            TryClone_DimensionProperties(dto, dto2);
+            DtoHelper.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1752,8 +1742,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            TryClone_SampleOperatorProperties(dto, dto2);
-            TryClone_DimensionProperties(dto, dto2);
+            DtoHelper.TryClone_SampleOperatorProperties(dto, dto2);
+            DtoHelper.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1787,7 +1777,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_DimensionProperties(dto, dto2);
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1821,7 +1811,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_DimensionProperties(dto, dto2);
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1908,7 +1898,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_DimensionProperties(dto, dto2);
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1934,7 +1924,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_DimensionProperties(dto, dto2);
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1995,7 +1985,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_DimensionProperties(dto, dto2);
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2025,7 +2015,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            TryClone_AggregateOverDimensionProperties(dto, dto2);
+            DtoHelper.TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2050,7 +2040,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     FrequencyCountOperatorDto = dto.FrequencyCountOperatorDto
                 };
 
-                Clone_DimensionProperties(dto, dto2);
+                DtoHelper.Clone_DimensionProperties(dto, dto2);
 
                 return dto2;
             }
@@ -2085,7 +2075,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_DimensionProperties(dto, dto2);
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2178,7 +2168,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
                 }
 
-                Clone_DimensionProperties(dto, dto2);
+                DtoHelper.Clone_DimensionProperties(dto, dto2);
 
                 return dto2;
             }
@@ -2272,7 +2262,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
                 }
 
-                Clone_DimensionProperties(dto, dto2);
+                DtoHelper.Clone_DimensionProperties(dto, dto2);
 
                 return dto2;
             }
@@ -2333,7 +2323,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            TryClone_AggregateOverDimensionProperties(dto, dto2);
+            DtoHelper.TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2361,7 +2351,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto2 = new SumFollower_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, SliceLengthOperatorDto = dto.SliceLengthOperatorDto, SampleCountOperatorDto = dto.SampleCountOperatorDto };
             }
 
-            TryClone_DimensionProperties(dto, dto2);
+            DtoHelper.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2392,7 +2382,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            TryClone_DimensionProperties(dto, dto2);
+            DtoHelper.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2455,170 +2445,12 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            Clone_DimensionProperties(dto, dto2);
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
 
-        // Clone
-
-        private void Clone_AggregateOverDimensionProperties(OperatorDtoBase_AggregateOverDimension_AllVars source, OperatorDtoBase_AggregateOverDimension_AllVars dest)
-        {
-            dest.SignalOperatorDto = source.SignalOperatorDto;
-            dest.FromOperatorDto = source.FromOperatorDto;
-            dest.TillOperatorDto = source.TillOperatorDto;
-            dest.StepOperatorDto = source.StepOperatorDto;
-            dest.CollectionRecalculationEnum = source.CollectionRecalculationEnum;
-
-            Clone_DimensionProperties(source, dest);
-        }
-
-        private void TryClone_AggregateOverDimensionProperties(OperatorDtoBase_AggregateOverDimension_AllVars source, OperatorDtoBase dest)
-        {
-            var castedDest = dest as OperatorDtoBase_AggregateOverDimension_AllVars;
-            if (castedDest != null)
-            {
-                Clone_AggregateOverDimensionProperties(source, castedDest);
-            }
-        }
-
-        private void Clone_AggregateFollowerProperties(OperatorDtoBase_AggregateFollower_AllVars source, OperatorDtoBase_AggregateFollower_AllVars dest)
-        {
-            dest.SignalOperatorDto = source.SignalOperatorDto;
-            dest.SliceLengthOperatorDto = source.SliceLengthOperatorDto;
-            dest.SampleCountOperatorDto = source.SampleCountOperatorDto;
-
-            Clone_DimensionProperties(source, dest);
-        }
-
-        private void TryClone_AggregateFollowerProperties(OperatorDtoBase_AggregateFollower_AllVars source, OperatorDtoBase dest)
-        {
-            var castedDest = dest as OperatorDtoBase_AggregateFollower_AllVars;
-            if (castedDest != null)
-            {
-                Clone_AggregateFollowerProperties(source, castedDest);
-            }
-        }
-
-        private void Clone_CacheOperatorProperties(Cache_OperatorDto source, Cache_OperatorDto dest)
-        {
-            dest.SignalOperatorDto = source.SignalOperatorDto;
-            dest.StartOperatorDto = source.StartOperatorDto;
-            dest.EndOperatorDto = source.EndOperatorDto;
-            dest.SamplingRateOperatorDto = source.SamplingRateOperatorDto;
-            dest.InterpolationTypeEnum = source.InterpolationTypeEnum;
-            dest.SpeakerSetupEnum = source.SpeakerSetupEnum;
-            dest.ChannelCount = source.ChannelCount;
-        }
-
-        private void TryClone_CacheOperatorProperties(Cache_OperatorDto source, OperatorDtoBase dest)
-        {
-            var castedDest = dest as Cache_OperatorDto;
-            if (castedDest != null)
-            {
-                Clone_CacheOperatorProperties(source, castedDest);
-            }
-        }
-
-        private void Clone_ClosestOverDimensionProperties(ClosestOverDimension_OperatorDto source, ClosestOverDimension_OperatorDto dest)
-        {
-            dest.InputOperatorDto = source.InputOperatorDto;
-            dest.CollectionOperatorDto = source.CollectionOperatorDto;
-            dest.FromOperatorDto = source.FromOperatorDto;
-            dest.TillOperatorDto = source.TillOperatorDto;
-            dest.StepOperatorDto = source.StepOperatorDto;
-            dest.CollectionRecalculationEnum = source.CollectionRecalculationEnum;
-
-            Clone_DimensionProperties(source, dest);
-        }
-
-        private void Clone_CurveProperties(Curve_OperatorDto source, Curve_OperatorDto dest)
-        {
-            dest.CurveID = source.CurveID;
-            dest.MinX = source.MinX;
-
-            Clone_DimensionProperties(source, dest);
-        }
-
-        private void Clone_DimensionProperties(IOperatorDto_WithDimension source, IOperatorDto_WithDimension dest)
-        {
-            dest.CustomDimensionName = source.CustomDimensionName;
-            dest.StandardDimensionEnum = source.StandardDimensionEnum;
-        }
-
-        private void TryClone_DimensionProperties(IOperatorDto_WithDimension source, OperatorDtoBase dest)
-        {
-            var asIOperatorDto_WithDimension = dest as IOperatorDto_WithDimension;
-            if (asIOperatorDto_WithDimension != null)
-            {
-                Clone_DimensionProperties(source, asIOperatorDto_WithDimension);
-            }
-        }
-
-        private void Clone_InterpolateOperatorProperties(IInterpolate_OperatorDto_VarSignal source, IInterpolate_OperatorDto_VarSignal dest)
-        {
-            dest.ResampleInterpolationTypeEnum = source.ResampleInterpolationTypeEnum;
-            dest.SignalOperatorDto = source.SignalOperatorDto;
-
-            Clone_DimensionProperties(source, dest);
-        }
-
-        private void TryClone_InterpolateOperatorProperties(Interpolate_OperatorDto source, OperatorDtoBase dest)
-        {
-            var asIInterpolate_OperatorDto_VarSignal = dest as IInterpolate_OperatorDto_VarSignal;
-            if (asIInterpolate_OperatorDto_VarSignal != null)
-            {
-                Clone_InterpolateOperatorProperties(source, asIInterpolate_OperatorDto_VarSignal);
-            }
-        }
-
-        private void Clone_RandomOperatorProperties(Random_OperatorDto source, Random_OperatorDto dest)
-        {
-            dest.RateOperatorDto = source.RateOperatorDto;
-            dest.ResampleInterpolationTypeEnum = source.ResampleInterpolationTypeEnum;
-            
-            Clone_DimensionProperties(source, dest);
-        }
-
-        private void Clone_SampleOperatorProperties(ISample_OperatorDto dto, ISample_OperatorDto dto2)
-        {
-            dto2.SampleID = dto.SampleID;
-            dto2.ChannelCount = dto.ChannelCount;
-            dto2.InterpolationTypeEnum = dto.InterpolationTypeEnum;
-        }
-
-        private void TryClone_SampleOperatorProperties(Sample_OperatorDto source, OperatorDtoBase dest)
-        {
-            var asISample_OperatorDto = dest as ISample_OperatorDto;
-            if (asISample_OperatorDto != null)
-            {
-                Clone_SampleOperatorProperties(source, asISample_OperatorDto);
-            }
-        }
-
         // Helpers
 
-        private static VarsConsts_MathPropertiesDto Get_VarsConsts_MathPropertiesDto(IList<OperatorDtoBase> operatorDtos)
-        {
-            IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).ToArray();
-
-            IList<OperatorDtoBase> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
-            IList<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).ConstValue).ToArray();
-
-            bool hasVars = varOperatorDtos.Any();
-            bool hasConsts = constOperatorDtos.Any();
-
-            var mathPropertiesDto = new VarsConsts_MathPropertiesDto
-            {
-                VarOperatorDtos = varOperatorDtos,
-                Consts = consts,
-                HasConsts = hasConsts,
-                HasVars = hasVars,
-                AllConsts = !hasVars,
-                AllVars = !hasConsts
-            };
-
-            return mathPropertiesDto;
-        }
     }
 }

@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /// </summary>
         private const bool BUNDLE_POSITIONS_ARE_INVARIANT = false;
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
-
+        
         private readonly Outlet _outlet;
         private readonly int _samplingRate;
         private readonly double _nyquistFrequency;
@@ -3224,11 +3224,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (frequencyIsConst && widthIsConstHalf && standardDimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_WithOriginShifting(frequency, dimensionStack);
+                calculator = new Square_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
             else if (frequencyIsConst && widthIsConstHalf && standardDimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_NoOriginShifting(frequency, dimensionStack);
+                calculator = new Square_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
             else if (frequencyIsConst && widthIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
@@ -3248,11 +3248,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!frequencyIsConst && widthIsConstHalf && standardDimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_WithPhaseTracking(frequencyCalculator, dimensionStack);
+                calculator = new Square_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
             else if (!frequencyIsConst && widthIsConstHalf && standardDimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_NoPhaseTracking(frequencyCalculator, dimensionStack);
+                calculator = new Square_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
             else if (!frequencyIsConst && widthIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
@@ -4307,19 +4307,19 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_WithOriginShifting(frequency, dimensionStack);
+                calculator = new Square_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
             }
             else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_ConstFrequency_HalfWidth_NoOriginShifting(frequency, dimensionStack);
+                calculator = new Square_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
             }
             else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_WithPhaseTracking(frequencyCalculator, dimensionStack);
+                calculator = new Square_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
             }
             else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Pulse_OperatorCalculator_VarFrequency_HalfWidth_NoPhaseTracking(frequencyCalculator, dimensionStack);
+                calculator = new Square_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
             }
             else
             {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Synthesizer;
 
-namespace JJ.Business.Synthesizer.Helpers
+namespace JJ.Business.Synthesizer.Dtos
 {
     public class PatchGroupDto
     {

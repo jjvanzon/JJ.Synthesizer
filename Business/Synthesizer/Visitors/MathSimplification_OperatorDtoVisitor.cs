@@ -1549,12 +1549,24 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            base.Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting(dto);
+
+            // Simplify
+            var dto2 = new Square_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = dto.Frequency };
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
+
+            return Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(dto2);
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            base.Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting(dto);
+
+            // Simplify
+            var dto2 = new Square_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = dto.Frequency };
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
+
+            return Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(dto2);
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting dto)
@@ -1579,12 +1591,24 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            base.Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking(dto);
+
+            // Simplify
+            var dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
+
+            return Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(dto2);
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            base.Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking(dto);
+
+            // Simplify
+            var dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
+
+            return Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(dto2);
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking dto)
@@ -2018,26 +2042,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            // TODO: Refactor Square and Pulse handling.
-            throw new NotImplementedException();
+            return Process_Nothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(Square_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            // TODO: Refactor Square and Pulse handling.
-            throw new NotImplementedException();
+            return Process_Nothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(Square_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            // TODO: Refactor Square and Pulse handling.
-            throw new NotImplementedException();
+            return Process_Nothing(dto);
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            // TODO: Refactor Square and Pulse handling.
-            throw new NotImplementedException();
+            return Process_Nothing(dto);
         }
 
         // Squash

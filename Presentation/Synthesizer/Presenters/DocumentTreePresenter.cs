@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Dtos;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

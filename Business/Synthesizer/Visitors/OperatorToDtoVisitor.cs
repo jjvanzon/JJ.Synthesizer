@@ -1022,7 +1022,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_OperatorDtoBase_Trigger(Operator op, OperatorDtoBase_Trigger dto)
+        private void Visit_OperatorDtoBase_Trigger(Operator op, OperatorDtoBase_Trigger_VarPassThrough_VarReset dto)
         {
             VisitOperatorBase(op);
 

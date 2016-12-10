@@ -23,6 +23,7 @@ using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Business.Synthesizer.Dtos;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
