@@ -273,6 +273,35 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
+        protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
+        {
+            base.Visit_ChangeTrigger_OperatorDto(dto);
+
+            MathPropertiesDto passThroughMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.PassThroughInputOperatorDto);
+            MathPropertiesDto resetMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.ResetOperatorDto);
+
+            if (passThroughMathPropertiesDto.IsConst && resetMathPropertiesDto.IsConst)
+            {
+                return new ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset { PassThrough = passThroughMathPropertiesDto.ConstValue, Reset = resetMathPropertiesDto.ConstValue };
+            }
+            else if (passThroughMathPropertiesDto.IsConst && resetMathPropertiesDto.IsVar)
+            {
+                return new ChangeTrigger_OperatorDto_ConstPassThrough_VarReset { PassThrough = passThroughMathPropertiesDto.ConstValue, ResetOperatorDto = dto.ResetOperatorDto };
+            }
+            else if (passThroughMathPropertiesDto.IsVar && resetMathPropertiesDto.IsConst)
+            {
+                return new ChangeTrigger_OperatorDto_VarPassThrough_ConstReset { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, Reset = resetMathPropertiesDto.ConstValue };
+            }
+            else if (passThroughMathPropertiesDto.IsVar && resetMathPropertiesDto.IsVar)
+            {
+                return new ChangeTrigger_OperatorDto_VarPassThrough_VarReset { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, ResetOperatorDto = dto.ResetOperatorDto };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            }
+        }
+
         protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto(ClosestOverDimension_OperatorDto dto)
         {
             base.Visit_ClosestOverDimension_OperatorDto(dto);
@@ -1438,6 +1467,35 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
+        protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
+        {
+            base.Visit_PulseTrigger_OperatorDto(dto);
+
+            MathPropertiesDto passThroughMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.PassThroughInputOperatorDto);
+            MathPropertiesDto resetMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.ResetOperatorDto);
+
+            if (passThroughMathPropertiesDto.IsConst && resetMathPropertiesDto.IsConst)
+            {
+                return new PulseTrigger_OperatorDto_ConstPassThrough_ConstReset { PassThrough = passThroughMathPropertiesDto.ConstValue, Reset = resetMathPropertiesDto.ConstValue };
+            }
+            else if (passThroughMathPropertiesDto.IsConst && resetMathPropertiesDto.IsVar)
+            {
+                return new PulseTrigger_OperatorDto_ConstPassThrough_VarReset { PassThrough = passThroughMathPropertiesDto.ConstValue, ResetOperatorDto = dto.ResetOperatorDto };
+            }
+            else if (passThroughMathPropertiesDto.IsVar && resetMathPropertiesDto.IsConst)
+            {
+                return new PulseTrigger_OperatorDto_VarPassThrough_ConstReset { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, Reset = resetMathPropertiesDto.ConstValue };
+            }
+            else if (passThroughMathPropertiesDto.IsVar && resetMathPropertiesDto.IsVar)
+            {
+                return new PulseTrigger_OperatorDto_VarPassThrough_VarReset { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, ResetOperatorDto = dto.ResetOperatorDto };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            }
+        }
+
         protected override OperatorDtoBase Visit_Random_OperatorDto(Random_OperatorDto dto)
         {
             base.Visit_Random_OperatorDto(dto);
@@ -2337,6 +2395,35 @@ namespace JJ.Business.Synthesizer.Visitors
             TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
+        }
+
+        protected override OperatorDtoBase Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
+        {
+            base.Visit_ToggleTrigger_OperatorDto(dto);
+
+            MathPropertiesDto passThroughMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.PassThroughInputOperatorDto);
+            MathPropertiesDto resetMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.ResetOperatorDto);
+
+            if (passThroughMathPropertiesDto.IsConst && resetMathPropertiesDto.IsConst)
+            {
+                return new ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset { PassThrough = passThroughMathPropertiesDto.ConstValue, Reset = resetMathPropertiesDto.ConstValue };
+            }
+            else if (passThroughMathPropertiesDto.IsConst && resetMathPropertiesDto.IsVar)
+            {
+                return new ToggleTrigger_OperatorDto_ConstPassThrough_VarReset { PassThrough = passThroughMathPropertiesDto.ConstValue, ResetOperatorDto = dto.ResetOperatorDto };
+            }
+            else if (passThroughMathPropertiesDto.IsVar && resetMathPropertiesDto.IsConst)
+            {
+                return new ToggleTrigger_OperatorDto_VarPassThrough_ConstReset { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, Reset = resetMathPropertiesDto.ConstValue };
+            }
+            else if (passThroughMathPropertiesDto.IsVar && resetMathPropertiesDto.IsVar)
+            {
+                return new ToggleTrigger_OperatorDto_VarPassThrough_VarReset { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, ResetOperatorDto = dto.ResetOperatorDto };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            }
         }
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto(Triangle_OperatorDto dto)

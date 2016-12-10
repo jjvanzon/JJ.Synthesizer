@@ -281,7 +281,7 @@
     <Compile Include="Dto\Absolute_OperatorDto.cs" />
     <Compile Include="Dto\Hold OperatorDto Classes.cs" />
     <Compile Include="Dto\SetDimension OperatorDto Classes.cs" />
-    <Compile Include="Dto\OperatorDtoBase_Trigger.cs" />
+    <Compile Include="Dto\OperatorDtoBase Trigger Classes.cs" />
     <Compile Include="Dto\ChangeTrigger_OperatorDto.cs" />
     <Compile Include="Dto\Round OperatorDto Classes.cs" />
     <Compile Include="Dto\Scaler OperatorDto Classes.cs" />
@@ -310,7 +310,7 @@
     <Compile Include="Dto\Equal OperatorDto Classes.cs" />
     <Compile Include="Dto\MinFollower_OperatorDto.cs" />
     <Compile Include="Dto\Reverse OperatorDto Classes.cs" />
-    <Compile Include="Dto\PulseTrigger_OperatorDto.cs" />
+    <Compile Include="Dto\PulseTrigger OperatorDto Classes.cs" />
     <Compile Include="Dto\ToggleTrigger_OperatorDto.cs" />
     <Compile Include="Dto\Triangle OperatorDto Classes.cs" />
     <Compile Include="Dto\Unbundle_OperatorDto.cs" />

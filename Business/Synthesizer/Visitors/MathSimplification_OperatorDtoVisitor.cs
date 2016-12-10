@@ -263,10 +263,24 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // ChangeTrigger
 
-        protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
+        protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset(ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset dto)
         {
-            // TODO: Needs a full cartesion product of Const/Var variations.
-            throw new NotImplementedException();
+            return Process_Trigger_ConstPassThrough_ConstReset(dto);
+        }
+
+        protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto_ConstPassThrough_VarReset(ChangeTrigger_OperatorDto_ConstPassThrough_VarReset dto)
+        {
+            return Process_Trigger_ConstPassThrough_VarReset(dto);
+        }
+
+        protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto_VarPassThrough_ConstReset(ChangeTrigger_OperatorDto_VarPassThrough_ConstReset dto)
+        {
+            return Process_Trigger_VarPassThrough_ConstReset(dto);
+        }
+
+        protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(ChangeTrigger_OperatorDto_VarPassThrough_VarReset dto)
+        {
+            return Process_Nothing(dto);
         }
 
         // ClosestOverDimension
@@ -1166,8 +1180,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ZeroOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_ZeroOrigin dto)
         {
-            // TODO: Replace with a normal multiply and revisit.
-            throw new NotImplementedException();
+            base.Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ZeroOrigin(dto);
+
+            // Simplify
+            var dto2 = new Multiply_OperatorDto_Vars_NoConsts { Vars = new OperatorDtoBase[] { dto.AOperatorDto, dto.BOperatorDto } };
+
+            return Visit_Multiply_OperatorDto_Vars_NoConsts(dto2);
         }
 
         // Multiply
@@ -1497,10 +1515,24 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // PulseTrigger
 
-        protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
+        protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto_ConstPassThrough_ConstReset(PulseTrigger_OperatorDto_ConstPassThrough_ConstReset dto)
         {
-            // TODO: Needs more variations with consts.
-            throw new NotImplementedException();
+            return Process_Trigger_ConstPassThrough_ConstReset(dto);
+        }
+
+        protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto_ConstPassThrough_VarReset(PulseTrigger_OperatorDto_ConstPassThrough_VarReset dto)
+        {
+            return Process_Trigger_ConstPassThrough_VarReset(dto);
+        }
+
+        protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto_VarPassThrough_ConstReset(PulseTrigger_OperatorDto_VarPassThrough_ConstReset dto)
+        {
+            return Process_Trigger_VarPassThrough_ConstReset(dto);
+        }
+
+        protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(PulseTrigger_OperatorDto_VarPassThrough_VarReset dto)
+        {
+            return Process_Nothing(dto);
         }
 
         // Pulse
@@ -2280,7 +2312,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // ToggleTrigger
 
-        protected override OperatorDtoBase Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
+        protected override OperatorDtoBase Visit_ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset(ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset dto)
+        {
+            return Process_Trigger_ConstPassThrough_ConstReset(dto);
+        }
+
+        protected override OperatorDtoBase Visit_ToggleTrigger_OperatorDto_ConstPassThrough_VarReset(ToggleTrigger_OperatorDto_ConstPassThrough_VarReset dto)
+        {
+            return Process_Trigger_ConstPassThrough_VarReset(dto);
+        }
+
+        protected override OperatorDtoBase Visit_ToggleTrigger_OperatorDto_VarPassThrough_ConstReset(ToggleTrigger_OperatorDto_VarPassThrough_ConstReset dto)
+        {
+            return Process_Trigger_VarPassThrough_ConstReset(dto);
+        }
+
+        protected override OperatorDtoBase Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(ToggleTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
             return Process_Nothing(dto);
         }
@@ -2365,6 +2412,24 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             // Identity
             return new Number_OperatorDto { Number = signal };
+        }
+
+        private OperatorDtoBase Process_Trigger_ConstPassThrough_ConstReset(OperatorDtoBase_Trigger_ConstPassThrough_ConstReset dto)
+        {
+            // Identity
+            return new Number_OperatorDto { Number = dto.PassThrough };
+        }
+
+        private OperatorDtoBase Process_Trigger_ConstPassThrough_VarReset(OperatorDtoBase_Trigger_ConstPassThrough_VarReset dto)
+        {
+            // Identity
+            return new Number_OperatorDto { Number = dto.PassThrough };
+        }
+
+        private OperatorDtoBase Process_Trigger_VarPassThrough_ConstReset(OperatorDtoBase_Trigger_VarPassThrough_ConstReset dto)
+        {
+            // Identity
+            return dto.PassThroughInputOperatorDto;
         }
     }
 }

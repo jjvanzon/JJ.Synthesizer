@@ -55,6 +55,11 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
+        protected sealed override OperatorDtoBase Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto(ClosestOverDimension_OperatorDto dto)
         {
             throw new NotSupportedException();
@@ -240,6 +245,11 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
+        protected sealed override OperatorDtoBase Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_Random_OperatorDto(Random_OperatorDto dto)
         {
             throw new NotSupportedException();
@@ -346,6 +356,11 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         protected sealed override OperatorDtoBase Visit_TimePower_OperatorDto(TimePower_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected sealed override OperatorDtoBase Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
         {
             throw new NotSupportedException();
         }
