@@ -920,7 +920,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                operatorCalculator = new ChangeTrigger_OperatorCalculator(calculationCalculator, resetCalculator);
+                operatorCalculator = new ChangeTrigger_OperatorCalculator_VarPassThrough_VarReset(calculationCalculator, resetCalculator);
             }
 
             _stack.Push(operatorCalculator);

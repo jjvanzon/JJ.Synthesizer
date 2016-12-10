@@ -5,14 +5,14 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class ChangeTrigger_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class ChangeTrigger_OperatorCalculator_VarPassThrough_VarReset : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _calculationCalculator;
         private readonly OperatorCalculatorBase _resetCalculator;
 
         private double _previousTriggerValue;
 
-        public ChangeTrigger_OperatorCalculator(
+        public ChangeTrigger_OperatorCalculator_VarPassThrough_VarReset(
             OperatorCalculatorBase calculationCalculator,
             OperatorCalculatorBase resetCalculator)
             : base(new OperatorCalculatorBase[] { calculationCalculator, resetCalculator })

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -17,6 +18,21 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private readonly Dictionary<string, DimensionStack> _customDimensionName_To_DimensionStack_Dictionary =
                      new Dictionary<string, DimensionStack>();
+
+
+        public DimensionStack GetDimensionStack(IOperatorDto_WithDimension dto)
+        {
+            if (dto == null) throw new NullException(() => dto);
+
+            if (dto.StandardDimensionEnum != DimensionEnum.Undefined)
+            {
+                return GetDimensionStack(dto.StandardDimensionEnum);
+            }
+            else
+            {
+                return GetDimensionStack(dto.CustomDimensionName);
+            }
+        }
 
         public DimensionStack GetDimensionStack(Operator op)
         {

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -11,15 +13,17 @@ namespace JJ.Business.Synthesizer.Visitors
     internal class OperatorDtoToCalculatorVisitor : OperatorDtoVisitorBase_AfterMathSimplification
     {
         private readonly int _targetChannelCount;
-        private readonly double _samplingRate;
+        private readonly double _targetSamplingRate;
         private readonly int _samplesBetweenApplyFilterVariables;
         private readonly Stack<OperatorCalculatorBase> _stack = new Stack<OperatorCalculatorBase>();
 
-        public OperatorDtoToCalculatorVisitor(int samplingRate, int targetChannelCount, double secondsBetweenApplyFilterVariables)
+        private DimensionStackCollection _dimensionStackCollection;
+
+        public OperatorDtoToCalculatorVisitor(int targetSamplingRate, int targetChannelCount, double secondsBetweenApplyFilterVariables)
         {
-            _samplingRate = samplingRate;
+            _targetSamplingRate = targetSamplingRate;
             _targetChannelCount = targetChannelCount;
-            _samplesBetweenApplyFilterVariables = GetSamplesBetweenApplyFilterVariables(secondsBetweenApplyFilterVariables, samplingRate);
+            _samplesBetweenApplyFilterVariables = GetSamplesBetweenApplyFilterVariables(secondsBetweenApplyFilterVariables, targetSamplingRate);
         }
 
         private int GetSamplesBetweenApplyFilterVariables(double secondsBetweenApplyFilterVariables, int samplingRate)
@@ -36,14 +40,26 @@ namespace JJ.Business.Synthesizer.Visitors
         public OperatorCalculatorBase Execute(OperatorDtoBase dto)
         {
             var preProcessing = new PreProcessing_OperatorDtoVisitor(_targetChannelCount);
-
             dto = preProcessing.Execute(dto);
 
+            _dimensionStackCollection = new DimensionStackCollection();
+            
             Visit_OperatorDto_Polymorphic(dto);
 
             if (_stack.Count != 1)
             {
                 throw new NotEqualException(() => _stack.Count, 1);
+            }
+
+            foreach (DimensionStack dimensionStack in _dimensionStackCollection.GetDimensionStacks())
+            {
+                if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
+                {
+                    throw new Exception(String.Format(
+                        "DimensionStack.Count for DimensionStack {0} should be 1 but it is {1}.",
+                        new { dimensionStack.CustomDimensionName, dimensionStack.StandardDimensionEnum },
+                        dimensionStack.Count));
+                }
             }
 
             return _stack.Pop();
@@ -53,10 +69,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Absolute_OperatorDto_VarX(dto);
 
-            OperatorCalculatorBase xCalculator = _stack.Pop();
-
-            var calculator = new Absolute_OperatorCalculator_VarX(xCalculator);
-
+            var calculator = new Absolute_OperatorCalculator_VarX(_stack.Pop());
             _stack.Push(calculator);
 
             return dto;
@@ -66,9 +79,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
-            IList<OperatorCalculatorBase> varCalculators = dto.Vars.Select(x => _stack.Pop()).ToArray();
-            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculatorWithConst(dto.ConstValue, varCalculators);
-
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculatorWithConst(dto.ConstValue, dto.Vars.Select(x => _stack.Pop()).ToArray());
             _stack.Push(calculator);
 
             return dto;
@@ -78,9 +89,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
 
-            IList<OperatorCalculatorBase> operandCalculators = dto.InputOperatorDtos.Select(x => _stack.Pop()).ToArray();
-            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculatorOnlyVars(operandCalculators);
-
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculatorOnlyVars(dto.InputOperatorDtos.Select(x => _stack.Pop()).ToArray());
             _stack.Push(calculator);
 
             return dto;
@@ -90,11 +99,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_AllPassFilter_OperatorDto_AllVars(dto);
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
-            var calculator = new AllPassFilter_OperatorCalculator_AllVars(signalCalculator, centerFrequencyCalculator, bandWidthCalculator, _samplingRate, _samplesBetweenApplyFilterVariables);
-
+            var calculator = new AllPassFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
             _stack.Push(calculator);
 
             return dto;
@@ -102,98 +107,176 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_AllPassFilter_OperatorDto_ManyConsts(dto);
+            base.Visit_AllPassFilter_OperatorDto_ManyConsts(dto);
+
+            var calculator = new AllPassFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, _targetSamplingRate);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_And_OperatorDto_VarA_VarB(dto);
+            base.Visit_And_OperatorDto_VarA_VarB(dto);
+
+            var calculator = new And_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_AverageFollower_OperatorDto_AllVars(AverageFollower_OperatorDto_AllVars dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_AverageFollower_OperatorDto_AllVars(dto);
+            base.Visit_AverageFollower_OperatorDto_AllVars(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new AverageFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(dto);
+            base.Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(dto);
+            base.Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new AverageOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_AverageOverInlets_OperatorDto_Vars(dto);
+            base.Visit_AverageOverInlets_OperatorDto_Vars(dto);
+
+            var calculator = new AverageOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(dto);
+            base.Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(dto);
+
+            var calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, _targetSamplingRate);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(dto);
+            base.Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(dto);
+
+            var calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(dto);
+            base.Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(dto);
+
+            var calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, _targetSamplingRate);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(dto);
+            base.Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(dto);
+
+            var calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Bundle_OperatorDto(Bundle_OperatorDto dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Bundle_OperatorDto(dto);
+            base.Visit_Bundle_OperatorDto(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new Bundle_OperatorCalculator(dto.InputOperatorDtos.Select(x => _stack.Pop()).ToArray(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel(Cache_OperatorDto_MultiChannel dto)
         {
+            base.Visit_Cache_OperatorDto_MultiChannel(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
+
+            // TODO: Use and adapt the CalculatorCache. See PatchCalculatorVisitor.
             throw new NotImplementedException();
+
+            //var calculator = new Cache_OperatorCalculator_MultiChannel(null, dimensionStack, channelDimensionStack);
+            
             return base.Visit_Cache_OperatorDto_MultiChannel(dto);
         }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel(Cache_OperatorDto_SingleChannel dto)
         {
+            // TODO: Use and adapt the CalculatorCache. See PatchCalculatorVisitor.
             throw new NotImplementedException();
             return base.Visit_Cache_OperatorDto_SingleChannel(dto);
         }
 
         protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(ChangeTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(dto);
+            base.Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(dto);
+
+            var calculator = new ChangeTrigger_OperatorCalculator_VarPassThrough_VarReset(_stack.Pop(), _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(dto);
+            base.Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(dto);
+            base.Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)

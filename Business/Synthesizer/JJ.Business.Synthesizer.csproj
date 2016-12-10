@@ -185,7 +185,7 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_WithChildCalculators.cs" />
     <Compile Include="Calculation\Operators\Squash OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
-    <Compile Include="Calculation\Operators\ChangeTrigger_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\ChangeTrigger_OperatorCalculator_VarPassThrough_VarReset.cs" />
     <Compile Include="Calculation\Operators\PulseTrigger_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Random OperatorCalculator Classes, Block and Stripe Interpolation.cs" />
     <Compile Include="Calculation\Operators\Random OperatorCalculator Classes, Other Interpolations.cs" />

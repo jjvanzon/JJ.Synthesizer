@@ -77,9 +77,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
         {
             base.Visit_Multiply_OperatorDto_VarA_VarB(dto);
 
-            OperatorCalculatorBase aCalculator = _stack.Pop();
-            OperatorCalculatorBase bCalculator = _stack.Pop();
-            var calculator = new Multiply_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
+            var calculator = new Multiply_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
             _stack.Push(calculator);
 
             return dto;
@@ -133,10 +131,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
         {
             base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-
-            var calculator = new Shift_OperatorCalculator_VarSignal_ConstDifference(signalCalculator, dto.Distance, _dimensionStack);
-
+            var calculator = new Shift_OperatorCalculator_VarSignal_ConstDifference(_stack.Pop(), dto.Distance, _dimensionStack);
             _stack.Push(calculator);
 
             return dto;
@@ -146,11 +141,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
         {
             base.Visit_Shift_OperatorDto_VarSignal_VarDistance(dto);
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase distanceCalculator = _stack.Pop();
-
-            var calculator = new Shift_OperatorCalculator_VarSignal_VarDifference(signalCalculator, distanceCalculator, _dimensionStack);
-
+            var calculator = new Shift_OperatorCalculator_VarSignal_VarDifference(_stack.Pop(), _stack.Pop(), _dimensionStack);
             _stack.Push(calculator);
 
             return dto;
@@ -163,7 +154,6 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
             base.Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(dto);
 
             var calculator = new Sine_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, _dimensionStack);
-
             _stack.Push(calculator);
 
             return dto;
@@ -173,10 +163,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
         {
             base.Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(dto);
 
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-
-            var calculator = new Sine_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, _dimensionStack);
-
+            var calculator = new Sine_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), _dimensionStack);
             _stack.Push(calculator);
 
             return dto;
@@ -186,10 +173,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
         {
             base.Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(dto);
 
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-
-            var calculator = new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, _dimensionStack);
-
+            var calculator = new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), _dimensionStack);
             _stack.Push(calculator);
 
             return dto;
@@ -202,7 +186,6 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
             base.Visit_VariableInput_OperatorDto(dto);
 
             var calculator = new VariableInput_OperatorCalculator(dto.DefaultValue);
-
             _stack.Push(calculator);
 
             return dto;
