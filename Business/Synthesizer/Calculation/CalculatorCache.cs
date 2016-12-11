@@ -36,6 +36,17 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<int, IList<ArrayCalculatorBase>> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, IList<ArrayCalculatorBase>>();
         private readonly object _cacheOperatorID_To_ArrayCalculators_Dictionary_Lock = new object();
 
+        internal ICurveCalculator GetCurveCalculator(int curveID, ICurveRepository curveRepository)
+        {
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+
+            Curve curve = curveRepository.Get(curveID);
+
+            ICurveCalculator curveCalculator = GetCurveCalculator(curve);
+
+            return curveCalculator;
+        }
+
         internal ICurveCalculator GetCurveCalculator(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);

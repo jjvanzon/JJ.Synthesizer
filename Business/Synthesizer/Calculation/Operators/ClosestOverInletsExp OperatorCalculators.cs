@@ -6,14 +6,14 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class ClosestOverInletsExp_OperatorCalculator_AllVars : OperatorCalculatorBase_WithChildCalculators
+    internal class ClosestOverInletsExp_OperatorCalculator_VarInput_VarItems : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _inputCalculator;
         private readonly OperatorCalculatorBase _firstItemCalculators;
         private readonly OperatorCalculatorBase[] _remainingItemCalculators;
         private readonly int _remainingItemCalculatorsCount;
 
-        public ClosestOverInletsExp_OperatorCalculator_AllVars(
+        public ClosestOverInletsExp_OperatorCalculator_VarInput_VarItems(
             OperatorCalculatorBase inputCalculator,
             IList<OperatorCalculatorBase> itemCalculators)
             : base(new List<OperatorCalculatorBase>(itemCalculators) { inputCalculator })

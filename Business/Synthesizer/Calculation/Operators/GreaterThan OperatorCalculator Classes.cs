@@ -5,12 +5,12 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class GreaterThan_VarA_VarB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class GreaterThan_OperatorCalculator_VarA_VarB : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _calculatorA;
         private readonly OperatorCalculatorBase _calculatorB;
 
-        public GreaterThan_VarA_VarB_OperatorCalculator(
+        public GreaterThan_OperatorCalculator_VarA_VarB(
             OperatorCalculatorBase calculatorA,
             OperatorCalculatorBase calculatorB)
             : base(new OperatorCalculatorBase[] { calculatorA, calculatorB })
@@ -33,12 +33,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class GreaterThan_VarA_ConstB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class GreaterThan_OperatorCalculator_VarA_ConstB : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _calculatorA;
         private readonly double _b;
 
-        public GreaterThan_VarA_ConstB_OperatorCalculator(OperatorCalculatorBase calculatorA, double b)
+        public GreaterThan_OperatorCalculator_VarA_ConstB(OperatorCalculatorBase calculatorA, double b)
             : base(new OperatorCalculatorBase[] { calculatorA })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorA, () => calculatorA);
@@ -57,12 +57,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class GreaterThan_ConstA_VarB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class GreaterThan_OperatorCalculator_ConstA_VarB : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _a;
         private readonly OperatorCalculatorBase _calculatorB;
 
-        public GreaterThan_ConstA_VarB_OperatorCalculator(double a, OperatorCalculatorBase calculatorB)
+        public GreaterThan_OperatorCalculator_ConstA_VarB(double a, OperatorCalculatorBase calculatorB)
             : base(new OperatorCalculatorBase[] { calculatorB })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorB, () => calculatorB);

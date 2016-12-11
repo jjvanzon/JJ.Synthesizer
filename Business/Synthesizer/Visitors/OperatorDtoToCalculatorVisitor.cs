@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
@@ -15,14 +17,27 @@ namespace JJ.Business.Synthesizer.Visitors
         private readonly int _targetChannelCount;
         private readonly double _targetSamplingRate;
         private readonly int _samplesBetweenApplyFilterVariables;
+        private readonly CalculatorCache _calculatorCache;
+        private readonly ICurveRepository _curveRepository;
         private readonly Stack<OperatorCalculatorBase> _stack = new Stack<OperatorCalculatorBase>();
 
         private DimensionStackCollection _dimensionStackCollection;
 
-        public OperatorDtoToCalculatorVisitor(int targetSamplingRate, int targetChannelCount, double secondsBetweenApplyFilterVariables)
+        public OperatorDtoToCalculatorVisitor(
+            int targetSamplingRate, 
+            int targetChannelCount, 
+            double secondsBetweenApplyFilterVariables,
+            CalculatorCache calculatorCache,
+            ICurveRepository curveRepository)
         {
+            if (calculatorCache == null) throw new NullException(() => calculatorCache);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+
             _targetSamplingRate = targetSamplingRate;
             _targetChannelCount = targetChannelCount;
+            _calculatorCache = calculatorCache;
+            _curveRepository = curveRepository;
+
             _samplesBetweenApplyFilterVariables = GetSamplesBetweenApplyFilterVariables(secondsBetweenApplyFilterVariables, targetSamplingRate);
         }
 
@@ -281,56 +296,108 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(dto);
+            base.Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(dto);
+            base.Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(dto);
+            base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(dto);
+
+            var calculator = new ClosestOverInletsExp_OperatorCalculator_VarInput_2ConstItems(_stack.Pop(), dto.Item1, dto.Item2);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(dto);
+            base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(dto);
+
+            var calculator = new ClosestOverInletsExp_OperatorCalculator_VarInput_ConstItems(_stack.Pop(), dto.Items);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(dto);
+            base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(dto);
+
+            var calculator = new ClosestOverInletsExp_OperatorCalculator_VarInput_VarItems(_stack.Pop(), dto.ItemOperatorDtos.Select(x => _stack.Pop()).ToArray());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(ClosestOverInlets_OperatorDto_VarInput_2ConstItems dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(dto);
+            base.Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(dto);
+
+            var calculator = new ClosestOverInlets_OperatorCalculator_VarInput_2ConstItems(_stack.Pop(), dto.Item1, dto.Item2);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(dto);
+            base.Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(dto);
+
+            var calculator = new ClosestOverInlets_OperatorCalculator_VarInput_ConstItems(_stack.Pop(), dto.Items);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(dto);
+            base.Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(dto);
+
+            var calculator = new ClosestOverInlets_OperatorCalculator_VarInput_VarItems(_stack.Pop(), dto.ItemOperatorDtos.Select(x => _stack.Pop()).ToArray());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto)
         {
+            base.Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
             throw new NotImplementedException();
-            return base.Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(dto);
+
+            //// TODO: In a specialized Curve_OperatorDto, the CurveID should be not-nullable. 
+            //// In case Curve was null, this should already have been specialized to a Number_OperatorDto_Zero in the previous visitors.
+            //ICurveCalculator curveCalculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+
+            //// TODO: The Calculator used to (indirectly) determine what the type of calculator was, 
+            //// but now we have DTO's which also already determine it. You could add more methods to CalculatorCache to get a specific type of calculator,
+            //// but it seems responsibilities are spread around now... and the CalculatorCache starts to do much more than just offer instance intergrity
+            //// over several types of calculators.
+            //var calculator = new Curve_OperatorCalculator_MinXZero_NoOriginShifting(curveCalculator, dimensionStack);
+            //_stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(Curve_OperatorDto_MinXZero_WithOriginShifting dto)
@@ -353,6 +420,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_CustomOperator_OperatorDto(CustomOperator_OperatorDto dto)
         {
+            // TODO: This overload should already have been sealed by a base class,
+            // after the visitor is programmed, which 'inlines' custom operators.
             throw new NotImplementedException();
             return base.Visit_CustomOperator_OperatorDto(dto);
         }
@@ -365,68 +434,113 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(dto);
+            base.Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(dto);
+
+            var calculator = new Divide_OperatorCalculator_ConstA_ConstB_VarOrigin(dto.A, dto.B, _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(Divide_OperatorDto_ConstA_VarB_ConstOrigin dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(dto);
+            base.Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(dto);
+
+            var calculator = new Divide_OperatorCalculator_ConstA_VarB_ConstOrigin(dto.A, _stack.Pop(), dto.Origin);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(Divide_OperatorDto_ConstA_VarB_VarOrigin dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(dto);
+            base.Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(dto);
+
+            var calculator = new Divide_OperatorCalculator_ConstA_VarB_VarOrigin(dto.A, _stack.Pop(), _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(dto);
+            base.Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(dto);
+
+            var calculator = new Divide_OperatorCalculator_ConstA_VarB_ZeroOrigin(dto.A, _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(Divide_OperatorDto_VarA_ConstB_ConstOrigin dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(dto);
+            base.Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(dto);
+
+            var calculator = new Divide_OperatorCalculator_VarA_ConstB_ConstOrigin(_stack.Pop(), dto.B, dto.Origin);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(Divide_OperatorDto_VarA_ConstB_VarOrigin dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(dto);
+            base.Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(dto);
+
+            var calculator = new Divide_OperatorCalculator_VarA_ConstB_VarOrigin(_stack.Pop(), dto.B, _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(dto);
+            base.Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(dto);
+
+            var calculator = new Divide_OperatorCalculator_VarA_ConstB_ZeroOrigin(_stack.Pop(), dto.B);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(Divide_OperatorDto_VarA_VarB_ConstOrigin dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(dto);
+            base.Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(dto);
+
+            var calculator = new Divide_OperatorCalculator_VarA_VarB_ConstOrigin(_stack.Pop(), _stack.Pop(), dto.Origin);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(Divide_OperatorDto_VarA_VarB_VarOrigin dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(dto);
+            base.Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(dto);
+
+            var calculator = new Divide_OperatorCalculator_VarA_VarB_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(Divide_OperatorDto_VarA_VarB_ZeroOrigin dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(dto);
+            base.Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(dto);
+
+            var calculator = new Divide_OperatorCalculator_VarA_VarB_ZeroOrigin(_stack.Pop(), _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
         {
+            base.Visit_Equal_OperatorDto_VarA_ConstB(dto);
+
+            // TODO: Equals and NotEquals operators do not have have _VarA_ConstB variation, but the other way around: ConstA_VarB. Refactor that for consistency.
+            //var calculator = new Equal_OperatorCalculator_ConstA_VarB
             throw new NotImplementedException();
-            return base.Visit_Equal_OperatorDto_VarA_ConstB(dto);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_VarB(Equal_OperatorDto_VarA_VarB dto)

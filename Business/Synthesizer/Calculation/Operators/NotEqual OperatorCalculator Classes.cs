@@ -5,12 +5,12 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class NotEqual_VarA_VarB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class NotEqual_OperatorCalculator_VarA_VarB : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _calculatorA;
         private readonly OperatorCalculatorBase _calculatorB;
 
-        public NotEqual_VarA_VarB_OperatorCalculator(
+        public NotEqual_OperatorCalculator_VarA_VarB(
             OperatorCalculatorBase calculatorA,
             OperatorCalculatorBase calculatorB)
             : base(new OperatorCalculatorBase[] { calculatorA, calculatorB })
@@ -33,12 +33,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class NotEqual_ConstA_VarB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class NotEqual_OperatorCalculator_ConstA_VarB : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _a;
         private readonly OperatorCalculatorBase _calculatorB;
 
-        public NotEqual_ConstA_VarB_OperatorCalculator(double a, OperatorCalculatorBase calculatorB)
+        public NotEqual_OperatorCalculator_ConstA_VarB(double a, OperatorCalculatorBase calculatorB)
             : base(new OperatorCalculatorBase[] { calculatorB })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorB, () => calculatorB);

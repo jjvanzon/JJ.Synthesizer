@@ -978,7 +978,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new ClosestOverInlets_OperatorCalculator_AllVars(inputCalculator, itemCalculators);
+                calculator = new ClosestOverInlets_OperatorCalculator_VarInput_VarItems(inputCalculator, itemCalculators);
             }
 
             _stack.Push(calculator);
@@ -1036,7 +1036,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new ClosestOverInletsExp_OperatorCalculator_AllVars(inputCalculator, itemCalculators);
+                calculator = new ClosestOverInletsExp_OperatorCalculator_VarInput_VarItems(inputCalculator, itemCalculators);
             }
 
             _stack.Push(calculator);
@@ -1460,15 +1460,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new Equal_ConstA_VarB_OperatorCalculator(b, calculatorA);
+                calculator = new Equal_OperatorCalculator_ConstA_VarB(b, calculatorA);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new Equal_ConstA_VarB_OperatorCalculator(a, calculatorB);
+                calculator = new Equal_OperatorCalculator_ConstA_VarB(a, calculatorB);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new Equal_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+                calculator = new Equal_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
             }
             else
             {
@@ -1593,15 +1593,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new GreaterThan_VarA_ConstB_OperatorCalculator(calculatorA, b);
+                calculator = new GreaterThan_OperatorCalculator_VarA_ConstB(calculatorA, b);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new GreaterThan_ConstA_VarB_OperatorCalculator(a, calculatorB);
+                calculator = new GreaterThan_OperatorCalculator_ConstA_VarB(a, calculatorB);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new GreaterThan_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+                calculator = new GreaterThan_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
             }
             else
             {
@@ -1640,15 +1640,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new GreaterThanOrEqual_VarA_ConstB_OperatorCalculator(calculatorA, b);
+                calculator = new GreaterThanOrEqual_OperatorCalculator_VarA_ConstB(calculatorA, b);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new GreaterThanOrEqual_ConstA_VarB_OperatorCalculator(a, calculatorB);
+                calculator = new GreaterThanOrEqual_OperatorCalculator_ConstA_VarB(a, calculatorB);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new GreaterThanOrEqual_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+                calculator = new GreaterThanOrEqual_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
             }
             else
             {
@@ -1897,15 +1897,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new LessThan_VarA_ConstB_OperatorCalculator(calculatorA, b);
+                calculator = new LessThan_OperatorCalculator_VarA_ConstB(calculatorA, b);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new LessThan_ConstA_VarB_OperatorCalculator(a, calculatorB);
+                calculator = new LessThan_OperatorCalculator_ConstA_VarB(a, calculatorB);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new LessThan_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+                calculator = new LessThan_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
             }
             else
             {
@@ -1944,15 +1944,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new LessThanOrEqual_VarA_ConstB_OperatorCalculator(calculatorA, b);
+                calculator = new LessThanOrEqual_OperatorCalculator_VarA_ConstB(calculatorA, b);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new LessThanOrEqual_ConstA_VarB_OperatorCalculator(a, calculatorB);
+                calculator = new LessThanOrEqual_OperatorCalculator_ConstA_VarB(a, calculatorB);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new LessThanOrEqual_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+                calculator = new LessThanOrEqual_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
             }
             else
             {
@@ -2914,15 +2914,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new NotEqual_ConstA_VarB_OperatorCalculator(b, calculatorA);
+                calculator = new NotEqual_OperatorCalculator_ConstA_VarB(b, calculatorA);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new NotEqual_ConstA_VarB_OperatorCalculator(a, calculatorB);
+                calculator = new NotEqual_OperatorCalculator_ConstA_VarB(a, calculatorB);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new NotEqual_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+                calculator = new NotEqual_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
             }
             else
             {
