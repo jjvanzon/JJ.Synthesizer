@@ -7,52 +7,52 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Equal_OperatorCalculator_VarA_VarB : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _calculatorA;
-        private readonly OperatorCalculatorBase _calculatorB;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly OperatorCalculatorBase _bCalculator;
         
         public Equal_OperatorCalculator_VarA_VarB(
-            OperatorCalculatorBase calculatorA,
-            OperatorCalculatorBase calculatorB)
-            : base(new OperatorCalculatorBase[] { calculatorA, calculatorB })
+            OperatorCalculatorBase aCalculator,
+            OperatorCalculatorBase bCalculator)
+            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorA, () => calculatorA);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorB, () => calculatorB);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(bCalculator, () => bCalculator);
 
-            _calculatorA = calculatorA;
-            _calculatorB = calculatorB;
+            _aCalculator = aCalculator;
+            _bCalculator = bCalculator;
         }
          
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double a = _calculatorA.Calculate();
-            double b = _calculatorB.Calculate();
+            double a = _aCalculator.Calculate();
+            double b = _bCalculator.Calculate();
 
             if (a == b) return 1.0;
             else return 0.0;
         }
     }
 
-    internal class Equal_OperatorCalculator_ConstA_VarB : OperatorCalculatorBase_WithChildCalculators
+    internal class Equal_OperatorCalculator_VarA_ConstB : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _a;
-        private readonly OperatorCalculatorBase _calculatorB;
+        private readonly OperatorCalculatorBase _aCalculator;
+        private readonly double _b;
 
-        public Equal_OperatorCalculator_ConstA_VarB(double a, OperatorCalculatorBase calculatorB)
-            : base(new OperatorCalculatorBase[] { calculatorB })
+        public Equal_OperatorCalculator_VarA_ConstB(OperatorCalculatorBase aCalculator, double b)
+            : base(new OperatorCalculatorBase[] { aCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorB, () => calculatorB);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
 
-            _a = a;
-            _calculatorB = calculatorB;
+            _aCalculator = aCalculator;
+            _b = b;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double b = _calculatorB.Calculate();
+            double a = _aCalculator.Calculate();
 
-            if (_a == b) return 1.0;
+            if (a == _b) return 1.0;
             else return 0.0;
         }
     }

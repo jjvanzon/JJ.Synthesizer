@@ -5,9 +5,9 @@ using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class MaxFollower_OperatorCalculator : MaxOrMinFollower_OperatorCalculatorBase
+    internal class MaxFollower_OperatorCalculator_AllVars : MaxOrMinFollower_OperatorCalculatorBase
     {
-        public MaxFollower_OperatorCalculator(
+        public MaxFollower_OperatorCalculator_AllVars(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase sliceLengthCalculator,
             OperatorCalculatorBase sampleCountCalculator,

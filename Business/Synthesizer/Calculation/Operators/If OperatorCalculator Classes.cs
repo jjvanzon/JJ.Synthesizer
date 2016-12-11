@@ -5,13 +5,13 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class If_VarCondition_VarCondition_VarThen_VarElse_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class If_OperatorCalculator_VarCondition_VarThen_VarElse : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _conditionCalculator;
         private readonly OperatorCalculatorBase _thenCalculator;
         private readonly OperatorCalculatorBase _elseCalculator;
 
-        public If_VarCondition_VarCondition_VarThen_VarElse_OperatorCalculator(
+        public If_OperatorCalculator_VarCondition_VarThen_VarElse(
             OperatorCalculatorBase conditionCalculator,
             OperatorCalculatorBase thenCalculator,
             OperatorCalculatorBase elseCalculator)
@@ -46,13 +46,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class If_VarCondition_VarCondition_ConstThen_VarElse_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class If_OperatorCalculator_VarCondition_ConstThen_VarElse : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _conditionCalculator;
         private readonly double _then;
         private readonly OperatorCalculatorBase _elseCalculator;
 
-        public If_VarCondition_VarCondition_ConstThen_VarElse_OperatorCalculator(
+        public If_OperatorCalculator_VarCondition_ConstThen_VarElse(
             OperatorCalculatorBase conditionCalculator,
             double then,
             OperatorCalculatorBase elseCalculator)
@@ -85,13 +85,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class If_VarCondition_VarCondition_VarThen_ConstElse_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class If_OperatorCalculator_VarCondition_VarThen_ConstElse : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _conditionCalculator;
         private readonly OperatorCalculatorBase _thenCalculator;
         private readonly double _else;
 
-        public If_VarCondition_VarCondition_VarThen_ConstElse_OperatorCalculator(
+        public If_OperatorCalculator_VarCondition_VarThen_ConstElse(
             OperatorCalculatorBase conditionCalculator,
             OperatorCalculatorBase thenCalculator,
             double @else)
@@ -124,13 +124,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class If_VarCondition_VarCondition_ConstThen_ConstElse_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class If_OperatorCalculator_VarCondition_ConstThen_ConstElse : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _conditionCalculator;
         private readonly double _then;
         private readonly double _else;
 
-        public If_VarCondition_VarCondition_ConstThen_ConstElse_OperatorCalculator(
+        public If_OperatorCalculator_VarCondition_ConstThen_ConstElse(
             OperatorCalculatorBase conditionCalculator,
             double then,
             double @else)

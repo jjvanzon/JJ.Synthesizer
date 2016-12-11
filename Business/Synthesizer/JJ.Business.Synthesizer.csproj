@@ -165,7 +165,7 @@
     <Compile Include="Calculation\Operators\MaxOrMinFollower_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\AverageFollower_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\MaxFollower_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\MaxFollower_OperatorCalculator_AllVars.cs" />
     <Compile Include="Calculation\Operators\Absolute_OperatorCalculator_VarX.cs" />
     <Compile Include="Calculation\Operators\OneOverX_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Negative_OperatorCalculator.cs" />

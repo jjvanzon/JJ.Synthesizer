@@ -299,17 +299,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase calculatorA = _stack.Pop();
-            OperatorCalculatorBase calculatorB = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
-            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+            aCalculator = aCalculator ?? new Zero_OperatorCalculator();
+            bCalculator = bCalculator ?? new Zero_OperatorCalculator();
 
-            bool aIsConst = calculatorA is Number_OperatorCalculator;
-            bool bIsConst = calculatorB is Number_OperatorCalculator;
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
 
-            double a = aIsConst ? calculatorA.Calculate() : 0.0;
-            double b = bIsConst ? calculatorB.Calculate() : 0.0;
+            double a = aIsConst ? aCalculator.Calculate() : 0.0;
+            double b = bIsConst ? bCalculator.Calculate() : 0.0;
 
             bool aIsConstZero = aIsConst && a == 0.0;
             bool bIsConstZero = bIsConst && b == 0.0;
@@ -318,7 +318,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (!aIsConst && !bIsConst)
             {
-                calculator = new And_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
+                calculator = new And_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else if (aIsConstNonZero && bIsConstNonZero)
             {
@@ -330,11 +330,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aIsConstNonZero && !bIsConst)
             {
-                calculator = calculatorB;
+                calculator = bCalculator;
             }
             else if (!aIsConst && bIsConstNonZero)
             {
-                calculator = calculatorA;
+                calculator = aCalculator;
             }
             else
             {
@@ -1437,17 +1437,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase calculatorA = _stack.Pop();
-            OperatorCalculatorBase calculatorB = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
-            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+            aCalculator = aCalculator ?? new Zero_OperatorCalculator();
+            bCalculator = bCalculator ?? new Zero_OperatorCalculator();
 
-            double a = calculatorA.Calculate();
-            double b = calculatorB.Calculate();
+            double a = aCalculator.Calculate();
+            double b = bCalculator.Calculate();
 
-            bool aIsConst = calculatorA is Number_OperatorCalculator;
-            bool bIsConst = calculatorB is Number_OperatorCalculator;
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
 
             if (aIsConst && bIsConst)
             {
@@ -1460,15 +1460,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new Equal_OperatorCalculator_ConstA_VarB(b, calculatorA);
+                calculator = new Equal_OperatorCalculator_VarA_ConstB(aCalculator, b);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new Equal_OperatorCalculator_ConstA_VarB(a, calculatorB);
+                calculator = new Equal_OperatorCalculator_VarA_ConstB(bCalculator, a);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new Equal_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
+                calculator = new Equal_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
             {
@@ -1570,17 +1570,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase calculatorA = _stack.Pop();
-            OperatorCalculatorBase calculatorB = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
-            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+            aCalculator = aCalculator ?? new Zero_OperatorCalculator();
+            bCalculator = bCalculator ?? new Zero_OperatorCalculator();
 
-            double a = calculatorA.Calculate();
-            double b = calculatorB.Calculate();
+            double a = aCalculator.Calculate();
+            double b = bCalculator.Calculate();
 
-            bool aIsConst = calculatorA is Number_OperatorCalculator;
-            bool bIsConst = calculatorB is Number_OperatorCalculator;
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
 
             if (aIsConst && bIsConst)
             {
@@ -1593,15 +1593,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new GreaterThan_OperatorCalculator_VarA_ConstB(calculatorA, b);
+                calculator = new GreaterThan_OperatorCalculator_VarA_ConstB(aCalculator, b);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new GreaterThan_OperatorCalculator_ConstA_VarB(a, calculatorB);
+                calculator = new GreaterThan_OperatorCalculator_ConstA_VarB(a, bCalculator);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new GreaterThan_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
+                calculator = new GreaterThan_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
             {
@@ -1617,17 +1617,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase calculatorA = _stack.Pop();
-            OperatorCalculatorBase calculatorB = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
-            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+            aCalculator = aCalculator ?? new Zero_OperatorCalculator();
+            bCalculator = bCalculator ?? new Zero_OperatorCalculator();
 
-            double a = calculatorA.Calculate();
-            double b = calculatorB.Calculate();
+            double a = aCalculator.Calculate();
+            double b = bCalculator.Calculate();
 
-            bool aIsConst = calculatorA is Number_OperatorCalculator;
-            bool bIsConst = calculatorB is Number_OperatorCalculator;
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
 
             if (aIsConst && bIsConst)
             {
@@ -1640,15 +1640,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new GreaterThanOrEqual_OperatorCalculator_VarA_ConstB(calculatorA, b);
+                calculator = new GreaterThanOrEqual_OperatorCalculator_VarA_ConstB(aCalculator, b);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new GreaterThanOrEqual_OperatorCalculator_ConstA_VarB(a, calculatorB);
+                calculator = new GreaterThanOrEqual_OperatorCalculator_ConstA_VarB(a, bCalculator);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new GreaterThanOrEqual_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
+                calculator = new GreaterThanOrEqual_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
             {
@@ -1846,19 +1846,19 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (thenIsConst && elseIsConst)
             {
-                calculator = new If_VarCondition_VarCondition_ConstThen_ConstElse_OperatorCalculator(conditionCalculator, then, @else);
+                calculator = new If_OperatorCalculator_VarCondition_ConstThen_ConstElse(conditionCalculator, then, @else);
             }
             else if (thenIsConst && !elseIsConst)
             {
-                calculator = new If_VarCondition_VarCondition_ConstThen_VarElse_OperatorCalculator(conditionCalculator, then, elseCalculator);
+                calculator = new If_OperatorCalculator_VarCondition_ConstThen_VarElse(conditionCalculator, then, elseCalculator);
             }
             else if (!thenIsConst && elseIsConst)
             {
-                calculator = new If_VarCondition_VarCondition_VarThen_ConstElse_OperatorCalculator(conditionCalculator, thenCalculator, @else);
+                calculator = new If_OperatorCalculator_VarCondition_VarThen_ConstElse(conditionCalculator, thenCalculator, @else);
             }
             else if (!thenIsConst && !elseIsConst)
             {
-                calculator = new If_VarCondition_VarCondition_VarThen_VarElse_OperatorCalculator(conditionCalculator, thenCalculator, elseCalculator);
+                calculator = new If_OperatorCalculator_VarCondition_VarThen_VarElse(conditionCalculator, thenCalculator, elseCalculator);
             }
             else
             {
@@ -1874,17 +1874,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase calculatorA = _stack.Pop();
-            OperatorCalculatorBase calculatorB = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
-            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+            aCalculator = aCalculator ?? new Zero_OperatorCalculator();
+            bCalculator = bCalculator ?? new Zero_OperatorCalculator();
 
-            double a = calculatorA.Calculate();
-            double b = calculatorB.Calculate();
+            double a = aCalculator.Calculate();
+            double b = bCalculator.Calculate();
 
-            bool aIsConst = calculatorA is Number_OperatorCalculator;
-            bool bIsConst = calculatorB is Number_OperatorCalculator;
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
 
             if (aIsConst && bIsConst)
             {
@@ -1897,15 +1897,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new LessThan_OperatorCalculator_VarA_ConstB(calculatorA, b);
+                calculator = new LessThan_OperatorCalculator_VarA_ConstB(aCalculator, b);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new LessThan_OperatorCalculator_ConstA_VarB(a, calculatorB);
+                calculator = new LessThan_OperatorCalculator_ConstA_VarB(a, bCalculator);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new LessThan_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
+                calculator = new LessThan_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
             {
@@ -1921,17 +1921,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase calculatorA = _stack.Pop();
-            OperatorCalculatorBase calculatorB = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
-            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+            aCalculator = aCalculator ?? new Zero_OperatorCalculator();
+            bCalculator = bCalculator ?? new Zero_OperatorCalculator();
 
-            double a = calculatorA.Calculate();
-            double b = calculatorB.Calculate();
+            double a = aCalculator.Calculate();
+            double b = bCalculator.Calculate();
 
-            bool aIsConst = calculatorA is Number_OperatorCalculator;
-            bool bIsConst = calculatorB is Number_OperatorCalculator;
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
 
             if (aIsConst && bIsConst)
             {
@@ -1944,15 +1944,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new LessThanOrEqual_OperatorCalculator_VarA_ConstB(calculatorA, b);
+                calculator = new LessThanOrEqual_OperatorCalculator_VarA_ConstB(aCalculator, b);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new LessThanOrEqual_OperatorCalculator_ConstA_VarB(a, calculatorB);
+                calculator = new LessThanOrEqual_OperatorCalculator_ConstA_VarB(a, bCalculator);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new LessThanOrEqual_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
+                calculator = new LessThanOrEqual_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
             {
@@ -2324,7 +2324,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new MaxFollower_OperatorCalculator(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
+                calculator = new MaxFollower_OperatorCalculator_AllVars(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
@@ -2891,17 +2891,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase calculatorA = _stack.Pop();
-            OperatorCalculatorBase calculatorB = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
-            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+            aCalculator = aCalculator ?? new Zero_OperatorCalculator();
+            bCalculator = bCalculator ?? new Zero_OperatorCalculator();
 
-            double a = calculatorA.Calculate();
-            double b = calculatorB.Calculate();
+            double a = aCalculator.Calculate();
+            double b = bCalculator.Calculate();
 
-            bool aIsConst = calculatorA is Number_OperatorCalculator;
-            bool bIsConst = calculatorB is Number_OperatorCalculator;
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
 
             if (aIsConst && bIsConst)
             {
@@ -2914,15 +2914,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (!aIsConst && bIsConst)
             {
-                calculator = new NotEqual_OperatorCalculator_ConstA_VarB(b, calculatorA);
+                calculator = new NotEqual_OperatorCalculator_VarA_ConstB(aCalculator, b);
             }
             else if (aIsConst && !bIsConst)
             {
-                calculator = new NotEqual_OperatorCalculator_ConstA_VarB(a, calculatorB);
+                calculator = new NotEqual_OperatorCalculator_VarA_ConstB(bCalculator, a);
             }
             else if (!aIsConst && !bIsConst)
             {
-                calculator = new NotEqual_OperatorCalculator_VarA_VarB(calculatorA, calculatorB);
+                calculator = new NotEqual_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
             {
@@ -2987,17 +2987,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase calculatorA = _stack.Pop();
-            OperatorCalculatorBase calculatorB = _stack.Pop();
+            OperatorCalculatorBase aCalculator = _stack.Pop();
+            OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            calculatorA = calculatorA ?? new Zero_OperatorCalculator();
-            calculatorB = calculatorB ?? new Zero_OperatorCalculator();
+            aCalculator = aCalculator ?? new Zero_OperatorCalculator();
+            bCalculator = bCalculator ?? new Zero_OperatorCalculator();
 
-            bool aIsConst = calculatorA is Number_OperatorCalculator;
-            bool bIsConst = calculatorB is Number_OperatorCalculator;
+            bool aIsConst = aCalculator is Number_OperatorCalculator;
+            bool bIsConst = bCalculator is Number_OperatorCalculator;
 
-            double a = aIsConst ? calculatorA.Calculate() : 0.0;
-            double b = bIsConst ? calculatorB.Calculate() : 0.0;
+            double a = aIsConst ? aCalculator.Calculate() : 0.0;
+            double b = bIsConst ? bCalculator.Calculate() : 0.0;
 
             bool aIsConstZero = aIsConst && a == 0.0;
             bool bIsConstZero = bIsConst && b == 0.0;
@@ -3006,7 +3006,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (!aIsConst && !bIsConst)
             {
-                calculator = new Or_VarA_VarB_OperatorCalculator(calculatorA, calculatorB);
+                calculator = new Or_VarA_VarB_OperatorCalculator(aCalculator, bCalculator);
             }
             else if (aIsConstNonZero)
             {
@@ -3022,11 +3022,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aIsConstZero && !bIsConst)
             {
-                calculator = calculatorB;
+                calculator = bCalculator;
             }
             else if (bIsConstZero && !aIsConst)
             {
-                calculator = calculatorA;
+                calculator = aCalculator;
             }
             else
             {
