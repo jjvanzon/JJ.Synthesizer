@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
-        public double StepOperatorDto { get; set; }
+        public double Step { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

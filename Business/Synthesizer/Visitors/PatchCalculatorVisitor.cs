@@ -1323,11 +1323,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (differenceIsConst)
             {
-                calculator = new Shift_OperatorCalculator_VarSignal_ConstDifference(signalCalculator, difference, dimensionStack);
+                calculator = new Shift_OperatorCalculator_VarSignal_ConstDistance(signalCalculator, difference, dimensionStack);
             }
             else
             {
-                calculator = new Shift_OperatorCalculator_VarSignal_VarDifference(signalCalculator, differenceCalculator, dimensionStack);
+                calculator = new Shift_OperatorCalculator_VarSignal_VarDistance(signalCalculator, differenceCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);

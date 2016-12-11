@@ -1662,7 +1662,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (signalMathPropertiesDto.IsVar && stepMathPropertiesDto.IsConst && offsetMathPropertiesDto.IsConstZero)
             {
-                return new Round_OperatorDto_VarSignal_ConstStep_ZeroOffset { SignalOperatorDto = dto.SignalOperatorDto, StepOperatorDto = stepMathPropertiesDto.ConstValue };
+                return new Round_OperatorDto_VarSignal_ConstStep_ZeroOffset { SignalOperatorDto = dto.SignalOperatorDto, Step = stepMathPropertiesDto.ConstValue };
             }
             else if (signalMathPropertiesDto.IsVar && stepMathPropertiesDto.IsConst && offsetMathPropertiesDto.IsConst)
             {
