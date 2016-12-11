@@ -1692,17 +1692,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // RangeOverDimension
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(RangeOverDimension_OperatorCalculator_OnlyConsts dto)
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyVars(RangeOverDimension_OperatorCalculator_OnlyVars dto)
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne dto)
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto)
         {
             // Done in MachineOptimization_OperatorDtoVisitor instead.
             return Process_Nothing(dto);

@@ -128,15 +128,15 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(RangeOverDimension_OperatorCalculator_OnlyConsts dto)
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
         {
-            base.Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(dto);
+            base.Visit_RangeOverDimension_OperatorDto_OnlyConsts(dto);
 
             MathPropertiesDto stepMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.Step);
 
             if (stepMathPropertiesDto.IsConstOne)
             {
-                var dto2 = new RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne { From = dto.From, Till = dto.Till };
+                var dto2 = new RangeOverDimension_OperatorDto_WithConsts_AndStepOne { From = dto.From, Till = dto.Till };
                 DtoHelper.Clone_DimensionProperties(dto, dto2);
 
                 return dto2;

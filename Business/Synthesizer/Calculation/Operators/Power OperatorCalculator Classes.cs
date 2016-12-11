@@ -53,22 +53,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Power_OperatorCalculator_VarBase_ConstExponent : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _baseCalculator;
-        private readonly double _exponentValue;
+        private readonly double _exponent;
 
-        public Power_OperatorCalculator_VarBase_ConstExponent(OperatorCalculatorBase baseCalculator, double exponentValue)
+        public Power_OperatorCalculator_VarBase_ConstExponent(OperatorCalculatorBase baseCalculator, double exponent)
             : base(new OperatorCalculatorBase[] { baseCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(baseCalculator, () => baseCalculator);
 
             _baseCalculator = baseCalculator;
-            _exponentValue = exponentValue;
+            _exponent = exponent;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
             double @base = _baseCalculator.Calculate();
-            return Math.Pow(@base, _exponentValue);
+            return Math.Pow(@base, _exponent);
         }
     }
 

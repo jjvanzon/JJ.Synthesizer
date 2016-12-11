@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _interpolateOperator = OperatorCalculatorFactory.CreateInterpolate_OperatorCalculator(
                 resampleInterpolationTypeEnum,
                 bundleCalculator,
-                new One_OperatorCalculator(),
+                new Number_OperatorCalculator_One(),
                 dimensionStack);
         }
 

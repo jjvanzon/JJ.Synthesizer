@@ -331,9 +331,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Random_OperatorDto_CubicSmoothSlope), x => Visit_Random_OperatorDto_CubicSmoothSlope((Random_OperatorDto_CubicSmoothSlope)x ) },
                 { typeof(Random_OperatorDto_Hermite), x => Visit_Random_OperatorDto_Hermite((Random_OperatorDto_Hermite)x ) },
                 { typeof(RangeOverDimension_OperatorDto), x => Visit_RangeOverDimension_OperatorDto((RangeOverDimension_OperatorDto)x ) },
-                { typeof(RangeOverDimension_OperatorCalculator_OnlyVars), x => Visit_RangeOverDimension_OperatorCalculator_OnlyVars((RangeOverDimension_OperatorCalculator_OnlyVars)x ) },
-                { typeof(RangeOverDimension_OperatorCalculator_OnlyConsts), x => Visit_RangeOverDimension_OperatorCalculator_OnlyConsts((RangeOverDimension_OperatorCalculator_OnlyConsts)x ) },
-                { typeof(RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne), x => Visit_RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne((RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne)x ) },
+                { typeof(RangeOverDimension_OperatorDto_OnlyVars), x => Visit_RangeOverDimension_OperatorDto_OnlyVars((RangeOverDimension_OperatorDto_OnlyVars)x ) },
+                { typeof(RangeOverDimension_OperatorDto_OnlyConsts), x => Visit_RangeOverDimension_OperatorDto_OnlyConsts((RangeOverDimension_OperatorDto_OnlyConsts)x ) },
+                { typeof(RangeOverDimension_OperatorDto_WithConsts_AndStepOne), x => Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne((RangeOverDimension_OperatorDto_WithConsts_AndStepOne)x ) },
                 { typeof(RangeOverOutlets_OperatorDto), x => Visit_RangeOverOutlets_OperatorDto((RangeOverOutlets_OperatorDto)x ) },
                 { typeof(RangeOverOutlets_OperatorDto_VarFrom_VarStep), x => Visit_RangeOverOutlets_OperatorDto_VarFrom_VarStep((RangeOverOutlets_OperatorDto_VarFrom_VarStep)x ) },
                 { typeof(RangeOverOutlets_OperatorDto_VarFrom_ConstStep), x => Visit_RangeOverOutlets_OperatorDto_VarFrom_ConstStep((RangeOverOutlets_OperatorDto_VarFrom_ConstStep)x ) },
@@ -765,9 +765,9 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Random_OperatorDto_CubicSmoothSlope(Random_OperatorDto_CubicSmoothSlope dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Random_OperatorDto_Hermite(Random_OperatorDto_Hermite dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyVars(RangeOverDimension_OperatorCalculator_OnlyVars dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(RangeOverDimension_OperatorCalculator_OnlyConsts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverOutlets_OperatorDto(RangeOverOutlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_VarFrom_VarStep(RangeOverOutlets_OperatorDto_VarFrom_VarStep dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_VarFrom_ConstStep(RangeOverOutlets_OperatorDto_VarFrom_ConstStep dto) => Visit_OperatorDto_Base(dto);

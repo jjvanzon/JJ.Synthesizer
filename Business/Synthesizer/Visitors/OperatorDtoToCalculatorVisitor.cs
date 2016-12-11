@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
@@ -1336,206 +1335,331 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_VarB(NotEqual_OperatorDto_VarA_VarB dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_NotEqual_OperatorDto_VarA_VarB(dto);
+            base.Visit_NotEqual_OperatorDto_VarA_VarB(dto);
+
+            var calculator = new NotEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Not_OperatorDto_VarX(dto);
+            base.Visit_Not_OperatorDto_VarX(dto);
+
+            var calculator = new Not_OperatorCalculator(_stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Number_OperatorDto(dto);
+            base.Visit_Number_OperatorDto(dto);
+
+            var calculator = new Number_OperatorCalculator(dto.Number);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Number_OperatorDto_NaN(dto);
+            base.Visit_Number_OperatorDto_NaN(dto);
+
+            var calculator = new Number_OperatorCalculator(Double.NaN);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Number_OperatorDto_One(dto);
+            base.Visit_Number_OperatorDto_One(dto);
+
+            var calculator = new Number_OperatorCalculator_One();
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Number_OperatorDto_Zero(dto);
+            base.Visit_Number_OperatorDto_Zero(dto);
+
+            var calculator = new Number_OperatorCalculator_Zero();
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_OneOverX_OperatorDto_VarX(dto);
+            base.Visit_OneOverX_OperatorDto_VarX(dto);
+
+            var calculator = new OneOverX_OperatorCalculator(_stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Or_OperatorDto_VarA_VarB(dto);
+            base.Visit_Or_OperatorDto_VarA_VarB(dto);
+
+            var calculator = new Or_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_PatchInlet_OperatorDto(PatchInlet_OperatorDto dto)
         {
+            base.Visit_PatchInlet_OperatorDto(dto);
+
+            // TODO: Requires special visitation.
             throw new NotImplementedException();
-            return base.Visit_PatchInlet_OperatorDto(dto);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_PatchOutlet_OperatorDto(PatchOutlet_OperatorDto dto)
         {
+            base.Visit_PatchOutlet_OperatorDto(dto);
+
+            // TODO: Requires special visitation.
             throw new NotImplementedException();
-            return base.Visit_PatchOutlet_OperatorDto(dto);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_PeakingEQFilter_OperatorDto_AllVars(dto);
+            base.Visit_PeakingEQFilter_OperatorDto_AllVars(dto);
+
+            var calculator = new PeakingEQFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_PeakingEQFilter_OperatorDto_ManyConsts(dto);
+            base.Visit_PeakingEQFilter_OperatorDto_ManyConsts(dto);
+
+            var calculator = new PeakingEQFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, dto.DBGain, _targetSamplingRate);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Power_OperatorDto_ConstBase_VarExponent(dto);
+            base.Visit_Power_OperatorDto_ConstBase_VarExponent(dto);
+
+            var calculator = new Power_OperatorCalculator_ConstBase_VarExponent(dto.Base, _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Power_OperatorDto_VarBase_ConstExponent(dto);
+            base.Visit_Power_OperatorDto_VarBase_ConstExponent(dto);
+
+            var calculator = new Power_OperatorCalculator_VarBase_ConstExponent(_stack.Pop(), dto.Exponent);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Power_OperatorDto_VarBase_VarExponent(dto);
+            base.Visit_Power_OperatorDto_VarBase_VarExponent(dto);
+
+            var calculator = new Power_OperatorCalculator_VarBase_VarExponent(_stack.Pop(), _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(PulseTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(dto);
+            base.Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(dto);
+
+            var calculator = new PulseTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop());
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(dto);
+            base.Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_NoOriginShifting(dto.Frequency, dto.Width, dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(dto);
+            base.Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+            
+            var calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_WithOriginShifting(dto.Frequency, dto.Width, dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(dto);
+            base.Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_NoOriginShifting(dto.Frequency, _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(dto);
+            base.Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_WithOriginShifting(dto.Frequency, _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking(dto);
+            base.Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_NoPhaseTracking(_stack.Pop(), dto.Width, dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(dto);
+            base.Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_WithPhaseTracking(_stack.Pop(), dto.Width, dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(dto);
+            base.Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_NoPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking(dto);
+            base.Visit_Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
         {
+            base.Visit_Random_OperatorDto_Block(dto);
+
+            // TODO: Requires special instantiation...
             throw new NotImplementedException();
-            return base.Visit_Random_OperatorDto_Block(dto);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto)
         {
+            // TODO: Requires special instantiation...
             throw new NotImplementedException();
             return base.Visit_Random_OperatorDto_CubicAbruptSlope(dto);
         }
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_CubicEquidistant(Random_OperatorDto_CubicEquidistant dto)
         {
+            // TODO: Requires special instantiation...
             throw new NotImplementedException();
             return base.Visit_Random_OperatorDto_CubicEquidistant(dto);
         }
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_CubicSmoothSlope(Random_OperatorDto_CubicSmoothSlope dto)
         {
+            // TODO: Requires special instantiation...
             throw new NotImplementedException();
             return base.Visit_Random_OperatorDto_CubicSmoothSlope(dto);
         }
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_Hermite(Random_OperatorDto_Hermite dto)
         {
+            // TODO: Requires special instantiation...
             throw new NotImplementedException();
             return base.Visit_Random_OperatorDto_Hermite(dto);
         }
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_Line(Random_OperatorDto_Line dto)
         {
+            // TODO: Requires special instantiation...
             throw new NotImplementedException();
             return base.Visit_Random_OperatorDto_Line(dto);
         }
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe(Random_OperatorDto_Stripe dto)
         {
+            // TODO: Requires special instantiation...
             throw new NotImplementedException();
             return base.Visit_Random_OperatorDto_Stripe(dto);
         }
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(Dto.RangeOverDimension_OperatorCalculator_OnlyConsts dto)
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
         {
+            base.Visit_RangeOverDimension_OperatorDto_OnlyConsts(dto);
+
             throw new NotImplementedException();
-            return base.Visit_RangeOverDimension_OperatorCalculator_OnlyConsts(dto);
+
+            return dto;
         }
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_OnlyVars(Dto.RangeOverDimension_OperatorCalculator_OnlyVars dto)
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto)
         {
             throw new NotImplementedException();
-            return base.Visit_RangeOverDimension_OperatorCalculator_OnlyVars(dto);
+            return base.Visit_RangeOverDimension_OperatorDto_OnlyVars(dto);
         }
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(Dto.RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne dto)
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(Dto.RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto)
         {
             throw new NotImplementedException();
-            return base.Visit_RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(dto);
+            return base.Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(dto);
         }
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_ConstFrom_ConstStep(RangeOverOutlets_OperatorDto_ConstFrom_ConstStep dto)

@@ -7,12 +7,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// It has Number_OperatorCalculator as a base class to make it participate in the 
     /// optimization mechanisms in OptimizedPatchCalculatorVisitor.
     /// </summary>
-    internal class One_OperatorCalculator : Number_OperatorCalculator
+    internal class Number_OperatorCalculator_Zero : Number_OperatorCalculator
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            return 1;
+            return 0;
         }
     }
 }

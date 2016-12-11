@@ -170,7 +170,7 @@
     <Compile Include="Calculation\Operators\OneOverX_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Negative_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Not_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Or_VarA_VarB_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Or_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\And_OperatorCalculator_VarA_VarB.cs" />
     <Compile Include="Calculation\Operators\GreaterThanOrEqual OperatorCalculator Classes.cs" />
@@ -215,9 +215,9 @@
     <Compile Include="Calculation\Operators\Triangle OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Sine OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Noise_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\One_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Number_OperatorCalculator_One.cs" />
     <Compile Include="Calculation\Patches\IPatchCalculator.cs" />
-    <Compile Include="Calculation\Operators\Zero_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Number_OperatorCalculator_Zero.cs" />
     <Compile Include="Calculation\Patches\SingleChannelPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\Sample OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Curve OperatorCalculator Classes.cs" />

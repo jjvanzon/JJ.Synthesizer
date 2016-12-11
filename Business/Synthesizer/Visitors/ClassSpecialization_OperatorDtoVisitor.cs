@@ -1536,7 +1536,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (fromMathPropertiesDto.IsConst && tillMathPropertiesDto.IsConst && stepMathPropertiesDto.IsConst)
             {
-                return new RangeOverDimension_OperatorCalculator_OnlyConsts
+                return new RangeOverDimension_OperatorDto_OnlyConsts
                 {
                     From = fromMathPropertiesDto.ConstValue,
                     Till = tillMathPropertiesDto.ConstValue,
@@ -1547,7 +1547,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                return new RangeOverDimension_OperatorCalculator_OnlyVars
+                return new RangeOverDimension_OperatorDto_OnlyVars
                 {
                     FromOperatorDto = dto.FromOperatorDto,
                     TillOperatorDto = dto.TillOperatorDto,
