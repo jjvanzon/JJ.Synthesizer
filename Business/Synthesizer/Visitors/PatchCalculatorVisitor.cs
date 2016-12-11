@@ -4596,15 +4596,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aIsConst)
             {
-                calculator = new Subtract_ConstA_VarB_OperatorCalculator(a, bCalculator);
+                calculator = new Subtract_OperatorCalculator_ConstA_VarB(a, bCalculator);
             }
             else if (bIsConst)
             {
-                calculator = new Subtract_VarA_ConstB_OperatorCalculator(aCalculator, b);
+                calculator = new Subtract_OperatorCalculator_VarA_ConstB(aCalculator, b);
             }
             else
             {
-                calculator = new Subtract_VarA_VarB_OperatorCalculator(aCalculator, bCalculator);
+                calculator = new Subtract_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
 
             _stack.Push(calculator);

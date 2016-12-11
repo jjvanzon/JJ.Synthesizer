@@ -4,12 +4,12 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Subtract_VarA_VarB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Subtract_OperatorCalculator_VarA_VarB : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly OperatorCalculatorBase _bCalculator;
 
-        public Subtract_VarA_VarB_OperatorCalculator(
+        public Subtract_OperatorCalculator_VarA_VarB(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
@@ -32,12 +32,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Subtract_ConstA_VarB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Subtract_OperatorCalculator_ConstA_VarB : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _a;
         private readonly OperatorCalculatorBase _bCalculator;
 
-        public Subtract_ConstA_VarB_OperatorCalculator(double a, OperatorCalculatorBase bCalculator)
+        public Subtract_OperatorCalculator_ConstA_VarB(double a, OperatorCalculatorBase bCalculator)
             : base(new OperatorCalculatorBase[] { bCalculator })
         {
             if (bCalculator == null) throw new NullException(() => bCalculator);
@@ -55,12 +55,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Subtract_VarA_ConstB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Subtract_OperatorCalculator_VarA_ConstB : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _aCalculator;
         private readonly double _b;
 
-        public Subtract_VarA_ConstB_OperatorCalculator(OperatorCalculatorBase aCalculator, double b)
+        public Subtract_OperatorCalculator_VarA_ConstB(OperatorCalculatorBase aCalculator, double b)
             : base(new OperatorCalculatorBase[] { aCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
