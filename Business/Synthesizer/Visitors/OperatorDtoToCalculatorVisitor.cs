@@ -1859,6 +1859,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
         {
+            // TODO: Requires sample calculator.
             throw new NotImplementedException();
             return base.Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(dto);
         }
