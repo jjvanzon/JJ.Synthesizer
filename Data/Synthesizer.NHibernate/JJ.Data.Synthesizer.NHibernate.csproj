@@ -44,6 +44,9 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\..\External Components\NHibernate\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="JJ.Framework.Exceptions">
+      <HintPath>..\..\Framework\Exceptions\bin\Debug\JJ.Framework.Exceptions.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate.ByteCode.Castle">
       <HintPath>..\..\External Components\NHibernate\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
