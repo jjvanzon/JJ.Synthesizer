@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Mathematics;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation
 {

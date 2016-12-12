@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using System.Linq;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Presentation.Resources;

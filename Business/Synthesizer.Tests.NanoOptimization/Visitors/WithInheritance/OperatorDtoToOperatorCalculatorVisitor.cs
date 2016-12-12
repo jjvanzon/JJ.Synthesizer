@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithInheritance;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers.WithInheritance;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritance
 {

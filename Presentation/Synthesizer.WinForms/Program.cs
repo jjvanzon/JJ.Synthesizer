@@ -7,7 +7,7 @@ using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Logging;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Presentation.Synthesizer.Resources;
 

@@ -1,5 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Dto;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {

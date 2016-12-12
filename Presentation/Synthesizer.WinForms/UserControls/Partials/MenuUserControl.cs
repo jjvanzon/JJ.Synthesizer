@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;

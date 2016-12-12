@@ -4,7 +4,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Data;
 using System;
 using System.IO;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Configuration;
 using JJ.Data.Synthesizer;
 

@@ -1,5 +1,5 @@
 ﻿using JJ.Framework.Mathematics;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
 using System.Linq;
-using JJ.Framework.Common.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Synthesizer;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using NAudio.Wave;
 
 namespace JJ.Presentation.Synthesizer.NAudio

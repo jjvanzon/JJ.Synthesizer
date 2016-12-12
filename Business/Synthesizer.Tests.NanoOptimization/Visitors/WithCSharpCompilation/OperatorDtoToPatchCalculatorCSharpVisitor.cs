@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithCSharpCompi
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 using JJ.Framework.Common;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpCompilation
 {

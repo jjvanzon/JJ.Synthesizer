@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Configuration;
 using JJ.Framework.Data;
 using JJ.Framework.Data.Memory;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

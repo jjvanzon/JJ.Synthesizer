@@ -4,7 +4,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {

@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithStructs;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers.WithStucts;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithStructs
 {

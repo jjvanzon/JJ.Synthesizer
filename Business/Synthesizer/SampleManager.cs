@@ -14,9 +14,9 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Business;
-using JJ.Framework.Common.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer

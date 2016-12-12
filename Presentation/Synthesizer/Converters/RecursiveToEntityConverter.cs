@@ -1,4 +1,4 @@
-﻿using JJ.Framework.Reflection.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.LinkTo;

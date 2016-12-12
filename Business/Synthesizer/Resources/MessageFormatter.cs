@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using System;
 using System.Collections.Generic;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Common;
 using System.Linq;
 

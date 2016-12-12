@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithInheritance;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers.WithInheritance

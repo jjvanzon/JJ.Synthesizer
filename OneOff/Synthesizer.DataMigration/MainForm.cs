@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Framework.Presentation.WinForms.Forms;
 using JJ.Framework.Presentation.WinForms.Helpers;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {

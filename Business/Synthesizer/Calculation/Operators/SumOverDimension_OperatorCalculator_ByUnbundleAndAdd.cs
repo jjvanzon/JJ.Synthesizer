@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

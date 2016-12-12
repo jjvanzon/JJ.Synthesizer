@@ -1,4 +1,4 @@
-﻿using JJ.Framework.Reflection.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;

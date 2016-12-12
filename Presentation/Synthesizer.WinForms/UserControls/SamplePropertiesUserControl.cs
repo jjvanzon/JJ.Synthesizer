@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Presentation.WinForms.EventArg;
 using System.IO;
 using JJ.Framework.IO;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls

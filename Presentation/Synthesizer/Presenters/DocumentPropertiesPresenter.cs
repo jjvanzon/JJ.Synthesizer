@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using JJ.Data.Synthesizer;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;

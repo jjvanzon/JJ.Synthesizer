@@ -1,6 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;

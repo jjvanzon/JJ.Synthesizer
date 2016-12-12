@@ -2,7 +2,7 @@
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using System;
 using JJ.Framework.Presentation.VectorGraphics.Helpers;

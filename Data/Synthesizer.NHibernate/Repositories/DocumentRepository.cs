@@ -1,6 +1,6 @@
 ﻿using JJ.Framework.Data;
 using JJ.Framework.Data.NHibernate;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using System;

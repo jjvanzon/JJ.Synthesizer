@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {

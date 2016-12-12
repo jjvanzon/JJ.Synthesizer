@@ -12,7 +12,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Framework.Validation.Resources;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using System.Text;
 
 namespace JJ.Business.Synthesizer.Validation.Operators

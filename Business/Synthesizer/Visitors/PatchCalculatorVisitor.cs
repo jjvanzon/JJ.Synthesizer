@@ -18,8 +18,8 @@ using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Common;
-using JJ.Framework.Common.Exceptions;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Visitors

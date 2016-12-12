@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithCSharpCompi
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpCompilation;
 using JJ.Framework.IO;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;

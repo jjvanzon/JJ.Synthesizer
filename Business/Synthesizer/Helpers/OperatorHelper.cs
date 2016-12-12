@@ -6,8 +6,8 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer;
-using JJ.Framework.Common.Exceptions;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {

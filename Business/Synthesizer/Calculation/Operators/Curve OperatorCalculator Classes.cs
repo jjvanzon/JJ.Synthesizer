@@ -1,4 +1,4 @@
-﻿using JJ.Framework.Reflection.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using System.Runtime.CompilerServices;
 

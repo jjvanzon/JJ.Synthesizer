@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
 using JJ.Framework.Presentation.Resources;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using JJ.Framework.Common.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {

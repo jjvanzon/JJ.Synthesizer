@@ -1,6 +1,6 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Business;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using System;
 using System.Linq;
 using System.Collections.Generic;

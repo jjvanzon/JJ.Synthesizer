@@ -1,5 +1,5 @@
 ﻿using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using NAudio.Wave;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using System.Threading;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 
