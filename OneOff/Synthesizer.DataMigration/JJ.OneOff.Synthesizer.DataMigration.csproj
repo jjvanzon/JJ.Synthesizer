@@ -112,6 +112,10 @@
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Data.Synthesizer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
+      <Project>{5d06a212-5459-47f3-8109-e012c5fc9e3a}</Project>
+      <Name>JJ.Framework.Collections</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>

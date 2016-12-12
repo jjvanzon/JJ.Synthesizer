@@ -82,6 +82,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
+      <Project>{5d06a212-5459-47f3-8109-e012c5fc9e3a}</Project>
+      <Name>JJ.Framework.Collections</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Third Party\FluentNHibernate\Source Code\1.3\src\FluentNHibernate\FluentNHibernate.csproj">
       <Project>{529145d5-6cc3-4016-89b5-826563024af1}</Project>
       <Name>FluentNHibernate</Name>
