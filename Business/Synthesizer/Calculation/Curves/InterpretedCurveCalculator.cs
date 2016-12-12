@@ -1,14 +1,10 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System.Linq;
-using System;
 using System.Collections.Generic;
-using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 

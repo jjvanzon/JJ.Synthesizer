@@ -16,7 +16,6 @@ using JJ.Data.Synthesizer;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer

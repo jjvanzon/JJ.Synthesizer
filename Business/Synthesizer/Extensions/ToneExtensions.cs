@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Extensions
 {

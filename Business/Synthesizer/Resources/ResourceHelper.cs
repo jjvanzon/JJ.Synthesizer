@@ -7,7 +7,6 @@ using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Resources
 {

@@ -4,9 +4,7 @@ using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
-using System;
 using JJ.Framework.Business;
-using JJ.Framework.Common;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
@@ -15,7 +13,6 @@ using System.Linq;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Canonical;
-using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Validation.Curves;
 
 namespace JJ.Business.Synthesizer

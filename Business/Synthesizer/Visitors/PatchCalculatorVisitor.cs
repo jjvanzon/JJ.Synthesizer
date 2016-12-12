@@ -19,7 +19,6 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Visitors
