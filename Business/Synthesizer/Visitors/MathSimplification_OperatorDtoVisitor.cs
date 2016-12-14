@@ -428,6 +428,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_NoCurve(Curve_OperatorDto_NoCurve dto)
         {
+            base.Visit_Curve_OperatorDto_NoCurve(dto);
+
             // 0
             return new Number_OperatorDto_Zero();
         }
@@ -1864,6 +1866,14 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         // Sample
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_NoSample(Sample_OperatorDto_NoSample dto)
+        {
+            base.Visit_Sample_OperatorDto_NoSample(dto);
+
+            // 0
+            return new Number_OperatorDto_Zero();
+        }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
         {

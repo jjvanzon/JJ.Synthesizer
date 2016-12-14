@@ -3,14 +3,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal interface ISample_OperatorDto
-    {
-        InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-        int ChannelCount { get; set; }
-        int? SampleID { get; set; }
-    }
-
-    internal abstract class Sample_OperatorDto_VarFrequency : OperatorDtoBase_VarFrequency, ISample_OperatorDto
+    internal class Sample_OperatorDto : OperatorDtoBase_VarFrequency
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
 
@@ -19,17 +12,10 @@ namespace JJ.Business.Synthesizer.Dto
         public int? SampleID { get; set; }
     }
 
-    internal abstract class Sample_OperatorDto_ConstFrequency : OperatorDtoBase_ConstFrequency, ISample_OperatorDto
+    internal class Sample_OperatorDto_NoSample : OperatorDtoBase_WithoutInputOperatorDtos
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
-
-        public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-        public int ChannelCount { get; set; }
-        public int? SampleID { get; set; }
     }
-
-    internal class Sample_OperatorDto : Sample_OperatorDto_VarFrequency
-    { }
 
     internal class Sample_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputOperatorDtos
     {
@@ -71,4 +57,29 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting : Sample_OperatorDto_ConstFrequency
     { }
+
+    internal abstract class Sample_OperatorDto_VarFrequency : OperatorDtoBase_VarFrequency, ISample_OperatorDto_WithSampleID
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
+
+        public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
+        public int ChannelCount { get; set; }
+        public int SampleID { get; set; }
+    }
+
+    internal abstract class Sample_OperatorDto_ConstFrequency : OperatorDtoBase_ConstFrequency, ISample_OperatorDto_WithSampleID
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.Sample);
+
+        public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
+        public int ChannelCount { get; set; }
+        public int SampleID { get; set; }
+    }
+
+    internal interface ISample_OperatorDto_WithSampleID : IOperatorDto_WithDimension
+    {
+        InterpolationTypeEnum InterpolationTypeEnum { get; set; }
+        int ChannelCount { get; set; }
+        int SampleID { get; set; }
+    }
 }

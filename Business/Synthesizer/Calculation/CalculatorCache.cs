@@ -64,6 +64,20 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
+        internal ISampleCalculator GetSampleCalculator(int sampleID, ISampleRepository sampleRepository)
+        {
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+
+            Sample sample = sampleRepository.Get(sampleID);
+            byte[] bytes = sampleRepository.TryGetBytes(sampleID);
+
+            var sampleInfo = new SampleInfo { Sample = sample, Bytes = bytes };
+
+            ISampleCalculator sampleCalculator = GetSampleCalculator(sampleInfo);
+
+            return sampleCalculator;
+        }
+
         internal ISampleCalculator GetSampleCalculator(SampleInfo sampleInfo)
         {
             if (sampleInfo == null) throw new NullException(() => sampleInfo);

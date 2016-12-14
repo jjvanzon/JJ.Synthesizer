@@ -1720,9 +1720,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorDtoBase dto2;
 
-            if (frequencyMathPropertiesDto.IsConstZero)
+            if (!dto.SampleID.HasValue)
             {
-                return new Sample_OperatorDto_ZeroFrequency();
+                dto2 = new Sample_OperatorDto_NoSample();
+            }
+            else if (frequencyMathPropertiesDto.IsConstZero)
+            {
+                dto2 = new Sample_OperatorDto_ZeroFrequency();
             }
             else if (hasTargetChannelCount && frequencyMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -1777,8 +1781,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_SampleOperatorProperties(dto, dto2);
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoHelper.TryClone_SampleProperties(dto, dto2);
 
             return dto2;
         }

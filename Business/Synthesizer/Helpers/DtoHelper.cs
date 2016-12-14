@@ -154,19 +154,23 @@ namespace JJ.Business.Synthesizer.Helpers
             Clone_DimensionProperties(source, dest);
         }
 
-        public static void Clone_SampleOperatorProperties(ISample_OperatorDto dto, ISample_OperatorDto dto2)
+        public static void Clone_SampleProperties(Sample_OperatorDto source, ISample_OperatorDto_WithSampleID dest)
         {
-            dto2.SampleID = dto.SampleID;
-            dto2.ChannelCount = dto.ChannelCount;
-            dto2.InterpolationTypeEnum = dto.InterpolationTypeEnum;
+            if (!source.SampleID.HasValue) throw new NullException(() => source.SampleID);
+
+            dest.SampleID = source.SampleID.Value;
+            dest.ChannelCount = source.ChannelCount;
+            dest.InterpolationTypeEnum = source.InterpolationTypeEnum;
+
+            Clone_DimensionProperties(source, dest);
         }
 
-        public static void TryClone_SampleOperatorProperties(Sample_OperatorDto source, OperatorDtoBase dest)
+        public static void TryClone_SampleProperties(Sample_OperatorDto source, OperatorDtoBase dest)
         {
-            var asISample_OperatorDto = dest as ISample_OperatorDto;
+            var asISample_OperatorDto = dest as ISample_OperatorDto_WithSampleID;
             if (asISample_OperatorDto != null)
             {
-                Clone_SampleOperatorProperties(source, asISample_OperatorDto);
+                Clone_SampleProperties(source, asISample_OperatorDto);
             }
         }
     }
