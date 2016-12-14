@@ -100,6 +100,11 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
+        protected sealed override OperatorDtoBase Visit_Curve_OperatorDto_NoCurve(Curve_OperatorDto_NoCurve dto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_ConstOrigin(Divide_OperatorDto_ConstA_ConstB_ConstOrigin dto)
         {
             throw new NotSupportedException();

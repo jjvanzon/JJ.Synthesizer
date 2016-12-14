@@ -425,12 +425,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (dto.CurveID == null)
             {
-                return new Number_OperatorDto_Zero();
+                return new Curve_OperatorDto_NoCurve();
             }
 
             bool hasMinX = dto.MinX != 0.0;
 
-            Curve_OperatorDto dto2;
+            OperatorDtoBase dto2;
 
             if (!hasMinX && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -453,7 +453,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.Clone_CurveProperties(dto, dto2);
+            DtoHelper.TryClone_CurveProperties(dto, dto2);
 
             return dto2;
         }

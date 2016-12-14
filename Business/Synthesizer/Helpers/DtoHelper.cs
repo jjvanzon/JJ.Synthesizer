@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Dto;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
@@ -75,10 +76,40 @@ namespace JJ.Business.Synthesizer.Helpers
             Clone_DimensionProperties(source, dest);
         }
 
-        public static void Clone_CurveProperties(Curve_OperatorDto source, Curve_OperatorDto dest)
+        public static void TryClone_CurveProperties(Curve_OperatorDto source, OperatorDtoBase dest)
         {
-            dest.CurveID = source.CurveID;
+            {
+                var castedDest = dest as Curve_OperatorDtoBase_WithMinX;
+                if (castedDest != null)
+                {
+                    Clone_CurveProperties_WithMinX(source, castedDest);
+                    return;
+                }
+            }
+
+            {
+                var castedDest = dest as Curve_OperatorDtoBase_WithoutMinX;
+                if (castedDest != null)
+                {
+                    Clone_CurveProperties_WithoutMinX(source, castedDest);
+                }
+            }
+        }
+
+        public static void Clone_CurveProperties_WithMinX(Curve_OperatorDto source, Curve_OperatorDtoBase_WithMinX dest)
+        {
+            if (!source.CurveID.HasValue) throw new NullException(() => source.CurveID);
+
             dest.MinX = source.MinX;
+
+            Clone_CurveProperties_WithoutMinX(source, dest);
+        }
+
+        public static void Clone_CurveProperties_WithoutMinX(Curve_OperatorDto source, Curve_OperatorDtoBase_WithoutMinX dest)
+        {
+            if (!source.CurveID.HasValue) throw new NullException(() => source.CurveID);
+
+            dest.CurveID = source.CurveID.Value;
 
             Clone_DimensionProperties(source, dest);
         }

@@ -426,6 +426,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Curve
 
+        protected override OperatorDtoBase Visit_Curve_OperatorDto_NoCurve(Curve_OperatorDto_NoCurve dto)
+        {
+            // 0
+            return new Number_OperatorDto_Zero();
+        }
+
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto)
         {
             return Process_Nothing(dto);

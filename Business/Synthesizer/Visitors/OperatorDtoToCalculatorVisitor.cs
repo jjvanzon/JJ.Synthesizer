@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
@@ -392,38 +393,54 @@ namespace JJ.Business.Synthesizer.Visitors
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            throw new NotImplementedException();
+            var curveCalculator = (CurveCalculator_MinXZero)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
 
-            //// TODO: In a specialized Curve_OperatorDto, the CurveID should be not-nullable. 
-            //// In case Curve was null, this should already have been specialized to a Number_OperatorDto_Zero in the previous visitors.
-            //ICurveCalculator curveCalculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-
-            //// TODO: The Calculator used to (indirectly) determine what the type of calculator was, 
-            //// but now we have DTO's which also already determine it. You could add more methods to CalculatorCache to get a specific type of calculator,
-            //// but it seems responsibilities are spread around now... and the CalculatorCache starts to do much more than just offer instance intergrity
-            //// over several types of calculators.
-            //var calculator = new Curve_OperatorCalculator_MinXZero_NoOriginShifting(curveCalculator, dimensionStack);
-            //_stack.Push(calculator);
+            var calculator = new Curve_OperatorCalculator_MinXZero_NoOriginShifting(curveCalculator, dimensionStack);
+            _stack.Push(calculator);
 
             return dto;
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(Curve_OperatorDto_MinXZero_WithOriginShifting dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(dto);
+            base.Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var curveCalculator = (CurveCalculator_MinXZero)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+
+            var calculator = new Curve_OperatorCalculator_MinXZero_WithOriginShifting(curveCalculator, dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_NoOriginShifting(Curve_OperatorDto_MinX_NoOriginShifting dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Curve_OperatorDto_MinX_NoOriginShifting(dto);
+            base.Visit_Curve_OperatorDto_MinX_NoOriginShifting(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var curveCalculator = (CurveCalculator_MinX)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+
+            var calculator = new Curve_OperatorCalculator_MinX_NoOriginShifting(curveCalculator, dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Curve_OperatorDto_MinX_WithOriginShifting(dto);
+            base.Visit_Curve_OperatorDto_MinX_WithOriginShifting(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var curveCalculator = (CurveCalculator_MinX)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+
+            var calculator = new Curve_OperatorCalculator_MinX_WithOriginShifting(curveCalculator, dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_CustomOperator_OperatorDto(CustomOperator_OperatorDto dto)
@@ -436,6 +453,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_DimensionToOutlets_OperatorDto(DimensionToOutlets_OperatorDto dto)
         {
+            // Requires special visitation
             throw new NotImplementedException();
             return base.Visit_DimensionToOutlets_OperatorDto(dto);
         }
