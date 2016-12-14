@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             var bundleCalculator = new Bundle_OperatorCalculator(operandCalculators, dimensionStack);
 
-            _interpolateOperator = OperatorCalculatorFactory.CreateInterpolate_OperatorCalculator(
+            _interpolateOperator = OperatorCalculatorFactory.Create_Interpolate_OperatorCalculator(
                 resampleInterpolationTypeEnum,
                 bundleCalculator,
                 new Number_OperatorCalculator_One(),

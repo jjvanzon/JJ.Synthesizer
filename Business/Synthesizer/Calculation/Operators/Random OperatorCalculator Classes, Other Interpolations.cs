@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 randomCalculator, randomCalculatorOffset, rateCalculator, dimensionStack);
 
             // Lead their outputs to a Interpolate operator calculator
-            _interpolateOperator = OperatorCalculatorFactory.CreateInterpolate_OperatorCalculator(
+            _interpolateOperator = OperatorCalculatorFactory.Create_Interpolate_OperatorCalculator(
                 resampleInterpolationTypeEnum,
                 signalCalculator: randomCalculator2,
                 samplingRateCalculator: rateCalculator,

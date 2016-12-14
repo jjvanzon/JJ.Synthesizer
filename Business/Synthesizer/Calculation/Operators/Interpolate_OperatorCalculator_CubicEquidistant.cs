@@ -2,6 +2,7 @@
 using System;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

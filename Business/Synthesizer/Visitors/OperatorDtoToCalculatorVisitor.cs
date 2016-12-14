@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
@@ -237,27 +238,35 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel(Cache_OperatorDto_MultiChannel dto)
-        {
-            base.Visit_Cache_OperatorDto_MultiChannel(dto);
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
+            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
 
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_CubicInterpolation(Cache_OperatorDto_MultiChannel_CubicInterpolation dto)
+            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
 
-            // TODO: Use and adapt the CalculatorCache. See PatchCalculatorVisitor.
-            throw new NotImplementedException();
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_HermiteInterpolation(Cache_OperatorDto_MultiChannel_HermiteInterpolation dto)
+            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
 
-            //var calculator = new Cache_OperatorCalculator_MultiChannel(null, dimensionStack, channelDimensionStack);
-            
-            return base.Visit_Cache_OperatorDto_MultiChannel(dto);
-        }
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_LineInterpolation(Cache_OperatorDto_MultiChannel_LineInterpolation dto)
+            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel(Cache_OperatorDto_SingleChannel dto)
-        {
-            // TODO: Use and adapt the CalculatorCache. See PatchCalculatorVisitor.
-            throw new NotImplementedException();
-            return base.Visit_Cache_OperatorDto_SingleChannel(dto);
-        }
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_StripeInterpolation(Cache_OperatorDto_MultiChannel_StripeInterpolation dto)
+            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation(Cache_OperatorDto_SingleChannel_BlockInterpolation dto)
+            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_CubicInterpolation(Cache_OperatorDto_SingleChannel_CubicInterpolation dto)
+            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_HermiteInterpolation(Cache_OperatorDto_SingleChannel_HermiteInterpolation dto)
+            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_LineInterpolation(Cache_OperatorDto_SingleChannel_LineInterpolation dto)
+            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_StripeInterpolation(Cache_OperatorDto_SingleChannel_StripeInterpolation dto)
+            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
 
         protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(ChangeTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
@@ -2636,6 +2645,57 @@ namespace JJ.Business.Synthesizer.Visitors
             // TODO: Requires special visition.
             throw new NotImplementedException();
             return base.Visit_Unbundle_OperatorDto(dto);
+        }
+
+        // Helpers
+
+        /// <summary>
+        /// The Cache operator requires more lengthy code, while most methods are very short,
+        /// because it is one of the few or perhaps even the only operator type for which you need to 
+        /// calculate during optimization time, so calculate while the executable calculation is still being built up.
+        /// </summary>
+        private OperatorDtoBase Process_Cache_OperatorDtoBase_NotConstSignal(Cache_OperatorDtoBase_NotConstSignal dto)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            OperatorCalculatorBase calculator;
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase startCalculator = _stack.Pop();
+            OperatorCalculatorBase endCalculator = _stack.Pop();
+            OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
+
+            double start = startCalculator.Calculate();
+            double end = endCalculator.Calculate();
+            double samplingRate = samplingRateCalculator.Calculate();
+
+            bool parametersAreValid = CalculationHelper.CacheParametersAreValid(start, end, samplingRate);
+            if (!parametersAreValid)
+            {
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else
+            {
+                IList<ArrayCalculatorBase> arrayCalculators = _calculatorCache.GetCacheArrayCalculators(
+                    dto.OperatorID,
+                    signalCalculator,
+                    start,
+                    end,
+                    samplingRate,
+                    dto.ChannelCount,
+                    dto.InterpolationTypeEnum,
+                    dimensionStack,
+                    channelDimensionStack);
+
+                calculator = OperatorCalculatorFactory.Create_Cache_OperatorCalculator(arrayCalculators, dimensionStack, channelDimensionStack);
+            }
+
+            _stack.Push(calculator);
+
+            return dto;
         }
     }
 }

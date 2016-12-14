@@ -4,10 +4,10 @@ using System.Linq;
 using NAudio.Midi;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Calculation;
 using System.Threading;
 using System.Diagnostics;
 using JJ.Framework.Exceptions;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {

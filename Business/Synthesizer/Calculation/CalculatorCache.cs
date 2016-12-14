@@ -85,12 +85,12 @@ namespace JJ.Business.Synthesizer.Calculation
         /// <summary>
         /// Out comes an array calculator for each channel.
         /// The concrete type of the ArrayCalculators is the same, 
-        /// so if you have to something with the concrete type,
+        /// so if you have to DO something with the concrete type,
         /// you only have to check one of them.
         /// </summary>
         /// <param name="samplingRate">greater than 0</param>
         internal IList<ArrayCalculatorBase> GetCacheArrayCalculators(
-            Operator op, 
+            Operator op,
             OperatorCalculatorBase signalCalculator,
             double start,
             double end,
@@ -103,27 +103,54 @@ namespace JJ.Business.Synthesizer.Calculation
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
 
+            var wrapper = new Cache_OperatorWrapper(op);
+            SpeakerSetup speakerSetup = speakerSetupRepository.Get((int)wrapper.SpeakerSetup);
+            int channelCount = speakerSetup.SpeakerSetupChannels.Count;
+            InterpolationTypeEnum interpolationTypeEnum = wrapper.InterpolationType;
+
+            IList<ArrayCalculatorBase> arrayCalculators = GetCacheArrayCalculators(
+                op.ID, 
+                signalCalculator, 
+                start, 
+                end, 
+                samplingRate,
+                channelCount,
+                interpolationTypeEnum,
+                dimensionStack, 
+                channelDimensionStack);
+
+            return arrayCalculators;
+        }
+
+        internal IList<ArrayCalculatorBase> GetCacheArrayCalculators(
+            int operatorID, 
+            OperatorCalculatorBase signalCalculator, 
+            double start, 
+            double end, 
+            double samplingRate,
+            int channelCount,
+            InterpolationTypeEnum interpolationTypeEnum,
+            DimensionStack dimensionStack,
+            DimensionStack channelDimensionStack)
+        {
+            if (operatorID == 0) throw new ZeroException(() => operatorID);
+
             lock (_cacheOperatorID_To_ArrayCalculators_Dictionary_Lock)
             {
                 IList<ArrayCalculatorBase> arrayCalculators;
-                if (!_cacheOperatorID_To_ArrayCalculators_Dictionary.TryGetValue(op.ID, out arrayCalculators))
+                if (!_cacheOperatorID_To_ArrayCalculators_Dictionary.TryGetValue(operatorID, out arrayCalculators))
                 {
-                    var wrapper = new Cache_OperatorWrapper(op);
-
-                    SpeakerSetup speakerSetup = speakerSetupRepository.Get((int)wrapper.SpeakerSetup);
-                    int channelCount = speakerSetup.SpeakerSetupChannels.Count;
-
                     arrayCalculators = CreateCacheArrayCalculators(
                         signalCalculator,
-                        channelCount,
                         start,
                         end,
                         samplingRate,
+                        channelCount,
+                        interpolationTypeEnum,
                         dimensionStack,
-                        channelDimensionStack,
-                        wrapper.InterpolationType);
+                        channelDimensionStack);
 
-                    _cacheOperatorID_To_ArrayCalculators_Dictionary.Add(op.ID, arrayCalculators);
+                    _cacheOperatorID_To_ArrayCalculators_Dictionary.Add(operatorID, arrayCalculators);
                 }
 
                 return arrayCalculators;
@@ -132,13 +159,13 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private IList<ArrayCalculatorBase> CreateCacheArrayCalculators(
             OperatorCalculatorBase signalCalculator,
-            int channelCount,
             double start, 
             double end, 
             double rate,
+            int channelCount,
+            InterpolationTypeEnum interpolationTypeEnum,
             DimensionStack dimensionStack,
-            DimensionStack channelDimensionStack,
-            InterpolationTypeEnum interpolationTypeEnum)
+            DimensionStack channelDimensionStack)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (channelCount < 1) throw new LessThanException(() => channelCount, 1);

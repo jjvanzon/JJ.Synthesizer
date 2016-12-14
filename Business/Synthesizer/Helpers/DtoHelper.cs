@@ -42,20 +42,21 @@ namespace JJ.Business.Synthesizer.Helpers
             }
         }
 
-        public static void Clone_CacheOperatorProperties(Cache_OperatorDto source, Cache_OperatorDto dest)
+        public static void Clone_CacheOperatorProperties(Cache_OperatorDtoBase_NotConstSignal source, Cache_OperatorDtoBase_NotConstSignal dest)
         {
+            dest.OperatorID = source.OperatorID;
             dest.SignalOperatorDto = source.SignalOperatorDto;
             dest.StartOperatorDto = source.StartOperatorDto;
             dest.EndOperatorDto = source.EndOperatorDto;
             dest.SamplingRateOperatorDto = source.SamplingRateOperatorDto;
+            dest.ChannelCount = source.ChannelCount;
             dest.InterpolationTypeEnum = source.InterpolationTypeEnum;
             dest.SpeakerSetupEnum = source.SpeakerSetupEnum;
-            dest.ChannelCount = source.ChannelCount;
         }
 
-        public static void TryClone_CacheOperatorProperties(Cache_OperatorDto source, OperatorDtoBase dest)
+        public static void TryClone_CacheOperatorProperties(Cache_OperatorDtoBase_NotConstSignal source, OperatorDtoBase dest)
         {
-            var castedDest = dest as Cache_OperatorDto;
+            var castedDest = dest as Cache_OperatorDtoBase_NotConstSignal;
             if (castedDest != null)
             {
                 Clone_CacheOperatorProperties(source, castedDest);

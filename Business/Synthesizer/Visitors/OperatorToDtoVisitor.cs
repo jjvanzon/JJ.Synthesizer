@@ -165,6 +165,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new Cache_OperatorDto
             {
+                OperatorID = op.ID,
                 SignalOperatorDto = _stack.Pop(),
                 StartOperatorDto = _stack.Pop(),
                 EndOperatorDto = _stack.Pop(),

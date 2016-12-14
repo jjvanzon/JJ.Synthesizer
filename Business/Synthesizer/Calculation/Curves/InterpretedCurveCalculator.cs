@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Curves
 {

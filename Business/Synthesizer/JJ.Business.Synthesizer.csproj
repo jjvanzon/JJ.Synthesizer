@@ -81,7 +81,8 @@
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
-    <Compile Include="Calculation\CalculationHelper.cs" />
+    <Compile Include="Dto\2016-12-14 Backup of Cache OperatorDto Classes.cs" />
+    <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\CurveArrayInfo.cs" />
     <Compile Include="Calculation\Curves\CurveArrayHelper.cs" />

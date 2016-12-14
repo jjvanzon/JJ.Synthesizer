@@ -248,13 +248,49 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto2 = new Cache_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
-            else if (dto.ChannelCount == 1)
+            else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
             {
-                dto2 = new Cache_OperatorDto_SingleChannel();
+                dto2 = new Cache_OperatorDto_SingleChannel_BlockInterpolation();
+            }
+            else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic)
+            {
+                dto2 = new Cache_OperatorDto_SingleChannel_CubicInterpolation();
+            }
+            else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite)
+            {
+                dto2 = new Cache_OperatorDto_SingleChannel_HermiteInterpolation();
+            }
+            else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Line)
+            {
+                dto2 = new Cache_OperatorDto_SingleChannel_LineInterpolation();
+            }
+            else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe)
+            {
+                dto2 = new Cache_OperatorDto_SingleChannel_StripeInterpolation();
+            }
+            else if (dto.ChannelCount > 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
+            {
+                dto2 = new Cache_OperatorDto_MultiChannel_BlockInterpolation();
+            }
+            else if (dto.ChannelCount > 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic)
+            {
+                dto2 = new Cache_OperatorDto_MultiChannel_CubicInterpolation();
+            }
+            else if (dto.ChannelCount > 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite)
+            {
+                dto2 = new Cache_OperatorDto_MultiChannel_HermiteInterpolation();
+            }
+            else if (dto.ChannelCount > 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Line)
+            {
+                dto2 = new Cache_OperatorDto_MultiChannel_LineInterpolation();
+            }
+            else if (dto.ChannelCount > 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe)
+            {
+                dto2 = new Cache_OperatorDto_MultiChannel_StripeInterpolation();
             }
             else
             {
-                dto2 = new Cache_OperatorDto_MultiChannel();
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
             DtoHelper.TryClone_CacheOperatorProperties(dto, dto2);

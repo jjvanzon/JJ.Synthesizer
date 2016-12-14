@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
