@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -9,6 +10,9 @@ namespace JJ.Business.Synthesizer.Dto
 
         public OperatorDtoBase RateOperatorDto { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
+
+        /// <summary> Used as a cache key. </summary>
+        public int OperatorID { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {

@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -34,14 +35,14 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<Sample, ISampleCalculator> _sample_SampleCalculator_Dictionary = new Dictionary<Sample, ISampleCalculator>();
         private readonly object _sampleLock = new object();
 
-        private readonly Dictionary<Operator, NoiseCalculator> _operator_To_NoiseCalculator_Dictionary = new Dictionary<Operator, NoiseCalculator>();
-        private readonly object _operator_To_NoiseCalculator_Dictionary_Lock = new object();
+        private readonly Dictionary<int, NoiseCalculator> _operatorID_To_NoiseCalculator_Dictionary = new Dictionary<int, NoiseCalculator>();
+        private readonly object _operatorID_To_NoiseCalculator_Dictionary_Lock = new object();
 
-        private readonly Dictionary<Operator, RandomCalculator_BlockInterpolation> _operator_To_RandomCalculator_BlockInterpolation_Dictionary = new Dictionary<Operator, RandomCalculator_BlockInterpolation>();
-        private readonly object _operator_To_RandomCalculator_BlockInterpolation_Dictionary_Lock = new object();
+        private readonly Dictionary<int, RandomCalculator_BlockInterpolation> _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary = new Dictionary<int, RandomCalculator_BlockInterpolation>();
+        private readonly object _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary_Lock = new object();
 
-        private readonly Dictionary<Operator, RandomCalculator_StripeInterpolation> _operator_To_RandomCalculator_StripeInterpolation_Dictionary = new Dictionary<Operator, RandomCalculator_StripeInterpolation>();
-        private readonly object _operator_To_RandomCalculator_StripeInterpolation_Dictionary_Lock = new object();
+        private readonly Dictionary<int, RandomCalculator_StripeInterpolation> _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary = new Dictionary<int, RandomCalculator_StripeInterpolation>();
+        private readonly object _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary_Lock = new object();
 
         private readonly Dictionary<int, IList<ArrayCalculatorBase>> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, IList<ArrayCalculatorBase>>();
         private readonly object _cacheOperatorID_To_ArrayCalculators_Dictionary_Lock = new object();
@@ -106,47 +107,86 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
-        internal NoiseCalculator GetNoiseCalculator(Operator op)
+        internal NoiseCalculator GetNoiseCalculator(int operatorID)
         {
-            if (op == null) throw new NullException(() => op);
+            if (operatorID == 0) throw new ZeroException(() => operatorID);
 
-            lock (_operator_To_NoiseCalculator_Dictionary_Lock)
+            lock (_operatorID_To_NoiseCalculator_Dictionary_Lock)
             {
                 NoiseCalculator noiseCalculator;
-                if (!_operator_To_NoiseCalculator_Dictionary.TryGetValue(op, out noiseCalculator))
+                if (!_operatorID_To_NoiseCalculator_Dictionary.TryGetValue(operatorID, out noiseCalculator))
                 {
                     noiseCalculator = new NoiseCalculator();
-                    _operator_To_NoiseCalculator_Dictionary.Add(op, noiseCalculator);
+                    _operatorID_To_NoiseCalculator_Dictionary.Add(operatorID, noiseCalculator);
                 }
 
                 return noiseCalculator;
             }
         }
 
-        internal RandomCalculator_StripeInterpolation Get_RandomCalculator_StripeInterpolation(Operator op)
+        internal RandomCalculatorBase GetRandomCalculator(Operator op)
         {
-            lock (_operator_To_RandomCalculator_StripeInterpolation_Dictionary_Lock)
+            if (op == null) throw new NullException(() => op);
+            if (op.GetOperatorTypeEnum() != OperatorTypeEnum.Random)
+            {
+                throw new NotEqualException(() => op.GetOperatorTypeEnum(), OperatorTypeEnum.Random);
+            }
+
+            var wrapper = new Random_OperatorWrapper(op);
+            ResampleInterpolationTypeEnum resampleInterpolationType = wrapper.InterpolationType;
+
+            RandomCalculatorBase randomCalculator = GetRandomCalculator(op.ID, resampleInterpolationType);
+            return randomCalculator;
+        }
+
+        internal RandomCalculatorBase GetRandomCalculator(int operatorID, ResampleInterpolationTypeEnum resampleInterpolationType)
+        {
+            switch (resampleInterpolationType)
+            {
+                case ResampleInterpolationTypeEnum.Block:
+                    return Get_RandomCalculator_BlockInterpolation(operatorID);
+
+                case ResampleInterpolationTypeEnum.Stripe:
+                case ResampleInterpolationTypeEnum.Line:
+                case ResampleInterpolationTypeEnum.CubicEquidistant:
+                case ResampleInterpolationTypeEnum.CubicAbruptSlope:
+                case ResampleInterpolationTypeEnum.CubicSmoothSlope:
+                case ResampleInterpolationTypeEnum.Hermite:
+                    return Get_RandomCalculator_StripeInterpolation(operatorID);
+
+                default:
+                    throw new ValueNotSupportedException(resampleInterpolationType);
+            }
+        }
+
+        private RandomCalculator_StripeInterpolation Get_RandomCalculator_StripeInterpolation(int operatorID)
+        {
+            if (operatorID == 0) throw new ZeroException(() => operatorID);
+
+            lock (_operatorID_To_RandomCalculator_StripeInterpolation_Dictionary_Lock)
             {
                 RandomCalculator_StripeInterpolation randomCalculator;
-                if (!_operator_To_RandomCalculator_StripeInterpolation_Dictionary.TryGetValue(op, out randomCalculator))
+                if (!_operatorID_To_RandomCalculator_StripeInterpolation_Dictionary.TryGetValue(operatorID, out randomCalculator))
                 {
                     randomCalculator = new RandomCalculator_StripeInterpolation();
-                    _operator_To_RandomCalculator_StripeInterpolation_Dictionary.Add(op, randomCalculator);
+                    _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary.Add(operatorID, randomCalculator);
                 }
 
                 return randomCalculator;
             }
         }
 
-        internal RandomCalculator_BlockInterpolation Get_RandomCalculator_BlockInterpolation(Operator op)
+        private RandomCalculator_BlockInterpolation Get_RandomCalculator_BlockInterpolation(int operatorID)
         {
-            lock (_operator_To_RandomCalculator_BlockInterpolation_Dictionary_Lock)
+            if (operatorID == 0) throw new ZeroException(() => operatorID);
+
+            lock (_operatorID_To_RandomCalculator_BlockInterpolation_Dictionary_Lock)
             {
                 RandomCalculator_BlockInterpolation randomCalculator;
-                if (!_operator_To_RandomCalculator_BlockInterpolation_Dictionary.TryGetValue(op, out randomCalculator))
+                if (!_operatorID_To_RandomCalculator_BlockInterpolation_Dictionary.TryGetValue(operatorID, out randomCalculator))
                 {
                     randomCalculator = new RandomCalculator_BlockInterpolation();
-                    _operator_To_RandomCalculator_BlockInterpolation_Dictionary.Add(op, randomCalculator);
+                    _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary.Add(operatorID, randomCalculator);
                 }
                 return randomCalculator;
             }

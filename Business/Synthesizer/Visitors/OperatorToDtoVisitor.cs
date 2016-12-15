@@ -476,7 +476,11 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitNoise(op);
 
-            var dto = new Noise_OperatorDto();
+            var dto = new Noise_OperatorDto
+            {
+                OperatorID = op.ID
+            };
+
             SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
@@ -623,7 +627,8 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new Random_OperatorDto
             {
                 RateOperatorDto = _stack.Pop(),
-                ResampleInterpolationTypeEnum = wrapper.InterpolationType
+                ResampleInterpolationTypeEnum = wrapper.InterpolationType,
+                OperatorID = op.ID
             };
 
             SetDimensionProperties(op, dto);

@@ -2578,7 +2578,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             base.VisitNoise(op);
 
-            NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(op);
+            NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(op.ID);
 
             var calculator = new Noise_OperatorCalculator(noiseCalculator, dimensionStack);
             _stack.Push(calculator);
@@ -3156,24 +3156,13 @@ namespace JJ.Business.Synthesizer.Visitors
                 var wrapper = new Random_OperatorWrapper(op);
                 ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.InterpolationType;
 
+                RandomCalculatorBase randomCalculator = _calculatorCache.GetRandomCalculator(op);
+
                 switch (resampleInterpolationTypeEnum)
                 {
                     case ResampleInterpolationTypeEnum.Block:
-                        {
-                            RandomCalculator_BlockInterpolation randomCalculator = _calculatorCache.Get_RandomCalculator_BlockInterpolation(op);
-
-                            calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
-                                randomCalculator,
-                                rateCalculator,
-                                dimensionStack);
-
-                            break;
-                        }
-
                     case ResampleInterpolationTypeEnum.Stripe:
                         {
-                            RandomCalculator_StripeInterpolation randomCalculator = _calculatorCache.Get_RandomCalculator_StripeInterpolation(op);
-
                             calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
                                 randomCalculator,
                                 rateCalculator,
@@ -3188,8 +3177,6 @@ namespace JJ.Business.Synthesizer.Visitors
                     case ResampleInterpolationTypeEnum.CubicSmoothSlope:
                     case ResampleInterpolationTypeEnum.Hermite:
                         {
-                            RandomCalculator_StripeInterpolation randomCalculator = _calculatorCache.Get_RandomCalculator_StripeInterpolation(op);
-
                             calculator = new Random_OperatorCalculator_OtherInterpolationTypes(
                                 randomCalculator,
                                 rateCalculator,

@@ -150,6 +150,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             dest.RateOperatorDto = source.RateOperatorDto;
             dest.ResampleInterpolationTypeEnum = source.ResampleInterpolationTypeEnum;
+            dest.OperatorID = source.OperatorID;
 
             Clone_DimensionProperties(source, dest);
         }

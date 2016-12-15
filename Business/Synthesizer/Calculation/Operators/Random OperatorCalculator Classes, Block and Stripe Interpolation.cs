@@ -4,7 +4,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    // Right now there aren't any other variations than VarFrequency.
+    /// <summary> Right now there aren't any other variations than VarFrequency. </summary>
     internal class Random_OperatorCalculator_BlockAndStripe_VarFrequency : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly RandomCalculatorBase _randomCalculator;
