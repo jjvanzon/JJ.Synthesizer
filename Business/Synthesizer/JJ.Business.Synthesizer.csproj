@@ -91,13 +91,13 @@
     <Compile Include="Calculation\Curves\CurveCalculator_MinXZero.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinX.cs" />
     <Compile Include="Calculation\DimensionStackCollection.cs" />
-    <Compile Include="Calculation\Operators\Add OperatorCalculator Classes Only Vars.cs">
-      <DependentUpon>Add OperatorCalculator Classes Only Vars.tt</DependentUpon>
+    <Compile Include="Calculation\Operators\Add OperatorCalculator Classes Vars.cs">
+      <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\Add OperatorCalculator Classes WithConst.cs">
-      <DependentUpon>Add OperatorCalculator Classes WithConst.tt</DependentUpon>
+    <Compile Include="Calculation\Operators\Add OperatorCalculator Classes Vars_1Const.cs">
+      <DependentUpon>Add OperatorCalculator Classes Vars_1Const.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -123,20 +123,20 @@
     <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
-    <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes WithConst.cs">
-      <DependentUpon>Multiply OperatorCalculator Classes WithConst.tt</DependentUpon>
+    <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes Vars_1Const.cs">
+      <DependentUpon>Multiply OperatorCalculator Classes Vars_1Const.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes OnlyVars.cs">
-      <DependentUpon>Multiply OperatorCalculator Classes OnlyVars.tt</DependentUpon>
+    <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes Vars.cs">
+      <DependentUpon>Multiply OperatorCalculator Classes Vars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Operators\Add_OperatorCalculator_WithConst_WithOperandArray.cs" />
-    <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_WithOperandArray_WithConst.cs" />
-    <Compile Include="Calculation\Operators\Add_OperatorCalculator_WithOperandArray.cs" />
-    <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_WithOperandArray.cs" />
+    <Compile Include="Calculation\Operators\Add_OperatorCalculator_VarArray_1Const.cs" />
+    <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_VarArray_1Const.cs" />
+    <Compile Include="Calculation\Operators\Add_OperatorCalculator_VarArray.cs" />
+    <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_VarArray.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
@@ -379,8 +379,8 @@
     <Compile Include="EntityWrappers\ClosestOverDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SortOverInlets_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SortOverDimension_OperatorWrapper.cs" />
-    <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.cs">
-      <DependentUpon>OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.tt</DependentUpon>
+    <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculator_Vars.cs">
+      <DependentUpon>OperatorCalculatorFactory.CreateAddCalculator_Vars.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -934,34 +934,34 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Calculation\Operators\Multiply OperatorCalculator Classes OnlyVars.tt">
+    <None Include="Calculation\Operators\Multiply OperatorCalculator Classes Vars.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Multiply OperatorCalculator Classes OnlyVars.cs</LastGenOutput>
+      <LastGenOutput>Multiply OperatorCalculator Classes Vars.cs</LastGenOutput>
     </None>
     <None Include="EntityWrappers\OperatorWrapper Inheritance.cd" />
     <None Include="Helpers\OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.cs</LastGenOutput>
     </None>
-    <None Include="Calculation\Operators\Multiply OperatorCalculator Classes WithConst.tt">
+    <None Include="Calculation\Operators\Multiply OperatorCalculator Classes Vars_1Const.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Multiply OperatorCalculator Classes WithConst.cs</LastGenOutput>
+      <LastGenOutput>Multiply OperatorCalculator Classes Vars_1Const.cs</LastGenOutput>
     </None>
     <None Include="Helpers\OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst.cs</LastGenOutput>
     </None>
-    <None Include="Calculation\Operators\Add OperatorCalculator Classes WithConst.tt">
+    <None Include="Calculation\Operators\Add OperatorCalculator Classes Vars_1Const.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Add OperatorCalculator Classes WithConst.cs</LastGenOutput>
+      <LastGenOutput>Add OperatorCalculator Classes Vars_1Const.cs</LastGenOutput>
     </None>
-    <None Include="Calculation\Operators\Add OperatorCalculator Classes Only Vars.tt">
+    <None Include="Calculation\Operators\Add OperatorCalculator Classes Vars.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Add OperatorCalculator Classes Only Vars.cs</LastGenOutput>
+      <LastGenOutput>Add OperatorCalculator Classes Vars.cs</LastGenOutput>
     </None>
-    <None Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.tt">
+    <None Include="Helpers\OperatorCalculatorFactory.CreateAddCalculator_Vars.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculatorOnlyVars.cs</LastGenOutput>
+      <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculator_Vars.cs</LastGenOutput>
     </None>
     <None Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorWithConst.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

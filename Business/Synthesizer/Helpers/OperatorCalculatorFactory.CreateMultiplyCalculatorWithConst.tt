@@ -1,17 +1,11 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 
 <# int minVarOperands = 1; #>
 <# int maxVarOperands = 15; #>
 
-using JJ.Data.Synthesizer;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Calculation.Operators;
 
@@ -19,7 +13,7 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     internal static partial class OperatorCalculatorFactory
     {
-	    public static OperatorCalculatorBase CreateMultiplyCalculatorWithConst(double constValue, IList<OperatorCalculatorBase> varOperandCalculators)
+	    public static OperatorCalculatorBase CreateMultiplyCalculator_Vars_1Const(IList<OperatorCalculatorBase> varOperandCalculators, double constValue)
         {
 			if (varOperandCalculators.Count < <#= minVarOperands #>) throw new LessThanException(() => varOperandCalculators.Count, <#= minVarOperands #>);
 
@@ -30,25 +24,23 @@ namespace JJ.Business.Synthesizer.Helpers
 	{
 #>
                 case <#= i #>:
-                    return new Multiply_OperatorCalculator_1Const_<#= i #>Var
+                    return new Multiply_OperatorCalculator_<#= i #>Vars_1Const
 					(
-						constValue,
 <#
 		for (int j = 0; j < i; j++)
 		{
 #>
-						varOperandCalculators[<#=j#>]<#
-						if (j != i - 1) Write(",");#>
-
+						varOperandCalculators[<#=j#>],
 <#
 		}
 #>
+						constValue
 					);
 <#
 	}
 #>
                 default:
-                    return new Multiply_OperatorCalculator_WithOperandArray_WithConst(constValue, varOperandCalculators);
+                    return new Multiply_OperatorCalculator_VarArray_1Const(varOperandCalculators, constValue);
             }
         }
 	}

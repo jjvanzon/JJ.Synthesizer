@@ -8,18 +8,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class MinOverInlets_OperatorCalculator_Vars_1Const : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _constValue;
         private readonly OperatorCalculatorBase[] _varOperandCalculators;
         private readonly double _varOperandCalculatorsCount;
+        private readonly double _constValue;
 
-        public MinOverInlets_OperatorCalculator_Vars_1Const(double constValue, IList<OperatorCalculatorBase> operandCalculators)
+        public MinOverInlets_OperatorCalculator_Vars_1Const(IList<OperatorCalculatorBase> operandCalculators, double constValue)
             : base(operandCalculators)
         {
             if (operandCalculators == null) throw new NullException(() => operandCalculators);
 
-            _constValue = constValue;
             _varOperandCalculators = operandCalculators.ToArray();
             _varOperandCalculatorsCount = _varOperandCalculators.Length;
+            _constValue = constValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -79,16 +79,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class MinOverInlets_OperatorCalculator_1Var_1Const : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _constValue;
         private readonly OperatorCalculatorBase _varCalculator;
+        private readonly double _constValue;
 
-        public MinOverInlets_OperatorCalculator_1Var_1Const(double constValue, OperatorCalculatorBase varCalculator)
+        public MinOverInlets_OperatorCalculator_1Var_1Const(OperatorCalculatorBase varCalculator, double constValue)
             : base(new OperatorCalculatorBase[] { varCalculator })
         {
             if (varCalculator == null) throw new NullException(() => varCalculator);
 
-            _constValue = constValue;
             _varCalculator = varCalculator;
+            _constValue = constValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

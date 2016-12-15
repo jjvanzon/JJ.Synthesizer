@@ -6,21 +6,20 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Multiply_OperatorCalculator_WithOperandArray_WithConst : OperatorCalculatorBase_WithChildCalculators
+    internal class Multiply_OperatorCalculator_VarArray_1Const : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly double _constValue;
         private readonly OperatorCalculatorBase[] _varOperandCalculators;
         private readonly int _varOperandCalculatorsCount;
+        private readonly double _constValue;
 
-        public Multiply_OperatorCalculator_WithOperandArray_WithConst(double constValue, IList<OperatorCalculatorBase> varOperandCalculators)
+        public Multiply_OperatorCalculator_VarArray_1Const(IList<OperatorCalculatorBase> varOperandCalculators, double constValue)
             : base(varOperandCalculators)
         {
             if (varOperandCalculators == null) throw new NullException(() => varOperandCalculators);
 
-            _constValue = constValue;
-
             _varOperandCalculators = varOperandCalculators.ToArray();
             _varOperandCalculatorsCount = _varOperandCalculators.Length;
+            _constValue = constValue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

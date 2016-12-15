@@ -1,9 +1,6 @@
 ﻿
 
-using JJ.Data.Synthesizer;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Calculation.Operators;
 
@@ -11,7 +8,7 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     internal static partial class OperatorCalculatorFactory
     {
-	    public static OperatorCalculatorBase CreateAddCalculatorOnlyVars(IList<OperatorCalculatorBase> operandCalculators)
+	    public static OperatorCalculatorBase CreateAddCalculator_Vars(IList<OperatorCalculatorBase> operandCalculators)
         {
 			if (operandCalculators.Count < 2) throw new LessThanException(() => operandCalculators.Count, 2);
 
@@ -669,7 +666,7 @@ namespace JJ.Business.Synthesizer.Helpers
 						operandCalculators[31]
 					);
                 default:
-                    return new Add_OperatorCalculator_WithOperandArray(operandCalculators.ToArray());
+                    return new Add_OperatorCalculator_VarArray(operandCalculators);
             }
         }
 	}

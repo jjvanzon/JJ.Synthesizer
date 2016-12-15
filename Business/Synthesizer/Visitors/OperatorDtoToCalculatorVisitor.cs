@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
-            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculatorWithConst(dto.ConstValue, dto.Vars.Select(x => _stack.Pop()).ToArray());
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue);
             _stack.Push(calculator);
 
             return dto;
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
 
-            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculatorOnlyVars(dto.Vars.Select(x => _stack.Pop()).ToArray());
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars(dto.Vars.Select(x => _stack.Pop()).ToArray());
             _stack.Push(calculator);
 
             return dto;
@@ -1096,12 +1096,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MaxOverInlets_OperatorDto_1Var_1Const(dto);
 
-            // TODO: Parameters of the constructor are the opposite order of how it is called in the class name. 
-            // There are more calculators with similar Var/Consts variations. What Figure out the preferred constructor argument order,
-            // and the preferred calculator class naming, and go for a consistent solution.
-
-            //var calculator = new MaxOverInlets_OperatorCalculator_1Var_1Const(dto...
-            throw new NotImplementedException();
+            var calculator = new MaxOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), dto.B);
+            _stack.Push(calculator);
 
             return dto;
         }
@@ -1120,12 +1116,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MaxOverInlets_OperatorDto_Vars_1Const(dto);
 
-            // TODO: Parameters of the constructor are the opposite order of how it is called in the class name. 
-            // There are more calculators with similar Var/Consts variations. What Figure out the preferred constructor argument order,
-            // and the preferred calculator class naming, and go for a consistent solution.
-
-            //var calculator = new MaxOverInlets_OperatorCalculator_Vars_1Const(
-            throw new NotImplementedException();
+            var calculator = new MaxOverInlets_OperatorCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue);
+            _stack.Push(calculator);
 
             return dto;
         }
@@ -1180,12 +1172,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MinOverInlets_OperatorDto_1Var_1Const(dto);
 
-            // TODO: Parameters of the constructor are the opposite order of how it is called in the class name. 
-            // There are more calculators with similar Var/Consts variations. What Figure out the preferred constructor argument order,
-            // and the preferred calculator class naming, and go for a consistent solution.
-
-            //var calculator = new MinOverInlets_OperatorCalculator_1Var_1Const(
-            throw new NotImplementedException();
+            var calculator = new MinOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), dto.B);
+            _stack.Push(calculator);
 
             return dto;
         }
@@ -1204,12 +1192,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MinOverInlets_OperatorDto_Vars_1Const(dto);
 
-            // TODO: Parameters of the constructor are the opposite order of how it is called in the class name. 
-            // There are more calculators with similar Var/Consts variations. What Figure out the preferred constructor argument order,
-            // and the preferred calculator class naming, and go for a consistent solution.
-
-            //var calculator = new MinOverInlets_OperatorCalculator_Vars_1Const(
-            throw new NotImplementedException();
+            var calculator = new MinOverInlets_OperatorCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue);
+            _stack.Push(calculator);
 
             return dto;
         }
@@ -1298,7 +1282,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Multiply_OperatorDto_Vars_1Const(dto);
 
-            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst(dto.ConstValue, dto.Vars.Select(x => _stack.Pop()).ToArray());
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateMultiplyCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue);
             _stack.Push(calculator);
 
             return dto;
@@ -1308,7 +1292,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Multiply_OperatorDto_Vars_NoConsts(dto);
 
-            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars(dto.Vars.Select(x => _stack.Pop()).ToArray());
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateMultiplyCalculator_Vars(dto.Vars.Select(x => _stack.Pop()).ToArray());
             _stack.Push(calculator);
 
             return dto;

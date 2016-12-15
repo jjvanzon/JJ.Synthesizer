@@ -1,30 +1,22 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
 
 <#@ output extension=".cs" #>
 
-<# int minVarOperands = 1; #>
-<# int maxVarOperands = 31; #>
+<# int minOperands = 2; #>
+<# int maxOperands = 16; #>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 
 <# 
-	for (int i = minVarOperands; i <= maxVarOperands; i++)
+	for (int i = minOperands; i <= maxOperands; i++)
 	{
 #>
-		internal class Add_OperatorCalculator_1Const_<#= i #>Var : OperatorCalculatorBase_WithChildCalculators
+		internal class Multiply_OperatorCalculator_<#= i #>Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-			private readonly double _constValue;
 <# 
 			for (int j = 1; j <= i; j++)
 			{
@@ -34,8 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 #>
 			
-			public Add_OperatorCalculator_1Const_<#= i #>Var(
-				double constValue,
+			public Multiply_OperatorCalculator_<#= i #>Vars(
 <#
 				for (int j = 1; j <= i; j++)
 				{
@@ -52,7 +43,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					}
 				}
 #>
-			: base(new OperatorCalculatorBase[] { 
+			: base
+			(new OperatorCalculatorBase[] { 
 <#
 				for (int j = 1; j <= i; j++)
 				{
@@ -67,7 +59,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #>
 			})
 			{
-				_constValue = constValue;
 <#
 				for (int j = 1; j <= i; j++)
 				{
@@ -82,7 +73,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue +
+				return 
 <#
 					for (int j = 1; j <= i; j++)
 					{
@@ -91,7 +82,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 <#
 						if (j != i)
 						{
-							Write("+");
+							Write("*");
 						}
 						else
 						{

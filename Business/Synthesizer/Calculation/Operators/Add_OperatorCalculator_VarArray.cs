@@ -6,13 +6,13 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Add_OperatorCalculator_WithOperandArray : OperatorCalculatorBase_WithChildCalculators
+    internal class Add_OperatorCalculator_VarArray : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _firstOperandCalculator;
         private readonly OperatorCalculatorBase[] _remainingOperandCalculators;
         private readonly int _remainingOperandCalculatorsCount;
 
-        public Add_OperatorCalculator_WithOperandArray(IList<OperatorCalculatorBase> operandCalculators)
+        public Add_OperatorCalculator_VarArray(IList<OperatorCalculatorBase> operandCalculators)
             : base(operandCalculators)
         {
             if (operandCalculators == null) throw new NullException(() => operandCalculators);

@@ -218,14 +218,14 @@ namespace JJ.Business.Synthesizer.Visitors
                                                                                       .SingleOrDefault();
                     if (constOperandCalculator == null)
                     {
-                        calculator = OperatorCalculatorFactory.CreateAddCalculatorOnlyVars(operandCalculators);
+                        calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars(operandCalculators);
                     }
                     else
                     {
                         IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
                         double constValue = constOperandCalculator.Calculate();
 
-                        calculator = OperatorCalculatorFactory.CreateAddCalculatorWithConst(constValue, varOperandCalculators);
+                        calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(varOperandCalculators, constValue);
                     }
                     break;
             }
@@ -2078,7 +2078,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     {
                         double constValue = constOperandCalculator.Calculate();
                         OperatorCalculatorBase varCalculator = operandCalculators.Except(constOperandCalculator).Single();
-                        calculator = new MaxOverInlets_OperatorCalculator_1Var_1Const(constValue, varCalculator);
+                        calculator = new MaxOverInlets_OperatorCalculator_1Var_1Const(varCalculator, constValue);
                     }
                     break;
 
@@ -2093,7 +2093,7 @@ namespace JJ.Business.Synthesizer.Visitors
                         IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
                         double constValue = constOperandCalculator.Calculate();
 
-                        calculator =  new MaxOverInlets_OperatorCalculator_Vars_1Const(constValue, varOperandCalculators);
+                        calculator =  new MaxOverInlets_OperatorCalculator_Vars_1Const(varOperandCalculators, constValue);
                     }
                     break;
             }
@@ -2254,7 +2254,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     {
                         double constValue = constOperandCalculator.Calculate();
                         OperatorCalculatorBase varCalculator = operandCalculators.Except(constOperandCalculator).Single();
-                        calculator = new MinOverInlets_OperatorCalculator_1Var_1Const(constValue, varCalculator);
+                        calculator = new MinOverInlets_OperatorCalculator_1Var_1Const(varCalculator, constValue);
                     }
                     break;
 
@@ -2268,7 +2268,7 @@ namespace JJ.Business.Synthesizer.Visitors
                         IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculator).ToArray();
                         double constValue = constOperandCalculator.Calculate();
 
-                        calculator = new MinOverInlets_OperatorCalculator_Vars_1Const(constValue, varOperandCalculators);
+                        calculator = new MinOverInlets_OperatorCalculator_Vars_1Const(varOperandCalculators, constValue);
                     }
 
                     break;
@@ -2448,11 +2448,11 @@ namespace JJ.Business.Synthesizer.Visitors
                     default:
                         if (constOperandCalculator == null)
                         {
-                            calculator = OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars(operandCalculators);
+                            calculator = OperatorCalculatorFactory.CreateMultiplyCalculator_Vars(operandCalculators);
                         }
                         else
                         {
-                            calculator = OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst(constValue.Value, varOperandCalculators);
+                            calculator = OperatorCalculatorFactory.CreateMultiplyCalculator_Vars_1Const(varOperandCalculators, constValue.Value);
                         }
                         break;
                 }
@@ -2510,11 +2510,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aIsConst && !bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_OperatorCalculator_1Const_1Var(a, bCalculator);
+                calculator = new Multiply_OperatorCalculator_1Vars_1Const(bCalculator, a);
             }
             else if (!aIsConst && bIsConst && originIsConstZero)
             {
-                calculator = new Multiply_OperatorCalculator_1Const_1Var(b, aCalculator);
+                calculator = new Multiply_OperatorCalculator_1Vars_1Const(aCalculator, b);
             }
             else if (!aIsConst && !bIsConst && originIsConstZero)
             {

@@ -1,18 +1,11 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
 
 <#@ output extension=".cs" #>
 
 <# int minVarOperands = 1; #>
-<# int maxVarOperands = 15; #>
+<# int maxVarOperands = 31; #>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -22,9 +15,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	for (int i = minVarOperands; i <= maxVarOperands; i++)
 	{
 #>
-		internal class Multiply_OperatorCalculator_1Const_<#= i #>Var : OperatorCalculatorBase_WithChildCalculators
+		internal class Add_OperatorCalculator_<#= i #>Vars_1Const : OperatorCalculatorBase_WithChildCalculators
 		{
-			private readonly double _constValue;
 <# 
 			for (int j = 1; j <= i; j++)
 			{
@@ -33,25 +25,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 <# 
 			}
 #>
+			private readonly double _constValue;
 			
-			public Multiply_OperatorCalculator_1Const_<#= i #>Var(
-				double constValue,
+			public Add_OperatorCalculator_<#= i #>Vars_1Const(
 <#
 				for (int j = 1; j <= i; j++)
 				{
 #>
-					OperatorCalculatorBase operandCalculator<#= j #>
+					OperatorCalculatorBase operandCalculator<#= j #>,
 <#
-					if (j != i)
-					{
-						Write(",");
-					}
-					else
-					{
-						Write(")");
-					}
 				}
 #>
+				double constValue)
 			: base(new OperatorCalculatorBase[] { 
 <#
 				for (int j = 1; j <= i; j++)
@@ -67,7 +52,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #>
 			})
 			{
-				_constValue = constValue;
 <#
 				for (int j = 1; j <= i; j++)
 				{
@@ -77,12 +61,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 <#
 				}
 #>
+				_constValue = constValue;
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
-				return _constValue *
+				return _constValue +
 <#
 					for (int j = 1; j <= i; j++)
 					{
@@ -91,7 +76,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 <#
 						if (j != i)
 						{
-							Write("*");
+							Write("+");
 						}
 						else
 						{

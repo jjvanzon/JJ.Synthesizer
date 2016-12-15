@@ -1,16 +1,11 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 
 <# int minVarOperands = 1; #>
-<# int maxVarOperands = 7; #>
+<# int maxVarOperands = 31; #>
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithInheritance;
 
@@ -38,7 +33,8 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers.WithInheritance
 						varOperandCalculators[<#=j#>],
 <#
 		}
-#>						constValue
+#>						
+						constValue
 					);
 <#
 	}

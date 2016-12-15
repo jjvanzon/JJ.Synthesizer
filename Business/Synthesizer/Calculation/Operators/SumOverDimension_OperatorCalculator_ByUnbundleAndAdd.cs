@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 unbundleCalculators.Add(unbundleCalculator);
             }
 
-            _addCalculator = OperatorCalculatorFactory.CreateAddCalculatorOnlyVars(unbundleCalculators);
+            _addCalculator = OperatorCalculatorFactory.CreateAddCalculator_Vars(unbundleCalculators);
         }
 
         public override double Calculate()
