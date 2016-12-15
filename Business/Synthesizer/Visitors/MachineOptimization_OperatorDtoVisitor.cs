@@ -5,7 +5,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class MachineOptimization_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterMathSimplification
+    internal class MachineOptimization_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
         public OperatorDtoBase Execute(OperatorDtoBase dto)
         {

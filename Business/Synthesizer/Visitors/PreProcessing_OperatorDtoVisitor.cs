@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             dto = new ClassSpecialization_OperatorDtoVisitor(_targetChannelCount).Execute(dto);
             dto = new MathSimplification_OperatorDtoVisitor().Execute(dto);
+            dto = new ProgrammerLaziness_OperatorDtoVisitor().Execute(dto);
             dto = new MachineOptimization_OperatorDtoVisitor().Execute(dto);
 
             return dto;

@@ -825,6 +825,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             var dto = new SortOverInlets_OperatorDto();
             Visit_OperatorDtoBase_Vars(op, dto);
+            SetDimensionProperties(op, dto);
         }
         
         protected override void VisitSortOverDimension(Operator op)

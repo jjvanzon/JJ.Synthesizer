@@ -14,7 +14,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorDtoToCalculatorVisitor : OperatorDtoVisitorBase_AfterMathSimplification
+    internal class OperatorDtoToCalculatorVisitor : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
         private readonly int _targetChannelCount;
         private readonly double _targetSamplingRate;
@@ -2274,12 +2274,10 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_SortOverInlets_OperatorDto(dto);
 
-            // Why does SortOverInlets need a dimension stack or why does the DTO not specify a dimension?
-            throw new NotImplementedException();
-            //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            //var calculator = new SortOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack);
-            //_stack.Push(calculator);
+            var calculator = new SortOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack);
+            _stack.Push(calculator);
 
             return dto;
         }
@@ -2574,17 +2572,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var calculator = new SumFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
             _stack.Push(calculator);
-
-            return dto;
-        }
-
-        protected override OperatorDtoBase Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(SumFollower_OperatorDto_ConstSignal_VarSampleCount dto)
-        {
-            base.Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(dto);
-
-            // TODO: Figure out later. Programmer laziness visitor?
-            //var calculator = new SumFollower_OperatorCalculator(
-            throw new NotImplementedException();
 
             return dto;
         }
