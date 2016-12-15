@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Visitors
         private Stack<OperatorCalculatorBase> _stack;
         private DimensionStackCollection _dimensionStackCollection;
 
-        private Dictionary<Operator, double> _operator_NoiseOffsetInSeconds_Dictionary;
+        private Dictionary<Operator, NoiseCalculator> _operator_To_NoiseCalculator_Dictionary;
         private Dictionary<Operator, int> _operator_RandomOffsetInSeconds_Dictionary;
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack = new Stack<OperatorCalculatorBase>();
             _dimensionStackCollection = new DimensionStackCollection();
-            _operator_NoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
+            _operator_To_NoiseCalculator_Dictionary = new Dictionary<Operator, NoiseCalculator>();
             _operator_RandomOffsetInSeconds_Dictionary = new Dictionary<Operator, int>();
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
@@ -2582,14 +2582,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             base.VisitNoise(op);
 
-            double offset;
-            if (!_operator_NoiseOffsetInSeconds_Dictionary.TryGetValue(op, out offset))
-            {
-                offset = NoiseCalculator.GetRandomOffset();
-                _operator_NoiseOffsetInSeconds_Dictionary.Add(op, offset);
-            }
+            NoiseCalculator noiseCalculator = GetNoiseCalculator(op);
 
-            var calculator = new Noise_OperatorCalculator(offset, dimensionStack);
+            var calculator = new Noise_OperatorCalculator(noiseCalculator, dimensionStack);
             _stack.Push(calculator);
         }
 
@@ -3153,9 +3148,7 @@ namespace JJ.Business.Synthesizer.Visitors
             double rate = rateCalculator.Calculate();
 
             bool rateIsConst = rateCalculator is Number_OperatorCalculator;
-
             bool rateIsConstZero = rateIsConst && rate == 0;
-
             bool rateIsConstSpecialValue = rateIsConst && DoubleHelper.IsSpecialValue(rate);
 
             if (rateIsConstSpecialValue)
@@ -4987,6 +4980,18 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Helpers
 
+        private NoiseCalculator GetNoiseCalculator(Operator op)
+        {
+            NoiseCalculator noiseCalculator;
+            if (!_operator_To_NoiseCalculator_Dictionary.TryGetValue(op, out noiseCalculator))
+            {
+                noiseCalculator = new NoiseCalculator();
+                _operator_To_NoiseCalculator_Dictionary.Add(op, noiseCalculator);
+            }
+
+            return noiseCalculator;
+        }
+
         private bool IsTopLevelPatchInlet(Operator op)
         {
             if (op.GetOperatorTypeEnum() != OperatorTypeEnum.PatchInlet)
@@ -5019,6 +5024,5 @@ namespace JJ.Business.Synthesizer.Visitors
                                                                                                 .ToList();
             return truncatedOperandCalculatorList;
         }
-
     }
 }

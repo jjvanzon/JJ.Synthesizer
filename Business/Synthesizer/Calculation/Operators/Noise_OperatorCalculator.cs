@@ -1,19 +1,21 @@
 ﻿using System.Runtime.CompilerServices;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Noise_OperatorCalculator : OperatorCalculatorBase
     {
-        /// <summary> Each operator should start at a different time offset in the pre-generated noise, to prevent artifacts. </summary>
-        private readonly double _offset;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Noise_OperatorCalculator(double offset, DimensionStack dimensionStack)
+        private readonly NoiseCalculator _noiseCalculator;
+
+        public Noise_OperatorCalculator(NoiseCalculator noiseCalculator, DimensionStack dimensionStack)
         {
+            if (noiseCalculator == null) throw new NullException(() => noiseCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _offset = offset;
+            _noiseCalculator = noiseCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
@@ -30,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
 
-            double value = NoiseCalculator.GetValue(position + _offset);
+            double value = _noiseCalculator.GetValue(position);
 
             return value;
         }

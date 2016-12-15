@@ -1314,6 +1314,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
             // TODO: Need offset.
+            // I think I need to save this for 'special visitation'.
+            // Noise_OperatorDto might need the property:
+            // public double OffsetInSeconds { get; set; }
+
             //var calculator = new Noise_OperatorCalculator(..., dimensionStack);
             throw new NotImplementedException();
 
@@ -1609,7 +1613,9 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override OperatorDtoBase Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
         {
             base.Visit_Random_OperatorDto_Block(dto);
+
             // TODO: Requires special instantiation...
+            //var calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
             throw new NotImplementedException();
             return dto;
         }
@@ -1696,7 +1702,9 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_RangeOverOutlets_OperatorDto_ConstFrom_ConstStep(dto);
 
+            // TODO: Requires special visitation.
             // TODO: Has no calculator. Why not?
+            // Because each outlet becomes a constant.
             //var calculator = new RangeOverOutlets_OperatorCalculator_ConstFrom_ConstStep
             throw new NotImplementedException();
 
@@ -2595,8 +2603,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(dto);
 
-            // TODO: Figure out later.
-            //var calculator = new SumFollower_OperatorCalculator_ConstSignal_VarSampleCount
+            // TODO: Figure out later. Programmer laziness visitor?
+            //var calculator = new SumFollower_OperatorCalculator(
             throw new NotImplementedException();
 
             return dto;

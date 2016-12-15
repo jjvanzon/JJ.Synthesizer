@@ -10,32 +10,34 @@ using JJ.Framework.Exceptions;
 namespace JJ.Business.Synthesizer.Calculation
 {
     /// <summary>
-    /// White noise is generated not on the fly, but by a cached 10 seconds of noise,
-    /// which is faster and also necessary to be able to filter out frequencies using resampling and interpolation.
+    /// White noise is not generated on the fly, but by a cached 10 seconds of noise,
+    /// which is faster and also necessary for resampling, interpolation, going back in time and other processing.
     /// 10 seconds should be enough to not notice a repeating pattern.
+    /// 
+    /// Each instance shares the same pre-sampled noise data, but has a different offset into it,
+    /// so that there is a different virtual random set for each instance of NoiseCalculator.
     /// </summary>
-    internal static class NoiseCalculator
+    internal class NoiseCalculator
     {
+        public NoiseCalculator()
+        {
+            Reseed();
+        }
+
         /// <summary>
         /// Prevent artifacts by making sure the random offsets are not too close together,
         /// But also should not too far apart, or the chance that we get the same offset becomes bigger.
         /// </summary>
         private const double OFFSET_SNAP_IN_SECONDS = 0.1;
-
         private static int _offsetSnapCount = GetOffsetSnapCount();
+        private double _offset;
 
         /// <summary>
         /// Block interpolation should be enough,
-        /// because in practice the time speed should so
-        /// that each sample is a random number.
+        /// because in practice the time speed should so that each sample is a random number.
         /// </summary>
         private static ArrayCalculator_RotatePosition_Block _arrayCalculator = CreateArrayCalculator();
 
-        /// <summary>
-        /// White noise is generated not on the fly, but by a cached 10 seconds of noise,
-        /// which is faster and also necessary to be able to filter out frequencies using resampling and interpolation.
-        /// 10 seconds should be enough to not notice a repeating pattern.
-        /// </summary>
         private static ArrayCalculator_RotatePosition_Block CreateArrayCalculator()
         {
             int samplingRate = GetSamplingRate();
@@ -62,27 +64,28 @@ namespace JJ.Business.Synthesizer.Calculation
             return arrayCalculator;
         }
 
-        /// <summary>
-        /// Each operator should start at a different time offset in the pre-generated noise, to prevent artifacts.
-        /// </summary>
-        public static double GetRandomOffset()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double GetValue(double time)
+        {
+            double transformedTime = time + _offset;
+
+            return _arrayCalculator.CalculateValue(transformedTime);
+        }
+
+        public void Reseed()
+        {
+            _offset = GetRandomOffset();
+        }
+
+        // Helpers
+
+        /// <summary> Each operator starts at a different time offset in the pre-generated noise, to prevent artifacts. </summary>
+        private static double GetRandomOffset()
         {
             int offsetSnapPosition = Randomizer.GetInt32(_offsetSnapCount - 1);
             double offset = offsetSnapPosition * OFFSET_SNAP_IN_SECONDS;
             return offset;
         }
-
-        /// <summary>
-        /// For each white noise operator it is advised to add an offset to the time.
-        /// You can get a random offset using the GetRandomOffset() method.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double GetValue(double time)
-        {
-            return _arrayCalculator.CalculateValue(time);
-        }
-
-        // Helpers
 
         private static int GetSamplingRate()
         {
@@ -101,7 +104,6 @@ namespace JJ.Business.Synthesizer.Calculation
         private static int GetOffsetSnapCount()
         {
             double cachedSeconds = GetCachedSeconds();
-
             return (int)(cachedSeconds / OFFSET_SNAP_IN_SECONDS);
         }
     }
