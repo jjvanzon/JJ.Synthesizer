@@ -2385,13 +2385,10 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(dto);
 
-            // TODO: DTO should specify Dimension, even though in practice it can only be the time dimension.
-            throw new NotImplementedException();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            //var calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(_stack.Pop(), dto.Factor, dimensionStack);
-            //_stack.Push(calculator);
+            var calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(_stack.Pop(), dto.Factor, dimensionStack);
+            _stack.Push(calculator);
 
             return dto;
         }
@@ -2436,13 +2433,10 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(dto);
 
-            // TODO: DTO should specify Dimension, even though in practice it can only be the time dimension.
-            throw new NotImplementedException();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            //var calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
-            //_stack.Push(calculator);
+            var calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
 
             return dto;
         }
@@ -2487,13 +2481,10 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(dto);
 
-            // TODO: DTO should specify Dimension, even though in practice it can only be the time dimension.
-            throw new NotImplementedException();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            //var calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(_stack.Pop(), dto.Factor, dimensionStack);
-            //_stack.Push(calculator);
+            var calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(_stack.Pop(), dto.Factor, dimensionStack);
+            _stack.Push(calculator);
 
             return dto;
         }
@@ -2538,13 +2529,10 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(dto);
 
-            // TODO: DTO should specify Dimension, even though in practice it can only be the time dimension.
-            throw new NotImplementedException();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            //var calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
-            //_stack.Push(calculator);
+            var calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
 
             return dto;
         }

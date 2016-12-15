@@ -2142,23 +2142,25 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FactorOperatorDto);
             MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
+            OperatorDtoBase_WithDimension dto2;
+
             if (dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar)
                 {
-                    return new Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto };
+                    dto2 = new Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst)
                 {
-                    return new Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
+                    dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar)
                 {
-                    return new Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto };
+                    dto2 = new Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst)
                 {
-                    return new Squash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue };
+                    dto2 = new Squash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue };
                 }
                 else
                 {
@@ -2167,8 +2169,6 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                OperatorDtoBase_WithDimension dto2;
-
                 if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
                 {
                     dto2 = new Squash_OperatorDto_VarSignal_VarFactor_VarOrigin { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
@@ -2221,11 +2221,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 {
                     throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
                 }
-
-                DtoHelper.Clone_DimensionProperties(dto, dto2);
-
-                return dto2;
             }
+
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto(Stretch_OperatorDto dto)
@@ -2236,23 +2236,25 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FactorOperatorDto);
             MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
+            OperatorDtoBase_WithDimension dto2;
+
             if (dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar)
                 {
-                    return new Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto };
+                    dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsConst)
                 {
-                    return new Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
+                    dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsVar)
                 {
-                    return new Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto };
+                    dto2 = new Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking { Signal = signalMathPropertiesDto.ConstValue, FactorOperatorDto = dto.FactorOperatorDto };
                 }
                 else if (signalMathPropertiesDto.IsConst && factorMathPropertiesDto.IsConst)
                 {
-                    return new Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue };
+                    dto2 = new Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting { Signal = signalMathPropertiesDto.ConstValue, Factor = factorMathPropertiesDto.ConstValue };
                 }
                 else
                 {
@@ -2261,8 +2263,6 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                OperatorDtoBase_WithDimension dto2;
-
                 if (signalMathPropertiesDto.IsVar && factorMathPropertiesDto.IsVar && originMathPropertiesDto.IsVar)
                 {
                     dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
@@ -2315,11 +2315,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 {
                     throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
                 }
-
-                DtoHelper.Clone_DimensionProperties(dto, dto2);
-
-                return dto2;
             }
+
+            DtoHelper.Clone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)

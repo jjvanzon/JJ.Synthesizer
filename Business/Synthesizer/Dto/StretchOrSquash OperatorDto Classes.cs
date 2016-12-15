@@ -153,13 +153,15 @@ namespace JJ.Business.Synthesizer.Dto
 
     // For Time Dimension
 
-    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting : OperatorDtoBase_WithoutInputOperatorDtos
+    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting : OperatorDtoBase_WithDimension
     {
         public double Signal { get; set; }
         public double Factor { get; set; }
+
+        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
     }
 
-    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking : OperatorDtoBase
+    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking : OperatorDtoBase_WithDimension
     {
         public double Signal { get; set; }
         public OperatorDtoBase FactorOperatorDto { get; set; }
@@ -171,12 +173,19 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting : OperatorDtoBase_VarSignal
+    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting : OperatorDtoBase_WithDimension
     {
+        public OperatorDtoBase SignalOperatorDto { get; set; }
         public double Factor { get; set; }
+
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { SignalOperatorDto }; }
+            set { SignalOperatorDto = value[0]; }
+        }
     }
 
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking : OperatorDtoBase
+    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking : OperatorDtoBase_WithDimension
     {
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase FactorOperatorDto { get; set; }
