@@ -54,9 +54,7 @@ namespace JJ.Business.Synthesizer.Visitors
         private Stack<OperatorCalculatorBase> _stack;
         private DimensionStackCollection _dimensionStackCollection;
 
-        private Dictionary<Operator, NoiseCalculator> _operator_To_NoiseCalculator_Dictionary;
-        private Dictionary<Operator, int> _operator_RandomOffsetInSeconds_Dictionary;
-        private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
+        private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_To_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
         private Outlet _current_RangeOverOutlets_Outlet;
 
@@ -114,9 +112,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack = new Stack<OperatorCalculatorBase>();
             _dimensionStackCollection = new DimensionStackCollection();
-            _operator_To_NoiseCalculator_Dictionary = new Dictionary<Operator, NoiseCalculator>();
-            _operator_RandomOffsetInSeconds_Dictionary = new Dictionary<Operator, int>();
-            _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
+            _patchInlet_To_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
             VisitOutlet(_outlet);
@@ -142,7 +138,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return new PatchCalculatorVisitorResult(
                 _dimensionStackCollection,
                 outputOperatorCalculator,
-                _patchInlet_Calculator_Dictionary.Values.ToArray(),
+                _patchInlet_To_Calculator_Dictionary.Values.ToArray(),
                 _resettableOperatorTuples);
         }
 
@@ -2582,7 +2578,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             base.VisitNoise(op);
 
-            NoiseCalculator noiseCalculator = GetNoiseCalculator(op);
+            NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(op);
 
             var calculator = new Noise_OperatorCalculator(noiseCalculator, dimensionStack);
             _stack.Push(calculator);
@@ -3132,13 +3128,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             base.VisitRandom(op);
 
-            int randomCalculatorOffset;
-            if (!_operator_RandomOffsetInSeconds_Dictionary.TryGetValue(op, out randomCalculatorOffset))
-            {
-                randomCalculatorOffset = RandomCalculatorBase.GetRandomOffset();
-                _operator_RandomOffsetInSeconds_Dictionary.Add(op, randomCalculatorOffset);
-            }
-
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase rateCalculator = _stack.Pop();
@@ -3171,11 +3160,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 {
                     case ResampleInterpolationTypeEnum.Block:
                         {
-                            var randomCalculator = new RandomCalculator_BlockInterpolation();
+                            RandomCalculator_BlockInterpolation randomCalculator = _calculatorCache.Get_RandomCalculator_BlockInterpolation(op);
 
                             calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
                                 randomCalculator,
-                                randomCalculatorOffset,
                                 rateCalculator,
                                 dimensionStack);
 
@@ -3184,11 +3172,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
                     case ResampleInterpolationTypeEnum.Stripe:
                         {
-                            var randomCalculator = new RandomCalculator_StripeInterpolation();
+                            RandomCalculator_StripeInterpolation randomCalculator = _calculatorCache.Get_RandomCalculator_StripeInterpolation(op);
 
                             calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
                                 randomCalculator,
-                                randomCalculatorOffset,
                                 rateCalculator,
                                 dimensionStack);
 
@@ -3201,11 +3188,10 @@ namespace JJ.Business.Synthesizer.Visitors
                     case ResampleInterpolationTypeEnum.CubicSmoothSlope:
                     case ResampleInterpolationTypeEnum.Hermite:
                         {
-                            var randomCalculator = new RandomCalculator_StripeInterpolation();
+                            RandomCalculator_StripeInterpolation randomCalculator = _calculatorCache.Get_RandomCalculator_StripeInterpolation(op);
 
                             calculator = new Random_OperatorCalculator_OtherInterpolationTypes(
                                 randomCalculator,
-                                randomCalculatorOffset,
                                 rateCalculator,
                                 resampleInterpolationTypeEnum,
                                 dimensionStack);
@@ -4744,7 +4730,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (isTopLevelPatchInlet && inputIsConstDefaultValue)
             {
                 VariableInput_OperatorCalculator variableInputCalculator;
-                if (!_patchInlet_Calculator_Dictionary.TryGetValue(patchInlet, out variableInputCalculator))
+                if (!_patchInlet_To_Calculator_Dictionary.TryGetValue(patchInlet, out variableInputCalculator))
                 {
                     Inlet inlet = wrapper.Inlet;
 
@@ -4756,7 +4742,7 @@ namespace JJ.Business.Synthesizer.Visitors
                         defaultValue: inlet.DefaultValue ?? 0.0
                     );
 
-                    _patchInlet_Calculator_Dictionary.Add(patchInlet, variableInputCalculator);
+                    _patchInlet_To_Calculator_Dictionary.Add(patchInlet, variableInputCalculator);
                 }
 
                 calculator = variableInputCalculator;
@@ -4979,18 +4965,6 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         // Helpers
-
-        private NoiseCalculator GetNoiseCalculator(Operator op)
-        {
-            NoiseCalculator noiseCalculator;
-            if (!_operator_To_NoiseCalculator_Dictionary.TryGetValue(op, out noiseCalculator))
-            {
-                noiseCalculator = new NoiseCalculator();
-                _operator_To_NoiseCalculator_Dictionary.Add(op, noiseCalculator);
-            }
-
-            return noiseCalculator;
-        }
 
         private bool IsTopLevelPatchInlet(Operator op)
         {

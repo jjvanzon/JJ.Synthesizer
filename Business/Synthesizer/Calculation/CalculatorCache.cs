@@ -4,6 +4,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
@@ -32,6 +33,15 @@ namespace JJ.Business.Synthesizer.Calculation
         /// </summary>
         private readonly Dictionary<Sample, ISampleCalculator> _sample_SampleCalculator_Dictionary = new Dictionary<Sample, ISampleCalculator>();
         private readonly object _sampleLock = new object();
+
+        private readonly Dictionary<Operator, NoiseCalculator> _operator_To_NoiseCalculator_Dictionary = new Dictionary<Operator, NoiseCalculator>();
+        private readonly object _operator_To_NoiseCalculator_Dictionary_Lock = new object();
+
+        private readonly Dictionary<Operator, RandomCalculator_BlockInterpolation> _operator_To_RandomCalculator_BlockInterpolation_Dictionary = new Dictionary<Operator, RandomCalculator_BlockInterpolation>();
+        private readonly object _operator_To_RandomCalculator_BlockInterpolation_Dictionary_Lock = new object();
+
+        private readonly Dictionary<Operator, RandomCalculator_StripeInterpolation> _operator_To_RandomCalculator_StripeInterpolation_Dictionary = new Dictionary<Operator, RandomCalculator_StripeInterpolation>();
+        private readonly object _operator_To_RandomCalculator_StripeInterpolation_Dictionary_Lock = new object();
 
         private readonly Dictionary<int, IList<ArrayCalculatorBase>> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, IList<ArrayCalculatorBase>>();
         private readonly object _cacheOperatorID_To_ArrayCalculators_Dictionary_Lock = new object();
@@ -93,6 +103,52 @@ namespace JJ.Business.Synthesizer.Calculation
                 }
 
                 return sampleCalculator;
+            }
+        }
+
+        internal NoiseCalculator GetNoiseCalculator(Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            lock (_operator_To_NoiseCalculator_Dictionary_Lock)
+            {
+                NoiseCalculator noiseCalculator;
+                if (!_operator_To_NoiseCalculator_Dictionary.TryGetValue(op, out noiseCalculator))
+                {
+                    noiseCalculator = new NoiseCalculator();
+                    _operator_To_NoiseCalculator_Dictionary.Add(op, noiseCalculator);
+                }
+
+                return noiseCalculator;
+            }
+        }
+
+        internal RandomCalculator_StripeInterpolation Get_RandomCalculator_StripeInterpolation(Operator op)
+        {
+            lock (_operator_To_RandomCalculator_StripeInterpolation_Dictionary_Lock)
+            {
+                RandomCalculator_StripeInterpolation randomCalculator;
+                if (!_operator_To_RandomCalculator_StripeInterpolation_Dictionary.TryGetValue(op, out randomCalculator))
+                {
+                    randomCalculator = new RandomCalculator_StripeInterpolation();
+                    _operator_To_RandomCalculator_StripeInterpolation_Dictionary.Add(op, randomCalculator);
+                }
+
+                return randomCalculator;
+            }
+        }
+
+        internal RandomCalculator_BlockInterpolation Get_RandomCalculator_BlockInterpolation(Operator op)
+        {
+            lock (_operator_To_RandomCalculator_BlockInterpolation_Dictionary_Lock)
+            {
+                RandomCalculator_BlockInterpolation randomCalculator;
+                if (!_operator_To_RandomCalculator_BlockInterpolation_Dictionary.TryGetValue(op, out randomCalculator))
+                {
+                    randomCalculator = new RandomCalculator_BlockInterpolation();
+                    _operator_To_RandomCalculator_BlockInterpolation_Dictionary.Add(op, randomCalculator);
+                }
+                return randomCalculator;
             }
         }
 

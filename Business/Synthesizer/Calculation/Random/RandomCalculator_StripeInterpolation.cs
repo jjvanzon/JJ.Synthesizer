@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Random
 {
@@ -16,7 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Random
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double GetValue(double time)
         {
-            return _arrayCalculator.CalculateValue(time);
+            return _arrayCalculator.CalculateValue(time + _offset);
         }
     }
 }

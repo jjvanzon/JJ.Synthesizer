@@ -36,5 +36,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return value;
         }
+
+        public override void Reset()
+        {
+            _noiseCalculator.Reseed();
+        }
     }
 }

@@ -1,8 +1,5 @@
 ﻿// MIND THE HACKS IN THIS FILE! IT MAY BE THE CAUSE OF YOUR PROBLEMS!
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Enums;
@@ -16,7 +13,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public Random_OperatorCalculator_OtherInterpolationTypes(
             RandomCalculatorBase randomCalculator,
-            double randomCalculatorOffset,
             OperatorCalculatorBase rateCalculator,
             ResampleInterpolationTypeEnum resampleInterpolationTypeEnum,
             DimensionStack dimensionStack)
@@ -27,7 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // Create a second Random operator calculator.
             var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
-                randomCalculator, randomCalculatorOffset, rateCalculator, dimensionStack);
+                randomCalculator, rateCalculator, dimensionStack);
 
             // Lead their outputs to a Interpolate operator calculator
             _interpolateOperator = OperatorCalculatorFactory.Create_Interpolate_OperatorCalculator(

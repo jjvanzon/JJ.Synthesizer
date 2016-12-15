@@ -74,17 +74,8 @@ namespace JJ.Business.Synthesizer.Calculation
 
         public void Reseed()
         {
-            _offset = GetRandomOffset();
-        }
-
-        // Helpers
-
-        /// <summary> Each operator starts at a different time offset in the pre-generated noise, to prevent artifacts. </summary>
-        private static double GetRandomOffset()
-        {
             int offsetSnapPosition = Randomizer.GetInt32(_offsetSnapCount - 1);
-            double offset = offsetSnapPosition * OFFSET_SNAP_IN_SECONDS;
-            return offset;
+            _offset = offsetSnapPosition * OFFSET_SNAP_IN_SECONDS;
         }
 
         private static int GetSamplingRate()
