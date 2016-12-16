@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _minFrequencyCalculator;
         private readonly OperatorCalculatorBase _bandWidthCalculator;
-        private readonly double _samplingRate;
+        private readonly double _targetSamplingRate;
         private readonly double _nyquistFrequency;
         private readonly int _samplesBetweenApplyFilterVariables;
         private readonly BiQuadFilter _biQuadFilter;
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase minFrequencyCalculator,
             OperatorCalculatorBase bandWidthCalculator,
-            double samplingRate,
+            double targetSamplingRate,
             int samplesBetweenApplyFilterVariables)
             : base(new OperatorCalculatorBase[] 
             {
@@ -40,11 +40,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _minFrequencyCalculator = minFrequencyCalculator;
             _bandWidthCalculator = bandWidthCalculator;
-            _samplingRate = samplingRate;
+            _targetSamplingRate = targetSamplingRate;
             _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
             _biQuadFilter = new BiQuadFilter();
 
-            _nyquistFrequency = _samplingRate / 2.0;
+            _nyquistFrequency = _targetSamplingRate / 2.0;
 
             ResetNonRecursive();
         }
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (minFrequency > _nyquistFrequency) minFrequency = _nyquistFrequency;
 
-            _biQuadFilter.SetHighPassFilterVariables(_samplingRate, minFrequency, bandWidth);
+            _biQuadFilter.SetHighPassFilterVariables(_targetSamplingRate, minFrequency, bandWidth);
         }
     }
 
@@ -98,23 +98,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _minFrequency;
         private readonly double _bandWidth;
-        private readonly double _samplingRate;
+        private readonly double _targetSamplingRate;
         private readonly BiQuadFilter _biQuadFilter;
 
         public HighPassFilter_OperatorCalculator_ManyConsts(
             OperatorCalculatorBase signalCalculator,
             double minFrequency,
             double bandWidth,
-            double samplingRate)
+            double targetSamplingRate)
                 : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertFilterFrequency(minFrequency, samplingRate);
+            OperatorCalculatorHelper.AssertFilterFrequency(minFrequency, targetSamplingRate);
 
             _signalCalculator = signalCalculator;
             _minFrequency = minFrequency;
             _bandWidth = bandWidth;
-            _samplingRate = samplingRate;
+            _targetSamplingRate = targetSamplingRate;
             _biQuadFilter = new BiQuadFilter();
 
             ResetNonRecursive();
@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter.SetHighPassFilterVariables(_samplingRate, _minFrequency, _bandWidth);
+            _biQuadFilter.SetHighPassFilterVariables(_targetSamplingRate, _minFrequency, _bandWidth);
             _biQuadFilter.ResetSamples();
         }
     }

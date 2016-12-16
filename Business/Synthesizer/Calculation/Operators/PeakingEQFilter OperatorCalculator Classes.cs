@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _centerFrequency;
         private readonly double _bandWidth;
         private readonly double _dbGain;
-        private readonly double _samplingRate;
+        private readonly double _targetSamplingRate;
         private readonly BiQuadFilter _biQuadFilter;
 
         public PeakingEQFilter_OperatorCalculator_ManyConsts(
@@ -113,17 +113,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double centerFrequency,
             double bandWidth,
             double dbGain,
-            double samplingRate)
+            double targetSamplingRate)
                 : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertFilterFrequency(centerFrequency, samplingRate);
+            OperatorCalculatorHelper.AssertFilterFrequency(centerFrequency, targetSamplingRate);
 
             _signalCalculator = signalCalculator;
             _centerFrequency = centerFrequency;
             _bandWidth = bandWidth;
             _dbGain = dbGain;
-            _samplingRate = samplingRate;
+            _targetSamplingRate = targetSamplingRate;
             _biQuadFilter = new BiQuadFilter();
 
             ResetNonRecursive();
@@ -146,7 +146,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter.SetPeakingEQVariables(_samplingRate, _centerFrequency, _bandWidth, _dbGain);
+            _biQuadFilter.SetPeakingEQVariables(_targetSamplingRate, _centerFrequency, _bandWidth, _dbGain);
             _biQuadFilter.ResetSamples();
         }
     }

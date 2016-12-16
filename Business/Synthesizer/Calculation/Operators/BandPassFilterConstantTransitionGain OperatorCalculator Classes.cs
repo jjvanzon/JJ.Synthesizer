@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _centerFrequencyCalculator;
         private readonly OperatorCalculatorBase _bandWidthCalculator;
-        private readonly double _samplingRate;
+        private readonly double _targetSamplingRate;
         private readonly double _nyquistFrequency;
         private readonly int _samplesBetweenApplyFilterVariables;
         private readonly BiQuadFilter _biQuadFilter;
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase centerFrequencyCalculator,
             OperatorCalculatorBase bandWidthCalculator,
-            double samplingRate,
+            double targetSamplingRate,
             int samplesBetweenApplyFilterVariables)
                 : base(new OperatorCalculatorBase[]
                 {
@@ -41,11 +41,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _centerFrequencyCalculator = centerFrequencyCalculator;
             _bandWidthCalculator = bandWidthCalculator;
-            _samplingRate = samplingRate;
+            _targetSamplingRate = targetSamplingRate;
             _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
             _biQuadFilter = new BiQuadFilter();
 
-            _nyquistFrequency = _samplingRate / 2.0;
+            _nyquistFrequency = _targetSamplingRate / 2.0;
 
             ResetNonRecursive();
         }
@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            _biQuadFilter.SetBandPassFilterConstantSkirtGainVariables(_samplingRate, centerFrequency, bandWidth);
+            _biQuadFilter.SetBandPassFilterConstantSkirtGainVariables(_targetSamplingRate, centerFrequency, bandWidth);
         }
     }
 
@@ -99,23 +99,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _centerFrequency;
         private readonly double _bandWidth;
-        private readonly double _samplingRate;
+        private readonly double _targetSamplingRate;
         private readonly BiQuadFilter _biQuadFilter;
 
         public BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
             OperatorCalculatorBase signalCalculator,
             double centerFrequency,
             double bandWidth,
-            double samplingRate)
-                : base(new OperatorCalculatorBase[] { signalCalculator })
+            double targetSamplingRate)
+            : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertFilterFrequency(centerFrequency, samplingRate);
+            OperatorCalculatorHelper.AssertFilterFrequency(centerFrequency, targetSamplingRate);
 
             _signalCalculator = signalCalculator;
             _centerFrequency = centerFrequency;
             _bandWidth = bandWidth;
-            _samplingRate = samplingRate;
+            _targetSamplingRate = targetSamplingRate;
             _biQuadFilter = new BiQuadFilter();
 
             ResetNonRecursive();
@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter.SetBandPassFilterConstantSkirtGainVariables(_samplingRate, _centerFrequency, _bandWidth);
+            _biQuadFilter.SetBandPassFilterConstantSkirtGainVariables(_targetSamplingRate, _centerFrequency, _bandWidth);
             _biQuadFilter.ResetSamples();
         }
     }

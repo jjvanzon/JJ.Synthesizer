@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _transitionFrequencyCalculator;
         private readonly OperatorCalculatorBase _transitionSlopeCalculator;
         private readonly OperatorCalculatorBase _dbGainCalculator;
-        private readonly double _samplingRate;
+        private readonly double _targetSamplingRate;
         private readonly double _nyquistFrequency;
         private readonly int _samplesBetweenApplyFilterVariables;
         private readonly BiQuadFilter _biQuadFilter;
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase transitionFrequencyCalculator,
             OperatorCalculatorBase transitionSlopeCalculator,
             OperatorCalculatorBase dbGainCalculator,
-            double samplingRate,
+            double targetSamplingRate,
             int samplesBetweenApplyFilterVariables)
             : base(new OperatorCalculatorBase[]
             {
@@ -45,11 +45,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _transitionFrequencyCalculator = transitionFrequencyCalculator;
             _transitionSlopeCalculator = transitionSlopeCalculator;
             _dbGainCalculator = dbGainCalculator;
-            _samplingRate = samplingRate;
+            _targetSamplingRate = targetSamplingRate;
             _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
             _biQuadFilter = new BiQuadFilter();
 
-            _nyquistFrequency = _samplingRate / 2.0;
+            _nyquistFrequency = _targetSamplingRate / 2.0;
 
             ResetNonRecursive();
         }
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (transitionFrequency > _nyquistFrequency) transitionFrequency = _nyquistFrequency;
 
-            _biQuadFilter.SetLowShelfVariables(_samplingRate, transitionFrequency, transitionSlope, dbGain);
+            _biQuadFilter.SetLowShelfVariables(_targetSamplingRate, transitionFrequency, transitionSlope, dbGain);
         }
     }
 

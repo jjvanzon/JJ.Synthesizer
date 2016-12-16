@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _transitionFrequencyCalculator;
         private readonly OperatorCalculatorBase _transitionSlopeCalculator;
         private readonly OperatorCalculatorBase _dbGainCalculator;
-        private readonly double _samplingRate;
+        private readonly double _targetSamplingRate;
         private readonly double _nyquistFrequency;
         private readonly int _samplesBetweenApplyFilterVariables;
         private readonly BiQuadFilter _biQuadFilter;
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase transitionFrequencyCalculator,
             OperatorCalculatorBase transitionSlopeCalculator,
             OperatorCalculatorBase dbGainCalculator,
-            double samplingRate,
+            double targetSamplingRate,
             int samplesBetweenApplyFilterVariables)
             : base(new OperatorCalculatorBase[]
             {
@@ -46,11 +46,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _transitionFrequencyCalculator = transitionFrequencyCalculator;
             _transitionSlopeCalculator = transitionSlopeCalculator;
             _dbGainCalculator = dbGainCalculator;
-            _samplingRate = samplingRate;
+            _targetSamplingRate = targetSamplingRate;
             _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
             _biQuadFilter = new BiQuadFilter();
 
-            _nyquistFrequency = _samplingRate / 2.0;
+            _nyquistFrequency = _targetSamplingRate / 2.0;
 
             ResetNonRecursive();
         }
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (transitionFrequency > _nyquistFrequency) transitionFrequency = _nyquistFrequency;
 
-            _biQuadFilter.SetHighShelfVariables(_samplingRate, transitionFrequency, transitionSlope, dbGain);
+            _biQuadFilter.SetHighShelfVariables(_targetSamplingRate, transitionFrequency, transitionSlope, dbGain);
         }
     }
 
@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _transitionFrequency;
         private readonly double _transitionSlope;
         private readonly double _dbGain;
-        private readonly double _samplingRate;
+        private readonly double _targetSamplingRate;
         private readonly BiQuadFilter _biQuadFilter;
 
         public HighShelfFilter_OperatorCalculator_ManyConsts(
@@ -114,17 +114,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double transitionFrequency,
             double transitionSlope,
             double dbGain,
-            double samplingRate)
+            double targetSamplingRate)
                 : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertFilterFrequency(transitionFrequency, samplingRate);
+            OperatorCalculatorHelper.AssertFilterFrequency(transitionFrequency, targetSamplingRate);
 
             _signalCalculator = signalCalculator;
             _transitionFrequency = transitionFrequency;
             _transitionSlope = transitionSlope;
             _dbGain = dbGain;
-            _samplingRate = samplingRate;
+            _targetSamplingRate = targetSamplingRate;
             _biQuadFilter = new BiQuadFilter();
 
             ResetNonRecursive();
@@ -147,7 +147,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter.SetHighShelfVariables(_samplingRate, _transitionFrequency, _transitionSlope, _dbGain);
+            _biQuadFilter.SetHighShelfVariables(_targetSamplingRate, _transitionFrequency, _transitionSlope, _dbGain);
             _biQuadFilter.ResetSamples();
         }
     }

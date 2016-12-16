@@ -60,17 +60,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (Double.IsInfinity(step)) throw new InfinityException(() => step);
         }
 
-        public static void AssertFilterFrequency(double filterFrequency, double samplingRate)
+        public static void AssertFilterFrequency(double filterFrequency, double targetSamplingRate)
         {
             if (filterFrequency == 0.0) throw new ZeroException(() => filterFrequency);
             if (Double.IsNaN(filterFrequency)) throw new NaNException(() => filterFrequency);
             if (Double.IsInfinity(filterFrequency)) throw new InfinityException(() => filterFrequency);
 
-            if (samplingRate == 0.0) throw new ZeroException(() => samplingRate);
-            if (Double.IsNaN(samplingRate)) throw new NaNException(() => samplingRate);
-            if (Double.IsInfinity(samplingRate)) throw new InfinityException(() => samplingRate);
+            if (targetSamplingRate == 0.0) throw new ZeroException(() => targetSamplingRate);
+            if (Double.IsNaN(targetSamplingRate)) throw new NaNException(() => targetSamplingRate);
+            if (Double.IsInfinity(targetSamplingRate)) throw new InfinityException(() => targetSamplingRate);
 
-            double nyquistFrequency = samplingRate / 2.0;
+            double nyquistFrequency = targetSamplingRate / 2.0;
             if (filterFrequency > nyquistFrequency)
             {
                 throw new GreaterThanException(() => filterFrequency, () => nyquistFrequency);
