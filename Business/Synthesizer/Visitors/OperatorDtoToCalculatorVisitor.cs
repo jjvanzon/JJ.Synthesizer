@@ -1052,162 +1052,98 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
         {
-            base.Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_NoOriginShifting(dto.Frequency, sampleCalculator, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_SingleOutputChannel(dto, (dimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_NoOriginShifting(dto.Frequency, sampleCalculator, dimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
         {
-            base.Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_WithOriginShifting(dto.Frequency, sampleCalculator, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_SingleOutputChannel(dto, (dimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_WithOriginShifting(dto.Frequency, sampleCalculator, dimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            base.Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, sampleCalculator, dimensionStack, channelDimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, sampleCalculator, dimensionStack, channelDimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
         {
-            base.Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_ConstFrequency_StereoToMono_NoOriginShifting(dto.Frequency, sampleCalculator, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_SingleOutputChannel(dto, (dimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_ConstFrequency_StereoToMono_NoOriginShifting(dto.Frequency, sampleCalculator, dimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
         {
-            base.Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_ConstFrequency_StereoToMono_WithOriginShifting(dto.Frequency, sampleCalculator, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_SingleOutputChannel(dto, (dimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_ConstFrequency_StereoToMono_WithOriginShifting(dto.Frequency, sampleCalculator, dimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            base.Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, sampleCalculator, dimensionStack, channelDimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, sampleCalculator, dimensionStack, channelDimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
         {
-            base.Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_VarFrequency_MonoToStereo_NoPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_SingleOutputChannel(dto, (dimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_VarFrequency_MonoToStereo_NoPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
         {
-            base.Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_VarFrequency_MonoToStereo_WithPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_SingleOutputChannel(dto, (dimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_VarFrequency_MonoToStereo_WithPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_NoPhaseTracking(Sample_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_Sample_OperatorDto_VarFrequency_NoPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack, channelDimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack, channelDimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
         {
-            base.Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_VarFrequency_StereoToMono_NoPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_SingleOutputChannel(dto, (dimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_VarFrequency_StereoToMono_NoPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
         {
-            base.Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_VarFrequency_StereoToMono_WithPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_SingleOutputChannel(dto, (dimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_VarFrequency_StereoToMono_WithPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(Sample_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            base.Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
-            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dto.SampleID, _sampleRepository);
-
-            var calculator = new Sample_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack, channelDimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return Process_Sample_OperatorDto_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, sampleCalculator) =>
+            {
+                return new Sample_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), sampleCalculator, dimensionStack, channelDimensionStack);
+            });
         }
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -1506,7 +1442,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         /// <summary>
         /// The Cache operator requires more lengthy code, while most methods are very short,
-        /// because it is one of the few or perhaps even the only operator type for which you need to 
+        /// because it is the only operator type for which you need to 
         /// calculate during optimization time, so calculate while the executable calculation is still being built up.
         /// </summary>
         private OperatorDtoBase Process_Cache_OperatorDtoBase_NotConstSignal(Cache_OperatorDtoBase_NotConstSignal dto)
@@ -1553,17 +1489,17 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        private OperatorDtoBase ProcessOperatorDto(OperatorDtoBase dto, Func<OperatorCalculatorBase> createOperatorCalculatorAction)
+        private OperatorDtoBase ProcessOperatorDto(OperatorDtoBase dto, Func<OperatorCalculatorBase> createOperatorCalculatorDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            OperatorCalculatorBase calculator = createOperatorCalculatorAction();
+            OperatorCalculatorBase calculator = createOperatorCalculatorDelegate();
             _stack.Push(calculator);
 
             return dto;
         }
 
-        private OperatorDtoBase ProcessWithDimension(OperatorDtoBase dto, Func<DimensionStack, OperatorCalculatorBase> createOperatorCalculatorAction)
+        private OperatorDtoBase ProcessWithDimension(OperatorDtoBase dto, Func<DimensionStack, OperatorCalculatorBase> createOperatorCalculatorDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
 
@@ -1571,7 +1507,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dtoWithDimension);
 
-            var calculator = createOperatorCalculatorAction(dimensionStack);
+            var calculator = createOperatorCalculatorDelegate(dimensionStack);
 
             _stack.Push(calculator);
 
@@ -1599,6 +1535,46 @@ namespace JJ.Business.Synthesizer.Visitors
             var randomCalculator = _calculatorCache.GetRandomCalculator(dto.OperatorID, dto.ResampleInterpolationTypeEnum);
 
             var calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(randomCalculator, _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        private OperatorDtoBase Process_Sample_OperatorDto_SingleOutputChannel(
+            OperatorDtoBase dto,
+            Func<DimensionStack, ISampleCalculator, OperatorCalculatorBase> createOperatorCalculatorDelegate)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            var dtoWithSampleID = (ISample_OperatorDto_WithSampleID)dto;
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dtoWithSampleID);
+            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dtoWithSampleID.SampleID, _sampleRepository);
+
+            var calculator = createOperatorCalculatorDelegate(dimensionStack, sampleCalculator);
+
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        /// <param name="createOperatorCalculatorDelegate">
+        /// Second DimensionStack parameter is the channelDimensionStack
+        /// </param>
+        private OperatorDtoBase Process_Sample_OperatorDto_MultipleOutputChannels(
+            OperatorDtoBase dto,
+            Func<DimensionStack, DimensionStack, ISampleCalculator, OperatorCalculatorBase> createOperatorCalculatorDelegate)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            var dtoWithSampleID = (ISample_OperatorDto_WithSampleID)dto;
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dtoWithSampleID);
+            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
+            ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dtoWithSampleID.SampleID, _sampleRepository);
+
+            var calculator = createOperatorCalculatorDelegate(dimensionStack, channelDimensionStack, sampleCalculator);
+
             _stack.Push(calculator);
 
             return dto;
