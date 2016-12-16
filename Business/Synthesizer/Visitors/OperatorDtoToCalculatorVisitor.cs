@@ -88,62 +88,32 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
         {
-            base.Visit_Absolute_OperatorDto_VarX(dto);
-
-            var calculator = new Absolute_OperatorCalculator_VarX(_stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Absolute_OperatorCalculator_VarX(_stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
-            base.Visit_Add_OperatorDto_Vars_1Const(dto);
-
-            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue));
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
-            base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
-
-            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars(dto.Vars.Select(x => _stack.Pop()).ToArray());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateAddCalculator_Vars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
         protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_AllVars(AllPassFilter_OperatorDto_AllVars dto)
         {
-            base.Visit_AllPassFilter_OperatorDto_AllVars(dto);
-
-            var calculator = new AllPassFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new AllPassFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
         protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto)
         {
-            base.Visit_AllPassFilter_OperatorDto_ManyConsts(dto);
-
-            var calculator = new AllPassFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, _targetSamplingRate);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new AllPassFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, _targetSamplingRate));
         }
 
         protected override OperatorDtoBase Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_And_OperatorDto_VarA_VarB(dto);
-
-            var calculator = new And_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new And_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_AverageFollower_OperatorDto_AllVars(AverageFollower_OperatorDto_AllVars dto)
@@ -184,52 +154,27 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
         {
-            base.Visit_AverageOverInlets_OperatorDto_Vars(dto);
-
-            var calculator = new AverageOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new AverageOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
-            base.Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(dto);
-
-            var calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, _targetSamplingRate);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new BandPassFilterConstantPeakGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, _targetSamplingRate));
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
         {
-            base.Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(dto);
-
-            var calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new BandPassFilterConstantPeakGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
-            base.Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(dto);
-
-            var calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, _targetSamplingRate);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, _targetSamplingRate));
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
         {
-            base.Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(dto);
-
-            var calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
         protected override OperatorDtoBase Visit_Bundle_OperatorDto(Bundle_OperatorDto dto)
@@ -245,43 +190,58 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
-            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        {
+            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_CubicInterpolation(Cache_OperatorDto_MultiChannel_CubicInterpolation dto)
-            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        {
+            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_HermiteInterpolation(Cache_OperatorDto_MultiChannel_HermiteInterpolation dto)
-            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        {
+            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_LineInterpolation(Cache_OperatorDto_MultiChannel_LineInterpolation dto)
-            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        {
+            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_StripeInterpolation(Cache_OperatorDto_MultiChannel_StripeInterpolation dto)
-            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        {
+            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation(Cache_OperatorDto_SingleChannel_BlockInterpolation dto)
-            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        {
+            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_CubicInterpolation(Cache_OperatorDto_SingleChannel_CubicInterpolation dto)
-            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        {
+            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_HermiteInterpolation(Cache_OperatorDto_SingleChannel_HermiteInterpolation dto)
-            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        {
+            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_LineInterpolation(Cache_OperatorDto_SingleChannel_LineInterpolation dto)
-            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        {
+            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_StripeInterpolation(Cache_OperatorDto_SingleChannel_StripeInterpolation dto)
-            => Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        {
+            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+        }
 
         protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(ChangeTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
-            base.Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(dto);
-
-            var calculator = new ChangeTrigger_OperatorCalculator_VarPassThrough_VarReset(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new ChangeTrigger_OperatorCalculator_VarPassThrough_VarReset(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
@@ -334,62 +294,32 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto)
         {
-            base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(dto);
-
-            var calculator = new ClosestOverInletsExp_OperatorCalculator_VarInput_2ConstItems(_stack.Pop(), dto.Item1, dto.Item2);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new ClosestOverInletsExp_OperatorCalculator_VarInput_2ConstItems(_stack.Pop(), dto.Item1, dto.Item2));
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
         {
-            base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(dto);
-
-            var calculator = new ClosestOverInletsExp_OperatorCalculator_VarInput_ConstItems(_stack.Pop(), dto.Items);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new ClosestOverInletsExp_OperatorCalculator_VarInput_ConstItems(_stack.Pop(), dto.Items));
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto)
         {
-            base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(dto);
-
-            var calculator = new ClosestOverInletsExp_OperatorCalculator_VarInput_VarItems(_stack.Pop(), dto.ItemOperatorDtos.Select(x => _stack.Pop()).ToArray());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new ClosestOverInletsExp_OperatorCalculator_VarInput_VarItems(_stack.Pop(), dto.ItemOperatorDtos.Select(x => _stack.Pop()).ToArray()));
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(ClosestOverInlets_OperatorDto_VarInput_2ConstItems dto)
         {
-            base.Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(dto);
-
-            var calculator = new ClosestOverInlets_OperatorCalculator_VarInput_2ConstItems(_stack.Pop(), dto.Item1, dto.Item2);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new ClosestOverInlets_OperatorCalculator_VarInput_2ConstItems(_stack.Pop(), dto.Item1, dto.Item2));
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
         {
-            base.Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(dto);
-
-            var calculator = new ClosestOverInlets_OperatorCalculator_VarInput_ConstItems(_stack.Pop(), dto.Items);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new ClosestOverInlets_OperatorCalculator_VarInput_ConstItems(_stack.Pop(), dto.Items));
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
         {
-            base.Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(dto);
-
-            var calculator = new ClosestOverInlets_OperatorCalculator_VarInput_VarItems(_stack.Pop(), dto.ItemOperatorDtos.Select(x => _stack.Pop()).ToArray());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new ClosestOverInlets_OperatorCalculator_VarInput_VarItems(_stack.Pop(), dto.ItemOperatorDtos.Select(x => _stack.Pop()).ToArray()));
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto)
@@ -466,192 +396,97 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(dto);
-
-            var calculator = new Divide_OperatorCalculator_ConstA_ConstB_VarOrigin(dto.A, dto.B, _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_ConstA_ConstB_VarOrigin(dto.A, dto.B, _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(Divide_OperatorDto_ConstA_VarB_ConstOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(dto);
-
-            var calculator = new Divide_OperatorCalculator_ConstA_VarB_ConstOrigin(dto.A, _stack.Pop(), dto.Origin);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_ConstA_VarB_ConstOrigin(dto.A, _stack.Pop(), dto.Origin));
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(Divide_OperatorDto_ConstA_VarB_VarOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(dto);
-
-            var calculator = new Divide_OperatorCalculator_ConstA_VarB_VarOrigin(dto.A, _stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_ConstA_VarB_VarOrigin(dto.A, _stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(dto);
-
-            var calculator = new Divide_OperatorCalculator_ConstA_VarB_ZeroOrigin(dto.A, _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_ConstA_VarB_ZeroOrigin(dto.A, _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(Divide_OperatorDto_VarA_ConstB_ConstOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(dto);
-
-            var calculator = new Divide_OperatorCalculator_VarA_ConstB_ConstOrigin(_stack.Pop(), dto.B, dto.Origin);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_ConstB_ConstOrigin(_stack.Pop(), dto.B, dto.Origin));
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(Divide_OperatorDto_VarA_ConstB_VarOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(dto);
-
-            var calculator = new Divide_OperatorCalculator_VarA_ConstB_VarOrigin(_stack.Pop(), dto.B, _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_ConstB_VarOrigin(_stack.Pop(), dto.B, _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(dto);
-
-            var calculator = new Divide_OperatorCalculator_VarA_ConstB_ZeroOrigin(_stack.Pop(), dto.B);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_ConstB_ZeroOrigin(_stack.Pop(), dto.B));
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(Divide_OperatorDto_VarA_VarB_ConstOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(dto);
-
-            var calculator = new Divide_OperatorCalculator_VarA_VarB_ConstOrigin(_stack.Pop(), _stack.Pop(), dto.Origin);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_VarB_ConstOrigin(_stack.Pop(), _stack.Pop(), dto.Origin));
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(Divide_OperatorDto_VarA_VarB_VarOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(dto);
-
-            var calculator = new Divide_OperatorCalculator_VarA_VarB_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_VarB_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(Divide_OperatorDto_VarA_VarB_ZeroOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(dto);
-
-            var calculator = new Divide_OperatorCalculator_VarA_VarB_ZeroOrigin(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_VarB_ZeroOrigin(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_Equal_OperatorDto_VarA_ConstB(dto);
-
-            var calculator = new Equal_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Equal_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B));
         }
 
         protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_VarB(Equal_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_Equal_OperatorDto_VarA_VarB(dto);
-
-            var calculator = new Equal_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Equal_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio(Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio dto)
         {
-            base.Visit_Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio(dto);
-
-            var calculator = new Exponent_OperatorCalculator_ConstLow_ConstHigh_VarRatio(dto.Low, dto.High, _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Exponent_OperatorCalculator_ConstLow_ConstHigh_VarRatio(dto.Low, dto.High, _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio(Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio dto)
         {
-            base.Visit_Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio(dto);
-
-            var calculator = new Exponent_OperatorCalculator_ConstLow_VarHigh_ConstRatio(dto.Low, _stack.Pop(), dto.Ratio);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Exponent_OperatorCalculator_ConstLow_VarHigh_ConstRatio(dto.Low, _stack.Pop(), dto.Ratio));
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_VarHigh_VarRatio(Exponent_OperatorDto_ConstLow_VarHigh_VarRatio dto)
         {
-            base.Visit_Exponent_OperatorDto_ConstLow_VarHigh_VarRatio(dto);
-
-            var calculator = new Exponent_OperatorCalculator_ConstLow_VarHigh_VarRatio(dto.Low, _stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Exponent_OperatorCalculator_ConstLow_VarHigh_VarRatio(dto.Low, _stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio(Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio dto)
         {
-            base.Visit_Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio(dto);
-
-            var calculator = new Exponent_OperatorCalculator_VarLow_ConstHigh_ConstRatio(_stack.Pop(), dto.High, dto.Ratio);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Exponent_OperatorCalculator_VarLow_ConstHigh_ConstRatio(_stack.Pop(), dto.High, dto.Ratio));
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_ConstHigh_VarRatio(Exponent_OperatorDto_VarLow_ConstHigh_VarRatio dto)
         {
-            base.Visit_Exponent_OperatorDto_VarLow_ConstHigh_VarRatio(dto);
-
-            var calculator = new Exponent_OperatorCalculator_VarLow_ConstHigh_VarRatio(_stack.Pop(), dto.High, _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Exponent_OperatorCalculator_VarLow_ConstHigh_VarRatio(_stack.Pop(), dto.High, _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_VarHigh_ConstRatio(Exponent_OperatorDto_VarLow_VarHigh_ConstRatio dto)
         {
-            base.Visit_Exponent_OperatorDto_VarLow_VarHigh_ConstRatio(dto);
-
-            var calculator = new Exponent_OperatorCalculator_VarLow_VarHigh_ConstRatio(_stack.Pop(), _stack.Pop(), dto.Ratio);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Exponent_OperatorCalculator_VarLow_VarHigh_ConstRatio(_stack.Pop(), _stack.Pop(), dto.Ratio));
         }
 
         protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_VarHigh_VarRatio(Exponent_OperatorDto_VarLow_VarHigh_VarRatio dto)
         {
-            base.Visit_Exponent_OperatorDto_VarLow_VarHigh_VarRatio(dto);
-
-            var calculator = new Exponent_OperatorCalculator_VarLow_VarHigh_VarRatio(_stack.Pop(), _stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Exponent_OperatorCalculator_VarLow_VarHigh_VarRatio(_stack.Pop(), _stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
@@ -668,132 +503,67 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(GreaterThanOrEqual_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(dto);
-
-            var calculator = new GreaterThanOrEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new GreaterThanOrEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B));
         }
 
         protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(GreaterThanOrEqual_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(dto);
-
-            var calculator = new GreaterThanOrEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new GreaterThanOrEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_GreaterThan_OperatorDto_VarA_ConstB(GreaterThan_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_GreaterThan_OperatorDto_VarA_ConstB(dto);
-
-            var calculator = new GreaterThan_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new GreaterThan_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B));
         }
 
         protected override OperatorDtoBase Visit_GreaterThan_OperatorDto_VarA_VarB(GreaterThan_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_GreaterThan_OperatorDto_VarA_VarB(dto);
-
-            var calculator = new GreaterThan_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new GreaterThan_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_AllVars(HighPassFilter_OperatorDto_AllVars dto)
         {
-            base.Visit_HighPassFilter_OperatorDto_AllVars(dto);
-
-            var calculator = new HighPassFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new HighPassFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
         protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_ManyConsts(HighPassFilter_OperatorDto_ManyConsts dto)
         {
-            base.Visit_HighPassFilter_OperatorDto_ManyConsts(dto);
-
-            var calculator = new HighPassFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.MinFrequency, dto.BandWidth, _targetSamplingRate);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new HighPassFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.MinFrequency, dto.BandWidth, _targetSamplingRate));
         }
 
         protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_AllVars(HighShelfFilter_OperatorDto_AllVars dto)
         {
-            base.Visit_HighShelfFilter_OperatorDto_AllVars(dto);
-
-            var calculator = new HighShelfFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new HighShelfFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
         protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_ManyConsts(HighShelfFilter_OperatorDto_ManyConsts dto)
         {
-            base.Visit_HighShelfFilter_OperatorDto_ManyConsts(dto);
-
-            var calculator = new HighShelfFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.TransitionFrequency, dto.TransitionSlope, dto.DBGain, _targetSamplingRate);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new HighShelfFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.TransitionFrequency, dto.TransitionSlope, dto.DBGain, _targetSamplingRate));
         }
 
         protected override OperatorDtoBase Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
         {
-            base.Visit_Hold_OperatorDto_VarSignal(dto);
-
-            var calculator = new Hold_OperatorCalculator_VarSignal(_stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Hold_OperatorCalculator_VarSignal(_stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
         {
-            base.Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(dto);
-
-            var calculator = new If_OperatorCalculator_VarCondition_ConstThen_ConstElse(_stack.Pop(), dto.Then, dto.Else);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_ConstThen_ConstElse(_stack.Pop(), dto.Then, dto.Else));
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_VarElse(If_OperatorDto_VarCondition_ConstThen_VarElse dto)
         {
-            base.Visit_If_OperatorDto_VarCondition_ConstThen_VarElse(dto);
-
-            var calculator = new If_OperatorCalculator_VarCondition_ConstThen_VarElse(_stack.Pop(), dto.Then, _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_ConstThen_VarElse(_stack.Pop(), dto.Then, _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_VarThen_ConstElse(If_OperatorDto_VarCondition_VarThen_ConstElse dto)
         {
-            base.Visit_If_OperatorDto_VarCondition_VarThen_ConstElse(dto);
-
-            var calculator = new If_OperatorCalculator_VarCondition_VarThen_ConstElse(_stack.Pop(), _stack.Pop(), dto.Else);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_VarThen_ConstElse(_stack.Pop(), _stack.Pop(), dto.Else));
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_VarThen_VarElse(If_OperatorDto_VarCondition_VarThen_VarElse dto)
         {
-            base.Visit_If_OperatorDto_VarCondition_VarThen_VarElse(dto);
-
-            var calculator = new If_OperatorCalculator_VarCondition_VarThen_VarElse(_stack.Pop(), _stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_VarThen_VarElse(_stack.Pop(), _stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto)
@@ -906,42 +676,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(LessThanOrEqual_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(dto);
-
-            var calculator = new LessThanOrEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new LessThanOrEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B));
         }
 
         protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto_VarA_VarB(LessThanOrEqual_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_LessThanOrEqual_OperatorDto_VarA_VarB(dto);
-
-            var calculator = new LessThanOrEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new LessThanOrEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_LessThan_OperatorDto_VarA_ConstB(LessThan_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_LessThan_OperatorDto_VarA_ConstB(dto);
-
-            var calculator = new LessThan_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new LessThan_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B));
         }
 
         protected override OperatorDtoBase Visit_LessThan_OperatorDto_VarA_VarB(LessThan_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_LessThan_OperatorDto_VarA_VarB(dto);
-
-            var calculator = new LessThan_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new LessThan_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
@@ -1018,42 +768,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
         {
-            base.Visit_LowPassFilter_OperatorDto_AllVars(dto);
-
-            var calculator = new LowPassFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new LowPassFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ManyConsts(LowPassFilter_OperatorDto_ManyConsts dto)
         {
-            base.Visit_LowPassFilter_OperatorDto_ManyConsts(dto);
-
-            var calculator = new LowPassFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.MaxFrequency, dto.BandWidth, _targetSamplingRate);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new LowPassFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.MaxFrequency, dto.BandWidth, _targetSamplingRate));
         }
 
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto)
         {
-            base.Visit_LowShelfFilter_OperatorDto_AllVars(dto);
-
-            var calculator = new LowShelfFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new LowShelfFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_ManyConsts(LowShelfFilter_OperatorDto_ManyConsts dto)
         {
-            base.Visit_LowShelfFilter_OperatorDto_ManyConsts(dto);
-
-            var calculator = new LowShelfFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.TransitionFrequency, dto.TransitionSlope, dto.DBGain, _targetSamplingRate);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new LowShelfFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.TransitionFrequency, dto.TransitionSlope, dto.DBGain, _targetSamplingRate));
         }
 
         protected override OperatorDtoBase Visit_MaxFollower_OperatorDto_AllVars(MaxFollower_OperatorDto_AllVars dto)
@@ -1094,42 +824,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_1Var_1Const(MaxOverInlets_OperatorDto_1Var_1Const dto)
         {
-            base.Visit_MaxOverInlets_OperatorDto_1Var_1Const(dto);
-
-            var calculator = new MaxOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), dto.B);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), dto.B));
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_2Vars(MaxOverInlets_OperatorDto_2Vars dto)
         {
-            base.Visit_MaxOverInlets_OperatorDto_2Vars(dto);
-
-            var calculator = new MaxOverInlets_OperatorCalculator_2Vars(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_2Vars(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
         {
-            base.Visit_MaxOverInlets_OperatorDto_Vars_1Const(dto);
-
-            var calculator = new MaxOverInlets_OperatorCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue));
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
         {
-            base.Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(dto);
-
-            var calculator = new MaxOverInlets_OperatorCalculator_AllVars(dto.Vars.Select(x => _stack.Pop()).ToArray());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_AllVars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
         protected override OperatorDtoBase Visit_MinFollower_OperatorDto_AllVars(MinFollower_OperatorDto_AllVars dto)
@@ -1170,142 +880,72 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_1Var_1Const(MinOverInlets_OperatorDto_1Var_1Const dto)
         {
-            base.Visit_MinOverInlets_OperatorDto_1Var_1Const(dto);
-
-            var calculator = new MinOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), dto.B);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), dto.B));
         }
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_2Vars(MinOverInlets_OperatorDto_2Vars dto)
         {
-            base.Visit_MinOverInlets_OperatorDto_2Vars(dto);
-
-            var calculator = new MinOverInlets_OperatorCalculator_2Vars(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_2Vars(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto)
         {
-            base.Visit_MinOverInlets_OperatorDto_Vars_1Const(dto);
-
-            var calculator = new MinOverInlets_OperatorCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue));
         }
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
         {
-            base.Visit_MinOverInlets_OperatorDto_Vars_NoConsts(dto);
-
-            var calculator = new MinOverInlets_OperatorCalculator_AllVars(dto.Vars.Select(x => _stack.Pop()).ToArray());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_AllVars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin dto)
         {
-            base.Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(dto);
-
-            var calculator = new MultiplyWithOrigin_OperatorCalculator_ConstA_ConstB_VarOrigin(dto.A, dto.B, _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_ConstA_ConstB_VarOrigin(dto.A, dto.B, _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin dto)
         {
-            base.Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin(dto);
-
-            var calculator = new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_ConstOrigin(dto.A, _stack.Pop(), dto.Origin);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_ConstOrigin(dto.A, _stack.Pop(), dto.Origin));
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin dto)
         {
-            base.Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin(dto);
-
-            var calculator = new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_VarOrigin(dto.A, _stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_VarOrigin(dto.A, _stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin dto)
         {
-            base.Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin(dto);
-
-            var calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_ConstOrigin(_stack.Pop(), dto.B, dto.Origin);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_ConstOrigin(_stack.Pop(), dto.B, dto.Origin));
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin dto)
         {
-            base.Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin(dto);
-
-            var calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_VarOrigin(_stack.Pop(), dto.B, _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_VarOrigin(_stack.Pop(), dto.B, _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin dto)
         {
-            base.Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(dto);
-
-            var calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_ConstOrigin(_stack.Pop(), _stack.Pop(), dto.Origin);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_ConstOrigin(_stack.Pop(), _stack.Pop(), dto.Origin));
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin dto)
         {
-            base.Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin(dto);
-
-            var calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
         {
-            base.Visit_Multiply_OperatorDto_Vars_1Const(dto);
-
-            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateMultiplyCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue));
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
         {
-            base.Visit_Multiply_OperatorDto_Vars_NoConsts(dto);
-
-            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateMultiplyCalculator_Vars(dto.Vars.Select(x => _stack.Pop()).ToArray());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
         protected override OperatorDtoBase Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto)
         {
-            base.Visit_Negative_OperatorDto_VarX(dto);
-
-            var calculator = new Negative_OperatorCalculator(_stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Negative_OperatorCalculator(_stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Noise_OperatorDto(Noise_OperatorDto dto)
@@ -1322,112 +962,57 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_AllVars(NotchFilter_OperatorDto_AllVars dto)
         {
-            base.Visit_NotchFilter_OperatorDto_AllVars(dto);
-
-            var calculator = new NotchFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new NotchFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
         protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_ManyConsts(NotchFilter_OperatorDto_ManyConsts dto)
         {
-            base.Visit_NotchFilter_OperatorDto_ManyConsts(dto);
-
-            var calculator = new NotchFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, _targetSamplingRate);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new NotchFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, _targetSamplingRate));
         }
 
         protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_NotEqual_OperatorDto_VarA_ConstB(dto);
-
-            var calculator = new NotEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B);
-            _stack.Push(calculator);
-            
-            return dto;
+            return ProcessOperatorDto(dto, () => new NotEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B));
         }
 
         protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_VarB(NotEqual_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_NotEqual_OperatorDto_VarA_VarB(dto);
-
-            var calculator = new NotEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new NotEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
         {
-            base.Visit_Not_OperatorDto_VarX(dto);
-
-            var calculator = new Not_OperatorCalculator(_stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Not_OperatorCalculator(_stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
-            base.Visit_Number_OperatorDto(dto);
-
-            var calculator = new Number_OperatorCalculator(dto.Number);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Number_OperatorCalculator(dto.Number));
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
-            base.Visit_Number_OperatorDto_NaN(dto);
-
-            var calculator = new Number_OperatorCalculator(Double.NaN);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Number_OperatorCalculator(Double.NaN));
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
         {
-            base.Visit_Number_OperatorDto_One(dto);
-
-            var calculator = new Number_OperatorCalculator_One();
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Number_OperatorCalculator_One());
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
         {
-            base.Visit_Number_OperatorDto_Zero(dto);
-
-            var calculator = new Number_OperatorCalculator_Zero();
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Number_OperatorCalculator_Zero());
         }
 
         protected override OperatorDtoBase Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
         {
-            base.Visit_OneOverX_OperatorDto_VarX(dto);
-
-            var calculator = new OneOverX_OperatorCalculator(_stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new OneOverX_OperatorCalculator(_stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_Or_OperatorDto_VarA_VarB(dto);
-
-            var calculator = new Or_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Or_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_PatchInlet_OperatorDto(PatchInlet_OperatorDto dto)
@@ -1452,62 +1037,32 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto)
         {
-            base.Visit_PeakingEQFilter_OperatorDto_AllVars(dto);
-
-            var calculator = new PeakingEQFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new PeakingEQFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto)
         {
-            base.Visit_PeakingEQFilter_OperatorDto_ManyConsts(dto);
-
-            var calculator = new PeakingEQFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, dto.DBGain, _targetSamplingRate);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new PeakingEQFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency, dto.BandWidth, dto.DBGain, _targetSamplingRate));
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
         {
-            base.Visit_Power_OperatorDto_ConstBase_VarExponent(dto);
-
-            var calculator = new Power_OperatorCalculator_ConstBase_VarExponent(dto.Base, _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_ConstBase_VarExponent(dto.Base, _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto)
         {
-            base.Visit_Power_OperatorDto_VarBase_ConstExponent(dto);
-
-            var calculator = new Power_OperatorCalculator_VarBase_ConstExponent(_stack.Pop(), dto.Exponent);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_ConstExponent(_stack.Pop(), dto.Exponent));
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
         {
-            base.Visit_Power_OperatorDto_VarBase_VarExponent(dto);
-
-            var calculator = new Power_OperatorCalculator_VarBase_VarExponent(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_VarExponent(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(PulseTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
-            base.Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(dto);
-
-            var calculator = new PulseTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new PulseTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
@@ -1772,82 +1327,42 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto)
         {
-            base.Visit_Round_OperatorDto_ConstSignal(dto);
-
-            var calculator = new Round_OperatorCalculator_ConstSignal(dto.Signal, _stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Round_OperatorCalculator_ConstSignal(dto.Signal, _stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffset(Round_OperatorDto_VarSignal_ConstStep_ConstOffset dto)
         {
-            base.Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffset(dto);
-
-            var calculator = new Round_OperatorCalculator_VarSignal_ConstStep_ConstOffset(_stack.Pop(), dto.StepOperatorDto, dto.Offset);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Round_OperatorCalculator_VarSignal_ConstStep_ConstOffset(_stack.Pop(), dto.StepOperatorDto, dto.Offset));
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_VarOffset(Round_OperatorDto_VarSignal_ConstStep_VarOffset dto)
         {
-            base.Visit_Round_OperatorDto_VarSignal_ConstStep_VarOffset(dto);
-
-            var calculator = new Round_OperatorCalculator_VarSignal_ConstStep_VarOffset(_stack.Pop(), dto.StepOperatorDto, _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Round_OperatorCalculator_VarSignal_ConstStep_VarOffset(_stack.Pop(), dto.StepOperatorDto, _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_ZeroOffset(Round_OperatorDto_VarSignal_ConstStep_ZeroOffset dto)
         {
-            base.Visit_Round_OperatorDto_VarSignal_ConstStep_ZeroOffset(dto);
-
-            var calculator = new Round_OperatorCalculator_VarSignal_ConstStep_ZeroOffset(_stack.Pop(), dto.Step);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Round_OperatorCalculator_VarSignal_ConstStep_ZeroOffset(_stack.Pop(), dto.Step));
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_StepOne_OffsetZero(Round_OperatorDto_VarSignal_StepOne_OffsetZero dto)
         {
-            base.Visit_Round_OperatorDto_VarSignal_StepOne_OffsetZero(dto);
-
-            var calculator = new Round_OperatorCalculator_VarSignal_StepOne_OffsetZero(_stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Round_OperatorCalculator_VarSignal_StepOne_OffsetZero(_stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_ConstOffset(Round_OperatorDto_VarSignal_VarStep_ConstOffset dto)
         {
-            base.Visit_Round_OperatorDto_VarSignal_VarStep_ConstOffset(dto);
-
-            var calculator = new Round_OperatorCalculator_VarSignal_VarStep_ConstOffset(_stack.Pop(), _stack.Pop(), dto.Offset);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Round_OperatorCalculator_VarSignal_VarStep_ConstOffset(_stack.Pop(), _stack.Pop(), dto.Offset));
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_VarOffset(Round_OperatorDto_VarSignal_VarStep_VarOffset dto)
         {
-            base.Visit_Round_OperatorDto_VarSignal_VarStep_VarOffset(dto);
-
-            var calculator = new Round_OperatorCalculator_VarSignal_VarStep_VarOffset(_stack.Pop(), _stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Round_OperatorCalculator_VarSignal_VarStep_VarOffset(_stack.Pop(), _stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_ZeroOffset(Round_OperatorDto_VarSignal_VarStep_ZeroOffset dto)
         {
-            base.Visit_Round_OperatorDto_VarSignal_VarStep_ZeroOffset(dto);
-
-            var calculator = new Round_OperatorCalculator_VarSignal_VarStep_ZeroOffset(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Round_OperatorCalculator_VarSignal_VarStep_ZeroOffset(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
@@ -2108,22 +1623,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Scaler_OperatorDto_AllVars(Scaler_OperatorDto_AllVars dto)
         {
-            base.Visit_Scaler_OperatorDto_AllVars(dto);
-
-            var calculator = new Scaler_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Scaler_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Scaler_OperatorDto_ManyConsts(Scaler_OperatorDto_ManyConsts dto)
         {
-            base.Visit_Scaler_OperatorDto_ManyConsts(dto);
-
-            var calculator = new Scaler_OperatorCalculator_ManyConsts(_stack.Pop(), dto.SourceValueA, dto.SourceValueB, dto.TargetValueA, dto.TargetValueB);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Scaler_OperatorCalculator_ManyConsts(_stack.Pop(), dto.SourceValueA, dto.SourceValueB, dto.TargetValueA, dto.TargetValueB));
         }
 
         protected override OperatorDtoBase Visit_Select_OperatorDto_VarSignal_ConstPosition(Select_OperatorDto_VarSignal_ConstPosition dto)
@@ -2536,32 +2041,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
         {
-            base.Visit_Subtract_OperatorDto_ConstA_VarB(dto);
-
-            var calculator = new Subtract_OperatorCalculator_ConstA_VarB(dto.A, _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Subtract_OperatorCalculator_ConstA_VarB(dto.A, _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_Subtract_OperatorDto_VarA_ConstB(dto);
-
-            var calculator = new Subtract_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Subtract_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B));
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_VarB(Subtract_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_Subtract_OperatorDto_VarA_VarB(dto);
-
-            var calculator = new Subtract_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new Subtract_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto)
@@ -2626,12 +2116,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(ToggleTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
-            base.Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(dto);
-
-            var calculator = new ToggleTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop());
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessOperatorDto(dto, () => new ToggleTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
         }
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -2735,6 +2220,16 @@ namespace JJ.Business.Synthesizer.Visitors
                 calculator = OperatorCalculatorFactory.Create_Cache_OperatorCalculator(arrayCalculators, dimensionStack, channelDimensionStack);
             }
 
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessOperatorDto(OperatorDtoBase dto, Func<OperatorCalculatorBase> createOperatorCalculatorAction)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            OperatorCalculatorBase calculator = createOperatorCalculatorAction();
             _stack.Push(calculator);
 
             return dto;
