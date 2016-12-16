@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class RangeOverDimension_OperatorDto_OnlyVars : RangeOverDimension_OperatorDto
     { }
 
-    internal class RangeOverDimension_OperatorDto_OnlyConsts : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDto_WithDimension
+    internal class RangeOverDimension_OperatorDto_OnlyConsts : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDtoWithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverDimension);
 
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Dto
     }
 
     /// <summary> For Machine Optimization </summary>
-    internal class RangeOverDimension_OperatorDto_WithConsts_AndStepOne : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDto_WithDimension
+    internal class RangeOverDimension_OperatorDto_WithConsts_AndStepOne : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDtoWithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverDimension);
 

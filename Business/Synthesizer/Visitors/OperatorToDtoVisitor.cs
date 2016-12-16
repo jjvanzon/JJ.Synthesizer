@@ -1084,7 +1084,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void SetDimensionProperties(Operator op, IOperatorDto_WithDimension dto)
+        private void SetDimensionProperties(Operator op, IOperatorDtoWithDimension dto)
         {
             dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
             dto.CustomDimensionName = op.CustomDimensionName;

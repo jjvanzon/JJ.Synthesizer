@@ -114,15 +114,15 @@ namespace JJ.Business.Synthesizer.Helpers
             Clone_DimensionProperties(source, dest);
         }
 
-        public static void Clone_DimensionProperties(IOperatorDto_WithDimension source, IOperatorDto_WithDimension dest)
+        public static void Clone_DimensionProperties(IOperatorDtoWithDimension source, IOperatorDtoWithDimension dest)
         {
             dest.CustomDimensionName = source.CustomDimensionName;
             dest.StandardDimensionEnum = source.StandardDimensionEnum;
         }
 
-        public static void TryClone_DimensionProperties(IOperatorDto_WithDimension source, OperatorDtoBase dest)
+        public static void TryClone_DimensionProperties(IOperatorDtoWithDimension source, OperatorDtoBase dest)
         {
-            var asIOperatorDto_WithDimension = dest as IOperatorDto_WithDimension;
+            var asIOperatorDto_WithDimension = dest as IOperatorDtoWithDimension;
             if (asIOperatorDto_WithDimension != null)
             {
                 Clone_DimensionProperties(source, asIOperatorDto_WithDimension);

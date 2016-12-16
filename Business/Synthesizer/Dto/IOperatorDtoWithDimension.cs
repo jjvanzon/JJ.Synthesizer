@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal interface IOperatorDto_WithDimension
+    internal interface IOperatorDtoWithDimension
     {
         DimensionEnum StandardDimensionEnum { get; set; }
         string CustomDimensionName { get; set; }

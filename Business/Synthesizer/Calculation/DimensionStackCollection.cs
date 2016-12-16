@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation
                      new Dictionary<string, DimensionStack>();
 
 
-        public DimensionStack GetDimensionStack(IOperatorDto_WithDimension dto)
+        public DimensionStack GetDimensionStack(IOperatorDtoWithDimension dto)
         {
             if (dto == null) throw new NullException(() => dto);
 

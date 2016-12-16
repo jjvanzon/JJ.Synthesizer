@@ -118,38 +118,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_AverageFollower_OperatorDto_AllVars(AverageFollower_OperatorDto_AllVars dto)
         {
-            base.Visit_AverageFollower_OperatorDto_AllVars(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new AverageFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new AverageFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
-            base.Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
-            base.Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new AverageOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new AverageOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
@@ -179,14 +158,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Bundle_OperatorDto(Bundle_OperatorDto dto)
         {
-            base.Visit_Bundle_OperatorDto(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Bundle_OperatorCalculator(dto.InputOperatorDtos.Select(x => _stack.Pop()).ToArray(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Bundle_OperatorCalculator(dto.InputOperatorDtos.Select(x => _stack.Pop()).ToArray(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
@@ -246,50 +218,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
         {
-            base.Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
         {
-            base.Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
         {
-            base.Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
         {
-            base.Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto)
@@ -491,14 +435,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
         {
-            base.Visit_GetDimension_OperatorDto(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new GetDimension_OperatorCalculator(dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new GetDimension_OperatorCalculator(dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(GreaterThanOrEqual_OperatorDto_VarA_ConstB dto)
@@ -568,110 +505,47 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto)
         {
-            base.Visit_InletsToDimension_OperatorDto(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new InletsToDimension_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ResampleInterpolationTypeEnum, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ResampleInterpolationTypeEnum, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
         {
-            base.Visit_Interpolate_OperatorDto_Block(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Interpolate_OperatorCalculator_Block(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Interpolate_OperatorCalculator_Block(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicAbruptSlope(Interpolate_OperatorDto_CubicAbruptSlope dto)
         {
-            base.Visit_Interpolate_OperatorDto_CubicAbruptSlope(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Interpolate_OperatorCalculator_CubicAbruptSlope(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Interpolate_OperatorCalculator_CubicAbruptSlope(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicEquidistant(Interpolate_OperatorDto_CubicEquidistant dto)
         {
-            base.Visit_Interpolate_OperatorDto_CubicEquidistant(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Interpolate_OperatorCalculator_CubicEquidistant(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Interpolate_OperatorCalculator_CubicEquidistant(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicSmoothSlope_LagBehind(Interpolate_OperatorDto_CubicSmoothSlope_LagBehind dto)
         {
-            base.Visit_Interpolate_OperatorDto_CubicSmoothSlope_LagBehind(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto)
         {
-            base.Visit_Interpolate_OperatorDto_Hermite_LagBehind(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Interpolate_OperatorCalculator_Hermite_LagBehind(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Interpolate_OperatorCalculator_Hermite_LagBehind(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate dto)
         {
-            base.Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate(_stack.Pop(), dto.SamplingRate, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate(_stack.Pop(), dto.SamplingRate, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate dto)
         {
-            base.Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto)
         {
-            base.Visit_Interpolate_OperatorDto_Stripe_LagBehind(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Interpolate_OperatorCalculator_Stripe_LagBehind(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Interpolate_OperatorCalculator_Stripe_LagBehind(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(LessThanOrEqual_OperatorDto_VarA_ConstB dto)
@@ -696,74 +570,32 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
         {
-            base.Visit_Loop_OperatorDto_AllVars(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Loop_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Loop_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto)
         {
-            base.Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(_stack.Pop(), dto.SkipAndLoopStartMarker, dto.LoopEndMarker, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(_stack.Pop(), dto.SkipAndLoopStartMarker, dto.LoopEndMarker, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration dto)
         {
-            base.Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(_stack.Pop(), dto.SkipAndLoopStartMarker, _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(_stack.Pop(), dto.SkipAndLoopStartMarker, _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Loop_OperatorDto_ManyConstants(Loop_OperatorDto_ManyConstants dto)
         {
-            base.Visit_Loop_OperatorDto_ManyConstants(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Loop_OperatorCalculator_ManyConstants(_stack.Pop(), dto.Skip, dto.LoopStartMarker, dto.LoopEndMarker, dto.ReleaseEndMarker, _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-            
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Loop_OperatorCalculator_ManyConstants(_stack.Pop(), dto.Skip, dto.LoopStartMarker, dto.LoopEndMarker, dto.ReleaseEndMarker, _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Loop_OperatorDto_NoSkipOrRelease(Loop_OperatorDto_NoSkipOrRelease dto)
         {
-            base.Visit_Loop_OperatorDto_NoSkipOrRelease(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Loop_OperatorCalculator_NoSkipOrRelease(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Loop_OperatorCalculator_NoSkipOrRelease(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants(Loop_OperatorDto_NoSkipOrRelease_ManyConstants dto)
         {
-            base.Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants(_stack.Pop(), dto.LoopStartMarker, dto.LoopEndMarker, _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants(_stack.Pop(), dto.LoopStartMarker, dto.LoopEndMarker, _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
@@ -788,38 +620,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MaxFollower_OperatorDto_AllVars(MaxFollower_OperatorDto_AllVars dto)
         {
-            base.Visit_MaxFollower_OperatorDto_AllVars(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new MaxFollower_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new MaxFollower_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
-            base.Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
-            base.Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_1Var_1Const(MaxOverInlets_OperatorDto_1Var_1Const dto)
@@ -844,38 +655,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_MinFollower_OperatorDto_AllVars(MinFollower_OperatorDto_AllVars dto)
         {
-            base.Visit_MinFollower_OperatorDto_AllVars(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new MinFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new MinFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
-            base.Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
-            base.Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_1Var_1Const(MinOverInlets_OperatorDto_1Var_1Const dto)
@@ -1067,98 +857,42 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
         {
-            base.Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_NoOriginShifting(dto.Frequency, dto.Width, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_NoOriginShifting(dto.Frequency, dto.Width, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting dto)
         {
-            base.Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            
-            var calculator = new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_WithOriginShifting(dto.Frequency, dto.Width, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_WithOriginShifting(dto.Frequency, dto.Width, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting dto)
         {
-            base.Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_NoOriginShifting(dto.Frequency, _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_ConstFrequency_VarWidth_NoOriginShifting(dto.Frequency, _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting dto)
         {
-            base.Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Pulse_OperatorCalculator_ConstFrequency_VarWidth_WithOriginShifting(dto.Frequency, _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_ConstFrequency_VarWidth_WithOriginShifting(dto.Frequency, _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking dto)
         {
-            base.Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_NoPhaseTracking(_stack.Pop(), dto.Width, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_VarFrequency_ConstWidth_NoPhaseTracking(_stack.Pop(), dto.Width, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking dto)
         {
-            base.Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Pulse_OperatorCalculator_VarFrequency_ConstWidth_WithPhaseTracking(_stack.Pop(), dto.Width, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_VarFrequency_ConstWidth_WithPhaseTracking(_stack.Pop(), dto.Width, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking dto)
         {
-            base.Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_NoPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_VarFrequency_VarWidth_NoPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking dto)
         {
-            base.Visit_Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Pulse_OperatorCalculator_VarFrequency_VarWidth_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_VarFrequency_VarWidth_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
@@ -1198,38 +932,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
         {
-            base.Visit_RangeOverDimension_OperatorDto_OnlyConsts(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new RangeOverDimension_OperatorCalculator_OnlyConsts(dto.From, dto.Till, dto.Step, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new RangeOverDimension_OperatorCalculator_OnlyConsts(dto.From, dto.Till, dto.Step, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto)
         {
-            base.Visit_RangeOverDimension_OperatorDto_OnlyVars(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new RangeOverDimension_OperatorCalculator_OnlyVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new RangeOverDimension_OperatorCalculator_OnlyVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(Dto.RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto)
         {
-            base.Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(dto.From, dto.Till, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(dto.From, dto.Till, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_ConstFrom_ConstStep(RangeOverOutlets_OperatorDto_ConstFrom_ConstStep dto)
@@ -1279,50 +992,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_NoOriginShifting(Reverse_OperatorDto_ConstSpeed_NoOriginShifting dto)
         {
-            base.Visit_Reverse_OperatorDto_ConstSpeed_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Reverse_OperatorCalculator_ConstSpeed_NoOriginShifting(_stack.Pop(), dto.Speed, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Reverse_OperatorCalculator_ConstSpeed_NoOriginShifting(_stack.Pop(), dto.Speed, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_WithOriginShifting(Reverse_OperatorDto_ConstSpeed_WithOriginShifting dto)
         {
-            base.Visit_Reverse_OperatorDto_ConstSpeed_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Reverse_OperatorCalculator_ConstSpeed_WithOriginShifting(_stack.Pop(), dto.Speed, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Reverse_OperatorCalculator_ConstSpeed_WithOriginShifting(_stack.Pop(), dto.Speed, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarSpeed_NoPhaseTracking(Reverse_OperatorDto_VarSpeed_NoPhaseTracking dto)
         {
-            base.Visit_Reverse_OperatorDto_VarSpeed_NoPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Reverse_OperatorCalculator_VarSpeed_NoPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Reverse_OperatorCalculator_VarSpeed_NoPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarSpeed_WithPhaseTracking(Reverse_OperatorDto_VarSpeed_WithPhaseTracking dto)
         {
-            base.Visit_Reverse_OperatorDto_VarSpeed_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Reverse_OperatorCalculator_VarSpeed_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Reverse_OperatorCalculator_VarSpeed_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto)
@@ -1527,98 +1212,42 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            base.Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SawDown_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SawDown_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(SawDown_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            base.Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SawDown_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SawDown_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SawDown_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SawDown_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            base.Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SawDown_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SawDown_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            base.Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SawUp_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SawUp_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(SawUp_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            base.Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SawUp_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SawUp_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SawUp_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SawUp_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            base.Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SawUp_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SawUp_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Scaler_OperatorDto_AllVars(Scaler_OperatorDto_AllVars dto)
@@ -1633,410 +1262,172 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Select_OperatorDto_VarSignal_ConstPosition(Select_OperatorDto_VarSignal_ConstPosition dto)
         {
-            base.Visit_Select_OperatorDto_VarSignal_ConstPosition(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Select_OperatorCalculator_VarSignal_ConstPosition(_stack.Pop(), dto.Position, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Select_OperatorCalculator_VarSignal_ConstPosition(_stack.Pop(), dto.Position, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Select_OperatorDto_VarSignal_VarPosition(Select_OperatorDto_VarSignal_VarPosition dto)
         {
-            base.Visit_Select_OperatorDto_VarSignal_VarPosition(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Select_OperatorCalculator_VarSignal_VarPosition(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Select_OperatorCalculator_VarSignal_VarPosition(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SetDimension_OperatorDto_ConstValue(SetDimension_OperatorDto_ConstValue dto)
         {
-            base.Visit_SetDimension_OperatorDto_ConstValue(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SetDimension_OperatorCalculator_ConstValue(_stack.Pop(), dto.Value, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SetDimension_OperatorCalculator_ConstValue(_stack.Pop(), dto.Value, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SetDimension_OperatorDto_VarValue(SetDimension_OperatorDto_VarValue dto)
         {
-            base.Visit_SetDimension_OperatorDto_VarValue(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SetDimension_OperatorCalculator_VarValue(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SetDimension_OperatorCalculator_VarValue(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
-            base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Shift_OperatorCalculator_VarSignal_ConstDistance(_stack.Pop(), dto.Distance, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Shift_OperatorCalculator_VarSignal_ConstDistance(_stack.Pop(), dto.Distance, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
-            base.Visit_Shift_OperatorDto_VarSignal_VarDistance(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Shift_OperatorCalculator_VarSignal_VarDistance(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Shift_OperatorCalculator_VarSignal_VarDistance(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            base.Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Sine_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Sine_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(Sine_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            base.Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Sine_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Sine_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Sine_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Sine_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            base.Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
-            base.Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
-            base.Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SortOverInlets_OperatorDto(SortOverInlets_OperatorDto dto)
         {
-            base.Visit_SortOverInlets_OperatorDto(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SortOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SortOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Spectrum_OperatorDto_AllVars(Spectrum_OperatorDto_AllVars dto)
         {
-            base.Visit_Spectrum_OperatorDto_AllVars(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Spectrum_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Spectrum_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            base.Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Square_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Square_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(Square_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            base.Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Square_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Square_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(Square_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Square_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Square_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            base.Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Square_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Square_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
         {
-            base.Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(_stack.Pop(), dto.Factor, dto.Origin, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Squash_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(_stack.Pop(), dto.Factor, dto.Origin, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
         {
-            base.Visit_Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(_stack.Pop(), dto.Factor, _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Squash_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(_stack.Pop(), dto.Factor, _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
         {
-            base.Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(_stack.Pop(), dto.Factor, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Squash_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(_stack.Pop(), dto.Factor, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
         {
-            base.Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(_stack.Pop(), dto.Factor, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Squash_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(_stack.Pop(), dto.Factor, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
         {
-            base.Visit_Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(_stack.Pop(), _stack.Pop(), dto.Origin, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Squash_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(_stack.Pop(), _stack.Pop(), dto.Origin, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_VarOrigin(Squash_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
         {
-            base.Visit_Squash_OperatorDto_VarSignal_VarFactor_VarOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Squash_OperatorCalculator_VarSignal_VarFactor_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
         {
-            base.Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Squash_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
         {
-            base.Visit_Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Squash_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
         {
-            base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(_stack.Pop(), dto.Factor, dto.Origin, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(_stack.Pop(), dto.Factor, dto.Origin, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
         {
-            base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(_stack.Pop(), dto.Factor, _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(_stack.Pop(), dto.Factor, _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
         {
-            base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(_stack.Pop(), dto.Factor, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(_stack.Pop(), dto.Factor, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
         {
-            base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(_stack.Pop(), dto.Factor, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(_stack.Pop(), dto.Factor, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
         {
-            base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(_stack.Pop(), _stack.Pop(), dto.Origin, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(_stack.Pop(), _stack.Pop(), dto.Origin, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
         {
-            base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_VarSignal_VarFactor_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
         {
-            base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
         {
-            base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
@@ -2056,62 +1447,27 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto)
         {
-            base.Visit_SumFollower_OperatorDto_AllVars(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SumFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SumFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
-            base.Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
-            base.Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin dto)
         {
-            base.Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new TimePower_OperatorCalculator_VarSignal_VarExponent_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new TimePower_OperatorCalculator_VarSignal_VarExponent_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin dto)
         {
-            base.Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new TimePower_OperatorCalculator_VarSignal_VarExponent_ZeroOrigin(_stack.Pop(), _stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new TimePower_OperatorCalculator_VarSignal_VarExponent_ZeroOrigin(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(ToggleTrigger_OperatorDto_VarPassThrough_VarReset dto)
@@ -2121,50 +1477,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            base.Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Triangle_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, dimensionStack);
-            _stack.Push(calculator);
-            
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Triangle_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(Triangle_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            base.Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Triangle_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Triangle_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(Triangle_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Triangle_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Triangle_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            base.Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            var calculator = new Triangle_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessWithDimension(dto, dimensionStack => new Triangle_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Unbundle_OperatorDto(Unbundle_OperatorDto dto)
@@ -2230,6 +1558,21 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_OperatorDto_Base(dto);
 
             OperatorCalculatorBase calculator = createOperatorCalculatorAction();
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessWithDimension(OperatorDtoBase dto, Func<DimensionStack, OperatorCalculatorBase> createOperatorCalculatorAction)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            var dtoWithDimension = (IOperatorDtoWithDimension)dto;
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dtoWithDimension);
+
+            var calculator = createOperatorCalculatorAction(dimensionStack);
+
             _stack.Push(calculator);
 
             return dto;
