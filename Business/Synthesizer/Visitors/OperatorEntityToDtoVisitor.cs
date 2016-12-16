@@ -12,7 +12,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorToDtoVisitor : OperatorVisitorBase
+    internal class OperatorEntityToDtoVisitor : OperatorVisitorBase
     {
         private readonly ICurveRepository _curveRepository;
         private readonly IPatchRepository _patchRepository;
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private Stack<OperatorDtoBase> _stack;
 
-        public OperatorToDtoVisitor(
+        public OperatorEntityToDtoVisitor(
             ICurveRepository curveRepository, 
             IPatchRepository patchRepository, 
             ISampleRepository sampleRepository,
