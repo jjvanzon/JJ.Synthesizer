@@ -35,6 +35,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.ClosestOverDimensionExp, VisitClosestOverDimensionExp },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperator },
+                { OperatorTypeEnum.DimensionToOutlets, VisitDimensionToOutlets },
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Equal, VisitEqual },
                 { OperatorTypeEnum.Exponent, VisitExponent },
@@ -51,7 +52,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.LowPassFilter, VisitLowPassFilter },
                 { OperatorTypeEnum.LowShelfFilter, VisitLowShelfFilter },
                 { OperatorTypeEnum.InletsToDimension, VisitInletsToDimension },
-                { OperatorTypeEnum.DimensionToOutlets, VisitDimensionToOutlets },
                 { OperatorTypeEnum.MaxOverInlets, VisitMaxOverInlets },
                 { OperatorTypeEnum.MaxFollower, VisitMaxFollower },
                 { OperatorTypeEnum.MaxOverDimension, VisitMaxOverDimension },
@@ -126,13 +126,20 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             if (op == null) throw new NullException(() => op);
 
-            // TODO: Low priority: Is the trick below not specific to the OptimizedPatchCalculatorVisitor?
+            VisitInlets(op.Inlets);
+        }
 
-            // Reverse the order of evaluating the inlet,
-            // so that the first inlet will be the last one pushed
-            // so it will be the first one popped.
-            IList<Inlet> inlets = op.Inlets.OrderByDescending(x => x.ListIndex).ToArray();
-            foreach (Inlet inlet in inlets)
+        /// <summary>
+        /// Base reverses the order of evaluating the inlet,
+        /// so that the first inlet will be the last one pushed
+        /// so it will be the first one popped.
+        /// Usually this is the behavior that is needed.
+        /// </summary>
+        [DebuggerHidden]
+        protected virtual void VisitInlets(IList<Inlet> inlets)
+        {
+            IEnumerable<Inlet> sortedInlets = inlets.OrderByDescending(x => x.ListIndex);
+            foreach (Inlet inlet in sortedInlets)
             {
                 VisitInlet(inlet);
             }

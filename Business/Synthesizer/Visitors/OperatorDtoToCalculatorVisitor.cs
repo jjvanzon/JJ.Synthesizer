@@ -322,22 +322,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_CustomOperator_OperatorDto(CustomOperator_OperatorDto dto)
-        {
-            // TODO: Requires special visitation
-            // TODO: This overload should already have been sealed by a base class,
-            // after the visitor is programmed, which 'inlines' custom operators.
-            throw new NotImplementedException();
-            return base.Visit_CustomOperator_OperatorDto(dto);
-        }
-
-        protected override OperatorDtoBase Visit_DimensionToOutlets_OperatorDto(DimensionToOutlets_OperatorDto dto)
-        {
-            // TODO: Requires special visitation
-            throw new NotImplementedException();
-            return base.Visit_DimensionToOutlets_OperatorDto(dto);
-        }
-
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
         {
             return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_ConstA_ConstB_VarOrigin(dto.A, dto.B, _stack.Pop()));
@@ -805,26 +789,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new Or_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
-        protected override OperatorDtoBase Visit_PatchInlet_OperatorDto(PatchInlet_OperatorDto dto)
-        {
-            base.Visit_PatchInlet_OperatorDto(dto);
-
-            // TODO: Requires special visitation.
-            throw new NotImplementedException();
-
-            return dto;
-        }
-
-        protected override OperatorDtoBase Visit_PatchOutlet_OperatorDto(PatchOutlet_OperatorDto dto)
-        {
-            base.Visit_PatchOutlet_OperatorDto(dto);
-
-            // TODO: Requires special visitation.
-            throw new NotImplementedException();
-
-            return dto;
-        }
-
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto)
         {
             return ProcessOperatorDto(dto, () => new PeakingEQFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
@@ -943,51 +907,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(dto.From, dto.Till, dimensionStack));
-        }
-
-        protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_ConstFrom_ConstStep(RangeOverOutlets_OperatorDto_ConstFrom_ConstStep dto)
-        {
-            base.Visit_RangeOverOutlets_OperatorDto_ConstFrom_ConstStep(dto);
-
-            // TODO: Requires special visitation.
-            // TODO: Has no calculator. Why not?
-            // Because each outlet becomes a constant.
-            //var calculator = new RangeOverOutlets_OperatorCalculator_ConstFrom_ConstStep
-            throw new NotImplementedException();
-
-            return dto;
-        }
-
-        protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_OperatorDto_ConstFrom_VarStep dto)
-        {
-            base.Visit_RangeOverOutlets_OperatorDto_ConstFrom_VarStep(dto);
-
-            // TODO: Requires special visitation.
-            //var calculator = new RangeOverOutlets_OperatorCalculator_ConstFrom_VarStep(dto.From, _stack.Pop());
-            throw new NotImplementedException();
-
-            return dto;
-        }
-
-        protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_VarFrom_ConstStep(RangeOverOutlets_OperatorDto_VarFrom_ConstStep dto)
-        {
-            // TODO: Requires special visitation.
-            throw new NotImplementedException();
-            return base.Visit_RangeOverOutlets_OperatorDto_VarFrom_ConstStep(dto);
-        }
-
-        protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_VarFrom_VarStep(RangeOverOutlets_OperatorDto_VarFrom_VarStep dto)
-        {
-            // TODO: Requires special visitation.
-            throw new NotImplementedException();
-            return base.Visit_RangeOverOutlets_OperatorDto_VarFrom_VarStep(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Reset_OperatorDto(Reset_OperatorDto dto)
-        {
-            // TODO: Requires special visitation.
-            throw new NotImplementedException();
-            return base.Visit_Reset_OperatorDto(dto);
         }
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_NoOriginShifting(Reverse_OperatorDto_ConstSpeed_NoOriginShifting dto)
@@ -1429,13 +1348,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new Triangle_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
-        }
-
-        protected override OperatorDtoBase Visit_Unbundle_OperatorDto(Unbundle_OperatorDto dto)
-        {
-            // TODO: Requires special visition.
-            throw new NotImplementedException();
-            return base.Visit_Unbundle_OperatorDto(dto);
         }
 
         // Helpers

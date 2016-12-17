@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.SortOverInlets);
 
-        public int OutletIndex { get; set; }
+        public int OutletListIndex { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }
     }

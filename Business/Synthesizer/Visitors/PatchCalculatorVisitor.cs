@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Visitors
         private const bool BUNDLE_POSITIONS_ARE_INVARIANT = false;
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
         
-        private readonly Outlet _outlet;
+        private readonly Outlet _topLevelOutlet;
         private readonly int _samplingRate;
         private readonly double _nyquistFrequency;
         private readonly int _channelCount;
@@ -56,10 +56,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_To_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
-        private Outlet _current_RangeOverOutlets_Outlet;
+        private int _current_RangeOverOutlets_Outlet_ListIndex;
 
         public PatchCalculatorVisitor(
-            Outlet outlet, 
+            Outlet topLevelOutlet, 
             int samplingRate,
             int channelCount,
             double secondsBetweenApplyFilterVariables,
@@ -69,14 +69,14 @@ namespace JJ.Business.Synthesizer.Visitors
             IPatchRepository patchRepository,
             ISpeakerSetupRepository speakerSetupRepository)
         {
-            if (outlet == null) throw new NullException(() => outlet);
+            if (topLevelOutlet == null) throw new NullException(() => topLevelOutlet);
             if (calculatorCache == null) throw new NullException(() => calculatorCache);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
 
-            _outlet = outlet;
+            _topLevelOutlet = topLevelOutlet;
             _samplingRate = samplingRate;
             _channelCount = channelCount;
             _calculatorCache = calculatorCache;
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Visitors
         public PatchCalculatorVisitorResult Execute()
         {
             IValidator validator = new Recursive_OperatorValidator(
-                _outlet.Operator,
+                _topLevelOutlet.Operator,
                 _curveRepository, _sampleRepository, _patchRepository,
                 alreadyDone: new HashSet<object>());
             validator.Assert();
@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _patchInlet_To_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
-            VisitOutlet(_outlet);
+            VisitOutlet(_topLevelOutlet);
 
             OperatorCalculatorBase outputOperatorCalculator = _stack.Pop();
 
@@ -3276,9 +3276,8 @@ namespace JJ.Business.Synthesizer.Visitors
             bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
             bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
-            int position = _current_RangeOverOutlets_Outlet.Operator.Outlets
-                                                                    .OrderBy(x => x.ListIndex)
-                                                                    .IndexOf(x => x == _current_RangeOverOutlets_Outlet);
+            int listIndex = _current_RangeOverOutlets_Outlet_ListIndex;
+
             if (fromIsConstSpecialValue || stepIsConstSpecialValue)
             {
                 calculator = new Number_OperatorCalculator(Double.NaN);
@@ -3289,20 +3288,20 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (stepIsConst && fromIsConst)
             {
-                double value = from + step * position;
+                double value = from + step * listIndex;
                 calculator = new Number_OperatorCalculator(value);
             }
             else if (fromIsConst)
             {
-                calculator = new RangeOverOutlets_OperatorCalculator_ConstFrom_VarStep(from, stepCalculator, position);
+                calculator = new RangeOverOutlets_OperatorCalculator_ConstFrom_VarStep(from, stepCalculator, listIndex);
             }
             else if (stepIsConst)
             {
-                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_ConstStep(fromCalculator, step, position);
+                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_ConstStep(fromCalculator, step, listIndex);
             }
             else
             {
-                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_VarStep(fromCalculator, stepCalculator, position);
+                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_VarStep(fromCalculator, stepCalculator, listIndex);
             }
 
             _stack.Push(calculator);
@@ -4694,6 +4693,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.VisitInlet(inlet);
         }
 
+        /// <summary> Converts PatchInlets to VariableInput_OperatorCalculators. </summary>
         protected override void VisitPatchInlet(Operator patchInlet)
         {
             base.VisitPatchInlet(patchInlet);
@@ -4779,8 +4779,6 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        // TODO: Low Priority: Get rid of the asymmetry in the Operators with one outlet and the ones with multiple outlets.
-
         private void Visit_Bundle_Outlet(Outlet outlet)
         {
             if (BUNDLE_POSITIONS_ARE_INVARIANT)
@@ -4850,26 +4848,27 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             // As soon as you encounter a CustomOperator's Outlet,
             // the evaluation has to take a completely different course.
+
+            // Resolve the underlying patch's outlet
             Outlet customOperatorOutlet = outlet;
             Outlet patchOutlet_Outlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
-
             if (patchOutlet_Outlet == null)
             {
-                throw new Exception("patchOutlet_Outlet was null after TryApplyCustomOperatorToUnderlyingPatch.");
+                throw new Exception(String.Format(
+                    "{0} was null after {1}.",
+                    nameof(patchOutlet_Outlet),
+                    nameof(PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch)));
             }
 
+            // Visit the underlying patch's outlet.
             VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
         }
 
         private void Visit_DimensionToOutlets_Outlet(Outlet outlet)
         {
-            int outletIndex = outlet.Operator.Outlets
-                                             .OrderBy(x => x.ListIndex)
-                                             .IndexOf(x => x == outlet);
-
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
 
-            dimensionStack.Push(outletIndex);
+            dimensionStack.Push(outlet.ListIndex);
 
             base.VisitOutlet(outlet);
 
@@ -4883,7 +4882,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private void Visit_RangeOverOutlets_Outlet(Outlet outlet)
         {
-            _current_RangeOverOutlets_Outlet = outlet;
+            _current_RangeOverOutlets_Outlet_ListIndex = outlet.ListIndex;
 
             base.VisitOutlet(outlet);
         }
@@ -4911,13 +4910,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 return;
             }
 
-            int outletIndex = outlet.Operator.Outlets
-                                             .OrderBy(x => x.ListIndex)
-                                             .IndexOf(x => x == outlet);
-
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
-            dimensionStack.Push(outletIndex);
+            dimensionStack.Push(outlet.ListIndex);
 
             VisitOutlet(inputOutlet);
 
@@ -4926,13 +4921,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private void Visit_Unbundle_Outlet_WithVariableBundlePositions(Outlet outlet)
         {
-            int outletIndex = outlet.Operator.Outlets
-                                             .OrderBy(x => x.ListIndex)
-                                             .IndexOf(x => x == outlet);
-
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
 
-            dimensionStack.Push(outletIndex);
+            dimensionStack.Push(outlet.ListIndex);
 
             base.VisitOutlet(outlet);
 
@@ -4960,7 +4951,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 return false;
             }
 
-            return op.Patch.ID == _outlet.Operator.Patch.ID;
+            return op.Patch.ID == _topLevelOutlet.Operator.Patch.ID;
         }
 
         /// <summary> Collapses invariant operands to one and gets rid of nulls. </summary>

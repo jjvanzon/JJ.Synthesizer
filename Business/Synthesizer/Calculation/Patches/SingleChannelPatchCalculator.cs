@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly double _frameDuration;
 
         public SingleChannelPatchCalculator(
-            Outlet outlet,
+            Outlet topLevelOutlet,
             int samplingRate,
             int channelCount,
             int channelIndex,
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             IPatchRepository patchRepository,
             ISpeakerSetupRepository speakerSetupRepository)
         {
-            if (outlet == null) throw new NullException(() => outlet);
+            if (topLevelOutlet == null) throw new NullException(() => topLevelOutlet);
             if (channelCount <= 0) throw new LessThanOrEqualException(() => channelCount, 0);
             if (channelIndex < 0) throw new LessThanException(() => channelIndex, 0);
 
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _frameDuration = 1.0 / samplingRate;
 
             var visitor = new PatchCalculatorVisitor(
-                outlet,
+                topLevelOutlet,
                 samplingRate,
                 channelCount,
                 secondsBetweenApplyFilterVariables,

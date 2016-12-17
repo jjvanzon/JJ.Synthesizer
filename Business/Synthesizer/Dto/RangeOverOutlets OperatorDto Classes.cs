@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public OperatorDtoBase FromOperatorDto { get; set; }
         public OperatorDtoBase StepOperatorDto { get; set; }
-        public int OutletIndex { get; set; }
+        public int OutletListIndex { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public OperatorDtoBase FromOperatorDto { get; set; }
         public double Step { get; set; }
-        public int OutletIndex { get; set; }
+        public int OutletListIndex { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public double From { get; set; }
         public OperatorDtoBase StepOperatorDto { get; set; }
-        public int OutletIndex { get; set; }
+        public int OutletListIndex { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
@@ -57,6 +57,6 @@ namespace JJ.Business.Synthesizer.Dto
 
         public double From { get; set; }
         public double Step { get; set; }
-        public int OutletIndex { get; set; }
+        public int OutletListIndex { get; set; }
     }
 }
