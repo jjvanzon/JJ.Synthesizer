@@ -20,7 +20,6 @@ namespace JJ.Business.Synthesizer.Visitors
         private readonly ISpeakerSetupRepository _speakerSetupRepository;
 
         private Stack<OperatorDtoBase> _stack;
-        private Stack<Outlet> _outletStack = new Stack<Outlet>();
 
         public OperatorEntityToDtoVisitor(
             ICurveRepository curveRepository, 
@@ -53,15 +52,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorDtoBase dto = _stack.Pop();
 
             return dto;
-        }
-
-        protected override void VisitOutlet(Outlet outlet)
-        {
-            _outletStack.Push(outlet);
-
-            base.VisitOutlet(outlet);
-
-            _outletStack.Pop();
         }
 
         protected override void VisitAbsolute(Operator op)
@@ -217,13 +207,11 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        protected override void VisitCustomOperator(Operator op)
+        protected override void VisitCustomOperatorOutlet(Outlet outlet)
         {
-            base.VisitCustomOperator(op);
+            base.VisitCustomOperatorOutlet(outlet);
 
-            var wrapper = new CustomOperator_OperatorWrapper(op, _patchRepository);
-
-            Outlet outlet = _outletStack.Peek();
+            var wrapper = new CustomOperator_OperatorWrapper(outlet.Operator, _patchRepository);
 
             var dto = new CustomOperator_OperatorDto
             {
@@ -231,9 +219,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 OutletListIndex = outlet.ListIndex,
                 OutletDimensionEnum = outlet.GetDimensionEnum(),
                 OutletName = outlet.Name
-            };  
+            };
 
-            int count = op.Inlets.Count;
+            int count = outlet.Operator.Inlets.Count;
             var inputOperatorDtos = new OperatorDtoBase[count];
             for (int i = 0; i < count; i++)
             {
@@ -244,11 +232,9 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        protected override void VisitDimensionToOutlets(Operator op)
+        protected override void VisitDimensionToOutletsOutlet(Outlet outlet)
         {
-            base.VisitDimensionToOutlets(op);
-
-            Outlet outlet = _outletStack.Peek();
+            base.VisitDimensionToOutletsOutlet(outlet);
 
             var dto = new DimensionToOutlets_OperatorDto
             {
@@ -256,9 +242,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 OutletListIndex = outlet.ListIndex
             };
 
-            SetDimensionProperties(op, dto);
+            SetDimensionProperties(outlet.Operator, dto);
 
-            _stack.Push(dto);        
+            _stack.Push(dto);
         }
 
         protected override void VisitDivide(Operator op)
@@ -669,13 +655,9 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        protected override void VisitRangeOverOutlets(Operator op)
+        protected override void VisitRangeOverOutletsOutlet(Outlet outlet)
         {
-            base.VisitRangeOverOutlets(op);
-
-            Outlet outlet = _outletStack.Peek();
-
-            var wrapper = new RangeOverOutlets_OperatorWrapper(op);
+            base.VisitRangeOverOutletsOutlet(outlet);
 
             var dto = new RangeOverOutlets_OperatorDto
             {
@@ -840,18 +822,17 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new Sine_OperatorDto();
             Visit_OperatorDtoBase_VarFrequency(op, dto);
         }
-        
-        protected override void VisitSortOverInlets(Operator op)
-        {
-            Outlet outlet = _outletStack.Peek();
 
+        protected override void VisitSortOverInletsOutlet(Outlet outlet)
+        {
             var dto = new SortOverInlets_OperatorDto
             {
                 OutletListIndex = outlet.ListIndex,
             };
 
-            Visit_OperatorDtoBase_Vars(op, dto);
-            SetDimensionProperties(op, dto);
+            Visit_OperatorDtoBase_Vars(outlet.Operator, dto);
+
+            SetDimensionProperties(outlet.Operator, dto);
         }
         
         protected override void VisitSortOverDimension(Operator op)
@@ -941,11 +922,9 @@ namespace JJ.Business.Synthesizer.Visitors
             Visit_OperatorDtoBase_Trigger(op, dto);
         }
 
-        protected override void VisitUnbundle(Operator op)
+        protected override void VisitUnbundleOutlet(Outlet outlet)
         {
-            base.VisitUnbundle(op);
-
-            Outlet outlet = _outletStack.Pop();
+            base.VisitUnbundleOutlet(outlet);
 
             var dto = new Unbundle_OperatorDto
             {
@@ -953,7 +932,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 OutletListIndex = outlet.ListIndex
             };
 
-            SetDimensionProperties(op, dto);
+            SetDimensionProperties(outlet.Operator, dto);
 
             _stack.Push(dto);
         }

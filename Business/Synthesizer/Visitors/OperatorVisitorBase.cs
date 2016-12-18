@@ -11,11 +11,12 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorVisitorBase
     {
-        private readonly IDictionary<OperatorTypeEnum, Action<Operator>> _delegateDictionary;
+        private readonly Dictionary<OperatorTypeEnum, Action<Operator>> _visitOperatorDelegateDictionary;
+        private readonly Dictionary<OperatorTypeEnum, Action<Outlet>> _visitOutletDelegateDictionary;
 
         public OperatorVisitorBase()
         {
-            _delegateDictionary = new Dictionary<OperatorTypeEnum, Action<Operator>>
+            _visitOperatorDelegateDictionary = new Dictionary<OperatorTypeEnum, Action<Operator>>
             {
                 { OperatorTypeEnum.Absolute, VisitAbsolute },
                 { OperatorTypeEnum.Add, VisitAdd },
@@ -34,8 +35,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.ClosestOverDimension, VisitClosestOverDimension },
                 { OperatorTypeEnum.ClosestOverDimensionExp, VisitClosestOverDimensionExp },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
-                { OperatorTypeEnum.CustomOperator, VisitCustomOperator },
-                { OperatorTypeEnum.DimensionToOutlets, VisitDimensionToOutlets },
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Equal, VisitEqual },
                 { OperatorTypeEnum.Exponent, VisitExponent },
@@ -76,7 +75,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.PulseTrigger, VisitPulseTrigger },
                 { OperatorTypeEnum.Random, VisitRandom },
                 { OperatorTypeEnum.RangeOverDimension, VisitRangeOverDimension },
-                { OperatorTypeEnum.RangeOverOutlets, VisitRangeOverOutlets },
                 { OperatorTypeEnum.Interpolate, VisitInterpolate },
                 { OperatorTypeEnum.Reset, VisitReset },
                 { OperatorTypeEnum.Reverse, VisitReverse },
@@ -89,7 +87,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.SetDimension, VisitSetDimension },
                 { OperatorTypeEnum.Shift, VisitShift },
                 { OperatorTypeEnum.Sine, VisitSine },
-                { OperatorTypeEnum.SortOverInlets, VisitSortOverInlets },
                 { OperatorTypeEnum.SortOverDimension, VisitSortOverDimension },
                 { OperatorTypeEnum.Spectrum, VisitSpectrum },
                 { OperatorTypeEnum.Square, VisitSquare },
@@ -100,12 +97,22 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.SumFollower, VisitSumFollower },
                 { OperatorTypeEnum.TimePower, VisitTimePower },
                 { OperatorTypeEnum.ToggleTrigger, VisitToggleTrigger },
-                { OperatorTypeEnum.Triangle, VisitTriangle },
-                { OperatorTypeEnum.Unbundle, VisitUnbundle },
+                { OperatorTypeEnum.Triangle, VisitTriangle }
+            };
+
+            _visitOutletDelegateDictionary = new Dictionary<OperatorTypeEnum, Action<Outlet>>
+            {
+                { OperatorTypeEnum.CustomOperator, VisitCustomOperatorOutlet },
+                { OperatorTypeEnum.DimensionToOutlets, VisitDimensionToOutletsOutlet },
+                { OperatorTypeEnum.RangeOverOutlets, VisitRangeOverOutletsOutlet },
+                { OperatorTypeEnum.SortOverInlets, VisitSortOverInletsOutlet },
+                { OperatorTypeEnum.Unbundle, VisitUnbundleOutlet }
             };
         }
 
-        [DebuggerHidden]
+        // General
+
+        //[DebuggerHidden]
         protected virtual void VisitOperatorPolymorphic(Operator op)
         {
             if (op == null) throw new NullException(() => op);
@@ -113,15 +120,17 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
             Action<Operator> action;
-            if (!_delegateDictionary.TryGetValue(operatorTypeEnum, out action))
+            if (_visitOperatorDelegateDictionary.TryGetValue(operatorTypeEnum, out action))
             {
-                throw new Exception(String.Format("No delegate defined for OperatorTypeEnum '{0}' in {1}.", operatorTypeEnum, typeof(OperatorVisitorBase).Name));
+                action(op);
             }
-
-            action(op);
+            else
+            {
+                VisitOperatorBase(op);
+            }
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitOperatorBase(Operator op)
         {
             if (op == null) throw new NullException(() => op);
@@ -135,7 +144,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /// so it will be the first one popped.
         /// Usually this is the behavior that is needed.
         /// </summary>
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitInlets(IList<Inlet> inlets)
         {
             IEnumerable<Inlet> sortedInlets = inlets.OrderByDescending(x => x.ListIndex);
@@ -145,532 +154,553 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitInlet(Inlet inlet)
         {
             Outlet outlet = inlet.InputOutlet;
 
             if (outlet != null)
             {
-                VisitOutlet(outlet);
+                VisitOutletPolymorphic(outlet);
             }
         }
 
-        [DebuggerHidden]
-        protected virtual void VisitOutlet(Outlet outlet)
+        //[DebuggerHidden]
+        protected virtual void VisitOutletPolymorphic(Outlet outlet)
         {
-            Operator op = outlet.Operator;
-            VisitOperatorPolymorphic(op);
+            if (outlet == null) throw new NullException(() => outlet);
+
+            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
+
+            Action<Outlet> action;
+            if (_visitOutletDelegateDictionary.TryGetValue(operatorTypeEnum, out action))
+            {
+                action(outlet);
+            }
+            else
+            {
+                VisitOutletBase(outlet);
+            }
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
+        protected virtual void VisitOutletBase(Outlet outlet)
+        {
+            VisitOperatorPolymorphic(outlet.Operator);
+        }
+
+        // Operators
+
+        //[DebuggerHidden]
         protected virtual void VisitAbsolute(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitAdd(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitAllPassFilter(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitAnd(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitAverageFollower(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitAverageOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitAverageOverInlets(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitBandPassFilterConstantPeakGain(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitBandPassFilterConstantTransitionGain(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitBundle(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitChangeTrigger(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitClosestOverInlets(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitClosestOverInletsExp(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitClosestOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitClosestOverDimensionExp(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitCache(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitCurveOperator(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
-        protected virtual void VisitCustomOperator(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
-        protected virtual void VisitDimensionToOutlets(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitDivide(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitEqual(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitExponent(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitGetDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitGreaterThan(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitGreaterThanOrEqual(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitHold(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitHighPassFilter(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitHighShelfFilter(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitIf(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitInletsToDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitLessThan(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitLessThanOrEqual(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitLoop(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitLowPassFilter(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitLowShelfFilter(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitMaxOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitMaxOverInlets(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitMaxFollower(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitMinOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitMinOverInlets(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitMinFollower(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitMultiply(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitMultiplyWithOrigin(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitNegative(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitNoise(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitNot(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitNotchFilter(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitNotEqual(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitNumber(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitOneOverX(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitOr(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitPatchInlet(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitPatchOutlet(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitPeakingEQFilter(Operator op)
         {
             VisitOperatorBase(op);
         }
         
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitPower(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitPulse(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitPulseTrigger(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitRandom(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitRangeOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
-        protected virtual void VisitRangeOverOutlets(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitInterpolate(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitReset(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitReverse(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitRound(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSampleOperator(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSawDown(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSawUp(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitScaler(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSelect(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSetDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitShift(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSine(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
-        protected virtual void VisitSortOverInlets(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSortOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSpectrum(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSquare(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSquash(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitStretch(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSubtract(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSumOverDimension(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitSumFollower(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitTimePower(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitTriangle(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
+        //[DebuggerHidden]
         protected virtual void VisitToggleTrigger(Operator op)
         {
             VisitOperatorBase(op);
         }
 
-        [DebuggerHidden]
-        protected virtual void VisitUnbundle(Operator op)
+        // Outlets
+
+        //[DebuggerHidden]
+        protected virtual void VisitCustomOperatorOutlet(Outlet outlet)
         {
-            VisitOperatorBase(op);
+            VisitOutletBase(outlet);
+        }
+
+        //[DebuggerHidden]
+        protected virtual void VisitDimensionToOutletsOutlet(Outlet outlet)
+        {
+            VisitOutletBase(outlet);
+        }
+
+        //[DebuggerHidden]
+        protected virtual void VisitRangeOverOutletsOutlet(Outlet outlet)
+        {
+            VisitOutletBase(outlet);
+        }
+
+        //[DebuggerHidden]
+        protected virtual void VisitSortOverInletsOutlet(Outlet outlet)
+        {
+            VisitOutletBase(outlet);
+        }
+
+        //[DebuggerHidden]
+        protected virtual void VisitUnbundleOutlet(Outlet outlet)
+        {
+            VisitOutletBase(outlet);
         }
     }
 }

@@ -652,6 +652,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
+    <Compile Include="Visitors\2016-12-17 Backup of PatchCalculatorVisitor %28with invar bundle index experiment%29.cs" />
     <Compile Include="Visitors\ClassSpecialization_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\MachineOptimization_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\MathSimplification_OperatorDtoVisitor.cs" />

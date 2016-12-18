@@ -32,12 +32,6 @@ namespace JJ.Business.Synthesizer.Visitors
     /// </summary>
     internal partial class PatchCalculatorVisitor : OperatorVisitorBase
     {
-        /// <summary>
-        /// Feature switch: not being able to vary bundle dimension values
-        /// during the calculation is faster, but would not give the expected behavior.
-        /// However, we keep the code alive, to be able to experiment with the performance impact.
-        /// </summary>
-        private const bool BUNDLE_POSITIONS_ARE_INVARIANT = false;
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
         
         private readonly Outlet _topLevelOutlet;
@@ -56,7 +50,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_To_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
-        private int _current_RangeOverOutlets_Outlet_ListIndex;
 
         public PatchCalculatorVisitor(
             Outlet topLevelOutlet, 
@@ -115,7 +108,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _patchInlet_To_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
             _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
-            VisitOutlet(_topLevelOutlet);
+            VisitOutletPolymorphic(_topLevelOutlet);
 
             OperatorCalculatorBase outputOperatorCalculator = _stack.Pop();
 
@@ -616,11 +609,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitBundle(Operator op)
         {
-            if (BUNDLE_POSITIONS_ARE_INVARIANT)
-            {
-                throw new Exception("VisitBundle should not execute if BUNDLE_POSITIONS_ARE_INVARIANT.");
-            }
-
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
             // No pushing and popping from the dimension stack here.
@@ -1131,6 +1119,12 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             _stack.Push(calculator);
+        }
+
+        protected override void VisitDimensionToOutletsOutlet(Outlet outlet)
+        {
+            // Exactly the same behavior as Unbundle.
+            VisitUnbundleOutlet(outlet);
         }
 
         protected override void VisitDivide(Operator op)
@@ -2027,12 +2021,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculator = new InletsToDimension_OperatorCalculator(operandCalculators, wrapper.InterpolationType, dimensionStack);
 
             _stack.Push(calculator);
-        }
-
-        protected override void VisitDimensionToOutlets(Operator op)
-        {
-            // Exactly the same behavior as Unbundle.
-            VisitUnbundle(op);
         }
 
         protected override void VisitMaxOverInlets(Operator op)
@@ -3253,9 +3241,9 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(operatorCalculator);
         }
 
-        protected override void VisitRangeOverOutlets(Operator op)
+        protected override void VisitRangeOverOutletsOutlet(Outlet outlet)
         {
-            base.VisitRangeOverOutlets(op);
+            base.VisitRangeOverOutletsOutlet(outlet);
 
             OperatorCalculatorBase calculator = null;
 
@@ -3276,7 +3264,7 @@ namespace JJ.Business.Synthesizer.Visitors
             bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
             bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
-            int listIndex = _current_RangeOverOutlets_Outlet_ListIndex;
+            int listIndex = outlet.ListIndex;
 
             if (fromIsConstSpecialValue || stepIsConstSpecialValue)
             {
@@ -3887,40 +3875,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        protected override void VisitSortOverInlets(Operator op)
-        {
-            //DimensionEnum standardDimensionEnum = op.GetDimensionEnum();
-            //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
-            throw new NotImplementedException();
-
-            base.VisitSortOverInlets(op);
-
-            OperatorCalculatorBase calculator;
-
-            IList<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
-            for (int i = 0; i < op.Inlets.Count; i++)
-            {
-                OperatorCalculatorBase operandCalculator = _stack.Pop();
-                operandCalculators.Add(operandCalculator);
-            }
-
-            operandCalculators = operandCalculators.Where(x => x != null).ToArray();
-
-            switch (operandCalculators.Count)
-            {
-                case 0:
-                    calculator = new Number_OperatorCalculator_Zero();
-                    break;
-
-                default:
-                    throw new NotImplementedException();
-                    //calculator = new Sort_OperatorCalculator(operandCalculators, dimensionStack);
-                    break;
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitSortOverDimension(Operator op)
         {
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
@@ -4000,6 +3954,41 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             _stack.Push(operatorCalculator);
+        }
+
+        protected override void VisitSortOverInletsOutlet(Outlet outlet)
+        {
+            //DimensionEnum standardDimensionEnum = op.GetDimensionEnum();
+            //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
+            throw new NotImplementedException();
+
+            base.VisitSortOverInletsOutlet(outlet);
+
+            OperatorCalculatorBase calculator;
+
+            int inletCount = outlet.Operator.Inlets.Count;
+            IList<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>(inletCount);
+            for (int i = 0; i < inletCount; i++)
+            {
+                OperatorCalculatorBase operandCalculator = _stack.Pop();
+                operandCalculators.Add(operandCalculator);
+            }
+
+            operandCalculators = operandCalculators.Where(x => x != null).ToArray();
+
+            switch (operandCalculators.Count)
+            {
+                case 0:
+                    calculator = new Number_OperatorCalculator_Zero();
+                    break;
+
+                default:
+                    throw new NotImplementedException();
+                    //calculator = new Sort_OperatorCalculator(operandCalculators, dimensionStack);
+                    break;
+            }
+
+            _stack.Push(calculator);
         }
 
         protected override void VisitSpectrum(Operator op)
@@ -4637,39 +4626,33 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        protected override void VisitUnbundle(Operator op)
+        protected override void VisitUnbundleOutlet(Outlet outlet)
         {
-            if (BUNDLE_POSITIONS_ARE_INVARIANT)
-            {
-                throw new Exception("VisitUnbundle should not execute if BUNDLE_POSITIONS_ARE_INVARIANT.");
-            }
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
+            dimensionStack.Push(outlet.ListIndex);
 
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
+            base.VisitUnbundleOutlet(outlet);
 
-            // NOTE: Pushing and popping from the dimension stack is done in VisitUnbundleOutlet_WithVariableBundlePositions.
-
-            base.VisitUnbundle(op);
-
-            OperatorCalculatorBase operatorCalculator;
+            OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase operandCalculator = _stack.Pop();
 
             operandCalculator = operandCalculator ?? new Number_OperatorCalculator_Zero();
 
             bool operandIsConst = operandCalculator is Number_OperatorCalculator;
-            
+
             if (operandIsConst)
             {
-                operatorCalculator = operandCalculator;
-            }   
+                calculator = operandCalculator;
+            }
             else
             {
-                double position = dimensionStack.Get();
-
-                operatorCalculator = new Unbundle_OperatorCalculator(operandCalculator, position, dimensionStack);
+                calculator = new Unbundle_OperatorCalculator(operandCalculator, outlet.ListIndex, dimensionStack);
             }
 
-            _stack.Push(operatorCalculator);
+            dimensionStack.Pop();
+
+            _stack.Push(calculator);
         }
 
         // Special Visitation
@@ -4742,113 +4725,9 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        [DebuggerHidden]
-        protected override void VisitOutlet(Outlet outlet)
+        /// <summary> As soon as you encounter a CustomOperator's Outlet, the evaluation has to take a completely different course. </summary>
+        protected override void VisitCustomOperatorOutlet(Outlet outlet)
         {
-            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
-
-            switch (operatorTypeEnum)
-            {
-                case OperatorTypeEnum.Bundle:
-                    Visit_Bundle_Outlet(outlet);
-                    break;
-
-                case OperatorTypeEnum.CustomOperator:
-                    Visit_CustomOperator_Outlet(outlet);
-                    break;
-
-                case OperatorTypeEnum.DimensionToOutlets:
-                    Visit_DimensionToOutlets_Outlet(outlet);
-                    break;
-
-                case OperatorTypeEnum.InletsToDimension:
-                    Visit_InletsToDimension_Outlet(outlet);
-                    break;
-
-                case OperatorTypeEnum.RangeOverOutlets:
-                    Visit_RangeOverOutlets_Outlet(outlet);
-                    break;
-
-                case OperatorTypeEnum.Unbundle:
-                    Visit_Unbundle_Outlet(outlet);
-                    break;
-
-                default:
-                    base.VisitOutlet(outlet);
-                    break;
-            }
-        }
-
-        private void Visit_Bundle_Outlet(Outlet outlet)
-        {
-            if (BUNDLE_POSITIONS_ARE_INVARIANT)
-            {
-                Visit_Bundle_Outlet_WithInvariantBundlePositions(outlet);
-            }
-            else
-            {
-                Visit_Bundle_Outlet_WithVariableBundlePositions(outlet);
-            }
-        }
-
-        private void Visit_Bundle_Outlet_WithInvariantBundlePositions(Outlet outlet)
-        {
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
-
-            if (dimensionStack.Count == 0)
-            {
-                throw new NotSupportedException(String.Format(
-                    "Bundle Operator with ID '{0}' and Dimension '{1}' encountered without first encountering an Unbundle Operator. This is not yet supported.",
-                    outlet.Operator.ID,
-                    outlet.Operator.GetStandardDimensionEnum()));
-            }
-
-            double bundleIndexDouble = dimensionStack.PopAndGet();
-
-            if (!ConversionHelper.CanCastToNonNegativeInt32(bundleIndexDouble))
-            {
-                throw new Exception(String.Format(
-                    "Index '{0}' cannot be cast to non-negative Int32 for Bundle Operator with ID '{1}' and Dimension '{2}'.",
-                    bundleIndexDouble,
-                    outlet.Operator.ID,
-                    outlet.Operator.GetStandardDimensionEnum()));
-            }
-
-            if (bundleIndexDouble >= outlet.Operator.Inlets.Count)
-            {
-                throw new Exception(String.Format(
-                    "Index '{0}' does not exist in Bundle Operator with ID '{1}' and Dimension '{2}'.",
-                    bundleIndexDouble,
-                    outlet.Operator.ID,
-                    outlet.Operator.GetStandardDimensionEnum()));
-            }
-
-            int bundleIndexInt32 = (int)bundleIndexDouble;
-
-            Inlet inlet = outlet.Operator.Inlets.OrderBy(x => x.ListIndex).ElementAt(bundleIndexInt32);
-            if (inlet.InputOutlet == null)
-            {
-                double defaultValue = inlet.DefaultValue ?? 0.0;
-                _stack.Push(new Number_OperatorCalculator(defaultValue));
-            }
-            else
-            {
-                VisitOutlet(inlet.InputOutlet);
-            }
-
-            dimensionStack.Push(bundleIndexDouble);
-        }
-
-        private void Visit_Bundle_Outlet_WithVariableBundlePositions(Outlet outlet)
-        {
-            base.VisitOutlet(outlet);
-        }
-
-        private void Visit_CustomOperator_Outlet(Outlet outlet)
-        {
-            // As soon as you encounter a CustomOperator's Outlet,
-            // the evaluation has to take a completely different course.
-
             // Resolve the underlying patch's outlet
             Outlet customOperatorOutlet = outlet;
             Outlet patchOutlet_Outlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
@@ -4862,72 +4741,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Visit the underlying patch's outlet.
             VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
-        }
-
-        private void Visit_DimensionToOutlets_Outlet(Outlet outlet)
-        {
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
-
-            dimensionStack.Push(outlet.ListIndex);
-
-            base.VisitOutlet(outlet);
-
-            dimensionStack.Pop();
-        }
-
-        private void Visit_InletsToDimension_Outlet(Outlet outlet)
-        {
-            base.VisitOutlet(outlet);
-        }
-
-        private void Visit_RangeOverOutlets_Outlet(Outlet outlet)
-        {
-            _current_RangeOverOutlets_Outlet_ListIndex = outlet.ListIndex;
-
-            base.VisitOutlet(outlet);
-        }
-
-        private void Visit_Unbundle_Outlet(Outlet outlet)
-        {
-            if (BUNDLE_POSITIONS_ARE_INVARIANT)
-            {
-                Visit_Unbundle_Outlet_WithInvariantBundlePositions(outlet);
-            }
-            else
-            {
-                Visit_Unbundle_Outlet_WithVariableBundlePositions(outlet);
-            }
-        }
-
-        private void Visit_Unbundle_Outlet_WithInvariantBundlePositions(Outlet outlet)
-        {
-            Operator op = outlet.Operator;
-            Inlet inlet = op.Inlets.Single();
-            Outlet inputOutlet = inlet.InputOutlet;
-            if (inputOutlet == null)
-            {
-                _stack.Push(new Number_OperatorCalculator_Zero());
-                return;
-            }
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
-
-            dimensionStack.Push(outlet.ListIndex);
-
-            VisitOutlet(inputOutlet);
-
-            dimensionStack.Pop();
-        }
-
-        private void Visit_Unbundle_Outlet_WithVariableBundlePositions(Outlet outlet)
-        {
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
-
-            dimensionStack.Push(outlet.ListIndex);
-
-            base.VisitOutlet(outlet);
-
-            dimensionStack.Pop();
         }
 
         protected override void VisitReset(Operator op)
