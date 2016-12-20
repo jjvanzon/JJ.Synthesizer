@@ -6,14 +6,14 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Bundle_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class InletsToDimension_OperatorCalculator_BlockInterpolation : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase[] _operandCalculators;
         private readonly double _maxIndexDouble;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
         
-        public Bundle_OperatorCalculator(IList<OperatorCalculatorBase> operandCalculators, DimensionStack dimensionStack)
+        public InletsToDimension_OperatorCalculator_BlockInterpolation(IList<OperatorCalculatorBase> operandCalculators, DimensionStack dimensionStack)
             : base(operandCalculators)
         {
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);

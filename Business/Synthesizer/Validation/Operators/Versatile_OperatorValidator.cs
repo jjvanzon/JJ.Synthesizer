@@ -24,8 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.AverageOverInlets, typeof(AverageOverInlets_OperatorValidator) },
             { OperatorTypeEnum.BandPassFilterConstantPeakGain, typeof(BandPassFilterConstantPeakGain_OperatorValidator) },
             { OperatorTypeEnum.BandPassFilterConstantTransitionGain, typeof(BandPassFilterConstantTransitionGain_OperatorValidator) },
-            { OperatorTypeEnum.Bundle, typeof(Bundle_OperatorValidator) },
-            { OperatorTypeEnum.Cache, typeof(Cache_OperatorValidator) },
+            { OperatorTypeEnum.Cache,typeof(Cache_OperatorValidator) },
             { OperatorTypeEnum.ChangeTrigger, typeof(ChangeTrigger_OperatorValidator) },
             { OperatorTypeEnum.ClosestOverDimension, typeof(ClosestOverDimension_OperatorValidator) },
             { OperatorTypeEnum.ClosestOverDimensionExp, typeof(ClosestOverDimensionExp_OperatorValidator) },
@@ -98,7 +97,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.TimePower, typeof(TimePower_OperatorValidator) },
             { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorValidator) },
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorValidator) },
-            { OperatorTypeEnum.Unbundle, typeof(Unbundle_OperatorValidator) },
         };
 
         public Versatile_OperatorValidator(Operator obj, IPatchRepository patchRepository)

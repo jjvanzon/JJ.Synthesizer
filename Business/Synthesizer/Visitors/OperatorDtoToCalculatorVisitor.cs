@@ -156,11 +156,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
-        protected override OperatorDtoBase Visit_Bundle_OperatorDto(Bundle_OperatorDto dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Bundle_OperatorCalculator(dto.InputOperatorDtos.Select(x => _stack.Pop()).ToArray(), dimensionStack));
-        }
-
         protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
@@ -489,7 +484,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ResampleInterpolationTypeEnum, dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_OtherInterpolationTypes(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ResampleInterpolationTypeEnum, dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)

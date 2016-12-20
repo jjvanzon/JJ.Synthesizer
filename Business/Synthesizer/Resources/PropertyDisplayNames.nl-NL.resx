@@ -396,12 +396,6 @@
   <data name="Select" xml:space="preserve">
     <value>Selecteren</value>
   </data>
-  <data name="Bundle" xml:space="preserve">
-    <value>Bundelen</value>
-  </data>
-  <data name="Unbundle" xml:space="preserve">
-    <value>Ontbundelen</value>
-  </data>
   <data name="Frequencies" xml:space="preserve">
     <value>Frequenties</value>
   </data>

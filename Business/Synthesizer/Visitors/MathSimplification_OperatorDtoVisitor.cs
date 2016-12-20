@@ -236,13 +236,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_ConstSignal_Identity(dto.Signal);
         }
 
-        // Bundle
-
-        protected override OperatorDtoBase Visit_Bundle_OperatorDto(Bundle_OperatorDto dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         // Cache
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_ConstSignal(Cache_OperatorDto_ConstSignal dto)
@@ -2495,14 +2488,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_ZeroFrequency(Triangle_OperatorDto_ZeroFrequency dto)
         {
             return Process_ZeroFrequency(dto);
-        }
-
-        // Unbundle
-
-        protected override OperatorDtoBase Visit_Unbundle_OperatorDto(Unbundle_OperatorDto dto)
-        {
-            // Requires special visitation
-            return Process_Nothing(dto);
         }
 
         // Helpers

@@ -11,11 +11,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     // TODO: Also add block and stripe interpolation.
 
-    internal class InletsToDimension_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class InletsToDimension_OperatorCalculator_OtherInterpolationTypes : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _interpolateOperator;
 
-        public InletsToDimension_OperatorCalculator(
+        public InletsToDimension_OperatorCalculator_OtherInterpolationTypes(
             IList<OperatorCalculatorBase> operandCalculators,
             ResampleInterpolationTypeEnum resampleInterpolationTypeEnum,
             DimensionStack dimensionStack)
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // and to reuse the Interpolate_OperatorCalculator's capability of
             // handling many types of interpolation.
 
-            var bundleCalculator = new Bundle_OperatorCalculator(operandCalculators, dimensionStack);
+            var bundleCalculator = new InletsToDimension_OperatorCalculator_BlockInterpolation(operandCalculators, dimensionStack);
 
             _interpolateOperator = OperatorCalculatorFactory.Create_Interpolate_OperatorCalculator(
                 resampleInterpolationTypeEnum,

@@ -60,7 +60,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   new HashSet<OperatorTypeEnum>
         {
             OperatorTypeEnum.DimensionToOutlets,
-            OperatorTypeEnum.Unbundle,
             OperatorTypeEnum.RangeOverOutlets
         };
 
@@ -80,7 +79,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
         {
-            OperatorTypeEnum.Bundle,
             OperatorTypeEnum.Cache,
             OperatorTypeEnum.Curve,
             OperatorTypeEnum.CustomOperator,
@@ -123,8 +121,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.Exponent,
             //OperatorTypeEnum.Loop,
             //OperatorTypeEnum.Select,
-            OperatorTypeEnum.Bundle,
-            OperatorTypeEnum.Unbundle,
             //OperatorTypeEnum.Stretch,
             //OperatorTypeEnum.Squash,
             //OperatorTypeEnum.Shift,

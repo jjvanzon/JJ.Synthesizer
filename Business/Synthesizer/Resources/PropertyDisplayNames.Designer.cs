@@ -286,15 +286,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bundle.
-        /// </summary>
-        public static string Bundle {
-            get {
-                return ResourceManager.GetString("Bundle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 8-Bit.
         /// </summary>
         public static string Byte {
@@ -2163,15 +2154,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Triangle {
             get {
                 return ResourceManager.GetString("Triangle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unbundle.
-        /// </summary>
-        public static string Unbundle {
-            get {
-                return ResourceManager.GetString("Unbundle", resourceCulture);
             }
         }
         

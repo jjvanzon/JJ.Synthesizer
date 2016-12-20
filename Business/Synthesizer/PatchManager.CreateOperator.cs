@@ -262,34 +262,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Bundle_OperatorWrapper Bundle(params Outlet[] operands)
-        {
-            return Bundle((IList<Outlet>)operands);
-        }
-
-        public Bundle_OperatorWrapper Bundle(DimensionEnum standardDimension, params Outlet[] operands)
-        {
-            return Bundle(operands, standardDimension);
-        }
-
-        public Bundle_OperatorWrapper Bundle(
-            IList<Outlet> operands, 
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
-            string customDimension = null)
-        {
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Bundle, operands);
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new Bundle_OperatorWrapper(op);
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
         public Cache_OperatorWrapper Cache(
             Outlet signal = null,
             Outlet start = null,
@@ -2333,83 +2305,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
-            => UnbundlePrivate(operand, standardDimension, customDimension, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, string customDimension)
-            => UnbundlePrivate(operand, standardDimension, customDimension, null);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, int outletCount)
-            => UnbundlePrivate(operand, standardDimension, null, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension)
-            => UnbundlePrivate(operand, standardDimension, null, null);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, string customDimension, int outletCount)
-            => UnbundlePrivate(operand, null, customDimension, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, string customDimension)
-            => UnbundlePrivate(operand, null, customDimension, null);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, int outletCount)
-            => UnbundlePrivate(operand, null, null, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand)
-            => UnbundlePrivate(operand, null, null, null);
-
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, string customDimension, int outletCount)
-            => UnbundlePrivate(null, standardDimension, customDimension, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, string customDimension)
-            => UnbundlePrivate(null, standardDimension, customDimension, null);
-
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, int outletCount)
-            => UnbundlePrivate(null, standardDimension, null, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension)
-            => UnbundlePrivate(null, standardDimension, null, null);
-
-        public Unbundle_OperatorWrapper Unbundle(int outletCount, string customDimension)
-            => UnbundlePrivate(null, null, customDimension, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(string customDimension)
-            => UnbundlePrivate(null, null, customDimension, null);
-
-        public Unbundle_OperatorWrapper Unbundle(int outletCount)
-            => UnbundlePrivate(null, null, null, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle()
-            => UnbundlePrivate(null, null, null, null);
-
-        private Unbundle_OperatorWrapper UnbundlePrivate(Outlet operand, DimensionEnum? dimension, string customDimension, int? outletCount)
-        {
-            dimension = dimension ?? DimensionEnum.Undefined;
-            outletCount = outletCount ?? 1;
-
-            if (outletCount < 1) throw new LessThanException(() => outletCount, 1);
-
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Unbundle,
-                new DimensionEnum[] { DimensionEnum.Undefined },
-                Enumerable.Repeat(DimensionEnum.Undefined, outletCount.Value).ToArray());
-
-            if (dimension.HasValue)
-            {
-                op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
-            }
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new Unbundle_OperatorWrapper(op)
-            {
-                Operand = operand,
-            };
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
         // Helpers
 
         private void SetOperands(Operator op, IList<Outlet> operands)
@@ -2456,7 +2351,6 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.AverageOverInlets: return AverageOverInlets(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.BandPassFilterConstantPeakGain: return BandPassFilterConstantPeakGain();
                 case OperatorTypeEnum.BandPassFilterConstantTransitionGain: return BandPassFilterConstantTransitionGain();
-                case OperatorTypeEnum.Bundle: return Bundle(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Cache: return Cache();
                 case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
                 case OperatorTypeEnum.ClosestOverDimension: return ClosestOverDimension();
@@ -2531,7 +2425,6 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.TimePower: return TimePower();
                 case OperatorTypeEnum.ToggleTrigger: return ToggleTrigger();
                 case OperatorTypeEnum.Triangle: return Triangle();
-                case OperatorTypeEnum.Unbundle: return Unbundle(null, variableInletOrOutletCount);
 
                 default:
                     throw new Exception(String.Format("OperatorTypeEnum '{0}' not supported by the PatchManager.CreateOperator method.", operatorTypeEnum));

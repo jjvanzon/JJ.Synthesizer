@@ -188,25 +188,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForBundle GetOperatorPropertiesViewModel_ForBundle(DocumentViewModel documentViewModel, int operatorID)
-        {
-            OperatorPropertiesViewModel_ForBundle viewModel = TryGetOperatorPropertiesViewModel_ForBundle(documentViewModel, operatorID);
-            if (viewModel == null)
-            {
-                throw new NotFoundException<OperatorPropertiesViewModel_ForBundle>(operatorID);
-            }
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_ForBundle TryGetOperatorPropertiesViewModel_ForBundle(DocumentViewModel documentViewModel, int operatorID)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            OperatorPropertiesViewModel_ForBundle viewModel;
-            documentViewModel.OperatorPropertiesDictionary_ForBundles.TryGetValue(operatorID, out viewModel);
-            return viewModel;
-        }
-
         public static OperatorPropertiesViewModel_ForCache GetOperatorPropertiesViewModel_ForCache(DocumentViewModel documentViewModel, int operatorID)
         {
             OperatorPropertiesViewModel_ForCache viewModel = TryGetOperatorPropertiesViewModel_ForCache(documentViewModel, operatorID);

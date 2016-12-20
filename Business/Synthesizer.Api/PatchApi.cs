@@ -76,15 +76,6 @@ namespace JJ.Business.Synthesizer.Api
             Outlet bandWidth = null)
             => _patchManager.BandPassFilterConstantTransitionGain(signal, centerFrequency, bandWidth);
 
-        public Bundle_OperatorWrapper Bundle(params Outlet[] operands)
-            => _patchManager.Bundle(operands);
-
-        public Bundle_OperatorWrapper Bundle(DimensionEnum standardDimension, params Outlet[] operands)
-            => _patchManager.Bundle(operands, standardDimension);
-
-        public Bundle_OperatorWrapper Bundle(IList<Outlet> operands, DimensionEnum standardDimension = DimensionEnum.Undefined, string customDimension = null)
-            => _patchManager.Bundle(operands, standardDimension, customDimension);
-
         public Cache_OperatorWrapper Cache(
             Outlet signal = null,
             Outlet start = null,
@@ -577,54 +568,6 @@ namespace JJ.Business.Synthesizer.Api
 
         public Triangle_OperatorWrapper Triangle(Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
             => _patchManager.Triangle(frequency, standardDimension, customDimension);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
-            => _patchManager.Unbundle(operand, standardDimension, customDimension, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, string customDimension)
-            => _patchManager.Unbundle(operand, standardDimension, customDimension);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension, int outletCount)
-            => _patchManager.Unbundle(operand, standardDimension, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, DimensionEnum standardDimension)
-            => _patchManager.Unbundle(operand, standardDimension);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, string customDimension, int outletCount)
-            => _patchManager.Unbundle(operand, customDimension, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, string customDimension)
-            => _patchManager.Unbundle(operand, customDimension);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand, int outletCount)
-            => _patchManager.Unbundle(operand, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand)
-            => _patchManager.Unbundle(operand);
-
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, string customDimension, int outletCount)
-            => _patchManager.Unbundle(standardDimension, customDimension, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, string customDimension)
-            => _patchManager.Unbundle(standardDimension, customDimension);
-
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension, int outletCount)
-            => _patchManager.Unbundle(standardDimension, outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle(DimensionEnum standardDimension)
-            => _patchManager.Unbundle(standardDimension);
-
-        public Unbundle_OperatorWrapper Unbundle(int outletCount, string customDimension)
-            => _patchManager.Unbundle(outletCount, customDimension);
-
-        public Unbundle_OperatorWrapper Unbundle(string customDimension)
-            => _patchManager.Unbundle(customDimension);
-
-        public Unbundle_OperatorWrapper Unbundle(int outletCount)
-            => _patchManager.Unbundle(outletCount);
-
-        public Unbundle_OperatorWrapper Unbundle()
-            => _patchManager.Unbundle();
 
         public IPatchCalculator CreateCalculator(
             Outlet outlet,

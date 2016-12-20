@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Unbundle_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class DimensionToOutlets_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _operandCalculator;
         private readonly double _position;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Unbundle_OperatorCalculator(
+        public DimensionToOutlets_OperatorCalculator(
             OperatorCalculatorBase operandCalculator, 
             double position,
             DimensionStack dimensionStack)

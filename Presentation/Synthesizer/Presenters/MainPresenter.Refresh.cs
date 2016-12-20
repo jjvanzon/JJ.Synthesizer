@@ -264,7 +264,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentPropertiesRefresh();
             DocumentTreeRefresh();
             NodePropertiesDictionaryRefresh();
-            OperatorPropertiesDictionary_ForBundles_Refresh();
             OperatorPropertiesDictionary_ForCaches_Refresh();
             OperatorPropertiesDictionary_ForCurves_Refresh();
             OperatorPropertiesDictionary_ForCustomOperators_Refresh();
@@ -344,12 +343,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorPropertiesRefresh(OperatorPropertiesViewModel userInput)
         {
             OperatorPropertiesViewModel viewModel = _operatorPropertiesPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForBundle_Refresh(OperatorPropertiesViewModel_ForBundle userInput)
-        {
-            OperatorPropertiesViewModel_ForBundle viewModel = _operatorPropertiesPresenter_ForBundle.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
@@ -476,44 +469,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (MainViewModel.Document.VisibleOperatorProperties?.ID == idToDelete)
                 {
                     MainViewModel.Document.VisibleOperatorProperties = null;
-                }
-            }
-        }
-
-        private void OperatorPropertiesDictionary_ForBundles_Refresh()
-        {
-            var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForBundles;
-
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            IList<Operator> operators = document.Patches
-                                                .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.Bundle))
-                                                .ToArray();
-            foreach (Operator op in operators)
-            {
-                OperatorPropertiesViewModel_ForBundle viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, op.ID);
-                if (viewModel == null)
-                {
-                    viewModel = op.ToPropertiesViewModel_ForBundle();
-                    viewModel.Successful = true;
-                    viewModelDictionary[op.ID] = viewModel;
-                }
-                else
-                {
-                    OperatorProperties_ForBundle_Refresh(viewModel);
-                }
-            }
-
-            IEnumerable<int> existingIDs = viewModelDictionary.Keys;
-            IEnumerable<int> idsToKeep = operators.Select(x => x.ID);
-            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
-
-            foreach (int idToDelete in idsToDelete.ToArray())
-            {
-                viewModelDictionary.Remove(idToDelete);
-
-                if (MainViewModel.Document.VisibleOperatorProperties_ForBundle?.ID == idToDelete)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_ForBundle = null;
                 }
             }
         }

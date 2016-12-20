@@ -64,7 +64,7 @@
     <Compile Include="Presenters\MainPresenter.DispatchViewModel.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithOutletCount.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCurve.cs" />
-    <Compile Include="Presenters\OperatorPropertiesPresenter_ForBundle.cs" />
+    <Compile Include="Presenters\2016-12-20 Backup of OperatorPropertiesPresenter_ForBundle.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForSample.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCustomOperator.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForNumber.cs" />
@@ -166,7 +166,7 @@
     <Compile Include="ViewModels\Partials\MenuViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithOutletCount.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCurve.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForBundle.cs" />
+    <Compile Include="ViewModels\2016-12-20 Backup of OperatorPropertiesViewModel_ForBundle.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForSample.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCustomOperator.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForNumber.cs" />

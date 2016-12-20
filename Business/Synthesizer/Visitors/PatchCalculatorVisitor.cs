@@ -607,30 +607,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        protected override void VisitBundle(Operator op)
-        {
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
-
-            // No pushing and popping from the dimension stack here.
-
-            base.VisitBundle(op);
-
-            var operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
-
-            for (int i = 0; i < op.Inlets.Count; i++)
-            {
-                OperatorCalculatorBase operandCalculator = _stack.Pop();
-
-                operandCalculator = operandCalculator ?? new Number_OperatorCalculator_Zero();
-
-                operandCalculators.Add(operandCalculator);
-            }
-
-            OperatorCalculatorBase calculator = new Bundle_OperatorCalculator(operandCalculators, dimensionStack);
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitCache(Operator op)
         {
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
@@ -1123,8 +1099,31 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitDimensionToOutletsOutlet(Outlet outlet)
         {
-            // Exactly the same behavior as Unbundle.
-            VisitUnbundleOutlet(outlet);
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
+            dimensionStack.Push(outlet.ListIndex);
+
+            base.VisitDimensionToOutletsOutlet(outlet);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase operandCalculator = _stack.Pop();
+
+            operandCalculator = operandCalculator ?? new Number_OperatorCalculator_Zero();
+
+            bool operandIsConst = operandCalculator is Number_OperatorCalculator;
+
+            if (operandIsConst)
+            {
+                calculator = operandCalculator;
+            }
+            else
+            {
+                calculator = new DimensionToOutlets_OperatorCalculator(operandCalculator, outlet.ListIndex, dimensionStack);
+            }
+
+            dimensionStack.Pop();
+
+            _stack.Push(calculator);
         }
 
         protected override void VisitDivide(Operator op)
@@ -2018,7 +2017,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             var wrapper = new InletsToDimension_OperatorWrapper(op);
-            OperatorCalculatorBase calculator = new InletsToDimension_OperatorCalculator(operandCalculators, wrapper.InterpolationType, dimensionStack);
+            OperatorCalculatorBase calculator = new InletsToDimension_OperatorCalculator_OtherInterpolationTypes(operandCalculators, wrapper.InterpolationType, dimensionStack);
 
             _stack.Push(calculator);
         }
@@ -4428,7 +4427,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     case CollectionRecalculationEnum.Continuous:
                         if (fromIsConstZero && tillIsConst && stepIsConstOne)
                         {
-                            operatorCalculator = new SumOverDimension_OperatorCalculator_ByUnbundleAndAdd(
+                            operatorCalculator = new SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd(
                                 signalCalculator,
                                 till,
                                 dimensionStack);
@@ -4622,35 +4621,6 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
-
-            _stack.Push(calculator);
-        }
-
-        protected override void VisitUnbundleOutlet(Outlet outlet)
-        {
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
-            dimensionStack.Push(outlet.ListIndex);
-
-            base.VisitUnbundleOutlet(outlet);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase operandCalculator = _stack.Pop();
-
-            operandCalculator = operandCalculator ?? new Number_OperatorCalculator_Zero();
-
-            bool operandIsConst = operandCalculator is Number_OperatorCalculator;
-
-            if (operandIsConst)
-            {
-                calculator = operandCalculator;
-            }
-            else
-            {
-                calculator = new Unbundle_OperatorCalculator(operandCalculator, outlet.ListIndex, dimensionStack);
-            }
-
-            dimensionStack.Pop();
 
             _stack.Push(calculator);
         }

@@ -65,8 +65,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             nodePropertiesUserControl.LoseFocusRequested += nodePropertiesUserControl_LoseFocusRequested;
             operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
             operatorPropertiesUserControl.LoseFocusRequested += operatorPropertiesUserControl_LoseFocusRequested;
-            operatorPropertiesUserControl_ForBundle.CloseRequested += operatorPropertiesUserControl_ForBundle_CloseRequested;
-            operatorPropertiesUserControl_ForBundle.LoseFocusRequested += operatorPropertiesUserControl_ForBundle_LoseFocusRequested;
             operatorPropertiesUserControl_ForCache.CloseRequested += operatorPropertiesUserControl_ForCache_CloseRequested;
             operatorPropertiesUserControl_ForCache.LoseFocusRequested += operatorPropertiesUserControl_ForCache_LoseFocusRequested;
             operatorPropertiesUserControl_ForCurve.CloseRequested += operatorPropertiesUserControl_ForCurve_CloseRequested;
@@ -467,16 +465,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void operatorPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesClose(e.Value));
-        }
-
-        private void operatorPropertiesUserControl_ForBundle_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesLoseFocus_ForBundle(e.Value));
-        }
-
-        private void operatorPropertiesUserControl_ForBundle_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateEventHandler(() => _presenter.OperatorPropertiesClose_ForBundle(e.Value));
         }
 
         private void operatorPropertiesUserControl_ForCache_LoseFocusRequested(object sender, EventArgs<int> e)

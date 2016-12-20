@@ -309,11 +309,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in userInput.OperatorPropertiesDictionary_ForBundles.Values)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
-            }
-
             foreach (OperatorPropertiesViewModel_ForCache propertiesViewModel in userInput.OperatorPropertiesDictionary_ForCaches.Values)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
@@ -594,19 +589,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static Operator ToEntity(
             this OperatorPropertiesViewModel viewModel,
             IOperatorRepository operatorRepository, 
-            IOperatorTypeRepository operatorTypeRepository,
-            IDimensionRepository dimensionRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
-
-            return entity;
-        }
-
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForBundle viewModel,
-            IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
             IDimensionRepository dimensionRepository)
         {

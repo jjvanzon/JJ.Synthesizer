@@ -24,7 +24,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.AverageOverInlets, Create_Average_OperatorWrapper },
             { OperatorTypeEnum.BandPassFilterConstantPeakGain, Create_BandPassFilterConstantPeakGain_OperatorWrapper },
             { OperatorTypeEnum.BandPassFilterConstantTransitionGain, Create_BandPassFilterConstantTransitionGain_OperatorWrapper },
-            { OperatorTypeEnum.Bundle, Create_Bundle_OperatorWrapper },
             { OperatorTypeEnum.Cache, Create_Cache_OperatorWrapper },
             { OperatorTypeEnum.ChangeTrigger, Create_ChangeTrigger_OperatorWrapper },
             { OperatorTypeEnum.ClosestOverDimension, Create_ClosestOverDimension_OperatorWrapper },
@@ -96,7 +95,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.TimePower , Create_TimePower_OperatorWrapper },
             { OperatorTypeEnum.ToggleTrigger , Create_ToggleTrigger_OperatorWrapper },
             { OperatorTypeEnum.Triangle, Create_Triangle_OperatorWrapper },
-            { OperatorTypeEnum.Unbundle, Create_Unbundle_OperatorWrapper },
         };
 
         public static OperatorWrapperBase CreateOperatorWrapper(
@@ -142,7 +140,6 @@ namespace JJ.Business.Synthesizer.Helpers
         private static AverageOverInlets_OperatorWrapper Create_Average_OperatorWrapper(Operator op) { return new AverageOverInlets_OperatorWrapper(op); }
         private static BandPassFilterConstantPeakGain_OperatorWrapper Create_BandPassFilterConstantPeakGain_OperatorWrapper(Operator op) { return new BandPassFilterConstantPeakGain_OperatorWrapper(op); }
         private static BandPassFilterConstantTransitionGain_OperatorWrapper Create_BandPassFilterConstantTransitionGain_OperatorWrapper(Operator op) { return new BandPassFilterConstantTransitionGain_OperatorWrapper(op); }
-        private static Bundle_OperatorWrapper Create_Bundle_OperatorWrapper(Operator op) { return new Bundle_OperatorWrapper(op); }
         private static Cache_OperatorWrapper Create_Cache_OperatorWrapper(Operator op) { return new Cache_OperatorWrapper(op); }
         private static ChangeTrigger_OperatorWrapper Create_ChangeTrigger_OperatorWrapper(Operator op) { return new ChangeTrigger_OperatorWrapper(op); }
         private static ClosestOverDimension_OperatorWrapper Create_ClosestOverDimension_OperatorWrapper(Operator op) { return new ClosestOverDimension_OperatorWrapper(op); }
@@ -214,6 +211,5 @@ namespace JJ.Business.Synthesizer.Helpers
         private static TimePower_OperatorWrapper Create_TimePower_OperatorWrapper(Operator op) { return new TimePower_OperatorWrapper(op); }
         private static ToggleTrigger_OperatorWrapper Create_ToggleTrigger_OperatorWrapper(Operator op) { return new ToggleTrigger_OperatorWrapper(op); }
         private static Triangle_OperatorWrapper Create_Triangle_OperatorWrapper(Operator op) { return new Triangle_OperatorWrapper(op); }
-        private static Unbundle_OperatorWrapper Create_Unbundle_OperatorWrapper(Operator op) { return new Unbundle_OperatorWrapper(op); }
     }
 }

@@ -2409,110 +2409,110 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
-        public static void Migrate_Bundle_AndUnbundle_ToInletsToDimension_AndDimensionToOutlets(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        //public static void Migrate_Bundle_AndUnbundle_ToInletsToDimension_AndDimensionToOutlets(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+        //    progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                var patchManager = new PatchManager(new PatchRepositories(repositories));
-                var entityPositionManager = new EntityPositionManager(repositories.EntityPositionRepository, repositories.IDRepository);
+        //        var patchManager = new PatchManager(new PatchRepositories(repositories));
+        //        var entityPositionManager = new EntityPositionManager(repositories.EntityPositionRepository, repositories.IDRepository);
 
-                {
-                    IList<Operator> source_Bundle_Operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Bundle);
+        //        {
+        //            IList<Operator> source_Bundle_Operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Bundle);
 
-                    for (int i = 0; i < source_Bundle_Operators.Count; i++)
-                    {
-                        Operator source_Bundle_Operator = source_Bundle_Operators[i];
-                        var source_Bundle_Wrapper = new Bundle_OperatorWrapper(source_Bundle_Operator);
+        //            for (int i = 0; i < source_Bundle_Operators.Count; i++)
+        //            {
+        //                Operator source_Bundle_Operator = source_Bundle_Operators[i];
+        //                var source_Bundle_Wrapper = new Bundle_OperatorWrapper(source_Bundle_Operator);
 
-                        patchManager.Patch = source_Bundle_Operator.Patch;
+        //                patchManager.Patch = source_Bundle_Operator.Patch;
 
-                        InletsToDimension_OperatorWrapper dest_InletsToDimension_Wrapper = patchManager.InletsToDimension(source_Bundle_Wrapper.Operands);
-                        dest_InletsToDimension_Wrapper.InterpolationType = ResampleInterpolationTypeEnum.Stripe;
+        //                InletsToDimension_OperatorWrapper dest_InletsToDimension_Wrapper = patchManager.InletsToDimension(source_Bundle_Wrapper.Operands);
+        //                dest_InletsToDimension_Wrapper.InterpolationType = ResampleInterpolationTypeEnum.Stripe;
 
-                        Operator dest_InletsToDimension_Operator = dest_InletsToDimension_Wrapper;
-                        dest_InletsToDimension_Operator.LinkTo(source_Bundle_Operator.StandardDimension);
-                        dest_InletsToDimension_Operator.CustomDimensionName = source_Bundle_Operator.CustomDimensionName;
-                        dest_InletsToDimension_Operator.Name = source_Bundle_Operator.Name;
+        //                Operator dest_InletsToDimension_Operator = dest_InletsToDimension_Wrapper;
+        //                dest_InletsToDimension_Operator.LinkTo(source_Bundle_Operator.StandardDimension);
+        //                dest_InletsToDimension_Operator.CustomDimensionName = source_Bundle_Operator.CustomDimensionName;
+        //                dest_InletsToDimension_Operator.Name = source_Bundle_Operator.Name;
 
-                        Outlet destOutlet = dest_InletsToDimension_Wrapper.Result;
+        //                Outlet destOutlet = dest_InletsToDimension_Wrapper.Result;
 
-                        IList<Inlet> connectedInlets = source_Bundle_Wrapper.Result.ConnectedInlets.ToArray();
-                        foreach (Inlet connectedInlet in connectedInlets)
-                        {
-                            connectedInlet.LinkTo(destOutlet);
-                        }
+        //                IList<Inlet> connectedInlets = source_Bundle_Wrapper.Result.ConnectedInlets.ToArray();
+        //                foreach (Inlet connectedInlet in connectedInlets)
+        //                {
+        //                    connectedInlet.LinkTo(destOutlet);
+        //                }
 
-                        EntityPosition sourceEntityPosition = entityPositionManager.GetOperatorPosition(source_Bundle_Operator.ID);
-                        EntityPosition destEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(dest_InletsToDimension_Operator.ID);
-                        destEntityPosition.X = sourceEntityPosition.X;
-                        destEntityPosition.Y = sourceEntityPosition.Y;
+        //                EntityPosition sourceEntityPosition = entityPositionManager.GetOperatorPosition(source_Bundle_Operator.ID);
+        //                EntityPosition destEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(dest_InletsToDimension_Operator.ID);
+        //                destEntityPosition.X = sourceEntityPosition.X;
+        //                destEntityPosition.Y = sourceEntityPosition.Y;
 
-                        patchManager.DeleteOperatorWithRelatedEntities(source_Bundle_Operator);
+        //                patchManager.DeleteOperatorWithRelatedEntities(source_Bundle_Operator);
 
-                        string progressMessage = String.Format("Migrated Bundle Operator {0}/{1}.", i + 1, source_Bundle_Operators.Count);
-                        progressCallback(progressMessage);
-                    }
-                }
+        //                string progressMessage = String.Format("Migrated Bundle Operator {0}/{1}.", i + 1, source_Bundle_Operators.Count);
+        //                progressCallback(progressMessage);
+        //            }
+        //        }
 
-                {
-                    IList<Operator> source_Unbundle_Operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Unbundle);
+        //        {
+        //            IList<Operator> source_Unbundle_Operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Unbundle);
 
-                    for (int sourceOperatorIndex = 0; sourceOperatorIndex < source_Unbundle_Operators.Count; sourceOperatorIndex++)
-                    {
-                        Operator source_Unbundle_Operator = source_Unbundle_Operators[sourceOperatorIndex];
-                        var source_Unbundle_Wrapper = new Unbundle_OperatorWrapper(source_Unbundle_Operator);
+        //            for (int sourceOperatorIndex = 0; sourceOperatorIndex < source_Unbundle_Operators.Count; sourceOperatorIndex++)
+        //            {
+        //                Operator source_Unbundle_Operator = source_Unbundle_Operators[sourceOperatorIndex];
+        //                var source_Unbundle_Wrapper = new Unbundle_OperatorWrapper(source_Unbundle_Operator);
 
-                        patchManager.Patch = source_Unbundle_Operator.Patch;
+        //                patchManager.Patch = source_Unbundle_Operator.Patch;
 
-                        int outletCount = source_Unbundle_Operator.Outlets.Count;
+        //                int outletCount = source_Unbundle_Operator.Outlets.Count;
 
-                        DimensionToOutlets_OperatorWrapper dest_DimensionToOutlets_Wrapper = patchManager.DimensionToOutlets(
-                            source_Unbundle_Wrapper.Operand,
-                            source_Unbundle_Operator.GetStandardDimensionEnum(),
-                            source_Unbundle_Operator.CustomDimensionName,
-                            outletCount);
-                        dest_DimensionToOutlets_Wrapper.Operand = source_Unbundle_Wrapper.Operand;
+        //                DimensionToOutlets_OperatorWrapper dest_DimensionToOutlets_Wrapper = patchManager.DimensionToOutlets(
+        //                    source_Unbundle_Wrapper.Operand,
+        //                    source_Unbundle_Operator.GetStandardDimensionEnum(),
+        //                    source_Unbundle_Operator.CustomDimensionName,
+        //                    outletCount);
+        //                dest_DimensionToOutlets_Wrapper.Operand = source_Unbundle_Wrapper.Operand;
 
-                        Operator dest_DimensionToOutlets_Operator = dest_DimensionToOutlets_Wrapper;
-                        dest_DimensionToOutlets_Operator.Name = source_Unbundle_Operator.Name;
+        //                Operator dest_DimensionToOutlets_Operator = dest_DimensionToOutlets_Wrapper;
+        //                dest_DimensionToOutlets_Operator.Name = source_Unbundle_Operator.Name;
 
-                        for (int outletIndex = 0; outletIndex < outletCount; outletIndex++)
-                        {
-                            Outlet sourceOutlet = source_Unbundle_Operator.Outlets[outletIndex];
-                            Outlet destOutlet = dest_DimensionToOutlets_Operator.Outlets[outletIndex];
+        //                for (int outletIndex = 0; outletIndex < outletCount; outletIndex++)
+        //                {
+        //                    Outlet sourceOutlet = source_Unbundle_Operator.Outlets[outletIndex];
+        //                    Outlet destOutlet = dest_DimensionToOutlets_Operator.Outlets[outletIndex];
                         
-                            foreach (Inlet connectedInlet in sourceOutlet.ConnectedInlets.ToArray())
-                            {
-                                connectedInlet.LinkTo(destOutlet);
-                            }
-                        }
+        //                    foreach (Inlet connectedInlet in sourceOutlet.ConnectedInlets.ToArray())
+        //                    {
+        //                        connectedInlet.LinkTo(destOutlet);
+        //                    }
+        //                }
 
-                        EntityPosition sourceEntityPosition = entityPositionManager.GetOperatorPosition(source_Unbundle_Operator.ID);
-                        EntityPosition destEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(dest_DimensionToOutlets_Operator.ID);
-                        destEntityPosition.X = sourceEntityPosition.X;
-                        destEntityPosition.Y = sourceEntityPosition.Y;
+        //                EntityPosition sourceEntityPosition = entityPositionManager.GetOperatorPosition(source_Unbundle_Operator.ID);
+        //                EntityPosition destEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(dest_DimensionToOutlets_Operator.ID);
+        //                destEntityPosition.X = sourceEntityPosition.X;
+        //                destEntityPosition.Y = sourceEntityPosition.Y;
 
-                        patchManager.DeleteOperatorWithRelatedEntities(source_Unbundle_Operator);
+        //                patchManager.DeleteOperatorWithRelatedEntities(source_Unbundle_Operator);
 
-                        string progressMessage = String.Format("Migrated Unbundle Operator {0}/{1}.", sourceOperatorIndex + 1, source_Unbundle_Operators.Count);
-                        progressCallback(progressMessage);
-                    }
-                }
+        //                string progressMessage = String.Format("Migrated Unbundle Operator {0}/{1}.", sourceOperatorIndex + 1, source_Unbundle_Operators.Count);
+        //                progressCallback(progressMessage);
+        //            }
+        //        }
 
-                AssertDocuments(repositories, progressCallback);
+        //        AssertDocuments(repositories, progressCallback);
 
-                //throw new Exception("Temporarily not committing, for debugging.");
-                context.Commit();
-            }
+        //        //throw new Exception("Temporarily not committing, for debugging.");
+        //        context.Commit();
+        //    }
 
-            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
-        }
+        //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        //}
 
         // Helpers
 

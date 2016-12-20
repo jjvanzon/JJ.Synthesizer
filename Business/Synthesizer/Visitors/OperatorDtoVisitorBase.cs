@@ -87,7 +87,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal), x => Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal((BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal)x ) },
                 { typeof(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth), x => Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth((BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth)x ) },
                 { typeof(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth), x => Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth((BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth)x ) },
-                { typeof(Bundle_OperatorDto), x => Visit_Bundle_OperatorDto((Bundle_OperatorDto)x ) },
                 { typeof(Cache_OperatorDto), x => Visit_Cache_OperatorDto((Cache_OperatorDto)x ) },
                 { typeof(Cache_OperatorDto_ConstSignal), x => Visit_Cache_OperatorDto_ConstSignal((Cache_OperatorDto_ConstSignal)x ) },
                 { typeof(Cache_OperatorDto_SingleChannel_BlockInterpolation), x => Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation((Cache_OperatorDto_SingleChannel_BlockInterpolation)x ) },
@@ -491,7 +490,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Triangle_OperatorDto_ConstFrequency_WithOriginShifting), x => Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting((Triangle_OperatorDto_ConstFrequency_WithOriginShifting)x ) },
                 { typeof(Triangle_OperatorDto_VarFrequency_NoPhaseTracking), x => Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking((Triangle_OperatorDto_VarFrequency_NoPhaseTracking)x ) },
                 { typeof(Triangle_OperatorDto_VarFrequency_WithPhaseTracking), x => Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking((Triangle_OperatorDto_VarFrequency_WithPhaseTracking)x ) },
-                { typeof(Unbundle_OperatorDto), x => Visit_Unbundle_OperatorDto((Unbundle_OperatorDto)x ) },
             };
         }
 
@@ -531,7 +529,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal(BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Bundle_OperatorDto(Bundle_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Cache_OperatorDto(Cache_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Cache_OperatorDto_ConstSignal(Cache_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation(Cache_OperatorDto_SingleChannel_BlockInterpolation dto) => Visit_OperatorDto_Base(dto);
@@ -935,6 +932,5 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(Triangle_OperatorDto_ConstFrequency_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(Triangle_OperatorDto_VarFrequency_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Unbundle_OperatorDto(Unbundle_OperatorDto dto) => Visit_OperatorDto_Base(dto);
     }
 }

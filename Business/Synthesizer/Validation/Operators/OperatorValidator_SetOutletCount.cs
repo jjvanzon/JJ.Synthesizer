@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         private readonly int _newOutletCount;
         private static OperatorTypeEnum[] _allowedOperatorTypeEnums = new OperatorTypeEnum[]
         {
-            OperatorTypeEnum.Unbundle,
             OperatorTypeEnum.DimensionToOutlets,
             OperatorTypeEnum.RangeOverOutlets
         };

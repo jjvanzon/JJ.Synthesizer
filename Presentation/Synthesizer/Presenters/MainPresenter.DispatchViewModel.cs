@@ -37,7 +37,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(MenuViewModel), DispatchMenuViewModel },
                 { typeof(NodePropertiesViewModel), DispatchNodePropertiesViewModel },
                 { typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
-                { typeof(OperatorPropertiesViewModel_ForBundle), DispatchOperatorPropertiesViewModel_ForBundle },
                 { typeof(OperatorPropertiesViewModel_ForCache), DispatchOperatorPropertiesViewModel_ForCache },
                 { typeof(OperatorPropertiesViewModel_ForCurve), DispatchOperatorPropertiesViewModel_ForCurve },
                 { typeof(OperatorPropertiesViewModel_ForCustomOperator), DispatchOperatorPropertiesViewModel_ForCustomOperator },
@@ -320,24 +319,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
                 MainViewModel.Document.VisibleOperatorProperties = castedViewModel;
-            }
-
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
-        }
-
-        private void DispatchOperatorPropertiesViewModel_ForBundle(object viewModel2)
-        {
-            var castedViewModel = (OperatorPropertiesViewModel_ForBundle)viewModel2;
-
-            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForBundles;
-            dictionary[castedViewModel.ID] = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-                MainViewModel.Document.VisibleOperatorProperties_ForBundle = castedViewModel;
             }
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);

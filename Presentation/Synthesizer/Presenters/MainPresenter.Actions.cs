@@ -770,7 +770,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.DocumentTree.Successful = true;
             viewModel.NodePropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary.Values.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesDictionary_ForBundles.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Successful = true);
@@ -1165,18 +1164,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
-                OperatorPropertiesViewModel_ForBundle userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_ForBundle viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForBundle.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_ForBundle = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
                 OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
                 if (userInput != null)
                 {
@@ -1336,23 +1323,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 MainViewModel.Document.VisibleOperatorProperties = null;
 
-                // Refresh
-                PatchDetails_RefreshOperator(userInput.ID);
-            }
-        }
-
-        public void OperatorPropertiesClose_ForBundle(int id)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_ForBundle userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, id);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_ForBundle viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForBundle.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleOperatorProperties_ForBundle = null;
-             
                 // Refresh
                 PatchDetails_RefreshOperator(userInput.ID);
             }
@@ -1575,21 +1545,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(userInput.ID);
-            }
-        }
-
-        public void OperatorPropertiesLoseFocus_ForBundle(int id)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_ForBundle userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForBundle(MainViewModel.Document, id);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_ForBundle viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForBundle.LoseFocus(userInput));
-
-            if (viewModel.Successful)
-            {
-                // Refresh
                 PatchDetails_RefreshOperator(userInput.ID);
             }
         }

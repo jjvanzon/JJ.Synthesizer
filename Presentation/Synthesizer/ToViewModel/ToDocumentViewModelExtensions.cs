@@ -50,7 +50,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentTree = document.ToTreeViewModel(grouplessPatches, patchGroupDtos),
                 NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 OperatorPropertiesDictionary = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView()).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForBundles = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForBundles()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForCaches = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.InterpolationTypeRepository)).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForCurves = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCurves(repositories.CurveRepository)).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForCustomOperators = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCustomOperators(repositories.PatchRepository)).ToDictionary(x => x.ID),

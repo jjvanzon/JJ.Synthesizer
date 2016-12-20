@@ -33,7 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentTree;
             nodePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleNodeProperties;
             operatorPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties;
-            operatorPropertiesUserControl_ForBundle.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForBundle;
             operatorPropertiesUserControl_ForCache.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCache;
             operatorPropertiesUserControl_ForCurve.SetCurveLookup(_presenter.MainViewModel.Document.CurveLookup);
             operatorPropertiesUserControl_ForCurve.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCurve;

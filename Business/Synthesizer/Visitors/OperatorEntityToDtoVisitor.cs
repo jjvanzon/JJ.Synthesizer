@@ -116,16 +116,6 @@ namespace JJ.Business.Synthesizer.Visitors
             Visit_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(op, dto);
         }
 
-        protected override void VisitBundle(Operator op)
-        {
-            base.VisitBundle(op);
-
-            var dto = new Bundle_OperatorDto();
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
-
         protected override void VisitChangeTrigger(Operator op)
         {
             var dto = new ChangeTrigger_OperatorDto();
@@ -920,21 +910,6 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             var dto = new ToggleTrigger_OperatorDto();
             Visit_OperatorDtoBase_Trigger(op, dto);
-        }
-
-        protected override void VisitUnbundleOutlet(Outlet outlet)
-        {
-            base.VisitUnbundleOutlet(outlet);
-
-            var dto = new Unbundle_OperatorDto
-            {
-                InputOperatorDto = _stack.Pop(),
-                OutletListIndex = outlet.ListIndex
-            };
-
-            SetDimensionProperties(outlet.Operator, dto);
-
-            _stack.Push(dto);
         }
 
         // Private Methods

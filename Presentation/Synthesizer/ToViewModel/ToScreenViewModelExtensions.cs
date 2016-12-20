@@ -293,15 +293,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModels;
         }
 
-        public static IList<OperatorPropertiesViewModel_ForBundle> ToPropertiesViewModelList_ForBundles(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            return patch.GetOperatorsOfType(OperatorTypeEnum.Bundle)
-                        .Select(x => x.ToPropertiesViewModel_ForBundle())
-                        .ToList();
-        }
-
         public static IList<OperatorPropertiesViewModel_ForCache> ToPropertiesViewModelList_ForCaches(this Patch patch, IInterpolationTypeRepository interpolationTypeRepository)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -416,17 +407,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entity == null) throw new NullException(() => entity);
 
             var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel>(entity);
-
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_ForBundle ToPropertiesViewModel_ForBundle(this Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForBundle>(entity);
-
-            viewModel.InletCount = entity.Inlets.Count;
 
             return viewModel;
         }

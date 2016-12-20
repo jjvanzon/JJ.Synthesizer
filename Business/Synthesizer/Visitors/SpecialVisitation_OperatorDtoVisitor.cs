@@ -86,11 +86,5 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotImplementedException();
             return base.Visit_Reset_OperatorDto(dto);
         }
-
-        protected override OperatorDtoBase Visit_Unbundle_OperatorDto(Unbundle_OperatorDto dto)
-        {
-            throw new NotImplementedException();
-            return base.Visit_Unbundle_OperatorDto(dto);
-        }
     }
 }

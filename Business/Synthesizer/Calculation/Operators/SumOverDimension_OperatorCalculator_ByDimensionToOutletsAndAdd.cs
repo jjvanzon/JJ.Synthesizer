@@ -7,11 +7,11 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SumOverDimension_OperatorCalculator_ByUnbundleAndAdd : OperatorCalculatorBase
+    internal class SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _addCalculator;
 
-        public SumOverDimension_OperatorCalculator_ByUnbundleAndAdd(
+        public SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd(
             OperatorCalculatorBase signalCalculator,
             double till,
             DimensionStack dimensionStack)
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             var unbundleCalculators = new List<OperatorCalculatorBase>(tillInt);
             for (int i = 0; i <= tillInt; i++)
             {
-                var unbundleCalculator = new Unbundle_OperatorCalculator(signalCalculator, i, dimensionStack);
+                var unbundleCalculator = new DimensionToOutlets_OperatorCalculator(signalCalculator, i, dimensionStack);
                 unbundleCalculators.Add(unbundleCalculator);
             }
 

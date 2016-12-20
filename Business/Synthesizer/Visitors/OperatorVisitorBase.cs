@@ -27,7 +27,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.AverageOverInlets, VisitAverageOverInlets },
                 { OperatorTypeEnum.BandPassFilterConstantPeakGain, VisitBandPassFilterConstantPeakGain },
                 { OperatorTypeEnum.BandPassFilterConstantTransitionGain, VisitBandPassFilterConstantTransitionGain },
-                { OperatorTypeEnum.Bundle, VisitBundle },
                 { OperatorTypeEnum.Cache, VisitCache },
                 { OperatorTypeEnum.ChangeTrigger, VisitChangeTrigger },
                 { OperatorTypeEnum.ClosestOverInlets, VisitClosestOverInlets },
@@ -105,8 +104,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperatorOutlet },
                 { OperatorTypeEnum.DimensionToOutlets, VisitDimensionToOutletsOutlet },
                 { OperatorTypeEnum.RangeOverOutlets, VisitRangeOverOutletsOutlet },
-                { OperatorTypeEnum.SortOverInlets, VisitSortOverInletsOutlet },
-                { OperatorTypeEnum.Unbundle, VisitUnbundleOutlet }
+                { OperatorTypeEnum.SortOverInlets, VisitSortOverInletsOutlet }
             };
         }
 
@@ -241,12 +239,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         //[DebuggerHidden]
         protected virtual void VisitBandPassFilterConstantTransitionGain(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        //[DebuggerHidden]
-        protected virtual void VisitBundle(Operator op)
         {
             VisitOperatorBase(op);
         }
@@ -693,12 +685,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         //[DebuggerHidden]
         protected virtual void VisitSortOverInletsOutlet(Outlet outlet)
-        {
-            VisitOutletBase(outlet);
-        }
-
-        //[DebuggerHidden]
-        protected virtual void VisitUnbundleOutlet(Outlet outlet)
         {
             VisitOutletBase(outlet);
         }

@@ -27,8 +27,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, NodePropertiesViewModel> NodePropertiesDictionary { get; set; }
         public OperatorPropertiesViewModel VisibleOperatorProperties { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel> OperatorPropertiesDictionary { get; set; }
-        public OperatorPropertiesViewModel_ForBundle VisibleOperatorProperties_ForBundle { get; set; }
-        public Dictionary<int, OperatorPropertiesViewModel_ForBundle> OperatorPropertiesDictionary_ForBundles { get; set; }
         public OperatorPropertiesViewModel_ForCache VisibleOperatorProperties_ForCache { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForCache> OperatorPropertiesDictionary_ForCaches { get; set; }
         public OperatorPropertiesViewModel_ForCurve VisibleOperatorProperties_ForCurve { get; set; }

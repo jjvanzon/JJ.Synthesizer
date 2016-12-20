@@ -21,7 +21,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.AverageOverInlets, typeof(AverageOverInlets_OperatorWarningValidator) },
             { OperatorTypeEnum.BandPassFilterConstantPeakGain, typeof(BandPassFilterConstantPeakGain_OperatorWarningValidator) },
             { OperatorTypeEnum.BandPassFilterConstantTransitionGain, typeof(BandPassFilterConstantTransitionGain_OperatorWarningValidator) },
-            { OperatorTypeEnum.Bundle, typeof(Bundle_OperatorWarningValidator) },
             { OperatorTypeEnum.Cache, typeof(Cache_OperatorWarningValidator) },
             { OperatorTypeEnum.ChangeTrigger, typeof(ChangeTrigger_OperatorWarningValidator) },
             { OperatorTypeEnum.ClosestOverDimension, typeof(ClosestOverDimension_OperatorWarningValidator) },
@@ -96,7 +95,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.TimePower, typeof(TimePower_OperatorWarningValidator) },
             { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorWarningValidator) },
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorWarningValidator) },
-            { OperatorTypeEnum.Unbundle, typeof(Unbundle_OperatorWarningValidator) }
         };
 
         public Versatile_OperatorWarningValidator(Operator obj)

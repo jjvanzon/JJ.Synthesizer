@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             OperatorTypeEnum.Add,
             OperatorTypeEnum.AverageOverInlets,
-            OperatorTypeEnum.Bundle,
             OperatorTypeEnum.ClosestOverInlets,
             OperatorTypeEnum.ClosestOverInletsExp,
             OperatorTypeEnum.InletsToDimension,

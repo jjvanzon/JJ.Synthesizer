@@ -85,7 +85,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
                 NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),
                 OperatorPropertiesDictionary = new Dictionary<int, OperatorPropertiesViewModel>(),
-                OperatorPropertiesDictionary_ForBundles = new Dictionary<int, OperatorPropertiesViewModel_ForBundle>(),
                 OperatorPropertiesDictionary_ForCaches = new Dictionary<int, OperatorPropertiesViewModel_ForCache>(),
                 OperatorPropertiesDictionary_ForCurves = new Dictionary<int, OperatorPropertiesViewModel_ForCurve>(),
                 OperatorPropertiesDictionary_ForCustomOperators = new Dictionary<int, OperatorPropertiesViewModel_ForCustomOperator>(),

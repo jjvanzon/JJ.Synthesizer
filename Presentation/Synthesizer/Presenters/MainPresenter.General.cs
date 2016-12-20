@@ -54,7 +54,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly MenuPresenter _menuPresenter;
         private readonly NodePropertiesPresenter _nodePropertiesPresenter;
         private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
-        private readonly OperatorPropertiesPresenter_ForBundle _operatorPropertiesPresenter_ForBundle;
         private readonly OperatorPropertiesPresenter_ForCache _operatorPropertiesPresenter_ForCache;
         private readonly OperatorPropertiesPresenter_ForCurve _operatorPropertiesPresenter_ForCurve;
         private readonly OperatorPropertiesPresenter_ForCustomOperator _operatorPropertiesPresenter_ForCustomOperator;
@@ -129,7 +128,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _menuPresenter = new MenuPresenter();
             _nodePropertiesPresenter = new NodePropertiesPresenter(_curveRepositories);
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);
-            _operatorPropertiesPresenter_ForBundle = new OperatorPropertiesPresenter_ForBundle(_patchRepositories);
             _operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_patchRepositories);
             _operatorPropertiesPresenter_ForCurve = new OperatorPropertiesPresenter_ForCurve(_patchRepositories);
             _operatorPropertiesPresenter_ForCustomOperator = new OperatorPropertiesPresenter_ForCustomOperator(_patchRepositories);
@@ -190,8 +188,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.NodePropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleOperatorProperties = null;
             MainViewModel.Document.OperatorPropertiesDictionary.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.VisibleOperatorProperties_ForBundle = null;
-            MainViewModel.Document.OperatorPropertiesDictionary_ForBundles.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleOperatorProperties_ForCache = null;
             MainViewModel.Document.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleOperatorProperties_ForCurve = null;

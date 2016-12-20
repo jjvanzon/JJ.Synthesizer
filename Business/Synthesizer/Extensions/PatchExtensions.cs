@@ -33,8 +33,6 @@ namespace JJ.Business.Synthesizer.Extensions
             { typeof(Exponent_OperatorWrapper), OperatorTypeEnum.Exponent },
             { typeof(Loop_OperatorWrapper), OperatorTypeEnum.Loop },
             { typeof(Select_OperatorWrapper), OperatorTypeEnum.Select },
-            { typeof(Bundle_OperatorWrapper), OperatorTypeEnum.Bundle },
-            { typeof(Unbundle_OperatorWrapper), OperatorTypeEnum.Unbundle }
         };
 
         public static IList<Operator> GetOperatorsOfType(this Patch patch, OperatorTypeEnum operatorTypeEnum)
