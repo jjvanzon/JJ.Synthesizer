@@ -235,10 +235,10 @@ namespace JJ.Business.Synthesizer
         /// Also applies changes to underlying documents to dependent CustomOperators.
         /// Also cleans up obsolete inlets and outlets from custom operators.
         /// </summary>
-        public void DeleteOperator(int id)
+        public void DeleteOperatorWithRelatedEntities(int id)
         {
             Operator op = _repositories.OperatorRepository.Get(id);
-            DeleteOperator(op);
+            DeleteOperatorWithRelatedEntities(op);
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace JJ.Business.Synthesizer
         /// Also applies changes to underlying documents to dependent CustomOperators.
         /// Also cleans up obsolete inlets and outlets from custom operators.
         /// </summary>
-        public void DeleteOperator(Operator op)
+        public void DeleteOperatorWithRelatedEntities(Operator op)
         {
             AssertPatchNotNull();
 
@@ -594,7 +594,7 @@ namespace JJ.Business.Synthesizer
                 bool isOwned = numberOutlet.ConnectedInlets.Count == 1;
                 if (isOwned)
                 {
-                    DeleteOperator(numberOperator);
+                    DeleteOperatorWithRelatedEntities(numberOperator);
                 }
             }
         }

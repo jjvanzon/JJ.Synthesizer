@@ -78,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (Operator op in operatorsToDelete)
             {
-                patchManager.DeleteOperator(op);
+                patchManager.DeleteOperatorWithRelatedEntities(op);
             }
 
             return patch;

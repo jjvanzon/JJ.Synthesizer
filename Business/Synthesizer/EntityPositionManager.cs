@@ -168,5 +168,10 @@ namespace JJ.Business.Synthesizer
 
             return false;
         }
+
+        public int DeleteOrphans()
+        {
+            return _entityPositionRepository.DeleteOrphans();
+        }
     }
 }

@@ -8,12 +8,23 @@ namespace JJ.Data.Synthesizer.SqlClient
 {
     public class SynthesizerSqlExecutor
     {
-        private ISqlExecutor _sqlExecutor;
+        private readonly ISqlExecutor _sqlExecutor;
 
         public SynthesizerSqlExecutor(ISqlExecutor sqlExecutor)
         {
             if (sqlExecutor == null) throw new NullException(() => sqlExecutor);
             _sqlExecutor = sqlExecutor;
+        }
+
+        public int EntityPosition_DeleteOrphans()
+        {
+            return (int)_sqlExecutor.ExecuteScalar(SqlEnum.EntityPosition_DeleteOrphans);
+        }
+
+        public int GetID()
+        {
+            int id = (int)_sqlExecutor.ExecuteScalar(SqlEnum.GetID);
+            return id;
         }
 
         /// <summary>
@@ -39,12 +50,6 @@ namespace JJ.Data.Synthesizer.SqlClient
         public void Sample_TrySetBytes(int id, byte[] bytes)
         {
             _sqlExecutor.ExecuteNonQuery(SqlEnum.Sample_TrySetBytes, new { id, bytes });
-        }
-
-        public int GetID()
-        {
-            int id = (int)_sqlExecutor.ExecuteScalar(SqlEnum.GetID);
-            return id;
         }
     }
 }

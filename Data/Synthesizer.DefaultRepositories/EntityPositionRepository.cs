@@ -34,5 +34,10 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             EntityPosition entity = GetByEntityTypeNameAndEntityID(entityTypeName, entityID);
             Delete(entity);
         }
+
+        public virtual int DeleteOrphans()
+        {
+            throw new RepositoryMethodNotImplementedException();
+        }
     }
 }

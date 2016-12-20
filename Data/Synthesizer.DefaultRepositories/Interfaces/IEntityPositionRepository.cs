@@ -7,5 +7,6 @@ namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
         EntityPosition TryGetByEntityTypeNameAndEntityID(string entityTypeName, int entityID);
         EntityPosition GetByEntityTypeNameAndEntityID(string entityTypeName, int entityID);
         void DeleteByEntityTypeNameAndEntityID(string entityTypeName, int entityID);
+        int DeleteOrphans();
     }
 }
