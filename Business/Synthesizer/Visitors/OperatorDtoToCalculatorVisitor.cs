@@ -482,9 +482,39 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_VarThen_VarElse(_stack.Pop(), _stack.Pop(), _stack.Pop()));
         }
 
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto)
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_OtherInterpolationTypes(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ResampleInterpolationTypeEnum, dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_BlockInterpolation(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Stripe(InletsToDimension_OperatorDto_Stripe dto)
+        {
+            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_StripeInterpolation(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line dto)
+        {
+            return Process_InletsToDimension_OtherInterpolationTypes(dto);
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto)
+        {
+            return Process_InletsToDimension_OtherInterpolationTypes(dto);
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto)
+        {
+            return Process_InletsToDimension_OtherInterpolationTypes(dto);
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicSmoothSlope(InletsToDimension_OperatorDto_CubicSmoothSlope dto)
+        {
+            return Process_InletsToDimension_OtherInterpolationTypes(dto);
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Hermite(InletsToDimension_OperatorDto_Hermite dto)
+        {
+            return Process_InletsToDimension_OtherInterpolationTypes(dto);
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
@@ -1406,6 +1436,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
+        /// <summary> Will get a DimensionStack and pass it to the OperatorCalculator, which is then pushed onto the _stack. </summary>
         private OperatorDtoBase ProcessWithDimension(OperatorDtoBase dto, Func<DimensionStack, OperatorCalculatorBase> createOperatorCalculatorDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
@@ -1414,11 +1445,16 @@ namespace JJ.Business.Synthesizer.Visitors
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dtoWithDimension);
 
-            var calculator = createOperatorCalculatorDelegate(dimensionStack);
+            OperatorCalculatorBase calculator = createOperatorCalculatorDelegate(dimensionStack);
 
             _stack.Push(calculator);
 
             return dto;
+        }
+
+        private OperatorDtoBase Process_InletsToDimension_OtherInterpolationTypes(InletsToDimension_OperatorDto dto)
+        {
+            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_OtherInterpolationTypes(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ResampleInterpolationTypeEnum, dimensionStack));
         }
 
         private OperatorDtoBase Process_Random_OperatorDto_OtherInterpolationTypes(Random_OperatorDto dto)

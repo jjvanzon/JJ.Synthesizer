@@ -2016,8 +2016,32 @@ namespace JJ.Business.Synthesizer.Visitors
                 operandCalculators.Add(operandCalculator);
             }
 
+            OperatorCalculatorBase calculator;
+
             var wrapper = new InletsToDimension_OperatorWrapper(op);
-            OperatorCalculatorBase calculator = new InletsToDimension_OperatorCalculator_OtherInterpolationTypes(operandCalculators, wrapper.InterpolationType, dimensionStack);
+            ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.InterpolationType;
+
+            switch (resampleInterpolationTypeEnum)
+            {
+                case ResampleInterpolationTypeEnum.Block:
+                    calculator = new InletsToDimension_OperatorCalculator_BlockInterpolation(operandCalculators, dimensionStack);
+                    break;
+
+                case ResampleInterpolationTypeEnum.Stripe:
+                    calculator = new InletsToDimension_OperatorCalculator_StripeInterpolation(operandCalculators, dimensionStack);
+                    break;
+
+                case ResampleInterpolationTypeEnum.Line:
+                case ResampleInterpolationTypeEnum.CubicEquidistant:
+                case ResampleInterpolationTypeEnum.CubicAbruptSlope:
+                case ResampleInterpolationTypeEnum.CubicSmoothSlope:
+                case ResampleInterpolationTypeEnum.Hermite:
+                    calculator = new InletsToDimension_OperatorCalculator_OtherInterpolationTypes(operandCalculators, wrapper.InterpolationType, dimensionStack);
+                    break;
+
+                default:
+                    throw new InvalidValueException(resampleInterpolationTypeEnum);
+            }
 
             _stack.Push(calculator);
         }

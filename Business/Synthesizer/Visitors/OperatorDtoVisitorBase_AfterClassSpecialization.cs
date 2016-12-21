@@ -135,6 +135,11 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
+        protected sealed override OperatorDtoBase Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
         {
             throw new NotSupportedException();

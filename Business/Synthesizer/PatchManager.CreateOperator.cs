@@ -904,7 +904,7 @@ namespace JJ.Business.Synthesizer
             string customDimension = null)
         {
             if (operands == null) throw new NullException(() => operands);
-            interpolation = interpolation ?? ResampleInterpolationTypeEnum.Block;
+            interpolation = interpolation ?? ResampleInterpolationTypeEnum.Stripe;
             dimension = dimension ?? DimensionEnum.Undefined;
 
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.InletsToDimension, operands);

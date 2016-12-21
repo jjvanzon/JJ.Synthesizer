@@ -748,6 +748,50 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto)
+        {
+            base.Visit_InletsToDimension_OperatorDto(dto);
+
+            OperatorDtoBase dto2;
+
+            if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Block)
+            {
+                dto2 = new InletsToDimension_OperatorDto_Block { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Stripe)
+            {
+                dto2 = new InletsToDimension_OperatorDto_Stripe { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Line)
+            {
+                dto2 = new InletsToDimension_OperatorDto_Line { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicEquidistant)
+            {
+                dto2 = new InletsToDimension_OperatorDto_CubicEquidistant { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicAbruptSlope)
+            {
+                dto2 = new InletsToDimension_OperatorDto_CubicAbruptSlope { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicSmoothSlope)
+            {
+                dto2 = new InletsToDimension_OperatorDto_CubicSmoothSlope { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Hermite)
+            {
+                dto2 = new InletsToDimension_OperatorDto_Hermite { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            }
+
+            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+
+            return dto2;
+        }
+
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto)
         {
             base.Visit_Interpolate_OperatorDto(dto);

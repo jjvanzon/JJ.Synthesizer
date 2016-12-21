@@ -187,6 +187,13 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(If_OperatorDto_ConstCondition_ConstThen_VarElse), x => Visit_If_OperatorDto_ConstCondition_ConstThen_VarElse((If_OperatorDto_ConstCondition_ConstThen_VarElse)x ) },
                 { typeof(If_OperatorDto_ConstCondition_ConstThen_ConstElse), x => Visit_If_OperatorDto_ConstCondition_ConstThen_ConstElse((If_OperatorDto_ConstCondition_ConstThen_ConstElse)x ) },
                 { typeof(InletsToDimension_OperatorDto), x => Visit_InletsToDimension_OperatorDto((InletsToDimension_OperatorDto)x ) },
+                { typeof(InletsToDimension_OperatorDto_Block), x => Visit_InletsToDimension_OperatorDto_Block((InletsToDimension_OperatorDto_Block)x ) },
+                { typeof(InletsToDimension_OperatorDto_Stripe), x => Visit_InletsToDimension_OperatorDto_Stripe((InletsToDimension_OperatorDto_Stripe)x ) },
+                { typeof(InletsToDimension_OperatorDto_Line), x => Visit_InletsToDimension_OperatorDto_Line((InletsToDimension_OperatorDto_Line)x ) },
+                { typeof(InletsToDimension_OperatorDto_CubicEquidistant), x => Visit_InletsToDimension_OperatorDto_CubicEquidistant((InletsToDimension_OperatorDto_CubicEquidistant)x ) },
+                { typeof(InletsToDimension_OperatorDto_CubicAbruptSlope), x => Visit_InletsToDimension_OperatorDto_CubicAbruptSlope((InletsToDimension_OperatorDto_CubicAbruptSlope)x ) },
+                { typeof(InletsToDimension_OperatorDto_CubicSmoothSlope), x => Visit_InletsToDimension_OperatorDto_CubicSmoothSlope((InletsToDimension_OperatorDto_CubicSmoothSlope)x ) },
+                { typeof(InletsToDimension_OperatorDto_Hermite), x => Visit_InletsToDimension_OperatorDto_Hermite((InletsToDimension_OperatorDto_Hermite)x ) },
                 { typeof(Interpolate_OperatorDto), x => Visit_Interpolate_OperatorDto((Interpolate_OperatorDto)x ) },
                 { typeof(Interpolate_OperatorDto_ConstSignal), x => Visit_Interpolate_OperatorDto_ConstSignal((Interpolate_OperatorDto_ConstSignal)x ) },
                 { typeof(Interpolate_OperatorDto_Block), x => Visit_Interpolate_OperatorDto_Block((Interpolate_OperatorDto_Block)x ) },
@@ -629,6 +636,13 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_If_OperatorDto_ConstCondition_ConstThen_VarElse(If_OperatorDto_ConstCondition_ConstThen_VarElse dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_If_OperatorDto_ConstCondition_ConstThen_ConstElse(If_OperatorDto_ConstCondition_ConstThen_ConstElse dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_InletsToDimension_OperatorDto_Stripe(InletsToDimension_OperatorDto_Stripe dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicSmoothSlope(InletsToDimension_OperatorDto_CubicSmoothSlope dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_InletsToDimension_OperatorDto_Hermite(InletsToDimension_OperatorDto_Hermite dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);

@@ -9,8 +9,6 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    // TODO: Also add block and stripe interpolation.
-
     internal class InletsToDimension_OperatorCalculator_OtherInterpolationTypes : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _interpolateOperator;
@@ -26,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // and to reuse the Interpolate_OperatorCalculator's capability of
             // handling many types of interpolation.
 
-            var bundleCalculator = new InletsToDimension_OperatorCalculator_BlockInterpolation(operandCalculators, dimensionStack);
+            var bundleCalculator = new InletsToDimension_OperatorCalculator_StripeInterpolation(operandCalculators, dimensionStack);
 
             _interpolateOperator = OperatorCalculatorFactory.Create_Interpolate_OperatorCalculator(
                 resampleInterpolationTypeEnum,

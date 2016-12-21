@@ -832,7 +832,37 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // InletsToDimension
 
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto)
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
+        {
+            return Process_Nothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto)
+        {
+            return Process_Nothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto)
+        {
+            return Process_Nothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicSmoothSlope(InletsToDimension_OperatorDto_CubicSmoothSlope dto)
+        {
+            return Process_Nothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Hermite(InletsToDimension_OperatorDto_Hermite dto)
+        {
+            return Process_Nothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line dto)
+        {
+            return Process_Nothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Stripe(InletsToDimension_OperatorDto_Stripe dto)
         {
             return Process_Nothing(dto);
         }
