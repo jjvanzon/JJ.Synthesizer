@@ -2336,7 +2336,7 @@ namespace JJ.Business.Synthesizer
 
         /// <param name="variableInletOrOutletCount">
         /// Applies to operators with a variable amount of inlets or outlets,
-        /// such as the Adder operator and the Bundle operator.
+        /// such as the Adder operator and the InletsToDimension operator.
         /// </param>
         public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int variableInletOrOutletCount = 16)
         {

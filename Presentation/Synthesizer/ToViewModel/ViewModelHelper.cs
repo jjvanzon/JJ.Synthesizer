@@ -198,7 +198,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.AverageOverDimension,
             //OperatorTypeEnum.BandPassFilterConstantPeakGain,
             //OperatorTypeEnum.BandPassFilterConstantTransitionGain,
-            //OperatorTypeEnum.Bundle,
             //OperatorTypeEnum.Cache,
             OperatorTypeEnum.ChangeTrigger,
             //OperatorTypeEnum.ClosestOverInlets,
@@ -273,7 +272,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.TimePower,
             OperatorTypeEnum.ToggleTrigger,
             //OperatorTypeEnum.Triangle,
-            //OperatorTypeEnum.Unbundle
         };
 
         // CurrentPatches

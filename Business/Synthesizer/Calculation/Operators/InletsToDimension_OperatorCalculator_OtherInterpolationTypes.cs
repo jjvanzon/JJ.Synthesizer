@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(operandCalculators)
         {
             // HACK in a piece of patch, 
-            // to reuse the behavior of Unbundle
+            // to reuse the behavior of InletsToDimension
             // and to reuse the Interpolate_OperatorCalculator's capability of
             // handling many types of interpolation.
 
