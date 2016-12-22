@@ -351,6 +351,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep((RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep)x ) },
                 { typeof(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep((RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep)x ) },
                 { typeof(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep((RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep)x ) },
+                { typeof(RangeOverOutlets_Outlet_OperatorDto_ZeroStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_ZeroStep((RangeOverOutlets_Outlet_OperatorDto_ZeroStep)x ) },
                 { typeof(Reset_OperatorDto), x => Visit_Reset_OperatorDto((Reset_OperatorDto)x ) },
                 { typeof(Reverse_OperatorDto), x => Visit_Reverse_OperatorDto((Reverse_OperatorDto)x ) },
                 { typeof(Reverse_OperatorDto_ConstSignal), x => Visit_Reverse_OperatorDto_ConstSignal((Reverse_OperatorDto_ConstSignal)x ) },
@@ -797,6 +798,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_ZeroStep(RangeOverOutlets_Outlet_OperatorDto_ZeroStep dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Reset_OperatorDto(Reset_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Reverse_OperatorDto(Reverse_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Reverse_OperatorDto_ConstSignal(Reverse_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);

@@ -1644,6 +1644,10 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto fromMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FromOperatorDto);
             MathPropertiesDto stepMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.StepOperatorDto);
 
+            if (stepMathPropertiesDto.IsConstZero)
+            {
+                return new RangeOverOutlets_Outlet_OperatorDto_ZeroStep { FromOperatorDto = dto.FromOperatorDto };
+            }
             if (fromMathPropertiesDto.IsConst && stepMathPropertiesDto.IsConst)
             {
                 return new RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep { From = fromMathPropertiesDto.ConstValue, Step = stepMathPropertiesDto.ConstValue };

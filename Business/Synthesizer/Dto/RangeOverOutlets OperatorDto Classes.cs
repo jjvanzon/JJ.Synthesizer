@@ -6,6 +6,19 @@ namespace JJ.Business.Synthesizer.Dto
     internal class RangeOverOutlets_Outlet_OperatorDto : RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep
     { }
 
+    internal class RangeOverOutlets_Outlet_OperatorDto_ZeroStep : OperatorDtoBase
+    {
+        public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
+
+        public OperatorDtoBase FromOperatorDto { get; set; }
+
+        public override IList<OperatorDtoBase> InputOperatorDtos
+        {
+            get { return new OperatorDtoBase[] { FromOperatorDto }; }
+            set { FromOperatorDto = value[0]; }
+        }
+    }
+
     internal class RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);

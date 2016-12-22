@@ -1764,8 +1764,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep dto)
         {
-            // Requires special visitation
-            return Process_Nothing(dto);
+            // Pre-Calculate
+            double result = dto.From + dto.Step * dto.OutletListIndex;
+            return new Number_OperatorDto { Number = result };
         }
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto)
@@ -1781,6 +1782,12 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep dto)
         {
             return Process_Nothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_ZeroStep(RangeOverOutlets_Outlet_OperatorDto_ZeroStep dto)
+        {
+            // Identity
+            return dto.FromOperatorDto;
         }
 
         // Reset
