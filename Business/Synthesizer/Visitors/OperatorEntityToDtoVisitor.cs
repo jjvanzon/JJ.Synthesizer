@@ -9,7 +9,7 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Common;
+using System.Diagnostics;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -879,6 +879,25 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Visit the underlying patch's outlet.
             VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
+        }
+
+        /// <summary> Overridden to replace null inlets with default values or 0. </summary>
+        [DebuggerHidden]
+        protected override void VisitInlet(Inlet inlet)
+        {
+            if (inlet.InputOutlet == null)
+            {
+                if (inlet.DefaultValue.HasValue)
+                {
+                    _stack.Push(new Number_OperatorDto { Number = inlet.DefaultValue.Value });
+                }
+                else
+                {
+                    _stack.Push(new Number_OperatorDto_Zero());
+                }
+            }
+
+            base.VisitInlet(inlet);
         }
 
         // Private Methods

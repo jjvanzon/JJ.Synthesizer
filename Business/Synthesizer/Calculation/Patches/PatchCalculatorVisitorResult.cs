@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Calculation.Operators;
-using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches

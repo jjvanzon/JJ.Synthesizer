@@ -4679,23 +4679,14 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase inputCalculator = _stack.Pop();
 
-            var wrapper = new PatchInlet_OperatorWrapper(patchInlet);
-
-            inputCalculator = inputCalculator ?? new Number_OperatorCalculator_Zero();
-            double input = inputCalculator.Calculate();
-            double defaultValue = wrapper.Inlet.DefaultValue ?? 0.0;
-            bool inputIsConst = inputCalculator is Number_OperatorCalculator;
-            bool inputIsConstDefaultValue = inputIsConst && input == defaultValue;
             bool isTopLevelPatchInlet = IsTopLevelPatchInlet(patchInlet);
-
-            // Only top-level PatchInlets are values controllable from the outside.
-            // For compatibility we only apply that rule if nothing else was filled in
-            // into the (non-visible) PatchInlet Inlet.
-            if (isTopLevelPatchInlet && inputIsConstDefaultValue)
+            if (isTopLevelPatchInlet)
             {
                 VariableInput_OperatorCalculator variableInputCalculator;
                 if (!_patchInlet_To_Calculator_Dictionary.TryGetValue(patchInlet, out variableInputCalculator))
                 {
+                    var wrapper = new PatchInlet_OperatorWrapper(patchInlet);
+
                     Inlet inlet = wrapper.Inlet;
 
                     variableInputCalculator = new VariableInput_OperatorCalculator
@@ -4719,6 +4710,57 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        // TODO: Remove outcommented code if it proces that the compatibility mentioned in the comment below was not needed anymore.
+
+        ///// <summary> Converts PatchInlets to VariableInput_OperatorCalculators. </summary>
+        //protected override void VisitPatchInlet(Operator patchInlet)
+        //{
+        //    base.VisitPatchInlet(patchInlet);
+
+        //    OperatorCalculatorBase calculator;
+
+        //    OperatorCalculatorBase inputCalculator = _stack.Pop();
+
+        //    var wrapper = new PatchInlet_OperatorWrapper(patchInlet);
+
+        //    inputCalculator = inputCalculator ?? new Number_OperatorCalculator_Zero();
+        //    double input = inputCalculator.Calculate();
+        //    double defaultValue = wrapper.Inlet.DefaultValue ?? 0.0;
+        //    bool inputIsConst = inputCalculator is Number_OperatorCalculator;
+        //    bool inputIsConstDefaultValue = inputIsConst && input == defaultValue;
+        //    bool isTopLevelPatchInlet = IsTopLevelPatchInlet(patchInlet);
+
+        //    // Only top-level PatchInlets are values controllable from the outside.
+        //    // For compatibility we only apply that rule if nothing else was filled in
+        //    // into the (non-visible) PatchInlet Inlet.
+        //    if (isTopLevelPatchInlet && inputIsConstDefaultValue)
+        //    {
+        //        VariableInput_OperatorCalculator variableInputCalculator;
+        //        if (!_patchInlet_To_Calculator_Dictionary.TryGetValue(patchInlet, out variableInputCalculator))
+        //        {
+        //            Inlet inlet = wrapper.Inlet;
+
+        //            variableInputCalculator = new VariableInput_OperatorCalculator
+        //            (
+        //                dimensionEnum: inlet.GetDimensionEnum(),
+        //                canonicalName: NameHelper.ToCanonical(wrapper.Name),
+        //                listIndex: wrapper.ListIndex ?? 0,
+        //                defaultValue: inlet.DefaultValue ?? 0.0
+        //            );
+
+        //            _patchInlet_To_Calculator_Dictionary.Add(patchInlet, variableInputCalculator);
+        //        }
+
+        //        calculator = variableInputCalculator;
+        //    }
+        //    else
+        //    {
+        //        calculator = inputCalculator;
+        //    }
+
+        //    _stack.Push(calculator);
+        //}
+        
         /// <summary> As soon as you encounter a CustomOperator's Outlet, the evaluation has to take a completely different course. </summary>
         protected override void VisitCustomOperatorOutlet(Outlet customOperatorOutlet)
         {
