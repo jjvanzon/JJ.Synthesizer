@@ -3,13 +3,13 @@ using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class SpecialVisitation_OperatorDtoVisitor : OperatorDtoVisitorBase
+    internal class OperatorDtoVisitor_SpecialVisitation : OperatorDtoVisitorBase
     {
         /// <summary>
         /// Special visitation means writing out the underlying patches of custom operators,
         /// handling multiple outlets and other special things like enumerating variable inputs and reset operators.
         /// </summary>
-        public SpecialVisitation_OperatorDtoVisitor()
+        public OperatorDtoVisitor_SpecialVisitation()
         { }
 
         public OperatorDtoBase Execute(OperatorDtoBase dto)

@@ -11,11 +11,11 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class ClassSpecialization_OperatorDtoVisitor : OperatorDtoVisitorBase
+    internal class OperatorDtoVisitor_ClassSpecialization : OperatorDtoVisitorBase
     {
         private readonly int _targetChannelCount;
 
-        public ClassSpecialization_OperatorDtoVisitor(int targetChannelCount)
+        public OperatorDtoVisitor_ClassSpecialization(int targetChannelCount)
         {
             if (targetChannelCount <= 0) throw new LessThanOrEqualException(() => targetChannelCount, 0);
 

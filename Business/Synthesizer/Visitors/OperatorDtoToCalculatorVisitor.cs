@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         public OperatorCalculatorBase Execute(OperatorDtoBase dto)
         {
-            var preProcessing = new PreProcessing_OperatorDtoVisitor(_targetChannelCount);
+            var preProcessing = new OperatorDtoVisitor_PreProcessing(_targetChannelCount);
             dto = preProcessing.Execute(dto);
 
             _dimensionStackCollection = new DimensionStackCollection();

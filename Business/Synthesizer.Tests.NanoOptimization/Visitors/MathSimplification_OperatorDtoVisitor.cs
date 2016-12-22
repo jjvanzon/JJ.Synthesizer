@@ -9,9 +9,26 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
     internal class MathSimplification_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterClassSpecialization
     {
+        // General
+
         public OperatorDtoBase Execute(OperatorDtoBase dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
+        }
+
+        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        {
+            // NaN / Infinity
+
+            OperatorDtoBase dto2 = base.Visit_OperatorDto_Polymorphic(dto); // Depth-first, so deeply pre-calculated NaN's can be picked up.
+
+            bool anyInputsHaveSpecialValue = dto2.InputOperatorDtos.Any(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConstSpecialValue);
+            if (anyInputsHaveSpecialValue)
+            {
+                return new Number_OperatorDto_NaN();
+            }
+
+            return dto2;
         }
 
         // Add

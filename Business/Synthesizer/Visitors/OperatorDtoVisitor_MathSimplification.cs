@@ -11,11 +11,28 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class MathSimplification_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterClassSpecialization
+    internal class OperatorDtoVisitor_MathSimplification : OperatorDtoVisitorBase_AfterClassSpecialization
     {
+        // General
+
         public OperatorDtoBase Execute(OperatorDtoBase dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
+        }
+
+        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        {
+            // NaN / Infinity
+
+            OperatorDtoBase dto2 = base.Visit_OperatorDto_Polymorphic(dto); // Depth-first, so deeply pre-calculated NaN's can be picked up.
+
+            bool anyInputsHaveSpecialValue = dto2.InputOperatorDtos.Any(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConstSpecialValue);
+            if (anyInputsHaveSpecialValue)
+            {
+                return new Number_OperatorDto_NaN();
+            }
+
+            return dto2;
         }
 
         // Absolute
@@ -113,10 +130,6 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new Number_OperatorDto_Zero();
             }
-            else if (aMathProperties.IsConstSpecialValue || bMathProperties.IsConstSpecialValue)
-            {
-                return new Number_OperatorDto_NaN();
-            }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
@@ -146,11 +159,6 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 // Identity
                 return dto.AOperatorDto;
-            }
-            else if (bMathProperties.IsConstSpecialValue)
-            {
-                // Undefined
-                return new Number_OperatorDto_NaN();
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
@@ -1472,10 +1480,6 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new Number_OperatorDto_Zero();
             }
-            else if (aMathPropertiesDto.IsConstSpecialValue || bMathPropertiesDto.IsConstSpecialValue)
-            {
-                return new Number_OperatorDto_NaN();
-            }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
@@ -1496,12 +1500,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.B);
 
-            if (bMathPropertiesDto.IsConstSpecialValue)
-            {
-                // Simplify
-                return new Number_OperatorDto_NaN();
-            }
-            else if (bMathPropertiesDto.IsConstNonZero)
+            if (bMathPropertiesDto.IsConstNonZero)
             {
                 // Simplify
                 return new Number_OperatorDto_One();
