@@ -514,7 +514,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             // In case of PatchInlet Dimension has to come from Inlet, not Operator.
             viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
-            DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
+            DimensionEnum dimensionEnum = wrapper.DimensionEnum;
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();

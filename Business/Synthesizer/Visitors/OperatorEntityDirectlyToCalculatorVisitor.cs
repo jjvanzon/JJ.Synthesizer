@@ -47,7 +47,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private Stack<OperatorCalculatorBase> _stack;
         private DimensionStackCollection _dimensionStackCollection;
-
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_To_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
@@ -95,7 +94,7 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         /// <param name="channelCount">Used for e.g. mixing channels of samples into one channel.</param>
-        public PatchCalculatorVisitorResult Execute()
+        public ToCalculatorResult Execute()
         {
             IValidator validator = new Recursive_OperatorValidator(
                 _topLevelOutlet.Operator,
@@ -128,7 +127,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
             }
 
-            return new PatchCalculatorVisitorResult(
+            return new ToCalculatorResult(
                 _dimensionStackCollection,
                 outputOperatorCalculator,
                 _patchInlet_To_Calculator_Dictionary.Values.ToArray(),
@@ -4687,14 +4686,12 @@ namespace JJ.Business.Synthesizer.Visitors
                 {
                     var wrapper = new PatchInlet_OperatorWrapper(patchInlet);
 
-                    Inlet inlet = wrapper.Inlet;
-
                     variableInputCalculator = new VariableInput_OperatorCalculator
                     (
-                        dimensionEnum: inlet.GetDimensionEnum(),
+                        dimensionEnum: wrapper.DimensionEnum,
                         canonicalName: NameHelper.ToCanonical(wrapper.Name),
                         listIndex: wrapper.ListIndex ?? 0,
-                        defaultValue: inlet.DefaultValue ?? 0.0
+                        defaultValue: wrapper.DefaultValue ?? 0.0
                     );
 
                     _patchInlet_To_Calculator_Dictionary.Add(patchInlet, variableInputCalculator);

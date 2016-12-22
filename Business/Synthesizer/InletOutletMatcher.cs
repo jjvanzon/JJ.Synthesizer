@@ -17,14 +17,13 @@ namespace JJ.Business.Synthesizer
         public static Inlet TryGetCustomOperatorInlet(Operator sourcePatchInlet, IList<Inlet> destCustomOperatorInlets)
         {
             if (destCustomOperatorInlets == null) throw new NullException(() => destCustomOperatorInlets);
-            if (sourcePatchInlet == null) throw new NullException(() => sourcePatchInlet);
 
             var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
 
             // Try match by name
-            if (NameHelper.IsFilledIn(sourcePatchInlet.Name))
+            if (NameHelper.IsFilledIn(sourcePatchInletWrapper.Name))
             {
-                string canonical_SourcePatchInlet_Name = NameHelper.ToCanonical(sourcePatchInlet.Name);
+                string canonical_SourcePatchInlet_Name = NameHelper.ToCanonical(sourcePatchInletWrapper.Name);
 
                 foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
                 {
@@ -42,7 +41,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // Try match by Dimension (if unique)
-            DimensionEnum sourceDimensionEnum = sourcePatchInletWrapper.Inlet.GetDimensionEnum();
+            DimensionEnum sourceDimensionEnum = sourcePatchInletWrapper.DimensionEnum;
 
             if (sourceDimensionEnum != DimensionEnum.Undefined)
             {
@@ -70,14 +69,13 @@ namespace JJ.Business.Synthesizer
         public static Outlet TryGetCustomOperatorOutlet(Operator sourcePatchOutlet, IList<Outlet> destCustomOperatorOutlets)
         {
             if (destCustomOperatorOutlets == null) throw new NullException(() => destCustomOperatorOutlets);
-            if (sourcePatchOutlet == null) throw new NullException(() => sourcePatchOutlet);
 
             var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
 
             // Try match by name
-            if (NameHelper.IsFilledIn(sourcePatchOutlet.Name))
+            if (NameHelper.IsFilledIn(sourcePatchOutletWrapper.Name))
             {
-                string canonical_SourcePatchOutlet_Name = NameHelper.ToCanonical(sourcePatchOutlet.Name);
+                string canonical_SourcePatchOutlet_Name = NameHelper.ToCanonical(sourcePatchOutletWrapper.Name);
 
                 foreach (Outlet destCustomOperatorOutlet in destCustomOperatorOutlets)
                 {
@@ -95,7 +93,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // Try match by Dimension (if unique)
-            DimensionEnum sourceDimensionEnum = sourcePatchOutletWrapper.Result.GetDimensionEnum();
+            DimensionEnum sourceDimensionEnum = sourcePatchOutletWrapper.DimensionEnum;
 
             if (sourceDimensionEnum != DimensionEnum.Undefined)
             {
@@ -183,7 +181,7 @@ namespace JJ.Business.Synthesizer
                 {
                     var destWrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
 
-                    bool dimensionsAreEqual = destWrapper.Inlet.GetDimensionEnum() == sourceDimensionEnum;
+                    bool dimensionsAreEqual = destWrapper.DimensionEnum == sourceDimensionEnum;
                     if (dimensionsAreEqual)
                     {
                         dest_Underlying_PatchInlets_WithMatchingDimension.Add(dest_UnderlyingPatch_PatchInlet);
@@ -272,7 +270,7 @@ namespace JJ.Business.Synthesizer
                 {
                     var destWrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
 
-                    bool dimensionsAreEqual = destWrapper.Result.GetDimensionEnum() == sourceDimensionEnum;
+                    bool dimensionsAreEqual = destWrapper.DimensionEnum == sourceDimensionEnum;
                     if (dimensionsAreEqual)
                     {
                         dest_UnderlyingPatch_PatchOutlets_WithMatchingDimension.Add(dest_UnderlyingPatch_PatchOutlet);

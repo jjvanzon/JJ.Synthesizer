@@ -4,6 +4,8 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -28,6 +30,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex); }
             set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value); }
         }
+
+        public Dimension Dimension => Result.Dimension;
+        public DimensionEnum DimensionEnum => Result.GetDimensionEnum();
 
         public override string GetInletDisplayName(int listIndex)
         {

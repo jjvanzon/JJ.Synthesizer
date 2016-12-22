@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
 
@@ -22,9 +23,10 @@ namespace JJ.Business.Synthesizer.Visitors
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
-        private readonly Stack<OperatorCalculatorBase> _stack = new Stack<OperatorCalculatorBase>();
 
+        private Stack<OperatorCalculatorBase> _stack;
         private DimensionStackCollection _dimensionStackCollection;
+        private Dictionary<PatchInlet_OperatorDto, VariableInput_OperatorCalculator> _patchInlet_OperatorDto_To_Calculator_Dictionary;
 
         public OperatorDtoToCalculatorVisitor(
             int targetSamplingRate, 
@@ -58,13 +60,15 @@ namespace JJ.Business.Synthesizer.Visitors
             return samplesBetweenApplyFilterVariables;
         }
 
-        public OperatorCalculatorBase Execute(OperatorDtoBase dto)
+        public ToCalculatorResult Execute(OperatorDtoBase dto)
         {
             var preProcessing = new OperatorDtoVisitor_PreProcessing(_targetChannelCount);
             dto = preProcessing.Execute(dto);
 
+            _stack = new Stack<OperatorCalculatorBase>();
             _dimensionStackCollection = new DimensionStackCollection();
-            
+            _patchInlet_OperatorDto_To_Calculator_Dictionary = new Dictionary<PatchInlet_OperatorDto, VariableInput_OperatorCalculator>();
+
             Visit_OperatorDto_Polymorphic(dto);
 
             if (_stack.Count != 1)
@@ -83,7 +87,16 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
             }
 
-            return _stack.Pop();
+            OperatorCalculatorBase rootCalculator = _stack.Pop();
+
+            var result = new ToCalculatorResult(
+                _dimensionStackCollection, 
+                rootCalculator, 
+                _patchInlet_OperatorDto_To_Calculator_Dictionary.Values.ToArray(),
+                // TODO: Return _resettableOperatorTuples.
+                null);
+
+            return result;
         }
 
         protected override OperatorDtoBase Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
@@ -1393,6 +1406,24 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new Triangle_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
+        }
+
+        // Special Visitation
+
+        /// <summary> Instance integrity needs to be maintained over the (top-level) PatchInlets. </summary>
+        protected override OperatorDtoBase Visit_PatchInlet_OperatorDto(PatchInlet_OperatorDto dto)
+        {
+            base.Visit_PatchInlet_OperatorDto(dto);
+
+            VariableInput_OperatorCalculator calculator;
+            if (!_patchInlet_OperatorDto_To_Calculator_Dictionary.TryGetValue(dto, out calculator))
+            {
+                calculator = new VariableInput_OperatorCalculator(dto.DimensionEnum, dto.CanonicalName, dto.ListIndex, dto.DefaultValue);
+
+                _patchInlet_OperatorDto_To_Calculator_Dictionary[dto] = calculator;
+            }
+
+            return dto;
         }
 
         // Helpers

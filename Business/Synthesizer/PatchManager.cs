@@ -604,7 +604,7 @@ namespace JJ.Business.Synthesizer
             AssertPatchNotNull();
 
             IList<PatchInlet_OperatorWrapper> patchInletWrappers = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                                        .Where(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Signal &&
+                                                                        .Where(x => x.DimensionEnum == DimensionEnum.Signal &&
                                                                                     x.Inlet.InputOutlet == null &&
                                                                                     !x.Inlet.DefaultValue.HasValue)
                                                                         .ToArray();

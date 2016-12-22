@@ -229,7 +229,7 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Patches\PatchCalculatorVisitorResult.cs" />
+    <Compile Include="Visitors\ToCalculatorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
     <Compile Include="Dto\Add OperatorDto Classes.cs" />
     <Compile Include="Dto\InletsToDimension_OperatorDto.cs" />
@@ -341,7 +341,7 @@
     <Compile Include="Dto\OperatorDtoBase_Vars_1Const.cs" />
     <Compile Include="Dto\Power OperatorDto Classes.cs" />
     <Compile Include="Dto\2016-12-22 Backup of PatchOutlet_OperatorDto.cs" />
-    <Compile Include="Dto\2016-12-22 Backup of PatchInlet_OperatorDto.cs" />
+    <Compile Include="Dto\PatchInlet_OperatorDto.cs" />
     <Compile Include="Dto\TimePower OperatorDto Classes.cs" />
     <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithABAndOrigin.cs" />

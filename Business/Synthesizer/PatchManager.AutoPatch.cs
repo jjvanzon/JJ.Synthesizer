@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer
             Number_OperatorWrapper frequencyNumberOperatorWrapper = Number(frequency);
 
             IList<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                .Where(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Frequency)
+                                                .Where(x => x.DimensionEnum == DimensionEnum.Frequency)
                                                 .Select(x => x.Inlet)
                                                 .ToArray();
             if (frequencyInlets.Count == 0)

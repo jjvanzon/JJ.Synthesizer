@@ -10,6 +10,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection;
 using JJ.Framework.Exceptions;
 using System.Diagnostics;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -21,6 +22,10 @@ namespace JJ.Business.Synthesizer.Visitors
         private readonly ISpeakerSetupRepository _speakerSetupRepository;
 
         private Stack<OperatorDtoBase> _stack;
+        private Outlet _topLevelOutlet;
+
+        /// <summary> Needed to maintain instance integrity. </summary>
+        private Dictionary<Operator, PatchInlet_OperatorDto> _patchInlet_Operator_To_Dto_Dictionary;
 
         public OperatorEntityToDtoVisitor(
             ICurveRepository curveRepository, 
@@ -43,16 +48,19 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             if (op.Outlets.Count != 1) throw new NotEqualException(() => op.Outlets.Count, 1);
 
-            Outlet outlet = op.Outlets[0];
+            Outlet topLevelOutlet = op.Outlets[0];
 
-            return Execute(outlet);
+            return Execute(topLevelOutlet);
         }
 
-        public OperatorDtoBase Execute(Outlet outlet)
+        public OperatorDtoBase Execute(Outlet topLevelOutlet)
         {
-            _stack = new Stack<OperatorDtoBase>();
+            _topLevelOutlet = topLevelOutlet;
 
-            VisitOutletPolymorphic(outlet);
+            _stack = new Stack<OperatorDtoBase>();
+            _patchInlet_Operator_To_Dto_Dictionary = new Dictionary<Operator, PatchInlet_OperatorDto>();
+
+            VisitOutletPolymorphic(topLevelOutlet);
 
             if (_stack.Count != 1)
             {
@@ -900,6 +908,40 @@ namespace JJ.Business.Synthesizer.Visitors
             base.VisitInlet(inlet);
         }
 
+        /// <summary> Needs to guarantee instance integrity over PatchInlets in the DTO structure. </summary>
+        protected override void VisitPatchInlet(Operator op)
+        {
+            base.VisitPatchInlet(op);
+
+            OperatorDtoBase inputDto = _stack.Pop();
+
+            bool isTopLevelPatchInlet = IsTopLevelPatchInlet(op);
+            if (isTopLevelPatchInlet)
+            {
+                PatchInlet_OperatorDto dto;
+                if (!_patchInlet_Operator_To_Dto_Dictionary.TryGetValue(op, out dto))
+                {
+                    var wrapper = new PatchInlet_OperatorWrapper(op);
+
+                    dto = new PatchInlet_OperatorDto
+                    {
+                        DimensionEnum = wrapper.DimensionEnum,
+                        CanonicalName = NameHelper.ToCanonical(wrapper.Name),
+                        ListIndex = wrapper.ListIndex ?? 0,
+                        DefaultValue = wrapper.DefaultValue ?? 0.0
+                    };
+
+                    _patchInlet_Operator_To_Dto_Dictionary[op] = dto;
+                }
+
+                _stack.Push(dto);
+            }
+            else
+            {
+                _stack.Push(inputDto);
+            }
+        }
+
         // Private Methods
 
         private void Visit_ClosestOverDimension_OperatorDto(Operator op, ClosestOverDimension_OperatorDto dto)
@@ -1059,6 +1101,16 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
             dto.CustomDimensionName = op.CustomDimensionName;
+        }
+
+        private bool IsTopLevelPatchInlet(Operator op)
+        {
+            if (op.GetOperatorTypeEnum() != OperatorTypeEnum.PatchInlet)
+            {
+                return false;
+            }
+
+            return op.Patch.ID == _topLevelOutlet.Operator.Patch.ID;
         }
     }
 }

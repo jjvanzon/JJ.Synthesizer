@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 patchRepository, 
                 speakerSetupRepository);
 
-            PatchCalculatorVisitorResult result = visitor.Execute();
+            ToCalculatorResult result = visitor.Execute();
 
             // Yield over results to fields.
             _dimensionStackCollection = result.DimensionStackCollection;

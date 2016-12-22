@@ -101,7 +101,6 @@ namespace JJ.Business.Synthesizer.Converters
         private Inlet ConvertInlet(Operator destCustomOperator, Operator sourcePatchInlet)
         {
             var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
-            Inlet sourcePatchInletInlet = sourcePatchInletWrapper.Inlet;
 
             Inlet destCustomOperatorInlet = InletOutletMatcher.TryGetCustomOperatorInlet(sourcePatchInlet, destCustomOperator.Inlets);
             if (destCustomOperatorInlet == null)
@@ -112,9 +111,9 @@ namespace JJ.Business.Synthesizer.Converters
                 destCustomOperatorInlet.LinkTo(destCustomOperator);
             }
 
-            destCustomOperatorInlet.Name = sourcePatchInlet.Name;
-            destCustomOperatorInlet.DefaultValue = sourcePatchInletInlet.DefaultValue;
-            destCustomOperatorInlet.Dimension = sourcePatchInletInlet.Dimension;
+            destCustomOperatorInlet.Name = sourcePatchInletWrapper.Name;
+            destCustomOperatorInlet.DefaultValue = sourcePatchInletWrapper.DefaultValue;
+            destCustomOperatorInlet.Dimension = sourcePatchInletWrapper.Dimension;
             destCustomOperatorInlet.IsObsolete = false;
 
             if (!sourcePatchInletWrapper.ListIndex.HasValue)
@@ -159,7 +158,6 @@ namespace JJ.Business.Synthesizer.Converters
         private Outlet ConvertOutlet(Operator destCustomOperator, Operator sourcePatchOutlet)
         {
             var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
-            Outlet sourcePatchOutletOutlet = sourcePatchOutletWrapper.Result;
 
             Outlet destCustomOperatorOutlet = InletOutletMatcher.TryGetCustomOperatorOutlet(sourcePatchOutlet, destCustomOperator.Outlets);
             if (destCustomOperatorOutlet == null)
@@ -170,8 +168,8 @@ namespace JJ.Business.Synthesizer.Converters
                 _repositories.OutletRepository.Insert(destCustomOperatorOutlet);
             }
 
-            destCustomOperatorOutlet.Name = sourcePatchOutlet.Name;
-            destCustomOperatorOutlet.Dimension = sourcePatchOutletOutlet.Dimension;
+            destCustomOperatorOutlet.Name = sourcePatchOutletWrapper.Name;
+            destCustomOperatorOutlet.Dimension = sourcePatchOutletWrapper.Dimension;
             destCustomOperatorOutlet.IsObsolete = false;
 
             if (!sourcePatchOutletWrapper.ListIndex.HasValue)

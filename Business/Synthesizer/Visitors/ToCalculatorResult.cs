@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Framework.Exceptions;
 
-namespace JJ.Business.Synthesizer.Calculation.Patches
+namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class PatchCalculatorVisitorResult
+    internal class ToCalculatorResult
     {
-        public PatchCalculatorVisitorResult(
+        public ToCalculatorResult(
             DimensionStackCollection dimensionStackCollection,
             OperatorCalculatorBase output_OperatorCalculator,
             IList<VariableInput_OperatorCalculator> input_OperatorCalculators,
