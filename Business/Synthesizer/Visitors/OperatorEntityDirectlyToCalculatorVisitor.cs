@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Visitors
     /// which can then pop its operands from this stack, 
     /// and decide which Calculator to push onto the stack again.
     /// </summary>
-    internal partial class OperatorEntityToCalculatorVisitor : OperatorVisitorBase
+    internal partial class OperatorEntityDirectlyToCalculatorVisitor : OperatorVisitorBase
     {
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
         
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Visitors
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_To_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
-        public OperatorEntityToCalculatorVisitor(
+        public OperatorEntityDirectlyToCalculatorVisitor(
             Outlet topLevelOutlet, 
             int samplingRate,
             int channelCount,
@@ -4720,18 +4720,10 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         /// <summary> As soon as you encounter a CustomOperator's Outlet, the evaluation has to take a completely different course. </summary>
-        protected override void VisitCustomOperatorOutlet(Outlet outlet)
+        protected override void VisitCustomOperatorOutlet(Outlet customOperatorOutlet)
         {
             // Resolve the underlying patch's outlet
-            Outlet customOperatorOutlet = outlet;
-            Outlet patchOutlet_Outlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
-            if (patchOutlet_Outlet == null)
-            {
-                throw new Exception(String.Format(
-                    "{0} was null after {1}.",
-                    nameof(patchOutlet_Outlet),
-                    nameof(PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch)));
-            }
+            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
 
             // Visit the underlying patch's outlet.
             VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);

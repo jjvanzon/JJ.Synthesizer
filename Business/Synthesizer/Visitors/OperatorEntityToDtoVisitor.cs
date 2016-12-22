@@ -207,36 +207,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        protected override void VisitCustomOperatorOutlet(Outlet outlet)
-        {
-            base.VisitCustomOperatorOutlet(outlet);
-
-            var wrapper = new CustomOperator_OperatorWrapper(outlet.Operator, _patchRepository);
-
-            // Note that the Outlet.ListIndex property for CustomOperators is not consecutive!
-            int outletListIndex = outlet.Operator.Outlets.OrderBy(x => x.ListIndex).IndexOf(outlet);
-
-            var dto = new CustomOperator_OperatorDto
-            {
-                UnderlyingPatchID = wrapper.UnderlyingPatchID,
-                OutletNumber = outlet.ListIndex,
-                OutletDimensionEnum = outlet.GetDimensionEnum(),
-                OutletName = outlet.Name,
-                OutletListIndex = outletListIndex,
-                OperatorID = outlet.Operator.ID
-            };
-
-            int count = outlet.Operator.Inlets.Count;
-            var inputOperatorDtos = new OperatorDtoBase[count];
-            for (int i = 0; i < count; i++)
-            {
-                inputOperatorDtos[i] = _stack.Pop();
-            }
-            dto.InputOperatorDtos = inputOperatorDtos;
-
-            _stack.Push(dto);
-        }
-
         protected override void VisitDimensionToOutletsOutlet(Outlet outlet)
         {
             base.VisitDimensionToOutletsOutlet(outlet);
@@ -544,39 +514,6 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             var dto = new Or_OperatorDto();
             Visit_OperatorDtoBase_VarA_VarB(op, dto);
-        }
-
-        protected override void VisitPatchInlet(Operator op)
-        {
-            base.VisitPatchInlet(op);
-
-            var wrapper = new PatchInlet_OperatorWrapper(op);
-
-            var dto = new PatchInlet_OperatorDto
-            {
-                DefaultValue = wrapper.Inlet.DefaultValue ?? 0.0,
-                ListIndex = wrapper.ListIndex,
-                Name = op.Name,
-                DimensionEnum = wrapper.Inlet.GetDimensionEnum()
-            };
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitPatchOutlet(Operator op)
-        {
-            base.VisitPatchOutlet(op);
-
-            var wrapper = new PatchOutlet_OperatorWrapper(op);
-
-            var dto = new PatchOutlet_OperatorDto
-            {
-                ListIndex = wrapper.ListIndex,
-                Name = op.Name,
-                DimensionEnum = wrapper.Inlet.GetDimensionEnum()
-            };
-
-            _stack.Push(dto);
         }
 
         protected override void VisitPeakingEQFilter(Operator op)
@@ -925,6 +862,23 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             var dto = new ToggleTrigger_OperatorDto();
             Visit_OperatorDtoBase_Trigger(op, dto);
+        }
+
+        // Special Visitation
+
+        /// <summary> As soon as you encounter a CustomOperator's Outlet, the evaluation has to take a completely different course. </summary>
+        protected override void VisitCustomOperatorOutlet(Outlet customOperatorOutlet)
+        {
+            // NOTE: Do not try to separate this concept into a different class.
+            // It has been tried and resulted in something much more complicated than these two lines of code.
+            // Most magic is in the InletOutletMatcher, which is a difficult class, fully worked out and tested,
+            // that needs to tap into the entity model, not DTO model.
+
+            // Resolve the underlying patch's outlet
+            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
+
+            // Visit the underlying patch's outlet.
+            VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
         }
 
         // Private Methods

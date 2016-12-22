@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _channelIndex = channelIndex;
             _frameDuration = 1.0 / samplingRate;
 
-            var visitor = new OperatorEntityToCalculatorVisitor(
+            var visitor = new OperatorEntityDirectlyToCalculatorVisitor(
                 topLevelOutlet,
                 samplingRate,
                 channelCount,

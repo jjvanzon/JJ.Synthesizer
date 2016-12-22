@@ -126,7 +126,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Curve_OperatorDto_MinX_WithOriginShifting), x => Visit_Curve_OperatorDto_MinX_WithOriginShifting((Curve_OperatorDto_MinX_WithOriginShifting)x ) },
                 { typeof(Curve_OperatorDto_MinXZero_NoOriginShifting), x => Visit_Curve_OperatorDto_MinXZero_NoOriginShifting((Curve_OperatorDto_MinXZero_NoOriginShifting)x ) },
                 { typeof(Curve_OperatorDto_MinXZero_WithOriginShifting), x => Visit_Curve_OperatorDto_MinXZero_WithOriginShifting((Curve_OperatorDto_MinXZero_WithOriginShifting)x ) },
-                { typeof(CustomOperator_OperatorDto), x => Visit_CustomOperator_OperatorDto((CustomOperator_OperatorDto)x ) },
                 { typeof(DimensionToOutlets_OperatorDto), x => Visit_DimensionToOutlets_OperatorDto((DimensionToOutlets_OperatorDto)x ) },
                 { typeof(Divide_OperatorDto), x => Visit_Divide_OperatorDto((Divide_OperatorDto)x ) },
                 { typeof(Divide_OperatorDto_VarA_VarB_VarOrigin), x => Visit_Divide_OperatorDto_VarA_VarB_VarOrigin((Divide_OperatorDto_VarA_VarB_VarOrigin)x ) },
@@ -307,8 +306,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Or_OperatorDto_ConstA_VarB), x => Visit_Or_OperatorDto_ConstA_VarB((Or_OperatorDto_ConstA_VarB)x ) },
                 { typeof(Or_OperatorDto_VarA_ConstB), x => Visit_Or_OperatorDto_VarA_ConstB((Or_OperatorDto_VarA_ConstB)x ) },
                 { typeof(Or_OperatorDto_VarA_VarB), x => Visit_Or_OperatorDto_VarA_VarB((Or_OperatorDto_VarA_VarB)x ) },
-                { typeof(PatchInlet_OperatorDto), x => Visit_PatchInlet_OperatorDto((PatchInlet_OperatorDto)x ) },
-                { typeof(PatchOutlet_OperatorDto), x => Visit_PatchOutlet_OperatorDto((PatchOutlet_OperatorDto)x ) },
                 { typeof(PeakingEQFilter_OperatorDto), x => Visit_PeakingEQFilter_OperatorDto((PeakingEQFilter_OperatorDto)x ) },
                 { typeof(PeakingEQFilter_OperatorDto_ConstSignal), x => Visit_PeakingEQFilter_OperatorDto_ConstSignal((PeakingEQFilter_OperatorDto_ConstSignal)x ) },
                 { typeof(PeakingEQFilter_OperatorDto_AllVars), x => Visit_PeakingEQFilter_OperatorDto_AllVars((PeakingEQFilter_OperatorDto_AllVars)x ) },
@@ -575,7 +572,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(Curve_OperatorDto_MinXZero_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_CustomOperator_OperatorDto(CustomOperator_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_DimensionToOutlets_OperatorDto(DimensionToOutlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Divide_OperatorDto(Divide_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(Divide_OperatorDto_VarA_VarB_VarOrigin dto) => Visit_OperatorDto_Base(dto);
@@ -756,8 +752,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Or_OperatorDto_ConstA_VarB(Or_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Or_OperatorDto_VarA_ConstB(Or_OperatorDto_VarA_ConstB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_PatchInlet_OperatorDto(PatchInlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_PatchOutlet_OperatorDto(PatchOutlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ConstSignal(PeakingEQFilter_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);

@@ -447,13 +447,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        // CustomOperator
-
-        protected override OperatorDtoBase Visit_CustomOperator_OperatorDto(CustomOperator_OperatorDto dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         // DimensionToOutlets
 
         protected override OperatorDtoBase Visit_DimensionToOutlets_OperatorDto(DimensionToOutlets_OperatorDto dto)
@@ -1523,18 +1516,6 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         protected override OperatorDtoBase Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        // PatchInlets
-
-        protected override OperatorDtoBase Visit_PatchInlet_OperatorDto(PatchInlet_OperatorDto dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override OperatorDtoBase Visit_PatchOutlet_OperatorDto(PatchOutlet_OperatorDto dto)
         {
             return Process_Nothing(dto);
         }

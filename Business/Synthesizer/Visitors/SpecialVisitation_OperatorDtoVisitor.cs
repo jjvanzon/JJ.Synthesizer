@@ -17,34 +17,10 @@ namespace JJ.Business.Synthesizer.Visitors
             return Visit_OperatorDto_Polymorphic(dto);
         }
 
-        protected override OperatorDtoBase Visit_CustomOperator_OperatorDto(CustomOperator_OperatorDto dto)
-        {
-            throw new NotImplementedException();
-            return base.Visit_CustomOperator_OperatorDto(dto);
-        }
-
         protected override OperatorDtoBase Visit_DimensionToOutlets_OperatorDto(DimensionToOutlets_OperatorDto dto)
         {
             throw new NotImplementedException();
             return base.Visit_DimensionToOutlets_OperatorDto(dto);
-        }
-
-        protected override OperatorDtoBase Visit_PatchInlet_OperatorDto(PatchInlet_OperatorDto dto)
-        {
-            base.Visit_PatchInlet_OperatorDto(dto);
-
-            throw new NotImplementedException();
-
-            return dto;
-        }
-
-        protected override OperatorDtoBase Visit_PatchOutlet_OperatorDto(PatchOutlet_OperatorDto dto)
-        {
-            base.Visit_PatchOutlet_OperatorDto(dto);
-
-            throw new NotImplementedException();
-
-            return dto;
         }
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto_ConstFrom_ConstStep(RangeOverOutlets_OperatorDto_ConstFrom_ConstStep dto)
