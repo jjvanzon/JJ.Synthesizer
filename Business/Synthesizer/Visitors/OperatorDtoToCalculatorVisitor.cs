@@ -156,6 +156,11 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(_stack.Pop(), _stack.Pop(), _stack.Pop(), _targetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
+        protected override OperatorDtoBase Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
+        {
+            return ProcessWithDimension(dto, dimensionStack => new DimensionToOutlets_OperatorCalculator(_stack.Pop(), dto.OutletListIndex, dimensionStack));
+        }
+
         protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
@@ -1200,7 +1205,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override OperatorDtoBase Visit_SortOverInlets_OperatorDto(SortOverInlets_OperatorDto dto)
+        protected override OperatorDtoBase Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new SortOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
         }

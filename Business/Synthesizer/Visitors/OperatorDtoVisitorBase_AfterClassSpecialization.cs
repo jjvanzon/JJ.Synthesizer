@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override OperatorDtoBase Visit_RangeOverOutlets_OperatorDto(RangeOverOutlets_OperatorDto dto)
+        protected sealed override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto(RangeOverOutlets_Outlet_OperatorDto dto)
         {
             throw new NotSupportedException();
         }

@@ -3,10 +3,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class RangeOverOutlets_OperatorDto : RangeOverOutlets_OperatorDto_VarFrom_VarStep
+    internal class RangeOverOutlets_Outlet_OperatorDto : RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep
     { }
 
-    internal class RangeOverOutlets_OperatorDto_VarFrom_VarStep : OperatorDtoBase
+    internal class RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
 
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class RangeOverOutlets_OperatorDto_VarFrom_ConstStep : OperatorDtoBase
+    internal class RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
 
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class RangeOverOutlets_OperatorDto_ConstFrom_VarStep : OperatorDtoBase
+    internal class RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep : OperatorDtoBase
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
 
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class RangeOverOutlets_OperatorDto_ConstFrom_ConstStep : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep : OperatorDtoBase_WithoutInputOperatorDtos
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
 

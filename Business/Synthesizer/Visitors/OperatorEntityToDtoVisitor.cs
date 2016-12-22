@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitDimensionToOutletsOutlet(outlet);
 
-            var dto = new DimensionToOutlets_OperatorDto
+            var dto = new DimensionToOutlets_Outlet_OperatorDto
             {
                 OperandOperatorDto = _stack.Pop(),
                 OutletListIndex = outlet.ListIndex
@@ -601,7 +601,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitRangeOverOutletsOutlet(outlet);
 
-            var dto = new RangeOverOutlets_OperatorDto
+            var dto = new RangeOverOutlets_Outlet_OperatorDto
             {
                 FromOperatorDto = _stack.Pop(),
                 StepOperatorDto = _stack.Pop(),
@@ -767,7 +767,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitSortOverInletsOutlet(Outlet outlet)
         {
-            var dto = new SortOverInlets_OperatorDto
+            var dto = new SortOverInlets_Outlet_OperatorDto
             {
                 OutletListIndex = outlet.ListIndex,
             };

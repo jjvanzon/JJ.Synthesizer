@@ -260,7 +260,7 @@
     <Compile Include="Dto\Shift OperatorDto Classes.cs" />
     <Compile Include="Dto\Sine OperatorDto Classes.cs" />
     <Compile Include="Dto\SortOverDimension OperatorDto Classes.cs" />
-    <Compile Include="Dto\SortOverInlets_OperatorDto.cs" />
+    <Compile Include="Dto\SortOverInlets_Outlet_OperatorDto.cs" />
     <Compile Include="Dto\ClosestOverInletsExp OperatorDto Classes.cs" />
     <Compile Include="Dto\ClosestOverDimensionExp OperatorDto Classes.cs" />
     <Compile Include="Dto\ClosestOverInlets OperatorDto Classes.cs" />
@@ -276,7 +276,7 @@
     <Compile Include="Dto\MaxOverInlets OperatorDto Classes.cs" />
     <Compile Include="Dto\Cache OperatorDto Classes.cs" />
     <Compile Include="Dto\GetDimension_OperatorDto.cs" />
-    <Compile Include="Dto\DimensionToOutlets_OperatorDto.cs" />
+    <Compile Include="Dto\DimensionToOutlets_Outlet_OperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase_AggregateOverDimension_AllVars.cs" />
     <Compile Include="Dto\RangeOverDimension OperatorDto Classes.cs" />
     <Compile Include="Dto\OneOverX OperatorDto Classes.cs" />

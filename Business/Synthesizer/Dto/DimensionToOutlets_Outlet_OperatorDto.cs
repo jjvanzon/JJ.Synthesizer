@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class DimensionToOutlets_OperatorDto : OperatorDtoBase_WithDimension
+    internal class DimensionToOutlets_Outlet_OperatorDto : OperatorDtoBase_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.DimensionToOutlets);
 
