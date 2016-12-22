@@ -665,6 +665,7 @@
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Visitors\PreProcessing_OperatorDtoVisitor.cs" />
     <Compile Include="Visitors\ProgrammerLaziness_OperatorDtoVisitor.cs" />
+    <Compile Include="Visitors\RecursiveUnderlyingPatchEntityToDtoVisitor.cs" />
     <Compile Include="Visitors\SpecialVisitation_OperatorDtoVisitor.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\CurveWarningValidator.cs" />
@@ -797,7 +798,7 @@
     <Compile Include="Validation\ValidationHelper.MessagePrefixes.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
-    <Compile Include="Visitors\PatchCalculatorVisitor.cs" />
+    <Compile Include="Visitors\OperatorEntityToCalculatorVisitor.cs" />
     <Compile Include="Visitors\OperatorVisitorBase.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\Operators\2016-12-20 Backup of Unbundle_OperatorWarningValidator.cs" />

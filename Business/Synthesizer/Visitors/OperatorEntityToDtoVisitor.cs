@@ -9,6 +9,7 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -40,9 +41,18 @@ namespace JJ.Business.Synthesizer.Visitors
 
         public OperatorDtoBase Execute(Operator op)
         {
+            if (op.Outlets.Count != 1) throw new NotEqualException(() => op.Outlets.Count, 1);
+
+            Outlet outlet = op.Outlets[0];
+
+            return Execute(outlet);
+        }
+
+        public OperatorDtoBase Execute(Outlet outlet)
+        {
             _stack = new Stack<OperatorDtoBase>();
 
-            VisitOperatorPolymorphic(op);
+            VisitOutletPolymorphic(outlet);
 
             if (_stack.Count != 1)
             {
@@ -203,12 +213,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var wrapper = new CustomOperator_OperatorWrapper(outlet.Operator, _patchRepository);
 
+            // Note that the Outlet.ListIndex property for CustomOperators is not consecutive!
+            int outletListIndex = outlet.Operator.Outlets.OrderBy(x => x.ListIndex).IndexOf(outlet);
+
             var dto = new CustomOperator_OperatorDto
             {
                 UnderlyingPatchID = wrapper.UnderlyingPatchID,
-                OutletListIndex = outlet.ListIndex,
+                OutletNumber = outlet.ListIndex,
                 OutletDimensionEnum = outlet.GetDimensionEnum(),
-                OutletName = outlet.Name
+                OutletName = outlet.Name,
+                OutletListIndex = outletListIndex,
+                OperatorID = outlet.Operator.ID
             };
 
             int count = outlet.Operator.Inlets.Count;
