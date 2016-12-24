@@ -7,7 +7,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Reflection;
 using JJ.Framework.Exceptions;
 using System.Diagnostics;
 using JJ.Business.Synthesizer.Helpers;
@@ -25,7 +24,7 @@ namespace JJ.Business.Synthesizer.Visitors
         private Outlet _topLevelOutlet;
 
         /// <summary> Needed to maintain instance integrity. </summary>
-        private Dictionary<Operator, PatchInlet_OperatorDto> _patchInlet_Operator_To_Dto_Dictionary;
+        private Dictionary<Operator, VariableInput_OperatorDto> _patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary;
 
         public OperatorEntityToDtoVisitor(
             ICurveRepository curveRepository, 
@@ -58,13 +57,13 @@ namespace JJ.Business.Synthesizer.Visitors
             _topLevelOutlet = topLevelOutlet;
 
             _stack = new Stack<OperatorDtoBase>();
-            _patchInlet_Operator_To_Dto_Dictionary = new Dictionary<Operator, PatchInlet_OperatorDto>();
+            _patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary = new Dictionary<Operator, VariableInput_OperatorDto>();
 
             VisitOutletPolymorphic(topLevelOutlet);
 
             if (_stack.Count != 1)
             {
-                throw new Exception(String.Format("{0} should have been 1.", ExpressionHelper.GetText(() => _stack.Count)));
+                throw new NotEqualException(() => _stack.Count, 1);
             }
 
             OperatorDtoBase dto = _stack.Pop();
@@ -331,8 +330,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitInletsToDimension(Operator op)
         {
-            base.VisitInletsToDimension(op);
-
             var wrapper = new InletsToDimension_OperatorWrapper(op);
 
             var dto = new InletsToDimension_OperatorDto
@@ -340,9 +337,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 ResampleInterpolationTypeEnum = wrapper.InterpolationType
             };
 
-            SetDimensionProperties(op, dto);
+            Visit_OperatorDtoBase_Vars(op, dto);
 
-            _stack.Push(dto);
+            SetDimensionProperties(op, dto);
         }
 
         protected override void VisitLessThan(Operator op)
@@ -898,17 +895,22 @@ namespace JJ.Business.Synthesizer.Visitors
                 if (inlet.DefaultValue.HasValue)
                 {
                     _stack.Push(new Number_OperatorDto { Number = inlet.DefaultValue.Value });
+                    return;
                 }
                 else
                 {
                     _stack.Push(new Number_OperatorDto_Zero());
+                    return;
                 }
             }
 
             base.VisitInlet(inlet);
         }
 
-        /// <summary> Needs to guarantee instance integrity over PatchInlets in the DTO structure. </summary>
+        /// <summary>
+        /// Top-level PatchInlets need to be converted to VariableInput_OperatorDto's
+        /// and instance integrity needs to maintained over them.
+        /// </summary>
         protected override void VisitPatchInlet(Operator op)
         {
             base.VisitPatchInlet(op);
@@ -918,12 +920,12 @@ namespace JJ.Business.Synthesizer.Visitors
             bool isTopLevelPatchInlet = IsTopLevelPatchInlet(op);
             if (isTopLevelPatchInlet)
             {
-                PatchInlet_OperatorDto dto;
-                if (!_patchInlet_Operator_To_Dto_Dictionary.TryGetValue(op, out dto))
+                VariableInput_OperatorDto dto;
+                if (!_patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary.TryGetValue(op, out dto))
                 {
                     var wrapper = new PatchInlet_OperatorWrapper(op);
 
-                    dto = new PatchInlet_OperatorDto
+                    dto = new VariableInput_OperatorDto
                     {
                         DimensionEnum = wrapper.DimensionEnum,
                         CanonicalName = NameHelper.ToCanonical(wrapper.Name),
@@ -931,7 +933,7 @@ namespace JJ.Business.Synthesizer.Visitors
                         DefaultValue = wrapper.DefaultValue ?? 0.0
                     };
 
-                    _patchInlet_Operator_To_Dto_Dictionary[op] = dto;
+                    _patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary[op] = dto;
                 }
 
                 _stack.Push(dto);
@@ -1000,6 +1002,9 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.FromOperatorDto = _stack.Pop();
             dto.TillOperatorDto = _stack.Pop();
             dto.StepOperatorDto = _stack.Pop();
+
+            var wrapper = new OperatorWrapperBase_AggregateOverDimension(op);
+            dto.CollectionRecalculationEnum = wrapper.CollectionRecalculation;
 
             SetDimensionProperties(op, dto);
 

@@ -306,7 +306,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Or_OperatorDto_ConstA_VarB), x => Visit_Or_OperatorDto_ConstA_VarB((Or_OperatorDto_ConstA_VarB)x) },
                 { typeof(Or_OperatorDto_VarA_ConstB), x => Visit_Or_OperatorDto_VarA_ConstB((Or_OperatorDto_VarA_ConstB)x) },
                 { typeof(Or_OperatorDto_VarA_VarB), x => Visit_Or_OperatorDto_VarA_VarB((Or_OperatorDto_VarA_VarB)x) },
-                { typeof(PatchInlet_OperatorDto), x => Visit_PatchInlet_OperatorDto((PatchInlet_OperatorDto)x) },
+                { typeof(VariableInput_OperatorDto), x => Visit_VariableInput_OperatorDto((VariableInput_OperatorDto)x) },
                 { typeof(PeakingEQFilter_OperatorDto), x => Visit_PeakingEQFilter_OperatorDto((PeakingEQFilter_OperatorDto)x) },
                 { typeof(PeakingEQFilter_OperatorDto_ConstSignal), x => Visit_PeakingEQFilter_OperatorDto_ConstSignal((PeakingEQFilter_OperatorDto_ConstSignal)x) },
                 { typeof(PeakingEQFilter_OperatorDto_AllVars), x => Visit_PeakingEQFilter_OperatorDto_AllVars((PeakingEQFilter_OperatorDto_AllVars)x) },
@@ -754,7 +754,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Or_OperatorDto_ConstA_VarB(Or_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Or_OperatorDto_VarA_ConstB(Or_OperatorDto_VarA_ConstB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_PatchInlet_OperatorDto(PatchInlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ConstSignal(PeakingEQFilter_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);

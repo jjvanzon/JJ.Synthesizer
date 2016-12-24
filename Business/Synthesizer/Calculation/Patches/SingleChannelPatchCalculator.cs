@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Visitors;
@@ -19,6 +20,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 #if !USE_INVAR_INDICES
         private const int TOP_LEVEL_DIMENSION_STACK_INDEX = 0;
 #endif
+
+        private static readonly CalculationEngineConfigurationEnum _calculationEngineConfigurationEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationEngine;
+
         private readonly DimensionStackCollection _dimensionStackCollection;
         private readonly DimensionStack _timeDimensionStack;
         private readonly DimensionStack _channelDimensionStack;
@@ -42,7 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public SingleChannelPatchCalculator(
             Outlet topLevelOutlet,
-            int samplingRate,
+            int targetSamplingRate,
             int channelCount,
             int channelIndex,
             CalculatorCache calculatorCache,
@@ -58,20 +62,47 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             _channelCount = channelCount;
             _channelIndex = channelIndex;
-            _frameDuration = 1.0 / samplingRate;
+            _frameDuration = 1.0 / targetSamplingRate;
 
-            var visitor = new OperatorEntityDirectlyToCalculatorVisitor(
-                topLevelOutlet,
-                samplingRate,
-                channelCount,
-                secondsBetweenApplyFilterVariables,
-                calculatorCache,
-                curveRepository, 
-                sampleRepository, 
-                patchRepository, 
-                speakerSetupRepository);
+            ToCalculatorResult result;
+            switch (_calculationEngineConfigurationEnum)
+            {
+                case CalculationEngineConfigurationEnum.EntityToCalculatorDirectly:
+                    {
+                        var visitor = new OperatorEntityToCalculatorDirectlyVisitor(
+                            topLevelOutlet,
+                            targetSamplingRate,
+                            channelCount,
+                            secondsBetweenApplyFilterVariables,
+                            calculatorCache,
+                            curveRepository,
+                            sampleRepository,
+                            patchRepository,
+                            speakerSetupRepository);
 
-            ToCalculatorResult result = visitor.Execute();
+                        result = visitor.Execute();
+                        break;
+                    }
+
+                case CalculationEngineConfigurationEnum.EntityThruDtoToCalculator:
+                    {
+                        var visitor = new OperatorEntityThruDtoToCalculatorVisitor(
+                            targetSamplingRate,
+                            channelCount,
+                            secondsBetweenApplyFilterVariables,
+                            calculatorCache,
+                            curveRepository,
+                            patchRepository,
+                            sampleRepository,
+                            speakerSetupRepository);
+
+                        result = visitor.Execute(topLevelOutlet);
+                        break;
+                    }
+
+                default:
+                    throw new ValueNotSupportedException(_calculationEngineConfigurationEnum);
+            }
 
             // Yield over results to fields.
             _dimensionStackCollection = result.DimensionStackCollection;

@@ -16,11 +16,10 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             if (dto == null) throw new NullException(() => dto);
 
-            dto = new OperatorDtoVisitor_SpecialVisitation().Execute(dto);
             dto = new OperatorDtoVisitor_ClassSpecialization(_targetChannelCount).Execute(dto);
             dto = new OperatorDtoVisitor_MathSimplification().Execute(dto);
-            dto = new OperatorDtoVisitor_ProgrammerLaziness().Execute(dto);
             dto = new OperatorDtoVisitor_MachineOptimization().Execute(dto);
+            dto = new OperatorDtoVisitor_ProgrammerLaziness().Execute(dto);
 
             return dto;
         }

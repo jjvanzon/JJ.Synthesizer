@@ -20,5 +20,8 @@ namespace JJ.Business.Synthesizer.Configuration
 
         [XmlAttribute]
         public double SecondsBetweenApplyFilterVariables { get; set; }
+
+        [XmlAttribute]
+        public CalculationEngineConfigurationEnum CalculationEngine { get; set; }
     }
 }

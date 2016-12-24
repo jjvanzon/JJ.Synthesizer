@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class PatchInlet_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class VariableInput_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.PatchInlet);
 

@@ -98,7 +98,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             Expression<Func<object>> expression)
         {
             if (operatorCalculatorBase == null) throw new NullException(expression);
-            if (operatorCalculatorBase is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(expression);
+            // TEMPORARY FOR DEBUGGING!!! (2016-12-23)
+            //if (operatorCalculatorBase is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(expression);
         }
 
         public static void AssertChildOperatorCalculator_OnlyUsedUponResetState(

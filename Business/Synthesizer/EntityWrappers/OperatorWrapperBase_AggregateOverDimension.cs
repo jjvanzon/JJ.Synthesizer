@@ -8,7 +8,8 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public abstract class OperatorWrapperBase_AggregateOverDimension : OperatorWrapperBase_WithResult
+    /// <summary> Not abstract, so we can create the same wrapper for several types of Operator. </summary>
+    public class OperatorWrapperBase_AggregateOverDimension : OperatorWrapperBase_WithResult
     {
         private const int SIGNAL_INDEX = 0;
         private const int FROM_INDEX = 1;

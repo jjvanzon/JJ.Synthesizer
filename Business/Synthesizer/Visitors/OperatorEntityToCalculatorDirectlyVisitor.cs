@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Visitors
     /// which can then pop its operands from this stack, 
     /// and decide which Calculator to push onto the stack again.
     /// </summary>
-    internal partial class OperatorEntityDirectlyToCalculatorVisitor : OperatorVisitorBase
+    internal partial class OperatorEntityToCalculatorDirectlyVisitor : OperatorVisitorBase
     {
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
         
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Visitors
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_To_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
-        public OperatorEntityDirectlyToCalculatorVisitor(
+        public OperatorEntityToCalculatorDirectlyVisitor(
             Outlet topLevelOutlet, 
             int samplingRate,
             int channelCount,

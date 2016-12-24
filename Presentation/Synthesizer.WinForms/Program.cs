@@ -68,7 +68,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             var winFormsConfig = CustomConfigurationManager.GetSection<Configuration.ConfigurationSection>();
 
-            if (winFormsConfig.MultiThreaded)
+            bool mustCreateEmptuPatchCalculatorContainer = !winFormsConfig.AudioOutputEnabled;
+            if (mustCreateEmptuPatchCalculatorContainer)
+            {
+                PatchCalculatorContainer = new EmptyPatchCalculatorContainer();
+            }
+            else if (winFormsConfig.MultiThreaded)
             {
                 PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(noteRecycler);
             }

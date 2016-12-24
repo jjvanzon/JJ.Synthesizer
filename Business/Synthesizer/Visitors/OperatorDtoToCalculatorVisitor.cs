@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
@@ -17,8 +18,8 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoToCalculatorVisitor : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
-        private readonly int _targetChannelCount;
         private readonly double _targetSamplingRate;
+        private readonly int _targetChannelCount;
         private readonly int _samplesBetweenApplyFilterVariables;
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
@@ -26,7 +27,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private Stack<OperatorCalculatorBase> _stack;
         private DimensionStackCollection _dimensionStackCollection;
-        private Dictionary<PatchInlet_OperatorDto, VariableInput_OperatorCalculator> _patchInlet_OperatorDto_To_Calculator_Dictionary;
+        private Dictionary<VariableInput_OperatorDto, VariableInput_OperatorCalculator> _variableInput_OperatorDto_To_Calculator_Dictionary;
 
         public OperatorDtoToCalculatorVisitor(
             int targetSamplingRate, 
@@ -62,12 +63,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
         public ToCalculatorResult Execute(OperatorDtoBase dto)
         {
-            var preProcessing = new OperatorDtoVisitor_PreProcessing(_targetChannelCount);
-            dto = preProcessing.Execute(dto);
-
             _stack = new Stack<OperatorCalculatorBase>();
             _dimensionStackCollection = new DimensionStackCollection();
-            _patchInlet_OperatorDto_To_Calculator_Dictionary = new Dictionary<PatchInlet_OperatorDto, VariableInput_OperatorCalculator>();
+            _variableInput_OperatorDto_To_Calculator_Dictionary = new Dictionary<VariableInput_OperatorDto, VariableInput_OperatorCalculator>();
 
             Visit_OperatorDto_Polymorphic(dto);
 
@@ -92,9 +90,9 @@ namespace JJ.Business.Synthesizer.Visitors
             var result = new ToCalculatorResult(
                 _dimensionStackCollection, 
                 rootCalculator, 
-                _patchInlet_OperatorDto_To_Calculator_Dictionary.Values.ToArray(),
+                _variableInput_OperatorDto_To_Calculator_Dictionary.Values.ToArray(),
                 // TODO: Return _resettableOperatorTuples.
-                null);
+                new ResettableOperatorTuple[0]);
 
             return result;
         }
@@ -773,6 +771,7 @@ namespace JJ.Business.Synthesizer.Visitors
             NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(dto.OperatorID);
 
             var calculator = new Noise_OperatorCalculator(noiseCalculator, dimensionStack);
+            _stack.Push(calculator);
 
             return dto;
         }
@@ -1411,17 +1410,19 @@ namespace JJ.Business.Synthesizer.Visitors
         // Special Visitation
 
         /// <summary> Instance integrity needs to be maintained over the (top-level) PatchInlets. </summary>
-        protected override OperatorDtoBase Visit_PatchInlet_OperatorDto(PatchInlet_OperatorDto dto)
+        protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {
-            base.Visit_PatchInlet_OperatorDto(dto);
+            base.Visit_VariableInput_OperatorDto(dto);
 
             VariableInput_OperatorCalculator calculator;
-            if (!_patchInlet_OperatorDto_To_Calculator_Dictionary.TryGetValue(dto, out calculator))
+            if (!_variableInput_OperatorDto_To_Calculator_Dictionary.TryGetValue(dto, out calculator))
             {
                 calculator = new VariableInput_OperatorCalculator(dto.DimensionEnum, dto.CanonicalName, dto.ListIndex, dto.DefaultValue);
 
-                _patchInlet_OperatorDto_To_Calculator_Dictionary[dto] = calculator;
+                _variableInput_OperatorDto_To_Calculator_Dictionary[dto] = calculator;
             }
+
+            _stack.Push(calculator);
 
             return dto;
         }
@@ -1497,7 +1498,6 @@ namespace JJ.Business.Synthesizer.Visitors
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dtoWithDimension);
 
             OperatorCalculatorBase calculator = createOperatorCalculatorDelegate(dimensionStack);
-
             _stack.Push(calculator);
 
             return dto;
@@ -1546,7 +1546,6 @@ namespace JJ.Business.Synthesizer.Visitors
             ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dtoWithSampleID.SampleID, _sampleRepository);
 
             var calculator = createOperatorCalculatorDelegate(dimensionStack, sampleCalculator);
-
             _stack.Push(calculator);
 
             return dto;
@@ -1568,7 +1567,6 @@ namespace JJ.Business.Synthesizer.Visitors
             ISampleCalculator sampleCalculator = _calculatorCache.GetSampleCalculator(dtoWithSampleID.SampleID, _sampleRepository);
 
             var calculator = createOperatorCalculatorDelegate(dimensionStack, channelDimensionStack, sampleCalculator);
-
             _stack.Push(calculator);
 
             return dto;

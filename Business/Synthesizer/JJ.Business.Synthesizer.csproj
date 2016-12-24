@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -82,6 +82,7 @@
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_StripeInterpolation.cs" />
+    <Compile Include="Configuration\CalculationEngineConfigurationEnum.cs" />
     <Compile Include="Dto\2016-12-14 Backup of Cache OperatorDto Classes.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
+    <Compile Include="Visitors\OperatorEntityThruDtoToCalculatorVisitor.cs" />
     <Compile Include="Visitors\ToCalculatorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
     <Compile Include="Dto\Add OperatorDto Classes.cs" />
@@ -341,7 +343,7 @@
     <Compile Include="Dto\OperatorDtoBase_Vars_1Const.cs" />
     <Compile Include="Dto\Power OperatorDto Classes.cs" />
     <Compile Include="Dto\2016-12-22 Backup of PatchOutlet_OperatorDto.cs" />
-    <Compile Include="Dto\PatchInlet_OperatorDto.cs" />
+    <Compile Include="Dto\VariableInput_OperatorDto.cs" />
     <Compile Include="Dto\TimePower OperatorDto Classes.cs" />
     <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithABAndOrigin.cs" />
@@ -666,7 +668,7 @@
     <Compile Include="Visitors\OperatorDtoVisitor_PreProcessing.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_ProgrammerLaziness.cs" />
     <Compile Include="Visitors\2016-12-22 Backup of RecursiveUnderlyingPatchEntityToDtoVisitor.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_SpecialVisitation.cs" />
+    <Compile Include="Visitors\2016-12-23 Backup of OperatorDtoVisitor_SpecialVisitation.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\CurveWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />
@@ -798,7 +800,7 @@
     <Compile Include="Validation\ValidationHelper.MessagePrefixes.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
-    <Compile Include="Visitors\OperatorEntityDirectlyToCalculatorVisitor.cs" />
+    <Compile Include="Visitors\OperatorEntityToCalculatorDirectlyVisitor.cs" />
     <Compile Include="Visitors\OperatorVisitorBase.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\Operators\2016-12-20 Backup of Unbundle_OperatorWarningValidator.cs" />

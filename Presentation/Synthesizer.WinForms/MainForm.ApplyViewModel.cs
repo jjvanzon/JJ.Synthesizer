@@ -37,6 +37,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForCurve.SetCurveLookup(_presenter.MainViewModel.Document.CurveLookup);
             operatorPropertiesUserControl_ForCurve.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCurve;
             operatorPropertiesUserControl_ForCustomOperator.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator;
+            operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
             operatorPropertiesUserControl_ForInletsToDimension.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension;
             operatorPropertiesUserControl_ForNumber.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForNumber;
             operatorPropertiesUserControl_ForPatchInlet.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet;
