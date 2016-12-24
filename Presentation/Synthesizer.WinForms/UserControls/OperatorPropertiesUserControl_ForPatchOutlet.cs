@@ -6,6 +6,7 @@ using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -24,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             base.SetTitles();
 
             labelNumber.Text = Titles.Number;
+            labelDimension.Text = PropertyDisplayNames.Dimension;
         }
 
         protected override void AddProperties()
