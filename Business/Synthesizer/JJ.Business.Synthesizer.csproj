@@ -669,6 +669,7 @@
     <Compile Include="Visitors\OperatorDtoVisitor_ProgrammerLaziness.cs" />
     <Compile Include="Visitors\2016-12-22 Backup of RecursiveUnderlyingPatchEntityToDtoVisitor.cs" />
     <Compile Include="Visitors\2016-12-23 Backup of OperatorDtoVisitor_SpecialVisitation.cs" />
+    <Compile Include="Visitors\VisitorHelper.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\CurveWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />

@@ -63,11 +63,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             VisitOutletPolymorphic(topLevelOutlet);
 
-            if (_stack.Count != 1)
-            {
-                throw new NotEqualException(() => _stack.Count, 1);
-            }
-
             OperatorDtoBase dto = _stack.Pop();
 
             return dto;

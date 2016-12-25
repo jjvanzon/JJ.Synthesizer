@@ -14,11 +14,13 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Visitors
@@ -111,11 +113,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase outputOperatorCalculator = _stack.Pop();
 
-            if (_stack.Count != 0)
-            {
-                throw new NotEqualException(() => _stack.Count, 0);
-            }
-
             foreach (DimensionStack dimensionStack in _dimensionStackCollection.GetDimensionStacks())
             {
                 if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
@@ -132,6 +129,27 @@ namespace JJ.Business.Synthesizer.Visitors
                 outputOperatorCalculator,
                 _patchInlet_To_Calculator_Dictionary.Values.ToArray(),
                 _resettableOperatorTuples);
+        }
+
+        /// <summary> Check the integrity of the pushes and pops onto and from the _stack. </summary>
+        protected override void VisitOperatorPolymorphic(Operator op)
+        {
+            int stackCountBefore = _stack.Count;
+
+            base.VisitOperatorPolymorphic(op);
+
+            int expectedStackCount = stackCountBefore + 1;
+
+            if (_stack.Count != expectedStackCount)
+            {
+                throw new Exception(String.Format(
+                    "{0} was not incremented by exactly 1 after visiting {1} {2}. expectedStackCount = {3}, _stack.Count = {4}.",
+                    ExpressionHelper.GetText(() => _stack.Count),
+                    nameof(Operator),
+                    ValidationHelper.GetIdentifier(op),
+                    expectedStackCount,
+                    _stack.Count));
+            }
         }
 
         protected override void VisitAbsolute(Operator op)

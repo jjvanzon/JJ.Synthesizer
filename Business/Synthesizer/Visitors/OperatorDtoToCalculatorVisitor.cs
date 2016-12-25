@@ -10,9 +10,11 @@ using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -69,11 +71,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             Visit_OperatorDto_Polymorphic(dto);
 
-            if (_stack.Count != 1)
-            {
-                throw new NotEqualException(() => _stack.Count, 1);
-            }
-
             foreach (DimensionStack dimensionStack in _dimensionStackCollection.GetDimensionStacks())
             {
                 if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
@@ -95,6 +92,28 @@ namespace JJ.Business.Synthesizer.Visitors
                 new ResettableOperatorTuple[0]);
 
             return result;
+        }
+
+        /// <summary> Check the integrity of the pushes and pops onto and from the _stack. </summary>
+        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        {
+            int stackCountBefore = _stack.Count;
+
+            base.Visit_OperatorDto_Polymorphic(dto);
+
+            int expectedStackCount = stackCountBefore + 1;
+
+            if (_stack.Count != expectedStackCount)
+            {
+                throw new Exception(String.Format(
+                    "{0} was not incremented by exactly 1 after visiting {1}. expectedStackCount = {2}, _stack.Count = {3}.",
+                    ExpressionHelper.GetText(() => _stack.Count),
+                    dto.GetType().Name,
+                    expectedStackCount,
+                    _stack.Count));
+            }
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
