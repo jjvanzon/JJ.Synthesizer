@@ -142,6 +142,7 @@
     <Compile Include="Helpers\OperatorDtoFactory.cs" />
     <Compile Include="Helpers\WithCSharpCompilation\OperatorCalculatorFactory.cs" />
     <Compile Include="Synthesizer_PerformanceTests_WithCSharpCompilation.cs" />
+    <Compile Include="Visitors\VisitorHelper.cs" />
     <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToCSharpVisitorBase.cs" />
     <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToPatchCalculatorCSharpVisitor.cs" />
     <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToOperatorCalculatorCSharpVisitor.cs" />

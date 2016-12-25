@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithStructs;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
@@ -30,12 +28,14 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithStructs
 
             Visit_OperatorDto_Polymorphic(sourceDto);
 
-            if (_stack.Count != 1)
-            {
-                throw new NotEqualException(() => _stack.Count, 1);
-            }
-
             return _stack.Pop();
+        }
+
+        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        {
+            VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
+
+            return dto;
         }
 
         // Visit

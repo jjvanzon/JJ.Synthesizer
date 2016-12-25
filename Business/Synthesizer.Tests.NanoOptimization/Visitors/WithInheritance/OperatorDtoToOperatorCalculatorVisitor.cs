@@ -26,11 +26,6 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
 
             Visit_OperatorDto_Polymorphic(dto);
 
-            if (_stack.Count != 1)
-            {
-                throw new NotEqualException(() => _stack.Count, 1);
-            }
-
             return _stack.Pop();
         }
 
@@ -187,6 +182,13 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
 
             var calculator = new VariableInput_OperatorCalculator(dto.DefaultValue);
             _stack.Push(calculator);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        {
+            VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
 
             return dto;
         }

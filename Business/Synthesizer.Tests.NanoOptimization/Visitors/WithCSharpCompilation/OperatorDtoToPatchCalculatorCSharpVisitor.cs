@@ -39,10 +39,6 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpComp
             _sb = new StringBuilderWithIndentation(TAB_STRING);
             _sb.IndentLevel = RAW_CALCULATION_INDENT_LEVEL;
             Visit_OperatorDto_Polymorphic(dto);
-            if (_stack.Count != 1)
-            {
-                throw new NotEqualException(() => _stack.Count, 1);
-            }
             string rawCalculationCode = _sb.ToString();
             // Pick up some other output from visitation.
             ValueInfo returnValueInfo = _stack.Pop();
@@ -232,6 +228,13 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpComp
                                                                     .Union(_inputVariableInfoDictionary.Keys)
                                                                     .ToArray();
             return list;
+        }
+
+        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        {
+            VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
+
+            return dto;
         }
     }
 }

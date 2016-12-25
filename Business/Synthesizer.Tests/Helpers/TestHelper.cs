@@ -1,12 +1,6 @@
-﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
+﻿using System.IO;
 using JJ.Framework.Common;
-using JJ.Framework.Data;
-using System;
-using System.IO;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Configuration;
-using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

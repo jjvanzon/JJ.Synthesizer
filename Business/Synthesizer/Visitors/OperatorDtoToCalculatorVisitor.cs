@@ -10,11 +10,8 @@ using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -94,24 +91,9 @@ namespace JJ.Business.Synthesizer.Visitors
             return result;
         }
 
-        /// <summary> Check the integrity of the pushes and pops onto and from the _stack. </summary>
         protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
         {
-            int stackCountBefore = _stack.Count;
-
-            base.Visit_OperatorDto_Polymorphic(dto);
-
-            int expectedStackCount = stackCountBefore + 1;
-
-            if (_stack.Count != expectedStackCount)
-            {
-                throw new Exception(String.Format(
-                    "{0} was not incremented by exactly 1 after visiting {1}. expectedStackCount = {2}, _stack.Count = {3}.",
-                    ExpressionHelper.GetText(() => _stack.Count),
-                    dto.GetType().Name,
-                    expectedStackCount,
-                    _stack.Count));
-            }
+            VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
 
             return dto;
         }

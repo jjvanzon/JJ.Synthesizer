@@ -131,25 +131,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 _resettableOperatorTuples);
         }
 
-        /// <summary> Check the integrity of the pushes and pops onto and from the _stack. </summary>
         protected override void VisitOperatorPolymorphic(Operator op)
         {
-            int stackCountBefore = _stack.Count;
-
-            base.VisitOperatorPolymorphic(op);
-
-            int expectedStackCount = stackCountBefore + 1;
-
-            if (_stack.Count != expectedStackCount)
-            {
-                throw new Exception(String.Format(
-                    "{0} was not incremented by exactly 1 after visiting {1} {2}. expectedStackCount = {3}, _stack.Count = {4}.",
-                    ExpressionHelper.GetText(() => _stack.Count),
-                    nameof(Operator),
-                    ValidationHelper.GetIdentifier(op),
-                    expectedStackCount,
-                    _stack.Count));
-            }
+            VisitorHelper.WithStackCheck(_stack, () => base.VisitOperatorPolymorphic(op));
         }
 
         protected override void VisitAbsolute(Operator op)

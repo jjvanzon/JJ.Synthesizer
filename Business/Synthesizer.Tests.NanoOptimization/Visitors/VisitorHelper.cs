@@ -3,21 +3,10 @@ using System.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
 
-namespace JJ.Business.Synthesizer.Visitors
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
     internal static class VisitorHelper
     {
-        /// <summary>
-        /// Checks whether the stack count is incremented by exactly 1 after the action.
-        /// It looks like this functionality belongs in a base visitor,
-        /// but there already is a base class, and this feature applies only to very specific derived
-        /// classes and I cannot just add on features without repeating code,
-        /// unless I put it in a helper method like this.
-        /// </summary>
-        /// <param name="stack">
-        /// I need to call it stack in the error messages,
-        /// ICollection is used in lack of an IStack interface.
-        /// </param>
         public static void WithStackCheck(ICollection stack, Action action)
         {
             if (stack == null) throw new NullException(() => stack);
