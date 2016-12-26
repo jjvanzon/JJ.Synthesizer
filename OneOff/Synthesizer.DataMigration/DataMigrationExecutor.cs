@@ -3024,7 +3024,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                 AssertDocuments(repositories, progressCallback);
 
-                throw new Exception("Temporarily not committing, for debugging.");
+                //throw new Exception("Temporarily not committing, for debugging.");
                 context.Commit();
             }
 
