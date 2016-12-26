@@ -400,7 +400,6 @@
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_StripeInterpolation.cs" />
-    <Compile Include="Calculation\Random\2016-12-15 Backup of RandomCalculator_LineInterpolation.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorHelper.cs" />
     <Compile Include="Calculation\Curves\InterpretedCurveCalculator.cs" />
     <Compile Include="Calculation\Samples\SampleCalculator_Hermite_SingleChannel.cs" />
@@ -478,8 +477,6 @@
     <Compile Include="EntityWrappers\Pulse_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Reverse_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Stretch_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\2016-12-20 Backup of Unbundle_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\2016-12-20 Backup of Bundle_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Select_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Exponent_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\CustomOperator_OperatorWrapper_Inlets.cs" />

@@ -2516,6 +2516,20 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         // Helpers
 
+        /// <summary>
+        /// Back when default values for inlets were added to the PatchManager.CreateOperator methods,
+        /// The choice was made to NOT initialize them for already existing data,
+        /// so that existing data would still behave the same, under the null-coalescing built into the visitor.
+        /// But now the not-initialized default values of existing inlets are standing in my way.
+        /// New visitors are being built and the choice is made not to introduce 2-level default values there,
+        /// i.e. a possible default value in the entity model, then when no default value there,
+        /// a hard-coded default value in the visitor. That would be 2 solutions for the same problem ('defaults').
+        /// Instead the defaults in the entity model will be leading.
+        /// If there was version tollerance with existing data to consider,
+        /// the choice would be different, but since this system is not in production yet,
+        /// it is OK to make potentially breaking changes.
+        /// Probably nothing will be broken. It will probably fix more than it breaks.
+        /// </summary>
         public static void Migrate_SetInletDefaultValues(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
