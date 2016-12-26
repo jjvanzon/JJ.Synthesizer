@@ -2,6 +2,10 @@
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 {
+    /// <summary>
+    /// Multiply could have variable inlet count. The only reason it is implemented as a 2-operand operator
+    /// is to also have a normal 2-operand operator in our prototype.
+    /// </summary>
     internal class Multiply_OperatorDto : OperatorDtoBase_VarA_VarB
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Multiply);

@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             var varsConsts_MathPropertiesDto = new VarsConsts_MathPropertiesDto
             {
-                VarOperatorDtos = varOperatorDtos,
+                Vars = varOperatorDtos,
                 Consts = consts,
                 HasConsts = hasConsts,
                 HasVars = hasVars,

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace JJ.Business.Synthesizer.Dto
+namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 {
     internal class VarsConsts_MathPropertiesDto
     {

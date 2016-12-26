@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Framework.Common;
 
@@ -52,6 +54,29 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers
             }
 
             return mathPropertiesDto;
+        }
+
+        public static VarsConsts_MathPropertiesDto Get_VarsConsts_MathPropertiesDto(IList<OperatorDtoBase> operatorDtos)
+        {
+            IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => GetMathPropertiesDto(x).IsConst).ToArray();
+
+            IList<OperatorDtoBase> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
+            IList<double> consts = constOperatorDtos.Select(x => GetMathPropertiesDto(x).ConstValue).ToArray();
+
+            bool hasVars = varOperatorDtos.Any();
+            bool hasConsts = constOperatorDtos.Any();
+
+            var varsConsts_MathPropertiesDto = new VarsConsts_MathPropertiesDto
+            {
+                Vars = varOperatorDtos,
+                Consts = consts,
+                HasConsts = hasConsts,
+                HasVars = hasVars,
+                AllAreConst = !hasVars,
+                AllAreVar = !hasConsts
+            };
+
+            return varsConsts_MathPropertiesDto;
         }
     }
 }

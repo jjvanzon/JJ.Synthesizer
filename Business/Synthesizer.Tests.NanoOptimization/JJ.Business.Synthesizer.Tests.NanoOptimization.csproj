@@ -135,6 +135,7 @@
     <Compile Include="Dto\OperatorDtoBase_ConstFrequency.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarFrequency.cs" />
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
+    <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\MathPropertiesHelper.cs" />
     <Compile Include="Helpers\OperatorTypeEnum.cs" />

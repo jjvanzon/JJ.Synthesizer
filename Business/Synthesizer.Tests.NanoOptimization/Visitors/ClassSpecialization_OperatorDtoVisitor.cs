@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
-using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
@@ -19,28 +15,21 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
         {
             base.Visit_Add_OperatorDto(dto);
 
-            IList<OperatorDtoBase> operatorDtos = dto.InputOperatorDtos;
+            VarsConsts_MathPropertiesDto mathPropertiesDto = MathPropertiesHelper.Get_VarsConsts_MathPropertiesDto(dto.InputOperatorDtos);
 
-            IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConst).ToArray();
-            IList<OperatorDtoBase> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
-            IList<double> consts = constOperatorDtos.Select(x => MathPropertiesHelper.GetMathPropertiesDto(x).ConstValue).ToArray();
-
-            bool hasVars = varOperatorDtos.Any();
-            bool hasConsts = constOperatorDtos.Any();
-
-            if (hasVars && hasConsts)
+            if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
-                return new Add_OperatorDto_Vars_Consts { Vars = varOperatorDtos, Consts = consts };
+                return new Add_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.Vars, Consts = mathPropertiesDto.Consts };
             }
-            else if (hasVars && !hasConsts)
+            else if (mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
             {
-                return new Add_OperatorDto_Vars_NoConsts { Vars = varOperatorDtos };
+                return new Add_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.Vars };
             }
-            else if (!hasVars && hasConsts)
+            else if (!mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
-                return new Add_OperatorDto_NoVars_Consts { Consts = consts };
+                return new Add_OperatorDto_NoVars_Consts { Consts = mathPropertiesDto.Consts };
             }
-            else if (!hasVars && !hasConsts)
+            else if (!mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
             {
                 return new Add_OperatorDto_NoVars_NoConsts();
             }

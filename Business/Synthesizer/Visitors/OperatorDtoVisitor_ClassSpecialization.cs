@@ -53,11 +53,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
-                return new Add_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.VarOperatorDtos, Consts = mathPropertiesDto.Consts };
+                return new Add_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.Vars, Consts = mathPropertiesDto.Consts };
             }
             else if (mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
             {
-                return new Add_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.VarOperatorDtos };
+                return new Add_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.Vars };
             }
             else if (!mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
@@ -1098,11 +1098,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
-                return new MaxOverInlets_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.VarOperatorDtos, Consts = mathPropertiesDto.Consts };
+                return new MaxOverInlets_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.Vars, Consts = mathPropertiesDto.Consts };
             }
             else if (mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
             {
-                return new MaxOverInlets_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.VarOperatorDtos };
+                return new MaxOverInlets_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.Vars };
             }
             else if (!mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
@@ -1176,11 +1176,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
-                return new MinOverInlets_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.VarOperatorDtos, Consts = mathPropertiesDto.Consts };
+                return new MinOverInlets_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.Vars, Consts = mathPropertiesDto.Consts };
             }
             else if (mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
             {
-                return new MinOverInlets_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.VarOperatorDtos };
+                return new MinOverInlets_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.Vars };
             }
             else if (!mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
@@ -1202,11 +1202,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
-                return new Multiply_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.VarOperatorDtos, Consts = mathPropertiesDto.Consts };
+                return new Multiply_OperatorDto_Vars_Consts { Vars = mathPropertiesDto.Vars, Consts = mathPropertiesDto.Consts };
             }
             else if (mathPropertiesDto.HasVars && !mathPropertiesDto.HasConsts)
             {
-                return new Multiply_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.VarOperatorDtos };
+                return new Multiply_OperatorDto_Vars_NoConsts { Vars = mathPropertiesDto.Vars };
             }
             else if (!mathPropertiesDto.HasVars && mathPropertiesDto.HasConsts)
             {
