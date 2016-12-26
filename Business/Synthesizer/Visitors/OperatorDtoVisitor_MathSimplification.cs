@@ -24,7 +24,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             // NaN / Infinity
 
-            OperatorDtoBase dto2 = base.Visit_OperatorDto_Polymorphic(dto); // Depth-first, so deeply pre-calculated NaN's can be picked up.
+            // Depth-first, so deeply pre-calculated NaN's can be picked up.
+            OperatorDtoBase dto2 = base.Visit_OperatorDto_Polymorphic(dto);
 
             bool anyInputsHaveSpecialValue = dto2.InputOperatorDtos.Any(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConstSpecialValue);
             if (anyInputsHaveSpecialValue)
