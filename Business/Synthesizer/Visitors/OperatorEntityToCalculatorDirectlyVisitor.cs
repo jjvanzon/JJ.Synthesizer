@@ -4652,7 +4652,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         /// <summary> Overridden to push null-inlets or default values for those inlets. </summary>
         [DebuggerHidden]
-        protected override void VisitInlet(Inlet inlet)
+        protected override void VisitInletPolymorphic(Inlet inlet)
         {
             if (inlet.InputOutlet == null)
             {
@@ -4666,7 +4666,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
             }
 
-            base.VisitInlet(inlet);
+            base.VisitInletPolymorphic(inlet);
         }
 
         /// <summary> Converts PatchInlets to VariableInput_OperatorCalculators. </summary>

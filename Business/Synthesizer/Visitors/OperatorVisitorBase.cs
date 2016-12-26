@@ -12,6 +12,7 @@ namespace JJ.Business.Synthesizer.Visitors
     internal abstract class OperatorVisitorBase
     {
         private readonly Dictionary<OperatorTypeEnum, Action<Operator>> _visitOperatorDelegateDictionary;
+        private readonly Dictionary<OperatorTypeEnum, Action<Inlet>> _visitInletDelegateDictionary;
         private readonly Dictionary<OperatorTypeEnum, Action<Outlet>> _visitOutletDelegateDictionary;
 
         public OperatorVisitorBase()
@@ -99,6 +100,17 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Triangle, VisitTriangle }
             };
 
+            _visitInletDelegateDictionary = new Dictionary<OperatorTypeEnum, Action<Inlet>>
+            {
+                { OperatorTypeEnum.AverageOverInlets, VisitAverageOverInletsInlet },
+                { OperatorTypeEnum.ClosestOverInlets, VisitClosestOverInletsInlet },
+                { OperatorTypeEnum.ClosestOverInletsExp, VisitClosestOverInletsExpInlet },
+                { OperatorTypeEnum.MaxOverInlets, VisitMaxOverInletsInlet },
+                { OperatorTypeEnum.MinOverInlets, VisitMinOverInletsInlet },
+                { OperatorTypeEnum.Multiply, VisitMultiplyInlet },
+                { OperatorTypeEnum.SortOverInlets, VisitSortOverInletsInlet },
+            };
+
             _visitOutletDelegateDictionary = new Dictionary<OperatorTypeEnum, Action<Outlet>>
             {
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperatorOutlet },
@@ -148,12 +160,34 @@ namespace JJ.Business.Synthesizer.Visitors
             IEnumerable<Inlet> sortedInlets = inlets.OrderByDescending(x => x.ListIndex);
             foreach (Inlet inlet in sortedInlets)
             {
-                VisitInlet(inlet);
+                VisitInletPolymorphic(inlet);
             }
         }
 
         [DebuggerHidden]
-        protected virtual void VisitInlet(Inlet inlet)
+        protected virtual void VisitInletPolymorphic(Inlet inlet)
+        {
+            OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
+
+            Action<Inlet> action;
+            if (_visitInletDelegateDictionary.TryGetValue(operatorTypeEnum, out action))
+            {
+                action(inlet);
+            }
+            else
+            {
+                VisitInletOther(inlet);
+            }
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitInletOther(Inlet inlet)
+        {
+            VisitInletBase(inlet);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitInletBase(Inlet inlet)
         {
             Outlet outlet = inlet.InputOutlet;
 
@@ -177,8 +211,14 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                VisitOutletBase(outlet);
+                VisitOutletOther(outlet);
             }
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitOutletOther(Outlet outlet)
+        {
+            VisitOutletBase(outlet);
         }
 
         [DebuggerHidden]
@@ -661,6 +701,50 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitToggleTrigger(Operator op)
         {
             VisitOperatorBase(op);
+        }
+
+        // Inlets
+
+        [DebuggerHidden]
+        protected virtual void VisitAverageOverInletsInlet(Inlet inlet)
+        {
+            VisitInletBase(inlet);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitClosestOverInletsInlet(Inlet inlet)
+        {
+            VisitInletBase(inlet);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitClosestOverInletsExpInlet(Inlet inlet)
+        {
+            VisitInletBase(inlet);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitMaxOverInletsInlet(Inlet inlet)
+        {
+            VisitInletBase(inlet);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitMinOverInletsInlet(Inlet inlet)
+        {
+            VisitInletBase(inlet);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitMultiplyInlet(Inlet inlet)
+        {
+            VisitInletBase(inlet);
+        }
+
+        [DebuggerHidden]
+        protected virtual void VisitSortOverInletsInlet(Inlet inlet)
+        {
+            VisitInletBase(inlet);
         }
 
         // Outlets

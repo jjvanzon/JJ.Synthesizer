@@ -10,8 +10,6 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
 using System.Diagnostics;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -76,13 +74,13 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitAbsolute(Operator op)
         {
             var dto = new Absolute_OperatorDto();
-            Visit_OperatorDtoBase_VarX(op, dto);
+            Process_OperatorDtoBase_VarX(op, dto);
         }
 
         protected override void VisitAdd(Operator op)
         {
             var dto = new Add_OperatorDto();
-            Visit_OperatorDtoBase_Vars(op, dto);
+            Process_OperatorDtoBase_Vars(op, dto);
         }
 
         protected override void VisitAllPassFilter(Operator op)
@@ -102,67 +100,67 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitAnd(Operator op)
         {
             var dto = new And_OperatorDto();
-            Visit_OperatorDtoBase_VarA_VarB(op, dto);
+            Process_OperatorDtoBase_VarA_VarB(op, dto);
         }
 
         protected override void VisitAverageFollower(Operator op)
         {
             var dto = new AverageFollower_OperatorDto();
-            Visit_OperatorDtoBase_AggregateFollower(op, dto);
+            Process_OperatorDtoBase_AggregateFollower(op, dto);
         }
 
         protected override void VisitAverageOverDimension(Operator op)
         {
             var dto = new AverageOverDimension_OperatorDto();
-            Visit_OperatorDtoBase_AggregateOverDimension(op, dto);
+            Process_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
 
         protected override void VisitAverageOverInlets(Operator op)
         {
             var dto = new AverageOverInlets_OperatorDto();
-            Visit_OperatorDtoBase_Vars(op, dto);
+            Process_OperatorDtoBase_Vars(op, dto);
         }
 
         protected override void VisitBandPassFilterConstantPeakGain(Operator op)
         {
             var dto = new BandPassFilterConstantPeakGain_OperatorDto();
-            Visit_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(op, dto);
+            Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(op, dto);
         }
 
         protected override void VisitBandPassFilterConstantTransitionGain(Operator op)
         {
             var dto = new BandPassFilterConstantTransitionGain_OperatorDto();
-            Visit_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(op, dto);
+            Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(op, dto);
         }
 
         protected override void VisitChangeTrigger(Operator op)
         {
             var dto = new ChangeTrigger_OperatorDto();
-            Visit_OperatorDtoBase_Trigger(op, dto);
+            Process_OperatorDtoBase_Trigger(op, dto);
         }
 
         protected override void VisitClosestOverInlets(Operator op)
         {
             var dto = new ClosestOverInlets_OperatorDto();
-            Visit_ClosestOverInlets_OperatorDto(op, dto);
+            Process_ClosestOverInlets_OperatorDto(op, dto);
         }
 
         protected override void VisitClosestOverInletsExp(Operator op)
         {
             var dto = new ClosestOverInletsExp_OperatorDto();
-            Visit_ClosestOverInlets_OperatorDto(op, dto);
+            Process_ClosestOverInlets_OperatorDto(op, dto);
         }
 
         protected override void VisitClosestOverDimension(Operator op)
         {
             var dto = new ClosestOverDimension_OperatorDto();
-            Visit_ClosestOverDimension_OperatorDto(op, dto);
+            Process_ClosestOverDimension_OperatorDto(op, dto);
         }
 
         protected override void VisitClosestOverDimensionExp(Operator op)
         {
             var dto = new ClosestOverDimensionExp_OperatorDto();
-            Visit_ClosestOverDimension_OperatorDto(op, dto);
+            Process_ClosestOverDimension_OperatorDto(op, dto);
         }
 
         protected override void VisitCache(Operator op)
@@ -248,7 +246,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitEqual(Operator op)
         {
             var dto = new Equal_OperatorDto();
-            Visit_OperatorDtoBase_VarA_VarB(op, dto);
+            Process_OperatorDtoBase_VarA_VarB(op, dto);
         }
 
         protected override void VisitExponent(Operator op)
@@ -278,13 +276,13 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitGreaterThan(Operator op)
         {
             var dto = new GreaterThan_OperatorDto();
-            Visit_OperatorDtoBase_VarA_VarB(op, dto);
+            Process_OperatorDtoBase_VarA_VarB(op, dto);
         }
 
         protected override void VisitGreaterThanOrEqual(Operator op)
         {
             var dto = new GreaterThanOrEqual_OperatorDto();
-            Visit_OperatorDtoBase_VarA_VarB(op, dto);
+            Process_OperatorDtoBase_VarA_VarB(op, dto);
         }
 
         protected override void VisitHold(Operator op)
@@ -313,7 +311,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitHighShelfFilter(Operator op)
         {
             var dto = new HighShelfFilter_OperatorDto();
-            Visit_OperatorDtoBase_ShelfFilter_AllVars(op, dto);
+            Process_OperatorDtoBase_ShelfFilter_AllVars(op, dto);
         }
 
         protected override void VisitIf(Operator op)
@@ -339,7 +337,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 ResampleInterpolationTypeEnum = wrapper.InterpolationType
             };
 
-            Visit_OperatorDtoBase_Vars(op, dto);
+            Process_OperatorDtoBase_Vars(op, dto);
 
             SetDimensionProperties(op, dto);
         }
@@ -347,13 +345,13 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitLessThan(Operator op)
         {
             var dto = new LessThan_OperatorDto();
-            Visit_OperatorDtoBase_VarA_VarB(op, dto);
+            Process_OperatorDtoBase_VarA_VarB(op, dto);
         }
         
         protected override void VisitLessThanOrEqual(Operator op)
         {
             var dto = new LessThanOrEqual_OperatorDto();
-            Visit_OperatorDtoBase_VarA_VarB(op, dto);
+            Process_OperatorDtoBase_VarA_VarB(op, dto);
         }
 
         protected override void VisitLoop(Operator op)
@@ -392,49 +390,49 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitLowShelfFilter(Operator op)
         {
             var dto = new LowShelfFilter_OperatorDto();
-            Visit_OperatorDtoBase_ShelfFilter_AllVars(op, dto);
+            Process_OperatorDtoBase_ShelfFilter_AllVars(op, dto);
         }
         
         protected override void VisitMaxOverDimension(Operator op)
         {
             var dto = new MaxOverDimension_OperatorDto();
-            Visit_OperatorDtoBase_AggregateOverDimension(op, dto);
+            Process_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
         
         protected override void VisitMaxOverInlets(Operator op)
         {
             var dto = new MaxOverInlets_OperatorDto();
-            Visit_OperatorDtoBase_Vars(op, dto);
+            Process_OperatorDtoBase_Vars(op, dto);
         }
         
         protected override void VisitMaxFollower(Operator op)
         {
             var dto = new MaxFollower_OperatorDto();
-            Visit_OperatorDtoBase_AggregateFollower(op, dto);
+            Process_OperatorDtoBase_AggregateFollower(op, dto);
         }
 
         protected override void VisitMinOverDimension(Operator op)
         {
             var dto = new MinOverDimension_OperatorDto();
-            Visit_OperatorDtoBase_AggregateOverDimension(op, dto);
+            Process_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
 
         protected override void VisitMinOverInlets(Operator op)
         {
             var dto = new MinOverInlets_OperatorDto();
-            Visit_OperatorDtoBase_Vars(op, dto);
+            Process_OperatorDtoBase_Vars(op, dto);
         }
         
         protected override void VisitMinFollower(Operator op)
         {
             var dto = new MinFollower_OperatorDto();
-            Visit_OperatorDtoBase_AggregateFollower(op, dto);
+            Process_OperatorDtoBase_AggregateFollower(op, dto);
         }
         
         protected override void VisitMultiply(Operator op)
         {
             var dto = new Multiply_OperatorDto();
-            Visit_OperatorDtoBase_Vars(op, dto);
+            Process_OperatorDtoBase_Vars(op, dto);
         }
         
         protected override void VisitMultiplyWithOrigin(Operator op)
@@ -454,7 +452,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitNegative(Operator op)
         {
             var dto = new Negative_OperatorDto();
-            Visit_OperatorDtoBase_VarX(op, dto);
+            Process_OperatorDtoBase_VarX(op, dto);
         }
 
         protected override void VisitNoise(Operator op)
@@ -474,7 +472,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitNot(Operator op)
         {
             var dto = new Not_OperatorDto();
-            Visit_OperatorDtoBase_VarX(op, dto);
+            Process_OperatorDtoBase_VarX(op, dto);
         }
 
         protected override void VisitNotchFilter(Operator op)
@@ -494,7 +492,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitNotEqual(Operator op)
         {
             var dto = new NotEqual_OperatorDto();
-            Visit_OperatorDtoBase_VarA_VarB(op, dto);
+            Process_OperatorDtoBase_VarA_VarB(op, dto);
         }
 
         protected override void VisitNumber(Operator op)
@@ -514,13 +512,13 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitOneOverX(Operator op)
         {
             var dto = new OneOverX_OperatorDto();
-            Visit_OperatorDtoBase_VarX(op, dto);
+            Process_OperatorDtoBase_VarX(op, dto);
         }
 
         protected override void VisitOr(Operator op)
         {
             var dto = new Or_OperatorDto();
-            Visit_OperatorDtoBase_VarA_VarB(op, dto);
+            Process_OperatorDtoBase_VarA_VarB(op, dto);
         }
 
         protected override void VisitPeakingEQFilter(Operator op)
@@ -567,7 +565,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitPulseTrigger(Operator op)
         {
             var dto = new PulseTrigger_OperatorDto();
-            Visit_OperatorDtoBase_Trigger(op, dto);
+            Process_OperatorDtoBase_Trigger(op, dto);
         }
 
         protected override void VisitRandom(Operator op)
@@ -680,7 +678,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitSampleOperator(Operator op)
         {
             var dto = new Sample_OperatorDto();
-            Visit_OperatorDtoBase_VarFrequency(op, dto);
+            Process_OperatorDtoBase_VarFrequency(op, dto);
 
             var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
             Sample sample = wrapper.Sample;
@@ -696,13 +694,13 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitSawDown(Operator op)
         {
             var dto = new SawDown_OperatorDto();
-            Visit_OperatorDtoBase_VarFrequency(op, dto);
+            Process_OperatorDtoBase_VarFrequency(op, dto);
         }
 
         protected override void VisitSawUp(Operator op)
         {
             var dto = new SawUp_OperatorDto();
-            Visit_OperatorDtoBase_VarFrequency(op, dto);
+            Process_OperatorDtoBase_VarFrequency(op, dto);
         }
         
         protected override void VisitScaler(Operator op)
@@ -769,7 +767,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitSine(Operator op)
         {
             var dto = new Sine_OperatorDto();
-            Visit_OperatorDtoBase_VarFrequency(op, dto);
+            Process_OperatorDtoBase_VarFrequency(op, dto);
         }
 
         protected override void VisitSortOverInletsOutlet(Outlet outlet)
@@ -779,7 +777,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 OutletListIndex = outlet.ListIndex,
             };
 
-            Visit_OperatorDtoBase_Vars(outlet.Operator, dto);
+            Process_OperatorDtoBase_Vars(outlet.Operator, dto);
 
             SetDimensionProperties(outlet.Operator, dto);
         }
@@ -787,7 +785,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitSortOverDimension(Operator op)
         {
             var dto = new SortOverDimension_OperatorDto();
-            Visit_OperatorDtoBase_AggregateOverDimension(op, dto);
+            Process_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
         
         protected override void VisitSpectrum(Operator op)
@@ -810,37 +808,37 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitSquare(Operator op)
         {
             var dto = new Square_OperatorDto();
-            Visit_OperatorDtoBase_VarFrequency(op, dto);
+            Process_OperatorDtoBase_VarFrequency(op, dto);
         }
 
         protected override void VisitSquash(Operator op)
         {
             var dto = new Squash_OperatorDto();
-            Visit_StretchOrSquash_OperatorDto(op, dto);
+            Process_StretchOrSquash_OperatorDto(op, dto);
         }
 
         protected override void VisitStretch(Operator op)
         {
             var dto = new Stretch_OperatorDto();
-            Visit_StretchOrSquash_OperatorDto(op, dto);
+            Process_StretchOrSquash_OperatorDto(op, dto);
         }
 
         protected override void VisitSubtract(Operator op)
         {
             var dto = new Subtract_OperatorDto();
-            Visit_OperatorDtoBase_VarA_VarB(op, dto);
+            Process_OperatorDtoBase_VarA_VarB(op, dto);
         }
 
         protected override void VisitSumOverDimension(Operator op)
         {
             var dto = new SumOverDimension_OperatorDto();
-            Visit_OperatorDtoBase_AggregateOverDimension(op, dto);
+            Process_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
         
         protected override void VisitSumFollower(Operator op)
         {
             var dto = new SumFollower_OperatorDto();
-            Visit_OperatorDtoBase_AggregateFollower(op, dto);
+            Process_OperatorDtoBase_AggregateFollower(op, dto);
         }
 
         protected override void VisitTimePower(Operator op)
@@ -862,18 +860,18 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitTriangle(Operator op)
         {
             var dto = new Triangle_OperatorDto();
-            Visit_OperatorDtoBase_VarFrequency(op, dto);
+            Process_OperatorDtoBase_VarFrequency(op, dto);
         }
 
         protected override void VisitToggleTrigger(Operator op)
         {
             var dto = new ToggleTrigger_OperatorDto();
-            Visit_OperatorDtoBase_Trigger(op, dto);
+            Process_OperatorDtoBase_Trigger(op, dto);
         }
 
         // Private Methods
 
-        private void Visit_ClosestOverDimension_OperatorDto(Operator op, ClosestOverDimension_OperatorDto dto)
+        private void Process_ClosestOverDimension_OperatorDto(Operator op, ClosestOverDimension_OperatorDto dto)
         {
             VisitOperatorBase(op);
 
@@ -891,7 +889,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_ClosestOverInlets_OperatorDto(Operator op, ClosestOverInlets_OperatorDto dto)
+        private void Process_ClosestOverInlets_OperatorDto(Operator op, ClosestOverInlets_OperatorDto dto)
         {
             VisitOperatorBase(op);
 
@@ -907,8 +905,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-
-        private void Visit_OperatorDtoBase_AggregateFollower(Operator op, OperatorDtoBase_AggregateFollower_AllVars dto)
+        
+        private void Process_OperatorDtoBase_AggregateFollower(Operator op, OperatorDtoBase_AggregateFollower_AllVars dto)
         {
             VisitOperatorBase(op);
 
@@ -921,7 +919,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_OperatorDtoBase_AggregateOverDimension(Operator op, OperatorDtoBase_AggregateOverDimension_AllVars dto)
+        private void Process_OperatorDtoBase_AggregateOverDimension(Operator op, OperatorDtoBase_AggregateOverDimension_AllVars dto)
         {
             VisitOperatorBase(op);
 
@@ -938,7 +936,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(Operator op, OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth dto)
+        private void Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(Operator op, OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth dto)
         {
             VisitOperatorBase(op);
 
@@ -949,7 +947,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_StretchOrSquash_OperatorDto(Operator op, StretchOrSquash_OperatorDto dto)
+        private void Process_StretchOrSquash_OperatorDto(Operator op, StretchOrSquash_OperatorDto dto)
         {
             VisitOperatorBase(op);
 
@@ -962,7 +960,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_OperatorDtoBase_ShelfFilter_AllVars(Operator op, OperatorDtoBase_ShelfFilter_AllVars dto)
+        private void Process_OperatorDtoBase_ShelfFilter_AllVars(Operator op, OperatorDtoBase_ShelfFilter_AllVars dto)
         {
             VisitOperatorBase(op);
 
@@ -974,7 +972,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_OperatorDtoBase_Trigger(Operator op, OperatorDtoBase_Trigger_VarPassThrough_VarReset dto)
+        private void Process_OperatorDtoBase_Trigger(Operator op, OperatorDtoBase_Trigger_VarPassThrough_VarReset dto)
         {
             VisitOperatorBase(op);
 
@@ -984,7 +982,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_OperatorDtoBase_VarA_VarB(Operator op, OperatorDtoBase_VarA_VarB dto)
+        private void Process_OperatorDtoBase_VarA_VarB(Operator op, OperatorDtoBase_VarA_VarB dto)
         {
             VisitOperatorBase(op);
 
@@ -994,7 +992,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_OperatorDtoBase_VarFrequency(Operator op, OperatorDtoBase_VarFrequency dto)
+        private void Process_OperatorDtoBase_VarFrequency(Operator op, OperatorDtoBase_VarFrequency dto)
         {
             VisitOperatorBase(op);
 
@@ -1005,7 +1003,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_OperatorDtoBase_Vars(Operator op, OperatorDtoBase_Vars dto)
+        private void Process_OperatorDtoBase_Vars(Operator op, OperatorDtoBase_Vars dto)
         {
             VisitOperatorBase(op);
 
@@ -1020,7 +1018,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Visit_OperatorDtoBase_VarX(Operator op, OperatorDtoBase_VarX dto)
+        private void Process_OperatorDtoBase_VarX(Operator op, OperatorDtoBase_VarX dto)
         {
             VisitOperatorBase(op);
 
@@ -1033,6 +1031,83 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
             dto.CustomDimensionName = op.CustomDimensionName;
+        }
+
+        // Inlets
+
+        /// <summary> Overridden to replace null inlets with default values. </summary>
+        protected override void VisitInletPolymorphic(Inlet inlet)
+        {
+            if (inlet.InputOutlet == null)
+            {
+                if (inlet.DefaultValue.HasValue)
+                {
+                    _stack.Push(new Number_OperatorDto { Number = inlet.DefaultValue.Value });
+                    return;
+                }
+            }
+
+            base.VisitInletPolymorphic(inlet);
+        }
+
+        /// <summary> Replaces null inlets with the value 1 for multiplication. </summary>
+        protected override void VisitMultiplyInlet(Inlet inlet)
+        {
+            if (inlet.InputOutlet == null)
+            {
+                _stack.Push(new Number_OperatorDto_One());
+                return;
+            }
+
+            base.VisitMultiplyInlet(inlet);
+        }
+
+        protected override void VisitAverageOverInletsInlet(Inlet inlet)
+        {
+            Process_AggregateOverInlets_Inlet(inlet);
+        }
+
+        protected override void VisitClosestOverInletsExpInlet(Inlet inlet)
+        {
+            Process_AggregateOverInlets_Inlet(inlet);
+        }
+
+        protected override void VisitClosestOverInletsInlet(Inlet inlet)
+        {
+            Process_AggregateOverInlets_Inlet(inlet);
+        }
+
+        protected override void VisitMaxOverInletsInlet(Inlet inlet)
+        {
+            Process_AggregateOverInlets_Inlet(inlet);
+        }
+
+        protected override void VisitMinOverInletsInlet(Inlet inlet)
+        {
+            Process_AggregateOverInlets_Inlet(inlet);
+        }
+
+        protected override void VisitSortOverInletsInlet(Inlet inlet)
+        {
+            Process_AggregateOverInlets_Inlet(inlet);
+        }
+
+        /// <summary> Does not null-coalesce inlets at all. </summary>
+        private void Process_AggregateOverInlets_Inlet(Inlet inlet)
+        {
+            base.VisitInletBase(inlet);
+        }
+
+        /// <summary> Overridden to replace null inlets without default values with 0. </summary>
+        protected override void VisitInletOther(Inlet inlet)
+        {
+            if (inlet.InputOutlet == null)
+            {
+                _stack.Push(new Number_OperatorDto_Zero());
+                return;
+            }
+
+            base.VisitInletOther(inlet);
         }
 
         // Special Visitation
@@ -1050,27 +1125,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Visit the underlying patch's outlet.
             VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
-        }
-
-        /// <summary> Overridden to replace null inlets with default values or 0. </summary>
-        [DebuggerHidden]
-        protected override void VisitInlet(Inlet inlet)
-        {
-            if (inlet.InputOutlet == null)
-            {
-                if (inlet.DefaultValue.HasValue)
-                {
-                    _stack.Push(new Number_OperatorDto { Number = inlet.DefaultValue.Value });
-                    return;
-                }
-                else
-                {
-                    _stack.Push(new Number_OperatorDto_Zero());
-                    return;
-                }
-            }
-
-            base.VisitInlet(inlet);
         }
 
         /// <summary>
