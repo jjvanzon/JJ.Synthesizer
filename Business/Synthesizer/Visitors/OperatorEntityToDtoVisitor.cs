@@ -8,7 +8,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
-using System.Diagnostics;
 using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Visitors
@@ -1055,12 +1054,6 @@ namespace JJ.Business.Synthesizer.Visitors
             Process_Inlet_DoNotCoalesce(inlet);
         }
 
-        //protected override void VisitLoopInlet(Inlet inlet)
-        //{
-        //    inlet.
-        //    base.VisitLoopInlet(inlet);
-        //}
-
         protected override void VisitMaxOverInletsInlet(Inlet inlet)
         {
             Process_Inlet_DoNotCoalesce(inlet);
@@ -1078,6 +1071,26 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitInletOther(Inlet inlet)
         {
+            Process_Inlet_CoalesceToDefaultOrZero(inlet);
+        }
+
+        /// <summary>
+        /// Loop inlets have special coalescing: null ReleaseEndMarker or NoteDuration must coalesce to quasi-infinity.
+        /// </summary>
+        protected override void VisitLoopInlet(Inlet inlet)
+        {
+            var wrapper = new Loop_OperatorWrapper(inlet.Operator);
+
+            if (inlet == wrapper.ReleaseEndMarkerInlet ||
+                inlet == wrapper.NoteDurationInlet)
+            {
+                if (inlet.InputOutlet == null)
+                {
+                    _stack.Push(new Number_OperatorDto { Number = CalculationHelper.VERY_HIGH_VALUE });
+                    return;
+                }
+            }
+
             Process_Inlet_CoalesceToDefaultOrZero(inlet);
         }
 

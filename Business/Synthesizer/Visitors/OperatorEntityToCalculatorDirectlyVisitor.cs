@@ -4461,6 +4461,26 @@ namespace JJ.Business.Synthesizer.Visitors
             Process_Inlet_CoalesceToDefaultOrZero(inlet);
         }
 
+        /// <summary>
+        /// Loop inlets have special coalescing: null ReleaseEndMarker or NoteDuration must coalesce to quasi-infinity.
+        /// </summary>
+        protected override void VisitLoopInlet(Inlet inlet)
+        {
+            var wrapper = new Loop_OperatorWrapper(inlet.Operator);
+
+            if (inlet == wrapper.ReleaseEndMarkerInlet ||
+                inlet == wrapper.NoteDurationInlet)
+            {
+                if (inlet.InputOutlet == null)
+                {
+                    _stack.Push(new Number_OperatorCalculator(CalculationHelper.VERY_HIGH_VALUE));
+                    return;
+                }
+            }
+
+            Process_Inlet_CoalesceToDefaultOrZero(inlet);
+        }
+
         private void Process_Inlet_CoalesceToDefaultOrZero(Inlet inlet)
         {
             if (inlet.InputOutlet == null)
