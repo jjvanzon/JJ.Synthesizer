@@ -26,7 +26,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [DebuggerHidden]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDtoBase Visit_OperatorDto_Base(OperatorDtoBase dto)
         {
             dto.InputOperatorDtos = VisitInputOperatorDtos(dto.InputOperatorDtos);
