@@ -141,7 +141,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase calculatorX = _stack.Pop();
-            calculatorX = calculatorX ?? new Number_OperatorCalculator_Zero();
             double x = calculatorX.Calculate();
             bool xIsConst = calculatorX is Number_OperatorCalculator;
 
@@ -231,10 +230,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            centerFrequencyCalculator = centerFrequencyCalculator ?? new Number_OperatorCalculator_Zero();
-            bandWidthCalculator = bandWidthCalculator ?? new Number_OperatorCalculator_Zero();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
             bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
@@ -288,9 +283,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
             OperatorCalculatorBase bCalculator = _stack.Pop();
-
-            aCalculator = aCalculator ?? new Number_OperatorCalculator_Zero();
-            bCalculator = bCalculator ?? new Number_OperatorCalculator_Zero();
 
             bool aIsConst = aCalculator is Number_OperatorCalculator;
             bool bIsConst = bCalculator is Number_OperatorCalculator;
@@ -378,11 +370,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator_Zero();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator_Zero();
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator_One();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
@@ -458,10 +445,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase sliceLengthCalculator = _stack.Pop();
             OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator_One();
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator_One();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
             if (signalIsConst)
@@ -485,10 +468,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            centerFrequencyCalculator = centerFrequencyCalculator ?? new Number_OperatorCalculator_Zero();
-            bandWidthCalculator = bandWidthCalculator ?? new Number_OperatorCalculator_Zero();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
@@ -550,10 +529,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            centerFrequencyCalculator = centerFrequencyCalculator ?? new Number_OperatorCalculator_Zero();
-            bandWidthCalculator = bandWidthCalculator ?? new Number_OperatorCalculator_Zero();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
@@ -620,11 +595,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase endCalculator = _stack.Pop();
             OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            startCalculator = startCalculator ?? new Number_OperatorCalculator_Zero();
-            endCalculator = endCalculator ?? new Number_OperatorCalculator_One();
-            samplingRateCalculator = samplingRateCalculator ?? new Number_OperatorCalculator_One();
-
             double start = startCalculator.Calculate();
             double end = endCalculator.Calculate();
             double samplingRate = samplingRateCalculator.Calculate();
@@ -667,9 +637,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculationCalculator = _stack.Pop();
             OperatorCalculatorBase resetCalculator = _stack.Pop();
 
-            calculationCalculator = calculationCalculator ?? new Number_OperatorCalculator_Zero();
-            resetCalculator = resetCalculator ?? new Number_OperatorCalculator_Zero();
-
             bool calculationIsConst = calculationCalculator is Number_OperatorCalculator;
             bool resetIsConst = resetCalculator is Number_OperatorCalculator;
 
@@ -705,7 +672,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 itemCalculators[i] = itemCalculator;
             }
 
-            inputCalculator = inputCalculator ?? new Number_OperatorCalculator_Zero();
             itemCalculators = itemCalculators.Where(x => x != null).ToArray();
 
             bool inputIsConst = inputCalculator is Number_OperatorCalculator;
@@ -763,7 +729,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 itemCalculators[i] = itemCalculator;
             }
 
-            inputCalculator = inputCalculator ?? new Number_OperatorCalculator_Zero();
             itemCalculators = itemCalculators.Where(x => x != null).ToArray();
 
             bool inputIsConst = inputCalculator is Number_OperatorCalculator;
@@ -818,12 +783,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
-
-            inputCalculator = inputCalculator ?? new Number_OperatorCalculator_Zero();
-            collectionCalculator = collectionCalculator ?? new Number_OperatorCalculator_Zero();
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator_Zero();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator_Zero();
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator_One();
 
             bool inputIsConst = inputCalculator is Number_OperatorCalculator;
             bool collectionIsConst = collectionCalculator is Number_OperatorCalculator;
@@ -912,12 +871,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
-
-            inputCalculator = inputCalculator ?? new Number_OperatorCalculator_Zero();
-            collectionCalculator = collectionCalculator ?? new Number_OperatorCalculator_Zero();
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator_Zero();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator_Zero();
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator_One();
 
             bool inputIsConst = inputCalculator is Number_OperatorCalculator;
             bool collectionIsConst = collectionCalculator is Number_OperatorCalculator;
@@ -1059,9 +1012,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase differenceCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            differenceCalculator = differenceCalculator ?? new Number_OperatorCalculator_Zero();
-
             double signal = signalCalculator.Calculate();
             double difference = differenceCalculator.Calculate();
 
@@ -1106,9 +1056,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase operandCalculator = _stack.Pop();
-
-            operandCalculator = operandCalculator ?? new Number_OperatorCalculator_Zero();
-
             bool operandIsConst = operandCalculator is Number_OperatorCalculator;
 
             if (operandIsConst)
@@ -1141,10 +1088,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 _stack.Push(aCalculator);
                 return;
             }
-
-            aCalculator = aCalculator ?? new Number_OperatorCalculator_Zero();
-            bCalculator = bCalculator ?? new Number_OperatorCalculator_One();
-            originCalculator = originCalculator ?? new Number_OperatorCalculator_Zero();
 
             double a = aCalculator.Calculate();
             double b = bCalculator.Calculate();
@@ -1232,9 +1175,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase aCalculator = _stack.Pop();
             OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            aCalculator = aCalculator ?? new Number_OperatorCalculator_Zero();
-            bCalculator = bCalculator ?? new Number_OperatorCalculator_Zero();
-
             double a = aCalculator.Calculate();
             double b = bCalculator.Calculate();
 
@@ -1280,9 +1220,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase highCalculator = _stack.Pop();
             OperatorCalculatorBase ratioCalculator = _stack.Pop();
 
-            lowCalculator = lowCalculator ?? new Number_OperatorCalculator_Zero();
-            highCalculator = highCalculator ?? new Number_OperatorCalculator_Zero();
-            ratioCalculator = ratioCalculator ?? new Number_OperatorCalculator_Zero();
 
             double low = lowCalculator.Calculate();
             double high = highCalculator.Calculate();
@@ -1365,9 +1302,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase aCalculator = _stack.Pop();
             OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            aCalculator = aCalculator ?? new Number_OperatorCalculator_Zero();
-            bCalculator = bCalculator ?? new Number_OperatorCalculator_Zero();
-
             double a = aCalculator.Calculate();
             double b = bCalculator.Calculate();
 
@@ -1411,9 +1345,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
             OperatorCalculatorBase bCalculator = _stack.Pop();
-
-            aCalculator = aCalculator ?? new Number_OperatorCalculator_Zero();
-            bCalculator = bCalculator ?? new Number_OperatorCalculator_Zero();
 
             double a = aCalculator.Calculate();
             double b = bCalculator.Calculate();
@@ -1459,10 +1390,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase minFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            minFrequencyCalculator = minFrequencyCalculator ?? new Number_OperatorCalculator_Zero();
-            bandWidthCalculator = bandWidthCalculator ?? new Number_OperatorCalculator_Zero();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool minFrequencyIsConst = minFrequencyCalculator is Number_OperatorCalculator;
@@ -1525,11 +1452,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase transitionSlopeCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            transitionFrequencyCalculator = transitionFrequencyCalculator ?? new Number_OperatorCalculator_Zero();
-            transitionSlopeCalculator = transitionSlopeCalculator ?? new Number_OperatorCalculator_Zero();
-            dbGainCalculator = dbGainCalculator ?? new Number_OperatorCalculator_Zero();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool transitionFrequencyIsConst = transitionFrequencyCalculator is Number_OperatorCalculator;
             bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
@@ -1587,7 +1509,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
             if (signalIsConst)
@@ -1611,10 +1532,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase conditionCalculator = _stack.Pop();
             OperatorCalculatorBase thenCalculator = _stack.Pop();
             OperatorCalculatorBase elseCalculator = _stack.Pop();
-
-            conditionCalculator = conditionCalculator ?? new Number_OperatorCalculator_Zero();
-            thenCalculator = thenCalculator ?? new Number_OperatorCalculator_Zero();
-            elseCalculator = elseCalculator ?? new Number_OperatorCalculator_Zero();
 
             double condition = conditionCalculator.Calculate();
             double then = thenCalculator.Calculate();
@@ -1669,9 +1586,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase aCalculator = _stack.Pop();
             OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            aCalculator = aCalculator ?? new Number_OperatorCalculator_Zero();
-            bCalculator = bCalculator ?? new Number_OperatorCalculator_Zero();
-
             double a = aCalculator.Calculate();
             double b = bCalculator.Calculate();
 
@@ -1715,9 +1629,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
             OperatorCalculatorBase bCalculator = _stack.Pop();
-
-            aCalculator = aCalculator ?? new Number_OperatorCalculator_Zero();
-            bCalculator = bCalculator ?? new Number_OperatorCalculator_Zero();
 
             double a = aCalculator.Calculate();
             double b = bCalculator.Calculate();
@@ -1769,13 +1680,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase loopEndMarkerCalculator = _stack.Pop();
             OperatorCalculatorBase releaseEndMarkerCalculator = _stack.Pop();
             OperatorCalculatorBase noteDurationCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            skipCalculator = skipCalculator ?? new Number_OperatorCalculator_Zero();
-            loopStartMarkerCalculator = loopStartMarkerCalculator ?? new Number_OperatorCalculator_Zero();
-            loopEndMarkerCalculator = loopEndMarkerCalculator ?? new Number_OperatorCalculator_Zero();
-            releaseEndMarkerCalculator = releaseEndMarkerCalculator ?? new Number_OperatorCalculator(CalculationHelper.VERY_HIGH_VALUE);
-            noteDurationCalculator = noteDurationCalculator ?? new Number_OperatorCalculator(CalculationHelper.VERY_HIGH_VALUE);
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool skipIsConst = skipCalculator is Number_OperatorCalculator;
@@ -1876,10 +1780,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase maxFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            maxFrequencyCalculator = maxFrequencyCalculator ?? new Number_OperatorCalculator_Zero();
-            bandWidthCalculator = bandWidthCalculator ?? new Number_OperatorCalculator_Zero();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool maxFrequencyIsConst = maxFrequencyCalculator is Number_OperatorCalculator;
             bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
@@ -1940,11 +1840,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase transitionFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase transitionSlopeCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            transitionFrequencyCalculator = transitionFrequencyCalculator ?? new Number_OperatorCalculator_Zero();
-            transitionSlopeCalculator = transitionSlopeCalculator ?? new Number_OperatorCalculator_Zero();
-            dbGainCalculator = dbGainCalculator ?? new Number_OperatorCalculator_Zero();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool transitionFrequencyIsConst = transitionFrequencyCalculator is Number_OperatorCalculator;
@@ -2009,8 +1904,6 @@ namespace JJ.Business.Synthesizer.Visitors
             for (int i = 0; i < op.Inlets.Count; i++)
             {
                 OperatorCalculatorBase operandCalculator = _stack.Pop();
-
-                operandCalculator = operandCalculator ?? new Number_OperatorCalculator_Zero();
 
                 operandCalculators.Add(operandCalculator);
             }
@@ -2120,10 +2013,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase sliceLengthCalculator = _stack.Pop();
             OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator_One();
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator_One();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
             dimensionStack.Pop();
@@ -2152,11 +2041,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator_Zero();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator_Zero();
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator_One();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
@@ -2296,10 +2180,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase sliceLengthCalculator = _stack.Pop();
             OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator_One();
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator_One();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
             dimensionStack.Pop();
@@ -2328,11 +2208,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator_Zero();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator_Zero();
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator_One();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
@@ -2477,10 +2352,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase bCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
 
-            aCalculator = aCalculator ?? new Number_OperatorCalculator_One();
-            bCalculator = bCalculator ?? new Number_OperatorCalculator_One();
-            originCalculator = originCalculator ?? new Number_OperatorCalculator_Zero();
-
             double a = aCalculator.Calculate();
             double b = bCalculator.Calculate();
             double origin = originCalculator.Calculate();
@@ -2566,7 +2437,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase xCalculator = _stack.Pop();
 
-            xCalculator = xCalculator ?? new Number_OperatorCalculator_Zero();
             double x = xCalculator.Calculate();
             bool xIsConst = xCalculator is Number_OperatorCalculator;
 
@@ -2601,8 +2471,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase xCalculator = _stack.Pop();
-
-            xCalculator = xCalculator ?? new Number_OperatorCalculator_Zero();
 
             double x = xCalculator.Calculate();
 
@@ -2640,10 +2508,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            centerFrequencyCalculator = centerFrequencyCalculator ?? new Number_OperatorCalculator_Zero();
-            bandWidthCalculator = bandWidthCalculator ?? new Number_OperatorCalculator_Zero();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
@@ -2698,9 +2562,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
             OperatorCalculatorBase bCalculator = _stack.Pop();
-
-            aCalculator = aCalculator ?? new Number_OperatorCalculator_Zero();
-            bCalculator = bCalculator ?? new Number_OperatorCalculator_Zero();
 
             double a = aCalculator.Calculate();
             double b = bCalculator.Calculate();
@@ -2770,7 +2631,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase xCalculator = _stack.Pop();
 
-            xCalculator = xCalculator ?? new Number_OperatorCalculator_One();
             double x = xCalculator.Calculate();
             bool xIsConst = xCalculator is Number_OperatorCalculator;
 
@@ -2794,9 +2654,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
             OperatorCalculatorBase bCalculator = _stack.Pop();
-
-            aCalculator = aCalculator ?? new Number_OperatorCalculator_Zero();
-            bCalculator = bCalculator ?? new Number_OperatorCalculator_Zero();
 
             bool aIsConst = aCalculator is Number_OperatorCalculator;
             bool bIsConst = bCalculator is Number_OperatorCalculator;
@@ -2851,11 +2708,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            centerFrequencyCalculator = centerFrequencyCalculator ?? new Number_OperatorCalculator_Zero();
-            bandWidthCalculator = bandWidthCalculator ?? new Number_OperatorCalculator_Zero();
-            dbGainCalculator = dbGainCalculator ?? new Number_OperatorCalculator_Zero();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
@@ -2941,8 +2793,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 return;
             }
 
-            baseCalculator = baseCalculator ?? new Number_OperatorCalculator_Zero();
-            exponentCalculator = exponentCalculator ?? new Number_OperatorCalculator_Zero();
             double @base = baseCalculator.Calculate();
             double exponent = exponentCalculator.Calculate();
             bool baseIsConst = baseCalculator is Number_OperatorCalculator;
@@ -3011,9 +2861,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
             OperatorCalculatorBase widthCalculator = _stack.Pop();
-
-            frequencyCalculator = frequencyCalculator ?? new Number_OperatorCalculator_Zero();
-            widthCalculator = widthCalculator ?? new Number_OperatorCalculator(0.5);
 
             double frequency = frequencyCalculator.Calculate();
             double width = widthCalculator.Calculate() % 1.0;
@@ -3110,9 +2957,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculationCalculator = _stack.Pop();
             OperatorCalculatorBase resetCalculator = _stack.Pop();
 
-            calculationCalculator = calculationCalculator ?? new Number_OperatorCalculator_Zero();
-            resetCalculator = resetCalculator ?? new Number_OperatorCalculator_Zero();
-
             bool calculationIsConst = calculationCalculator is Number_OperatorCalculator;
             bool resetIsConst = resetCalculator is Number_OperatorCalculator;
 
@@ -3141,8 +2985,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase rateCalculator = _stack.Pop();
-
-            rateCalculator = rateCalculator ?? new Number_OperatorCalculator_Zero();
 
             double rate = rateCalculator.Calculate();
 
@@ -3216,10 +3058,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
 
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator_Zero();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator_Zero();
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator_One();
-
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
             bool tillIsConst = tillCalculator is Number_OperatorCalculator;
             bool stepIsConst = stepCalculator is Number_OperatorCalculator;
@@ -3271,9 +3109,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
-
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator_One();
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator_One();
 
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
             bool stepIsConst = stepCalculator is Number_OperatorCalculator;
@@ -3329,9 +3164,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            samplingRateCalculator = samplingRateCalculator ?? new Number_OperatorCalculator_Zero();
-
             double signal = signalCalculator.Calculate();
             double samplingRate = samplingRateCalculator.Calculate();
 
@@ -3384,9 +3216,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase speedCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            speedCalculator = speedCalculator ?? new Number_OperatorCalculator_One();
 
             double signal = signalCalculator.Calculate();
             double speed = speedCalculator.Calculate();
@@ -3454,10 +3283,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
             OperatorCalculatorBase offsetCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator_One();
-            offsetCalculator = offsetCalculator ?? new Number_OperatorCalculator_Zero();
 
             double signal = signalCalculator.Calculate();
             double step = stepCalculator.Calculate();
@@ -3534,7 +3359,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
 
-            frequencyCalculator = frequencyCalculator ?? new Number_OperatorCalculator_Zero();
             double frequency = frequencyCalculator.Calculate();
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
@@ -3634,8 +3458,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
 
-            frequencyCalculator = frequencyCalculator ?? new Number_OperatorCalculator_Zero();
-
             double frequency = frequencyCalculator.Calculate();
 
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
@@ -3681,7 +3503,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
 
-            frequencyCalculator = frequencyCalculator ?? new Number_OperatorCalculator_Zero();
             double frequency = frequencyCalculator.Calculate();
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
@@ -3743,12 +3564,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase targetValueACalculator = _stack.Pop();
             OperatorCalculatorBase targetValueBCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            sourceValueACalculator = sourceValueACalculator ?? new Number_OperatorCalculator_Zero();
-            sourceValueBCalculator = sourceValueBCalculator ?? new Number_OperatorCalculator_One();
-            targetValueACalculator = targetValueACalculator ?? new Number_OperatorCalculator_Zero();
-            targetValueBCalculator = targetValueBCalculator ?? new Number_OperatorCalculator_One();
-
             bool sourceValueAIsConst = sourceValueACalculator is Number_OperatorCalculator;
             bool sourceValueBIsConst = sourceValueBCalculator is Number_OperatorCalculator;
             bool targetValueAIsConst = targetValueACalculator is Number_OperatorCalculator;
@@ -3782,9 +3597,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase positionCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            positionCalculator = positionCalculator ?? new Number_OperatorCalculator_Zero();
 
             double signal = signalCalculator.Calculate();
             double position = positionCalculator.Calculate();
@@ -3821,9 +3633,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculationCalculator = _stack.Pop();
             OperatorCalculatorBase valueCalculator = _stack.Pop();
 
-            calculationCalculator = calculationCalculator ?? new Number_OperatorCalculator_Zero();
-            valueCalculator = valueCalculator ?? new Number_OperatorCalculator_Zero();
-
             bool calculationIsConst = calculationCalculator is Number_OperatorCalculator;
             bool valueIsConst = valueCalculator is Number_OperatorCalculator;
 
@@ -3857,7 +3666,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-            frequencyCalculator = frequencyCalculator ?? new Number_OperatorCalculator_Zero();
             double frequency = frequencyCalculator.Calculate();
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
@@ -3909,11 +3717,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator_Zero();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator_Zero();
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator_One();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
@@ -4027,11 +3830,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase endCalculator = _stack.Pop();
             OperatorCalculatorBase frequencyCountCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            startCalculator = startCalculator ?? new Number_OperatorCalculator_Zero();
-            endCalculator = endCalculator ?? new Number_OperatorCalculator_One();
-            frequencyCountCalculator = frequencyCountCalculator ?? new Number_OperatorCalculator(2);
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool startIsConst = startCalculator is Number_OperatorCalculator;
             bool endIsConst = endCalculator is Number_OperatorCalculator;
@@ -4087,7 +3885,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-            frequencyCalculator = frequencyCalculator ?? new Number_OperatorCalculator_Zero();
             double frequency = frequencyCalculator.Calculate();
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
@@ -4140,10 +3937,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase factorCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            factorCalculator = factorCalculator ?? new Number_OperatorCalculator_One();
-            originCalculator = originCalculator ?? new Number_OperatorCalculator_Zero();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool factorIsConst = factorCalculator is Number_OperatorCalculator;
@@ -4249,10 +4042,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase factorCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            factorCalculator = factorCalculator ?? new Number_OperatorCalculator_One();
-            originCalculator = originCalculator ?? new Number_OperatorCalculator_Zero();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool factorIsConst = factorCalculator is Number_OperatorCalculator;
             bool originIsConst = originCalculator is Number_OperatorCalculator;
@@ -4352,9 +4141,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase aCalculator = _stack.Pop();
             OperatorCalculatorBase bCalculator = _stack.Pop();
 
-            aCalculator = aCalculator ?? new Number_OperatorCalculator_Zero();
-            bCalculator = bCalculator ?? new Number_OperatorCalculator_Zero();
-
             double a = aCalculator.Calculate();
             double b = bCalculator.Calculate();
             bool aIsConst = aCalculator is Number_OperatorCalculator;
@@ -4402,11 +4188,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase tillCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            fromCalculator = fromCalculator ?? new Number_OperatorCalculator_Zero();
-            tillCalculator = tillCalculator ?? new Number_OperatorCalculator_Zero();
-            stepCalculator = stepCalculator ?? new Number_OperatorCalculator_One();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool fromIsConst = fromCalculator is Number_OperatorCalculator;
@@ -4495,10 +4276,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase sliceLengthCalculator = _stack.Pop();
             OperatorCalculatorBase sampleCountCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            sliceLengthCalculator = sliceLengthCalculator ?? new Number_OperatorCalculator_One();
-            sampleCountCalculator = sampleCountCalculator ?? new Number_OperatorCalculator_One();
-
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
 
             if (signalIsConst)
@@ -4525,10 +4302,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase signalCalculator = _stack.Pop(); ;
             OperatorCalculatorBase exponentCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator_Zero();
-            exponentCalculator = exponentCalculator ?? new Number_OperatorCalculator_One();
-            originCalculator = originCalculator ?? new Number_OperatorCalculator_Zero();
 
             double signal = signalCalculator.Calculate();
             double exponent = exponentCalculator.Calculate();
@@ -4576,9 +4349,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculationCalculator = _stack.Pop();
             OperatorCalculatorBase resetCalculator = _stack.Pop();
 
-            calculationCalculator = calculationCalculator ?? new Number_OperatorCalculator_Zero();
-            resetCalculator = resetCalculator ?? new Number_OperatorCalculator_Zero();
-
             bool calculationIsConst = calculationCalculator is Number_OperatorCalculator;
             bool resetIsConst = resetCalculator is Number_OperatorCalculator;
 
@@ -4608,7 +4378,6 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-            frequencyCalculator = frequencyCalculator ?? new Number_OperatorCalculator_Zero();
             double frequency = frequencyCalculator.Calculate();
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
@@ -4648,26 +4417,86 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        // Special Visitation
+        // Inlets
 
-        /// <summary> Overridden to push null-inlets or default values for those inlets. </summary>
-        [DebuggerHidden]
-        protected override void VisitInletPolymorphic(Inlet inlet)
+        // TODO: Almost the same code in OperatorEntityToDtoVisitor.
+
+        protected override void VisitMultiplyInlet(Inlet inlet)
+        {
+            Process_Inlet_CoalesceToOne(inlet);
+        }
+
+        protected override void VisitAverageOverInletsInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitClosestOverInletsExpInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitClosestOverInletsInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitMaxOverInletsInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitMinOverInletsInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitSortOverInletsInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitInletOther(Inlet inlet)
+        {
+            Process_Inlet_CoalesceToDefaultOrZero(inlet);
+        }
+
+        private void Process_Inlet_CoalesceToDefaultOrZero(Inlet inlet)
         {
             if (inlet.InputOutlet == null)
             {
                 if (inlet.DefaultValue.HasValue)
                 {
                     _stack.Push(new Number_OperatorCalculator(inlet.DefaultValue.Value));
+                    return;
                 }
                 else
                 {
-                    _stack.Push(null);
+                    _stack.Push(new Number_OperatorCalculator_Zero());
+                    return;
                 }
             }
 
-            base.VisitInletPolymorphic(inlet);
+            base.VisitInletBase(inlet);
         }
+
+        private void Process_Inlet_CoalesceToOne(Inlet inlet)
+        {
+            if (inlet.InputOutlet == null)
+            {
+                _stack.Push(new Number_OperatorCalculator_One());
+                return;
+            }
+
+            VisitInletBase(inlet);
+        }
+
+        private void Process_Inlet_DoNotCoalesce(Inlet inlet)
+        {
+            base.VisitInletBase(inlet);
+        }
+
+        // Special Visitation
 
         /// <summary> Converts PatchInlets to VariableInput_OperatorCalculators. </summary>
         protected override void VisitPatchInlet(Operator patchInlet)
@@ -4706,57 +4535,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(calculator);
         }
-
-        // TODO: Remove outcommented code if it proces that the compatibility mentioned in the comment below was not needed anymore.
-
-        ///// <summary> Converts PatchInlets to VariableInput_OperatorCalculators. </summary>
-        //protected override void VisitPatchInlet(Operator patchInlet)
-        //{
-        //    base.VisitPatchInlet(patchInlet);
-
-        //    OperatorCalculatorBase calculator;
-
-        //    OperatorCalculatorBase inputCalculator = _stack.Pop();
-
-        //    var wrapper = new PatchInlet_OperatorWrapper(patchInlet);
-
-        //    inputCalculator = inputCalculator ?? new Number_OperatorCalculator_Zero();
-        //    double input = inputCalculator.Calculate();
-        //    double defaultValue = wrapper.Inlet.DefaultValue ?? 0.0;
-        //    bool inputIsConst = inputCalculator is Number_OperatorCalculator;
-        //    bool inputIsConstDefaultValue = inputIsConst && input == defaultValue;
-        //    bool isTopLevelPatchInlet = IsTopLevelPatchInlet(patchInlet);
-
-        //    // Only top-level PatchInlets are values controllable from the outside.
-        //    // For compatibility we only apply that rule if nothing else was filled in
-        //    // into the (non-visible) PatchInlet Inlet.
-        //    if (isTopLevelPatchInlet && inputIsConstDefaultValue)
-        //    {
-        //        VariableInput_OperatorCalculator variableInputCalculator;
-        //        if (!_patchInlet_To_Calculator_Dictionary.TryGetValue(patchInlet, out variableInputCalculator))
-        //        {
-        //            Inlet inlet = wrapper.Inlet;
-
-        //            variableInputCalculator = new VariableInput_OperatorCalculator
-        //            (
-        //                dimensionEnum: inlet.GetDimensionEnum(),
-        //                canonicalName: NameHelper.ToCanonical(wrapper.Name),
-        //                listIndex: wrapper.ListIndex ?? 0,
-        //                defaultValue: inlet.DefaultValue ?? 0.0
-        //            );
-
-        //            _patchInlet_To_Calculator_Dictionary.Add(patchInlet, variableInputCalculator);
-        //        }
-
-        //        calculator = variableInputCalculator;
-        //    }
-        //    else
-        //    {
-        //        calculator = inputCalculator;
-        //    }
-
-        //    _stack.Push(calculator);
-        //}
         
         /// <summary> As soon as you encounter a CustomOperator's Outlet, the evaluation has to take a completely different course. </summary>
         protected override void VisitCustomOperatorOutlet(Outlet customOperatorOutlet)
