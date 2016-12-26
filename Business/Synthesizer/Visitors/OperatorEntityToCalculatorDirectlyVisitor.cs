@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Visitors
     /// which can then pop its operands from this stack, 
     /// and decide which Calculator to push onto the stack again.
     /// </summary>
-    internal partial class OperatorEntityToCalculatorDirectlyVisitor : OperatorEntityVisitorBase
+    internal partial class OperatorEntityToCalculatorDirectlyVisitor : OperatorEntityVisitorBase_WithInletCoalescing
     {
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
         
@@ -4417,106 +4417,27 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        // Inlets
-
-        // TODO: Almost the same code in OperatorEntityToDtoVisitor.
-
-        protected override void VisitMultiplyInlet(Inlet inlet)
-        {
-            Process_Inlet_CoalesceToOne(inlet);
-        }
-
-        protected override void VisitAverageOverInletsInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitClosestOverInletsExpInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitClosestOverInletsInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitMaxOverInletsInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitMinOverInletsInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitSortOverInletsInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitInletOther(Inlet inlet)
-        {
-            Process_Inlet_CoalesceToDefaultOrZero(inlet);
-        }
-
-        /// <summary>
-        /// Loop inlets have special coalescing: null ReleaseEndMarker or NoteDuration must coalesce to quasi-infinity.
-        /// </summary>
-        protected override void VisitLoopInlet(Inlet inlet)
-        {
-            var wrapper = new Loop_OperatorWrapper(inlet.Operator);
-
-            if (inlet == wrapper.ReleaseEndMarkerInlet ||
-                inlet == wrapper.NoteDurationInlet)
-            {
-                if (inlet.InputOutlet == null)
-                {
-                    _stack.Push(new Number_OperatorCalculator(CalculationHelper.VERY_HIGH_VALUE));
-                    return;
-                }
-            }
-
-            Process_Inlet_CoalesceToDefaultOrZero(inlet);
-        }
-
-        private void Process_Inlet_CoalesceToDefaultOrZero(Inlet inlet)
-        {
-            if (inlet.InputOutlet == null)
-            {
-                if (inlet.DefaultValue.HasValue)
-                {
-                    _stack.Push(new Number_OperatorCalculator(inlet.DefaultValue.Value));
-                    return;
-                }
-                else
-                {
-                    _stack.Push(new Number_OperatorCalculator_Zero());
-                    return;
-                }
-            }
-
-            base.VisitInletBase(inlet);
-        }
-
-        private void Process_Inlet_CoalesceToOne(Inlet inlet)
-        {
-            if (inlet.InputOutlet == null)
-            {
-                _stack.Push(new Number_OperatorCalculator_One());
-                return;
-            }
-
-            VisitInletBase(inlet);
-        }
-
-        private void Process_Inlet_DoNotCoalesce(Inlet inlet)
-        {
-            base.VisitInletBase(inlet);
-        }
-
         // Special Visitation
+
+        public override void InsertNumber(double number)
+        {
+            OperatorCalculatorBase calculator;
+
+            if (number == 0.0)
+            {
+                calculator = new Number_OperatorCalculator_Zero();
+            }
+            else if (number == 1.0)
+            {
+                calculator = new Number_OperatorCalculator_One();
+            }
+            else
+            {
+                calculator = new Number_OperatorCalculator(number);
+            }
+
+            _stack.Push(calculator);
+        }
 
         /// <summary> Converts PatchInlets to VariableInput_OperatorCalculators. </summary>
         protected override void VisitPatchInlet(Operator patchInlet)

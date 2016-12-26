@@ -12,7 +12,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorEntityToDtoVisitor : OperatorEntityVisitorBase
+    internal class OperatorEntityToDtoVisitor : OperatorEntityVisitorBase_WithInletCoalescing
     {
         private readonly ICurveRepository _curveRepository;
         private readonly IPatchRepository _patchRepository;
@@ -1032,104 +1032,12 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.CustomDimensionName = op.CustomDimensionName;
         }
 
-        // Inlets
-
-        protected override void VisitMultiplyInlet(Inlet inlet)
-        {
-            Process_Inlet_CoalesceToOne(inlet);
-        }
-
-        protected override void VisitAverageOverInletsInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitClosestOverInletsExpInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitClosestOverInletsInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitMaxOverInletsInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitMinOverInletsInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitSortOverInletsInlet(Inlet inlet)
-        {
-            Process_Inlet_DoNotCoalesce(inlet);
-        }
-
-        protected override void VisitInletOther(Inlet inlet)
-        {
-            Process_Inlet_CoalesceToDefaultOrZero(inlet);
-        }
-
-        /// <summary>
-        /// Loop inlets have special coalescing: null ReleaseEndMarker or NoteDuration must coalesce to quasi-infinity.
-        /// </summary>
-        protected override void VisitLoopInlet(Inlet inlet)
-        {
-            var wrapper = new Loop_OperatorWrapper(inlet.Operator);
-
-            if (inlet == wrapper.ReleaseEndMarkerInlet ||
-                inlet == wrapper.NoteDurationInlet)
-            {
-                if (inlet.InputOutlet == null)
-                {
-                    _stack.Push(new Number_OperatorDto { Number = CalculationHelper.VERY_HIGH_VALUE });
-                    return;
-                }
-            }
-
-            Process_Inlet_CoalesceToDefaultOrZero(inlet);
-        }
-
-        private void Process_Inlet_CoalesceToDefaultOrZero(Inlet inlet)
-        {
-            if (inlet.InputOutlet == null)
-            {
-                if (inlet.DefaultValue.HasValue)
-                {
-                    _stack.Push(new Number_OperatorDto { Number = inlet.DefaultValue.Value });
-                    return;
-                }
-                else
-                {
-                    _stack.Push(new Number_OperatorDto_Zero());
-                    return;
-                }
-            }
-
-            base.VisitInletBase(inlet);
-        }
-
-        private void Process_Inlet_CoalesceToOne(Inlet inlet)
-        {
-            if (inlet.InputOutlet == null)
-            {
-                _stack.Push(new Number_OperatorDto_One());
-                return;
-            }
-
-            VisitInletBase(inlet);
-        }
-
-        private void Process_Inlet_DoNotCoalesce(Inlet inlet)
-        {
-            base.VisitInletBase(inlet);
-        }
-
         // Special Visitation
+
+        public override void InsertNumber(double number)
+        {
+            _stack.Push(new Number_OperatorDto { Number = number });
+        }
 
         /// <summary> As soon as you encounter a CustomOperator's Outlet, the evaluation has to take a completely different course. </summary>
         protected override void VisitCustomOperatorOutlet(Outlet customOperatorOutlet)
