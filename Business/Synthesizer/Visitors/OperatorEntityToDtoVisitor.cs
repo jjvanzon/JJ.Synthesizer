@@ -871,81 +871,6 @@ namespace JJ.Business.Synthesizer.Visitors
             Visit_OperatorDtoBase_Trigger(op, dto);
         }
 
-        // Special Visitation
-
-        /// <summary> As soon as you encounter a CustomOperator's Outlet, the evaluation has to take a completely different course. </summary>
-        protected override void VisitCustomOperatorOutlet(Outlet customOperatorOutlet)
-        {
-            // NOTE: Do not try to separate this concept into a different class.
-            // It has been tried and resulted in something much more complicated than these two lines of code.
-            // Most magic is in the InletOutletMatcher, which is a difficult class, fully worked out and tested,
-            // that needs to tap into the entity model, not DTO model.
-
-            // Resolve the underlying patch's outlet
-            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
-
-            // Visit the underlying patch's outlet.
-            VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
-        }
-
-        /// <summary> Overridden to replace null inlets with default values or 0. </summary>
-        [DebuggerHidden]
-        protected override void VisitInlet(Inlet inlet)
-        {
-            if (inlet.InputOutlet == null)
-            {
-                if (inlet.DefaultValue.HasValue)
-                {
-                    _stack.Push(new Number_OperatorDto { Number = inlet.DefaultValue.Value });
-                    return;
-                }
-                else
-                {
-                    _stack.Push(new Number_OperatorDto_Zero());
-                    return;
-                }
-            }
-
-            base.VisitInlet(inlet);
-        }
-
-        /// <summary>
-        /// Top-level PatchInlets need to be converted to VariableInput_OperatorDto's
-        /// and instance integrity needs to maintained over them.
-        /// </summary>
-        protected override void VisitPatchInlet(Operator op)
-        {
-            base.VisitPatchInlet(op);
-
-            OperatorDtoBase inputDto = _stack.Pop();
-
-            bool isTopLevelPatchInlet = IsTopLevelPatchInlet(op);
-            if (isTopLevelPatchInlet)
-            {
-                VariableInput_OperatorDto dto;
-                if (!_patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary.TryGetValue(op, out dto))
-                {
-                    var wrapper = new PatchInlet_OperatorWrapper(op);
-
-                    dto = new VariableInput_OperatorDto
-                    {
-                        DimensionEnum = wrapper.DimensionEnum,
-                        CanonicalName = NameHelper.ToCanonical(wrapper.Name),
-                        ListIndex = wrapper.ListIndex ?? 0,
-                        DefaultValue = wrapper.DefaultValue ?? 0.0
-                    };
-
-                    _patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary[op] = dto;
-                }
-
-                _stack.Push(dto);
-            }
-            else
-            {
-                _stack.Push(inputDto);
-            }
-        }
-
         // Private Methods
 
         private void Visit_ClosestOverDimension_OperatorDto(Operator op, ClosestOverDimension_OperatorDto dto)
@@ -1108,6 +1033,81 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
             dto.CustomDimensionName = op.CustomDimensionName;
+        }
+
+        // Special Visitation
+
+        /// <summary> As soon as you encounter a CustomOperator's Outlet, the evaluation has to take a completely different course. </summary>
+        protected override void VisitCustomOperatorOutlet(Outlet customOperatorOutlet)
+        {
+            // NOTE: Do not try to separate this concept into a different class.
+            // It has been tried and resulted in something much more complicated than these two lines of code.
+            // Most magic is in the InletOutletMatcher, which is a difficult class, fully worked out and tested,
+            // that needs to tap into the entity model, not DTO model.
+
+            // Resolve the underlying patch's outlet
+            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
+
+            // Visit the underlying patch's outlet.
+            VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
+        }
+
+        /// <summary> Overridden to replace null inlets with default values or 0. </summary>
+        [DebuggerHidden]
+        protected override void VisitInlet(Inlet inlet)
+        {
+            if (inlet.InputOutlet == null)
+            {
+                if (inlet.DefaultValue.HasValue)
+                {
+                    _stack.Push(new Number_OperatorDto { Number = inlet.DefaultValue.Value });
+                    return;
+                }
+                else
+                {
+                    _stack.Push(new Number_OperatorDto_Zero());
+                    return;
+                }
+            }
+
+            base.VisitInlet(inlet);
+        }
+
+        /// <summary>
+        /// Top-level PatchInlets need to be converted to VariableInput_OperatorDto's
+        /// and instance integrity needs to maintained over them.
+        /// </summary>
+        protected override void VisitPatchInlet(Operator op)
+        {
+            base.VisitPatchInlet(op);
+
+            OperatorDtoBase inputDto = _stack.Pop();
+
+            bool isTopLevelPatchInlet = IsTopLevelPatchInlet(op);
+            if (isTopLevelPatchInlet)
+            {
+                VariableInput_OperatorDto dto;
+                if (!_patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary.TryGetValue(op, out dto))
+                {
+                    var wrapper = new PatchInlet_OperatorWrapper(op);
+
+                    dto = new VariableInput_OperatorDto
+                    {
+                        DimensionEnum = wrapper.DimensionEnum,
+                        CanonicalName = NameHelper.ToCanonical(wrapper.Name),
+                        ListIndex = wrapper.ListIndex ?? 0,
+                        DefaultValue = wrapper.DefaultValue ?? 0.0
+                    };
+
+                    _patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary[op] = dto;
+                }
+
+                _stack.Push(dto);
+            }
+            else
+            {
+                _stack.Push(inputDto);
+            }
         }
 
         private bool IsTopLevelPatchInlet(Operator op)
