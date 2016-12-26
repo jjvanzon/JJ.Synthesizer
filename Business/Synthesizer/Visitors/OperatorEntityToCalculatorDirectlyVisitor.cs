@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Visitors
     /// which can then pop its operands from this stack, 
     /// and decide which Calculator to push onto the stack again.
     /// </summary>
-    internal partial class OperatorEntityToCalculatorDirectlyVisitor : OperatorVisitorBase
+    internal partial class OperatorEntityToCalculatorDirectlyVisitor : OperatorEntityVisitorBase
     {
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
         

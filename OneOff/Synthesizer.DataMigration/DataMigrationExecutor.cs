@@ -2562,6 +2562,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             const double DEFAULT_SPECTRUM_FREQUENCY_COUNT = 256.0;
             const double DEFAULT_START_TIME = 0.0;
             const double DEFAULT_STEP = 1.0;
+            const double MULTIPLICATIVE_IDENTITY = 1.0;
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
@@ -2662,6 +2663,16 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     }
                 }
                 {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Divide);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Divide_OperatorWrapper(op);
+                        wrapper.BInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
                     IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.HighPassFilter);
                     foreach (Operator op in operators)
                     {
@@ -2680,6 +2691,16 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         wrapper.TransitionFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
                         wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
                         wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Interpolate);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Interpolate_OperatorWrapper(op);
+                        wrapper.SamplingRateInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
 
                         progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
                     }
@@ -2765,12 +2786,33 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     }
                 }
                 {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.MultiplyWithOrigin);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new MultiplyWithOrigin_OperatorWrapper(op);
+                        wrapper.AInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
+                        wrapper.BInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
                     IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.NotchFilter);
                     foreach (Operator op in operators)
                     {
                         var wrapper = new NotchFilter_OperatorWrapper(op);
                         wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
                         wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.OneOverX);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new OneOverX_OperatorWrapper(op);
+                        wrapper.XInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
 
                         progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
                     }
@@ -2827,16 +2869,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         var wrapper = new RangeOverOutlets_OperatorWrapper(op);
                         wrapper.FromInlet.DefaultValue = DEFAULT_RANGE_FROM;
                         wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
-
-                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
-                    }
-                }
-                {
-                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Interpolate);
-                    foreach (Operator op in operators)
-                    {
-                        var wrapper = new Interpolate_OperatorWrapper(op);
-                        wrapper.SamplingRateInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
 
                         progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
                     }

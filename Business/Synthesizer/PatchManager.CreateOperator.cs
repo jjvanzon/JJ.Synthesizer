@@ -43,6 +43,7 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_SPECTRUM_FREQUENCY_COUNT = 256.0;
         private const double DEFAULT_START_TIME = 0.0;
         private const double DEFAULT_STEP = 1.0;
+        private const double MULTIPLICATIVE_IDENTITY = 1.0;
 
         public Absolute_OperatorWrapper Absolute(Outlet x = null)
         {
@@ -530,6 +531,8 @@ namespace JJ.Business.Synthesizer
                 B = b,
                 Origin = origin
             };
+
+            wrapper.BInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1208,6 +1211,9 @@ namespace JJ.Business.Synthesizer
                 Origin = origin
             };
 
+            wrapper.AInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
+            wrapper.BInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
+
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
@@ -1344,6 +1350,8 @@ namespace JJ.Business.Synthesizer
             {
                 X = x,
             };
+
+            wrapper.XInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);

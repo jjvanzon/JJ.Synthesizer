@@ -13,7 +13,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorEntityToDtoVisitor : OperatorVisitorBase
+    internal class OperatorEntityToDtoVisitor : OperatorEntityVisitorBase
     {
         private readonly ICurveRepository _curveRepository;
         private readonly IPatchRepository _patchRepository;
@@ -1054,6 +1054,12 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             Process_Inlet_DoNotCoalesce(inlet);
         }
+
+        //protected override void VisitLoopInlet(Inlet inlet)
+        //{
+        //    inlet.
+        //    base.VisitLoopInlet(inlet);
+        //}
 
         protected override void VisitMaxOverInletsInlet(Inlet inlet)
         {

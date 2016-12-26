@@ -9,13 +9,13 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal abstract class OperatorVisitorBase
+    internal abstract class OperatorEntityVisitorBase
     {
         private readonly Dictionary<OperatorTypeEnum, Action<Operator>> _visitOperatorDelegateDictionary;
         private readonly Dictionary<OperatorTypeEnum, Action<Inlet>> _visitInletDelegateDictionary;
         private readonly Dictionary<OperatorTypeEnum, Action<Outlet>> _visitOutletDelegateDictionary;
 
-        public OperatorVisitorBase()
+        public OperatorEntityVisitorBase()
         {
             _visitOperatorDelegateDictionary = new Dictionary<OperatorTypeEnum, Action<Operator>>
             {
@@ -105,6 +105,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.AverageOverInlets, VisitAverageOverInletsInlet },
                 { OperatorTypeEnum.ClosestOverInlets, VisitClosestOverInletsInlet },
                 { OperatorTypeEnum.ClosestOverInletsExp, VisitClosestOverInletsExpInlet },
+                //{ OperatorTypeEnum.Loop, VisitLoopInlet },
                 { OperatorTypeEnum.MaxOverInlets, VisitMaxOverInletsInlet },
                 { OperatorTypeEnum.MinOverInlets, VisitMinOverInletsInlet },
                 { OperatorTypeEnum.Multiply, VisitMultiplyInlet },
@@ -722,6 +723,12 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             VisitInletBase(inlet);
         }
+
+        //[DebuggerHidden]
+        //protected virtual void VisitLoopInlet(Inlet inlet)
+        //{
+        //    VisitInletBase(inlet);
+        //}
 
         [DebuggerHidden]
         protected virtual void VisitMaxOverInletsInlet(Inlet inlet)

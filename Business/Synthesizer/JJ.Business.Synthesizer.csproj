@@ -788,7 +788,7 @@
     <Compile Include="Validation\Operators\OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
     <Compile Include="Visitors\OperatorEntityToCalculatorDirectlyVisitor.cs" />
-    <Compile Include="Visitors\OperatorVisitorBase.cs" />
+    <Compile Include="Visitors\OperatorEntityVisitorBase.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\Operators\CustomOperator_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Select_OperatorWarningValidator.cs" />
