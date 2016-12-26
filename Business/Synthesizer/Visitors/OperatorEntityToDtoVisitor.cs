@@ -1035,8 +1035,47 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Inlets
 
-        /// <summary> Overridden to replace null inlets with default values. </summary>
-        protected override void VisitInletPolymorphic(Inlet inlet)
+        protected override void VisitMultiplyInlet(Inlet inlet)
+        {
+            Process_Inlet_CoalesceToOne(inlet);
+        }
+
+        protected override void VisitAverageOverInletsInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitClosestOverInletsExpInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitClosestOverInletsInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitMaxOverInletsInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitMinOverInletsInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitSortOverInletsInlet(Inlet inlet)
+        {
+            Process_Inlet_DoNotCoalesce(inlet);
+        }
+
+        protected override void VisitInletOther(Inlet inlet)
+        {
+            Process_Inlet_CoalesceToDefaultOrZero(inlet);
+        }
+
+        private void Process_Inlet_CoalesceToDefaultOrZero(Inlet inlet)
         {
             if (inlet.InputOutlet == null)
             {
@@ -1045,13 +1084,17 @@ namespace JJ.Business.Synthesizer.Visitors
                     _stack.Push(new Number_OperatorDto { Number = inlet.DefaultValue.Value });
                     return;
                 }
+                else
+                {
+                    _stack.Push(new Number_OperatorDto_Zero());
+                    return;
+                }
             }
 
-            base.VisitInletPolymorphic(inlet);
+            base.VisitInletBase(inlet);
         }
 
-        /// <summary> Replaces null inlets with the value 1 for multiplication. </summary>
-        protected override void VisitMultiplyInlet(Inlet inlet)
+        private void Process_Inlet_CoalesceToOne(Inlet inlet)
         {
             if (inlet.InputOutlet == null)
             {
@@ -1059,55 +1102,12 @@ namespace JJ.Business.Synthesizer.Visitors
                 return;
             }
 
-            base.VisitMultiplyInlet(inlet);
+            VisitInletBase(inlet);
         }
 
-        protected override void VisitAverageOverInletsInlet(Inlet inlet)
-        {
-            Process_AggregateOverInlets_Inlet(inlet);
-        }
-
-        protected override void VisitClosestOverInletsExpInlet(Inlet inlet)
-        {
-            Process_AggregateOverInlets_Inlet(inlet);
-        }
-
-        protected override void VisitClosestOverInletsInlet(Inlet inlet)
-        {
-            Process_AggregateOverInlets_Inlet(inlet);
-        }
-
-        protected override void VisitMaxOverInletsInlet(Inlet inlet)
-        {
-            Process_AggregateOverInlets_Inlet(inlet);
-        }
-
-        protected override void VisitMinOverInletsInlet(Inlet inlet)
-        {
-            Process_AggregateOverInlets_Inlet(inlet);
-        }
-
-        protected override void VisitSortOverInletsInlet(Inlet inlet)
-        {
-            Process_AggregateOverInlets_Inlet(inlet);
-        }
-
-        /// <summary> Does not null-coalesce inlets at all. </summary>
-        private void Process_AggregateOverInlets_Inlet(Inlet inlet)
+        private void Process_Inlet_DoNotCoalesce(Inlet inlet)
         {
             base.VisitInletBase(inlet);
-        }
-
-        /// <summary> Overridden to replace null inlets without default values with 0. </summary>
-        protected override void VisitInletOther(Inlet inlet)
-        {
-            if (inlet.InputOutlet == null)
-            {
-                _stack.Push(new Number_OperatorDto_Zero());
-                return;
-            }
-
-            base.VisitInletOther(inlet);
         }
 
         // Special Visitation
