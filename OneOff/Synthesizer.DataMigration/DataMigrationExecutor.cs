@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using JJ.Framework.Data;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Canonical;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Framework.Common;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
     internal class DataMigrationExecutor
     {
-        private class InletOrOutletDimensionTuple
+        private class InletOrOutletTuple
         {
-            public InletOrOutletDimensionTuple(
+            // TODO: Remove outcommented code.
+            //public InletOrOutletTuple()
+            //{ }
+
+            public InletOrOutletTuple(
                 OperatorTypeEnum operatorTypeEnum,
                 int listIndex,
                 DimensionEnum dimensionEnum)
@@ -32,9 +31,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 DimensionEnum = dimensionEnum;
             }
 
-            public OperatorTypeEnum OperatorTypeEnum { get; }
-            public int ListIndex { get; }
-            public DimensionEnum DimensionEnum { get; }
+            public OperatorTypeEnum OperatorTypeEnum { get; set; }
+            public int ListIndex { get; set; }
+            public DimensionEnum DimensionEnum { get; set; }
+            //public double DefaultValue { get; set; }
         }
 
         private const int DEFAULT_FREQUENCY = 440;
@@ -2006,115 +2006,115 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         //    using (IContext context = PersistenceHelper.CreateContext())
         //    {
-        //        var inletTuples = new List<InletOrOutletDimensionTuple>();
-        //        var outletTuples = new List<InletOrOutletDimensionTuple>();
+        //        var inletTuples = new List<InletOrOutletTuple>();
+        //        var outletTuples = new List<InletOrOutletTuple>();
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.AllPassFilter, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.AllPassFilter, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.AllPassFilter, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.AllPassFilter, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.AverageFollower, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.AverageFollower, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.AverageOverDimension, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.AverageOverDimension, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.BandPassFilterConstantPeakGain, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.BandPassFilterConstantPeakGain, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.BandPassFilterConstantPeakGain, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.BandPassFilterConstantPeakGain, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.BandPassFilterConstantTransitionGain, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.BandPassFilterConstantTransitionGain, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.BandPassFilterConstantTransitionGain, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.BandPassFilterConstantTransitionGain, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Cache, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Cache, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Cache, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Cache, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.HighPassFilter, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.HighPassFilter, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.HighPassFilter, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.HighPassFilter, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.HighShelfFilter, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.HighShelfFilter, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.HighShelfFilter, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.HighShelfFilter, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Loop, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Loop, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Loop, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Loop, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.LowPassFilter, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.LowPassFilter, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.LowPassFilter, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.LowPassFilter, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.LowShelfFilter, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.LowShelfFilter, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.LowShelfFilter, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.LowShelfFilter, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.MaxFollower, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.MaxFollower, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.MaxOverDimension, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.MaxOverDimension, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.MinFollower, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.MinFollower, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.MinOverDimension, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.MinOverDimension, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.NotchFilter, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.NotchFilter, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.NotchFilter, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.NotchFilter, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.PeakingEQFilter, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.PeakingEQFilter, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.PeakingEQFilter, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.PeakingEQFilter, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Pulse, 0, DimensionEnum.Frequency));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Pulse, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Pulse, 0, DimensionEnum.Frequency));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Pulse, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Interpolate, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Interpolate, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Interpolate, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Interpolate, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Reverse, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Reverse, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Reverse, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Reverse, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Round, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Round, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Round, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Round, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Sample, 0, DimensionEnum.Frequency));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Sample, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Sample, 0, DimensionEnum.Frequency));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Sample, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SawDown, 0, DimensionEnum.Frequency));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SawDown, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SawDown, 0, DimensionEnum.Frequency));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SawDown, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SawUp, 0, DimensionEnum.Frequency));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SawUp, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SawUp, 0, DimensionEnum.Frequency));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SawUp, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Scaler, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Scaler, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Scaler, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Scaler, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Select, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Select, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Shift, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Shift, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Shift, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Shift, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Sine, 0, DimensionEnum.Frequency));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Sine, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Sine, 0, DimensionEnum.Frequency));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Sine, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SortOverDimension, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SortOverDimension, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SortOverDimension, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SortOverDimension, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Spectrum, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Spectrum, 0, DimensionEnum.Volume));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Spectrum, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Spectrum, 0, DimensionEnum.Volume));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Square, 0, DimensionEnum.Frequency));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Square, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Square, 0, DimensionEnum.Frequency));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Square, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Squash, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Squash, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Squash, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Squash, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Stretch, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Stretch, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Stretch, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Stretch, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SumFollower, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SumFollower, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.SumOverDimension, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SumOverDimension, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.TimePower, 0, DimensionEnum.Signal));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.TimePower, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.TimePower, 0, DimensionEnum.Signal));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.TimePower, 0, DimensionEnum.Signal));
 
-        //        inletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Triangle, 0, DimensionEnum.Frequency));
-        //        outletTuples.Add(new InletOrOutletDimensionTuple(OperatorTypeEnum.Triangle, 0, DimensionEnum.Signal));
+        //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Triangle, 0, DimensionEnum.Frequency));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Triangle, 0, DimensionEnum.Signal));
 
-        //        Dictionary<OperatorTypeEnum, IList<InletOrOutletDimensionTuple>> inletTupleDictionary = 
+        //        Dictionary<OperatorTypeEnum, IList<InletOrOutletTuple>> inletTupleDictionary = 
         //            inletTuples.ToNonUniqueDictionary(x => x.OperatorTypeEnum);
 
-        //        Dictionary<OperatorTypeEnum, IList<InletOrOutletDimensionTuple>> outletTupleDictionary = 
+        //        Dictionary<OperatorTypeEnum, IList<InletOrOutletTuple>> outletTupleDictionary = 
         //            outletTuples.ToNonUniqueDictionary(x => x.OperatorTypeEnum);
 
         //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
@@ -2129,20 +2129,20 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         //            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-        //            IList<InletOrOutletDimensionTuple> inletTuples2;
+        //            IList<InletOrOutletTuple> inletTuples2;
         //            if (inletTupleDictionary.TryGetValue(operatorTypeEnum, out inletTuples2))
         //            {
-        //                foreach (InletOrOutletDimensionTuple inletTuple in inletTuples2)
+        //                foreach (InletOrOutletTuple inletTuple in inletTuples2)
         //                {
         //                    Inlet inlet = op.Inlets.Where(x => x.ListIndex == inletTuple.ListIndex).Single();
         //                    inlet.SetDimensionEnum(inletTuple.DimensionEnum, repositories.DimensionRepository);
         //                }
         //            }
 
-        //            IList<InletOrOutletDimensionTuple> outletTuples2;
+        //            IList<InletOrOutletTuple> outletTuples2;
         //            if (outletTupleDictionary.TryGetValue(operatorTypeEnum, out outletTuples2))
         //            {
-        //                foreach (InletOrOutletDimensionTuple outletTuple in outletTuples2)
+        //                foreach (InletOrOutletTuple outletTuple in outletTuples2)
         //                {
         //                    Outlet outlet = op.Outlets.Where(x => x.ListIndex == outletTuple.ListIndex).Single();
         //                    outlet.SetDimensionEnum(outletTuple.DimensionEnum, repositories.DimensionRepository);
@@ -2371,43 +2371,43 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         //}
 
-        public static void Migrate_ResampleInterpolationType_Rename_LineRememberT1_To_Line(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        //public static void Migrate_ResampleInterpolationType_Rename_LineRememberT1_To_Line(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+        //    progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                var patchManager = new PatchManager(new PatchRepositories(repositories));
+        //        var patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                IList<Operator> operators = repositories.OperatorRepository.GetAll();
+        //        IList<Operator> operators = repositories.OperatorRepository.GetAll();
 
-                for (int i = 0; i < operators.Count; i++)
-                {
-                    Operator op = operators[i];
+        //        for (int i = 0; i < operators.Count; i++)
+        //        {
+        //            Operator op = operators[i];
 
-                    string interpolationType = DataPropertyParser.TryGetString(op, PropertyNames.InterpolationType);
+        //            string interpolationType = DataPropertyParser.TryGetString(op, PropertyNames.InterpolationType);
 
-                    if (String.Equals(interpolationType, "LineRememberT1"))
-                    {
-                        DataPropertyParser.SetValue(op, PropertyNames.InterpolationType, "Line");
-                    }
+        //            if (String.Equals(interpolationType, "LineRememberT1"))
+        //            {
+        //                DataPropertyParser.SetValue(op, PropertyNames.InterpolationType, "Line");
+        //            }
 
-                    string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
-                    progressCallback(progressMessage);
-                }
+        //            string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
+        //            progressCallback(progressMessage);
+        //        }
 
-                AssertDocuments(repositories, progressCallback);
+        //        AssertDocuments(repositories, progressCallback);
 
-                //throw new Exception("Temporarily not committing, for debugging.");
-                context.Commit();
-            }
+        //        //throw new Exception("Temporarily not committing, for debugging.");
+        //        context.Commit();
+        //    }
 
-            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
-        }
+        //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        //}
 
         //public static void Migrate_Bundle_AndUnbundle_ToInletsToDimension_AndDimensionToOutlets(Action<string> progressCallback)
         //{
@@ -2486,7 +2486,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //                {
         //                    Outlet sourceOutlet = source_Unbundle_Operator.Outlets[outletIndex];
         //                    Outlet destOutlet = dest_DimensionToOutlets_Operator.Outlets[outletIndex];
-                        
+
         //                    foreach (Inlet connectedInlet in sourceOutlet.ConnectedInlets.ToArray())
         //                    {
         //                        connectedInlet.LinkTo(destOutlet);
@@ -2515,6 +2515,507 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //}
 
         // Helpers
+
+        public static void Migrate_SetInletDefaultValues(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            const double DEFAULT_FILTER_FREQUENCY = 1760.0;
+            const double DEFAULT_FREQUENCY = 440.0;
+            const double DEFAULT_AGGREGATE_FROM = 0.0;
+            const double DEFAULT_AGGREGATE_TILL = 15.0;
+            const double DEFAULT_BAND_WIDTH = 1.0;
+            const double DEFAULT_DB_GAIN = 3.0;
+            const double DEFAULT_DIFFERENCE = 1.0;
+            const double DEFAULT_END_TIME = 1.0;
+            const double DEFAULT_EXPONENT = 2.0;
+            const double DEFAULT_FACTOR = 2.0;
+            const double DEFAULT_PULSE_WIDTH = 0.5;
+            const double DEFAULT_RANDOM_RATE = 16.0;
+            const double DEFAULT_RANGE_FROM = 1.0;
+            const double DEFAULT_RANGE_TILL = 16.0;
+            const double DEFAULT_REVERSE_SPEED = 1.0;
+            const double DEFAULT_SAMPLE_COUNT = 100.0;
+            const double DEFAULT_SAMPLING_RATE = 44100.0;
+            const double DEFAULT_SCALE_SOURCE_VALUE_A = -1.0;
+            const double DEFAULT_SCALE_SOURCE_VALUE_B = 1.0;
+            const double DEFAULT_SCALE_TARGET_VALUE_A = 1.0;
+            const double DEFAULT_SCALE_TARGET_VALUE_B = 4.0;
+            const double DEFAULT_TRANSITION_SLOPE = 1.0;
+            const double DEFAULT_SLICE_LENGTH = 0.02;
+            const double DEFAULT_SPECTRUM_FREQUENCY_COUNT = 256.0;
+            const double DEFAULT_START_TIME = 0.0;
+            const double DEFAULT_STEP = 1.0;
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+                int counter = 1;
+
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.AllPassFilter);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new AllPassFilter_OperatorWrapper(op);
+                        wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+                        wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.AverageFollower);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new AverageFollower_OperatorWrapper(op);
+                        wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
+                        wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.AverageOverDimension);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new AverageOverDimension_OperatorWrapper(op);
+                        wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+                        wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+                        wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.BandPassFilterConstantPeakGain);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new BandPassFilterConstantPeakGain_OperatorWrapper(op);
+                        wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+                        wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.BandPassFilterConstantTransitionGain);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new BandPassFilterConstantTransitionGain_OperatorWrapper(op);
+                        wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+                        wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Cache);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Cache_OperatorWrapper(op);
+                        wrapper.StartInlet.DefaultValue = DEFAULT_START_TIME;
+                        wrapper.EndInlet.DefaultValue = DEFAULT_END_TIME;
+                        wrapper.SamplingRateInlet.DefaultValue = DEFAULT_SAMPLING_RATE;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.ClosestOverDimension);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new ClosestOverDimension_OperatorWrapper(op);
+                        wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+                        wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+                        wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.ClosestOverDimensionExp);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new ClosestOverDimensionExp_OperatorWrapper(op);
+                        wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+                        wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+                        wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.HighPassFilter);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new HighPassFilter_OperatorWrapper(op);
+                        wrapper.MinFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+                        wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.HighShelfFilter);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new HighShelfFilter_OperatorWrapper(op);
+                        wrapper.TransitionFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+                        wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
+                        wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Loop);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Loop_OperatorWrapper(op);
+                        wrapper.LoopStartMarkerInlet.DefaultValue = DEFAULT_START_TIME;
+                        wrapper.LoopEndMarkerInlet.DefaultValue = DEFAULT_END_TIME;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.LowPassFilter);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new LowPassFilter_OperatorWrapper(op);
+                        wrapper.MaxFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+                        wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.LowShelfFilter);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new LowShelfFilter_OperatorWrapper(op);
+                        wrapper.TransitionFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+                        wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
+                        wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.MaxFollower);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new MaxFollower_OperatorWrapper(op);
+                        wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
+                        wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.MaxOverDimension);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new MaxOverDimension_OperatorWrapper(op);
+                        wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+                        wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+                        wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.MinFollower);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new MinFollower_OperatorWrapper(op);
+                        wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
+                        wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.MinOverDimension);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new MinOverDimension_OperatorWrapper(op);
+                        wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+                        wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+                        wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.NotchFilter);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new NotchFilter_OperatorWrapper(op);
+                        wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+                        wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.PeakingEQFilter);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new PeakingEQFilter_OperatorWrapper(op);
+                        wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+                        wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
+                        wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Pulse);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Pulse_OperatorWrapper(op);
+                        wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
+                        wrapper.WidthInlet.DefaultValue = DEFAULT_PULSE_WIDTH;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Random);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Random_OperatorWrapper(op);
+                        wrapper.RateInlet.DefaultValue = DEFAULT_RANDOM_RATE;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.RangeOverDimension);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new RangeOverDimension_OperatorWrapper(op);
+                        wrapper.FromInlet.DefaultValue = DEFAULT_RANGE_FROM;
+                        wrapper.TillInlet.DefaultValue = DEFAULT_RANGE_TILL;
+                        wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.RangeOverOutlets);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new RangeOverOutlets_OperatorWrapper(op);
+                        wrapper.FromInlet.DefaultValue = DEFAULT_RANGE_FROM;
+                        wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Interpolate);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Interpolate_OperatorWrapper(op);
+                        wrapper.SamplingRateInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Reverse);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Reverse_OperatorWrapper(op);
+                        wrapper.SpeedInlet.DefaultValue = DEFAULT_REVERSE_SPEED;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Round);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Round_OperatorWrapper(op);
+                        wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Sample);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Sample_OperatorWrapper(op, repositories.SampleRepository);
+                        wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.SawDown);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new SawDown_OperatorWrapper(op);
+                        wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.SawUp);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new SawUp_OperatorWrapper(op);
+                        wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Scaler);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Scaler_OperatorWrapper(op);
+                        wrapper.SourceValueAInlet.DefaultValue = DEFAULT_SCALE_SOURCE_VALUE_A;
+                        wrapper.SourceValueBInlet.DefaultValue = DEFAULT_SCALE_SOURCE_VALUE_B;
+                        wrapper.TargetValueAInlet.DefaultValue = DEFAULT_SCALE_TARGET_VALUE_A;
+                        wrapper.TargetValueBInlet.DefaultValue = DEFAULT_SCALE_TARGET_VALUE_B;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Shift);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Shift_OperatorWrapper(op);
+                        wrapper.DifferenceInlet.DefaultValue = DEFAULT_DIFFERENCE;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Sine);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Sine_OperatorWrapper(op);
+                        wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.SortOverDimension);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new SortOverDimension_OperatorWrapper(op);
+                        wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+                        wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+                        wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Spectrum);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Spectrum_OperatorWrapper(op);
+                        wrapper.StartInlet.DefaultValue = DEFAULT_START_TIME;
+                        wrapper.EndInlet.DefaultValue = DEFAULT_END_TIME;
+                        wrapper.FrequencyCountInlet.DefaultValue = DEFAULT_SPECTRUM_FREQUENCY_COUNT;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Square);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Square_OperatorWrapper(op);
+                        wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Squash);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Squash_OperatorWrapper(op);
+                        wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Stretch);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Stretch_OperatorWrapper(op);
+                        wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.SumFollower);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new SumFollower_OperatorWrapper(op);
+                        wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
+                        wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.SumOverDimension);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new SumOverDimension_OperatorWrapper(op);
+                        wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
+                        wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+                        wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.TimePower);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new TimePower_OperatorWrapper(op);
+                        wrapper.ExponentInlet.DefaultValue = DEFAULT_EXPONENT;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+                {
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Triangle);
+                    foreach (Operator op in operators)
+                    {
+                        var wrapper = new Triangle_OperatorWrapper(op);
+                        wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
+
+                        progressCallback(String.Format("Migrated {0} {1}.", nameof(Operator), counter++));
+                    }
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                throw new Exception("Temporarily not committing, for debugging.");
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
 
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
