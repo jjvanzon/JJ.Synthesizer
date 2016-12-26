@@ -83,7 +83,6 @@
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_StripeInterpolation.cs" />
     <Compile Include="Configuration\CalculationEngineConfigurationEnum.cs" />
-    <Compile Include="Dto\2016-12-14 Backup of Cache OperatorDto Classes.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\CurveArrayInfo.cs" />
@@ -297,8 +296,6 @@
     <Compile Include="Dto\OperatorDtoBase_VarX.cs" />
     <Compile Include="Dto\Not OperatorDto Classes.cs" />
     <Compile Include="Dto\Or OperatorDto Classes.cs" />
-    <Compile Include="Dto\2016-12-20 Backup of Bundle_OperatorDto.cs" />
-    <Compile Include="Dto\2016-12-22 Backup of CustomOperator_OperatorDto.cs" />
     <Compile Include="Dto\And OperatorDto Classes.cs" />
     <Compile Include="Dto\GreaterThanOrEqual OperatorDto Classes.cs" />
     <Compile Include="Dto\LessThanOrEqual OperatorDto Classes.cs" />
@@ -321,7 +318,6 @@
     <Compile Include="Dto\PulseTrigger OperatorDto Classes.cs" />
     <Compile Include="Dto\ToggleTrigger_OperatorDto.cs" />
     <Compile Include="Dto\Triangle OperatorDto Classes.cs" />
-    <Compile Include="Dto\2016-12-20 Backup of Unbundle_OperatorDto.cs" />
     <Compile Include="Dto\Select OperatorDto Classes.cs" />
     <Compile Include="Dto\Loop OperatorDto Classes.cs" />
     <Compile Include="Dto\Interpolate OperatorDto Classes.cs" />
@@ -342,7 +338,6 @@
     <Compile Include="Dto\OperatorDtoBase_Vars.cs" />
     <Compile Include="Dto\OperatorDtoBase_Vars_1Const.cs" />
     <Compile Include="Dto\Power OperatorDto Classes.cs" />
-    <Compile Include="Dto\2016-12-22 Backup of PatchOutlet_OperatorDto.cs" />
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
     <Compile Include="Dto\TimePower OperatorDto Classes.cs" />
     <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
@@ -402,7 +397,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Calculation\Patches\2016-12-22 Backup of PatchCalculationHelper.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_StripeInterpolation.cs" />
@@ -655,7 +649,6 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
-    <Compile Include="Visitors\2016-12-17 Backup of PatchCalculatorVisitor %28with invar bundle index experiment%29.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_ClassSpecialization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MachineOptimization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MathSimplification.cs" />
@@ -667,8 +660,6 @@
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_PreProcessing.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_ProgrammerLaziness.cs" />
-    <Compile Include="Visitors\2016-12-22 Backup of RecursiveUnderlyingPatchEntityToDtoVisitor.cs" />
-    <Compile Include="Visitors\2016-12-23 Backup of OperatorDtoVisitor_SpecialVisitation.cs" />
     <Compile Include="Visitors\VisitorHelper.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\CurveWarningValidator.cs" />
@@ -759,8 +750,6 @@
     <Compile Include="Validation\Curves\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount.cs" />
-    <Compile Include="Validation\Operators\2016-12-20 Backup of Unbundle_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\2016-12-20 Backup of Bundle_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Select_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Exponent_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Loop_ OperatorValidator.cs" />
@@ -804,8 +793,6 @@
     <Compile Include="Visitors\OperatorEntityToCalculatorDirectlyVisitor.cs" />
     <Compile Include="Visitors\OperatorVisitorBase.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2016-12-20 Backup of Unbundle_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2016-12-20 Backup of Bundle_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\CustomOperator_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Select_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Interpolate_OperatorWarningValidator.cs" />
