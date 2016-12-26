@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
+﻿using System;
+using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Dto
 {
