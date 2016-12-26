@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
     {
         private readonly Dictionary<Type, Func<OperatorDtoBase, OperatorDtoBase>> _delegateDictionary;
 
-        [DebuggerHidden]
+        /*[DebuggerHidden]*/
         protected virtual OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
         {
             Type type = dto.GetType();
@@ -26,7 +26,8 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             return dto2;
         }
 
-        [DebuggerHidden, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /*[DebuggerHidden]*/
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual OperatorDtoBase Visit_OperatorDto_Base(OperatorDtoBase dto)
         {
             dto.InputOperatorDtos = VisitInputOperatorDtos(dto.InputOperatorDtos);
@@ -34,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             return dto;
         }
 
-        [DebuggerHidden]
+        /*[DebuggerHidden]*/
         protected virtual IList<OperatorDtoBase> VisitInputOperatorDtos(IList<OperatorDtoBase> operatorDtos)
         {
             // Reverse the order, so calculators pop off a stack in the right order.
@@ -81,38 +82,38 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             };
         }
 
-        [DebuggerHidden]
+        /*[DebuggerHidden]*/
         protected virtual OperatorDtoBase VisitOperatorDto(OperatorDtoBase dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
         }
 
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_Consts(Add_OperatorDto_Vars_Consts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_NoVars_Consts(Add_OperatorDto_NoVars_Consts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_NoVars_NoConsts(Add_OperatorDto_NoVars_NoConsts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Multiply_OperatorDto(Multiply_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_ConstA_VarB(Multiply_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Shift_OperatorDto(Shift_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Sine_OperatorDto(Sine_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Sine_OperatorDto_ZeroFrequency(Sine_OperatorDto_ZeroFrequency dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(Sine_OperatorDto_ConstFrequency_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_Consts(Add_OperatorDto_Vars_Consts dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Add_OperatorDto_NoVars_Consts(Add_OperatorDto_NoVars_Consts dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Add_OperatorDto_NoVars_NoConsts(Add_OperatorDto_NoVars_NoConsts dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Multiply_OperatorDto(Multiply_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_ConstA_VarB(Multiply_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Multiply_OperatorDto_ConstA_ConstB(Multiply_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Shift_OperatorDto(Shift_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Sine_OperatorDto(Sine_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Sine_OperatorDto_ZeroFrequency(Sine_OperatorDto_ZeroFrequency dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(Sine_OperatorDto_ConstFrequency_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto) => Visit_OperatorDto_Base(dto);
     }
 }
