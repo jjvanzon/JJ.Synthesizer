@@ -3,7 +3,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
-    internal class MachineOptimization_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterMathSimplification
+    internal class OperatorDtoVisitor_MachineOptimization : OperatorDtoVisitorBase_AfterMathSimplification
     {
         public OperatorDtoBase Execute(OperatorDtoBase dto)
         {

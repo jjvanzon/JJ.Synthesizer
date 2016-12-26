@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
-    internal class StackLevel_OperatorDtoVisitor_Simple : OperatorDtoVisitorBase
+    internal class OperatorDtoVisitor_StackLevel_Simple : OperatorDtoVisitorBase
     {
         private int _currentStackLevel;
 

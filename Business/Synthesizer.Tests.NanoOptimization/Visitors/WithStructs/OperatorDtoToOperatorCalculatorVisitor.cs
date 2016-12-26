@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithStructs
 
         public IOperatorCalculator Execute(OperatorDtoBase sourceOperatorDto)
         {
-            var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
+            var preProcessingVisitor = new OperatorDtoVisitor_PreProcessing();
             sourceOperatorDto = preProcessingVisitor.Execute(sourceOperatorDto);
 
             Type destOperatorCalculatorType_ClosedGeneric = OperatorDtoToCalculatorTypeConverter.ConvertToClosedGenericType(sourceOperatorDto);

@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
-    internal class ClassSpecialization_OperatorDtoVisitor : OperatorDtoVisitorBase
+    internal class OperatorDtoVisitor_ClassSpecialization : OperatorDtoVisitorBase
     {
         public OperatorDtoBase Execute(OperatorDtoBase dto)
         {

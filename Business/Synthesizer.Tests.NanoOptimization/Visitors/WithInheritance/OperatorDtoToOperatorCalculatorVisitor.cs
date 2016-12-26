@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithInheritanc
 
         public OperatorCalculatorBase Execute(OperatorDtoBase dto)
         {
-            var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
+            var preProcessingVisitor = new OperatorDtoVisitor_PreProcessing();
             dto = preProcessingVisitor.Execute(dto);
 
             Visit_OperatorDto_Polymorphic(dto);

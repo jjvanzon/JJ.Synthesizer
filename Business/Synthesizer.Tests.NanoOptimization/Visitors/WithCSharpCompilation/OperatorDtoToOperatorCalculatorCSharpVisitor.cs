@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpComp
         public override string Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName)
         {
             // Optimize Calculation Dto
-            var preProcessingVisitor = new PreProcessing_OperatorDtoVisitor();
+            var preProcessingVisitor = new OperatorDtoVisitor_PreProcessing();
             dto = preProcessingVisitor.Execute(dto);
 
             // Initialize Fields

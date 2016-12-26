@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
-    internal class StackLevel_OperatorDtoVisitor_PerDimensionWriter : OperatorDtoVisitorBase
+    internal class OperatorDtoVisitor_StackLevel_PerDimensionWriter : OperatorDtoVisitorBase
     {
         private readonly HashSet<Type> _dimensionWriting_OperatorDto_Types = new HashSet<Type>
         {

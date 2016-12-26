@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 {
-    internal class MathSimplification_OperatorDtoVisitor : OperatorDtoVisitorBase_AfterClassSpecialization
+    internal class OperatorDtoVisitor_MathSimplification : OperatorDtoVisitorBase_AfterClassSpecialization
     {
         // General
 
