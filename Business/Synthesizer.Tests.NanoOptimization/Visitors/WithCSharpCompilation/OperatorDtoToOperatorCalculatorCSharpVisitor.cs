@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Calculation.WithCSharpCompilation;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
-using JJ.Business.Synthesizer.Tests.NanoOptimization.Helpers;
 using JJ.Framework.Common;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors.WithCSharpCompilation
 {

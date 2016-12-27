@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
 using JJ.Framework.Common;
 
