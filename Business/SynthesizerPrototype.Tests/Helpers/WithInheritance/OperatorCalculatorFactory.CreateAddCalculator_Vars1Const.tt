@@ -1,0 +1,47 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".cs" #>
+
+<# int minVarOperands = 1; #>
+<# int maxVarOperands = 31; #>
+
+using System.Collections.Generic;
+using JJ.Framework.Exceptions;
+using JJ.Business.SynthesizerPrototype.Tests.Calculation.WithInheritance;
+
+namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithInheritance
+{
+    internal static partial class OperatorCalculatorFactory
+    {
+	    public static OperatorCalculatorBase CreateAddCalculator_Vars_1Const(IList<OperatorCalculatorBase> varOperandCalculators, double constValue)
+        {
+			if (varOperandCalculators.Count < <#= minVarOperands #>) throw new LessThanException(() => varOperandCalculators.Count, <#= minVarOperands #>);
+
+            switch (varOperandCalculators.Count)
+            {
+<#
+	for (int i = minVarOperands; i <= maxVarOperands; i++)
+	{
+#>
+                case <#= i #>:
+                    return new Add_OperatorCalculator_<#= i #>Vars_1Const
+					(
+<#
+		for (int j = 0; j < i; j++)
+		{
+#>
+						varOperandCalculators[<#=j#>],
+<#
+		}
+#>						
+						constValue
+					);
+<#
+	}
+#>
+                default:
+                    return new Add_OperatorCalculator_VarArray_1Const(varOperandCalculators, constValue);
+            }
+        }
+	}
+}
