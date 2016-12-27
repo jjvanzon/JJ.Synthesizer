@@ -79,9 +79,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Pre-calculate
             double constValue = dto.Consts.Sum();
 
-            var dto2 = new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
-
-            return Visit_Add_OperatorDto_Vars_1Const(dto2);
+            return new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
@@ -93,8 +91,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Identity
             if (constMathProperties.IsConstZero)
             {
-                var dto2 = new Add_OperatorDto_Vars_NoConsts { Vars = dto.Vars };
-                return Visit_Add_OperatorDto_Vars_NoConsts(dto2);
+                return new Add_OperatorDto_Vars_NoConsts { Vars = dto.Vars };
             }
 
             return dto;
@@ -144,9 +141,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_And_OperatorDto_ConstA_VarB(dto);
 
             // Commute
-            var dto2 = new And_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A };
-
-            return Visit_And_OperatorDto_VarA_ConstB(dto2);
+            return new And_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A };
         }
 
         protected override OperatorDtoBase Visit_And_OperatorDto_VarA_ConstB(And_OperatorDto_VarA_ConstB dto)
@@ -1241,9 +1236,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin(dto);
 
             // Commute
-            var dto2 = new MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin { AOperatorDto = dto.BOperatorDto, B = dto.A };
-
-            return Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin(dto2);
+            return new MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin { AOperatorDto = dto.BOperatorDto, B = dto.A };
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin dto)
@@ -1261,13 +1254,11 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin(dto);
 
             // Identity
-            var dto2 = new Multiply_OperatorDto_Vars_1Const
+            return new Multiply_OperatorDto_Vars_1Const
             {
                 Vars = new OperatorDtoBase[] { dto.AOperatorDto },
                 ConstValue = dto.B
             };
-
-            return Visit_Multiply_OperatorDto_Vars_1Const(dto2);
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin dto)
@@ -1285,9 +1276,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ZeroOrigin(dto);
 
             // Identity
-            var dto2 = new Multiply_OperatorDto_Vars_NoConsts { Vars = new OperatorDtoBase[] { dto.AOperatorDto, dto.BOperatorDto } };
-
-            return Visit_Multiply_OperatorDto_Vars_NoConsts(dto2);
+            return new Multiply_OperatorDto_Vars_NoConsts { Vars = new OperatorDtoBase[] { dto.AOperatorDto, dto.BOperatorDto } };
         }
 
         // Multiply
@@ -1314,9 +1303,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Pre-calculate
             double constValue = dto.Consts.Product();
 
-            var dto2 = new Multiply_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
-
-            return Visit_Multiply_OperatorDto_Vars_1Const(dto2);
+            return new Multiply_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
@@ -1326,8 +1313,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Identity
             if (constMathProperties.IsConstOne)
             {
-                var dto2 = new Multiply_OperatorDto_Vars_NoConsts { Vars = dto.Vars };
-                return Visit_Multiply_OperatorDto_Vars_NoConsts(dto2);
+                return new Multiply_OperatorDto_Vars_NoConsts { Vars = dto.Vars };
             }
 
             return dto;
@@ -1494,9 +1480,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Or_OperatorDto_ConstA_VarB(dto);
 
             // Commute
-            var dto2 = new Or_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A };
-
-            return Visit_Or_OperatorDto_VarA_ConstB(dto2);
+            return new Or_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A };
         }
 
         protected override OperatorDtoBase Visit_Or_OperatorDto_VarA_ConstB(Or_OperatorDto_VarA_ConstB dto)
@@ -1637,8 +1621,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Simplify
             var dto2 = new Square_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = dto.Frequency };
             DtoHelper.Clone_DimensionProperties(dto, dto2);
-
-            return Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(dto2);
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting dto)
@@ -1648,8 +1631,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Simplify
             var dto2 = new Square_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = dto.Frequency };
             DtoHelper.Clone_DimensionProperties(dto, dto2);
-
-            return Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(dto2);
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting dto)
@@ -1680,7 +1662,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             DtoHelper.Clone_DimensionProperties(dto, dto2);
 
-            return Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(dto2);
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking dto)
@@ -1691,7 +1673,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
             DtoHelper.Clone_DimensionProperties(dto, dto2);
 
-            return Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(dto2);
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking dto)

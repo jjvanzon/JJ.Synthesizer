@@ -15,15 +15,15 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization
             {
                 FrequencyOperatorDto = new Multiply_OperatorDto
                 {
-                    AOperatorDto = new Add_OperatorDto
+                    AOperatorDto = new Number_OperatorDto { Number = 4 },
+                    BOperatorDto = new Add_OperatorDto
                     {
                         Vars = new OperatorDtoBase[]
                         {
                             new Number_OperatorDto { Number = 100 },
                             new Number_OperatorDto { Number = 10 }
                         }
-                    },
-                    BOperatorDto = new Number_OperatorDto { Number = 4 }
+                    }
                 }
             };
 

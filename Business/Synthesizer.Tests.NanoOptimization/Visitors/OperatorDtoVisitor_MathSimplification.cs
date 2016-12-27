@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Tests.NanoOptimization.Dto;
@@ -16,6 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             return Visit_OperatorDto_Polymorphic(dto);
         }
 
+        [DebuggerHidden]
         protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
         {
             // NaN / Infinity
@@ -54,10 +56,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
 
             // Pre-calculate
             double constValue = dto.Consts.Sum();
-
-            var dto2 = new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
-
-            return Visit_Add_OperatorDto_Vars_1Const(dto2);
+            return new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue };
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
@@ -69,8 +68,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             // Identity
             if (constMathProperties.IsConstZero)
             {
-                var dto2 = new Add_OperatorDto_Vars_NoConsts { Vars = dto.Vars };
-                return Visit_Add_OperatorDto_Vars_NoConsts(dto2);
+                return new Add_OperatorDto_Vars_NoConsts { Vars = dto.Vars };
             }
 
             return dto;
@@ -91,9 +89,7 @@ namespace JJ.Business.Synthesizer.Tests.NanoOptimization.Visitors
             base.Visit_Multiply_OperatorDto_ConstA_VarB(dto);
 
             // Commute
-            var dto2 = new Multiply_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A };
-
-            return Visit_Multiply_OperatorDto_VarA_ConstB(dto2);
+            return new Multiply_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A };
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
