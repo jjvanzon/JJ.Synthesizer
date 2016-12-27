@@ -194,10 +194,10 @@
     <Compile Include="Visitors\OperatorDtoVisitor_MachineOptimization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
-    <Compile Include="Visitors\2016-12-27 Backup of OperatorDtoVisitorBase_AfterClassSpecialization.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterClassSpecialization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_PreProcessing.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MathSimplification.cs" />
-    <Compile Include="Visitors\2016-12-27 Backup of OperatorDtoVisitor_ClassSpecialization.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_ClassSpecialization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_Simple.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_PerDimensionWriter.cs" />
     <Compile Include="Helpers\WithCSharpCompilation\OperatorDtoCompiler.cs" />

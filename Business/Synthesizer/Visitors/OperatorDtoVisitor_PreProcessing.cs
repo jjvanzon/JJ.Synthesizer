@@ -16,8 +16,8 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             if (dto == null) throw new NullException(() => dto);
 
-            dto = new OperatorDtoVisitor_ClassSpecialization(_targetChannelCount).Execute(dto);
-            dto = new OperatorDtoVisitor_MathSimplification().Execute(dto);
+            //dto = new OperatorDtoVisitor_ClassSpecialization(_targetChannelCount).Execute(dto);
+            dto = new OperatorDtoVisitor_MathSimplification(_targetChannelCount).Execute(dto);
             dto = new OperatorDtoVisitor_MachineOptimization().Execute(dto);
             dto = new OperatorDtoVisitor_ProgrammerLaziness().Execute(dto);
 

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using JJ.Business.Synthesizer.Calculation;
+﻿using System.Reflection;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorDtoVisitor_ClassSpecialization : OperatorDtoVisitorBase
+    internal abstract class OperatorDtoVisitor_ClassSpecialization : OperatorDtoVisitorBase
     {
         private readonly int _targetChannelCount;
 
@@ -20,11 +15,6 @@ namespace JJ.Business.Synthesizer.Visitors
             if (targetChannelCount <= 0) throw new LessThanOrEqualException(() => targetChannelCount, 0);
 
             _targetChannelCount = targetChannelCount;
-        }
-
-        public OperatorDtoBase Execute(OperatorDtoBase dto)
-        {
-            return Visit_OperatorDto_Polymorphic(dto);
         }
 
         protected override OperatorDtoBase Visit_Absolute_OperatorDto(Absolute_OperatorDto dto)

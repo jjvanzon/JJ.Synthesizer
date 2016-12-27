@@ -23,6 +23,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorDtoBase dto2 = func(dto);
 
+            // Revisit as long as different instances keep coming.
+            while (dto2 != dto)
+            {
+                dto = dto2;
+                dto2 = Visit_OperatorDto_Polymorphic(dto);
+            }
+
             return dto2;
         }
 
