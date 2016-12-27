@@ -12,7 +12,6 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Visitors
         {
             if (dto == null) throw new NullException(() => dto);
 
-            //dto = new OperatorDtoVisitor_ClassSpecialization().Execute(dto);
             dto = new OperatorDtoVisitor_MathSimplification().Execute(dto);
             dto = new OperatorDtoVisitor_MachineOptimization().Execute(dto);
             new OperatorDtoVisitor_StackLevel_PerDimensionWriter().Execute(dto);
