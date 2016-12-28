@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.SynthesizerPrototype.Tests.Calculation;
-using JJ.Business.SynthesizerPrototype.Tests.Calculation.WithInheritance;
-using JJ.Business.SynthesizerPrototype.Tests.Dto;
-using JJ.Business.SynthesizerPrototype.Tests.Visitors.WithInheritance;
+using JJ.Business.SynthesizerPrototype.WithInheritance.Calculation;
+using JJ.Business.SynthesizerPrototype.Dto;
+using JJ.Business.SynthesizerPrototype.WithInheritance.Visitors;
 using JJ.Framework.Exceptions;
+using JJ.Business.SynthesizerPrototype.WithInheritance.CopiedCode.From_JJ_Business_SynthesizerPrototype;
 
 namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithInheritance
 {

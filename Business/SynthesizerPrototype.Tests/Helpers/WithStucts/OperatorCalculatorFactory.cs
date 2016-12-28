@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.SynthesizerPrototype.Tests.Calculation;
-using JJ.Business.SynthesizerPrototype.Tests.Calculation.WithStructs;
-using JJ.Business.SynthesizerPrototype.Tests.Dto;
-using JJ.Business.SynthesizerPrototype.Tests.Visitors.WithStructs;
+﻿using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Framework.Exceptions;
+using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
+using JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Business_SynthesizerPrototype;
+using JJ.Business.SynthesizerPrototype.WithStructs.Visitors;
 
 namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithStructs
 {

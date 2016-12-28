@@ -1,0 +1,14 @@
+﻿using JJ.Framework.Exceptions;
+
+namespace JJ.Business.SynthesizerPrototype.Tests.Helpers
+{
+    internal static class DebugHelper
+    {
+        public static string GetDebuggerDisplay(object obj)
+        {
+            if (obj == null) throw new NullException(() => obj);
+
+            return obj.GetType().Name;
+        }
+    }
+}

@@ -37,18 +37,60 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculation\DimensionStack.cs" />
+    <Compile Include="Calculation\OperatorCalculatorHelper.cs" />
+    <Compile Include="Calculation\SineCalculator.cs" />
+    <Compile Include="Dto\Add OperatorDto Classes.cs" />
+    <Compile Include="Dto\MathPropertiesDto.cs" />
+    <Compile Include="Dto\Multiply OperatorDto Classes.cs" />
+    <Compile Include="Dto\Number OperatorDto Classes.cs" />
+    <Compile Include="Dto\OperatorDtoBase.cs" />
+    <Compile Include="Dto\OperatorDtoBase_ConstA_ConstB.cs" />
+    <Compile Include="Dto\OperatorDtoBase_ConstA_VarB.cs" />
+    <Compile Include="Dto\OperatorDtoBase_ConstFrequency.cs" />
+    <Compile Include="Dto\OperatorDtoBase_Consts.cs" />
+    <Compile Include="Dto\OperatorDtoBase_VarA_ConstB.cs" />
+    <Compile Include="Dto\OperatorDtoBase_VarA_VarB.cs" />
+    <Compile Include="Dto\OperatorDtoBase_VarFrequency.cs" />
+    <Compile Include="Dto\OperatorDtoBase_Vars.cs" />
+    <Compile Include="Dto\OperatorDtoBase_Vars_1Const.cs" />
+    <Compile Include="Dto\OperatorDtoBase_Vars_Consts.cs" />
+    <Compile Include="Dto\OperatorDtoBase_WithoutInputOperatorDtos.cs" />
+    <Compile Include="Dto\Shift OperatorDto Classes.cs" />
+    <Compile Include="Dto\Sine OperatorDto Classes.cs" />
+    <Compile Include="Dto\VariableInput_OperatorDto.cs" />
+    <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
+    <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\MathPropertiesHelper.cs" />
+    <Compile Include="Helpers\OperatorTypeEnum.cs" />
+    <Compile Include="Helpers\VisitationCannotBeHandledException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterClassSpecialization.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_ClassSpecialization.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_MachineOptimization.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_MathSimplification.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_PreProcessing.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_PerDimensionWriter.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_Simple.cs" />
+    <Compile Include="Visitors\VisitorHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Dto\" />
+    <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
+      <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
+      <Name>JJ.Framework.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
+      <Name>JJ.Framework.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
+      <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
+      <Name>JJ.Framework.Reflection</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

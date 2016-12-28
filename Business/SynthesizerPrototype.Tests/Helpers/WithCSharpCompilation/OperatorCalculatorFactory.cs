@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.SynthesizerPrototype.Tests.Calculation;
-using JJ.Business.SynthesizerPrototype.Tests.Calculation.WithCSharpCompilation;
-using JJ.Business.SynthesizerPrototype.Tests.Dto;
+﻿using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
+using JJ.Business.SynthesizerPrototype.Dto;
+using JJ.Business.SynthesizerPrototype.Roslyn.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithCSharpCompilation
 {
     internal static class OperatorCalculatorFactory
     {
-        public static IOperatorCalculator CreateOperatorCalculatorFromDto(OperatorDtoBase dto, DimensionStack dimensionStack)
+        public static IOperatorCalculator CreateOperatorCalculatorFromDto(OperatorDtoBase dto)
         {
             var visitor = new OperatorDtoCompiler();
             IOperatorCalculator calculator = visitor.CompileToOperatorCalculator(dto);

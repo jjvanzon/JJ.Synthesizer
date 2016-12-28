@@ -37,15 +37,72 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculation\Add OperatorCalculator Classes Vars1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Calculation\Add OperatorCalculator Classes Vars_1Const1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Add OperatorCalculator Classes Vars_1Const.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Calculation\Add_OperatorCalculator_VarArray.cs" />
+    <Compile Include="Calculation\Add_OperatorCalculator_VarArray_1Const.cs" />
+    <Compile Include="Calculation\IOperatorCalculator.cs" />
+    <Compile Include="Calculation\IOperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="Calculation\IOperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="Calculation\IOperatorCalculator_Vars.cs" />
+    <Compile Include="Calculation\IOperatorCalculator_Vars_1Const.cs" />
+    <Compile Include="Calculation\IShift_OperatorCalculator_VarSignal_ConstDistance.cs" />
+    <Compile Include="Calculation\IShift_OperatorCalculator_VarSignal_VarDistance.cs" />
+    <Compile Include="Calculation\ISine_OperatorCalculator_VarFrequency.cs" />
+    <Compile Include="Calculation\Multiply_OperatorCalculator_VarA_ConstB.cs" />
+    <Compile Include="Calculation\Multiply_OperatorCalculator_VarA_VarB.cs" />
+    <Compile Include="Calculation\Number_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Number_OperatorCalculator_NaN.cs" />
+    <Compile Include="Calculation\Number_OperatorCalculator_One.cs" />
+    <Compile Include="Calculation\Number_OperatorCalculator_Zero.cs" />
+    <Compile Include="Calculation\Shift_OperatorCalculator_VarSignal_ConstDistance.cs" />
+    <Compile Include="Calculation\Shift_OperatorCalculator_VarSignal_VarDistance.cs" />
+    <Compile Include="Calculation\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
+    <Compile Include="Calculation\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
+    <Compile Include="Calculation\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
+    <Compile Include="Calculation\VariableInput_OperatorCalculator.cs" />
+    <Compile Include="CopiedCode\From_JJ_Business_SynthesizerPrototype\DimensionStack.cs" />
+    <Compile Include="CopiedCode\From_JJ_Business_SynthesizerPrototype\OperatorCalculatorHelper.cs" />
+    <Compile Include="CopiedCode\From_JJ_Business_SynthesizerPrototype\SineCalculator.cs" />
+    <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\OperatorDtoToCalculatorTypeConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Visitors\OperatorDtoToOperatorCalculatorVisitor.cs" />
+    <Compile Include="Visitors\VariableAssignment_OperatorDtoVisitor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Calculation\Add OperatorCalculator Classes Vars.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Add OperatorCalculator Classes Vars1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Calculation\Add OperatorCalculator Classes Vars_1Const.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Add OperatorCalculator Classes Vars_1Const1.cs</LastGenOutput>
+    </Content>
+    <Content Include="CopiedCode\From_JJ_Business_SynthesizerPrototype\README.TXT" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
+      <Name>JJ.Framework.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SynthesizerPrototype\JJ.Business.SynthesizerPrototype.csproj">
+      <Project>{71694f33-a9c9-4c84-b21a-1f5488784167}</Project>
+      <Name>JJ.Business.SynthesizerPrototype</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

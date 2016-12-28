@@ -1,5 +1,5 @@
-﻿using JJ.Business.SynthesizerPrototype.Tests.Dto;
-using JJ.Business.SynthesizerPrototype.Tests.Visitors;
+﻿using JJ.Business.SynthesizerPrototype.Dto;
+using JJ.Business.SynthesizerPrototype.Visitors;
 using JJ.Framework.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

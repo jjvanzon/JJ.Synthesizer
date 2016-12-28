@@ -47,20 +47,7 @@
     <Reference Include="JJ.Framework.Exceptions">
       <HintPath>..\..\Framework\Exceptions\bin\Debug\JJ.Framework.Exceptions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis">
-      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.1.0.0\lib\portable-net45+win8\Microsoft.CodeAnalysis.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp">
-      <HintPath>..\..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0\lib\portable-net45+win8\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reflection.Metadata">
-      <HintPath>..\..\packages\System.Reflection.Metadata.1.0.21\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -75,136 +62,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Calculation\WithCSharpCompilation\ExampleOperatorCalculatorOutputCode.cs" />
-    <Compile Include="Calculation\WithCSharpCompilation\ExamplePatchCalculatorOutputCode.cs" />
-    <Compile Include="Calculation\WithCSharpCompilation\IPatchCalculator.cs" />
-    <Compile Include="Calculation\WithInheritance\Add OperatorCalculator Classes Vars.cs">
-      <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Calculation\WithInheritance\Add OperatorCalculator Classes Vars_1Const.cs">
-      <DependentUpon>Add OperatorCalculator Classes Vars_1Const.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Calculation\WithInheritance\Add_OperatorCalculator_VarArray.cs" />
-    <Compile Include="Calculation\WithInheritance\Add_OperatorCalculator_VarArray_1Const.cs" />
-    <Compile Include="Calculation\WithCSharpCompilation\IOperatorCalculator.cs" />
-    <Compile Include="Calculation\WithInheritance\Number_OperatorCalculator_NaN.cs" />
-    <Compile Include="Calculation\WithInheritance\Number_OperatorCalculator_One.cs" />
-    <Compile Include="Calculation\WithInheritance\Number_OperatorCalculator_Zero.cs" />
-    <Compile Include="Calculation\WithStructs\Add_OperatorCalculator_VarArray_1Const.cs" />
-    <Compile Include="Calculation\WithStructs\Add_OperatorCalculator_VarArray.cs" />
-    <Compile Include="Calculation\WithStructs\Add OperatorCalculator Classes Vars.cs">
-      <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Calculation\WithStructs\Add OperatorCalculator Classes Vars_1Const.cs">
-      <DependentUpon>Add OperatorCalculator Classes Vars_1Const.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Calculation\WithStructs\IOperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="Calculation\WithStructs\IOperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="Calculation\WithStructs\IOperatorCalculator_Vars_1Const.cs" />
-    <Compile Include="Calculation\WithStructs\IOperatorCalculator_Vars.cs" />
-    <Compile Include="Calculation\WithStructs\IShift_OperatorCalculator_VarSignal_ConstDistance.cs" />
-    <Compile Include="Calculation\WithStructs\IShift_OperatorCalculator_VarSignal_VarDistance.cs" />
-    <Compile Include="Calculation\WithStructs\ISine_OperatorCalculator_VarFrequency.cs" />
-    <Compile Include="Calculation\WithStructs\Number_OperatorCalculator_NaN.cs" />
-    <Compile Include="Calculation\WithStructs\Number_OperatorCalculator_One.cs" />
-    <Compile Include="Calculation\WithStructs\Number_OperatorCalculator_Zero.cs" />
-    <Compile Include="Dto\Add OperatorDto Classes.cs" />
-    <Compile Include="Dto\Multiply OperatorDto Classes.cs" />
-    <Compile Include="Dto\Number OperatorDto Classes.cs" />
-    <Compile Include="Dto\OperatorDtoBase_Vars_1Const.cs" />
-    <Compile Include="Dto\OperatorDtoBase_Consts.cs" />
-    <Compile Include="Dto\OperatorDtoBase_Vars_Consts.cs" />
-    <Compile Include="Dto\OperatorDtoBase_Vars.cs" />
-    <Compile Include="Dto\OperatorDtoBase_VarA_VarB.cs" />
-    <Compile Include="Dto\OperatorDtoBase_VarA_ConstB.cs" />
-    <Compile Include="Dto\OperatorDtoBase_ConstA_VarB.cs" />
-    <Compile Include="Dto\OperatorDtoBase_ConstA_ConstB.cs" />
-    <Compile Include="Dto\MathPropertiesDto.cs" />
-    <Compile Include="Dto\OperatorDtoBase.cs" />
-    <Compile Include="Dto\OperatorDtoBase_WithoutInputOperatorDtos.cs" />
-    <Compile Include="Dto\Shift OperatorDto Classes.cs" />
-    <Compile Include="Dto\Sine OperatorDto Classes.cs" />
-    <Compile Include="Dto\OperatorDtoBase_ConstFrequency.cs" />
-    <Compile Include="Dto\OperatorDtoBase_VarFrequency.cs" />
-    <Compile Include="Dto\VariableInput_OperatorDto.cs" />
-    <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
-    <Compile Include="Helpers\DebugHelper.cs" />
-    <Compile Include="Helpers\MathPropertiesHelper.cs" />
-    <Compile Include="Helpers\OperatorTypeEnum.cs" />
-    <Compile Include="Helpers\VisitationCannotBeHandledException.cs" />
-    <Compile Include="Helpers\OperatorDtoFactory.cs" />
     <Compile Include="Helpers\WithCSharpCompilation\OperatorCalculatorFactory.cs" />
-    <Compile Include="SynthesizerPrototypeTests_General.cs" />
-    <Compile Include="Synthesizer_PerformanceTests_WithCSharpCompilation.cs" />
-    <Compile Include="Visitors\2016-12-26 Backup of OperatorDtoVisitor_MathSimplification.cs" />
-    <Compile Include="Visitors\VisitorHelper.cs" />
-    <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToCSharpVisitorBase.cs" />
-    <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToPatchCalculatorCSharpVisitor.cs" />
-    <Compile Include="Visitors\WithCSharpCompilation\OperatorDtoToOperatorCalculatorCSharpVisitor.cs" />
-    <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.CreateAddCalculator_Vars.cs">
-      <DependentUpon>OperatorCalculatorFactory.CreateAddCalculator_Vars.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.CreateAddCalculator_Vars1Const.cs">
-      <DependentUpon>OperatorCalculatorFactory.CreateAddCalculator_Vars1Const.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\WithStucts\OperatorCalculatorFactory.cs" />
+    <Compile Include="Helpers\OperatorDtoFactory.cs" />
+    <Compile Include="SynthesizerPrototypeTests_General.cs" />
+    <Compile Include="Synthesizer_PerformanceTests_Roslyn.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
-    <Compile Include="Calculation\DimensionStack.cs" />
-    <Compile Include="Calculation\SineCalculator.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Helpers\WithStucts\OperatorDtoToCalculatorTypeConverter.cs" />
-    <Compile Include="Synthesizer_PerformanceTests_NoInliningWithInheritance.cs" />
-    <Compile Include="Calculation\WithStructs\Number_OperatorCalculator.cs" />
-    <Compile Include="Calculation\OperatorCalculatorHelper.cs" />
-    <Compile Include="Calculation\WithStructs\Multiply_OperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="Calculation\WithStructs\Multiply_OperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="Calculation\WithStructs\IOperatorCalculator.cs" />
-    <Compile Include="Calculation\WithStructs\Shift_OperatorCalculator_VarSignal_ConstDistance.cs" />
-    <Compile Include="Calculation\WithStructs\Shift_OperatorCalculator_VarSignal_VarDistance.cs" />
-    <Compile Include="Calculation\WithStructs\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
-    <Compile Include="Calculation\WithStructs\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
-    <Compile Include="Calculation\WithStructs\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
-    <Compile Include="Calculation\WithStructs\VariableInput_OperatorCalculator.cs" />
-    <Compile Include="Calculation\WithInheritance\Multiply_OperatorCalculator_VarA_ConstB.cs" />
-    <Compile Include="Calculation\WithInheritance\Multiply_OperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="Synthesizer_PerformanceTests_InliningWithStructs.cs" />
+    <Compile Include="Synthesizer_PerformanceTests_WithInheritance.cs" />
+    <Compile Include="Synthesizer_PerformanceTests_WithStructs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Calculation\WithInheritance\Number_OperatorCalculator.cs" />
-    <Compile Include="Calculation\WithInheritance\OperatorCalculatorBase.cs" />
-    <Compile Include="Calculation\WithInheritance\Shift_OperatorCalculator_VarSignal_ConstDifference.cs" />
-    <Compile Include="Calculation\WithInheritance\Shift_OperatorCalculator_VarSignal_VarDifference.cs" />
-    <Compile Include="Calculation\WithInheritance\Sine_OperatorCalculator_ConstFrequency_NoOriginShifting.cs" />
-    <Compile Include="Calculation\WithInheritance\Sine_OperatorCalculator_VarFrequency_NoPhaseTracking.cs" />
-    <Compile Include="Calculation\WithInheritance\Sine_OperatorCalculator_VarFrequency_WithPhaseTracking.cs" />
-    <Compile Include="Calculation\WithInheritance\VariableInput_OperatorCalculator.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_MachineOptimization.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterClassSpecialization.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_PreProcessing.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_MathSimplification.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_ClassSpecialization.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_Simple.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_PerDimensionWriter.cs" />
-    <Compile Include="Helpers\WithCSharpCompilation\OperatorDtoCompiler.cs" />
-    <Compile Include="Visitors\WithCSharpCompilation\ValueInfo.cs" />
-    <Compile Include="Visitors\WithInheritance\OperatorDtoToOperatorCalculatorVisitor.cs" />
-    <Compile Include="Visitors\WithStructs\OperatorDtoToOperatorCalculatorVisitor.cs" />
-    <Compile Include="Visitors\WithStructs\VariableAssignment_OperatorDtoVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
@@ -231,47 +98,35 @@
       <Project>{369d4e9e-4eff-4699-83b3-c4951ee0a3c3}</Project>
       <Name>JJ.Framework.Testing</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Calculation\WithInheritance\Add OperatorCalculator Classes Vars.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Add OperatorCalculator Classes Vars.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Calculation\WithInheritance\Add OperatorCalculator Classes Vars_1Const.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Add OperatorCalculator Classes Vars_1Const.cs</LastGenOutput>
-    </None>
+    <ProjectReference Include="..\SynthesizerPrototype.Roslyn\JJ.Business.SynthesizerPrototype.Roslyn.csproj">
+      <Project>{934fdd6d-60ba-4478-975c-0c692c1ac4bb}</Project>
+      <Name>JJ.Business.SynthesizerPrototype.Roslyn</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SynthesizerPrototype.WithInheritance\JJ.Business.SynthesizerPrototype.WithInheritance.csproj">
+      <Project>{4d7ee000-e58d-4eb8-8db3-b3bfed50cffb}</Project>
+      <Name>JJ.Business.SynthesizerPrototype.WithInheritance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SynthesizerPrototype.WithStructs\JJ.Business.SynthesizerPrototype.WithStructs.csproj">
+      <Project>{06933dca-eb38-4766-9794-a4ec0f5da135}</Project>
+      <Name>JJ.Business.SynthesizerPrototype.WithStructs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SynthesizerPrototype\JJ.Business.SynthesizerPrototype.csproj">
+      <Project>{71694f33-a9c9-4c84-b21a-1f5488784167}</Project>
+      <Name>JJ.Business.SynthesizerPrototype</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Calculation\WithStructs\Add OperatorCalculator Classes Vars.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Add OperatorCalculator Classes Vars.cs</LastGenOutput>
-    </None>
+    <Folder Include="Calculation\WithCSharpCompilation\" />
+    <Folder Include="Calculation\WithInheritance\" />
+    <Folder Include="Calculation\WithStructs\" />
+    <Folder Include="Dto\" />
+    <Folder Include="Visitors\WithCSharpCompilation\" />
+    <Folder Include="Visitors\WithInheritance\" />
+    <Folder Include="Visitors\WithStructs\" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Calculation\WithStructs\Add OperatorCalculator Classes Vars_1Const.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Add OperatorCalculator Classes Vars_1Const.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Helpers\WithInheritance\OperatorCalculatorFactory.CreateAddCalculator_Vars.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculator_Vars.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Helpers\WithInheritance\OperatorCalculatorFactory.CreateAddCalculator_Vars1Const.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculator_Vars1Const.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
