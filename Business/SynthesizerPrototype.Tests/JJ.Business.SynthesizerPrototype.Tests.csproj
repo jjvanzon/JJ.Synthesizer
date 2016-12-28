@@ -118,15 +118,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Calculation\WithCSharpCompilation\" />
-    <Folder Include="Calculation\WithInheritance\" />
-    <Folder Include="Calculation\WithStructs\" />
-    <Folder Include="Dto\" />
-    <Folder Include="Visitors\WithCSharpCompilation\" />
-    <Folder Include="Visitors\WithInheritance\" />
-    <Folder Include="Visitors\WithStructs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

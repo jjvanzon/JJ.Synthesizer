@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using JJ.Framework.Exceptions;
+using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Business.SynthesizerPrototype.Visitors;
 using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
-using JJ.Business.SynthesizerPrototype.Dto;
-using JJ.Business.SynthesizerPrototype.Tests.Helpers.WithStucts;
-using JJ.Framework.Exceptions;
 using JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Business_SynthesizerPrototype;
+using JJ.Business.SynthesizerPrototype.WithStructs.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 {

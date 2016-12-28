@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.SynthesizerPrototype.Tests.Helpers;
 using JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Business_SynthesizerPrototype;
+using JJ.Business.SynthesizerPrototype.WithStructs.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {

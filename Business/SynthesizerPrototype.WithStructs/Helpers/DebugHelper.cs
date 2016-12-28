@@ -1,6 +1,6 @@
 ﻿using JJ.Framework.Exceptions;
 
-namespace JJ.Business.SynthesizerPrototype.Tests.Helpers
+namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
 {
     internal static class DebugHelper
     {

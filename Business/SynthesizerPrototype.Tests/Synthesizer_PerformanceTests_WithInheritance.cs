@@ -12,7 +12,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
     public class Synthesizer_PerformanceTests_WithInheritance
     {
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_50_000_Iterations_NoInliningWithInheritance_NoDto()
+        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_50_000_Iterations_WithInheritance_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -34,7 +34,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_50_000_Iterations_NoInliningWithInheritance_WithDto()
+        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_50_000_Iterations_WithInheritance_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -57,7 +57,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_500_000_Iterations_NoInliningWithInheritance_NoDto()
+        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_500_000_Iterations_WithInheritance_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -79,7 +79,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_500_000_Iterations_NoInliningWithInheritance_WithDto()
+        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_500_000_Iterations_WithInheritance_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -102,7 +102,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_SinglePartial_50_000_Iterations_NoInliningWithInheritance_NoDto()
+        public void PerformanceTest_SynthesizerPrototype_WithoutTime_SinglePartial_50_000_Iterations_WithInheritance_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -124,7 +124,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_SinglePartial_50_000_Iterations_NoInliningWithInheritance_WithDto()
+        public void PerformanceTest_SynthesizerPrototype_WithoutTime_SinglePartial_50_000_Iterations_WithInheritance_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -147,7 +147,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_SinglePartial_500_000_Iterations_NoInliningWithInheritance_NoDto()
+        public void PerformanceTest_SynthesizerPrototype_WithoutTime_SinglePartial_500_000_Iterations_WithInheritance_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -169,7 +169,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_SinglePartial_500_000_Iterations_NoInliningWithInheritance_WithDto()
+        public void PerformanceTest_SynthesizerPrototype_WithoutTime_SinglePartial_500_000_Iterations_WithInheritance_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -192,7 +192,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithTime_8Partials_50_000_Iterations_NoInliningWithInheritance_NoDto()
+        public void PerformanceTest_SynthesizerPrototype_WithTime_8Partials_50_000_Iterations_WithInheritance_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -221,7 +221,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithTime_8Partials_50_000_Iterations_NoInliningWithInheritance_WithDto()
+        public void PerformanceTest_SynthesizerPrototype_WithTime_8Partials_50_000_Iterations_WithInheritance_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -251,7 +251,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithTime_8Partials_500_000_Iterations_NoInliningWithInheritance_NoDto()
+        public void PerformanceTest_SynthesizerPrototype_WithTime_8Partials_500_000_Iterations_WithInheritance_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -280,7 +280,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithTime_8Partials_500_000_Iterations_NoInliningWithInheritance_WithDto()
+        public void PerformanceTest_SynthesizerPrototype_WithTime_8Partials_500_000_Iterations_WithInheritance_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -310,7 +310,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithTime_SinglePartial_50_000_Iterations_NoInliningWithInheritance_NoDto()
+        public void PerformanceTest_SynthesizerPrototype_WithTime_SinglePartial_50_000_Iterations_WithInheritance_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -339,7 +339,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithTime_SinglePartial_50_000_Iterations_NoInliningWithInheritance_WithDto()
+        public void PerformanceTest_SynthesizerPrototype_WithTime_SinglePartial_50_000_Iterations_WithInheritance_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -369,7 +369,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithTime_SinglePartial_500_000_Iterations_NoInliningWithInheritance_NoDto()
+        public void PerformanceTest_SynthesizerPrototype_WithTime_SinglePartial_500_000_Iterations_WithInheritance_NoDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
@@ -398,7 +398,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithTime_SinglePartial_500_000_Iterations_NoInliningWithInheritance_WithDto()
+        public void PerformanceTest_SynthesizerPrototype_WithTime_SinglePartial_500_000_Iterations_WithInheritance_WithDto()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);

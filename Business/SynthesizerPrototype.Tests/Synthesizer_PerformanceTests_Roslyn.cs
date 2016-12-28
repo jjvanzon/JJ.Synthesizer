@@ -54,7 +54,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_50_000_Iterations_WithCSharpCompilation_WithDto_NotByChunk()
+        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_50_000_Iterations_Roslyn_WithDto_NotByChunk()
         {
             OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto);
@@ -74,7 +74,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_500_000_Iterations_WithCSharpCompilation_WithDto_NotByChunk()
+        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_500_000_Iterations_Roslyn_WithDto_NotByChunk()
         {
             OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto);
@@ -94,7 +94,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_500_000_Iterations_WithCSharpCompilation_WithDto_ByChunk()
+        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_500_000_Iterations_Roslyn_WithDto_ByChunk()
         {
             int framesPerChunk = 5000;
             double frameDuration = 1.0 / 50000.0;

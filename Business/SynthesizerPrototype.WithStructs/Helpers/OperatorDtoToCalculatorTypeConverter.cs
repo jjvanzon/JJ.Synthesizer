@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
 using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Framework.Exceptions;
 
-namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithStucts
+namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
 {
     internal static class OperatorDtoToCalculatorTypeConverter
     {
