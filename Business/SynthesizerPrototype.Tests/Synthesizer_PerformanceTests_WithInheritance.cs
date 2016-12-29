@@ -5,6 +5,7 @@ using JJ.Business.SynthesizerPrototype.Tests.Helpers;
 using JJ.Business.SynthesizerPrototype.Tests.Helpers.WithInheritance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.SynthesizerPrototype.WithInheritance.CopiedCode.From_JJ_Business_SynthesizerPrototype;
+using JJ.Business.SynthesizerPrototype.WithInheritance.Calculation;
 
 namespace JJ.Business.SynthesizerPrototype.Tests
 {
@@ -35,13 +36,13 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void Debug_SynthesizerPrototype_WithTimeVarianceAndGettigValues_WithInheritance()
+        public void Debug_SynthesizerPrototype_WithInheritance()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
             OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             double t = 0.0;
             double dt = 1.0 / 500000.0;

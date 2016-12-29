@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using JJ.Framework.Exceptions;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 {
-    public class ValueInfo
+    internal class ValueInfo
     {
         private static readonly CultureInfo _formattingCulture = new CultureInfo("en-US");
 

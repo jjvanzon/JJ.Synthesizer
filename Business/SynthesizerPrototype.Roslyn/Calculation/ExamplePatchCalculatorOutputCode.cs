@@ -4,7 +4,7 @@ using JJ.Business.SynthesizerPrototype.Roslyn.CopiedCode.From_JJ_Business_Synthe
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Calculation
 {
-    public class ExamplePatchCalculatorOutputCode : IPatchCalculator 
+    internal class ExamplePatchCalculatorOutputCode : IPatchCalculator 
     {
         // NOTE:
         // Array access is excluded from the test, 

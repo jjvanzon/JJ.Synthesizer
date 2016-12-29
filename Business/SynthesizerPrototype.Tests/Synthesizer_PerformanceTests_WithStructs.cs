@@ -5,6 +5,7 @@ using JJ.Business.SynthesizerPrototype.Tests.Helpers;
 using JJ.Business.SynthesizerPrototype.Tests.Helpers.WithStructs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Business_SynthesizerPrototype;
+using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
 
 namespace JJ.Business.SynthesizerPrototype.Tests
 {
@@ -40,7 +41,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
             dimensionStack.Push(0.0);
 
             OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
+            IOperatorCalculator calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 
@@ -58,13 +59,13 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 
 
         [TestMethod]
-        public void Debug_SynthesizerPrototype_WithTimeVarianceAndGettingValues_WithStructs()
+        public void Debug_SynthesizerPrototype_WithStructs()
         {
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
             OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
+            IOperatorCalculator calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             double t = 0.0;
             double dt = 1.0 / 500000.0;

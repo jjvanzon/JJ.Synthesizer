@@ -61,9 +61,10 @@
     </Compile>
     <Compile Include="Helpers\OperatorDtoCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Visitors\OperatorDtoToCSharpVisitorBase.cs" />
-    <Compile Include="Visitors\OperatorDtoToOperatorCalculatorCSharpVisitor.cs" />
-    <Compile Include="Visitors\OperatorDtoToPatchCalculatorCSharpVisitor.cs" />
+    <Compile Include="Visitors\OperatorDtoToCSharpVisitor.cs" />
+    <Compile Include="Visitors\OperatorDtoToCSharpVisitorResult.cs" />
+    <Compile Include="Visitors\OperatorDtoToOperatorCalculatorCSharpGenerator.cs" />
+    <Compile Include="Visitors\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
     <Compile Include="Visitors\ValueInfo.cs" />
   </ItemGroup>
   <ItemGroup>

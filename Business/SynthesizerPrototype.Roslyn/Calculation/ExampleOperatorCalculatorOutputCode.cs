@@ -4,7 +4,7 @@ using JJ.Business.SynthesizerPrototype.Roslyn.CopiedCode.From_JJ_Business_Synthe
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Calculation
 {
-    public class ExampleOperatorCalculatorOutputCode : IOperatorCalculator
+    internal class ExampleOperatorCalculatorOutputCode : IOperatorCalculator
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate()

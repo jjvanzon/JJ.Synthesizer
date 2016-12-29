@@ -62,7 +62,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Helpers\WithCSharpCompilation\OperatorCalculatorFactory.cs" />
+    <Compile Include="Helpers\WithCSharpCompilation\2016-12-30 Backup of OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\WithStucts\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\OperatorDtoFactory.cs" />

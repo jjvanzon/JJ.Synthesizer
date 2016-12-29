@@ -12,6 +12,7 @@ using JJ.Framework.Exceptions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
+using JJ.Business.SynthesizerPrototype.Visitors;
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 {
@@ -42,8 +43,11 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
         {
             if (dto == null) throw new NullException(() => dto);
 
-            var visitor = new OperatorDtoToOperatorCalculatorCSharpVisitor();
-            string generatedCode = visitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
+            var preProcessingVisitor = new OperatorDtoVisitor_PreProcessing();
+            dto = preProcessingVisitor.Execute(dto);
+
+            var codeGeneratingVisitor = new OperatorDtoToOperatorCalculatorCSharpGenerator();
+            string generatedCode = codeGeneratingVisitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             Type type = Compile(generatedCode);
             var calculator = (IOperatorCalculator)Activator.CreateInstance(type);
@@ -54,8 +58,11 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
         {
             if (dto == null) throw new NullException(() => dto);
 
-            var visitor = new OperatorDtoToPatchCalculatorCSharpVisitor();
-            string generatedCode = visitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
+            var preProcessingVisitor = new OperatorDtoVisitor_PreProcessing();
+            dto = preProcessingVisitor.Execute(dto);
+
+            var codeGeneratingVisitor = new OperatorDtoToPatchCalculatorCSharpGenerator();
+            string generatedCode = codeGeneratingVisitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             Type type = Compile(generatedCode);
             var calculator = (IPatchCalculator)Activator.CreateInstance(type, framesPerChunk);

@@ -7,16 +7,17 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 {
-    public abstract class OperatorDtoToCSharpVisitorBase : OperatorDtoVisitorBase_AfterMathSimplification
+    internal class OperatorDtoToCSharpVisitor : OperatorDtoVisitorBase_AfterMathSimplification
     {
+        private const string TAB_STRING = "    ";
+        private const int FIRST_VARIABLE_NUMBER = 0;
+
         private const string MULTIPLY_SYMBOL = "*";
         private const string PLUS_SYMBOL = "+";
         private const string PHASE_VARIABLE_PREFIX = "phase";
         private const string PREVIOUS_POSITION_VARIABLE_PREFIX = "prevPos";
         private const string INPUT_VARIABLE_PREFIX = "input";
         private const string POSITION_VARIABLE_PREFIX = "t";
-        protected const string TAB_STRING = "    ";
-        protected const int FIRST_VARIABLE_NUMBER = 0;
 
         protected Stack<ValueInfo> _stack;
         protected StringBuilderWithIndentation _sb;
@@ -39,7 +40,43 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
         protected int _phaseVariableCounter;
         protected int _previousPositionVariableCounter;
 
-        public abstract string Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName);
+        public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto, int intialIndentLevel)
+        {
+            _stack = new Stack<ValueInfo>();
+            _inputVariableInfoDictionary = new Dictionary<string, ValueInfo>();
+            _positionVariableNamesCamelCaseHashSet = new HashSet<string>();
+            _previousPositionVariableNamesCamelCaseHashSet = new HashSet<string>();
+            _phaseVariableNamesCamelCaseHashSet = new HashSet<string>();
+            _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
+            _camelCaseOperatorTypeName_To_VariableCounter_Dictionary = new Dictionary<string, int>();
+            _inputVariableCounter = FIRST_VARIABLE_NUMBER;
+            _phaseVariableCounter = FIRST_VARIABLE_NUMBER;
+            _previousPositionVariableCounter = FIRST_VARIABLE_NUMBER;
+
+            _sb = new StringBuilderWithIndentation(TAB_STRING);
+            _sb.IndentLevel = intialIndentLevel;
+
+            Visit_OperatorDto_Polymorphic(dto);
+
+            string csharpCode = _sb.ToString();
+            ValueInfo returnValueInfo = _stack.Pop();
+            string returnValueLiteral = returnValueInfo.GetLiteral();
+
+            return new OperatorDtoToCSharpVisitorResult(
+                csharpCode, 
+                returnValueLiteral,
+                _inputVariableInfoDictionary.Values.ToArray(),
+                _positionVariableNamesCamelCaseHashSet.ToArray(),
+                _previousPositionVariableNamesCamelCaseHashSet.ToArray(),
+                _phaseVariableNamesCamelCaseHashSet.ToArray());
+        }
+
+        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        {
+            VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
+
+            return dto;
+        }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
