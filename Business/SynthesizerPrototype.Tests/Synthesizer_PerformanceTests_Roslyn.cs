@@ -25,8 +25,8 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         public void Debug_SynthesizerPrototype_OperatorDtoCompiler_CompileToOperatorCalculator()
         {
             OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var visitor = new OperatorDtoCompiler();
-            IOperatorCalculator calculator = visitor.CompileToOperatorCalculator(dto);
+            var compiler = new OperatorDtoCompiler();
+            IOperatorCalculator calculator = compiler.CompileToOperatorCalculator(dto);
             double value = calculator.Calculate();
         }
 
@@ -38,8 +38,8 @@ namespace JJ.Business.SynthesizerPrototype.Tests
             double frameDuration = 1.0 / frameCount;
 
             OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var visitor = new OperatorDtoCompiler();
-            IPatchCalculator calculator = visitor.CompileToPatchCalculator(dto, frameCount);
+            var compiler = new OperatorDtoCompiler();
+            IPatchCalculator calculator = compiler.CompileToPatchCalculator(dto, frameCount);
 
             calculator.Calculate(startTime, frameDuration);
         }
@@ -48,33 +48,13 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         public void Debug_SynthesizerPrototype_OperatorDtoToOperatorCalculatorVisitor_WithoutSymbols()
         {
             OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var visitor = new OperatorDtoCompiler(includeSymbols: false);
-            IOperatorCalculator calculator = visitor.CompileToOperatorCalculator(dto);
+            var compiler = new OperatorDtoCompiler(includeSymbols: false);
+            IOperatorCalculator calculator = compiler.CompileToOperatorCalculator(dto);
             double value = calculator.Calculate();
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_50_000_Iterations_Roslyn_WithDto_NotByChunk()
-        {
-            OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto);
-
-            var stopWatch = Stopwatch.StartNew();
-
-            for (int i = 0; i < 50000; i++)
-            {
-                calculator.Calculate();
-            }
-
-            stopWatch.Stop();
-
-            string message = TestHelper.GetPerformanceInfoMessage(50000, stopWatch.Elapsed);
-
-            Assert.Inconclusive(message);
-        }
-
-        [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_500_000_Iterations_Roslyn_WithDto_NotByChunk()
+        public void PerformanceTest_SynthesizerPrototype_Roslyn_NotByChunk()
         {
             OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto);
@@ -94,7 +74,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         }
 
         [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithoutTime_8Partials_500_000_Iterations_Roslyn_WithDto_ByChunk()
+        public void PerformanceTest_SynthesizerPrototype_Roslyn_ByChunk()
         {
             int framesPerChunk = 5000;
             double frameDuration = 1.0 / 50000.0;
