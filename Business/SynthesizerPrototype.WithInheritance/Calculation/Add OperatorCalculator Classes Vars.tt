@@ -15,7 +15,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 	for (int i = minOperands; i <= maxOperands; i++)
 	{
 #>
-		public class Add_OperatorCalculator_<#= i #>Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_<#= i #>Vars : OperatorCalculatorBase
 		{
 <# 
 			for (int j = 1; j <= i; j++)

@@ -19,7 +19,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
             dimensionStack.Push(0.0);
 
             OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
 

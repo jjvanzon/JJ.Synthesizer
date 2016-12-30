@@ -6,7 +6,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {
-    public class Add_OperatorCalculator_VarArray : OperatorCalculatorBase
+    internal class Add_OperatorCalculator_VarArray : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _firstOperandCalculator;
         private readonly OperatorCalculatorBase[] _remainingOperandCalculators;

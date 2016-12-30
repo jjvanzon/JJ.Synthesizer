@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {
-    public class VariableInput_OperatorCalculator : OperatorCalculatorBase
+    internal class VariableInput_OperatorCalculator : OperatorCalculatorBase
     {
         public VariableInput_OperatorCalculator(double defaultValue)
         {

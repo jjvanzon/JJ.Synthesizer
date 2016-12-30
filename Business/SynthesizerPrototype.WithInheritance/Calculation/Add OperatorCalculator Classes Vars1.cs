@@ -6,7 +6,7 @@ using JJ.Framework.Exceptions;
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {
 
-		public class Add_OperatorCalculator_2Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_2Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -29,7 +29,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator2.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_3Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_3Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -57,7 +57,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator3.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_4Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_4Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -90,7 +90,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator4.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_5Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_5Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -128,7 +128,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator5.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_6Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_6Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -171,7 +171,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator6.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_7Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_7Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -219,7 +219,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator7.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_8Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_8Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -272,7 +272,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator8.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_9Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_9Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -330,7 +330,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator9.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_10Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_10Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -393,7 +393,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator10.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_11Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_11Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -461,7 +461,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator11.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_12Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_12Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -534,7 +534,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator12.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_13Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_13Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -612,7 +612,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator13.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_14Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_14Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -695,7 +695,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator14.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_15Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_15Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -783,7 +783,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator15.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_16Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_16Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -876,7 +876,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator16.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_17Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_17Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -974,7 +974,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator17.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_18Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_18Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -1077,7 +1077,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator18.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_19Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_19Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -1185,7 +1185,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator19.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_20Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_20Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -1298,7 +1298,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator20.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_21Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_21Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -1416,7 +1416,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator21.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_22Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_22Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -1539,7 +1539,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator22.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_23Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_23Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -1667,7 +1667,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator23.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_24Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_24Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -1800,7 +1800,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator24.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_25Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_25Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -1938,7 +1938,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator25.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_26Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_26Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -2081,7 +2081,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator26.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_27Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_27Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -2229,7 +2229,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator27.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_28Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_28Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -2382,7 +2382,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator28.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_29Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_29Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -2540,7 +2540,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator29.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_30Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_30Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -2703,7 +2703,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator30.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_31Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_31Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;
@@ -2871,7 +2871,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 +						_operandCalculator31.Calculate()
 ;			}
 		}
-		public class Add_OperatorCalculator_32Vars : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_32Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 				private readonly OperatorCalculatorBase _operandCalculator2;

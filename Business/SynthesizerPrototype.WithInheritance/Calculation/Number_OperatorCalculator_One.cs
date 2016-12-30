@@ -2,7 +2,7 @@
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {
-    public class Number_OperatorCalculator_One : OperatorCalculatorBase
+    internal class Number_OperatorCalculator_One : OperatorCalculatorBase
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()

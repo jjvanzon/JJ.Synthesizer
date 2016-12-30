@@ -32,7 +32,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers
             return operatorDto;
         }
 
-        public static OperatorDtoBase CreateOperatorDto_SinglePartial(VariableInput_OperatorDto frequency_VariableInput_OperatorDto)
+        private static OperatorDtoBase CreateOperatorDto_SinglePartial(VariableInput_OperatorDto frequency_VariableInput_OperatorDto)
         {
             double volume = 10.0;
             double phaseShift = 0.25;
@@ -55,7 +55,6 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers
 
             return dto;
         }
-
 
         private static VariableInput_OperatorDto Create_Frequency_VariableInput_OperatorDto()
         {

@@ -57,7 +57,6 @@ namespace JJ.Business.SynthesizerPrototype.Tests
             Assert.Inconclusive(message);
         }
 
-
         [TestMethod]
         public void Debug_SynthesizerPrototype_WithStructs()
         {

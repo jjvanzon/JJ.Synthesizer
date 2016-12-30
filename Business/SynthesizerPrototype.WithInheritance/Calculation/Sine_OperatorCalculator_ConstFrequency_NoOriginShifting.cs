@@ -7,7 +7,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {
-    public class Sine_OperatorCalculator_ConstFrequency_NoOriginShifting : OperatorCalculatorBase
+    internal class Sine_OperatorCalculator_ConstFrequency_NoOriginShifting : OperatorCalculatorBase
     {
         private readonly double _frequency;
         private readonly DimensionStack _dimensionStack;

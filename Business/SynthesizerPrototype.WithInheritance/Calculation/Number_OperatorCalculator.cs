@@ -2,7 +2,7 @@
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {
-    public class Number_OperatorCalculator : OperatorCalculatorBase
+    internal class Number_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly double _number;
 

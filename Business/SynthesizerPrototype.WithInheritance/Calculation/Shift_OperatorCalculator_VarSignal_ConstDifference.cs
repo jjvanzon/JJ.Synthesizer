@@ -7,7 +7,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {
-    public class Shift_OperatorCalculator_VarSignal_ConstDifference : OperatorCalculatorBase
+    internal class Shift_OperatorCalculator_VarSignal_ConstDifference : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _distance;

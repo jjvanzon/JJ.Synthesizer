@@ -7,7 +7,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {
-    public class Sine_OperatorCalculator_VarFrequency_WithPhaseTracking : OperatorCalculatorBase
+    internal class Sine_OperatorCalculator_VarFrequency_WithPhaseTracking : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly DimensionStack _dimensionStack;
