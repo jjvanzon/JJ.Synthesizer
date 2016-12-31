@@ -8,7 +8,7 @@ using JJ.Business.SynthesizerPrototype.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.Visitors
 {
-    internal class OperatorDtoVisitor_MathSimplification : OperatorDtoVisitor_ClassSpecialization
+    internal class OperatorDtoVisitor_MathSimplification : OperatorDtoVisitorBase_ClassSpecialization
     {
         // General
 

@@ -4,7 +4,7 @@ using JJ.Business.SynthesizerPrototype.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.Visitors
 {
-    internal abstract class OperatorDtoVisitor_ClassSpecialization : OperatorDtoVisitorBase
+    internal abstract class OperatorDtoVisitorBase_ClassSpecialization : OperatorDtoVisitorBase
     {
         protected override OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto)
         {

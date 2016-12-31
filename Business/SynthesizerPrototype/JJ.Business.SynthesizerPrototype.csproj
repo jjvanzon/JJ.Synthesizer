@@ -70,7 +70,7 @@
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterClassSpecialization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_ClassSpecialization.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_ClassSpecialization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MachineOptimization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MathSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_PreProcessing.cs" />

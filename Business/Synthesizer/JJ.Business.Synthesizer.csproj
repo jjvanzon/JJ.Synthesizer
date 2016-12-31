@@ -647,7 +647,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_ClassSpecialization.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_ClassSpecialization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MachineOptimization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MathSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor.cs" />

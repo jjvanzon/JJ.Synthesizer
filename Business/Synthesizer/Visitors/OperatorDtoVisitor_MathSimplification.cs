@@ -11,7 +11,7 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorDtoVisitor_MathSimplification : OperatorDtoVisitor_ClassSpecialization
+    internal class OperatorDtoVisitor_MathSimplification : OperatorDtoVisitorBase_ClassSpecialization
     {
         public OperatorDtoVisitor_MathSimplification(int targetChannelCount)
             : base(targetChannelCount)

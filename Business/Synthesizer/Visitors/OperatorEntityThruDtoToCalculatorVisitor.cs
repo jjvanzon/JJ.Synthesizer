@@ -42,8 +42,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var visitor1 = new OperatorEntityToDtoVisitor(_curveRepository, _patchRepository, _sampleRepository, _speakerSetupRepository);
             OperatorDtoBase dto = visitor1.Execute(topLevelOutlet);
             
-            var visitor2 = new OperatorDtoVisitor_PreProcessing(_targetChannelCount);
-            dto = visitor2.Execute(dto);
+            dto = new OperatorDtoVisitor_PreProcessing(_targetChannelCount).Execute(dto);
 
             var visitor3 = new OperatorDtoToCalculatorVisitor(
                 _targetSamplingRate, 
