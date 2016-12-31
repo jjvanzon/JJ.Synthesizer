@@ -839,6 +839,21 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_VarExponent(_stack.Pop(), _stack.Pop()));
         }
 
+        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent2(Power_OperatorDto_VarBase_Exponent2 dto)
+        {
+            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_Exponent2(_stack.Pop()));
+        }
+
+        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent3(Power_OperatorDto_VarBase_Exponent3 dto)
+        {
+            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_Exponent3(_stack.Pop()));
+        }
+
+        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent4(Power_OperatorDto_VarBase_Exponent4 dto)
+        {
+            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_Exponent4(_stack.Pop()));
+        }
+
         protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(PulseTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
             return ProcessOperatorDto(dto, () => new PulseTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
