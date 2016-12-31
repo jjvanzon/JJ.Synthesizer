@@ -46,38 +46,20 @@ namespace JJ.Business.Synthesizer.Visitors
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
 
-            _samplesBetweenApplyFilterVariables = GetSamplesBetweenApplyFilterVariables(secondsBetweenApplyFilterVariables, targetSamplingRate);
-        }
-
-        private int GetSamplesBetweenApplyFilterVariables(double secondsBetweenApplyFilterVariables, int samplingRate)
-        {
-            double samplesBetweenApplyFilterVariablesDouble = secondsBetweenApplyFilterVariables * samplingRate;
-            if (!ConversionHelper.CanCastToPositiveInt32(samplesBetweenApplyFilterVariablesDouble))
-            {
-                throw new Exception(String.Format("samplesBetweenApplyFilterVariablesDouble {0} cannot be cast to positive Int32.", samplesBetweenApplyFilterVariablesDouble));
-            }
-            int samplesBetweenApplyFilterVariables = (int)(secondsBetweenApplyFilterVariables * samplingRate);
-            return samplesBetweenApplyFilterVariables;
+            _samplesBetweenApplyFilterVariables = VisitorHelper.GetSamplesBetweenApplyFilterVariables(secondsBetweenApplyFilterVariables, targetSamplingRate);
         }
 
         public ToCalculatorResult Execute(OperatorDtoBase dto)
         {
+            if (dto == null) throw new NullException(() => dto);
+
             _stack = new Stack<OperatorCalculatorBase>();
             _dimensionStackCollection = new DimensionStackCollection();
             _variableInput_OperatorDto_To_Calculator_Dictionary = new Dictionary<VariableInput_OperatorDto, VariableInput_OperatorCalculator>();
 
             Visit_OperatorDto_Polymorphic(dto);
 
-            foreach (DimensionStack dimensionStack in _dimensionStackCollection.GetDimensionStacks())
-            {
-                if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
-                {
-                    throw new Exception(String.Format(
-                        "DimensionStack.Count for DimensionStack {0} should be 1 but it is {1}.",
-                        new { dimensionStack.CustomDimensionName, dimensionStack.StandardDimensionEnum },
-                        dimensionStack.Count));
-                }
-            }
+            VisitorHelper.AssertDimensionStacksCountsAre1(_dimensionStackCollection);
 
             OperatorCalculatorBase rootCalculator = _stack.Pop();
 

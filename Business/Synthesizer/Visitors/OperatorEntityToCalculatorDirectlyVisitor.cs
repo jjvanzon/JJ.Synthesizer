@@ -35,9 +35,9 @@ namespace JJ.Business.Synthesizer.Visitors
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
         
         private readonly Outlet _topLevelOutlet;
-        private readonly int _samplingRate;
+        private readonly int _targetSamplingRate;
         private readonly double _nyquistFrequency;
-        private readonly int _channelCount;
+        private readonly int _targetChannelCount;
         private readonly int _samplesBetweenApplyFilterVariables;
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
@@ -52,8 +52,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
         public OperatorEntityToCalculatorDirectlyVisitor(
             Outlet topLevelOutlet, 
-            int samplingRate,
-            int channelCount,
+            int targetSamplingRate,
+            int targetChannelCount,
             double secondsBetweenApplyFilterVariables,
             CalculatorCache calculatorCache,
             ICurveRepository curveRepository,
@@ -69,31 +69,19 @@ namespace JJ.Business.Synthesizer.Visitors
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
 
             _topLevelOutlet = topLevelOutlet;
-            _samplingRate = samplingRate;
-            _channelCount = channelCount;
+            _targetSamplingRate = targetSamplingRate;
+            _targetChannelCount = targetChannelCount;
             _calculatorCache = calculatorCache;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
             _patchRepository = patchRepository;
             _speakerSetupRepository = speakerSetupRepository;
 
-            _nyquistFrequency = _samplingRate / 2.0;
+            _nyquistFrequency = _targetSamplingRate / 2.0;
 
-            _samplesBetweenApplyFilterVariables = GetSamplesBetweenApplyFilterVariables(secondsBetweenApplyFilterVariables, samplingRate);
+            _samplesBetweenApplyFilterVariables = VisitorHelper.GetSamplesBetweenApplyFilterVariables(secondsBetweenApplyFilterVariables, targetSamplingRate);
         }
 
-        private int GetSamplesBetweenApplyFilterVariables(double secondsBetweenApplyFilterVariables, int samplingRate)
-        {
-            double samplesBetweenApplyFilterVariablesDouble = secondsBetweenApplyFilterVariables * samplingRate;
-            if (!ConversionHelper.CanCastToPositiveInt32(samplesBetweenApplyFilterVariablesDouble))
-            {
-                throw new Exception(String.Format("samplesBetweenApplyFilterVariablesDouble {0} cannot be cast to positive Int32.", samplesBetweenApplyFilterVariablesDouble));
-            }
-            int samplesBetweenApplyFilterVariables = (int)(secondsBetweenApplyFilterVariables * samplingRate);
-            return samplesBetweenApplyFilterVariables;
-        }
-
-        /// <param name="channelCount">Used for e.g. mixing channels of samples into one channel.</param>
         public ToCalculatorResult Execute()
         {
             IValidator validator = new Recursive_OperatorValidator(
@@ -109,18 +97,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             VisitOutletPolymorphic(_topLevelOutlet);
 
-            OperatorCalculatorBase outputOperatorCalculator = _stack.Pop();
+            VisitorHelper.AssertDimensionStacksCountsAre1(_dimensionStackCollection);
 
-            foreach (DimensionStack dimensionStack in _dimensionStackCollection.GetDimensionStacks())
-            {
-                if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
-                {
-                    throw new Exception(String.Format(
-                        "DimensionStack.Count for DimensionStack {0} should be 1 but it is {1}.",
-                        new { dimensionStack.CustomDimensionName, dimensionStack.StandardDimensionEnum },
-                        dimensionStack.Count));
-                }
-            }
+            OperatorCalculatorBase outputOperatorCalculator = _stack.Pop();
 
             return new ToCalculatorResult(
                 _dimensionStackCollection,
@@ -260,7 +239,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
-                    _samplingRate);
+                    _targetSamplingRate);
             }
             else
             {
@@ -268,7 +247,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator,
                     centerFrequencyCalculator,
                     bandWidthCalculator,
-                    _samplingRate,
+                    _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
 
@@ -505,7 +484,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
-                    _samplingRate);
+                    _targetSamplingRate);
             }
             else
             {
@@ -513,7 +492,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator,
                     centerFrequencyCalculator,
                     bandWidthCalculator,
-                    _samplingRate,
+                    _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
 
@@ -566,7 +545,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
-                    _samplingRate);
+                    _targetSamplingRate);
             }
             else
             {
@@ -574,7 +553,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator,
                     centerFrequencyCalculator,
                     bandWidthCalculator,
-                    _samplingRate,
+                    _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
 
@@ -1426,7 +1405,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator, 
                     minFrequency, 
                     bandWidth,
-                    _samplingRate);
+                    _targetSamplingRate);
             }
             else
             {
@@ -1434,7 +1413,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator, 
                     minFrequencyCalculator, 
                     bandWidthCalculator,
-                    _samplingRate,
+                    _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
 
@@ -1486,7 +1465,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     transitionFrequency,
                     transitionSlope,
                     dbGain,
-                    _samplingRate);
+                    _targetSamplingRate);
             }
             else
             {
@@ -1495,7 +1474,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     transitionFrequencyCalculator,
                     transitionSlopeCalculator,
                     dbGainCalculator,
-                    _samplingRate,
+                    _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
 
@@ -1815,7 +1794,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator, 
                     maxFrequency, 
                     bandWidth,
-                    _samplingRate);
+                    _targetSamplingRate);
             }
             else
             {
@@ -1823,7 +1802,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator, 
                     maxFrequencyCalculator, 
                     bandWidthCalculator,
-                    _samplingRate,
+                    _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
 
@@ -1875,7 +1854,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     transitionFrequency,
                     transitionSlope,
                     dbGain,
-                    _samplingRate);
+                    _targetSamplingRate);
             }
             else
             {
@@ -1884,7 +1863,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     transitionFrequencyCalculator,
                     transitionSlopeCalculator,
                     dbGainCalculator,
-                    _samplingRate,
+                    _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
 
@@ -2539,7 +2518,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator,
                     centerFrequency,
                     bandWidth,
-                    _samplingRate);
+                    _targetSamplingRate);
             }
             else
             {
@@ -2547,7 +2526,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     signalCalculator,
                     centerFrequencyCalculator,
                     bandWidthCalculator,
-                    _samplingRate,
+                    _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
 
@@ -2761,7 +2740,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     centerFrequency,
                     bandWidth,
                     dbGain,
-                    _samplingRate);
+                    _targetSamplingRate);
             }
             else
             {
@@ -2770,7 +2749,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     centerFrequencyCalculator,
                     bandWidthCalculator,
                     dbGainCalculator,
-                    _samplingRate,
+                    _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
 
@@ -3380,7 +3359,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
                 int sampleChannelCount = sampleInfo.Sample.GetChannelCount();
 
-                if (sampleChannelCount == _channelCount)
+                if (sampleChannelCount == _targetChannelCount)
                 {
                     if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
                     {
@@ -3399,7 +3378,7 @@ namespace JJ.Business.Synthesizer.Visitors
                         calculator = new Sample_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, sampleCalculator, dimensionStack, channelDimensionStack);
                     }
                 }
-                else if (sampleChannelCount == 1 && _channelCount == 2)
+                else if (sampleChannelCount == 1 && _targetChannelCount == 2)
                 {
                     if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
                     {
@@ -3418,7 +3397,7 @@ namespace JJ.Business.Synthesizer.Visitors
                         calculator = new Sample_OperatorCalculator_VarFrequency_MonoToStereo_NoPhaseTracking(frequencyCalculator, sampleCalculator, dimensionStack);
                     }
                 }
-                else if (sampleChannelCount == 2 && _channelCount == 1)
+                else if (sampleChannelCount == 2 && _targetChannelCount == 1)
                 {
                     if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
                     {

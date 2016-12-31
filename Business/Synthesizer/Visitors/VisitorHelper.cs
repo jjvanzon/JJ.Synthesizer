@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
 
@@ -37,6 +39,33 @@ namespace JJ.Business.Synthesizer.Visitors
                     expectedStackCount,
                     ExpressionHelper.GetText(() => stack.Count),
                     stack.Count));
+            }
+        }
+
+        public static int GetSamplesBetweenApplyFilterVariables(double secondsBetweenApplyFilterVariables, int samplingRate)
+        {
+            double samplesBetweenApplyFilterVariablesDouble = secondsBetweenApplyFilterVariables * samplingRate;
+            if (!ConversionHelper.CanCastToPositiveInt32(samplesBetweenApplyFilterVariablesDouble))
+            {
+                throw new Exception(String.Format("{0} cannot be cast to positive Int32.", new { samplesBetweenApplyFilterVariablesDouble }));
+            }
+            int samplesBetweenApplyFilterVariables = (int)(secondsBetweenApplyFilterVariables * samplingRate);
+            return samplesBetweenApplyFilterVariables;
+        }
+
+        public static void AssertDimensionStacksCountsAre1(DimensionStackCollection dimensionStackCollection)
+        {
+            if (dimensionStackCollection == null) throw new NullException(() => dimensionStackCollection);
+
+            foreach (DimensionStack dimensionStack in dimensionStackCollection.GetDimensionStacks())
+            {
+                if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
+                {
+                    throw new Exception(String.Format(
+                        "DimensionStack.Count for DimensionStack {0} should be 1 but it is {1}.",
+                        new { dimensionStack.CustomDimensionName, dimensionStack.StandardDimensionEnum },
+                        dimensionStack.Count));
+                }
             }
         }
     }
