@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            AudioOutput audioOutput = CreateMockAudioOutput_Stereo();
+            AudioOutput audioOutput = CreateMockAudioOutput_Mono();
 
             SetAudioOutput(audioOutput);
 
@@ -184,9 +184,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             if (audioOutputProcessor == null) throw new NullException(() => audioOutputProcessor);
 
-            // Temporarily call another method for debugging (2016-01-09).
             Thread thread = new Thread(() => audioOutputProcessor.Start());
-            //_audioOutputThread = new Thread(() => AudioOutputProcessor.StartAndPause());
             thread.Start();
 
             // Starting AudioOutputProcessor on another thread seems to start and keep alive a new Windows message loop,

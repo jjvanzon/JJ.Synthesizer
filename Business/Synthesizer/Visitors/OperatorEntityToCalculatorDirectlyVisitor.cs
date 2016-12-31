@@ -4474,7 +4474,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var wrapper = new Reset_OperatorWrapper(op);
 
-            // Be forgiving when it comes to name being filled in. A warning is generated instead.
             _resettableOperatorTuples.Add(new ResettableOperatorTuple(calculator, op.Name, wrapper.ListIndex));
         }
 

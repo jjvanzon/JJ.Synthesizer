@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -27,6 +28,7 @@ namespace JJ.Business.Synthesizer.Visitors
         private Stack<OperatorCalculatorBase> _stack;
         private DimensionStackCollection _dimensionStackCollection;
         private Dictionary<VariableInput_OperatorDto, VariableInput_OperatorCalculator> _variableInput_OperatorDto_To_Calculator_Dictionary;
+        private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
         public OperatorDtoToCalculatorVisitor(
             int targetSamplingRate, 
@@ -56,6 +58,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack = new Stack<OperatorCalculatorBase>();
             _dimensionStackCollection = new DimensionStackCollection();
             _variableInput_OperatorDto_To_Calculator_Dictionary = new Dictionary<VariableInput_OperatorDto, VariableInput_OperatorCalculator>();
+            _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
             Visit_OperatorDto_Polymorphic(dto);
 
@@ -67,8 +70,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 _dimensionStackCollection, 
                 rootCalculator, 
                 _variableInput_OperatorDto_To_Calculator_Dictionary.Values.ToArray(),
-                // TODO: Return _resettableOperatorTuples.
-                new ResettableOperatorTuple[0]);
+                _resettableOperatorTuples);
 
             return result;
         }
@@ -1421,6 +1423,17 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             _stack.Push(calculator);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Reset_OperatorDto(Reset_OperatorDto dto)
+        {
+            base.Visit_Reset_OperatorDto(dto);
+
+            OperatorCalculatorBase calculator = _stack.Peek();
+
+            _resettableOperatorTuples.Add(new ResettableOperatorTuple(calculator, dto.Name, dto.ListIndex));
 
             return dto;
         }

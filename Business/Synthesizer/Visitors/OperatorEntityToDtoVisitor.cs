@@ -637,9 +637,13 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitReset(op);
 
+            var wrapper = new Reset_OperatorWrapper(op);
+
             var dto = new Reset_OperatorDto
             {
-                PassThroughInputOperatorDto = _stack.Pop()
+                PassThroughInputOperatorDto = _stack.Pop(),
+                Name = op.Name,
+                ListIndex = wrapper.ListIndex
             };
 
             _stack.Push(dto);

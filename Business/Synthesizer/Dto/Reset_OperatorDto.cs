@@ -8,6 +8,8 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Reset);
 
         public OperatorDtoBase PassThroughInputOperatorDto { get; set; }
+        public string Name { get; set; }
+        public int? ListIndex { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
