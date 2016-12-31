@@ -35,7 +35,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const bool DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING = false;
 
         private readonly static Size _defaultToolStripLabelSize = new Size(86, 22);
-        private readonly static bool _alwaysRecreateDiagram = GetAlwaysRecreateDiagram();
         private readonly static bool _mustExecuteOperatorMoveActionWhileDragging = GetMustExecuteOperatorMoveActionWhileDragging();
 
         private PatchViewModelToDiagramConverter _converter;
@@ -84,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             UnbindVectorGraphicsEvents();
 
-            if (_converterResult == null || _alwaysRecreateDiagram)
+            if (_converterResult == null)
             {
                 _converter = new PatchViewModelToDiagramConverter(
                     SystemInformation.DoubleClickTime,
@@ -292,15 +291,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Helpers
-
-        private static bool GetAlwaysRecreateDiagram()
-        {
-            if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                return CustomConfigurationManager.GetSection<ConfigurationSection>().AlwaysRecreateDiagram;
-            }
-            return DEFAULT_ALWAYS_RECREATE_DIAGRAM;
-        }
 
         private static bool GetMustExecuteOperatorMoveActionWhileDragging()
         {

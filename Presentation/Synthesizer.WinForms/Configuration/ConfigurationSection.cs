@@ -5,9 +5,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
     internal class ConfigurationSection
     {
         [XmlAttribute]
-        public bool AlwaysRecreateDiagram { get; set; }
-
-        [XmlAttribute]
         public string DefaultCulture { get; set; }
 
         [XmlAttribute]
