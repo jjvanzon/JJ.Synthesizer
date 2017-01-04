@@ -229,6 +229,7 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
+    <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorEntityThruDtoToCalculatorVisitor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase_WithInletCoalescing.cs" />
     <Compile Include="Visitors\ToCalculatorResult.cs" />
@@ -650,7 +651,7 @@
     <Compile Include="Visitors\OperatorDtoVisitorBase_ClassSpecialization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MachineOptimization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MathSimplification.cs" />
-    <Compile Include="Visitors\OperatorDtoToCalculatorVisitor.cs" />
+    <Compile Include="Visitors\OperatorDtoToCalculatorVisitorBase.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterClassSpecialization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterProgrammerLaziness.cs" />

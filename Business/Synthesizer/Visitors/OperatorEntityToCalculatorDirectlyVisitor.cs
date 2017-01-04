@@ -102,8 +102,8 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase outputOperatorCalculator = _stack.Pop();
 
             return new ToCalculatorResult(
-                _dimensionStackCollection,
                 outputOperatorCalculator,
+                _dimensionStackCollection,
                 _patchInlet_To_Calculator_Dictionary.Values.ToArray(),
                 _resettableOperatorTuples);
         }

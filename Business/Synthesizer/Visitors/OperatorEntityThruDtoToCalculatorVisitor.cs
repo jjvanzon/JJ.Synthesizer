@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Visitors
             
             dto = new OperatorDtoVisitor_PreProcessing(_targetChannelCount).Execute(dto);
 
-            var visitor3 = new OperatorDtoToCalculatorVisitor(
+            var visitor3 = new OperatorDtoToCalculatorVisitor_WithCacheOperators(
                 _targetSamplingRate, 
                 _targetChannelCount, 
                 _secondsBetweenApplyFilterVariables, 

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -16,7 +14,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorDtoToCalculatorVisitor : OperatorDtoVisitorBase_AfterProgrammerLaziness
+    internal abstract class OperatorDtoToCalculatorVisitorBase : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
         private readonly double _targetSamplingRate;
         private readonly int _targetChannelCount;
@@ -25,12 +23,13 @@ namespace JJ.Business.Synthesizer.Visitors
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
 
-        private Stack<OperatorCalculatorBase> _stack;
-        private DimensionStackCollection _dimensionStackCollection;
         private Dictionary<VariableInput_OperatorDto, VariableInput_OperatorCalculator> _variableInput_OperatorDto_To_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
-        public OperatorDtoToCalculatorVisitor(
+        protected DimensionStackCollection _dimensionStackCollection;
+        protected Stack<OperatorCalculatorBase> _stack;
+
+        public OperatorDtoToCalculatorVisitorBase(
             int targetSamplingRate, 
             int targetChannelCount, 
             double secondsBetweenApplyFilterVariables,
@@ -62,13 +61,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             Visit_OperatorDto_Polymorphic(dto);
 
-            VisitorHelper.AssertDimensionStacksCountsAre1(_dimensionStackCollection);
-
             OperatorCalculatorBase rootCalculator = _stack.Pop();
 
+            VisitorHelper.AssertDimensionStacksCountsAre1(_dimensionStackCollection);
+
             var result = new ToCalculatorResult(
-                _dimensionStackCollection, 
-                rootCalculator, 
+                rootCalculator,
+                _dimensionStackCollection,
                 _variableInput_OperatorDto_To_Calculator_Dictionary.Values.ToArray(),
                 _resettableOperatorTuples);
 
@@ -155,56 +154,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override OperatorDtoBase Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new DimensionToOutlets_OperatorCalculator(_stack.Pop(), dto.OutletListIndex, dimensionStack));
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
-        {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_CubicInterpolation(Cache_OperatorDto_MultiChannel_CubicInterpolation dto)
-        {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_HermiteInterpolation(Cache_OperatorDto_MultiChannel_HermiteInterpolation dto)
-        {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_LineInterpolation(Cache_OperatorDto_MultiChannel_LineInterpolation dto)
-        {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_StripeInterpolation(Cache_OperatorDto_MultiChannel_StripeInterpolation dto)
-        {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation(Cache_OperatorDto_SingleChannel_BlockInterpolation dto)
-        {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_CubicInterpolation(Cache_OperatorDto_SingleChannel_CubicInterpolation dto)
-        {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_HermiteInterpolation(Cache_OperatorDto_SingleChannel_HermiteInterpolation dto)
-        {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_LineInterpolation(Cache_OperatorDto_SingleChannel_LineInterpolation dto)
-        {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_StripeInterpolation(Cache_OperatorDto_SingleChannel_StripeInterpolation dto)
-        {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
         protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(ChangeTrigger_OperatorDto_VarPassThrough_VarReset dto)
@@ -1439,55 +1388,6 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         // Helpers
-
-        /// <summary>
-        /// The Cache operator requires more lengthy code, while most methods are very short,
-        /// because it is the only operator type for which you need to 
-        /// calculate during optimization time, so calculate while the executable calculation is still being built up.
-        /// </summary>
-        private OperatorDtoBase Process_Cache_OperatorDtoBase_NotConstSignal(Cache_OperatorDtoBase_NotConstSignal dto)
-        {
-            base.Visit_OperatorDto_Base(dto);
-
-            OperatorCalculatorBase calculator;
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase startCalculator = _stack.Pop();
-            OperatorCalculatorBase endCalculator = _stack.Pop();
-            OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
-
-            double start = startCalculator.Calculate();
-            double end = endCalculator.Calculate();
-            double samplingRate = samplingRateCalculator.Calculate();
-
-            bool parametersAreValid = CalculationHelper.CacheParametersAreValid(start, end, samplingRate);
-            if (!parametersAreValid)
-            {
-                calculator = new Number_OperatorCalculator(Double.NaN);
-            }
-            else
-            {
-                IList<ArrayCalculatorBase> arrayCalculators = _calculatorCache.GetCacheArrayCalculators(
-                    dto.OperatorID,
-                    signalCalculator,
-                    start,
-                    end,
-                    samplingRate,
-                    dto.ChannelCount,
-                    dto.InterpolationTypeEnum,
-                    dimensionStack,
-                    channelDimensionStack);
-
-                calculator = OperatorCalculatorFactory.Create_Cache_OperatorCalculator(arrayCalculators, dimensionStack, channelDimensionStack);
-            }
-
-            _stack.Push(calculator);
-
-            return dto;
-        }
 
         private OperatorDtoBase ProcessOperatorDto(OperatorDtoBase dto, Func<OperatorCalculatorBase> createOperatorCalculatorDelegate)
         {
