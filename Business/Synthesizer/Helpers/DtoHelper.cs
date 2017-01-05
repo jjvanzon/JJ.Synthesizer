@@ -62,6 +62,8 @@ namespace JJ.Business.Synthesizer.Helpers
             {
                 Clone_CacheOperatorProperties(source, castedDest);
             }
+
+            TryClone_DimensionProperties(source, dest);
         }
 
         public static void Clone_ClosestOverDimensionProperties(ClosestOverDimension_OperatorDto source, ClosestOverDimension_OperatorDto dest)

@@ -7,11 +7,11 @@ namespace JJ.Business.Synthesizer.Visitors
     /// This combinator class may currently seem yet another useless layer,
     /// but when multiple calculation output formats become possible, you need a combinator on this level.
     /// </summary>
-    internal class OperatorDtoVisitor_PreProcessing
+    internal class OperatorDtoPreProcessingExecutor
     {
         private readonly int _targetChannelCount;
 
-        public OperatorDtoVisitor_PreProcessing(int targetChannelCount)
+        public OperatorDtoPreProcessingExecutor(int targetChannelCount)
         {
             _targetChannelCount = targetChannelCount;
         }
