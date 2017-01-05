@@ -7,6 +7,10 @@ using JJ.Framework.Mathematics;
 namespace JJ.Business.Synthesizer.Calculation
 {
     /// <summary>
+    /// The property of this code file: Copy to Output - Copy if newer
+    /// is so that Roslyn runtim compilation can use this code to compile right into the runtime assembly
+    /// for inlining.
+    /// 
     /// +/- 20% faster than Math.Sin.
     /// It also prevents multiplication by 2 PI
     /// by having a cycle be from 0 to 1.

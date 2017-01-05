@@ -65,7 +65,7 @@
     <Compile Include="Visitors\OperatorDtoToCSharpVisitorResult.cs" />
     <Compile Include="Visitors\OperatorDtoToOperatorCalculatorCSharpGenerator.cs" />
     <Compile Include="Visitors\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
-    <Compile Include="Visitors\ValueInfo.cs" />
+    <Compile Include="Helpers\ValueInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">

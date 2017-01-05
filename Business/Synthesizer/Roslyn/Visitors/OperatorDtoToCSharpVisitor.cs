@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.SynthesizerPrototype.Dto;
-using JJ.Business.SynthesizerPrototype.Roslyn.Helpers;
-using JJ.Business.SynthesizerPrototype.Visitors;
+using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Visitors;
+using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Framework.Common;
 
-namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
+namespace JJ.Business.Synthesizer.Roslyn.Visitors
 {
-    internal class OperatorDtoToCSharpVisitor : OperatorDtoVisitorBase_AfterMathSimplification
+    internal class OperatorDtoToCSharpVisitor : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
         private const string TAB_STRING = "    ";
         private const int FIRST_VARIABLE_NUMBER = 0;
@@ -98,21 +98,21 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
+        protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
         {
-            base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);
+            base.Visit_Multiply_OperatorDto_Vars_NoConsts(dto);
 
-            ProcessNumber(dto.B);
-            ProcessBinaryOperatorDto(dto.OperatorTypeName, MULTIPLY_SYMBOL);
+            ProcessMultiVarOperator(dto.OperatorTypeName, dto.Vars.Count, MULTIPLY_SYMBOL);
 
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
+        protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
         {
-            base.Visit_Multiply_OperatorDto_VarA_VarB(dto);
+            base.Visit_Multiply_OperatorDto_Vars_1Const(dto);
 
-            ProcessBinaryOperatorDto(dto.OperatorTypeName, MULTIPLY_SYMBOL);
+            ProcessNumber(dto.ConstValue);
+            ProcessMultiVarOperator(dto.OperatorTypeName, dto.Vars.Count + 1, MULTIPLY_SYMBOL);
 
             return dto;
         }

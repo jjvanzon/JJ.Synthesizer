@@ -2,7 +2,7 @@
 using System.Globalization;
 using JJ.Framework.Exceptions;
 
-namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
+namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
     internal class ValueInfo
     {

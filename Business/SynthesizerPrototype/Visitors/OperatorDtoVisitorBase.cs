@@ -89,12 +89,6 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
             };
         }
 
-        [DebuggerHidden]
-        protected virtual OperatorDtoBase VisitOperatorDto(OperatorDtoBase dto)
-        {
-            return Visit_OperatorDto_Polymorphic(dto);
-        }
-
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_Consts(Add_OperatorDto_Vars_Consts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto) => Visit_OperatorDto_Base(dto);

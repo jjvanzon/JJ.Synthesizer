@@ -40,8 +40,21 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.1.0.0\lib\portable-net45+win8\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0\lib\portable-net45+win8\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>..\..\packages\System.Reflection.Metadata.1.0.21\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +240,15 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
+    <Compile Include="Roslyn\Calculation\ExampleOperatorCalculatorOutputCode.cs" />
+    <Compile Include="Roslyn\Calculation\ExamplePatchCalculatorOutputCode.cs" />
+    <Compile Include="Roslyn\Calculation\IOperatorCalculator.cs" />
+    <Compile Include="Roslyn\Helpers\OperatorDtoCompiler.cs" />
+    <Compile Include="Roslyn\Visitors\OperatorDtoToCSharpVisitor.cs" />
+    <Compile Include="Roslyn\Visitors\OperatorDtoToCSharpVisitorResult.cs" />
+    <Compile Include="Roslyn\Visitors\OperatorDtoToOperatorCalculatorCSharpGenerator.cs" />
+    <Compile Include="Roslyn\Helpers\ValueInfo.cs" />
+    <Compile Include="Roslyn\Visitors\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_StackLevel.cs" />
     <Compile Include="Visitors\OperatorEntityThruDtoToCalculatorExecutor.cs" />
@@ -417,7 +439,9 @@
     <Compile Include="Calculation\Samples\SampleCalculator_Zero.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
-    <Compile Include="Calculation\SineCalculator.cs" />
+    <Compile Include="Calculation\SineCalculator.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Calculation\Random\RandomCalculator_BlockInterpolation.cs" />
     <Compile Include="Calculation\NoiseCalculator.cs" />
     <Compile Include="Calculation\DimensionStack.cs" />
@@ -932,6 +956,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Roslyn\README.TXT" />
     <None Include="Calculation\Operators\Multiply OperatorCalculator Classes Vars.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Multiply OperatorCalculator Classes Vars.cs</LastGenOutput>

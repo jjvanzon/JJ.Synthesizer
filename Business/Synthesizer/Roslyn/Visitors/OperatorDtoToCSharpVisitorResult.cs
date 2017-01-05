@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using JJ.Business.SynthesizerPrototype.Roslyn.Helpers;
+using JJ.Business.Synthesizer.Roslyn.Helpers;
 
-namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
+namespace JJ.Business.Synthesizer.Roslyn.Visitors
 {
     internal class OperatorDtoToCSharpVisitorResult
     {

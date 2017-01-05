@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
-using JJ.Business.SynthesizerPrototype.Dto;
+using JJ.Business.Synthesizer.Roslyn.Calculation;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Framework.Common;
-using JJ.Business.SynthesizerPrototype.Roslyn.CopiedCode.From_JJ_Business_SynthesizerPrototype;
-using JJ.Business.SynthesizerPrototype.Roslyn.Helpers;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Roslyn.Helpers;
 
-namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
+namespace JJ.Business.Synthesizer.Roslyn.Visitors
 {
     internal class OperatorDtoToPatchCalculatorCSharpGenerator
     {

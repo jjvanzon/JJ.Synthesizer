@@ -8,7 +8,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.CopiedCode.From_JJ_Business_Sy
     /// It also prevents multiplication by 2 PI
     /// by having a cycle be from 0 to 1.
     /// </summary>
-    public static class SineCalculator
+    internal static class SineCalculator
     {
         private const double TWO_PI = 6.2831853071795865;
         private const int SAMPLES_PER_CYCLE_INT = 44100 / 8; // 100% precision at 8Hz.
