@@ -79,15 +79,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public static void AssertFactor(double factor)
         {
-            if (factor == 0) throw new ZeroException(() => factor);
-            if (factor == 1) throw new ZeroException(() => factor);
+            if (factor == 0.0) throw new ZeroException(() => factor);
+            if (factor == 1.0) throw new EqualException(() => factor, 1);
             if (Double.IsNaN(factor)) throw new NaNException(() => factor);
             if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
         }
 
         public static void AssertReverseSpeed(double speed)
         {
-            if (speed == 0) throw new ZeroException(() => speed);
+            if (speed == 0.0) throw new ZeroException(() => speed);
             if (Double.IsNaN(speed)) throw new NaNException(() => speed);
             if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
         }

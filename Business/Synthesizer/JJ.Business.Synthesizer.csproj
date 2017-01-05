@@ -40,9 +40,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JJ.Framework.Exceptions">
-      <HintPath>..\..\Framework\Exceptions\bin\Debug\JJ.Framework.Exceptions.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.XML" />
@@ -81,6 +78,7 @@
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
+    <Compile Include="Calculation\Operators\IPositionTransformer.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_StripeInterpolation.cs" />
     <Compile Include="Configuration\CalculationEngineConfigurationEnum.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
@@ -230,7 +228,7 @@
     <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
-    <Compile Include="Visitors\OperatorEntityThruDtoToCalculatorVisitor.cs" />
+    <Compile Include="Visitors\OperatorEntityThruDtoToCalculatorExecutor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase_WithInletCoalescing.cs" />
     <Compile Include="Visitors\ToCalculatorResult.cs" />
     <Compile Include="Calculation\Patches\ResettableOperatorTuple.cs" />
@@ -844,6 +842,10 @@
     <Compile Include="Warnings\ScaleWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
+      <Name>JJ.Framework.Exceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Third Party\Lomont\Lomont.csproj">
       <Project>{cda729cd-cd5e-4700-8308-b4b916c8eab9}</Project>
       <Name>Lomont</Name>

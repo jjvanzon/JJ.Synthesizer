@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 
@@ -86,7 +87,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                 case CalculationEngineConfigurationEnum.EntityThruDtoToCalculator:
                     {
-                        var visitor = new OperatorEntityThruDtoToCalculatorVisitor(
+                        var visitor = new OperatorEntityThruDtoToCalculatorExecutor(
                             targetSamplingRate,
                             channelCount,
                             secondsBetweenApplyFilterVariables,

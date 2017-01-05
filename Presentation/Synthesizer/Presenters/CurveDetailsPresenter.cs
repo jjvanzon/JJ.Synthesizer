@@ -9,6 +9,7 @@ using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Common;
+using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

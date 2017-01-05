@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.VectorGraphics.Enums;

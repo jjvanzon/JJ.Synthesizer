@@ -8,6 +8,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.VectorGraphics.Converters;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
+using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {

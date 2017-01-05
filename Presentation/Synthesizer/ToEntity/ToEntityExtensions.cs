@@ -17,6 +17,7 @@ using JJ.Business.Synthesizer;
 using System;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Canonical;
+using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {

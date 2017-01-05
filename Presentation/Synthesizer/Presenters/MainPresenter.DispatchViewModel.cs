@@ -9,6 +9,7 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

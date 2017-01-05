@@ -17,6 +17,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;

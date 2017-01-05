@@ -14,6 +14,7 @@ using JJ.Framework.Configuration;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation.Curves;
+using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Tests
 {

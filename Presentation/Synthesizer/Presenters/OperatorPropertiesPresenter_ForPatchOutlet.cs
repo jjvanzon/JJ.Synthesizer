@@ -13,6 +13,7 @@ using JJ.Presentation.Synthesizer.Validators;
 using JJ.Business.Canonical;
 using JJ.Framework.Common;
 using System;
+using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

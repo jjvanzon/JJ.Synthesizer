@@ -17,6 +17,7 @@ using JJ.Data.Canonical;
 using System.Linq;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Tests
 {

@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Mathematics;
 

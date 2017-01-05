@@ -7,13 +7,12 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoToCalculatorVisitor_WithCacheOperators : OperatorDtoToCalculatorVisitorBase
     {
-        private readonly CalculatorCache _calculatorCache;
-
         public OperatorDtoToCalculatorVisitor_WithCacheOperators(
             int targetSamplingRate, 
             int targetChannelCount, 
@@ -34,11 +33,56 @@ namespace JJ.Business.Synthesizer.Visitors
         //{
         //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(dto);
 
-        //    OperatorCalculatorBase calculator = _stack.Peek();
+        //    return ProcessWithDimensionTranformation(dto);
+        //}
 
-        //    calculator.Calculate();
+        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
+        //{
+        //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(dto);
 
-        //    return dto;
+        //    return ProcessWithDimensionTranformation(dto);
+        //}
+
+        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        //{
+        //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(dto);
+
+        //    return ProcessWithDimensionTranformation(dto);
+        //}
+
+        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        //{
+        //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(dto);
+
+        //    return ProcessWithDimensionTranformation(dto);
+        //}
+
+        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
+        //{
+        //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(dto);
+
+        //    return ProcessWithDimensionTranformation(dto);
+        //}
+
+        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
+        //{
+        //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(dto);
+
+        //    return ProcessWithDimensionTranformation(dto);
+        //}
+
+        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
+        //{
+        //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(dto);
+
+        //    return ProcessWithDimensionTranformation(dto);
+        //}
+
+        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
+        //{
+        //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(dto);
+
+        //    return ProcessWithDimensionTranformation(dto);
         //}
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
@@ -141,5 +185,23 @@ namespace JJ.Business.Synthesizer.Visitors
 
             return dto;
         }
+
+        //private OperatorDtoBase ProcessWithDimensionTranformation<TDto>(TDto dto)
+        //    where TDto : OperatorDtoBase, IOperatorDtoWithDimension
+        //{
+        //    var calculator = _stack.Peek() as IPositionTransformer;
+        //    if (calculator == null)
+        //    {
+        //        throw new InvalidTypeException<IPositionTransformer>(() => calculator);
+        //    }
+
+        //    double transformedPosition = calculator.GetTransformedPosition();
+
+        //    DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+        //    dimensionStack.Push(transformedPosition);
+
+        //    return dto;
+        //}
     }
 }

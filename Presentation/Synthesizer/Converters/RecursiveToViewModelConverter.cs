@@ -15,6 +15,7 @@ using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {

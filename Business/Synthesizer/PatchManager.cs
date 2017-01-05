@@ -20,6 +20,7 @@ using JJ.Business.Synthesizer.Configuration;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Validation.Patches;
 using System.Collections;
+using JJ.Framework.Collections;
 using JJ.Business.Synthesizer.Dtos;
 
 namespace JJ.Business.Synthesizer

@@ -7,6 +7,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Framework.Common;
+using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
