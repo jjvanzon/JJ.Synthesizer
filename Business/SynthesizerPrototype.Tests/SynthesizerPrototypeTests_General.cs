@@ -27,7 +27,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
                 }
             };
 
-            var visitor = new OperatorDtoVisitor_PreProcessing();
+            var visitor = new OperatorDtoPreProcessingExecutor();
             OperatorDtoBase operatorDtoBase = visitor.Execute(dto);
 
             AssertHelper.IsOfType<Sine_OperatorDto_ConstFrequency_WithOriginShifting>(() => operatorDtoBase);

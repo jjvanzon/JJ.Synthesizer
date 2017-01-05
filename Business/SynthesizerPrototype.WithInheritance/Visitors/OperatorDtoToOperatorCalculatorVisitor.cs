@@ -22,7 +22,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
 
         public OperatorCalculatorBase Execute(OperatorDtoBase dto)
         {
-            var preProcessingVisitor = new OperatorDtoVisitor_PreProcessing();
+            var preProcessingVisitor = new OperatorDtoPreProcessingExecutor();
             dto = preProcessingVisitor.Execute(dto);
 
             Visit_OperatorDto_Polymorphic(dto);

@@ -228,6 +228,7 @@
     <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_StackLevel.cs" />
     <Compile Include="Visitors\OperatorEntityThruDtoToCalculatorExecutor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase_WithInletCoalescing.cs" />
     <Compile Include="Visitors\ToCalculatorResult.cs" />

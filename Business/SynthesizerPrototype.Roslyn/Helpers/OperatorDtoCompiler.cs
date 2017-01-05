@@ -43,7 +43,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
         {
             if (dto == null) throw new NullException(() => dto);
 
-            var preProcessingVisitor = new OperatorDtoVisitor_PreProcessing();
+            var preProcessingVisitor = new OperatorDtoPreProcessingExecutor();
             dto = preProcessingVisitor.Execute(dto);
 
             var codeGeneratingVisitor = new OperatorDtoToOperatorCalculatorCSharpGenerator();
@@ -58,7 +58,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
         {
             if (dto == null) throw new NullException(() => dto);
 
-            var preProcessingVisitor = new OperatorDtoVisitor_PreProcessing();
+            var preProcessingVisitor = new OperatorDtoPreProcessingExecutor();
             dto = preProcessingVisitor.Execute(dto);
 
             var codeGeneratingVisitor = new OperatorDtoToPatchCalculatorCSharpGenerator();

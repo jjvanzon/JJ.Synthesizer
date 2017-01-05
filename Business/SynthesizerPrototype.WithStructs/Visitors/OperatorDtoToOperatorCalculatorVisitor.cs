@@ -20,7 +20,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 
         public IOperatorCalculator Execute(OperatorDtoBase sourceOperatorDto)
         {
-            var preProcessingVisitor = new OperatorDtoVisitor_PreProcessing();
+            var preProcessingVisitor = new OperatorDtoPreProcessingExecutor();
             sourceOperatorDto = preProcessingVisitor.Execute(sourceOperatorDto);
 
             Type destOperatorCalculatorType_ClosedGeneric = OperatorDtoToCalculatorTypeConverter.ConvertToClosedGenericType(sourceOperatorDto);

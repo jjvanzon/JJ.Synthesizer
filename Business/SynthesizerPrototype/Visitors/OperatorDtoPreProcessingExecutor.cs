@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.SynthesizerPrototype.Dto;
+﻿using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.SynthesizerPrototype.Visitors
 {
-    public class OperatorDtoVisitor_PreProcessing
+    public class OperatorDtoPreProcessingExecutor
     {
         public OperatorDtoBase Execute(OperatorDtoBase dto)
         {
