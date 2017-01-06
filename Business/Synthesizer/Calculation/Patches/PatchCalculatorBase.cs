@@ -24,12 +24,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public virtual double Calculate(double time)
         {
-            throw new NotSupportedException($"{nameof(Calculate)} with {nameof(time)} is not supported.");
+            throw new NotSupportedException($"{nameof(Calculate)} with {nameof(time)} parameter is not supported. Use another overload.");
         }
 
         public double Calculate(double time, int channelIndex)
         {
-            throw new NotSupportedException($"{nameof(Calculate)} with {nameof(time)} and {nameof(channelIndex)} is not supported.");
+            throw new NotSupportedException($"{nameof(Calculate)} with {nameof(time)} and {nameof(channelIndex)} parameters is not supported. Use another overload.");
         }
 
         public abstract void Calculate(float[] buffer, int frameCount, double t0);

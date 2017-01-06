@@ -7,10 +7,10 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Roslyn.Calculation
 {
-    internal class ExampleHandWrittenPatchCalculatorCode : PatchCalculatorBase
+    internal class HardCodedPatchCalculator : PatchCalculatorBase
     {
         private double _input1;
-        private double _standardDimensionBrightness1;
+        private double _standardDimensionFrequency1;
         private double _customDimensionPrettiness1;
         private double _phase1;
         private double _prevPos1;
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
         private double _phase8;
         private double _prevPos8;
 
-        public ExampleHandWrittenPatchCalculatorCode(int targetSamplingRate)
+        public HardCodedPatchCalculator(int targetSamplingRate)
             : base(targetSamplingRate)
         {
             Reset(time: 0.0);
@@ -160,7 +160,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
                 double value = add1;
 
-
                 // winmm will trip over NaN.
                 if (Double.IsNaN(value))
                 {
@@ -226,14 +225,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
             switch (dimensionEnum)
             {
-                case DimensionEnum.Brightness:
-                    _standardDimensionBrightness1 = value;
+                case DimensionEnum.Frequency:
+                    _standardDimensionFrequency1 = value;
                     break;
             }
 
             switch (dimensionEnum)
             {
-                case DimensionEnum.Channel:
+                case DimensionEnum.Frequency:
                     _input1 = value;
                     break;
             }
@@ -262,14 +261,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
             switch (dimensionEnum)
             {
-                case DimensionEnum.Brightness:
-                    _standardDimensionBrightness1 = value;
+                case DimensionEnum.Frequency:
+                    _standardDimensionFrequency1 = value;
                     break;
             }
 
-            if (dimensionEnum == DimensionEnum.Brightness && listIndex == 0)
+            if (dimensionEnum == DimensionEnum.Frequency && listIndex == 0)
             {
-                _standardDimensionBrightness1 = value;
+                _standardDimensionFrequency1 = value;
             }
         }
 

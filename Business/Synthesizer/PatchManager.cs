@@ -26,6 +26,7 @@ using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Roslyn.Visitors;
+using JJ.Business.Synthesizer.Roslyn.Calculation;
 
 namespace JJ.Business.Synthesizer
 {
@@ -554,6 +555,9 @@ namespace JJ.Business.Synthesizer
                     patchCalculator = compiler.CompileToPatchCalculator(dto, framesPerChunk, channelCount);
 
                     break;
+
+                case CalculationEngineConfigurationEnum.HardCoded:
+                    return new HardCodedPatchCalculator(samplingRate);
 
                 default:
                     throw new ValueNotSupportedException(_calculationEngineConfigurationEnum);

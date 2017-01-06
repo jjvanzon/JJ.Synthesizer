@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JJ.Framework.Exceptions">
-      <HintPath>..\..\Framework\Exceptions\bin\Debug\JJ.Framework.Exceptions.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -78,6 +75,10 @@
     <ProjectReference Include="..\..\Data\Synthesizer\JJ.Data.Synthesizer.csproj">
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Data.Synthesizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
+      <Name>JJ.Framework.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Third Party\NAudio\Source Code\1.7.2\NAudio\NAudio.csproj">
       <Project>{da4f02e3-0b5e-42cd-b8d9-5583fa51d66e}</Project>

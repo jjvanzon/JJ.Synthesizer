@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private readonly int _maxConcurrentNotes;
         private readonly NoteRecycler _noteRecycler;
         /// <summary> First index is NoteIndex, second index is channel. </summary>
-        private readonly SingleChannelPatchCalculator[][] _patchCalculators;
+        private readonly IPatchCalculator[][] _patchCalculators;
 
         public MultiThreadedPatchCalculator(
             Patch patch,
@@ -61,15 +61,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
 
             // Create PatchCalculators
-            _patchCalculators = new SingleChannelPatchCalculator[_maxConcurrentNotes][];
+            _patchCalculators = new IPatchCalculator[_maxConcurrentNotes][];
             for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
             {
-                _patchCalculators[noteIndex] = new SingleChannelPatchCalculator[_channelCount];
+                _patchCalculators[noteIndex] = new IPatchCalculator[_channelCount];
 
                 for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
                 {
-                    // TODO: How assumptious it is SingleChannelPatchCalculator...
-                    var patchCalculator = (SingleChannelPatchCalculator)patchManager.CreateCalculator(signalOutlet, samplingRate, _channelCount, channelIndex, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets: true);
+                    IPatchCalculator patchCalculator = patchManager.CreateCalculator(signalOutlet, samplingRate, _channelCount, channelIndex, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets: true);
                     _patchCalculators[noteIndex][channelIndex] = patchCalculator;
                 }
             }
@@ -103,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 {
                     // Capture variable in loop iteration,
                     // to prevent delegate from getting a value from a different iteration.
-                    SingleChannelPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
+                    IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
 
                     Task task = Task.Factory.StartNew(() => patchCalculator.Calculate(buffer, frameCount, t0));
                     tasks.Add(task);
