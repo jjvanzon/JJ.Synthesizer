@@ -13,6 +13,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using JJ.Business.Synthesizer.Visitors;
+using JJ.Business.Synthesizer.Calculation.Patches;
 
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
@@ -39,36 +40,20 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             };
         }
 
-        public IOperatorCalculator CompileToOperatorCalculator(OperatorDtoBase dto, int targetChannelCount)
+        public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int framesPerChunk, int targetChannelCount)
         {
             if (dto == null) throw new NullException(() => dto);
 
             var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(targetChannelCount);
             dto = preProcessingVisitor.Execute(dto);
 
-            var codeGeneratingVisitor = new OperatorDtoToOperatorCalculatorCSharpGenerator();
+            var codeGeneratingVisitor = new OperatorDtoToPatchCalculatorCSharpGenerator();
             string generatedCode = codeGeneratingVisitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             Type type = Compile(generatedCode);
-            var calculator = (IOperatorCalculator)Activator.CreateInstance(type);
+            var calculator = (IPatchCalculator)Activator.CreateInstance(type, framesPerChunk);
             return calculator;
         }
-
-        // TODO: Reintroduce this method later. (2017-01-05)
-        //public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int framesPerChunk)
-        //{
-        //    if (dto == null) throw new NullException(() => dto);
-
-        //    var preProcessingVisitor = new OperatorDtoPreProcessingExecutor();
-        //    dto = preProcessingVisitor.Execute(dto);
-
-        //    var codeGeneratingVisitor = new OperatorDtoToPatchCalculatorCSharpGenerator();
-        //    string generatedCode = codeGeneratingVisitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
-
-        //    Type type = Compile(generatedCode);
-        //    var calculator = (IPatchCalculator)Activator.CreateInstance(type, framesPerChunk);
-        //    return calculator;
-        //}
 
         private Type Compile(string generatedCode)
         {

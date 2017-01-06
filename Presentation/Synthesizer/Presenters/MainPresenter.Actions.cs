@@ -2530,7 +2530,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 audioOutput.SamplingRate,
                 audioOutput.GetChannelCount(), 
                 DEFAULT_CHANNEL_INDEX, 
-                new CalculatorCache());
+                new CalculatorCache(),
+                mustSubstituteSineForUnfilledInSignalPatchInlets: true);
 
             // Infrastructure
             AudioFileOutput audioFileOutput = _audioFileOutputManager.Create();

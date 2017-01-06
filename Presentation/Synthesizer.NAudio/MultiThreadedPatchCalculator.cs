@@ -13,12 +13,10 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
-using System.Runtime.CompilerServices;
-using System.Threading;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class MultiThreadedPatchCalculator : IPatchCalculator
+    public class MultiThreadedPatchCalculator : PatchCalculatorBase
     {
         private readonly int _channelCount;
         private readonly int _maxConcurrentNotes;
@@ -31,6 +29,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             AudioOutput audioOutput,
             NoteRecycler noteRecycler,
             RepositoryWrapper repositories)
+            : base(audioOutput?.SamplingRate ?? 0)
         {
             if (patch == null) throw new NullException(() => patch);
             if (audioOutput == null) throw new NullException(() => audioOutput);
@@ -70,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
                 {
                     // TODO: How assumptious it is SingleChannelPatchCalculator...
-                    SingleChannelPatchCalculator patchCalculator = (SingleChannelPatchCalculator)patchManager.CreateCalculator(signalOutlet, samplingRate, _channelCount, channelIndex, calculatorCache);
+                    var patchCalculator = (SingleChannelPatchCalculator)patchManager.CreateCalculator(signalOutlet, samplingRate, _channelCount, channelIndex, calculatorCache, mustSubstituteSineForUnfilledInSignalPatchInlets: true);
                     _patchCalculators[noteIndex][channelIndex] = patchCalculator;
                 }
             }
@@ -84,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// A frameCount based on the entity model can differ from the frameCount you get from the driver,
         /// and you only know the frameCount at the time the driver calls us.
         /// </param>
-        public void Calculate(float[] buffer, int frameCount, double t0)
+        public override void Calculate(float[] buffer, int frameCount, double t0)
         {
             int maxConcurrentNotes = _maxConcurrentNotes;
             int channelCount = _channelCount;
@@ -117,42 +116,22 @@ namespace JJ.Presentation.Synthesizer.NAudio
             Task.WaitAll(tasks.ToArray());
         }
 
-        public double Calculate(double time, int channelIndex)
-        {
-            throw new NotSupportedException("Operation not supported. Can only calculate by chunk (use the other overload).");
-        }
-
-        public double Calculate(double time)
-        {
-            throw new NotSupportedException("Operation not supported. Can only calculate by chunk (use the other overload).");
-        }
-
         // Values
 
-        public double GetValue(int noteIndex)
+        public override double GetValue(int noteIndex)
         {
             throw new NotSupportedException();
         }
 
-        public void SetValue(int noteIndex, double value)
+        public override void SetValue(int noteIndex, double value)
         {
             throw new NotSupportedException();
         }
 
-        public double GetValue(string name)
+        public override void SetValue(string name, double value)
         {
-            IPatchCalculator patchCalculator = _patchCalculators[0][0];
+            base.SetValue(name, value);
 
-            if (patchCalculator != null)
-            {
-                return patchCalculator.GetValue(name);
-            }
-
-            return 0.0;
-        }
-
-        public void SetValue(string name, double value)
-        {
             for (int i = 0; i < _maxConcurrentNotes; i++)
             {
                 for (int j = 0; j < _channelCount; j++)
@@ -163,7 +142,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        public double GetValue(string name, int noteIndex)
+        public override double GetValue(string name, int noteIndex)
         {
             AssertPatchCalculatorNoteIndex(noteIndex);
 
@@ -172,7 +151,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             return patchCalculator.GetValue(name);
         }
 
-        public void SetValue(string name, int noteIndex, double value)
+        public override void SetValue(string name, int noteIndex, double value)
         {
             AssertPatchCalculatorNoteIndex(noteIndex);
 
@@ -183,20 +162,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        public double GetValue(DimensionEnum dimensionEnum)
+        public override void SetValue(DimensionEnum dimensionEnum, double value)
         {
-            IPatchCalculator patchCalculator = _patchCalculators[0][0];
+            base.SetValue(dimensionEnum, value);
 
-            if (patchCalculator != null)
-            {
-                return patchCalculator.GetValue(dimensionEnum);
-            }
-
-            return 0.0;
-        }
-
-        public void SetValue(DimensionEnum dimensionEnum, double value)
-        {
             for (int i = 0; i < _maxConcurrentNotes; i++)
             {
                 for (int j = 0; j < _channelCount; j++)
@@ -207,7 +176,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        public double GetValue(DimensionEnum dimensionEnum, int noteIndex)
+        public override double GetValue(DimensionEnum dimensionEnum, int noteIndex)
         {
             AssertPatchCalculatorNoteIndex(noteIndex);
 
@@ -218,7 +187,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             return value;
         }
 
-        public void SetValue(DimensionEnum dimensionEnum, int noteIndex, double value)
+        public override void SetValue(DimensionEnum dimensionEnum, int noteIndex, double value)
         {
             AssertPatchCalculatorNoteIndex(noteIndex);
 
@@ -229,43 +198,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        public void Reset(double time, int noteIndex)
+        public override void CloneValues(IPatchCalculator sourceCalculator)
         {
-            AssertPatchCalculatorNoteIndex(noteIndex);
+            base.CloneValues(sourceCalculator);
 
-            for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
-            {
-                IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
-                patchCalculator.Reset(time);
-            }
-        }
-
-        public void Reset(double time)
-        {
-            for (int i = 0; i < _maxConcurrentNotes; i++)
-            {
-                for (int j = 0; j < _channelCount; j++)
-                {
-                    IPatchCalculator patchCalculator = _patchCalculators[i][j];
-                    patchCalculator.Reset(time);
-                }
-            }
-        }
-
-        public void Reset(double time, string name)
-        {
-            for (int i = 0; i < _maxConcurrentNotes; i++)
-            {
-                for (int j = 0; j < _channelCount; j++)
-                {
-                    IPatchCalculator patchCalculator = _patchCalculators[i][j];
-                    patchCalculator.Reset(time, name);
-                }
-            }
-        }
-
-        public void CloneValues(IPatchCalculator sourceCalculator)
-        {
             var castedSourceCalculator = sourceCalculator as MultiThreadedPatchCalculator;
             if (castedSourceCalculator == null)
             {
@@ -280,6 +216,43 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     IPatchCalculator dest = _patchCalculators[i][j];
 
                     dest.CloneValues(source);
+                }
+            }
+        }
+
+        // Reset
+
+        public override void Reset(double time, int noteIndex)
+        {
+            AssertPatchCalculatorNoteIndex(noteIndex);
+
+            for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+            {
+                IPatchCalculator patchCalculator = _patchCalculators[noteIndex][channelIndex];
+                patchCalculator.Reset(time);
+            }
+        }
+
+        public override void Reset(double time)
+        {
+            for (int i = 0; i < _maxConcurrentNotes; i++)
+            {
+                for (int j = 0; j < _channelCount; j++)
+                {
+                    IPatchCalculator patchCalculator = _patchCalculators[i][j];
+                    patchCalculator.Reset(time);
+                }
+            }
+        }
+
+        public override void Reset(double time, string name)
+        {
+            for (int i = 0; i < _maxConcurrentNotes; i++)
+            {
+                for (int j = 0; j < _channelCount; j++)
+                {
+                    IPatchCalculator patchCalculator = _patchCalculators[i][j];
+                    patchCalculator.Reset(time, name);
                 }
             }
         }

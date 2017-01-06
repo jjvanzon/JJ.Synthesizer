@@ -38,7 +38,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 audioOutput.SamplingRate,
                 audioOutput.GetChannelCount(), 
                 DEFAULT_CHANNEL_INDEX, 
-                new CalculatorCache());
+                new CalculatorCache(),
+                mustSubstituteSineForUnfilledInSignalPatchInlets: true);
 
             Lock.EnterWriteLock();
             try

@@ -22,6 +22,10 @@ using JJ.Business.Synthesizer.Validation.Patches;
 using System.Collections;
 using JJ.Framework.Collections;
 using JJ.Business.Synthesizer.Dtos;
+using JJ.Business.Synthesizer.Roslyn.Helpers;
+using JJ.Business.Synthesizer.Visitors;
+using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Roslyn.Visitors;
 
 namespace JJ.Business.Synthesizer
 {
@@ -33,6 +37,7 @@ namespace JJ.Business.Synthesizer
     public partial class PatchManager
     {
         private static readonly double _secondsBetweenApplyFilterVariables = ConfigurationHelper.GetSection<ConfigurationSection>().SecondsBetweenApplyFilterVariables;
+        private static readonly CalculationEngineConfigurationEnum _calculationEngineConfigurationEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationEngine;
 
         private readonly PatchRepositories _repositories;
 
@@ -516,20 +521,45 @@ namespace JJ.Business.Synthesizer
             {
                 SubstituteSineForUnfilledInSignalPatchInlets();
             }
+            
+            IPatchCalculator patchCalculator;
+            switch (_calculationEngineConfigurationEnum)
+            {
+                case CalculationEngineConfigurationEnum.EntityThruDtoToCalculator:
+                case CalculationEngineConfigurationEnum.EntityToCalculatorDirectly:
+                    patchCalculator = new SingleChannelPatchCalculator(
+                        outlet,
+                        samplingRate,
+                        channelCount,
+                        channelIndex,
+                        calculatorCache,
+                        _secondsBetweenApplyFilterVariables,
+                        _repositories.CurveRepository,
+                        _repositories.SampleRepository,
+                        _repositories.PatchRepository,
+                        _repositories.SpeakerSetupRepository);
+                    break;
 
-            IPatchCalculator calculator = new SingleChannelPatchCalculator(
-                outlet,
-                samplingRate,
-                channelCount,
-                channelIndex,
-                calculatorCache,
-                _secondsBetweenApplyFilterVariables,
-                _repositories.CurveRepository,
-                _repositories.SampleRepository,
-                _repositories.PatchRepository,
-                _repositories.SpeakerSetupRepository);
+                case CalculationEngineConfigurationEnum.RoslynRuntimeCompilation:
+                    // TODO: Make includeSymbols configurable.
+                    var entityToDtoVisitor = new OperatorEntityToDtoVisitor(_repositories.CurveRepository, _repositories.PatchRepository, _repositories.SampleRepository, _repositories.SpeakerSetupRepository);
+                    OperatorDtoBase dto = entityToDtoVisitor.Execute(outlet);
 
-            return calculator;
+                    var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(channelCount);
+                    dto = preProcessingVisitor.Execute(dto);
+
+                    var compiler = new OperatorDtoCompiler(includeSymbols: false);
+                    // TODO: Make framesPerChunk a parameter.
+                    int framesPerChunk = 0; 
+                    patchCalculator = compiler.CompileToPatchCalculator(dto, framesPerChunk, channelCount);
+
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(_calculationEngineConfigurationEnum);
+            }
+
+            return patchCalculator;
         }
 
         public void CreateNumbersForEmptyInletsWithDefaultValues(

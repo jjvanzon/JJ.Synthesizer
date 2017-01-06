@@ -4,6 +4,8 @@
     {
         Undefined,
         EntityToCalculatorDirectly,
-        EntityThruDtoToCalculator
+        EntityThruDtoToCalculator,
+        RoslynRuntimeCompilation,
+        HardCoded
     }
 }

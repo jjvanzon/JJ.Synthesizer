@@ -93,6 +93,8 @@
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\Operators\IPositionTransformer.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_StripeInterpolation.cs" />
+    <Compile Include="Calculation\Patches\PatchCalculatorBase.cs" />
+    <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs" />
     <Compile Include="Configuration\CalculationEngineConfigurationEnum.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
@@ -240,13 +242,13 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
-    <Compile Include="Roslyn\Calculation\ExampleOperatorCalculatorOutputCode.cs" />
-    <Compile Include="Roslyn\Calculation\ExamplePatchCalculatorOutputCode.cs" />
+    <Compile Include="Roslyn\Calculation\2017-01-05 Backup of ExampleOperatorCalculatorOutputCode.cs" />
+    <Compile Include="Roslyn\Calculation\ExampleHandWrittenPatchCalculatorCode.cs" />
     <Compile Include="Roslyn\Calculation\IOperatorCalculator.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoCompiler.cs" />
     <Compile Include="Roslyn\Visitors\OperatorDtoToCSharpVisitor.cs" />
     <Compile Include="Roslyn\Visitors\OperatorDtoToCSharpVisitorResult.cs" />
-    <Compile Include="Roslyn\Visitors\OperatorDtoToOperatorCalculatorCSharpGenerator.cs" />
+    <Compile Include="Roslyn\Visitors\2017-01-05 Backup of OperatorDtoToOperatorCalculatorCSharpGenerator.cs" />
     <Compile Include="Roslyn\Helpers\ValueInfo.cs" />
     <Compile Include="Roslyn\Visitors\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />

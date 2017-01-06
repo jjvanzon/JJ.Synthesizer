@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Roslyn.Calculation
 {
-    internal class ExamplePatchCalculatorOutputCode // : IPatchCalculator 
+    internal class ExampleHandWrittenPatchCalculatorCode : PatchCalculatorBase
     {
-        // NOTE:
-        // Array access is excluded from the test, 
-        // because otherwise it would not be a fair performance comparison.
-
-        //private double[] _values;
-        private int _framesPerChunk;
-
         private double _input1;
+        private double _standardDimensionBrightness1;
+        private double _customDimensionPrettiness1;
         private double _phase1;
         private double _prevPos1;
         private double _phase2;
@@ -31,49 +29,20 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
         private double _phase8;
         private double _prevPos8;
 
-        public ExamplePatchCalculatorOutputCode(int framesPerChunk)
+        public ExampleHandWrittenPatchCalculatorCode(int targetSamplingRate)
+            : base(targetSamplingRate)
         {
-            _framesPerChunk = framesPerChunk;
-            //_values = new double[_framesPerChunk];
+            Reset(time: 0.0);
 
-            Reset();
+            // TODO: Copy defaults from fields to value dictionaries in the base, like SingleChannelPatchCalculator's constructor.
         }
 
-        public void Reset()
-        {
-            _phase1 = 0.0;
-            _prevPos1 = 0.0;
-            _phase2 = 0.0;
-            _prevPos2 = 0.0;
-            _phase3 = 0.0;
-            _prevPos3 = 0.0;
-            _phase4 = 0.0;
-            _prevPos4 = 0.0;
-            _phase5 = 0.0;
-            _prevPos5 = 0.0;
-            _phase6 = 0.0;
-            _prevPos6 = 0.0;
-            _phase7 = 0.0;
-            _prevPos7 = 0.0;
-            _phase8 = 0.0;
-            _prevPos8 = 0.0;
-        }
-
-        public void SetInput(int listIndex, double input)
-        {
-            switch (listIndex)
-            {
-                case 0:
-                    _input1 = input;
-                    break;
-            }
-        }
+        // Calculate
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double[] Calculate(double startTime, double frameDuration)
+        public override void Calculate(float[] buffer, int framesPerChunk, double startTime)
         {
-            //double[] values = _values;
-            int framesPerChunk = _framesPerChunk;
+            double frameDuration = _frameDuration;
 
             double input1 = _input1;
             double phase1 = _phase1;
@@ -191,7 +160,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
                 double value = add1;
 
-                //values[i] = value;
+
+                // winmm will trip over NaN.
+                if (Double.IsNaN(value))
+                {
+                    value = 0;
+                }
+
+                // TODO: This seems unsafe. What happens if the cast is invalid?
+                float floatValue = (float)value;
+
+                PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
 
                 t0 += frameDuration;
             }
@@ -213,9 +192,127 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             _prevPos7 = prevPos7;
             _phase8 = phase8;
             _prevPos8 = prevPos8;
+        }
 
-            //return values;
-            return null;
+        // Values
+
+        public override double GetValue(int listIndex)
+        {
+            switch (listIndex)
+            {
+                case 0:
+                    return _input1;
+
+                default:
+                    return 0.0;
+            }
+        }
+
+        public override void SetValue(int listIndex, double value)
+        {
+            base.SetValue(listIndex, value);
+
+            switch (listIndex)
+            {
+                case 0:
+                    _input1 = value;
+                    break;
+            }
+        }
+
+        public override void SetValue(DimensionEnum dimensionEnum, double value)
+        {
+            base.SetValue(dimensionEnum, value);
+
+            switch (dimensionEnum)
+            {
+                case DimensionEnum.Brightness:
+                    _standardDimensionBrightness1 = value;
+                    break;
+            }
+
+            switch (dimensionEnum)
+            {
+                case DimensionEnum.Channel:
+                    _input1 = value;
+                    break;
+            }
+        }
+
+        public override void SetValue(string name, double value)
+        {
+            base.SetValue(name, value);
+
+            string canonicalName = NameHelper.ToCanonical(name);
+
+            if (String.Equals(name, "prettiness", StringComparison.Ordinal))
+            {
+                _customDimensionPrettiness1 = value;
+            }
+
+            if (String.Equals(name, "prettiness", StringComparison.Ordinal))
+            {
+                _input1 = value;
+            }
+        }
+
+        public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)
+        {
+            base.SetValue(dimensionEnum, listIndex, value);
+
+            switch (dimensionEnum)
+            {
+                case DimensionEnum.Brightness:
+                    _standardDimensionBrightness1 = value;
+                    break;
+            }
+
+            if (dimensionEnum == DimensionEnum.Brightness && listIndex == 0)
+            {
+                _standardDimensionBrightness1 = value;
+            }
+        }
+
+        public override void SetValue(string name, int listIndex, double value)
+        {
+            base.SetValue(name, listIndex, value);
+
+            string canonicalName = NameHelper.ToCanonical(name);
+
+            if (String.Equals(name, "prettiness", StringComparison.Ordinal) && listIndex == 0)
+            {
+                _customDimensionPrettiness1 = value;
+            }
+
+            if (String.Equals(name, "prettiness", StringComparison.Ordinal) && listIndex == 0)
+            {
+                _input1 = value;
+            }
+        }
+
+        // Reset
+
+        public override void Reset(double time)
+        {
+            // TODO: Use time?
+            // TODO: Set dimension variables?
+
+            _phase1 = 0.0;
+            _prevPos1 = 0.0;
+            _phase2 = 0.0;
+            _prevPos2 = 0.0;
+            _phase3 = 0.0;
+            _prevPos3 = 0.0;
+            _phase4 = 0.0;
+            _prevPos4 = 0.0;
+            _phase5 = 0.0;
+            _prevPos5 = 0.0;
+            _phase6 = 0.0;
+            _prevPos6 = 0.0;
+            _phase7 = 0.0;
+            _prevPos7 = 0.0;
+            _phase8 = 0.0;
+            _prevPos8 = 0.0;
         }
     }
 }

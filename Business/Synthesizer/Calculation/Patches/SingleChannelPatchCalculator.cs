@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
@@ -16,12 +15,11 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
-    public class SingleChannelPatchCalculator : IPatchCalculator
+    public class SingleChannelPatchCalculator : PatchCalculatorBase
     {
 #if !USE_INVAR_INDICES
         private const int TOP_LEVEL_DIMENSION_STACK_INDEX = 0;
 #endif
-
         private static readonly CalculationEngineConfigurationEnum _calculationEngineConfigurationEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationEngine;
 
         private readonly DimensionStackCollection _dimensionStackCollection;
@@ -35,15 +33,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly Dictionary<int, IList<OperatorCalculatorBase>> _listIndex_To_ResettableOperatorCalculators_Dictionary;
         private readonly Dictionary<string, IList<OperatorCalculatorBase>> _name_To_ResettableOperatorCalculators_Dictionary;
 
-        private readonly Dictionary<int, double> _listIndex_To_Value_Dictionary = new Dictionary<int, double>();
-        private readonly Dictionary<DimensionEnum, double> _dimensionEnum_To_Value_Dictionary = new Dictionary<DimensionEnum, double>();
-        private readonly Dictionary<string, double> _name_To_Value_Dictionary = new Dictionary<string, double>();
-        private readonly Dictionary<Tuple<DimensionEnum, int>, double> _dimensionEnumAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, double>();
-        private readonly Dictionary<Tuple<string, int>, double> _nameAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<string, int>, double>();
-
         private readonly int _channelCount;
         private readonly int _channelIndex;
-        private readonly double _frameDuration;
 
         public SingleChannelPatchCalculator(
             Outlet topLevelOutlet,
@@ -56,6 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository,
             ISpeakerSetupRepository speakerSetupRepository)
+            : base(targetSamplingRate)
         {
             if (topLevelOutlet == null) throw new NullException(() => topLevelOutlet);
             if (channelCount <= 0) throw new LessThanOrEqualException(() => channelCount, 0);
@@ -63,7 +55,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             _channelCount = channelCount;
             _channelIndex = channelIndex;
-            _frameDuration = 1.0 / targetSamplingRate;
 
             ToCalculatorResult result;
             switch (_calculationEngineConfigurationEnum)
@@ -150,8 +141,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 #endif
         }
 
+        // Calculate
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Calculate(double time)
+        public override double Calculate(double time)
         {
 #if !USE_INVAR_INDICES
             _timeDimensionStack.Set(time);
@@ -169,7 +162,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// A frameCount based on the entity model can differ from the frameCount you get from the driver,
         /// and you only know the frameCount at the time the driver calls us.
         /// </param>
-        public void Calculate(float[] buffer, int frameCount, double t0)
+        public override void Calculate(float[] buffer, int frameCount, double t0)
         {
             int channelIndex = _channelIndex;
             int channelCount = _channelCount;
@@ -198,33 +191,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // TODO: This seems unsafe. What happens if the cast is invalid?
                 float floatValue = (float)value;
 
-                InterlockedAdd(ref buffer[i], floatValue);
+                PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
 
                 t += frameDuration;
             }
         }
 
-        // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static float InterlockedAdd(ref float location1, float value)
-        {
-            float newCurrentValue = 0;
-            while (true)
-            {
-                float currentValue = newCurrentValue;
-                float newValue = currentValue + value;
-                newCurrentValue = Interlocked.CompareExchange(ref location1, newValue, currentValue);
-                if (newCurrentValue == currentValue)
-                    return newValue;
-            }
-        }
+        // Values
 
-        public double Calculate(double time, int channelIndex)
-        {
-            throw new NotSupportedException("Calculate with channelIndex is not supported. Use the overload without channelIndex.");
-        }
-
-        public double GetValue(int listIndex)
+        public override double GetValue(int listIndex)
         {
             if (listIndex < 0) return 0.0;
             if (listIndex >= _inputOperatorCalculators.Length) return 0.0;
@@ -233,25 +208,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        public void SetValue(int listIndex, double value)
+        public override void SetValue(int listIndex, double value)
         {
-            _listIndex_To_Value_Dictionary[listIndex] = value;
+            base.SetValue(listIndex, value);
 
             if (listIndex < 0) return;
             if (listIndex >= _inputOperatorCalculators.Length) return;
+
             _inputOperatorCalculators[listIndex]._value = value;
         }
 
-        public double GetValue(DimensionEnum dimensionEnum)
+        public override void SetValue(DimensionEnum dimensionEnum, double value)
         {
-            double value;
-            _dimensionEnum_To_Value_Dictionary.TryGetValue(dimensionEnum, out value);
-            return value;
-        }
-
-        public void SetValue(DimensionEnum dimensionEnum, double value)
-        {
-            _dimensionEnum_To_Value_Dictionary[dimensionEnum] = value;
+            base.SetValue(dimensionEnum, value);
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Set(value);
@@ -265,20 +234,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public double GetValue(string name)
+        public override void SetValue(string name, double value)
         {
+            base.SetValue(name, value);
+
             string canonicalName = NameHelper.ToCanonical(name);
-
-            double value;
-            _name_To_Value_Dictionary.TryGetValue(canonicalName, out value);
-            return value;
-        }
-
-        public void SetValue(string name, double value)
-        {
-            string canonicalName = NameHelper.ToCanonical(name);
-
-            _name_To_Value_Dictionary[canonicalName] = value;
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(canonicalName);
             dimensionStack.Set(value);
@@ -292,20 +252,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public double GetValue(DimensionEnum dimensionEnum, int listIndex)
+        public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)
         {
-            var key = new Tuple<DimensionEnum, int>(dimensionEnum, listIndex);
-
-            double value;
-            _dimensionEnumAndListIndex_To_Value_Dictionary.TryGetValue(key, out value);
-            return value;
-        }
-
-        public void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)
-        {
-            var key = new Tuple<DimensionEnum, int>(dimensionEnum, listIndex);
-
-            _dimensionEnumAndListIndex_To_Value_Dictionary[key] = value;
+            base.SetValue(dimensionEnum, listIndex, value);
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Set(value);
@@ -326,24 +275,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public double GetValue(string name, int listIndex)
+        public override void SetValue(string name, int listIndex, double value)
         {
+            base.SetValue(name, listIndex, value);
+
             string canonicalName = NameHelper.ToCanonical(name);
-
-            var key = new Tuple<string, int>(canonicalName, listIndex);
-
-            double value;
-            _nameAndListIndex_To_Value_Dictionary.TryGetValue(key, out value);
-            return value;
-        }
-
-        public void SetValue(string name, int listIndex, double value)
-        {
-            string canonicalName = NameHelper.ToCanonical(name);
-
-            var key = new Tuple<string, int>(canonicalName, listIndex);
-
-            _nameAndListIndex_To_Value_Dictionary[key] = value;
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(canonicalName);
             dimensionStack.Set(value);
@@ -364,43 +300,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public void CloneValues(IPatchCalculator sourcePatchCalculator)
-        {
-            if (sourcePatchCalculator == null) throw new NullException(() => sourcePatchCalculator);
+        // Reset
 
-            var source = sourcePatchCalculator as SingleChannelPatchCalculator;
-            if (source == null)
-            {
-                throw new InvalidTypeException<SingleChannelPatchCalculator>(() => sourcePatchCalculator);
-            }
-
-            foreach (var entry in source._listIndex_To_Value_Dictionary)
-            {
-                SetValue(entry.Key, entry.Value);
-            }
-
-            foreach (var entry in source._dimensionEnum_To_Value_Dictionary)
-            {
-                SetValue(entry.Key, entry.Value);
-            }
-
-            foreach (var entry in source._name_To_Value_Dictionary)
-            {
-                SetValue(entry.Key, entry.Value);
-            }
-
-            foreach (var entry in source._dimensionEnumAndListIndex_To_Value_Dictionary)
-            {
-                SetValue(entry.Key.Item1, entry.Key.Item2, entry.Value);
-            }
-
-            foreach (var entry in source._nameAndListIndex_To_Value_Dictionary)
-            {
-                SetValue(entry.Key.Item1, entry.Key.Item2, entry.Value);
-            }
-        }
-
-        public void Reset(double time)
+        public override void Reset(double time)
         {
 #if !USE_INVAR_INDICES
             _timeDimensionStack.Set(time);
@@ -429,7 +331,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //_dimensionEnumAndListIndex_To_Value_Dictionary.Clear();
         }
 
-        public void Reset(double time, string name)
+        public override void Reset(double time, string name)
         {
             string canonicalName = NameHelper.ToCanonical(name);
 
@@ -460,7 +362,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public void Reset(double time, int listIndex)
+        public override void Reset(double time, int listIndex)
         {
 #if !USE_INVAR_INDICES
             _timeDimensionStack.Set(time);
