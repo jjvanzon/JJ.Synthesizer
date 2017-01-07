@@ -15,6 +15,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private const string MULTIPLY_SYMBOL = "*";
         private const string PLUS_SYMBOL = "+";
+        private const string SUBTRACT_SYMBOL = "-";
         private const string PHASE_VARIABLE_PREFIX = "phase";
         private const string PREVIOUS_POSITION_VARIABLE_PREFIX = "prevPos";
         private const string INPUT_VARIABLE_PREFIX = "input";
@@ -96,6 +97,18 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ProcessMultiVarOperator(dto.OperatorTypeName, dto.Vars.Count + 1, PLUS_SYMBOL);
 
             return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
+        {
+            throw new NotImplementedException();
+            return base.Visit_Equal_OperatorDto_VarA_ConstB(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_VarB(Equal_OperatorDto_VarA_VarB dto)
+        {
+            throw new NotImplementedException();
+            return base.Visit_Equal_OperatorDto_VarA_VarB(dto);
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
@@ -233,6 +246,35 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
+        protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
+        {
+            base.Visit_Subtract_OperatorDto_ConstA_VarB(dto);
+
+            ProcessNumber(dto.A);
+            ProcessBinaryOperator_ConstA_VarB(dto.OperatorTypeName, SUBTRACT_SYMBOL);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto)
+        {
+            base.Visit_Subtract_OperatorDto_VarA_ConstB(dto);
+
+            ProcessNumber(dto.B);
+            ProcessBinaryOperator_VarA_ConstB(dto.OperatorTypeName, SUBTRACT_SYMBOL);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_VarB(Subtract_OperatorDto_VarA_VarB dto)
+        {
+            base.Visit_Subtract_OperatorDto_VarA_VarB(dto);
+
+            ProcessBinaryOperator_VarA_VarB(dto.OperatorTypeName, SUBTRACT_SYMBOL);
+
+            return dto;
+        }
+
         protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {
             base.Visit_VariableInput_OperatorDto(dto);
@@ -248,17 +290,48 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         // Generalized Methods
 
-        private void ProcessBinaryOperatorDto(string operatorTypeName, string operatorSymbol)
+        private void ProcessBinaryOperator_ConstA_VarB(string operatorTypeName, string operatorSymbol)
         {
             ValueInfo aValueInfo = _stack.Pop();
             ValueInfo bValueInfo = _stack.Pop();
 
+            ProcessBinaryOperator(operatorTypeName, operatorSymbol, aValueInfo, bValueInfo);
+        }
+
+        /// <summary> Popping A and B is switched, because you can only push the variable first, and then the number. See callers. </summary>
+        private void ProcessBinaryOperator_VarA_ConstB(string operatorTypeName, string operatorSymbol)
+        {
+            ValueInfo bValueInfo = _stack.Pop();
+            ValueInfo aValueInfo = _stack.Pop();
+
+            ProcessBinaryOperator(operatorTypeName, operatorSymbol, aValueInfo, bValueInfo);
+        }
+
+        private void ProcessBinaryOperator_VarA_VarB(string operatorTypeName, string operatorSymbol)
+        {
+            ValueInfo aValueInfo = _stack.Pop();
+            ValueInfo bValueInfo = _stack.Pop();
+
+            ProcessBinaryOperator(operatorTypeName, operatorSymbol, aValueInfo, bValueInfo);
+        }
+
+        private void ProcessBinaryOperator_Commutative(string operatorTypeName, string operatorSymbol)
+        {
+            ValueInfo aValueInfo = _stack.Pop();
+            ValueInfo bValueInfo = _stack.Pop();
+
+            ProcessBinaryOperator(operatorTypeName, operatorSymbol, aValueInfo, bValueInfo);
+        }
+
+        private void ProcessBinaryOperator(string operatorTypeName, string operatorSymbol, ValueInfo aValueInfo, ValueInfo bValueInfo)
+        {
             _sb.AppendLine();
             _sb.AppendLine("// " + operatorTypeName);
 
-            string outputName = GenerateOutputNameCamelCase(operatorTypeName);
             string aLiteral = aValueInfo.GetLiteral();
             string bLiteral = bValueInfo.GetLiteral();
+
+            string outputName = GenerateOutputNameCamelCase(operatorTypeName);
 
             string line = $"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral};";
             _sb.AppendLine(line);

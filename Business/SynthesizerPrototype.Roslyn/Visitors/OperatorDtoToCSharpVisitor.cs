@@ -103,7 +103,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);
 
             ProcessNumber(dto.B);
-            ProcessBinaryOperatorDto(dto.OperatorTypeName, MULTIPLY_SYMBOL);
+            ProcessBinaryOperator(dto.OperatorTypeName, MULTIPLY_SYMBOL);
 
             return dto;
         }
@@ -112,7 +112,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
         {
             base.Visit_Multiply_OperatorDto_VarA_VarB(dto);
 
-            ProcessBinaryOperatorDto(dto.OperatorTypeName, MULTIPLY_SYMBOL);
+            ProcessBinaryOperator(dto.OperatorTypeName, MULTIPLY_SYMBOL);
 
             return dto;
         }
@@ -121,7 +121,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
         {
             base.Visit_Number_OperatorDto(dto);
 
-            ProcessNumberOperatorDto(dto);
+            ProcessNumberOperator(dto);
 
             return dto;
         }
@@ -130,7 +130,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
         {
             base.Visit_Number_OperatorDto_NaN(dto);
 
-            ProcessNumberOperatorDto(dto);
+            ProcessNumberOperator(dto);
 
             return dto;
         }
@@ -139,7 +139,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
         {
             base.Visit_Number_OperatorDto_One(dto);
 
-            ProcessNumberOperatorDto(dto);
+            ProcessNumberOperator(dto);
 
             return dto;
         }
@@ -148,7 +148,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
         {
             base.Visit_Number_OperatorDto_Zero(dto);
 
-            ProcessNumberOperatorDto(dto);
+            ProcessNumberOperator(dto);
 
             return dto;
         }
@@ -248,7 +248,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 
         // Generalized Methods
 
-        private void ProcessBinaryOperatorDto(string operatorTypeName, string operatorSymbol)
+        private void ProcessBinaryOperator(string operatorTypeName, string operatorSymbol)
         {
             ValueInfo aValueInfo = _stack.Pop();
             ValueInfo bValueInfo = _stack.Pop();
@@ -304,7 +304,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             _stack.Push(new ValueInfo(value));
         }
 
-        private void ProcessNumberOperatorDto(Number_OperatorDto dto)
+        private void ProcessNumberOperator(Number_OperatorDto dto)
         {
             _sb.AppendLine();
             _sb.AppendLine("// " + dto.OperatorTypeName);
