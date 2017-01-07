@@ -2,8 +2,6 @@
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories

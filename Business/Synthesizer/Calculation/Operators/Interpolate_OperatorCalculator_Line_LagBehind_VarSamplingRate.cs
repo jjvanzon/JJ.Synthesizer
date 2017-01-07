@@ -1,5 +1,4 @@
-﻿using JJ.Framework.Exceptions;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace JJ.Data.Synthesizer
+﻿namespace JJ.Data.Synthesizer
 {
     public class AudioOutput
     {

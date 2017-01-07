@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows.Forms;
-using JJ.Presentation.Synthesizer.ViewModels;
+﻿using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls

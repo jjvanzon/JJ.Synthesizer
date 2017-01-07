@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Dto
 {

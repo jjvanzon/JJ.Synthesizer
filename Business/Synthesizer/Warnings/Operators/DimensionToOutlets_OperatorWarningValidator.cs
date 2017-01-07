@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Framework.Validation;
+﻿using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;

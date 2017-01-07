@@ -1,18 +1,13 @@
-﻿using System.Collections.Generic;
-using JJ.Data.Canonical;
+﻿using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Validators;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Canonical;
-using JJ.Framework.Common;
-using System;
 using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters

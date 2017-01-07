@@ -4,8 +4,6 @@ using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Helpers;
-using System;
 using JJ.Business.Synthesizer.Dtos;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel

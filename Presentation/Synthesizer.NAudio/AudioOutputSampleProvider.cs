@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using NAudio.Wave;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using System.Threading;

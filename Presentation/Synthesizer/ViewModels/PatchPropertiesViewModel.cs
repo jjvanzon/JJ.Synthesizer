@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
-
-namespace JJ.Presentation.Synthesizer.ViewModels
+﻿namespace JJ.Presentation.Synthesizer.ViewModels
 {
     /// <summary> Leading for saving when it comes to the simple properties. </summary>
     public sealed class PatchPropertiesViewModel : ViewModelBase

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer

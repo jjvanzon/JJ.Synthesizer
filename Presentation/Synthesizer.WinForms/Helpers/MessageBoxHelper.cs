@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Common;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Resources;

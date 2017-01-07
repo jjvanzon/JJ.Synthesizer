@@ -1,5 +1,4 @@
-﻿using System;
-using JJ.Business.SynthesizerPrototype.Helpers;
+﻿using JJ.Business.SynthesizerPrototype.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.Dto
 {

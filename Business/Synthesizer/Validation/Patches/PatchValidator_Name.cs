@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches

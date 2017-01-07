@@ -1,9 +1,7 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
-using System;
 using System.Linq;
-using JJ.Business.Synthesizer.Extensions;
 using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.SideEffects

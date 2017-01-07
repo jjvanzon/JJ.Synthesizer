@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Common;
 using System.Linq;
 
 namespace JJ.Business.Synthesizer.Resources

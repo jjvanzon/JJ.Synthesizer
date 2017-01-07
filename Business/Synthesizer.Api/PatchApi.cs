@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.EntityWrappers;

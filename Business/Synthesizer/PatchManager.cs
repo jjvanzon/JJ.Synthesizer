@@ -19,13 +19,11 @@ using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Validation.Patches;
-using System.Collections;
 using JJ.Framework.Collections;
 using JJ.Business.Synthesizer.Dtos;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Roslyn.Visitors;
 using JJ.Business.Synthesizer.Roslyn.Calculation;
 
 namespace JJ.Business.Synthesizer

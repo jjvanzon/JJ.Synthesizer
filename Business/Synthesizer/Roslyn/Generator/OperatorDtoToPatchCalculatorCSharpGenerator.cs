@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Roslyn.Calculation;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation;

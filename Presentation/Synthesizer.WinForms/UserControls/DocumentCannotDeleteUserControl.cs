@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;

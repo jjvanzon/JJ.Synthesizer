@@ -2,7 +2,6 @@
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
 

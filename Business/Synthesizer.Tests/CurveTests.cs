@@ -1,17 +1,12 @@
 ﻿using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Framework.Common;
 using JJ.Framework.Data;
 using JJ.Data.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Testing;
-using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Configuration;
-using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Framework.Collections;

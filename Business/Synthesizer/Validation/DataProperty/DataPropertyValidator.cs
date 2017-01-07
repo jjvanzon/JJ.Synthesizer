@@ -1,7 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Common;

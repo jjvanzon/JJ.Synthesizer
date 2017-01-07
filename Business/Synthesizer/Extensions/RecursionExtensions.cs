@@ -5,7 +5,6 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace JJ.Business.Synthesizer.Extensions
 {

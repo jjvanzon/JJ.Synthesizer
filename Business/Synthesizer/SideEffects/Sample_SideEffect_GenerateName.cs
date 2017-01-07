@@ -1,10 +1,8 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
-using System;
 using System.Linq;
 using System.Collections.Generic;
-using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {

@@ -1,8 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
-using System;
-using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings
 {

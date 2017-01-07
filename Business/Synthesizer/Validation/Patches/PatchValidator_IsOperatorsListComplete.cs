@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Common;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Extensions;

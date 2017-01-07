@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Common;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;

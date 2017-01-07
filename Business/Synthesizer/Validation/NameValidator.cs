@@ -1,5 +1,4 @@
-﻿using System;
-using JJ.Business.Synthesizer.Configuration;
+﻿using JJ.Business.Synthesizer.Configuration;
 using JJ.Framework.Common;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;

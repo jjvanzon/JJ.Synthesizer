@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Extensions;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {

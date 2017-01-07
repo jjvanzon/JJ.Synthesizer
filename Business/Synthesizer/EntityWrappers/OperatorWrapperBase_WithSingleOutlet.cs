@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.EntityWrappers

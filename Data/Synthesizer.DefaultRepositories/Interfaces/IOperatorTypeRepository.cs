@@ -1,5 +1,4 @@
 ﻿using JJ.Framework.Data;
-using System.Collections.Generic;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {

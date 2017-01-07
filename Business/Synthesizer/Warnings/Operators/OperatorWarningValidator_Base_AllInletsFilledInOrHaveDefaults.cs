@@ -1,6 +1,4 @@
-﻿using System;
-using JJ.Data.Synthesizer;
-using System.Linq;
+﻿using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {

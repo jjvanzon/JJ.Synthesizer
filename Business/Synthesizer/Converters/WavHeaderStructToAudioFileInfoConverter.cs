@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
-using System;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Converters

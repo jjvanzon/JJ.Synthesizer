@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace JJ.Business.SynthesizerPrototype.Dto
+﻿namespace JJ.Business.SynthesizerPrototype.Dto
 {
     public abstract class OperatorDtoBase_ConstA_ConstB : OperatorDtoBase_WithoutInputOperatorDtos
     {

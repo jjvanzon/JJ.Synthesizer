@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
@@ -11,7 +9,6 @@ using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Api;
-using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {

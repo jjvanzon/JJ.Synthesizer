@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
-using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer
 {

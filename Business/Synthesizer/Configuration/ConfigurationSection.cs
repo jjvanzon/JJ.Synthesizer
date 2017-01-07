@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Configuration

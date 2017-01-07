@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
-using System;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;

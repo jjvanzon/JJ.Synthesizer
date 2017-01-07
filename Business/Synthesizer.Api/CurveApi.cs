@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Api.Helpers;
-using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 

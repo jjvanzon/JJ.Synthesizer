@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Common;
 using JJ.Framework.Presentation;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Framework.Collections;
 

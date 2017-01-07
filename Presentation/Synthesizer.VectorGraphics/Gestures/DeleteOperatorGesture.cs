@@ -1,7 +1,6 @@
 ﻿using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
-using JJ.Framework.Exceptions;
 using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures

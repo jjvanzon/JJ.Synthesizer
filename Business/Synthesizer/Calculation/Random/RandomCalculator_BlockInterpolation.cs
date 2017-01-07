@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Random
 {

@@ -7,7 +7,6 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {

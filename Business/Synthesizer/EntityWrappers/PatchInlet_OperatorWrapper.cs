@@ -1,6 +1,5 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
-using System;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Resources;

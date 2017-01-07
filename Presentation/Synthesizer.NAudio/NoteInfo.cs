@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace JJ.Presentation.Synthesizer.NAudio
+﻿namespace JJ.Presentation.Synthesizer.NAudio
 {
     public class NoteInfo
     {

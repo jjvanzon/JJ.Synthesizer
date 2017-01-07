@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace JJ.Presentation.Synthesizer.ViewModels
+﻿namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class OperatorPropertiesViewModel : OperatorPropertiesViewModelBase
     {

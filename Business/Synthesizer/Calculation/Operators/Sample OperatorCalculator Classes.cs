@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;

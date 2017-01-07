@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer.Api.Helpers;
+﻿using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Api

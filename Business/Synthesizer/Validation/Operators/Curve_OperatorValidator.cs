@@ -5,7 +5,6 @@ using JJ.Data.Synthesizer;
 using System;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
-using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

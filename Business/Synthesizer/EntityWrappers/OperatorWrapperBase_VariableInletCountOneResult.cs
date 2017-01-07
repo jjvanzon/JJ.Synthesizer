@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Resources;
 using System;
-using System.Linq;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

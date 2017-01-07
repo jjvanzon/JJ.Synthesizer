@@ -1,7 +1,6 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
-using System.Collections.Generic;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;

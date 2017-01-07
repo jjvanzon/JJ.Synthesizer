@@ -2,15 +2,11 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {
 
-		public struct Add_OperatorCalculator_2Vars
+    public struct Add_OperatorCalculator_2Vars
 			<
 					TChildCalculator1
 ,					TChildCalculator2

@@ -2,8 +2,6 @@
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
-using System;
-using System.Linq;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;

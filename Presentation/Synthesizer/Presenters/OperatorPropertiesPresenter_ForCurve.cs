@@ -1,10 +1,7 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
-using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
-using System;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

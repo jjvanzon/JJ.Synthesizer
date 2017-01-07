@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Business.SynthesizerPrototype.Tests.Helpers;
 using JJ.Business.SynthesizerPrototype.Tests.Helpers.WithInheritance;

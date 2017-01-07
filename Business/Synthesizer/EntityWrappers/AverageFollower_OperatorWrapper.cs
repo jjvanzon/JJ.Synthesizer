@@ -1,5 +1,4 @@
-﻿using System;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

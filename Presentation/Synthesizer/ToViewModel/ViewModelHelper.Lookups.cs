@@ -2,14 +2,12 @@
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Dtos;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel

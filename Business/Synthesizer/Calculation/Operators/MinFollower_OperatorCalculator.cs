@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Framework.Collections;
+﻿using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace JJ.Business.Synthesizer.Calculation.Curves
+﻿namespace JJ.Business.Synthesizer.Calculation.Curves
 {
     internal class CurveArrayInfo
     {

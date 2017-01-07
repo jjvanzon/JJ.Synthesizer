@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 using JJ.Data.Synthesizer.NHibernate.Names;
 
 namespace JJ.Data.Synthesizer.NHibernate.Mapping

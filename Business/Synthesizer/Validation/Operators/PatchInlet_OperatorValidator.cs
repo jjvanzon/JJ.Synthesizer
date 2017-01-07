@@ -1,7 +1,5 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
-using System;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using System.Linq;

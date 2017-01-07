@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters

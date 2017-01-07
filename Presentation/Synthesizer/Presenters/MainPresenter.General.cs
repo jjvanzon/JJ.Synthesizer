@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Framework.Common;
-using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;

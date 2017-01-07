@@ -1,9 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
-using System;
-using System.Globalization;
-using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

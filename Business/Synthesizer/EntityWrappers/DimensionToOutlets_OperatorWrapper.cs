@@ -1,11 +1,8 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
-using System.Collections.Generic;
-using System.Linq;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Resources;
-using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;

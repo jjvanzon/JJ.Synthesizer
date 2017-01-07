@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dtos;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;

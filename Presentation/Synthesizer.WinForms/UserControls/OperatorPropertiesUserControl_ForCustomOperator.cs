@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
+﻿using System.Collections.Generic;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using JJ.Data.Canonical;
 

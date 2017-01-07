@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
@@ -11,7 +8,6 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Business.Canonical;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

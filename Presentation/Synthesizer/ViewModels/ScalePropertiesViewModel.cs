@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 

@@ -7,7 +7,6 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
-using System.Linq;
 using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters

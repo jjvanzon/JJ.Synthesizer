@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels

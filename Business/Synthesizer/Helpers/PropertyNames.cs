@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-
-namespace JJ.Business.Synthesizer.Helpers
+﻿namespace JJ.Business.Synthesizer.Helpers
 {
     public static class PropertyNames
     {

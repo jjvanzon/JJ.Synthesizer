@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace JJ.Business.Synthesizer.Calculation.Operators
+﻿namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class RangeOverOutlets_OperatorCalculator_ConstFrom_VarStep : OperatorCalculatorBase_WithChildCalculators
     {

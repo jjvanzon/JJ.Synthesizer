@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
 using JJ.Framework.Exceptions;

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Framework.Collections;
-using JJ.Framework.Common;
 using CollectionHelper = JJ.Business.Synthesizer.CopiedCode.FromFramework.CollectionHelper;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators

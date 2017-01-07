@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Text;
 using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
 using JJ.Business.SynthesizerPrototype.Dto;
-using JJ.Business.SynthesizerPrototype.Roslyn.Visitors;
 using JJ.Framework.IO;
 using JJ.Framework.Exceptions;
 using Microsoft.CodeAnalysis;

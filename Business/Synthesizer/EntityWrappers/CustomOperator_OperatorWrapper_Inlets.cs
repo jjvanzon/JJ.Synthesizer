@@ -1,8 +1,6 @@
 ﻿using JJ.Data.Synthesizer;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;

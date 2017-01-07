@@ -1,5 +1,4 @@
-﻿using System;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;

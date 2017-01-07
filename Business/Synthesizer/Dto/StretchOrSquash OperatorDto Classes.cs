@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Dto
 {

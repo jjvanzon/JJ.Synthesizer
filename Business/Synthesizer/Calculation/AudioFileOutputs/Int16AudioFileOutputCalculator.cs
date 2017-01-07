@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Data.Synthesizer;

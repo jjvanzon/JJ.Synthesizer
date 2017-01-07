@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.Memory.Mappings;
 using JJ.Framework.Data;
 using JJ.Framework.Data.Memory;

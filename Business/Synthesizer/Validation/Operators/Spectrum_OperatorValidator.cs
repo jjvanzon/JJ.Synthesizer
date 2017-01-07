@@ -1,6 +1,5 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
-using System;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

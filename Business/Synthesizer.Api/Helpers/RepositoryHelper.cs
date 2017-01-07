@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Framework.Data;
+﻿using JJ.Framework.Data;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Helpers;
 using DefaultRepositories = JJ.Data.Synthesizer.DefaultRepositories;

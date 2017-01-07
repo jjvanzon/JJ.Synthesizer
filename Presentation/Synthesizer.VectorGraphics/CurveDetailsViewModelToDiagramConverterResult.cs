@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Framework.Presentation.VectorGraphics.Gestures;
+﻿using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
-using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 

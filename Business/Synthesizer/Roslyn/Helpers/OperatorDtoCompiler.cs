@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
     internal class OperatorDtoCompiler
     {
         private const string GENERATED_NAME_SPACE = "GeneratedCSharp";
-        private const string GENERATED_CLASS_NAME = "Calculator";
+        private const string GENERATED_CLASS_NAME = "GeneratedPatchCalculator";
         private const string GENERATED_CLASS_FULL_NAME = GENERATED_NAME_SPACE + "." + GENERATED_CLASS_NAME;
 
         private static readonly bool _includeSymbols = ConfigurationHelper.GetSection<ConfigurationSection>().IncludeSymbolsWithCompilation;
@@ -33,7 +33,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         private static readonly SyntaxTree[] _includedSyntaxTrees = CreateIncludedSyntaxTrees(
             @"Calculation\SineCalculator.cs",
             @"Calculation\Patches\PatchCalculatorHelper.cs");
-
 
         public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int samplingRate, int channelCount, int channelIndex)
         {

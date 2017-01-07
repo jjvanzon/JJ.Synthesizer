@@ -2,7 +2,6 @@
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using System.Collections.Generic;
-using System.Linq;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters

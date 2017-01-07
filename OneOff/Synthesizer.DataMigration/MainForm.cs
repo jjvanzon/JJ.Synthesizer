@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Framework.Presentation.WinForms.Forms;
-using JJ.Framework.Presentation.WinForms.Helpers;
 using JJ.Framework.Exceptions;
 
 namespace JJ.OneOff.Synthesizer.DataMigration

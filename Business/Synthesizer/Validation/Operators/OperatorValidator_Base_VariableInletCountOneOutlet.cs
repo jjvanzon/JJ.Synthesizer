@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;

@@ -3,14 +3,11 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Validation.DataProperty;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

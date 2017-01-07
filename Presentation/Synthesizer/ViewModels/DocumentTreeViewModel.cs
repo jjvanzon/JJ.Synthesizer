@@ -1,6 +1,4 @@
 ﻿using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using System.Collections.Generic;
-using System;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels

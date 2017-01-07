@@ -1,5 +1,4 @@
-﻿using System;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers

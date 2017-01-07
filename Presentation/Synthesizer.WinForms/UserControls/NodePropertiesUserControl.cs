@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Forms;
-using JJ.Presentation.Synthesizer.ViewModels;
+﻿using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
