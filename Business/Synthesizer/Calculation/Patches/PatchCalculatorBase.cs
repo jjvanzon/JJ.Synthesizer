@@ -9,15 +9,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     public abstract class PatchCalculatorBase : IPatchCalculator
     {
         protected readonly double _frameDuration;
+        protected readonly int _targetChannelCount;
+
         protected readonly Dictionary<DimensionEnum, double> _dimensionEnum_To_Value_Dictionary = new Dictionary<DimensionEnum, double>();
         protected readonly Dictionary<string, double> _name_To_Value_Dictionary = new Dictionary<string, double>();
         protected readonly Dictionary<Tuple<DimensionEnum, int>, double> _dimensionEnumAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, double>();
         protected readonly Dictionary<Tuple<string, int>, double> _nameAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<string, int>, double>();
         protected readonly Dictionary<int, double> _listIndex_To_Value_Dictionary = new Dictionary<int, double>();
 
-        public PatchCalculatorBase(int targetSamplingRate)
+        public PatchCalculatorBase(int samplingRate, int targetChannelCount)
         {
-            _frameDuration = 1.0 / targetSamplingRate;
+            _frameDuration = 1.0 / samplingRate;
+            _targetChannelCount = targetChannelCount;
         }
 
         // Calculate

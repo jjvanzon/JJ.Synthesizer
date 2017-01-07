@@ -45,6 +45,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     // Fields
                     sb.AppendLine("// Fields");
                     sb.AppendLine();
+                    sb.AppendLine("private readonly int _channelIndex;");
+                    sb.AppendLine();
+
                     foreach (string instanceVariableName in instanceVariableNames)
                     {
                         sb.AppendLine($"private double _{instanceVariableName};");
@@ -54,20 +57,27 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     // Constructor
                     sb.AppendLine("// Constructor");
                     sb.AppendLine();
-                    sb.AppendLine($"public {generatedClassName}(int targetSamplingRate)");
+                    sb.AppendLine($"public {generatedClassName}(int samplingRate, int channelCount, int channelIndex)");
                     sb.Indent();
                     {
-                        sb.AppendLine($": base(targetSamplingRate)");
+                        sb.AppendLine($": base(samplingRate, channelCount)");
                         sb.Unindent();
                     }
                     sb.AppendLine("{");
                     sb.Indent();
                     {
-                        foreach (ValueInfo variableInputValueInfo in visitorResult.VariableInputValueInfos)
-                        {
-                            sb.AppendLine($"_{variableInputValueInfo.NameCamelCase} = {variableInputValueInfo.FormatValue()};");
-                        }
+                        sb.AppendLine("PatchCalculatorHelper.AssertChannelIndex(channelIndex, channelCount);");
+                        sb.AppendLine("_channelIndex = channelIndex;");
                         sb.AppendLine("");
+
+                        if (visitorResult.VariableInputValueInfos.Any())
+                        {
+                            foreach (ValueInfo variableInputValueInfo in visitorResult.VariableInputValueInfos)
+                            {
+                                sb.AppendLine($"_{variableInputValueInfo.NameCamelCase} = {variableInputValueInfo.FormatValue()};");
+                            }
+                            sb.AppendLine("");
+                        }
 
                         sb.AppendLine("Reset(time: 0.0);");
                         sb.Unindent();
@@ -79,12 +89,16 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     sb.AppendLine("// Calculate");
                     sb.AppendLine();
                     sb.AppendLine("[MethodImpl(MethodImplOptions.AggressiveInlining)]");
-                    sb.AppendLine("public override void Calculate(float[] buffer, int framesPerChunk, double startTime)");
+                    sb.AppendLine("public override void Calculate(float[] buffer, int frameCount, double startTime)");
                     sb.AppendLine("{");
                     sb.Indent();
                     {
                         // Copy Fields to Local
                         sb.AppendLine("double frameDuration = _frameDuration;");
+                        sb.AppendLine("int channelCount = _targetChannelCount;");
+                        sb.AppendLine("int channelIndex = _channelIndex;");
+                        sb.AppendLine("int valueCount = frameCount * channelCount;");
+
                         sb.AppendLine();
                         foreach (string instanceVariableName in instanceVariableNames)
                         {
@@ -106,7 +120,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                         sb.AppendLine();
 
                         // Loop
-                        sb.AppendLine("for (int i = 0; i < framesPerChunk; i++)");
+                        sb.AppendLine("// Writes values in an interleaved way to the buffer.");
+                        sb.AppendLine("for (int i = channelIndex; i < valueCount; i += channelCount)");
                         sb.AppendLine("{");
                         sb.Indent();
                         {

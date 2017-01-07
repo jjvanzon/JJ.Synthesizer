@@ -246,11 +246,11 @@
     <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Roslyn\Calculation\2017-01-05 Backup of ExampleOperatorCalculatorOutputCode.cs" />
-    <Compile Include="Roslyn\Calculation\GeneratedCalculatorExample1.cs" />
-    <Compile Include="Roslyn\Calculation\GeneratedCalculatorExample5.cs" />
-    <Compile Include="Roslyn\Calculation\GeneratedCalculatorExample4.cs" />
-    <Compile Include="Roslyn\Calculation\GeneratedCalculatorExample3.cs" />
-    <Compile Include="Roslyn\Calculation\GeneratedCalculatorExample2.cs" />
+    <Compile Include="Roslyn\Calculation\2017-01-07 Backup of GeneratedCalculatorExample1.cs" />
+    <Compile Include="Roslyn\Calculation\GeneratedPatchCalculatorExample.cs" />
+    <Compile Include="Roslyn\Calculation\2017-01-07 Backup of GeneratedCalculatorExample4.cs" />
+    <Compile Include="Roslyn\Calculation\2017-01-07 Backup of GeneratedCalculatorExample3.cs" />
+    <Compile Include="Roslyn\Calculation\2017-01-07 Backup of GeneratedCalculatorExample2.cs" />
     <Compile Include="Roslyn\Calculation\HardCodedPatchCalculator.cs" />
     <Compile Include="Roslyn\Calculation\2017-01-07 Backup of IOperatorCalculator.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoCompiler.cs" />

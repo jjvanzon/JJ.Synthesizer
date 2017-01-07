@@ -33,12 +33,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly Dictionary<int, IList<OperatorCalculatorBase>> _listIndex_To_ResettableOperatorCalculators_Dictionary;
         private readonly Dictionary<string, IList<OperatorCalculatorBase>> _name_To_ResettableOperatorCalculators_Dictionary;
 
-        private readonly int _channelCount;
         private readonly int _channelIndex;
 
         public SingleChannelPatchCalculator(
             Outlet topLevelOutlet,
-            int targetSamplingRate,
+            int samplingRate,
             int channelCount,
             int channelIndex,
             CalculatorCache calculatorCache,
@@ -47,13 +46,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository,
             ISpeakerSetupRepository speakerSetupRepository)
-            : base(targetSamplingRate)
+            : base(samplingRate, channelCount)
         {
             if (topLevelOutlet == null) throw new NullException(() => topLevelOutlet);
             if (channelCount <= 0) throw new LessThanOrEqualException(() => channelCount, 0);
-            if (channelIndex < 0) throw new LessThanException(() => channelIndex, 0);
 
-            _channelCount = channelCount;
+            PatchCalculatorHelper.AssertChannelIndex(channelIndex, channelCount);
+
             _channelIndex = channelIndex;
 
             ToCalculatorResult result;
@@ -63,7 +62,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     {
                         var visitor = new OperatorEntityToCalculatorDirectlyVisitor(
                             topLevelOutlet,
-                            targetSamplingRate,
+                            samplingRate,
                             channelCount,
                             secondsBetweenApplyFilterVariables,
                             calculatorCache,
@@ -79,7 +78,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 case CalculationEngineConfigurationEnum.EntityThruDtoToCalculator:
                     {
                         var visitor = new OperatorEntityThruDtoToCalculatorExecutor(
-                            targetSamplingRate,
+                            samplingRate,
                             channelCount,
                             secondsBetweenApplyFilterVariables,
                             calculatorCache,
@@ -165,7 +164,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         public override void Calculate(float[] buffer, int frameCount, double t0)
         {
             int channelIndex = _channelIndex;
-            int channelCount = _channelCount;
+            int channelCount = _targetChannelCount;
             double frameDuration = _frameDuration;
             int valueCount = frameCount * channelCount;
             DimensionStack timeDimensionStack = _timeDimensionStack;

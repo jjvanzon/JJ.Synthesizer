@@ -11,6 +11,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
     {
         // Fields
 
+        private readonly int _channelIndex;
+
         private double _input1;
         private double _standardDimensionFrequency1;
         private double _customDimensionPrettiness1;
@@ -33,9 +35,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
         // Constructor
 
-        public HardCodedPatchCalculator(int targetSamplingRate)
-            : base(targetSamplingRate)
+        public HardCodedPatchCalculator(int samplingRate, int channelCount, int channelIndex)
+            : base(samplingRate, channelCount)
         {
+            PatchCalculatorHelper.AssertChannelIndex(channelIndex, channelCount);
+            _channelIndex = channelIndex;
+
             Reset(time: 0.0);
 
             // TODO: Copy defaults from fields to value dictionaries in the base, like SingleChannelPatchCalculator's constructor.
@@ -44,9 +49,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
         // Calculate
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void Calculate(float[] buffer, int framesPerChunk, double startTime)
+        public override void Calculate(float[] buffer, int frameCount, double startTime)
         {
             double frameDuration = _frameDuration;
+            int channelCount = _targetChannelCount;
+            int channelIndex = _channelIndex;
+            int valueCount = frameCount * channelCount;
 
             double input1 = _input1;
             double phase1 = _phase1;
@@ -69,7 +77,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             double t0 = startTime;
             double t1;
 
-            for (int i = 0; i < framesPerChunk; i++)
+            // Writes values in an interleaved way to the buffer.
+            for (int i = channelIndex; i < valueCount; i += channelCount)
             {
                 // Shift
                 t1 = t0 + 0.25;

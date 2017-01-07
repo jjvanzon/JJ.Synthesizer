@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -8,7 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     /// is so that Roslyn runtim compilation can use this code to compile right into the runtime assembly
     /// for inlining.
     /// </summary>
-    public static class PatchCalculatorHelper
+    internal static class PatchCalculatorHelper
     {
         // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -23,6 +24,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 if (newCurrentValue == currentValue)
                     return newValue;
             }
+        }
+
+        public static void AssertChannelIndex(int channelIndex, int channelCount)
+        {
+            if (channelIndex < 0) throw new LessThanException(() => channelIndex, 0);
+            if (channelIndex > channelCount - 1) throw new InvalidIndexException(() => channelIndex, () => channelCount);
         }
     }
 }

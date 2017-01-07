@@ -4,9 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using JJ.Business.Synthesizer.Roslyn.Calculation;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Roslyn.Visitors;
 using JJ.Framework.IO;
 using JJ.Framework.Exceptions;
 using Microsoft.CodeAnalysis;
@@ -17,12 +15,13 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Roslyn.Generator;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Configuration;
+using JJ.Framework.Collections;
+using System.Linq.Expressions;
 
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
     internal class OperatorDtoCompiler
     {
-        private const string SINE_CALCULATOR_CODE_FILE_NAME = @"Calculation\SineCalculator.cs";
         private const string GENERATED_NAME_SPACE = "GeneratedCSharp";
         private const string GENERATED_CLASS_NAME = "Calculator";
         private const string GENERATED_CLASS_FULL_NAME = GENERATED_NAME_SPACE + "." + GENERATED_CLASS_NAME;
@@ -30,20 +29,24 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         private static readonly bool _includeSymbols = ConfigurationHelper.GetSection<ConfigurationSection>().IncludeSymbolsWithCompilation;
         private static readonly IList<MetadataReference> _metaDataReferences = GetMetadataReferences();
         private static readonly CSharpCompilationOptions _csharpCompilationOptions = GetCSharpCompilationOptions();
-        private static readonly SyntaxTree _sineCalculatorSyntaxTree = CreateSineCalculatorSyntaxTree();
 
-        public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int samplingRate, int targetChannelCount)
+        private static readonly SyntaxTree[] _includedSyntaxTrees = CreateIncludedSyntaxTrees(
+            @"Calculation\SineCalculator.cs",
+            @"Calculation\Patches\PatchCalculatorHelper.cs");
+
+
+        public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int samplingRate, int channelCount, int channelIndex)
         {
             if (dto == null) throw new NullException(() => dto);
 
-            var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(targetChannelCount);
+            var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(channelCount);
             dto = preProcessingVisitor.Execute(dto);
 
             var codeGeneratingVisitor = new OperatorDtoToPatchCalculatorCSharpGenerator();
             string generatedCode = codeGeneratingVisitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             Type type = Compile(generatedCode);
-            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate);
+            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex);
             return calculator;
         }
 
@@ -57,12 +60,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             }
 
             SyntaxTree generatedSyntaxTree = CSharpSyntaxTree.ParseText(generatedCode, path: generatedCodeFileName, encoding: Encoding.UTF8);
-
-            var syntaxTrees = new SyntaxTree[]
-            {
-                generatedSyntaxTree,
-                _sineCalculatorSyntaxTree
-            };
+            IList<SyntaxTree> syntaxTrees = generatedSyntaxTree.Union(_includedSyntaxTrees).ToArray();
 
             string assemblyName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
 
@@ -112,7 +110,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             return new MetadataReference[]
             {
                 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(IPatchCalculator).Assembly.Location)
+                MetadataReference.CreateFromFile(typeof(IPatchCalculator).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(LessThanException).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(Expression).Assembly.Location)
             };
         }
 
@@ -126,11 +126,16 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             return new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: optimizationLevel);
         }
 
-        private static SyntaxTree CreateSineCalculatorSyntaxTree()
+        private static SyntaxTree[] CreateIncludedSyntaxTrees(params string[] codeFilesNames)
         {
-            string sineCalculatorCodeFileCSharp = File.ReadAllText(SINE_CALCULATOR_CODE_FILE_NAME);
+            return codeFilesNames.Select(x => CreateSyntaxTree(x)).ToArray();
+        }
 
-            return CSharpSyntaxTree.ParseText(sineCalculatorCodeFileCSharp, path: SINE_CALCULATOR_CODE_FILE_NAME, encoding: Encoding.UTF8);
+        private static SyntaxTree CreateSyntaxTree(string codeFileName)
+        {
+            string codeFileCSharp = File.ReadAllText(codeFileName);
+
+            return CSharpSyntaxTree.ParseText(codeFileCSharp, path: codeFileName, encoding: Encoding.UTF8);
         }
     }
 }

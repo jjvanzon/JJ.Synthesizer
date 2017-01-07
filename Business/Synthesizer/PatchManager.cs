@@ -549,12 +549,12 @@ namespace JJ.Business.Synthesizer
                     dto = preProcessingVisitor.Execute(dto);
 
                     var compiler = new OperatorDtoCompiler();
-                    patchCalculator = compiler.CompileToPatchCalculator(dto, samplingRate, channelCount);
+                    patchCalculator = compiler.CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
 
                     break;
 
                 case CalculationEngineConfigurationEnum.HardCoded:
-                    return new HardCodedPatchCalculator(samplingRate);
+                    return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex);
 
                 default:
                     throw new ValueNotSupportedException(_calculationEngineConfigurationEnum);

@@ -17,8 +17,8 @@ namespace GeneratedCSharp
 
         // Constructor
 
-        public Calculator(int targetSamplingRate)
-            : base(targetSamplingRate)
+        public Calculator(int targetSamplingRate, int channelCount)
+            : base(targetSamplingRate, channelCount)
         {
             _input0 = 0.0E0;
             _input1 = 0.0E0;
@@ -108,6 +108,7 @@ namespace GeneratedCSharp
                 case DimensionEnum.Frequency:
                     _input1 = value;
                     break;
+
             }
         }
 
@@ -116,7 +117,7 @@ namespace GeneratedCSharp
         public override void Reset(double time)
         {
             _phase0 = 0.0;
-            _prevPos0 = 0.0;
+            _prevPos0 = time;
         }
     }
 }
