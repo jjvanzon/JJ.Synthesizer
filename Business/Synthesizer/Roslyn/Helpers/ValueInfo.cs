@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
@@ -9,14 +10,20 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         private static readonly CultureInfo _formattingCulture = new CultureInfo("en-US");
 
         public string NameCamelCase { get; }
+        public int ListIndex { get; }
+        public DimensionEnum DimensionEnum { get; }
+        public double? DefaultValue { get; }
         public double? Value { get; }
 
-        public ValueInfo(string nameCamelCase, double value)
+        public ValueInfo(string nameCamelCase, DimensionEnum dimensionEnum, int listIndex, double? defaultValue)
         {
             if (String.IsNullOrEmpty(nameCamelCase)) throw new NullOrEmptyException(() => nameCamelCase);
 
             NameCamelCase = nameCamelCase;
-            Value = value;
+            DimensionEnum = dimensionEnum;
+            ListIndex = listIndex;
+            DefaultValue = defaultValue;
+            Value = defaultValue;
         }
 
         public ValueInfo(string name)

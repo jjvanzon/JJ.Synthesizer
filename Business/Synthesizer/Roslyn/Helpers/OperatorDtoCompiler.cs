@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         private static readonly CSharpCompilationOptions _csharpCompilationOptions = GetCSharpCompilationOptions();
         private static readonly SyntaxTree _sineCalculatorSyntaxTree = CreateSineCalculatorSyntaxTree();
 
-        public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int framesPerChunk, int targetChannelCount)
+        public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int samplingRate, int targetChannelCount)
         {
             if (dto == null) throw new NullException(() => dto);
 
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             string generatedCode = codeGeneratingVisitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             Type type = Compile(generatedCode);
-            var calculator = (IPatchCalculator)Activator.CreateInstance(type, framesPerChunk);
+            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate);
             return calculator;
         }
 

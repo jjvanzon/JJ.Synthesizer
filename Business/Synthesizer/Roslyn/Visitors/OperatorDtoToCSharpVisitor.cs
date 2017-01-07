@@ -350,7 +350,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private ValueInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
         {
             string variableName = String.Format("{0}{1}", INPUT_VARIABLE_PREFIX, _inputVariableCounter++);
-            var valueInfo = new ValueInfo(variableName, dto.DefaultValue);
+            var valueInfo = new ValueInfo(variableName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
 
             _inputVariableInfoDictionary.Add(variableName, valueInfo);
 

@@ -170,28 +170,32 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     {
                         sb.AppendLine("base.SetValue(listIndex, value);");
                         sb.AppendLine();
-                        sb.AppendLine("switch (listIndex)");
-                        sb.AppendLine("{");
-                        sb.Indent();
-                        {
-                            int i = 0;
-                            foreach (string inputVariableName in visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase))
-                            {
-                                sb.AppendLine($"case {i}:");
-                                sb.Indent();
-                                {
-                                    sb.AppendLine($"_{inputVariableName} = value;");
-                                    sb.AppendLine("break;");
-                                    sb.AppendLine();
-                                    sb.Unindent();
-                                }
-                                i++;
-                            }
 
+                        if (visitorResult.VariableInputValueInfos.Any())
+                        {
+                            sb.AppendLine("switch (listIndex)");
+                            sb.AppendLine("{");
+                            sb.Indent();
+                            {
+                                int i = 0;
+                                foreach (string inputVariableName in visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase))
+                                {
+                                    sb.AppendLine($"case {i}:");
+                                    sb.Indent();
+                                    {
+                                        sb.AppendLine($"_{inputVariableName} = value;");
+                                        sb.AppendLine("break;");
+                                        sb.AppendLine();
+                                        sb.Unindent();
+                                    }
+                                    i++;
+                                }
+
+                                sb.Unindent();
+                            }
+                            sb.AppendLine("}");
                             sb.Unindent();
                         }
-                        sb.AppendLine("}");
-                        sb.Unindent();
                     }
                     sb.AppendLine("}");
                     sb.AppendLine();
@@ -202,27 +206,33 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                         sb.AppendLine("base.SetValue(dimensionEnum, value);");
                         sb.AppendLine();
 
-                        //sb.AppendLine("switch (dimensionEnum)");
-                        //sb.AppendLine("{");
-                        //sb.Indent();
-                        //{
-                        //    int i = 0;
-                        //    foreach (string inputVariableName in visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase))
-                        //    {
-                        //        sb.AppendLine($"case {i}:");
-                        //        sb.Indent();
-                        //        {
-                        //            sb.AppendLine($"_{inputVariableName} = input;");
-                        //            sb.AppendLine("break;");
-                        //            sb.Unindent();
-                        //        }
-                        //        i++;
-                        //    }
+                        var groups = visitorResult.VariableInputValueInfos.GroupBy(x => x.DimensionEnum);
+                        if (groups.Any())
+                        {
+                            sb.AppendLine("switch (dimensionEnum)");
+                            sb.AppendLine("{");
+                            sb.Indent();
+                            {
+                                foreach (var group in groups)
+                                {
+                                    sb.AppendLine($"case {nameof(DimensionEnum)}.{group.Key}:");
+                                    sb.Indent();
+                                    {
+                                        foreach (ValueInfo valueInfo in group)
+                                        {
+                                            sb.AppendLine($"_{valueInfo.NameCamelCase} = value;");
+                                        }
+                                        sb.AppendLine("break;");
+                                        sb.AppendLine();
+                                        sb.Unindent();
+                                    }
+                                }
 
-                        //    sb.Unindent();
-                        //}
-                        //sb.AppendLine("}");
-                        sb.Unindent();
+                                sb.Unindent();
+                            }
+                            sb.AppendLine("}");
+                            sb.Unindent();
+                        }
                     }
                     sb.AppendLine("}");
                     sb.AppendLine();
@@ -234,11 +244,18 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     sb.AppendLine("{");
                     sb.Indent();
                     {
-                        foreach (string variableName in visitorResult.PhaseVariableNamesCamelCase.Union(visitorResult.PreviousPositionVariableNamesCamelCase))
+                        foreach (string variableName in visitorResult.PhaseVariableNamesCamelCase)
                         {
                             sb.AppendLine($"_{variableName} = 0.0;");
                         }
-                        
+
+                        foreach (string variableName in visitorResult.PreviousPositionVariableNamesCamelCase)
+                        {
+                            // DIRTY: Phase of a partial does not have to be related to the time-dimension!
+                            sb.AppendLine($"_{variableName} = time;");
+                        }
+
+
                         sb.Unindent();
                     }
                     sb.AppendLine("}");

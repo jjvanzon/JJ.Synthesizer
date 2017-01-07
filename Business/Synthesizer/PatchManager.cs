@@ -549,9 +549,7 @@ namespace JJ.Business.Synthesizer
                     dto = preProcessingVisitor.Execute(dto);
 
                     var compiler = new OperatorDtoCompiler();
-                    // TODO: Make framesPerChunk a parameter.
-                    int framesPerChunk = 441; 
-                    patchCalculator = compiler.CompileToPatchCalculator(dto, framesPerChunk, channelCount);
+                    patchCalculator = compiler.CompileToPatchCalculator(dto, samplingRate, channelCount);
 
                     break;
 

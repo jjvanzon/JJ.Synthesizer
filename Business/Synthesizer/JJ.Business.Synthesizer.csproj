@@ -247,6 +247,7 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Roslyn\Calculation\2017-01-05 Backup of ExampleOperatorCalculatorOutputCode.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedCalculatorExample1.cs" />
+    <Compile Include="Roslyn\Calculation\GeneratedCalculatorExample5.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedCalculatorExample4.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedCalculatorExample3.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedCalculatorExample2.cs" />
