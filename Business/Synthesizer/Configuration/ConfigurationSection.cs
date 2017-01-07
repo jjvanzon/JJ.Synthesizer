@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Configuration
 {
@@ -23,5 +24,14 @@ namespace JJ.Business.Synthesizer.Configuration
 
         [XmlAttribute]
         public CalculationEngineConfigurationEnum CalculationEngine { get; set; }
+
+        [XmlAttribute]
+        public int DefaultSamplingRate { get; set; }
+
+        [XmlAttribute]
+        public SpeakerSetupEnum DefaultSpeakerSetup { get; set; }
+
+        [XmlAttribute]
+        public int DefaultMaxConcurrentNotes { get; set; }
     }
 }

@@ -10,6 +10,8 @@ using JJ.Framework.Logging;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Api;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -43,8 +45,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            AudioOutput audioOutput = CreateMockAudioOutput_Mono();
-
+            AudioOutput audioOutput = AudioOutputApi.Create();
             SetAudioOutput(audioOutput);
 
             var form = new MainForm();
@@ -101,73 +102,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 disposablePatchCalculator.Dispose();
             }
-        }
-
-        /// <summary>
-        /// This mock AudioOutput entity is needed to keep the code runnable,
-        /// until I create the audio output infrastructure objects elsewhere in the code.
-        /// </summary>
-        private static AudioOutput CreateMockAudioOutput_Mono()
-        {
-            var speakerSetup = new SpeakerSetup
-            {
-                ID = (int)SpeakerSetupEnum.Mono,
-                SpeakerSetupChannels = new List<SpeakerSetupChannel>()
-            };
-
-            var speakerSetupChannel = new SpeakerSetupChannel
-            {
-                IndexNumber = 0,
-                SpeakerSetup = speakerSetup
-            };
-            speakerSetup.SpeakerSetupChannels.Add(speakerSetupChannel);
-
-            var audioOutput = new AudioOutput
-            {
-                SamplingRate = 44100,
-                SpeakerSetup = speakerSetup,
-                MaxConcurrentNotes = 16,
-                DesiredBufferDuration = 0.1
-            };
-
-            return audioOutput;
-        }
-
-        /// <summary>
-        /// This mock AudioOutput entity is needed to keep the code runnable,
-        /// until I create the audio output infrastructure objects elsewhere in the code.
-        /// </summary>
-        private static AudioOutput CreateMockAudioOutput_Stereo()
-        {
-            var speakerSetup = new SpeakerSetup
-            {
-                ID = (int)SpeakerSetupEnum.Stereo,
-                SpeakerSetupChannels = new List<SpeakerSetupChannel>()
-            };
-
-            var speakerSetupChannel1 = new SpeakerSetupChannel
-            {
-                IndexNumber = 0,
-                SpeakerSetup = speakerSetup
-            };
-            speakerSetup.SpeakerSetupChannels.Add(speakerSetupChannel1);
-
-            var speakerSetupChannel2 = new SpeakerSetupChannel
-            {
-                IndexNumber = 1,
-                SpeakerSetup = speakerSetup
-            };
-            speakerSetup.SpeakerSetupChannels.Add(speakerSetupChannel2);
-
-            var audioOutput = new AudioOutput
-            {
-                SamplingRate = 44100,
-                SpeakerSetup = speakerSetup,
-                MaxConcurrentNotes = 16,
-                DesiredBufferDuration = 0.1
-            };
-
-            return audioOutput;
         }
 
         private static Thread StartMidiInputThread(MidiInputProcessor midiInputProcessor)

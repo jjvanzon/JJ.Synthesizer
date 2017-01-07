@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer.Api.Helpers;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Calculation.Patches;
 

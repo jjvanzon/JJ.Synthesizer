@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioFileOutputApi.cs" />
+    <Compile Include="AudioOutputApi.cs" />
     <Compile Include="CurveApi.cs" />
     <Compile Include="Helpers\ContextHelper.cs" />
     <Compile Include="Helpers\RepositoryHelper.cs" />

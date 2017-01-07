@@ -11,9 +11,6 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 {
     internal static class RepositoryHelper
     {
-        // TODO: I am not sure basic other CreateRepositories method on _repositories is valid,
-        // because there seems to be nothing that tells that CreateRepositories must run first.
-
         // RepositoryWrapper
 
         private static RepositoryWrapper _repositories = CreateRepositories();
