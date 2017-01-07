@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Framework.Mathematics;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation
 {

@@ -13,6 +13,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using JJ.Business.SynthesizerPrototype.Visitors;
+using JJ.Business.SynthesizerPrototype.Roslyn.Generators;
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 {

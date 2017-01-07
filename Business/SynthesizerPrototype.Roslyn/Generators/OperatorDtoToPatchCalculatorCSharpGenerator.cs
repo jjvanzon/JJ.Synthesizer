@@ -5,8 +5,9 @@ using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Framework.Common;
 using JJ.Business.SynthesizerPrototype.Roslyn.CopiedCode.From_JJ_Business_SynthesizerPrototype;
 using JJ.Business.SynthesizerPrototype.Roslyn.Helpers;
+using JJ.Business.SynthesizerPrototype.Roslyn.Visitors;
 
-namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
+namespace JJ.Business.SynthesizerPrototype.Roslyn.Generators
 {
     internal class OperatorDtoToPatchCalculatorCSharpGenerator
     {

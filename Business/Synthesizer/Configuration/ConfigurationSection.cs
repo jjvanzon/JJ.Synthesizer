@@ -33,5 +33,8 @@ namespace JJ.Business.Synthesizer.Configuration
 
         [XmlAttribute]
         public int DefaultMaxConcurrentNotes { get; set; }
+
+        [XmlAttribute]
+        public bool IncludeSymbolsWithCompilation { get; set; }
     }
 }

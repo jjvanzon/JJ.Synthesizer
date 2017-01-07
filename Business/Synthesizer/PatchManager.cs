@@ -542,16 +542,15 @@ namespace JJ.Business.Synthesizer
                     break;
 
                 case CalculationEngineConfigurationEnum.RoslynRuntimeCompilation:
-                    // TODO: Make includeSymbols configurable.
                     var entityToDtoVisitor = new OperatorEntityToDtoVisitor(_repositories.CurveRepository, _repositories.PatchRepository, _repositories.SampleRepository, _repositories.SpeakerSetupRepository);
                     OperatorDtoBase dto = entityToDtoVisitor.Execute(outlet);
 
                     var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(channelCount);
                     dto = preProcessingVisitor.Execute(dto);
 
-                    var compiler = new OperatorDtoCompiler(includeSymbols: false);
+                    var compiler = new OperatorDtoCompiler();
                     // TODO: Make framesPerChunk a parameter.
-                    int framesPerChunk = 0; 
+                    int framesPerChunk = 441; 
                     patchCalculator = compiler.CompileToPatchCalculator(dto, framesPerChunk, channelCount);
 
                     break;

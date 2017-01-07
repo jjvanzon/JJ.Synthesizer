@@ -9,6 +9,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 {
     internal class HardCodedPatchCalculator : PatchCalculatorBase
     {
+        // Fields
+
         private double _input1;
         private double _standardDimensionFrequency1;
         private double _customDimensionPrettiness1;
@@ -28,6 +30,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
         private double _prevPos7;
         private double _phase8;
         private double _prevPos8;
+
+        // Constructor
 
         public HardCodedPatchCalculator(int targetSamplingRate)
             : base(targetSamplingRate)
@@ -160,14 +164,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
                 double value = add1;
 
-                // winmm will trip over NaN.
-                if (Double.IsNaN(value))
+                if (Double.IsNaN(value)) // winmm will trip over NaN.
                 {
                     value = 0;
                 }
 
-                // TODO: This seems unsafe. What happens if the cast is invalid?
-                float floatValue = (float)value;
+                float floatValue = (float)value; // TODO: This seems unsafe. What happens if the cast is invalid?
 
                 PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
 

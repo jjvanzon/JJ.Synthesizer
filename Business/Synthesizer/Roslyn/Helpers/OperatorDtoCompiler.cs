@@ -14,6 +14,9 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Roslyn.Generator;
+using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Configuration;
 
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
@@ -24,21 +27,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         private const string GENERATED_CLASS_NAME = "Calculator";
         private const string GENERATED_CLASS_FULL_NAME = GENERATED_NAME_SPACE + "." + GENERATED_CLASS_NAME;
 
+        private static readonly bool _includeSymbols = ConfigurationHelper.GetSection<ConfigurationSection>().IncludeSymbolsWithCompilation;
         private static readonly IList<MetadataReference> _metaDataReferences = GetMetadataReferences();
         private static readonly CSharpCompilationOptions _csharpCompilationOptions = GetCSharpCompilationOptions();
         private static readonly SyntaxTree _sineCalculatorSyntaxTree = CreateSineCalculatorSyntaxTree();
-
-        private readonly bool _includeSymbols;
-        private readonly Encoding _encoding;
-
-        public OperatorDtoCompiler(bool includeSymbols = true)
-        {
-            _includeSymbols = includeSymbols;
-            if (_includeSymbols)
-            {
-                _encoding = Encoding.UTF8;
-            };
-        }
 
         public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int framesPerChunk, int targetChannelCount)
         {
@@ -61,10 +53,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             if (_includeSymbols)
             {
                 generatedCodeFileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".cs";
-                File.WriteAllText(generatedCodeFileName, generatedCode, _encoding);
+                File.WriteAllText(generatedCodeFileName, generatedCode, Encoding.UTF8);
             }
 
-            SyntaxTree generatedSyntaxTree = CSharpSyntaxTree.ParseText(generatedCode, path: generatedCodeFileName, encoding: _encoding);
+            SyntaxTree generatedSyntaxTree = CSharpSyntaxTree.ParseText(generatedCode, path: generatedCodeFileName, encoding: Encoding.UTF8);
 
             var syntaxTrees = new SyntaxTree[]
             {
@@ -94,7 +86,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
                     x.IsWarningAsError ||
                     x.Severity == DiagnosticSeverity.Error);
 
-                string concatinatedFailureDiagnostics = String.Join(Environment.NewLine, failureDiagnostics.Select(x => String.Format("{0} - {1}", x.Id, x.GetMessage())));
+                string concatinatedFailureDiagnostics = String.Join(Environment.NewLine, failureDiagnostics);
                 throw new Exception("CSharpCompilation.Emit failed. " + concatinatedFailureDiagnostics);
             }
 
@@ -120,7 +112,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             return new MetadataReference[]
             {
                 MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(IOperatorCalculator).Assembly.Location)
+                MetadataReference.CreateFromFile(typeof(IPatchCalculator).Assembly.Location)
             };
         }
 
