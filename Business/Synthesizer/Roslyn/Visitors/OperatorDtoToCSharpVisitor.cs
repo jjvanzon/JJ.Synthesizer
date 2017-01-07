@@ -13,7 +13,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string TAB_STRING = "    ";
         private const int FIRST_VARIABLE_NUMBER = 0;
 
+        private const string EQUALS_SYMBOL = "==";
+        private const string GREATER_THAN_SYMBOL = ">";
+        private const string GREATER_THAN_OR_EQUAL_SYMBOL = ">=";
+        private const string LESS_THAN_SYMBOL = "<";
+        private const string LESS_THAN_OR_EQUAL_SYMBOL = "<=";
         private const string MULTIPLY_SYMBOL = "*";
+        private const string NOT_EQUAL_SYMBOL = "!=";
         private const string PLUS_SYMBOL = "+";
         private const string SUBTRACT_SYMBOL = "-";
         private const string PHASE_VARIABLE_PREFIX = "phase";
@@ -101,14 +107,97 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Equal_OperatorDto_VarA_ConstB(dto);
+            base.Visit_Equal_OperatorDto_VarA_ConstB(dto);
+
+            ProcessNumber(dto.B);
+            ProcessComparativeOperator(dto.OperatorTypeName, EQUALS_SYMBOL);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_VarB(Equal_OperatorDto_VarA_VarB dto)
         {
-            throw new NotImplementedException();
-            return base.Visit_Equal_OperatorDto_VarA_VarB(dto);
+            base.Visit_Equal_OperatorDto_VarA_VarB(dto);
+
+            ProcessComparativeOperator(dto.OperatorTypeName, EQUALS_SYMBOL);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_GreaterThan_OperatorDto_VarA_ConstB(GreaterThan_OperatorDto_VarA_ConstB dto)
+        {
+            base.Visit_GreaterThan_OperatorDto_VarA_ConstB(dto);
+
+            ProcessNumber(dto.B);
+            ProcessComparativeOperator(dto.OperatorTypeName, GREATER_THAN_SYMBOL);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_GreaterThan_OperatorDto_VarA_VarB(GreaterThan_OperatorDto_VarA_VarB dto)
+        {
+            base.Visit_GreaterThan_OperatorDto_VarA_VarB(dto);
+
+            ProcessComparativeOperator(dto.OperatorTypeName, GREATER_THAN_SYMBOL);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(GreaterThanOrEqual_OperatorDto_VarA_ConstB dto)
+        {
+            base.Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(dto);
+
+            ProcessNumber(dto.B);
+            ProcessComparativeOperator(dto.OperatorTypeName, GREATER_THAN_OR_EQUAL_SYMBOL);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(GreaterThanOrEqual_OperatorDto_VarA_VarB dto)
+        {
+            base.Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(dto);
+
+            ProcessComparativeOperator(dto.OperatorTypeName, GREATER_THAN_OR_EQUAL_SYMBOL);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_LessThan_OperatorDto_VarA_ConstB(LessThan_OperatorDto_VarA_ConstB dto)
+        {
+            base.Visit_LessThan_OperatorDto_VarA_ConstB(dto);
+
+            ProcessNumber(dto.B);
+            ProcessComparativeOperator(dto.OperatorTypeName, LESS_THAN_SYMBOL);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_LessThan_OperatorDto_VarA_VarB(LessThan_OperatorDto_VarA_VarB dto)
+        {
+            base.Visit_LessThan_OperatorDto_VarA_VarB(dto);
+
+            ProcessComparativeOperator(dto.OperatorTypeName, LESS_THAN_SYMBOL);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(LessThanOrEqual_OperatorDto_VarA_ConstB dto)
+        {
+            base.Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(dto);
+
+            ProcessNumber(dto.B);
+            ProcessComparativeOperator(dto.OperatorTypeName, LESS_THAN_OR_EQUAL_SYMBOL);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto_VarA_VarB(LessThanOrEqual_OperatorDto_VarA_VarB dto)
+        {
+            base.Visit_LessThanOrEqual_OperatorDto_VarA_VarB(dto);
+
+            ProcessComparativeOperator(dto.OperatorTypeName, LESS_THAN_OR_EQUAL_SYMBOL);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
@@ -251,17 +340,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             base.Visit_Subtract_OperatorDto_ConstA_VarB(dto);
 
             ProcessNumber(dto.A);
-            ProcessBinaryOperator_ConstA_VarB(dto.OperatorTypeName, SUBTRACT_SYMBOL);
+            ProcessBinaryOperator(dto.OperatorTypeName, SUBTRACT_SYMBOL);
 
             return dto;
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto)
         {
+            ProcessNumber(dto.B);
             base.Visit_Subtract_OperatorDto_VarA_ConstB(dto);
 
-            ProcessNumber(dto.B);
-            ProcessBinaryOperator_VarA_ConstB(dto.OperatorTypeName, SUBTRACT_SYMBOL);
+            ProcessBinaryOperator(dto.OperatorTypeName, SUBTRACT_SYMBOL);
 
             return dto;
         }
@@ -270,7 +359,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_Subtract_OperatorDto_VarA_VarB(dto);
 
-            ProcessBinaryOperator_VarA_VarB(dto.OperatorTypeName, SUBTRACT_SYMBOL);
+            ProcessBinaryOperator(dto.OperatorTypeName, SUBTRACT_SYMBOL);
 
             return dto;
         }
@@ -290,41 +379,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         // Generalized Methods
 
-        private void ProcessBinaryOperator_ConstA_VarB(string operatorTypeName, string operatorSymbol)
+        private void ProcessBinaryOperator(string operatorTypeName, string operatorSymbol)
         {
             ValueInfo aValueInfo = _stack.Pop();
             ValueInfo bValueInfo = _stack.Pop();
 
-            ProcessBinaryOperator(operatorTypeName, operatorSymbol, aValueInfo, bValueInfo);
-        }
-
-        /// <summary> Popping A and B is switched, because you can only push the variable first, and then the number. See callers. </summary>
-        private void ProcessBinaryOperator_VarA_ConstB(string operatorTypeName, string operatorSymbol)
-        {
-            ValueInfo bValueInfo = _stack.Pop();
-            ValueInfo aValueInfo = _stack.Pop();
-
-            ProcessBinaryOperator(operatorTypeName, operatorSymbol, aValueInfo, bValueInfo);
-        }
-
-        private void ProcessBinaryOperator_VarA_VarB(string operatorTypeName, string operatorSymbol)
-        {
-            ValueInfo aValueInfo = _stack.Pop();
-            ValueInfo bValueInfo = _stack.Pop();
-
-            ProcessBinaryOperator(operatorTypeName, operatorSymbol, aValueInfo, bValueInfo);
-        }
-
-        private void ProcessBinaryOperator_Commutative(string operatorTypeName, string operatorSymbol)
-        {
-            ValueInfo aValueInfo = _stack.Pop();
-            ValueInfo bValueInfo = _stack.Pop();
-
-            ProcessBinaryOperator(operatorTypeName, operatorSymbol, aValueInfo, bValueInfo);
-        }
-
-        private void ProcessBinaryOperator(string operatorTypeName, string operatorSymbol, ValueInfo aValueInfo, ValueInfo bValueInfo)
-        {
             _sb.AppendLine();
             _sb.AppendLine("// " + operatorTypeName);
 
@@ -334,6 +393,26 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string outputName = GenerateOutputNameCamelCase(operatorTypeName);
 
             string line = $"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral};";
+            _sb.AppendLine(line);
+
+            var resultValueInfo = new ValueInfo(outputName);
+            _stack.Push(resultValueInfo);
+        }
+
+        private void ProcessComparativeOperator(string operatorTypeName, string operatorSymbol)
+        {
+            ValueInfo aValueInfo = _stack.Pop();
+            ValueInfo bValueInfo = _stack.Pop();
+
+            _sb.AppendLine();
+            _sb.AppendLine("// " + operatorTypeName);
+
+            string aLiteral = aValueInfo.GetLiteral();
+            string bLiteral = bValueInfo.GetLiteral();
+
+            string outputName = GenerateOutputNameCamelCase(operatorTypeName);
+
+            string line = $"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral} ? 1.0 : 0.0;";
             _sb.AppendLine(line);
 
             var resultValueInfo = new ValueInfo(outputName);
