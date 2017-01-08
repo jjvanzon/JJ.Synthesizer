@@ -21,9 +21,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             var visitor = new OperatorDtoToCSharpVisitor();
             OperatorDtoToCSharpVisitorResult visitorResult = visitor.Execute(dto, RAW_CALCULATION_INDENT_LEVEL);
 
-            IList<string> instanceVariableNames = visitorResult.PhaseVariableNamesCamelCase.Union(visitorResult.PreviousPositionVariableNamesCamelCase)
-                                                                                           .Union(visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase))
-                                                                                           .ToArray();
+            IList<string> instanceVariableNamesCamelCase = 
+                visitorResult.PhaseVariableNamesCamelCase.Union(visitorResult.PreviousPositionVariableNamesCamelCase)
+                                                         .Union(visitorResult.OriginVariableNamesCamelCase)
+                                                         .Union(visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase))
+                                                         .ToArray();
             // Build up Code File
             var sb = new StringBuilderWithIndentation(TAB_STRING);
 
@@ -45,9 +47,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     sb.AppendLine("// Fields");
                     sb.AppendLine();
 
-                    foreach (string instanceVariableName in instanceVariableNames)
+                    foreach (string variableName in instanceVariableNamesCamelCase)
                     {
-                        sb.AppendLine($"private double _{instanceVariableName};");
+                        sb.AppendLine($"private double _{variableName};");
                     }
                     sb.AppendLine();
 
@@ -93,9 +95,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                         sb.AppendLine("int valueCount = frameCount * channelCount;");
 
                         sb.AppendLine();
-                        foreach (string instanceVariableName in instanceVariableNames)
+                        foreach (string variableName in instanceVariableNamesCamelCase)
                         {
-                            sb.AppendLine($"double {instanceVariableName} = _{instanceVariableName};");
+                            sb.AppendLine($"double {variableName} = _{variableName};");
                         }
                         sb.AppendLine();
 
@@ -150,7 +152,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                         sb.AppendLine();
 
                         // Copy Local to Fields
-                        foreach (string variableName in instanceVariableNames)
+                        foreach (string variableName in instanceVariableNamesCamelCase)
                         {
                             sb.AppendLine($"_{variableName} = {variableName};");
                         }

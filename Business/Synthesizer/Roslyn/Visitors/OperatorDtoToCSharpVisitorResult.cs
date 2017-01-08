@@ -11,7 +11,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             IList<ValueInfo> variableInputValueInfos,
             IList<string> positionVariableNamesCamelCase,
             IList<string> previousPositionVariableNamesCamelCase,
-            IList<string> phaseVariableNamesCamelCase)
+            IList<string> phaseVariableNamesCamelCase,
+            IList<string> originVariableNamesCamelCase)
         {
             RawCalculationCode = rawCalculationCode;
             ReturnValueLiteral = returnValueLiteral;
@@ -19,6 +20,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             PositionVariableNamesCamelCase = positionVariableNamesCamelCase;
             PreviousPositionVariableNamesCamelCase = previousPositionVariableNamesCamelCase;
             PhaseVariableNamesCamelCase = phaseVariableNamesCamelCase;
+            OriginVariableNamesCamelCase = originVariableNamesCamelCase;
         }
 
         public string RawCalculationCode { get; }
@@ -27,5 +29,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         public IList<string> PositionVariableNamesCamelCase { get; }
         public IList<string> PreviousPositionVariableNamesCamelCase { get; }
         public IList<string> PhaseVariableNamesCamelCase { get; }
+        public IList<string> OriginVariableNamesCamelCase { get; }
     }
 }
