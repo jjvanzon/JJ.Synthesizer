@@ -41,6 +41,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             Value = value;
         }
 
+        /// <summary> Returns the name if filled and otherwise the value in a format compatible with C# code. </summary>
         public string GetLiteral()
         {
             if (!String.IsNullOrEmpty(NameCamelCase))

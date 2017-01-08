@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double x = _xCalculator.Calculate();
-            return 1 / x;
+            return 1.0 / x;
         }
     }
 }

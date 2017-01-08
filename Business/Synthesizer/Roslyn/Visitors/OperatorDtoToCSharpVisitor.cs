@@ -179,6 +179,27 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
+        protected override OperatorDtoBase Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
+        {
+            base.Visit_OneOverX_OperatorDto_VarX(dto);
+
+            ValueInfo xValueInfo = _stack.Pop();
+
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+
+            string line = $"double {outputName} = 1.0 / {xValueInfo.GetLiteral()};";
+            _sb.AppendLine(line);
+
+            _sb.AppendLine();
+
+            var resultValueInfo = new ValueInfo(outputName);
+            _stack.Push(resultValueInfo);
+
+            return dto;
+        }
+
         protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, NOT_EQUAL_SYMBOL);
