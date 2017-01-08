@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Framework.Common;
+using System.Diagnostics;
 
 namespace JJ.Business.Synthesizer.Roslyn.Visitors
 {
@@ -79,6 +80,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 _phaseVariableNamesCamelCaseHashSet.ToArray());
         }
 
+        [DebuggerHidden]
         protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
         {
             VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
@@ -107,97 +109,52 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_Equal_OperatorDto_VarA_ConstB(dto);
-
-            ProcessNumber(dto.B);
-            ProcessComparativeOperator(dto.OperatorTypeName, EQUALS_SYMBOL);
-
-            return dto;
+            return ProcessComparativeOperator_VarA_ConstB(dto, EQUALS_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_VarB(Equal_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_Equal_OperatorDto_VarA_VarB(dto);
-
-            ProcessComparativeOperator(dto.OperatorTypeName, EQUALS_SYMBOL);
-
-            return dto;
+            return ProcessComparativeOperator_VarA_VarB(dto, EQUALS_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_GreaterThan_OperatorDto_VarA_ConstB(GreaterThan_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_GreaterThan_OperatorDto_VarA_ConstB(dto);
-
-            ProcessNumber(dto.B);
-            ProcessComparativeOperator(dto.OperatorTypeName, GREATER_THAN_SYMBOL);
-
-            return dto;
+            return ProcessComparativeOperator_VarA_ConstB(dto, GREATER_THAN_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_GreaterThan_OperatorDto_VarA_VarB(GreaterThan_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_GreaterThan_OperatorDto_VarA_VarB(dto);
-
-            ProcessComparativeOperator(dto.OperatorTypeName, GREATER_THAN_SYMBOL);
-
-            return dto;
+            return ProcessComparativeOperator_VarA_VarB(dto, GREATER_THAN_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(GreaterThanOrEqual_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(dto);
-
-            ProcessNumber(dto.B);
-            ProcessComparativeOperator(dto.OperatorTypeName, GREATER_THAN_OR_EQUAL_SYMBOL);
-
-            return dto;
+            return ProcessComparativeOperator_VarA_ConstB(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(GreaterThanOrEqual_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(dto);
-
-            ProcessComparativeOperator(dto.OperatorTypeName, GREATER_THAN_OR_EQUAL_SYMBOL);
-
-            return dto;
+            return ProcessComparativeOperator_VarA_VarB(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_LessThan_OperatorDto_VarA_ConstB(LessThan_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_LessThan_OperatorDto_VarA_ConstB(dto);
-
-            ProcessNumber(dto.B);
-            ProcessComparativeOperator(dto.OperatorTypeName, LESS_THAN_SYMBOL);
-
-            return dto;
+            return ProcessComparativeOperator_VarA_ConstB(dto, LESS_THAN_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_LessThan_OperatorDto_VarA_VarB(LessThan_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_LessThan_OperatorDto_VarA_VarB(dto);
-
-            ProcessComparativeOperator(dto.OperatorTypeName, LESS_THAN_SYMBOL);
-
-            return dto;
+            return ProcessComparativeOperator_VarA_VarB(dto, LESS_THAN_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(LessThanOrEqual_OperatorDto_VarA_ConstB dto)
         {
-            base.Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(dto);
-
-            ProcessNumber(dto.B);
-            ProcessComparativeOperator(dto.OperatorTypeName, LESS_THAN_OR_EQUAL_SYMBOL);
-
-            return dto;
+            return ProcessComparativeOperator_VarA_ConstB(dto, LESS_THAN_OR_EQUAL_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto_VarA_VarB(LessThanOrEqual_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_LessThanOrEqual_OperatorDto_VarA_VarB(dto);
-
-            ProcessComparativeOperator(dto.OperatorTypeName, LESS_THAN_OR_EQUAL_SYMBOL);
-
-            return dto;
+            return ProcessComparativeOperator_VarA_VarB(dto, LESS_THAN_OR_EQUAL_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
@@ -217,6 +174,16 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ProcessMultiVarOperator(dto.OperatorTypeName, dto.Vars.Count + 1, MULTIPLY_SYMBOL);
 
             return dto;
+        }
+
+        protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
+        {
+            return ProcessComparativeOperator_VarA_ConstB(dto, NOT_EQUAL_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_VarB(NotEqual_OperatorDto_VarA_VarB dto)
+        {
+            return ProcessComparativeOperator_VarA_VarB(dto, NOT_EQUAL_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
@@ -397,6 +364,25 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             var resultValueInfo = new ValueInfo(outputName);
             _stack.Push(resultValueInfo);
+        }
+
+        private OperatorDtoBase ProcessComparativeOperator_VarA_ConstB(OperatorDtoBase_VarA_ConstB dto, string operatorSymbol)
+        {
+            ProcessNumber(dto.B);
+            base.Visit_OperatorDto_Base(dto);
+
+            ProcessComparativeOperator(dto.OperatorTypeName, operatorSymbol);
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessComparativeOperator_VarA_VarB(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            ProcessComparativeOperator(dto.OperatorTypeName, operatorSymbol);
+
+            return dto;
         }
 
         private void ProcessComparativeOperator(string operatorTypeName, string operatorSymbol)

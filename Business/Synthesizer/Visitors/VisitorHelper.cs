@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
@@ -20,6 +21,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /// I need to call it stack in the error messages,
         /// ICollection is used in lack of an IStack interface.
         /// </param>
+        [DebuggerHidden]
         public static void WithStackCheck(ICollection stack, Action action)
         {
             if (stack == null) throw new NullException(() => stack);

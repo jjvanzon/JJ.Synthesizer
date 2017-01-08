@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     internal class ValueInfo
     {
         private static readonly CultureInfo _formattingCulture = new CultureInfo("en-US");
 
         public string NameCamelCase { get; }
-        public int ListIndex { get; }
         public DimensionEnum DimensionEnum { get; }
+        public int ListIndex { get; }
         public double? DefaultValue { get; }
         public double? Value { get; }
 
@@ -26,11 +29,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             Value = defaultValue;
         }
 
-        public ValueInfo(string name)
+        public ValueInfo(string nameCamelCase)
         {
-            if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
+            if (String.IsNullOrEmpty(nameCamelCase)) throw new NullOrEmptyException(() => nameCamelCase);
 
-            NameCamelCase = name;
+            NameCamelCase = nameCamelCase;
         }
 
         public ValueInfo(double value)
@@ -79,5 +82,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
                 return formattedValue;
             }
         }
+
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }
