@@ -88,6 +88,31 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
+        protected override OperatorDtoBase Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
+        {
+            base.Visit_Absolute_OperatorDto_VarX(dto);
+
+            ValueInfo xValueInfo = _stack.Pop();
+
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+            string xLiteral = xValueInfo.GetLiteral();
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+
+            string line1 = $"double {variableName} = {xLiteral};";
+            _sb.AppendLine(line1);
+
+            string line2 = $"if ({variableName} < 0.0) {variableName} = -{variableName};";
+            _sb.AppendLine(line2);
+
+            _sb.AppendLine();
+
+            var resultValueInfo = new ValueInfo(variableName);
+            _stack.Push(resultValueInfo);
+
+            return dto;
+        }
+
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
             return ProcessMultiVarOperator_Vars_NoConsts(dto, PLUS_SYMBOL);
