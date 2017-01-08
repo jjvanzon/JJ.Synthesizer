@@ -90,21 +90,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
-            base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
-
-            ProcessMultiVarOperator(dto.OperatorTypeName, dto.Vars.Count, PLUS_SYMBOL);
-
-            return dto;
+            return ProcessMultiVarOperator_Vars_NoConsts(dto, PLUS_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
-            base.Visit_Add_OperatorDto_Vars_1Const(dto);
-
-            ProcessNumber(dto.ConstValue);
-            ProcessMultiVarOperator(dto.OperatorTypeName, dto.Vars.Count + 1, PLUS_SYMBOL);
-
-            return dto;
+            return ProcessMultiVarOperator_Vars_1Const(dto, PLUS_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
@@ -159,21 +150,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
         {
-            base.Visit_Multiply_OperatorDto_Vars_NoConsts(dto);
-
-            ProcessMultiVarOperator(dto.OperatorTypeName, dto.Vars.Count, MULTIPLY_SYMBOL);
-
-            return dto;
+            return ProcessMultiVarOperator_Vars_NoConsts(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
         {
-            base.Visit_Multiply_OperatorDto_Vars_1Const(dto);
-
-            ProcessNumber(dto.ConstValue);
-            ProcessMultiVarOperator(dto.OperatorTypeName, dto.Vars.Count + 1, MULTIPLY_SYMBOL);
-
-            return dto;
+            return ProcessMultiVarOperator_Vars_1Const(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
@@ -188,88 +170,32 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
-            base.Visit_Number_OperatorDto(dto);
-
-            ProcessNumberOperatorDto(dto);
-
-            return dto;
+            return ProcessNumberOperatorDto(dto);
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
-            base.Visit_Number_OperatorDto_NaN(dto);
-
-            ProcessNumberOperatorDto(dto);
-
-            return dto;
+            return ProcessNumberOperatorDto(dto);
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
         {
-            base.Visit_Number_OperatorDto_One(dto);
-
-            ProcessNumberOperatorDto(dto);
-
-            return dto;
+            return ProcessNumberOperatorDto(dto);
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
         {
-            base.Visit_Number_OperatorDto_Zero(dto);
-
-            ProcessNumberOperatorDto(dto);
-
-            return dto;
+            return ProcessNumberOperatorDto(dto);
         }
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
-            // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
-
-            ProcessShift(dto, dto.SignalOperatorDto, distance: dto.Distance);
-
-            return dto;
+            return ProcessShift(dto, dto.SignalOperatorDto, distance: dto.Distance);
         }
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
-            // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
-
-            ProcessShift(dto, dto.SignalOperatorDto, dto.DistanceOperatorDto);
-
-            return dto;
-        }
-
-        private void ProcessShift(OperatorDtoBase shiftOperatorDto, OperatorDtoBase signalOperatorDto, OperatorDtoBase distanceOperatorDto = null, double? distance = null)
-        {
-            _sb.AppendLine();
-            _sb.AppendLine("// " + shiftOperatorDto.OperatorTypeName);
-
-            if (distanceOperatorDto != null)
-            {
-                Visit_OperatorDto_Polymorphic(distanceOperatorDto);
-            }
-            else if (distance.HasValue)
-            {
-                ProcessNumber(distance.Value);
-            }
-            else
-            {
-                throw new Exception($"{nameof(distanceOperatorDto)} and {nameof(distance)} cannot both be null.");
-            }
-            ValueInfo distanceValueInfo = _stack.Pop();
-
-            string sourcePosName = GeneratePositionVariableNameCamelCase(shiftOperatorDto.DimensionStackLevel);
-            string destPosName = GeneratePositionVariableNameCamelCase(shiftOperatorDto.DimensionStackLevel + 1);
-            string distanceLiteral = distanceValueInfo.GetLiteral();
-
-            string line = $"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};";
-            _sb.AppendLine(line);
-
-            Visit_OperatorDto_Polymorphic(signalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-
-            _stack.Push(signalValueInfo);
+            return ProcessShift(dto, dto.SignalOperatorDto, dto.DistanceOperatorDto);
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
@@ -371,46 +297,59 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ProcessNumber(dto.B);
             base.Visit_OperatorDto_Base(dto);
 
-            ProcessComparativeOperator(dto.OperatorTypeName, operatorSymbol);
-
-            return dto;
+            return ProcessComparativeOperator(dto, operatorSymbol);
         }
 
         private OperatorDtoBase ProcessComparativeOperator_VarA_VarB(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            ProcessComparativeOperator(dto.OperatorTypeName, operatorSymbol);
-
-            return dto;
+            return ProcessComparativeOperator(dto, operatorSymbol);
         }
 
-        private void ProcessComparativeOperator(string operatorTypeName, string operatorSymbol)
+        private OperatorDtoBase ProcessComparativeOperator(OperatorDtoBase dto, string operatorSymbol)
         {
             ValueInfo aValueInfo = _stack.Pop();
             ValueInfo bValueInfo = _stack.Pop();
 
             _sb.AppendLine();
-            _sb.AppendLine("// " + operatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeName);
 
             string aLiteral = aValueInfo.GetLiteral();
             string bLiteral = bValueInfo.GetLiteral();
 
-            string outputName = GenerateOutputNameCamelCase(operatorTypeName);
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             string line = $"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral} ? 1.0 : 0.0;";
             _sb.AppendLine(line);
 
             var resultValueInfo = new ValueInfo(outputName);
             _stack.Push(resultValueInfo);
+
+            return dto;
         }
 
-        private void ProcessMultiVarOperator(string operatorTypeName, int varCount, string operatorSymbol)
+        private OperatorDtoBase ProcessMultiVarOperator_Vars_NoConsts(OperatorDtoBase_Vars dto, string operatorSymbol)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            return ProcessMultiVarOperator(dto, dto.Vars.Count, operatorSymbol);
+        }
+
+        private OperatorDtoBase ProcessMultiVarOperator_Vars_1Const(OperatorDtoBase_Vars_1Const dto, string operatorSymbol)
+        {
+            base.Visit_OperatorDto_Base(dto);
+            ProcessNumber(dto.ConstValue);
+
+            return ProcessMultiVarOperator(dto, dto.Vars.Count + 1, operatorSymbol);
+        }
+
+        private OperatorDtoBase ProcessMultiVarOperator(OperatorDtoBase dto, int varCount, string operatorSymbol)
         {
             _sb.AppendLine();
-            _sb.AppendLine("// " + operatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeName);
 
-            string outputName = GenerateOutputNameCamelCase(operatorTypeName);
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendTabs();
             _sb.Append($"double {outputName} =");
@@ -435,6 +374,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             var resultValueInfo = new ValueInfo(outputName);
             _stack.Push(resultValueInfo);
+
+            return dto;
         }
 
         private void ProcessNumber(double value)
@@ -442,19 +383,59 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _stack.Push(new ValueInfo(value));
         }
 
-        private void ProcessNumberOperatorDto(Number_OperatorDto dto)
+        private Number_OperatorDto ProcessNumberOperatorDto(Number_OperatorDto dto)
         {
+            base.Visit_OperatorDto_Base(dto);
+
             _sb.AppendLine();
             _sb.AppendLine("// " + dto.OperatorTypeName);
 
             ProcessNumber(dto.Number);
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessShift(OperatorDtoBase dto, OperatorDtoBase signalOperatorDto, OperatorDtoBase distanceOperatorDto = null, double? distance = null)
+        {
+            // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
+
+            _sb.AppendLine();
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+
+            if (distanceOperatorDto != null)
+            {
+                Visit_OperatorDto_Polymorphic(distanceOperatorDto);
+            }
+            else if (distance.HasValue)
+            {
+                ProcessNumber(distance.Value);
+            }
+            else
+            {
+                throw new Exception($"{nameof(distanceOperatorDto)} and {nameof(distance)} cannot both be null.");
+            }
+            ValueInfo distanceValueInfo = _stack.Pop();
+
+            string sourcePosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string destPosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel + 1);
+            string distanceLiteral = distanceValueInfo.GetLiteral();
+
+            string line = $"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};";
+            _sb.AppendLine(line);
+
+            Visit_OperatorDto_Polymorphic(signalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+
+            _stack.Push(signalValueInfo);
+
+            return dto;
         }
 
         // Helpers
 
         private string GenerateOutputNameCamelCase(string operatorTypeName)
         {
-            // TODO: Lower Priority: You need an actual ToCamelCase for any name to be turned into code.
+            // TODO: You need an actual ToCamelCase for any name to be turned into code.
             string camelCaseOperatorTypeName = operatorTypeName.StartWithLowerCase();
 
             int counter;
