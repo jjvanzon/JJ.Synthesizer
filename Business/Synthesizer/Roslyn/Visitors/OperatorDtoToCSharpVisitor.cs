@@ -98,13 +98,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string xLiteral = xValueInfo.GetLiteral();
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
-
-            string line1 = $"double {variableName} = {xLiteral};";
-            _sb.AppendLine(line1);
-
-            string line2 = $"if ({variableName} < 0.0) {variableName} = -{variableName};";
-            _sb.AppendLine(line2);
-
+            _sb.AppendLine($"double {variableName} = {xLiteral};");
+            _sb.AppendLine($"if ({variableName} < 0.0) {variableName} = -{variableName};");
             _sb.AppendLine();
 
             var resultValueInfo = new ValueInfo(variableName);
@@ -192,10 +187,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
-
-            string line = $"double {outputName} = -{xValueInfo.GetLiteral()};";
-            _sb.AppendLine(line);
-
+            _sb.AppendLine($"double {outputName} = -{xValueInfo.GetLiteral()};");
             _sb.AppendLine();
 
             var resultValueInfo = new ValueInfo(outputName);
@@ -435,10 +427,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
-
-            string line = $"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral};";
-            _sb.AppendLine(line);
-
+            _sb.AppendLine($"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral};");
             _sb.AppendLine();
 
             var resultValueInfo = new ValueInfo(outputName);
@@ -467,17 +456,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ValueInfo aValueInfo = _stack.Pop();
             ValueInfo bValueInfo = _stack.Pop();
 
-
             string aLiteral = aValueInfo.GetLiteral();
             string bLiteral = bValueInfo.GetLiteral();
 
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
-
-            string line = $"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral} ? 1.0 : 0.0;";
-            _sb.AppendLine(line);
-
+            _sb.AppendLine($"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral} ? 1.0 : 0.0;");
             _sb.AppendLine();
 
             var resultValueInfo = new ValueInfo(outputName);
@@ -570,6 +555,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             {
                 throw new Exception($"{nameof(distanceOperatorDto)} and {nameof(distance)} cannot both be null.");
             }
+
             ValueInfo distanceValueInfo = _stack.Pop();
 
             string sourcePosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
@@ -577,10 +563,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string distanceLiteral = distanceValueInfo.GetLiteral();
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
-
-            string line = $"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};";
-            _sb.AppendLine(line);
-
+            _sb.AppendLine($"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};");
             _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(signalOperatorDto);
