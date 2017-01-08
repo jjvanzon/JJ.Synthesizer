@@ -158,6 +158,26 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessMultiVarOperator_Vars_1Const(dto, MULTIPLY_SYMBOL);
         }
 
+        protected override OperatorDtoBase Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto)
+        {
+            base.Visit_Negative_OperatorDto_VarX(dto);
+
+            _sb.AppendLine();
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+
+            ValueInfo xValueInfo = _stack.Pop();
+
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            string line = $"double {outputName} = -{xValueInfo.GetLiteral()};";
+            _sb.AppendLine(line);
+
+            var resultValueInfo = new ValueInfo(outputName);
+            _stack.Push(resultValueInfo);
+
+            return dto;
+        }
+
         protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, NOT_EQUAL_SYMBOL);
@@ -231,11 +251,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
         {
             base.Visit_Subtract_OperatorDto_ConstA_VarB(dto);
-
             ProcessNumber(dto.A);
-            ProcessBinaryOperator(dto.OperatorTypeName, SUBTRACT_SYMBOL);
 
-            return dto;
+            return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto)
@@ -243,18 +261,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ProcessNumber(dto.B);
             base.Visit_Subtract_OperatorDto_VarA_ConstB(dto);
 
-            ProcessBinaryOperator(dto.OperatorTypeName, SUBTRACT_SYMBOL);
-
-            return dto;
+            return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_VarB(Subtract_OperatorDto_VarA_VarB dto)
         {
             base.Visit_Subtract_OperatorDto_VarA_VarB(dto);
 
-            ProcessBinaryOperator(dto.OperatorTypeName, SUBTRACT_SYMBOL);
-
-            return dto;
+            return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
@@ -272,24 +286,26 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         // Generalized Methods
 
-        private void ProcessBinaryOperator(string operatorTypeName, string operatorSymbol)
+        private OperatorDtoBase ProcessBinaryOperator(OperatorDtoBase dto, string operatorSymbol)
         {
             ValueInfo aValueInfo = _stack.Pop();
             ValueInfo bValueInfo = _stack.Pop();
 
             _sb.AppendLine();
-            _sb.AppendLine("// " + operatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeName);
 
             string aLiteral = aValueInfo.GetLiteral();
             string bLiteral = bValueInfo.GetLiteral();
 
-            string outputName = GenerateOutputNameCamelCase(operatorTypeName);
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             string line = $"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral};";
             _sb.AppendLine(line);
 
             var resultValueInfo = new ValueInfo(outputName);
             _stack.Push(resultValueInfo);
+
+            return dto;
         }
 
         private OperatorDtoBase ProcessComparativeOperator_VarA_ConstB(OperatorDtoBase_VarA_ConstB dto, string operatorSymbol)
