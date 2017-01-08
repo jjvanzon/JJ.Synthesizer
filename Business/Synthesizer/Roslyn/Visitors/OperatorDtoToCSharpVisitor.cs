@@ -213,13 +213,110 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
-
-            string line = $"double {outputName} = 1.0 / {xValueInfo.GetLiteral()};";
-            _sb.AppendLine(line);
-
+            _sb.AppendLine($"double {outputName} = 1.0 / {xValueInfo.GetLiteral()};");
             _sb.AppendLine();
 
             var resultValueInfo = new ValueInfo(outputName);
+            _stack.Push(resultValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
+        {
+            base.Visit_Power_OperatorDto_VarBase_VarExponent(dto);
+
+            return Process_Math_Pow(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
+        {
+            base.Visit_Power_OperatorDto_ConstBase_VarExponent(dto);
+            ProcessNumber(dto.Base);
+
+            return Process_Math_Pow(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto)
+        {
+            ProcessNumber(dto.Exponent);
+            base.Visit_Power_OperatorDto_VarBase_ConstExponent(dto);
+
+            return Process_Math_Pow(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent2(Power_OperatorDto_VarBase_Exponent2 dto)
+        {
+            base.Visit_Power_OperatorDto_VarBase_Exponent2(dto);
+
+            ValueInfo baseValueInfo = _stack.Pop();
+
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+            string baseLiteral = baseValueInfo.GetLiteral();
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {outputName} = {baseLiteral} * {baseLiteral};");
+            _sb.AppendLine();
+
+            var resultValueInfo = new ValueInfo(outputName);
+            _stack.Push(resultValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent3(Power_OperatorDto_VarBase_Exponent3 dto)
+        {
+            base.Visit_Power_OperatorDto_VarBase_Exponent3(dto);
+
+            ValueInfo baseValueInfo = _stack.Pop();
+
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+            string baseLiteral = baseValueInfo.GetLiteral();
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {outputName} = {baseLiteral} * {baseLiteral} * {baseLiteral};");
+            _sb.AppendLine();
+
+            var resultValueInfo = new ValueInfo(outputName);
+            _stack.Push(resultValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent4(Power_OperatorDto_VarBase_Exponent4 dto)
+        {
+            base.Visit_Power_OperatorDto_VarBase_Exponent4(dto);
+
+            ValueInfo baseValueInfo = _stack.Pop();
+
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+            string baseLiteral = baseValueInfo.GetLiteral();
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {outputName} = {baseLiteral} * {baseLiteral};");
+            _sb.AppendLine($"{outputName} *= {outputName};");
+            _sb.AppendLine();
+
+            var resultValueInfo = new ValueInfo(outputName);
+            _stack.Push(resultValueInfo);
+
+            return dto;
+        }
+
+        private OperatorDtoBase Process_Math_Pow(OperatorDtoBase dto)
+        {
+            ValueInfo baseValueInfo = _stack.Pop();
+            ValueInfo exponentValueInfo = _stack.Pop();
+
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+            string baseLiteral = baseValueInfo.GetLiteral();
+            string exponentLiteral = exponentValueInfo.GetLiteral();
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {variableName} = Math.Pow({baseLiteral}, {exponentLiteral});");
+            _sb.AppendLine();
+
+            var resultValueInfo = new ValueInfo(variableName);
             _stack.Push(resultValueInfo);
 
             return dto;
@@ -278,16 +375,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string frequencyLiteral = frequencyValueInfo.GetLiteral();
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
-
-            string line1 = $"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};";
-            _sb.AppendLine(line1);
-
-            string line2 = $"{prevPosName} = {posName};";
-            _sb.AppendLine(line2);
-
-            string line3 = $"double {outputName} = SineCalculator.Sin({phaseName});";
-            _sb.AppendLine(line3);
-
+            _sb.AppendLine($"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};");
+            _sb.AppendLine($"{prevPosName} = {posName};");
+            _sb.AppendLine($"double {outputName} = SineCalculator.Sin({phaseName});");
             _sb.AppendLine();
 
             var valueInfo = new ValueInfo(outputName);
