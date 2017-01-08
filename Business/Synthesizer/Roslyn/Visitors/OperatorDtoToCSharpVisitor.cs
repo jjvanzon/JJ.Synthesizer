@@ -162,15 +162,16 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_Negative_OperatorDto_VarX(dto);
 
-            _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-
             ValueInfo xValueInfo = _stack.Pop();
 
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+
             string line = $"double {outputName} = -{xValueInfo.GetLiteral()};";
             _sb.AppendLine(line);
+
+            _sb.AppendLine();
 
             var resultValueInfo = new ValueInfo(outputName);
             _stack.Push(resultValueInfo);
@@ -222,9 +223,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(dto);
 
-            _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-
             ValueInfo frequencyValueInfo = _stack.Pop();
 
             string phaseName = GeneratePhaseVariableNameCamelCase();
@@ -232,6 +230,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string frequencyLiteral = frequencyValueInfo.GetLiteral();
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
 
             string line1 = $"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};";
             _sb.AppendLine(line1);
@@ -241,6 +241,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string line3 = $"double {outputName} = SineCalculator.Sin({phaseName});";
             _sb.AppendLine(line3);
+
+            _sb.AppendLine();
 
             var valueInfo = new ValueInfo(outputName);
             _stack.Push(valueInfo);
@@ -291,16 +293,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ValueInfo aValueInfo = _stack.Pop();
             ValueInfo bValueInfo = _stack.Pop();
 
-            _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-
             string aLiteral = aValueInfo.GetLiteral();
             string bLiteral = bValueInfo.GetLiteral();
 
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+
             string line = $"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral};";
             _sb.AppendLine(line);
+
+            _sb.AppendLine();
 
             var resultValueInfo = new ValueInfo(outputName);
             _stack.Push(resultValueInfo);
@@ -328,16 +331,18 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ValueInfo aValueInfo = _stack.Pop();
             ValueInfo bValueInfo = _stack.Pop();
 
-            _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorTypeName);
 
             string aLiteral = aValueInfo.GetLiteral();
             string bLiteral = bValueInfo.GetLiteral();
 
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+
             string line = $"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral} ? 1.0 : 0.0;";
             _sb.AppendLine(line);
+
+            _sb.AppendLine();
 
             var resultValueInfo = new ValueInfo(outputName);
             _stack.Push(resultValueInfo);
@@ -362,10 +367,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessMultiVarOperator(OperatorDtoBase dto, int varCount, string operatorSymbol)
         {
-            _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
 
             _sb.AppendTabs();
             _sb.Append($"double {outputName} =");
@@ -388,6 +392,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.Append(';');
             _sb.Append(Environment.NewLine);
 
+            _sb.AppendLine();
+
             var resultValueInfo = new ValueInfo(outputName);
             _stack.Push(resultValueInfo);
 
@@ -403,10 +409,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_OperatorDto_Base(dto);
 
-            _sb.AppendLine();
             _sb.AppendLine("// " + dto.OperatorTypeName);
 
             ProcessNumber(dto.Number);
+
+            _sb.AppendLine();
 
             return dto;
         }
@@ -414,9 +421,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private OperatorDtoBase ProcessShift(OperatorDtoBase dto, OperatorDtoBase signalOperatorDto, OperatorDtoBase distanceOperatorDto = null, double? distance = null)
         {
             // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
-
-            _sb.AppendLine();
-            _sb.AppendLine("// " + dto.OperatorTypeName);
 
             if (distanceOperatorDto != null)
             {
@@ -436,8 +440,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string destPosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel + 1);
             string distanceLiteral = distanceValueInfo.GetLiteral();
 
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+
             string line = $"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};";
             _sb.AppendLine(line);
+
+            _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(signalOperatorDto);
             ValueInfo signalValueInfo = _stack.Pop();

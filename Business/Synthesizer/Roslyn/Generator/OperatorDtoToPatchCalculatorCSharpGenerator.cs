@@ -126,9 +126,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                         {
                             // Raw Calculation
                             sb.Append(visitorResult.RawCalculationCode);
-                            sb.AppendLine();
 
                             // Accumulate
+                            sb.AppendLine("// Accumulate");
                             sb.AppendLine($"double value = {visitorResult.ReturnValueLiteral};");
                             sb.AppendLine();
                             sb.AppendLine("if (double.IsNaN(value)) // winmm will trip over NaN.");
