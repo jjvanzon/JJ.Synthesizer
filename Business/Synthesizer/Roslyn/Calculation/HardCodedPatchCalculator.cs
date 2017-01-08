@@ -11,8 +11,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
     {
         // Fields
 
-        private readonly int _channelIndex;
-
         private double _input1;
         private double _standardDimensionFrequency1;
         private double _customDimensionPrettiness1;
@@ -36,11 +34,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
         // Constructor
 
         public HardCodedPatchCalculator(int samplingRate, int channelCount, int channelIndex)
-            : base(samplingRate, channelCount)
+            : base(samplingRate, channelCount, channelIndex)
         {
-            PatchCalculatorHelper.AssertChannelIndex(channelIndex, channelCount);
-            _channelIndex = channelIndex;
-
             Reset(time: 0.0);
 
             // TODO: Copy defaults from fields to value dictionaries in the base, like SingleChannelPatchCalculator's constructor.
@@ -52,7 +47,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
         public override void Calculate(float[] buffer, int frameCount, double startTime)
         {
             double frameDuration = _frameDuration;
-            int channelCount = _targetChannelCount;
+            int channelCount = _channelCount;
             int channelIndex = _channelIndex;
             int valueCount = frameCount * channelCount;
 

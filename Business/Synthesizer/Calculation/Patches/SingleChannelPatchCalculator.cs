@@ -33,8 +33,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly Dictionary<int, IList<OperatorCalculatorBase>> _listIndex_To_ResettableOperatorCalculators_Dictionary;
         private readonly Dictionary<string, IList<OperatorCalculatorBase>> _name_To_ResettableOperatorCalculators_Dictionary;
 
-        private readonly int _channelIndex;
-
         public SingleChannelPatchCalculator(
             Outlet topLevelOutlet,
             int samplingRate,
@@ -46,14 +44,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository,
             ISpeakerSetupRepository speakerSetupRepository)
-            : base(samplingRate, channelCount)
+            : base(samplingRate, channelCount, channelIndex)
         {
             if (topLevelOutlet == null) throw new NullException(() => topLevelOutlet);
-            if (channelCount <= 0) throw new LessThanOrEqualException(() => channelCount, 0);
-
-            PatchCalculatorHelper.AssertChannelIndex(channelIndex, channelCount);
-
-            _channelIndex = channelIndex;
 
             ToCalculatorResult result;
             switch (_calculationEngineConfigurationEnum)
@@ -142,19 +135,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         // Calculate
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(double time)
-        {
-#if !USE_INVAR_INDICES
-            _timeDimensionStack.Set(time);
-#else
-            _timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
-#endif
-            double value = _outputOperatorCalculator.Calculate();
-
-            return value;
-        }
-
         /// <param name="frameCount">
         /// You cannot use buffer.Length as a basis for frameCount, 
         /// because if you write to the buffer beyond frameCount, then the audio driver might fail.
@@ -164,7 +144,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         public override void Calculate(float[] buffer, int frameCount, double t0)
         {
             int channelIndex = _channelIndex;
-            int channelCount = _targetChannelCount;
+            int channelCount = _channelCount;
             double frameDuration = _frameDuration;
             int valueCount = frameCount * channelCount;
             DimensionStack timeDimensionStack = _timeDimensionStack;
@@ -179,7 +159,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 #else
                 timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, t);
 #endif
-                double value = Calculate(t);
+                double value = _outputOperatorCalculator.Calculate();
 
                 // winmm will trip over NaN.
                 if (Double.IsNaN(value))

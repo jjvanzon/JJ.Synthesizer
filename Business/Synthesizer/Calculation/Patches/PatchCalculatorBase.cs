@@ -9,7 +9,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     public abstract class PatchCalculatorBase : IPatchCalculator
     {
         protected readonly double _frameDuration;
-        protected readonly int _targetChannelCount;
+        protected readonly int _channelCount;
+        protected readonly int _channelIndex;
 
         protected readonly Dictionary<DimensionEnum, double> _dimensionEnum_To_Value_Dictionary = new Dictionary<DimensionEnum, double>();
         protected readonly Dictionary<string, double> _name_To_Value_Dictionary = new Dictionary<string, double>();
@@ -17,22 +18,28 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected readonly Dictionary<Tuple<string, int>, double> _nameAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<string, int>, double>();
         protected readonly Dictionary<int, double> _listIndex_To_Value_Dictionary = new Dictionary<int, double>();
 
-        public PatchCalculatorBase(int samplingRate, int targetChannelCount)
+        public PatchCalculatorBase(int samplingRate, int channelCount, int channelIndex)
         {
+            if (channelCount <= 0) throw new LessThanOrEqualException(() => channelCount, 0);
+            PatchCalculatorHelper.AssertChannelIndex(channelIndex, channelCount);
+
             _frameDuration = 1.0 / samplingRate;
-            _targetChannelCount = targetChannelCount;
+            _channelCount = channelCount;
+            _channelIndex = channelIndex;
         }
 
         // Calculate
 
         public virtual double Calculate(double time)
         {
-            throw new NotSupportedException($"{nameof(Calculate)} with {nameof(time)} parameter is not supported. Use another overload.");
-        }
+            // Implementation for backward compatibility.
+            // TODO: Lower priority: Refactor this method away completely or at least prefer not using it?
 
-        public double Calculate(double time, int channelIndex)
-        {
-            throw new NotSupportedException($"{nameof(Calculate)} with {nameof(time)} and {nameof(channelIndex)} parameters is not supported. Use another overload.");
+            var buffer = new float[_channelCount];
+
+            Calculate(buffer, frameCount: 1, t0: time);
+
+            return buffer[_channelIndex];
         }
 
         public abstract void Calculate(float[] buffer, int frameCount, double t0);

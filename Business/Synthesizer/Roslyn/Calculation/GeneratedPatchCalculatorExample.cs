@@ -17,8 +17,8 @@ namespace GeneratedCSharp
 
         // Constructor
 
-        public Calculator(int targetSamplingRate, int channelCount)
-            : base(targetSamplingRate, channelCount)
+        public Calculator(int targetSamplingRate, int channelCount, int channelIndex)
+            : base(targetSamplingRate, channelCount, channelIndex)
         {
             _input0 = 0.0E0;
             _input1 = 0.0E0;
@@ -29,9 +29,12 @@ namespace GeneratedCSharp
         // Calculate
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override void Calculate(float[] buffer, int framesPerChunk, double startTime)
+        public override void Calculate(float[] buffer, int frameCount, double startTime)
         {
             double frameDuration = _frameDuration;
+            int channelCount = _channelCount;
+            int channelIndex = _channelIndex;
+            int valueCount = frameCount * channelCount;
 
             double phase0 = _phase0;
             double prevPos0 = _prevPos0;
@@ -40,9 +43,9 @@ namespace GeneratedCSharp
 
             double t0 = startTime;
 
-            for (int i = 0; i < framesPerChunk; i++)
+            // Writes values in an interleaved way to the buffer.
+            for (int i = channelIndex; i < valueCount; i += channelCount)
             {
-
                 // Sine
                 phase0 += (t0 - prevPos0) * input1;
                 prevPos0 = t0;

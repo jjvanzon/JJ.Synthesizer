@@ -5,7 +5,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     public interface IPatchCalculator
     {
         double Calculate(double time);
-        double Calculate(double time, int channelIndex);
 
         /// <param name="frameCount">
         /// You cannot use buffer.Length as a basis for frameCount, 

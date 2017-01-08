@@ -44,8 +44,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     // Fields
                     sb.AppendLine("// Fields");
                     sb.AppendLine();
-                    sb.AppendLine("private readonly int _channelIndex;");
-                    sb.AppendLine();
 
                     foreach (string instanceVariableName in instanceVariableNames)
                     {
@@ -59,16 +57,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     sb.AppendLine($"public {generatedClassName}(int samplingRate, int channelCount, int channelIndex)");
                     sb.Indent();
                     {
-                        sb.AppendLine($": base(samplingRate, channelCount)");
+                        sb.AppendLine($": base(samplingRate, channelCount, channelIndex)");
                         sb.Unindent();
                     }
                     sb.AppendLine("{");
                     sb.Indent();
                     {
-                        sb.AppendLine("PatchCalculatorHelper.AssertChannelIndex(channelIndex, channelCount);");
-                        sb.AppendLine("_channelIndex = channelIndex;");
-                        sb.AppendLine("");
-
                         if (visitorResult.VariableInputValueInfos.Any())
                         {
                             foreach (ValueInfo variableInputValueInfo in visitorResult.VariableInputValueInfos)
@@ -94,7 +88,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     {
                         // Copy Fields to Local
                         sb.AppendLine("double frameDuration = _frameDuration;");
-                        sb.AppendLine("int channelCount = _targetChannelCount;");
+                        sb.AppendLine("int channelCount = _channelCount;");
                         sb.AppendLine("int channelIndex = _channelIndex;");
                         sb.AppendLine("int valueCount = frameCount * channelCount;");
 
