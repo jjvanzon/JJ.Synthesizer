@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string TAB_STRING = "    ";
         private const int FIRST_VARIABLE_NUMBER = 0;
 
+        private const string DIVIDE_SYMBOL = "/";
         private const string EQUALS_SYMBOL = "==";
         private const string GREATER_THAN_SYMBOL = ">";
         private const string GREATER_THAN_OR_EQUAL_SYMBOL = ">=";
@@ -122,6 +123,64 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessMultiVarOperator_Vars_1Const(dto, PLUS_SYMBOL);
         }
 
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
+        {
+            return Process_ConstA_ConstB_VarOrigin(dto, DIVIDE_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(Divide_OperatorDto_ConstA_VarB_ConstOrigin dto)
+        {
+            return Process_ConstA_VarB_ConstOrigin(dto, DIVIDE_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(Divide_OperatorDto_ConstA_VarB_VarOrigin dto)
+        {
+            return Process_ConstA_VarB_VarOrigin(dto, DIVIDE_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(Divide_OperatorDto_VarA_ConstB_ConstOrigin dto)
+        {
+            return Process_VarA_ConstB_ConstOrigin(dto, DIVIDE_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(Divide_OperatorDto_VarA_ConstB_VarOrigin dto)
+        {
+            return Process_VarA_ConstB_VarOrigin(dto, DIVIDE_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(Divide_OperatorDto_VarA_VarB_ConstOrigin dto)
+        {
+            return Process_VarA_VarB_ConstOrigin(dto, DIVIDE_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(Divide_OperatorDto_VarA_VarB_VarOrigin dto)
+        {
+            return Process_VarA_VarB_VarOrigin(dto, DIVIDE_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
+        {
+            base.Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(dto);
+            ProcessNumber(dto.A);
+
+            return ProcessDivideZeroOrigin(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
+        {
+            ProcessNumber(dto.B);
+            base.Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(dto);
+
+            return ProcessDivideZeroOrigin(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(Divide_OperatorDto_VarA_VarB_ZeroOrigin dto)
+        {
+            base.Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(dto);
+
+            return ProcessDivideZeroOrigin(dto);
+        }
+
         protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, EQUALS_SYMBOL);
@@ -184,61 +243,37 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin dto)
         {
-            base.Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(dto);
-            ProcessNumber(dto.B);
-            ProcessNumber(dto.A);
-
-            return ProcessMultiplyWithOrigin(dto);
+            return Process_ConstA_ConstB_VarOrigin(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin dto)
         {
-            ProcessNumber(dto.Origin);
-            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            ProcessNumber(dto.A);
-
-            return ProcessMultiplyWithOrigin(dto);
+            return Process_ConstA_VarB_ConstOrigin(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin dto)
         {
-            base.Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin(dto);
-            ProcessNumber(dto.A);
-
-            return ProcessMultiplyWithOrigin(dto);
+            return Process_ConstA_VarB_VarOrigin(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin dto)
         {
-            ProcessNumber(dto.Origin);
-            ProcessNumber(dto.B);
-            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
-
-            return ProcessMultiplyWithOrigin(dto);
+            return Process_VarA_ConstB_ConstOrigin(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
-            ProcessNumber(dto.B);
-            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
-
-            return ProcessMultiplyWithOrigin(dto);
+            return Process_VarA_ConstB_VarOrigin(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin dto)
         {
-            ProcessNumber(dto.Origin);
-            base.Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(dto);
-
-            return ProcessMultiplyWithOrigin(dto);
+            return Process_VarA_VarB_ConstOrigin(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin dto)
         {
-            base.Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin(dto);
-
-            return ProcessMultiplyWithOrigin(dto);
+            return Process_VarA_VarB_VarOrigin(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto)
@@ -546,7 +581,25 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
-        private OperatorDtoBase ProcessMultiplyWithOrigin(OperatorDtoBase dto)
+        private OperatorDtoBase ProcessDivideZeroOrigin(OperatorDtoBase dto)
+        {
+            ValueInfo aValueInfo = _stack.Pop();
+            ValueInfo bValueInfo = _stack.Pop();
+
+            string aLiteral = aValueInfo.GetLiteral();
+            string bLiteral = bValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {outputName} = {aLiteral} / {bLiteral};");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(outputName));
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessWithOrigin(OperatorDtoBase dto, string operatorSymbol)
         {
             ValueInfo aValueInfo = _stack.Pop();
             ValueInfo bValueInfo = _stack.Pop();
@@ -558,7 +611,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine($"// {dto.OperatorTypeName}");
-            _sb.AppendLine($"double {outputName} = ({aLiteral} - {originLiteral}) * {bLiteral} + {originLiteral};");
+            _sb.AppendLine($"double {outputName} = ({aLiteral} - {originLiteral}) {operatorSymbol} {bLiteral} + {originLiteral};");
             _sb.AppendLine();
 
             _stack.Push(new ValueInfo(outputName));
@@ -666,6 +719,65 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _stack.Push(signalValueInfo);
 
             return dto;
+        }
+
+        private OperatorDtoBase Process_ConstA_ConstB_VarOrigin(OperatorDtoBase_ConstA_ConstB_VarOrigin dto, string operatorSymbol)
+        {
+            base.Visit_OperatorDto_Base(dto);
+            ProcessNumber(dto.B);
+            ProcessNumber(dto.A);
+
+            return ProcessWithOrigin(dto, operatorSymbol);
+        }
+
+        private OperatorDtoBase Process_ConstA_VarB_ConstOrigin(OperatorDtoBase_ConstA_VarB_ConstOrigin dto, string operatorSymbol)
+        {
+            ProcessNumber(dto.Origin);
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            ProcessNumber(dto.A);
+
+            return ProcessWithOrigin(dto, operatorSymbol);
+        }
+
+        private OperatorDtoBase Process_ConstA_VarB_VarOrigin(OperatorDtoBase_ConstA_VarB_VarOrigin dto, string operatorSymbol)
+        {
+            base.Visit_OperatorDto_Base(dto);
+            ProcessNumber(dto.A);
+
+            return ProcessWithOrigin(dto, operatorSymbol);
+        }
+
+        private OperatorDtoBase Process_VarA_ConstB_ConstOrigin(OperatorDtoBase_VarA_ConstB_ConstOrigin dto, string operatorSymbol)
+        {
+            ProcessNumber(dto.Origin);
+            ProcessNumber(dto.B);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            return ProcessWithOrigin(dto, operatorSymbol);
+        }
+
+        private OperatorDtoBase Process_VarA_ConstB_VarOrigin(OperatorDtoBase_VarA_ConstB_VarOrigin dto, string operatorSymbol)
+        {
+            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
+            ProcessNumber(dto.B);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            return ProcessWithOrigin(dto, operatorSymbol);
+        }
+
+        private OperatorDtoBase Process_VarA_VarB_ConstOrigin(OperatorDtoBase_VarA_VarB_ConstOrigin dto, string operatorSymbol)
+        {
+            ProcessNumber(dto.Origin);
+            base.Visit_OperatorDto_Base(dto);
+
+            return ProcessWithOrigin(dto, operatorSymbol);
+        }
+
+        private OperatorDtoBase Process_VarA_VarB_VarOrigin(OperatorDtoBase_VarA_VarB_VarOrigin dto, string operatorSymbol)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            return ProcessWithOrigin(dto, operatorSymbol);
         }
 
         // Helpers
