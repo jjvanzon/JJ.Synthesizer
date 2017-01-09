@@ -182,16 +182,76 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessMultiVarOperator_Vars_1Const(dto, MULTIPLY_SYMBOL);
         }
 
+        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin dto)
+        {
+            base.Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(dto);
+            ProcessNumber(dto.B);
+            ProcessNumber(dto.A);
+
+            return ProcessMultiplyWithOrigin(dto);
+        }
+
+        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin dto)
+        {
+            ProcessNumber(dto.Origin);
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            ProcessNumber(dto.A);
+
+            return ProcessMultiplyWithOrigin(dto);
+        }
+
+        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin dto)
+        {
+            base.Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin(dto);
+            ProcessNumber(dto.A);
+
+            return ProcessMultiplyWithOrigin(dto);
+        }
+
+        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin dto)
+        {
+            ProcessNumber(dto.Origin);
+            ProcessNumber(dto.B);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            return ProcessMultiplyWithOrigin(dto);
+        }
+
+        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
+            ProcessNumber(dto.B);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            return ProcessMultiplyWithOrigin(dto);
+        }
+
+        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin dto)
+        {
+            ProcessNumber(dto.Origin);
+            base.Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(dto);
+
+            return ProcessMultiplyWithOrigin(dto);
+        }
+
+        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin dto)
+        {
+            base.Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin(dto);
+
+            return ProcessMultiplyWithOrigin(dto);
+        }
+
         protected override OperatorDtoBase Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto)
         {
             base.Visit_Negative_OperatorDto_VarX(dto);
 
             ValueInfo xValueInfo = _stack.Pop();
 
+            string xLiteral = xValueInfo.GetLiteral();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
-            _sb.AppendLine($"double {outputName} = -{xValueInfo.GetLiteral()};");
+            _sb.AppendLine($"double {outputName} = -{xLiteral};");
             _sb.AppendLine();
 
             _stack.Push(new ValueInfo(outputName));
@@ -205,10 +265,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             ValueInfo xValueInfo = _stack.Pop();
 
+            string xLiteral = xValueInfo.GetLiteral();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
-            _sb.AppendLine($"double {outputName} = 1.0 / {xValueInfo.GetLiteral()};");
+            _sb.AppendLine($"double {outputName} = 1.0 / {xLiteral};");
             _sb.AppendLine();
 
             _stack.Push(new ValueInfo(outputName));
@@ -245,8 +306,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             ValueInfo baseValueInfo = _stack.Pop();
 
-            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string baseLiteral = baseValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {baseLiteral} * {baseLiteral};");
@@ -263,8 +324,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             ValueInfo baseValueInfo = _stack.Pop();
 
-            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string baseLiteral = baseValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {baseLiteral} * {baseLiteral} * {baseLiteral};");
@@ -281,8 +342,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             ValueInfo baseValueInfo = _stack.Pop();
 
-            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string baseLiteral = baseValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {baseLiteral} * {baseLiteral};");
@@ -299,9 +360,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ValueInfo baseValueInfo = _stack.Pop();
             ValueInfo exponentValueInfo = _stack.Pop();
 
-            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string baseLiteral = baseValueInfo.GetLiteral();
             string exponentLiteral = exponentValueInfo.GetLiteral();
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {variableName} = Math.Pow({baseLiteral}, {exponentLiteral});");
@@ -362,8 +423,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string phaseName = GeneratePhaseVariableNameCamelCase();
             string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
             string originName = GenerateOriginVariableNameCamelCase(dto.DimensionStackLevel);
-            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"{phaseName} = ({posName} - {originName}) * {frequencyLiteral};");
@@ -384,8 +445,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string phaseName = GeneratePhaseVariableNameCamelCase();
             string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
             string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
-            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};");
@@ -441,7 +502,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string aLiteral = aValueInfo.GetLiteral();
             string bLiteral = bValueInfo.GetLiteral();
-
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
@@ -475,11 +535,30 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string aLiteral = aValueInfo.GetLiteral();
             string bLiteral = bValueInfo.GetLiteral();
-
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral} ? 1.0 : 0.0;");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(outputName));
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessMultiplyWithOrigin(OperatorDtoBase dto)
+        {
+            ValueInfo aValueInfo = _stack.Pop();
+            ValueInfo bValueInfo = _stack.Pop();
+            ValueInfo originValueInfo = _stack.Pop();
+
+            string aLiteral = aValueInfo.GetLiteral();
+            string bLiteral = bValueInfo.GetLiteral();
+            string originLiteral = originValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine($"// {dto.OperatorTypeName}");
+            _sb.AppendLine($"double {outputName} = ({aLiteral} - {originLiteral}) * {bLiteral} + {originLiteral};");
             _sb.AppendLine();
 
             _stack.Push(new ValueInfo(outputName));
