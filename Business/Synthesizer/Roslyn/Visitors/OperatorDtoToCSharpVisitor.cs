@@ -390,24 +390,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
-        private OperatorDtoBase Process_Math_Pow(OperatorDtoBase dto)
-        {
-            ValueInfo baseValueInfo = _stack.Pop();
-            ValueInfo exponentValueInfo = _stack.Pop();
-
-            string baseLiteral = baseValueInfo.GetLiteral();
-            string exponentLiteral = exponentValueInfo.GetLiteral();
-            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
-
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-            _sb.AppendLine($"double {variableName} = Math.Pow({baseLiteral}, {exponentLiteral});");
-            _sb.AppendLine();
-
-            _stack.Push(new ValueInfo(variableName));
-
-            return dto;
-        }
-
         protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, NOT_EQUAL_SYMBOL);
@@ -446,6 +428,20 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
             return ProcessShift(dto, dto.SignalOperatorDto, dto.DistanceOperatorDto);
+        }
+
+        protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        {
+            ProcessNumber(dto.Frequency);
+
+            return ProcessSineWithoutPhaseTrackingOrOriginShifting(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            return ProcessSineWithoutPhaseTrackingOrOriginShifting(dto);
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(Sine_OperatorDto_ConstFrequency_WithOriginShifting dto)
@@ -619,6 +615,24 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
+        private OperatorDtoBase Process_Math_Pow(OperatorDtoBase dto)
+        {
+            ValueInfo baseValueInfo = _stack.Pop();
+            ValueInfo exponentValueInfo = _stack.Pop();
+
+            string baseLiteral = baseValueInfo.GetLiteral();
+            string exponentLiteral = exponentValueInfo.GetLiteral();
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {variableName} = Math.Pow({baseLiteral}, {exponentLiteral});");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(variableName));
+
+            return dto;
+        }
+
         private OperatorDtoBase ProcessMultiVarOperator_Vars_NoConsts(OperatorDtoBase_Vars dto, string operatorSymbol)
         {
             base.Visit_OperatorDto_Base(dto);
@@ -717,6 +731,24 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ValueInfo signalValueInfo = _stack.Pop();
 
             _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessSineWithoutPhaseTrackingOrOriginShifting(OperatorDtoBase dto)
+        {
+            ValueInfo frequencyValueInfo = _stack.Pop();
+
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {outputName} = {posName} * {frequencyLiteral};");
+            _sb.AppendLine($"{outputName} = SineCalculator.Sin({outputName});");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(outputName));
 
             return dto;
         }
