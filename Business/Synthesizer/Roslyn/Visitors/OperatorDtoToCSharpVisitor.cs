@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string TAB_STRING = "    ";
         private const int FIRST_VARIABLE_NUMBER = 0;
 
+        private const string AND_SYMBOL = "&&";
         private const string DIVIDE_SYMBOL = "/";
         private const string EQUALS_SYMBOL = "==";
         private const string GREATER_THAN_SYMBOL = ">";
@@ -22,6 +23,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string LESS_THAN_OR_EQUAL_SYMBOL = "<=";
         private const string MULTIPLY_SYMBOL = "*";
         private const string NOT_EQUAL_SYMBOL = "!=";
+        private const string OR_SYMBOL = "||";
         private const string PLUS_SYMBOL = "+";
         private const string SUBTRACT_SYMBOL = "-";
         private const string PHASE_VARIABLE_PREFIX = "phase";
@@ -125,22 +127,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_And_OperatorDto_VarA_VarB(dto);
+            return ProcessLogicalBinaryOperator(dto, AND_SYMBOL);
+        }
 
-            ValueInfo aValueInfo = _stack.Pop();
-            ValueInfo bValueInfo = _stack.Pop();
-
-            string aLiteral = aValueInfo.GetLiteral();
-            string bLiteral = bValueInfo.GetLiteral();
-            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
-
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-            _sb.AppendLine($"double {outputName} = {aLiteral} != 0.0 && {bLiteral} != 0.0 ? 1.0 : 0.0;");
-            _sb.AppendLine();
-
-            _stack.Push(new ValueInfo(outputName));
-
-            return dto;
+        protected override OperatorDtoBase Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
+        {
+            return ProcessLogicalBinaryOperator(dto, OR_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
@@ -575,6 +567,26 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral};");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(outputName));
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessLogicalBinaryOperator(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            ValueInfo aValueInfo = _stack.Pop();
+            ValueInfo bValueInfo = _stack.Pop();
+
+            string aLiteral = aValueInfo.GetLiteral();
+            string bLiteral = bValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {outputName} = {aLiteral} != 0.0 {operatorSymbol} {bLiteral} != 0.0 ? 1.0 : 0.0;");
             _sb.AppendLine();
 
             _stack.Push(new ValueInfo(outputName));
