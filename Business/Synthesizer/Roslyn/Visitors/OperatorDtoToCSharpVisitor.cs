@@ -294,6 +294,22 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
+        protected override OperatorDtoBase Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
+        {
+            base.Visit_Not_OperatorDto_VarX(dto);
+
+            ValueInfo xValueInfo = _stack.Pop();
+
+            string xLiteral = xValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.Append($"double {outputName} = {xLiteral} == 0.0 ? 1.0 : 0.0;");
+
+            _stack.Push(new ValueInfo(outputName));
+
+            return dto;
+        }
+
         protected override OperatorDtoBase Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
         {
             base.Visit_OneOverX_OperatorDto_VarX(dto);
