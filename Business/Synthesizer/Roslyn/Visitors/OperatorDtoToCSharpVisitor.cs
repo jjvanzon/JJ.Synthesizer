@@ -499,25 +499,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            base.Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(dto);
+            return ProcessPhaseTracker(dto, phaseName => $"SineCalculator.Sin({phaseName})");
+        }
 
-            ValueInfo frequencyValueInfo = _stack.Pop();
-
-            string phaseName = GeneratePhaseVariableNameCamelCase();
-            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
-            string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
-            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
-
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-            _sb.AppendLine($"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};");
-            _sb.AppendLine($"{prevPosName} = {posName};");
-            _sb.AppendLine($"double {outputName} = SineCalculator.Sin({phaseName});");
-            _sb.AppendLine();
-
-            _stack.Push(new ValueInfo(outputName));
-
-            return dto;
+        protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        {
+            return ProcessPhaseTracker(dto, phaseName => $"{phaseName} % 1.0 < 0.5 ? 1.0 : -1.0");
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
@@ -746,6 +733,30 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ProcessNumber(dto.Number);
 
             _sb.AppendLine();
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessPhaseTracker(OperatorDtoBase_VarFrequency dto, Func<string, string> getRightHandFormulaDelegate)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            ValueInfo frequencyValueInfo = _stack.Pop();
+
+            string phaseName = GeneratePhaseVariableNameCamelCase();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+            string rightHandFormula = getRightHandFormulaDelegate(phaseName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};");
+            _sb.AppendLine($"{prevPosName} = {posName};");
+            _sb.AppendLine($"double {outputName} = {rightHandFormula};");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(outputName));
 
             return dto;
         }
