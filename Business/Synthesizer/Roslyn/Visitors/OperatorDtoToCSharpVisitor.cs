@@ -499,7 +499,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SQUARE_FORMULA_FORMAT, x));
         }
 
-
         protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(Square_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
             return ProcessOriginShifter(dto, x => String.Format(SQUARE_FORMULA_FORMAT, x));
@@ -586,6 +585,88 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             base.Visit_Subtract_OperatorDto_VarA_VarB(dto);
 
             return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        {
+            ProcessNumber(dto.Frequency);
+
+            ValueInfo frequencyValueInfo = _stack.Pop();
+
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine($"// {dto.OperatorTypeName}");
+            _sb.AppendLine($"double {variableName} = {posName} * {frequencyLiteral};");
+            Write_TriangleCode_AfterDeterminePhase(variableName);
+
+            _stack.Push(new ValueInfo(variableName));
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(Triangle_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        {
+            ProcessNumber(dto.Frequency);
+
+            ValueInfo frequencyValueInfo = _stack.Pop();
+
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string originName = GenerateOriginVariableNameCamelCase(dto.DimensionStackLevel);
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine($"// {dto.OperatorTypeName}");
+            _sb.AppendLine($"double {variableName} = ({posName} - {originName}) * {frequencyLiteral};");
+            Write_TriangleCode_AfterDeterminePhase(variableName);
+
+            _stack.Push(new ValueInfo(variableName));
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(Triangle_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        {
+            base.Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(dto);
+
+            ValueInfo frequencyValueInfo = _stack.Pop();
+
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine($"// {dto.OperatorTypeName}");
+            _sb.AppendLine($"double {variableName} = {posName} * {frequencyLiteral};");
+            Write_TriangleCode_AfterDeterminePhase(variableName);
+
+            _stack.Push(new ValueInfo(variableName));
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        {
+            base.Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(dto);
+
+            ValueInfo frequencyValueInfo = _stack.Pop();
+
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine($"// {dto.OperatorTypeName}");
+            _sb.AppendLine($"{phaseName} = {posName} * {frequencyLiteral};");
+            // From here the code is the same as the method above.
+            // TODO: You could prevent the first addition in the code written in the method called here,
+            // by initializing phase with 0.5 for at the beginning of the chunk calculation.
+            _sb.AppendLine($"double {variableName} = {phaseName};");
+            Write_TriangleCode_AfterDeterminePhase(variableName);
+
+            _stack.Push(new ValueInfo(variableName));
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
@@ -801,7 +882,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             ValueInfo frequencyValueInfo = _stack.Pop();
 
-            string phaseName = GeneratePhaseVariableNameCamelCase();
+            string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
             string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
             string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
             string frequencyLiteral = frequencyValueInfo.GetLiteral();
@@ -821,7 +902,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessShift(OperatorDtoBase dto, OperatorDtoBase signalOperatorDto, OperatorDtoBase distanceOperatorDto = null, double? distance = null)
         {
-            // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
+            // Do not call base: Base will visit the inlets in one blow. We need to visit the inlets one by one.
 
             if (distanceOperatorDto != null)
             {
@@ -939,7 +1020,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             ValueInfo frequencyValueInfo = _stack.Pop();
 
-            string phaseName = GeneratePhaseVariableNameCamelCase();
+            string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
             string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
             string originName = GenerateOriginVariableNameCamelCase(dto.DimensionStackLevel);
             string frequencyLiteral = frequencyValueInfo.GetLiteral();
@@ -954,6 +1035,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _stack.Push(new ValueInfo(outputName));
 
             return dto;
+        }
+
+        private void Write_TriangleCode_AfterDeterminePhase(string variableNameInitializedWithPhase)
+        {
+            string x = variableNameInitializedWithPhase;
+
+            _sb.AppendLine($"{x} = {x} + 0.25;");
+            _sb.AppendLine($"{x} = {x} % 1.0;");
+            _sb.AppendLine($"if ({x} < 0.5) {x} = -1.0 + 4.0 * {x};");
+            _sb.AppendLine($"else {x} = 3.0 - 4.0 * {x};");
+            _sb.AppendLine();
         }
 
         // Helpers
@@ -1001,7 +1093,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return valueInfo;
         }
 
-        private string GeneratePhaseVariableNameCamelCase()
+        private string GenerateLongLivedPhaseVariableNameCamelCase()
         {
             string variableName = String.Format("{0}{1}", PHASE_VARIABLE_PREFIX, _phaseVariableCounter++);
 
