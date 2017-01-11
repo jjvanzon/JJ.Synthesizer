@@ -31,6 +31,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string INPUT_VARIABLE_PREFIX = "input";
         private const string POSITION_VARIABLE_PREFIX = "pos";
         private const string ORIGIN_VARIABLE_PREFIX = "origin";
+        /// <summary> {0} = phase  </summary>
+        private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
+        /// <summary> {0} = phase  </summary>
+        private const string SAW_UP_FORMULA_FORMAT = "-1.0 + (2.0 * {0} % 2.0)";
+        /// <summary> {0} = phase  </summary>
+        private const string SINE_FORMULA_FORMAT = "SineCalculator.Sin({0})";
+        /// <summary> {0} = phase  </summary>
+        private const string SQUARE_FORMULA_FORMAT = "{0} % 1.0 < 0.5 ? 1.0 : -1.0";
 
         protected Stack<ValueInfo> _stack;
         protected StringBuilderWithIndentation _sb;
@@ -464,48 +472,97 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             ProcessNumber(dto.Frequency);
 
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, phaseName => $"SineCalculator.Sin({phaseName})");
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SINE_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(Sine_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        {
+            return ProcessOriginShifter(dto, x => String.Format(SINE_FORMULA_FORMAT, x));
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, phaseName => $"SineCalculator.Sin({phaseName})");
-        }
-
-        protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(Sine_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return ProcessOriginShifter(dto, phaseName => $"SineCalculator.Sin({phaseName})");
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SINE_FORMULA_FORMAT, x));
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return ProcessPhaseTracker(dto, phaseName => $"SineCalculator.Sin({phaseName})");
+            return ProcessPhaseTracker(dto, x => String.Format(SINE_FORMULA_FORMAT, x));
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             ProcessNumber(dto.Frequency);
 
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, phaseName => $"{phaseName} % 1.0 < 0.5 ? 1.0 : -1.0");
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SQUARE_FORMULA_FORMAT, x));
+        }
+
+
+        protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(Square_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        {
+            return ProcessOriginShifter(dto, x => String.Format(SQUARE_FORMULA_FORMAT, x));
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(Square_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, phaseName => $"{phaseName} % 1.0 < 0.5 ? 1.0 : -1.0");
-        }
-
-        protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(Square_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return ProcessOriginShifter(dto, phaseName => $"{phaseName} % 1.0 < 0.5 ? 1.0 : -1.0");
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SQUARE_FORMULA_FORMAT, x));
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return ProcessPhaseTracker(dto, phaseName => $"{phaseName} % 1.0 < 0.5 ? 1.0 : -1.0");
+            return ProcessPhaseTracker(dto, x => String.Format(SQUARE_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        {
+            ProcessNumber(dto.Frequency);
+
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(SawDown_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        {
+            return ProcessOriginShifter(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        {
+            return ProcessPhaseTracker(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        {
+            ProcessNumber(dto.Frequency);
+
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(SawUp_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        {
+            return ProcessOriginShifter(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        {
+            return ProcessPhaseTracker(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
