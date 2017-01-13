@@ -458,6 +458,183 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessNumberOperatorDto(dto);
         }
 
+        protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
+        {
+            ProcessNumber(dto.Width);
+            ProcessNumber(dto.Frequency);
+
+            return Process_Pulse_OperatorDto_NoPhaseTrackingOrOriginShifting(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting dto)
+        {
+            ProcessNumber(dto.Width);
+            ProcessNumber(dto.Frequency);
+
+            return Process_Pulse_OperatorDto_WithOriginShifting(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.WidthOperatorDto);
+            ProcessNumber(dto.Frequency);
+
+            return Process_Pulse_OperatorDto_NoPhaseTrackingOrOriginShifting(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.WidthOperatorDto);
+            ProcessNumber(dto.Frequency);
+
+            return Process_Pulse_OperatorDto_WithOriginShifting(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking dto)
+        {
+            ProcessNumber(dto.Width);
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
+
+            return Process_Pulse_OperatorDto_NoPhaseTrackingOrOriginShifting(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking dto)
+        {
+            ProcessNumber(dto.Width);
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
+
+            return Process_Pulse_OperatorDto_WithPhaseTracking(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.WidthOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
+
+            return Process_Pulse_OperatorDto_NoPhaseTrackingOrOriginShifting(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.WidthOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
+
+            return Process_Pulse_OperatorDto_WithPhaseTracking(dto);
+        }
+
+        private OperatorDtoBase Process_Pulse_OperatorDto_WithPhaseTracking(OperatorDtoBase_VarFrequency dto)
+        {
+            ValueInfo frequencyValueInfo = _stack.Pop();
+            ValueInfo widthValueInfo = _stack.Pop();
+
+            string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string widthLiteral = widthValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};");
+            _sb.AppendLine($"{prevPosName} = {posName};");
+            _sb.AppendLine($"double {outputName} = {phaseName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(outputName));
+
+            return dto;
+        }
+
+        private OperatorDtoBase Process_Pulse_OperatorDto_WithOriginShifting(OperatorDtoBase_ConstFrequency dto)
+        {
+            ValueInfo frequencyValueInfo = _stack.Pop();
+            ValueInfo widthValueInfo = _stack.Pop();
+
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string widthLiteral = widthValueInfo.GetLiteral();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string originName = GenerateOriginVariableNameCamelCase(dto.DimensionStackLevel);
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {variableName} = ({posName} - {originName}) * {frequencyLiteral};");
+            _sb.AppendLine($"{variableName} = {variableName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(variableName));
+
+            return dto;
+        }
+
+        private OperatorDtoBase Process_Pulse_OperatorDto_NoPhaseTrackingOrOriginShifting(OperatorDtoBase dto)
+        {
+            ValueInfo frequencyValueInfo = _stack.Pop();
+            ValueInfo widthValueInfo = _stack.Pop();
+
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string widthLiteral = widthValueInfo.GetLiteral();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string originName = GenerateOriginVariableNameCamelCase(dto.DimensionStackLevel);
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {variableName} = {posName} * {frequencyLiteral};");
+            _sb.AppendLine($"{variableName} = {variableName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(variableName));
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        {
+            ProcessNumber(dto.Frequency);
+
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(SawDown_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        {
+            return ProcessOriginShifter(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        {
+            return ProcessPhaseTracker(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        {
+            ProcessNumber(dto.Frequency);
+
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(SawUp_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        {
+            return ProcessOriginShifter(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
+        }
+
+        protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        {
+            return ProcessPhaseTracker(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
+        }
+
         protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
             return ProcessShift(dto, dto.SignalOperatorDto, distance: dto.Distance);
@@ -514,54 +691,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             return ProcessPhaseTracker(dto, x => String.Format(SQUARE_FORMULA_FORMAT, x));
-        }
-
-        protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            ProcessNumber(dto.Frequency);
-
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
-        }
-
-        protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(SawDown_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return ProcessOriginShifter(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
-        }
-
-        protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            base.Visit_OperatorDto_Base(dto);
-
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
-        }
-
-        protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return ProcessPhaseTracker(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
-        }
-
-        protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            ProcessNumber(dto.Frequency);
-
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
-        }
-
-        protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(SawUp_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return ProcessOriginShifter(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
-        }
-
-        protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            base.Visit_OperatorDto_Base(dto);
-
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
-        }
-
-        protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return ProcessPhaseTracker(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
