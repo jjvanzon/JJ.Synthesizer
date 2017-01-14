@@ -642,6 +642,114 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessPhaseTracker(dto, x => String.Format(SQUARE_FORMULA_FORMAT, x));
         }
 
+        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
+        {
+            ProcessNumber(dto.Origin);
+            ProcessNumber(dto.Factor);
+
+            Process_StretchOrSquash_OperatorDto_WithOrigin(dto, MULTIPLY_SYMBOL);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
+            ProcessNumber(dto.Factor);
+
+            Process_StretchOrSquash_OperatorDto_WithOrigin(dto, MULTIPLY_SYMBOL);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
+        {
+            ProcessNumber(dto.Origin);
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
+
+            Process_StretchOrSquash_OperatorDto_WithOrigin(dto, MULTIPLY_SYMBOL);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_VarOrigin(Squash_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
+
+            Process_StretchOrSquash_OperatorDto_WithOrigin(dto, MULTIPLY_SYMBOL);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        {
+            ProcessNumber(dto.Factor);
+
+            Process_StretchOrSquash_OperatorDto_ZeroOrigin(dto, MULTIPLY_SYMBOL);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
+
+            Process_StretchOrSquash_OperatorDto_ZeroOrigin(dto, MULTIPLY_SYMBOL);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        {
+            ProcessNumber(dto.Factor);
+
+            Process_StretchOrSquash_WithOriginShifting(dto, MULTIPLY_SYMBOL);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
+
+            Process_StretchOrSquash_WithPhaseTracking(dto, MULTIPLY_SYMBOL);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
         {
             ProcessNumber(dto.Origin);
@@ -1214,7 +1322,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine();
         }
 
-        private void Process_StretchOrSquash_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto, string divideOrMultiplySymbol)
+        private void Process_StretchOrSquash_WithOriginShifting(OperatorDtoBase dto, string divideOrMultiplySymbol)
         {
             ValueInfo factorValueInfo = _stack.Pop();
 
@@ -1228,7 +1336,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine();
         }
 
-        private void Process_StretchOrSquash_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto, string divideOrMultiplySymbol)
+        private void Process_StretchOrSquash_WithPhaseTracking(OperatorDtoBase dto, string divideOrMultiplySymbol)
         {
             ValueInfo factorValueInfo = _stack.Pop();
 
