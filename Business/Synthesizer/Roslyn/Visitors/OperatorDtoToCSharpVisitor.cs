@@ -438,6 +438,20 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessComparativeOperator_VarA_VarB(dto, NOT_EQUAL_SYMBOL);
         }
 
+        protected override OperatorDtoBase Visit_Noise_OperatorDto(Noise_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+            //string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            //string noiseCalculatorName = GenerateNoiseCalculatorNameCamelCase(dto.OperatorID);
+            //string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            //_sb.AppendLine("// " + dto.OperatorTypeName);
+            //_sb.AppendLine($"double {outputName} = _{noiseCalculatorName}.GetValue({posName});");
+            //_sb.AppendLine();
+
+            //return dto;
+        }
+
         protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
             return ProcessNumberOperatorDto(dto);
@@ -522,71 +536,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return Process_Pulse_OperatorDto_WithPhaseTracking(dto);
         }
 
-        private OperatorDtoBase Process_Pulse_OperatorDto_WithPhaseTracking(OperatorDtoBase_VarFrequency dto)
-        {
-            ValueInfo frequencyValueInfo = _stack.Pop();
-            ValueInfo widthValueInfo = _stack.Pop();
-
-            string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
-            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
-            string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
-            string widthLiteral = widthValueInfo.GetLiteral();
-            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
-
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-            _sb.AppendLine($"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};");
-            _sb.AppendLine($"{prevPosName} = {posName};");
-            _sb.AppendLine($"double {outputName} = {phaseName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
-            _sb.AppendLine();
-
-            _stack.Push(new ValueInfo(outputName));
-
-            return dto;
-        }
-
-        private OperatorDtoBase Process_Pulse_OperatorDto_WithOriginShifting(OperatorDtoBase_ConstFrequency dto)
-        {
-            ValueInfo frequencyValueInfo = _stack.Pop();
-            ValueInfo widthValueInfo = _stack.Pop();
-
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
-            string widthLiteral = widthValueInfo.GetLiteral();
-            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
-            string originName = GenerateOriginVariableNameCamelCase(dto.DimensionStackLevel);
-            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
-
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-            _sb.AppendLine($"double {variableName} = ({posName} - {originName}) * {frequencyLiteral};");
-            _sb.AppendLine($"{variableName} = {variableName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
-            _sb.AppendLine();
-
-            _stack.Push(new ValueInfo(variableName));
-
-            return dto;
-        }
-
-        private OperatorDtoBase Process_Pulse_OperatorDto_NoPhaseTrackingOrOriginShifting(OperatorDtoBase dto)
-        {
-            ValueInfo frequencyValueInfo = _stack.Pop();
-            ValueInfo widthValueInfo = _stack.Pop();
-
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
-            string widthLiteral = widthValueInfo.GetLiteral();
-            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
-            string originName = GenerateOriginVariableNameCamelCase(dto.DimensionStackLevel);
-            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
-
-            _sb.AppendLine("// " + dto.OperatorTypeName);
-            _sb.AppendLine($"double {variableName} = {posName} * {frequencyLiteral};");
-            _sb.AppendLine($"{variableName} = {variableName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
-            _sb.AppendLine();
-
-            _stack.Push(new ValueInfo(variableName));
-
-            return dto;
-        }
-
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             ProcessNumber(dto.Frequency);
@@ -643,6 +592,169 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
             return ProcessShift(dto, dto.SignalOperatorDto, dto.DistanceOperatorDto);
+        }
+
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
+        {
+            ProcessNumber(dto.Origin);
+            ProcessNumber(dto.Factor);
+
+            Process_Stretch_OperatorDto_WithOrigin(dto);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
+            ProcessNumber(dto.Factor);
+
+            Process_Stretch_OperatorDto_WithOrigin(dto);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
+        {
+            ProcessNumber(dto.Origin);
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
+
+            Process_Stretch_OperatorDto_WithOrigin(dto);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
+
+            Process_Stretch_OperatorDto_WithOrigin(dto);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        private void Process_Stretch_OperatorDto_WithOrigin(OperatorDtoBase dto)
+        {
+            ValueInfo factorValueInfo = _stack.Pop();
+            ValueInfo originValueInfo = _stack.Pop();
+
+            string factorLiteral = factorValueInfo.GetLiteral();
+            string originLiteral = originValueInfo.GetLiteral();
+            string sourcePosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string destPosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel + 1);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// IMPORTANT: To stretch things in the output, you have to squash things in the input.");
+            _sb.AppendLine($"{destPosName} = ({sourcePosName} - {originLiteral}) / {factorLiteral} + {originLiteral};");
+            _sb.AppendLine();
+        }
+
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        {
+            ProcessNumber(dto.Factor);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
+
+            Process_Stretch_OperatorDto_ZeroOrigin(dto);
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        private void Process_Stretch_OperatorDto_ZeroOrigin(OperatorDtoBase dto)
+        {
+            ValueInfo factorValueInfo = _stack.Pop();
+
+            string factorLiteral = factorValueInfo.GetLiteral();
+            string sourcePosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string destPosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel + 1);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// IMPORTANT: To stretch things in the output, you have to squash things in the input.");
+            _sb.AppendLine($"{destPosName} = {sourcePosName} / {factorLiteral};");
+            _sb.AppendLine();
+        }
+
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        {
+            ProcessNumber(dto.Factor);
+
+            ValueInfo factorValueInfo = _stack.Pop();
+
+            string factorLiteral = factorValueInfo.GetLiteral();
+            string sourcePosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string destPosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel + 1);
+            string originName = GenerateOriginVariableNameCamelCase(dto.DimensionStackLevel);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// IMPORTANT: To stretch things in the output, you have to squash things in the input.");
+            _sb.AppendLine($"{destPosName} = ({sourcePosName} - {originName}) / {factorLiteral} + {originName};");
+            _sb.AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
+
+            ValueInfo factorValueInfo = _stack.Pop();
+
+            string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
+            string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
+            string factorLiteral = factorValueInfo.GetLiteral();
+            string sourcePosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string destPosName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel + 1);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// IMPORTANT: To stretch things in the output, you have to squash things in the input.");
+
+            _sb.AppendLine($"{destPosName} = {phaseName} + ({sourcePosName} - {prevPosName}) / {factorLiteral};");
+            _sb.AppendLine($"{prevPosName} = {sourcePosName};");
+
+            // I need two different variables for destPos and phase, because destPos is reused by different uses of the same stack level,
+            // while phase needs to be uniquely used by the operator instance.
+            _sb.AppendLine($"{phaseName} = {destPosName};"); 
+            _sb.AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -1029,6 +1141,71 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
+        private OperatorDtoBase Process_Pulse_OperatorDto_WithPhaseTracking(OperatorDtoBase_VarFrequency dto)
+        {
+            ValueInfo frequencyValueInfo = _stack.Pop();
+            ValueInfo widthValueInfo = _stack.Pop();
+
+            string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string widthLiteral = widthValueInfo.GetLiteral();
+            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"{phaseName} += ({posName} - {prevPosName}) * {frequencyLiteral};");
+            _sb.AppendLine($"{prevPosName} = {posName};");
+            _sb.AppendLine($"double {outputName} = {phaseName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(outputName));
+
+            return dto;
+        }
+
+        private OperatorDtoBase Process_Pulse_OperatorDto_WithOriginShifting(OperatorDtoBase_ConstFrequency dto)
+        {
+            ValueInfo frequencyValueInfo = _stack.Pop();
+            ValueInfo widthValueInfo = _stack.Pop();
+
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string widthLiteral = widthValueInfo.GetLiteral();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string originName = GenerateOriginVariableNameCamelCase(dto.DimensionStackLevel);
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {variableName} = ({posName} - {originName}) * {frequencyLiteral};");
+            _sb.AppendLine($"{variableName} = {variableName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(variableName));
+
+            return dto;
+        }
+
+        private OperatorDtoBase Process_Pulse_OperatorDto_NoPhaseTrackingOrOriginShifting(OperatorDtoBase dto)
+        {
+            ValueInfo frequencyValueInfo = _stack.Pop();
+            ValueInfo widthValueInfo = _stack.Pop();
+
+            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string widthLiteral = widthValueInfo.GetLiteral();
+            string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            string originName = GenerateOriginVariableNameCamelCase(dto.DimensionStackLevel);
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine($"double {variableName} = {posName} * {frequencyLiteral};");
+            _sb.AppendLine($"{variableName} = {variableName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
+            _sb.AppendLine();
+
+            _stack.Push(new ValueInfo(variableName));
+
+            return dto;
+        }
+
         private OperatorDtoBase ProcessShift(OperatorDtoBase dto, OperatorDtoBase signalOperatorDto, OperatorDtoBase distanceOperatorDto = null, double? distance = null)
         {
             // Do not call base: Base will visit the inlets in one blow. We need to visit the inlets one by one.
@@ -1149,19 +1326,18 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             ValueInfo frequencyValueInfo = _stack.Pop();
 
-            string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
             string posName = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
             string originName = GenerateOriginVariableNameCamelCase(dto.DimensionStackLevel);
             string frequencyLiteral = frequencyValueInfo.GetLiteral();
-            string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
-            string rightHandFormula = getRightHandFormulaDelegate(phaseName);
-
+            string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+            string rightHandFormula = getRightHandFormulaDelegate(variableName);
+            
             _sb.AppendLine("// " + dto.OperatorTypeName);
-            _sb.AppendLine($"{phaseName} = ({posName} - {originName}) * {frequencyLiteral};");
-            _sb.AppendLine($"double {outputName} = {rightHandFormula};");
+            _sb.AppendLine($"double {variableName} = ({posName} - {originName}) * {frequencyLiteral};");
+            _sb.AppendLine($"{variableName} = {rightHandFormula};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(new ValueInfo(variableName));
 
             return dto;
         }

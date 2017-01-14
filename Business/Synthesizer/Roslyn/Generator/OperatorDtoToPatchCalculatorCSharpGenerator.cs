@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Visitors;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Roslyn.Generator
 {
@@ -108,7 +109,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                             sb.AppendLine($"double {firstPositionVariableName} = startTime;");
                         }
 
-                        foreach (string positionVariableName in visitorResult.PositionVariableNamesCamelCase.Skip(1))
+                        foreach (string positionVariableName in visitorResult.PositionVariableNamesCamelCase.Except(firstPositionVariableName))
                         {
                             sb.AppendLine($"double {positionVariableName};");
                         }
