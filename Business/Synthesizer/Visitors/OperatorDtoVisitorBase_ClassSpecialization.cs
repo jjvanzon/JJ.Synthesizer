@@ -2180,7 +2180,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FactorOperatorDto);
             MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
-            OperatorDtoBase_WithDimension dto2;
+            OperatorDtoBase dto2;
 
             if (dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -2261,7 +2261,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
             }
 
-            DtoHelper.Clone_DimensionProperties(dto, dto2);
+            DtoHelper.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2274,7 +2274,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FactorOperatorDto);
             MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
-            OperatorDtoBase_WithDimension dto2;
+            OperatorDtoBase dto2;
 
             if (dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -2355,7 +2355,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
             }
 
-            DtoHelper.Clone_DimensionProperties(dto, dto2);
+            DtoHelper.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }

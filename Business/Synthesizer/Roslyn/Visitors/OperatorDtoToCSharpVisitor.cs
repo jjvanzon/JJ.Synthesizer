@@ -42,16 +42,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private Stack<ValueInfo> _stack;
         private StringBuilderWithIndentation _sb;
-
         /// <summary> Dictionary for unicity. Key is variable name camel-case. </summary>
         private Dictionary<string, ValueInfo> _inputVariableInfoDictionary;
         /// <summary> HashSet for unicity. </summary>
         private HashSet<string> _positionVariableNamesCamelCaseHashSet;
-        /// <summary> HashSet for unicity. </summary>
         private IList<string> _previousPositionVariableNamesCamelCase;
-        /// <summary> HashSet for unicity. </summary>
         private IList<string> _phaseVariableNamesCamelCase;
-        /// <summary> HashSet for unicity. </summary>
         private IList<string> _originVariableNamesCamelCase;
 
         /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
@@ -651,10 +647,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             Process_StretchOrSquash_OperatorDto_WithOrigin(dto, MULTIPLY_SYMBOL);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
-
             return dto;
         }
 
@@ -664,10 +656,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ProcessNumber(dto.Factor);
 
             Process_StretchOrSquash_OperatorDto_WithOrigin(dto, MULTIPLY_SYMBOL);
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
 
             return dto;
         }
@@ -679,10 +667,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             Process_StretchOrSquash_OperatorDto_WithOrigin(dto, MULTIPLY_SYMBOL);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
-
             return dto;
         }
 
@@ -693,10 +677,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             Process_StretchOrSquash_OperatorDto_WithOrigin(dto, MULTIPLY_SYMBOL);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
-
             return dto;
         }
 
@@ -705,10 +685,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ProcessNumber(dto.Factor);
 
             Process_StretchOrSquash_OperatorDto_ZeroOrigin(dto, MULTIPLY_SYMBOL);
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
 
             return dto;
         }
@@ -719,10 +695,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             Process_StretchOrSquash_OperatorDto_ZeroOrigin(dto, MULTIPLY_SYMBOL);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
-
             return dto;
         }
 
@@ -732,10 +704,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             Process_StretchOrSquash_WithOriginShifting(dto, MULTIPLY_SYMBOL);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
-
             return dto;
         }
 
@@ -744,10 +712,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
             Process_StretchOrSquash_WithPhaseTracking(dto, MULTIPLY_SYMBOL);
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
 
             return dto;
         }
@@ -759,10 +723,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             Process_StretchOrSquash_OperatorDto_WithOrigin(dto, DIVIDE_SYMBOL);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
-
             return dto;
         }
 
@@ -772,10 +732,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ProcessNumber(dto.Factor);
 
             Process_StretchOrSquash_OperatorDto_WithOrigin(dto, DIVIDE_SYMBOL);
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
 
             return dto;
         }
@@ -787,10 +743,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             Process_StretchOrSquash_OperatorDto_WithOrigin(dto, DIVIDE_SYMBOL);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
-
             return dto;
         }
 
@@ -801,10 +753,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             Process_StretchOrSquash_OperatorDto_WithOrigin(dto, DIVIDE_SYMBOL);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
-
             return dto;
         }
 
@@ -813,10 +761,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             ProcessNumber(dto.Factor);
 
             Process_StretchOrSquash_OperatorDto_ZeroOrigin(dto, DIVIDE_SYMBOL);
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
 
             return dto;
         }
@@ -827,10 +771,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             Process_StretchOrSquash_OperatorDto_ZeroOrigin(dto, DIVIDE_SYMBOL);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
-
             return dto;
         }
 
@@ -840,10 +780,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             Process_StretchOrSquash_WithOriginShifting(dto, DIVIDE_SYMBOL);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
-
             return dto;
         }
 
@@ -852,10 +788,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
             Process_StretchOrSquash_WithPhaseTracking(dto, DIVIDE_SYMBOL);
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
 
             return dto;
         }
@@ -1296,7 +1228,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
-        private void Process_StretchOrSquash_OperatorDto_WithOrigin(OperatorDtoBase dto, string divideOrMultiplySymbol)
+        private void Process_StretchOrSquash_OperatorDto_WithOrigin(OperatorDtoBase_VarSignal dto, string divideOrMultiplySymbol)
         {
             ValueInfo factorValueInfo = _stack.Pop();
             ValueInfo originValueInfo = _stack.Pop();
@@ -1309,9 +1241,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"{destPosName} = ({sourcePosName} - {originLiteral}) {divideOrMultiplySymbol} {factorLiteral} + {originLiteral};");
             _sb.AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
         }
 
-        private void Process_StretchOrSquash_OperatorDto_ZeroOrigin(OperatorDtoBase dto, string divideOrMultiplySymbol)
+        private void Process_StretchOrSquash_OperatorDto_ZeroOrigin(OperatorDtoBase_VarSignal dto, string divideOrMultiplySymbol)
         {
             ValueInfo factorValueInfo = _stack.Pop();
 
@@ -1322,9 +1258,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"{destPosName} = {sourcePosName} {divideOrMultiplySymbol} {factorLiteral};");
             _sb.AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
         }
 
-        private void Process_StretchOrSquash_WithOriginShifting(OperatorDtoBase dto, string divideOrMultiplySymbol)
+        private void Process_StretchOrSquash_WithOriginShifting(OperatorDtoBase_VarSignal dto, string divideOrMultiplySymbol)
         {
             ValueInfo factorValueInfo = _stack.Pop();
 
@@ -1336,9 +1276,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"{destPosName} = ({sourcePosName} - {originName}) {divideOrMultiplySymbol} {factorLiteral} + {originName};");
             _sb.AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
         }
 
-        private void Process_StretchOrSquash_WithPhaseTracking(OperatorDtoBase dto, string divideOrMultiplySymbol)
+        private void Process_StretchOrSquash_WithPhaseTracking(OperatorDtoBase_VarSignal dto, string divideOrMultiplySymbol)
         {
             ValueInfo factorValueInfo = _stack.Pop();
 
@@ -1356,6 +1300,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             // while phase needs to be uniquely used by the operator instance.
             _sb.AppendLine($"{phaseName} = {destPosName};");
             _sb.AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            ValueInfo signalValueInfo = _stack.Pop();
+            _stack.Push(signalValueInfo);
         }
 
         private OperatorDtoBase ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(OperatorDtoBase dto, Func<string, string> getRightHandFormulaDelegate)
