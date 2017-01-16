@@ -277,8 +277,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             }
             sb.AppendLine("}");
 
-            string csharp = sb.ToString();
-            return csharp;
+            string generatedCode = sb.ToString();
+            return generatedCode;
         }
     }
 }

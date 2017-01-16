@@ -1228,7 +1228,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
-        private void Process_StretchOrSquash_OperatorDto_WithOrigin(OperatorDtoBase_VarSignal dto, string divideOrMultiplySymbol)
+        private void Process_StretchOrSquash_OperatorDto_WithOrigin(IOperatorDto_VarSignal dto, string divideOrMultiplySymbol)
         {
             ValueInfo factorValueInfo = _stack.Pop();
             ValueInfo originValueInfo = _stack.Pop();
@@ -1247,7 +1247,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _stack.Push(signalValueInfo);
         }
 
-        private void Process_StretchOrSquash_OperatorDto_ZeroOrigin(OperatorDtoBase_VarSignal dto, string divideOrMultiplySymbol)
+        private void Process_StretchOrSquash_OperatorDto_ZeroOrigin(IOperatorDto_VarSignal dto, string divideOrMultiplySymbol)
         {
             ValueInfo factorValueInfo = _stack.Pop();
 
@@ -1264,7 +1264,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _stack.Push(signalValueInfo);
         }
 
-        private void Process_StretchOrSquash_WithOriginShifting(OperatorDtoBase_VarSignal dto, string divideOrMultiplySymbol)
+        private void Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal dto, string divideOrMultiplySymbol)
         {
             ValueInfo factorValueInfo = _stack.Pop();
 
@@ -1282,7 +1282,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _stack.Push(signalValueInfo);
         }
 
-        private void Process_StretchOrSquash_WithPhaseTracking(OperatorDtoBase_VarSignal dto, string divideOrMultiplySymbol)
+        private void Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal dto, string divideOrMultiplySymbol)
         {
             ValueInfo factorValueInfo = _stack.Pop();
 

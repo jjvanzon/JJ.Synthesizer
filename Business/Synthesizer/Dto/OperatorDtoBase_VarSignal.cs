@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_VarSignal : OperatorDtoBase
+    internal abstract class OperatorDtoBase_VarSignal : OperatorDtoBase, IOperatorDto_VarSignal
     {
         public OperatorDtoBase SignalOperatorDto { get; set; }
 

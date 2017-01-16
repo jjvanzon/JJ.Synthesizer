@@ -99,6 +99,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Configuration\CalculationEngineConfigurationEnum.cs" />
+    <Compile Include="Dto\IOperatorDto.cs" />
+    <Compile Include="Dto\IOperatorDto_VarSignal.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\CurveArrayInfo.cs" />

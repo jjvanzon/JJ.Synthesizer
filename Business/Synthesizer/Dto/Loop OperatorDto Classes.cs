@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
     }
 
-    internal class Loop_OperatorDto_NoSkipOrRelease_ManyConstants : OperatorDtoBase_WithDimension
+    internal class Loop_OperatorDto_NoSkipOrRelease_ManyConstants : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Loop_OperatorDto_ManyConstants : OperatorDtoBase_WithDimension
+    internal class Loop_OperatorDto_ManyConstants : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension
+    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension
+    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Loop_OperatorDto_NoSkipOrRelease : OperatorDtoBase_WithDimension
+    internal class Loop_OperatorDto_NoSkipOrRelease : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Loop_OperatorDto_AllVars : OperatorDtoBase_WithDimension
+    internal class Loop_OperatorDto_AllVars : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
 

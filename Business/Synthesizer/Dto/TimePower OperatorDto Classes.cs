@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
     }
 
-    internal class TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin : OperatorDtoBase_WithDimension
+    internal class TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
 
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin : OperatorDtoBase_WithDimension
+    internal class TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
 
