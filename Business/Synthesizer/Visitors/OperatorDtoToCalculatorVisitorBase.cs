@@ -1403,7 +1403,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_OperatorDto_Base(dto);
 
-            var dtoWithDimension = (IOperatorDtoWithDimension)dto;
+            var dtoWithDimension = (IOperatorDto_WithDimension)dto;
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dtoWithDimension);
 

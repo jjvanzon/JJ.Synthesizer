@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_WithDimension : OperatorDtoBase, IOperatorDtoWithDimension
+    internal abstract class OperatorDtoBase_WithDimension : OperatorDtoBase, IOperatorDto_WithDimension
     {
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CustomDimensionName { get; set; }

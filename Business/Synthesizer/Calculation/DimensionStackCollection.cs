@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<string, DimensionStack> _customDimensionName_To_DimensionStack_Dictionary =
                      new Dictionary<string, DimensionStack>();
 
-        public DimensionStack GetDimensionStack(IOperatorDtoWithDimension dto)
+        public DimensionStack GetDimensionStack(IOperatorDto_WithDimension dto)
         {
             if (dto == null) throw new NullException(() => dto);
 

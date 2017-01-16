@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal interface IInterpolate_OperatorDto_VarSignal : IOperatorDtoWithDimension
+    internal interface IInterpolate_OperatorDto_VarSignal : IOperatorDto_WithDimension
     {
         OperatorDtoBase SignalOperatorDto { get; set; }
         ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }

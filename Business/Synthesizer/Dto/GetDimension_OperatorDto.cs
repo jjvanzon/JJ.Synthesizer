@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class GetDimension_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDtoWithDimension
+    internal class GetDimension_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDto_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.GetDimension);
 

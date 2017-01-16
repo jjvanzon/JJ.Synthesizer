@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Dto
         public int SampleID { get; set; }
     }
 
-    internal interface ISample_OperatorDto_WithSampleID : IOperatorDtoWithDimension
+    internal interface ISample_OperatorDto_WithSampleID : IOperatorDto_WithDimension
     {
         InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         int ChannelCount { get; set; }

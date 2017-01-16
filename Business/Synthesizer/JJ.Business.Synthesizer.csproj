@@ -273,7 +273,7 @@
     <Compile Include="Dto\BandPassFilterConstantTransitionGain OperatorDto Classes.cs" />
     <Compile Include="Dto\AllPassFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\HighShelfFilter OperatorDto Classes.cs" />
-    <Compile Include="Dto\IOperatorDtoWithDimension.cs" />
+    <Compile Include="Dto\IOperatorDto_WithDimension.cs" />
     <Compile Include="Dto\LowShelfFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\MathPropertiesDto.cs" />
     <Compile Include="Dto\Multiply OperatorDto Classes.cs" />
