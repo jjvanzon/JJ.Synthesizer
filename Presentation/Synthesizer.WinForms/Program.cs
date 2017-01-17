@@ -35,6 +35,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var winFormsConfig = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection>();
             CultureHelper.SetThreadCultureName(winFormsConfig.DefaultCulture);
 
+            // TODO: Make a framework class to handle this.
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;

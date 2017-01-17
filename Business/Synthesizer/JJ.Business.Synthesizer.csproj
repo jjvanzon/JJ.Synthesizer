@@ -262,7 +262,7 @@
     <Compile Include="Roslyn\Helpers\ValueInfo.cs" />
     <Compile Include="Roslyn\Generator\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_StackLevel.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_PerDimensionWriter.cs" />
     <Compile Include="Visitors\OperatorEntityThruDtoToCalculatorExecutor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase_WithInletCoalescing.cs" />
     <Compile Include="Visitors\ToCalculatorResult.cs" />

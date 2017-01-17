@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using JJ.Business.SynthesizerPrototype.Dto;
+using JJ.Framework.Collections;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.SynthesizerPrototype.Visitors
 {
@@ -31,13 +33,29 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
             Type dtoType = dto.GetType();
 
             bool isDimensionWriter = _dimensionWriting_OperatorDto_Types.Contains(dtoType);
+            if (!isDimensionWriter)
+            {
+                return base.Visit_OperatorDto_Polymorphic(dto);
+            }
 
+            var castedOperatorDto = dto as IOperatorDto_VarSignal;
+            if (castedOperatorDto == null)
+            {
+                throw new IsNotTypeException<IOperatorDto_VarSignal>(() => castedOperatorDto);
+            }
+
+            foreach (OperatorDtoBase inputOperatorDto in dto.InputOperatorDtos.Except(castedOperatorDto.SignalOperatorDto))
+            {
+                Visit_OperatorDto_Polymorphic(inputOperatorDto);
+            }
+
+            // Only behind the signal inlet the dimension stack level increases.
             if (isDimensionWriter)
             {
                 _currentStackLevel++;
             }
 
-            base.Visit_OperatorDto_Polymorphic(dto);
+            Visit_OperatorDto_Polymorphic(castedOperatorDto.SignalOperatorDto);
 
             if (isDimensionWriter)
             {

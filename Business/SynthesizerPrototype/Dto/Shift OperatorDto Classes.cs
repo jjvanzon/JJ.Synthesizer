@@ -28,7 +28,7 @@ namespace JJ.Business.SynthesizerPrototype.Dto
         }
     }
 
-    public class Shift_OperatorDto_VarSignal_ConstDistance : OperatorDtoBase
+    public class Shift_OperatorDto_VarSignal_ConstDistance : OperatorDtoBase, IOperatorDto_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
@@ -42,7 +42,7 @@ namespace JJ.Business.SynthesizerPrototype.Dto
         }
     }
 
-    public class Shift_OperatorDto_VarSignal_VarDistance : OperatorDtoBase
+    public class Shift_OperatorDto_VarSignal_VarDistance : OperatorDtoBase, IOperatorDto_VarSignal
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 

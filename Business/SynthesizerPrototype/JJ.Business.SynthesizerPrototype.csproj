@@ -43,6 +43,8 @@
     <Compile Include="Calculation\OperatorCalculatorHelper.cs" />
     <Compile Include="Calculation\SineCalculator.cs" />
     <Compile Include="Dto\Add OperatorDto Classes.cs" />
+    <Compile Include="Dto\IOperatorDto.cs" />
+    <Compile Include="Dto\IOperatorDto_VarSignal.cs" />
     <Compile Include="Dto\MathPropertiesDto.cs" />
     <Compile Include="Dto\Multiply OperatorDto Classes.cs" />
     <Compile Include="Dto\Number OperatorDto Classes.cs" />
@@ -75,10 +77,14 @@
     <Compile Include="Visitors\OperatorDtoVisitor_MathSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoPreProcessingExecutor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_PerDimensionWriter.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_Simple.cs" />
+    <Compile Include="Visitors\2017-01-17 Backup of OperatorDtoVisitor_StackLevel_Simple.cs" />
     <Compile Include="Visitors\VisitorHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
+      <Project>{5D06A212-5459-47F3-8109-E012C5FC9E3A}</Project>
+      <Name>JJ.Framework.Collections</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>
