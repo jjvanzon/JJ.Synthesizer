@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Shift_OperatorDto_VarSignal_ConstDistance : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
+    internal class Shift_OperatorDto_VarSignal_ConstDistance : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class Shift_OperatorDto_VarSignal_VarDistance : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
+    internal class Shift_OperatorDto_VarSignal_VarDistance : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 

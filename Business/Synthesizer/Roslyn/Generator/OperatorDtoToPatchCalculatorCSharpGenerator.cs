@@ -205,8 +205,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                                 sb.Unindent();
                             }
                             sb.AppendLine("}");
-                            sb.Unindent();
                         }
+                        sb.Unindent();
                     }
                     sb.AppendLine("}");
                     sb.AppendLine();
@@ -242,8 +242,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                                 sb.Unindent();
                             }
                             sb.AppendLine("}");
-                            sb.Unindent();
                         }
+                        sb.Unindent();
                     }
                     sb.AppendLine("}");
                     sb.AppendLine();

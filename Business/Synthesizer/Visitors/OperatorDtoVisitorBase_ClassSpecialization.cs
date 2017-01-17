@@ -2020,24 +2020,32 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DistanceOperatorDto);
 
+            OperatorDtoBase dto2;
+
             if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsConst)
             {
-                return new Shift_OperatorDto_ConstSignal_ConstDistance { Signal = signalMathPropertiesDto.ConstValue, Distance = distanceMathPropertiesDto.ConstValue };
+                dto2 = new Shift_OperatorDto_ConstSignal_ConstDistance { Signal = signalMathPropertiesDto.ConstValue, Distance = distanceMathPropertiesDto.ConstValue };
             }
             else if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsConst)
             {
-                return new Shift_OperatorDto_VarSignal_ConstDistance { SignalOperatorDto = dto.SignalOperatorDto, Distance = distanceMathPropertiesDto.ConstValue };
+                dto2 = new Shift_OperatorDto_VarSignal_ConstDistance { SignalOperatorDto = dto.SignalOperatorDto, Distance = distanceMathPropertiesDto.ConstValue };
             }
             else if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsVar)
             {
-                return new Shift_OperatorDto_ConstSignal_VarDistance { Signal = signalMathPropertiesDto.ConstValue, DistanceOperatorDto = dto.DistanceOperatorDto };
+                dto2 = new Shift_OperatorDto_ConstSignal_VarDistance { Signal = signalMathPropertiesDto.ConstValue, DistanceOperatorDto = dto.DistanceOperatorDto };
             }
             else if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsVar)
             {
-                return new Shift_OperatorDto_VarSignal_VarDistance { SignalOperatorDto = dto.SignalOperatorDto, DistanceOperatorDto = dto.DistanceOperatorDto };
+                dto2 = new Shift_OperatorDto_VarSignal_VarDistance { SignalOperatorDto = dto.SignalOperatorDto, DistanceOperatorDto = dto.DistanceOperatorDto };
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto(Sine_OperatorDto dto)

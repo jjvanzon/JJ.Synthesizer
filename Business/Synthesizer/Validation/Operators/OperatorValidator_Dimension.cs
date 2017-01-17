@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             if (op.OperatorType.HasDimension == true)
             {
                 bool dimensionIsFilledIn = op.GetStandardDimensionEnum() != DimensionEnum.Undefined;
-                bool customDimensionNameIsFilledIn = !String.IsNullOrWhiteSpace(op.CustomDimensionName);
+                bool customDimensionNameIsFilledIn = NameHelper.IsFilledIn(op.CustomDimensionName);
 
                 if (dimensionIsFilledIn && customDimensionNameIsFilledIn)
                 {
