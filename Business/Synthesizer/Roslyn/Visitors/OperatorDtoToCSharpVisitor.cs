@@ -1515,6 +1515,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string convertedName = NameHelper.ToCanonical(name).ToCamelCase();
 
+            // There is not clash with keywords because coincidentally a numbers is always
+            // appended to the name, but if it becomes a problem, 
+            // you could always add an underscore at the end to prevent any clash with keywords.
+            //convertedName += '_';
+
+            // HACK
+            if (String.IsNullOrEmpty(convertedName))
+            {
+                convertedName = "u0000";
+            }
+
             return convertedName;
         }
     }

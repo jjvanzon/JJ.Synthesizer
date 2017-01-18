@@ -103,15 +103,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                         sb.AppendLine();
 
                         // Position Variables
-                        string firstPositionVariableName = visitorResult.PositionVariableNamesCamelCase.FirstOrDefault();
-                        if (firstPositionVariableName != null)
+                        // HACK
+                        string time0VariableName = "s_time0";
+                        if (time0VariableName != null)
                         {
-                            sb.AppendLine($"double {firstPositionVariableName} = startTime;");
+                            sb.AppendLine($"double {time0VariableName} = startTime;");
                         }
 
-                        foreach (string positionVariableName in visitorResult.PositionVariableNamesCamelCase.Except(firstPositionVariableName))
+                        foreach (string positionVariableName in visitorResult.PositionVariableNamesCamelCase.Except(time0VariableName))
                         {
-                            sb.AppendLine($"double {positionVariableName};");
+                            // HACK: The = 0 is a hack. Later, only position 0 of the dimensions will be assigned here.
+                            sb.AppendLine($"double {positionVariableName} = 0;");
                         }
                         sb.AppendLine();
 
@@ -141,10 +143,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                             sb.AppendLine();
                             sb.AppendLine("PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);");
 
-                            if (firstPositionVariableName != null)
+                            if (time0VariableName != null)
                             {
                                 sb.AppendLine();
-                                sb.AppendLine($"{firstPositionVariableName} += frameDuration;");
+                                sb.AppendLine($"{time0VariableName} += frameDuration;");
                             }
 
                             sb.Unindent();
