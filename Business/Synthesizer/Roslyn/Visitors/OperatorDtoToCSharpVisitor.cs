@@ -43,10 +43,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         /// <summary> {0} = phase  </summary>
         private const string SQUARE_FORMULA_FORMAT = "{0} % 1.0 < 0.5 ? 1.0 : -1.0";
 
-        private Stack<ValueInfo> _stack;
+        private Stack<string> _stack;
         private StringBuilderWithIndentation _sb;
         /// <summary> Dictionary for unicity. Key is variable name camel-case. </summary>
-        private Dictionary<string, ValueInfo> _inputVariableInfoDictionary;
+        private Dictionary<string, InputVariableInfo> _inputVariableInfoDictionary;
         /// <summary> HashSet for unicity. </summary>
         private HashSet<string> _positionVariableNamesCamelCaseHashSet;
         private IList<string> _previousPositionVariableNamesCamelCase;
@@ -65,8 +65,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto, int intialIndentLevel)
         {
-            _stack = new Stack<ValueInfo>();
-            _inputVariableInfoDictionary = new Dictionary<string, ValueInfo>();
+            _stack = new Stack<string>();
+            _inputVariableInfoDictionary = new Dictionary<string, InputVariableInfo>();
             _positionVariableNamesCamelCaseHashSet = new HashSet<string>();
             _previousPositionVariableNamesCamelCase = new List<string>();
             _phaseVariableNamesCamelCase = new List<string>();
@@ -84,8 +84,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto);
 
             string generatedCode = _sb.ToString();
-            ValueInfo returnValueInfo = _stack.Pop();
-            string returnValueLiteral = returnValueInfo.GetLiteral();
+            string returnValueLiteral = _stack.Pop();
 
             return new OperatorDtoToCSharpVisitorResult(
                 generatedCode, 
@@ -109,17 +108,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_Absolute_OperatorDto_VarX(dto);
 
-            ValueInfo xValueInfo = _stack.Pop();
-
+            string xLiteral = _stack.Pop();
             string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
-            string xLiteral = xValueInfo.GetLiteral();
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {variableName} = {xLiteral};");
             _sb.AppendLine($"if ({variableName} < 0.0) {variableName} = -{variableName};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(variableName));
+            _stack.Push(variableName);
 
             return dto;
         }
@@ -301,16 +298,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_Negative_OperatorDto_VarX(dto);
 
-            ValueInfo xValueInfo = _stack.Pop();
-
-            string xLiteral = xValueInfo.GetLiteral();
+            string xLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = -{xLiteral};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
@@ -319,16 +314,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_Not_OperatorDto_VarX(dto);
 
-            ValueInfo xValueInfo = _stack.Pop();
-
-            string xLiteral = xValueInfo.GetLiteral();
+            string xLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {xLiteral} == 0.0 ? 1.0 : 0.0;");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
@@ -337,16 +330,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_OneOverX_OperatorDto_VarX(dto);
 
-            ValueInfo xValueInfo = _stack.Pop();
-
-            string xLiteral = xValueInfo.GetLiteral();
+            string xLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = 1.0 / {xLiteral};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
@@ -378,16 +369,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_Power_OperatorDto_VarBase_Exponent2(dto);
 
-            ValueInfo baseValueInfo = _stack.Pop();
-
-            string baseLiteral = baseValueInfo.GetLiteral();
+            string baseLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {baseLiteral} * {baseLiteral};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
@@ -396,16 +385,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_Power_OperatorDto_VarBase_Exponent3(dto);
 
-            ValueInfo baseValueInfo = _stack.Pop();
-
-            string baseLiteral = baseValueInfo.GetLiteral();
+            string baseLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {baseLiteral} * {baseLiteral} * {baseLiteral};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
@@ -414,9 +401,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_Power_OperatorDto_VarBase_Exponent4(dto);
 
-            ValueInfo baseValueInfo = _stack.Pop();
-
-            string baseLiteral = baseValueInfo.GetLiteral();
+            string baseLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
@@ -424,7 +409,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"{outputName} *= {outputName};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
@@ -822,9 +807,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             ProcessNumber(dto.Frequency);
 
-            ValueInfo frequencyValueInfo = _stack.Pop();
-
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string frequencyLiteral = _stack.Pop();
             string posName = GeneratePositionVariableNameCamelCase(dto);
             string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
@@ -832,7 +815,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"double {variableName} = {posName} * {frequencyLiteral};");
             Write_TriangleCode_AfterDeterminePhase(variableName);
 
-            _stack.Push(new ValueInfo(variableName));
+            _stack.Push(variableName);
 
             return dto;
         }
@@ -841,9 +824,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             ProcessNumber(dto.Frequency);
 
-            ValueInfo frequencyValueInfo = _stack.Pop();
+            string frequencyLiteral = _stack.Pop();
 
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
             string posName = GeneratePositionVariableNameCamelCase(dto);
             string originName = GenerateOriginVariableNameCamelCase();
             string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
@@ -852,7 +834,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"double {variableName} = ({posName} - {originName}) * {frequencyLiteral};");
             Write_TriangleCode_AfterDeterminePhase(variableName);
 
-            _stack.Push(new ValueInfo(variableName));
+            _stack.Push(variableName);
 
             return dto;
         }
@@ -861,9 +843,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(dto);
 
-            ValueInfo frequencyValueInfo = _stack.Pop();
-
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
+            string frequencyLiteral = _stack.Pop();
             string posName = GeneratePositionVariableNameCamelCase(dto);
             string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
@@ -871,7 +851,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"double {variableName} = {posName} * {frequencyLiteral};");
             Write_TriangleCode_AfterDeterminePhase(variableName);
 
-            _stack.Push(new ValueInfo(variableName));
+            _stack.Push(variableName);
 
             return dto;
         }
@@ -880,9 +860,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(dto);
 
-            ValueInfo frequencyValueInfo = _stack.Pop();
+            string frequencyLiteral = _stack.Pop();
 
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
             string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
             string posName = GeneratePositionVariableNameCamelCase(dto);
             string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
@@ -895,7 +874,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"double {variableName} = {phaseName};");
             Write_TriangleCode_AfterDeterminePhase(variableName);
 
-            _stack.Push(new ValueInfo(variableName));
+            _stack.Push(variableName);
 
             return dto;
         }
@@ -906,7 +885,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string inputVariableName = GetInputVariableNameCamelCase(dto);
 
-            _stack.Push(new ValueInfo(inputVariableName));
+            _stack.Push(inputVariableName);
 
             return dto;
         }
@@ -915,18 +894,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessBinaryOperator(OperatorDtoBase dto, string operatorSymbol)
         {
-            ValueInfo aValueInfo = _stack.Pop();
-            ValueInfo bValueInfo = _stack.Pop();
-
-            string aLiteral = aValueInfo.GetLiteral();
-            string bLiteral = bValueInfo.GetLiteral();
+            string aLiteral = _stack.Pop();
+            string bLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
@@ -935,18 +911,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_OperatorDto_Base(dto);
 
-            ValueInfo aValueInfo = _stack.Pop();
-            ValueInfo bValueInfo = _stack.Pop();
-
-            string aLiteral = aValueInfo.GetLiteral();
-            string bLiteral = bValueInfo.GetLiteral();
+            string aLiteral = _stack.Pop();
+            string bLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {aLiteral} != 0.0 {operatorSymbol} {bLiteral} != 0.0 ? 1.0 : 0.0;");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
@@ -968,74 +941,61 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessComparativeOperator(OperatorDtoBase dto, string operatorSymbol)
         {
-            ValueInfo aValueInfo = _stack.Pop();
-            ValueInfo bValueInfo = _stack.Pop();
-
-            string aLiteral = aValueInfo.GetLiteral();
-            string bLiteral = bValueInfo.GetLiteral();
+            string aLiteral = _stack.Pop();
+            string bLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {aLiteral} {operatorSymbol} {bLiteral} ? 1.0 : 0.0;");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
 
         private OperatorDtoBase ProcessDivideZeroOrigin(OperatorDtoBase dto)
         {
-            ValueInfo aValueInfo = _stack.Pop();
-            ValueInfo bValueInfo = _stack.Pop();
-
-            string aLiteral = aValueInfo.GetLiteral();
-            string bLiteral = bValueInfo.GetLiteral();
+            string aLiteral = _stack.Pop();
+            string bLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {outputName} = {aLiteral} / {bLiteral};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
 
         private OperatorDtoBase ProcessMultiplyOrDivideWithOrigin(OperatorDtoBase dto, string operatorSymbol)
         {
-            ValueInfo aValueInfo = _stack.Pop();
-            ValueInfo bValueInfo = _stack.Pop();
-            ValueInfo originValueInfo = _stack.Pop();
-
-            string aLiteral = aValueInfo.GetLiteral();
-            string bLiteral = bValueInfo.GetLiteral();
-            string originLiteral = originValueInfo.GetLiteral();
+            string aLiteral = _stack.Pop();
+            string bLiteral = _stack.Pop();
+            string originLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine($"// {dto.OperatorTypeName}");
             _sb.AppendLine($"double {outputName} = ({aLiteral} - {originLiteral}) {operatorSymbol} {bLiteral} + {originLiteral};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
 
         private OperatorDtoBase Process_Math_Pow(OperatorDtoBase dto)
         {
-            ValueInfo baseValueInfo = _stack.Pop();
-            ValueInfo exponentValueInfo = _stack.Pop();
-
-            string baseLiteral = baseValueInfo.GetLiteral();
-            string exponentLiteral = exponentValueInfo.GetLiteral();
+            string baseLiteral = _stack.Pop();
+            string exponentLiteral = _stack.Pop();
             string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {variableName} = Math.Pow({baseLiteral}, {exponentLiteral});");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(variableName));
+            _stack.Push(variableName);
 
             return dto;
         }
@@ -1066,10 +1026,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             for (int i = 0; i < varCount; i++)
             {
-                ValueInfo valueInfo = _stack.Pop();
+                string valueLiteral = _stack.Pop();
 
                 _sb.Append(' ');
-                _sb.Append(valueInfo.GetLiteral());
+                _sb.Append(valueLiteral);
 
                 bool isLast = i == varCount - 1;
                 if (!isLast)
@@ -1084,14 +1044,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
 
         private void ProcessNumber(double value)
         {
-            _stack.Push(new ValueInfo(value));
+            _stack.Push(CompilationHelper.FormatValue(value));
         }
 
         private Number_OperatorDto ProcessNumberOperatorDto(Number_OperatorDto dto)
@@ -1111,12 +1071,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             base.Visit_OperatorDto_Base(dto);
 
-            ValueInfo frequencyValueInfo = _stack.Pop();
-
+            string frequencyLiteral = _stack.Pop();
             string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
             string posName = GeneratePositionVariableNameCamelCase(dto);
             string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string rightHandFormula = getRightHandFormulaDelegate(phaseName);
 
@@ -1126,21 +1084,18 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"double {outputName} = {rightHandFormula};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
 
         private OperatorDtoBase Process_Pulse_OperatorDto_WithPhaseTracking(OperatorDtoBase_VarFrequency dto)
         {
-            ValueInfo frequencyValueInfo = _stack.Pop();
-            ValueInfo widthValueInfo = _stack.Pop();
-
+            string frequencyLiteral = _stack.Pop();
+            string widthLiteral = _stack.Pop();
             string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
             string posName = GeneratePositionVariableNameCamelCase(dto);
             string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
-            string widthLiteral = widthValueInfo.GetLiteral();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
@@ -1149,18 +1104,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"double {outputName} = {phaseName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return dto;
         }
 
         private OperatorDtoBase Process_Pulse_OperatorDto_WithOriginShifting(OperatorDtoBase_ConstFrequency dto)
         {
-            ValueInfo frequencyValueInfo = _stack.Pop();
-            ValueInfo widthValueInfo = _stack.Pop();
-
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
-            string widthLiteral = widthValueInfo.GetLiteral();
+            string frequencyLiteral = _stack.Pop();
+            string widthLiteral = _stack.Pop();
             string posName = GeneratePositionVariableNameCamelCase(dto);
             string originName = GenerateOriginVariableNameCamelCase();
             string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
@@ -1170,18 +1122,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"{variableName} = {variableName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(variableName));
+            _stack.Push(variableName);
 
             return dto;
         }
 
         private OperatorDtoBase Process_Pulse_OperatorDto_NoPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto)
         {
-            ValueInfo frequencyValueInfo = _stack.Pop();
-            ValueInfo widthValueInfo = _stack.Pop();
-
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
-            string widthLiteral = widthValueInfo.GetLiteral();
+            string frequencyLiteral = _stack.Pop();
+            string widthLiteral = _stack.Pop();
             string posName = GeneratePositionVariableNameCamelCase(dto);
             string originName = GenerateOriginVariableNameCamelCase();
             string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
@@ -1191,7 +1140,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"{variableName} = {variableName} % 1.0 < {widthLiteral} ? 1.0 : -1.0;");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(variableName));
+            _stack.Push(variableName);
 
             return (OperatorDtoBase)dto;
         }
@@ -1213,31 +1162,26 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 throw new Exception($"{nameof(distanceOperatorDto)} and {nameof(distance)} cannot both be null.");
             }
 
-            ValueInfo distanceValueInfo = _stack.Pop();
-
+            string distanceLiteral = _stack.Pop();
             string sourcePosName = GeneratePositionVariableNameCamelCase(dto);
             string destPosName = GeneratePositionVariableNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string distanceLiteral = distanceValueInfo.GetLiteral();
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"{destPosName} = {sourcePosName} {PLUS_SYMBOL} {distanceLiteral};");
             _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
+            string signalLiteral = _stack.Pop();
 
-            _stack.Push(signalValueInfo);
+            _stack.Push(signalLiteral);
 
             return (OperatorDtoBase)dto; // Dirty. Refactor away if IOperatorDtoBase is the deepest base type.
         }
 
         private void Process_StretchOrSquash_OperatorDto_WithOrigin(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
         {
-            ValueInfo factorValueInfo = _stack.Pop();
-            ValueInfo originValueInfo = _stack.Pop();
-
-            string factorLiteral = factorValueInfo.GetLiteral();
-            string originLiteral = originValueInfo.GetLiteral();
+            string factorLiteral = _stack.Pop();
+            string originLiteral = _stack.Pop();
             string sourcePosName = GeneratePositionVariableNameCamelCase(dto);
             string destPosName = GeneratePositionVariableNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
@@ -1246,15 +1190,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
+            string signalLiteral = _stack.Pop();
+            _stack.Push(signalLiteral);
         }
 
         private void Process_StretchOrSquash_OperatorDto_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
         {
-            ValueInfo factorValueInfo = _stack.Pop();
-
-            string factorLiteral = factorValueInfo.GetLiteral();
+            string factorLiteral = _stack.Pop();
             string sourcePosName = GeneratePositionVariableNameCamelCase(dto);
             string destPosName = GeneratePositionVariableNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
@@ -1263,15 +1205,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
+            string signalLiteral = _stack.Pop();
+            _stack.Push(signalLiteral);
         }
 
         private void Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
         {
-            ValueInfo factorValueInfo = _stack.Pop();
-
-            string factorLiteral = factorValueInfo.GetLiteral();
+            string factorLiteral = _stack.Pop();
             string sourcePosName = GeneratePositionVariableNameCamelCase(dto);
             string destPosName = GeneratePositionVariableNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string originName = GenerateOriginVariableNameCamelCase();
@@ -1281,17 +1221,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
+            string signalLiteral = _stack.Pop();
+            _stack.Push(signalLiteral);
         }
 
         private void Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
         {
-            ValueInfo factorValueInfo = _stack.Pop();
-
+            string factorLiteral = _stack.Pop();
             string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
             string prevPosName = GeneratePreviousPositionVariableNameCamelCase();
-            string factorLiteral = factorValueInfo.GetLiteral();
             string sourcePosName = GeneratePositionVariableNameCamelCase(dto);
             string destPosName = GeneratePositionVariableNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
@@ -1305,16 +1243,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            ValueInfo signalValueInfo = _stack.Pop();
-            _stack.Push(signalValueInfo);
+            string signalLiteral = _stack.Pop();
+            _stack.Push(signalLiteral);
         }
 
         private OperatorDtoBase ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto, Func<string, string> getRightHandFormulaDelegate)
         {
-            ValueInfo frequencyValueInfo = _stack.Pop();
-
+            string frequencyLiteral = _stack.Pop();
             string posName = GeneratePositionVariableNameCamelCase(dto);
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string rightHandFormula = getRightHandFormulaDelegate(outputName);
 
@@ -1323,7 +1259,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"{outputName} = {rightHandFormula};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(outputName));
+            _stack.Push(outputName);
 
             return (OperatorDtoBase)dto;
         }
@@ -1392,11 +1328,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             base.Visit_OperatorDto_Base(dto);
             ProcessNumber(dto.Frequency);
 
-            ValueInfo frequencyValueInfo = _stack.Pop();
-
+            string frequencyLiteral = _stack.Pop();
             string posName = GeneratePositionVariableNameCamelCase(dto);
             string originName = GenerateOriginVariableNameCamelCase();
-            string frequencyLiteral = frequencyValueInfo.GetLiteral();
             string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
             string rightHandFormula = getRightHandFormulaDelegate(variableName);
             
@@ -1405,7 +1339,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"{variableName} = {rightHandFormula};");
             _sb.AppendLine();
 
-            _stack.Push(new ValueInfo(variableName));
+            _stack.Push(variableName);
 
             return dto;
         }
@@ -1448,17 +1382,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 return name;
             }
 
-            ValueInfo valueInfo = GenerateInputVariableInfo(dto);
+            InputVariableInfo valueInfo = GenerateInputVariableInfo(dto);
 
             _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = valueInfo.NameCamelCase;
 
             return valueInfo.NameCamelCase;
         }
 
-        private ValueInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
+        private InputVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
         {
             string variableName = String.Format("{0}{1}", INPUT_VARIABLE_PREFIX, _inputVariableCounter++);
-            var valueInfo = new ValueInfo(variableName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
+            var valueInfo = new InputVariableInfo(variableName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
 
             _inputVariableInfoDictionary.Add(variableName, valueInfo);
 

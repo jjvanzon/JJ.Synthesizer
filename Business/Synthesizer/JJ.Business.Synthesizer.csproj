@@ -256,11 +256,13 @@
     <Compile Include="Roslyn\Calculation\2017-01-07 Backup of GeneratedCalculatorExample2.cs" />
     <Compile Include="Roslyn\Calculation\HardCodedPatchCalculator.cs" />
     <Compile Include="Roslyn\Calculation\2017-01-07 Backup of IOperatorCalculator.cs" />
+    <Compile Include="Roslyn\Helpers\2017-01-18 Backup of ValueInfo.cs" />
+    <Compile Include="Roslyn\Helpers\CompilationHelper.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoCompiler.cs" />
     <Compile Include="Roslyn\Visitors\OperatorDtoToCSharpVisitor.cs" />
     <Compile Include="Roslyn\Visitors\OperatorDtoToCSharpVisitorResult.cs" />
     <Compile Include="Roslyn\Visitors\2017-01-05 Backup of OperatorDtoToOperatorCalculatorCSharpGenerator.cs" />
-    <Compile Include="Roslyn\Helpers\ValueInfo.cs" />
+    <Compile Include="Roslyn\Helpers\InputVariableInfo.cs" />
     <Compile Include="Roslyn\Generator\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_PerDimensionWriter.cs" />

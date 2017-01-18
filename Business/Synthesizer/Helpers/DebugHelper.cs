@@ -6,7 +6,6 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Reflection;
 using DebugHelper_Data = JJ.Data.Synthesizer.Helpers.DebugHelper;
 
 namespace JJ.Business.Synthesizer.Helpers
@@ -36,7 +35,7 @@ namespace JJ.Business.Synthesizer.Helpers
             return operatorDto.GetType().Name;
         }
 
-        public static string GetDebuggerDisplay(ValueInfo valueInfo)
+        public static string GetDebuggerDisplay(InputVariableInfo valueInfo)
         {
             if (valueInfo == null) throw new NullException(() => valueInfo);
 

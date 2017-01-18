@@ -68,9 +68,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     {
                         if (visitorResult.VariableInputValueInfos.Any())
                         {
-                            foreach (ValueInfo variableInputValueInfo in visitorResult.VariableInputValueInfos)
+                            foreach (InputVariableInfo variableInputValueInfo in visitorResult.VariableInputValueInfos)
                             {
-                                sb.AppendLine($"_{variableInputValueInfo.NameCamelCase} = {variableInputValueInfo.FormatValue()};");
+                                sb.AppendLine($"_{variableInputValueInfo.NameCamelCase} = {CompilationHelper.FormatValue(variableInputValueInfo.Value ?? 0.0)};");
                             }
                             sb.AppendLine("");
                         }
@@ -231,7 +231,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                                     sb.AppendLine($"case {nameof(DimensionEnum)}.{group.Key}:");
                                     sb.Indent();
                                     {
-                                        foreach (ValueInfo valueInfo in group)
+                                        foreach (InputVariableInfo valueInfo in group)
                                         {
                                             sb.AppendLine($"_{valueInfo.NameCamelCase} = value;");
                                         }

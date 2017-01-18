@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         public OperatorDtoToCSharpVisitorResult(
             string rawCalculationCode,
             string returnValueLiteral,
-            IList<ValueInfo> variableInputValueInfos,
+            IList<InputVariableInfo> variableInputValueInfos,
             IList<string> positionVariableNamesCamelCase,
             IList<string> previousPositionVariableNamesCamelCase,
             IList<string> phaseVariableNamesCamelCase,
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         public string RawCalculationCode { get; }
         public string ReturnValueLiteral { get; }
-        public IList<ValueInfo> VariableInputValueInfos { get; }
+        public IList<InputVariableInfo> VariableInputValueInfos { get; }
         public IList<string> PositionVariableNamesCamelCase { get; }
         public IList<string> PreviousPositionVariableNamesCamelCase { get; }
         public IList<string> PhaseVariableNamesCamelCase { get; }
