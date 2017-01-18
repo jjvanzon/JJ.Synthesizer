@@ -59,13 +59,14 @@
     <Compile Include="CopiedCode\From_JJ_Business_SynthesizerPrototype\SineCalculator.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Helpers\CompilationHelper.cs" />
     <Compile Include="Helpers\OperatorDtoCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Visitors\OperatorDtoToCSharpVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoToCSharpVisitorResult.cs" />
     <Compile Include="Generators\OperatorDtoToOperatorCalculatorCSharpGenerator.cs" />
     <Compile Include="Generators\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
-    <Compile Include="Helpers\ValueInfo.cs" />
+    <Compile Include="Helpers\VariableInputInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">

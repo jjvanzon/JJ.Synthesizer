@@ -64,9 +64,9 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Generators
                         //_sb.AppendLine("_values = new double[_framesPerChunk];");
                         sb.AppendLine("");
 
-                        foreach (ValueInfo variableInputValueInfo in visitorResult.VariableInputValueInfos)
+                        foreach (VariableInputInfo variableInputValueInfo in visitorResult.VariableInputValueInfos)
                         {
-                            sb.AppendLine($"_{variableInputValueInfo.NameCamelCase} = {variableInputValueInfo.FormatValue()};");
+                            sb.AppendLine($"_{variableInputValueInfo.NameCamelCase} = {CompilationHelper.FormatValue(variableInputValueInfo.Value)};");
                         }
                         sb.AppendLine("");
 
