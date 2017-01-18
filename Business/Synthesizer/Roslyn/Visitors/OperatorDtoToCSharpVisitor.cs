@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
         {
-            base.Visit_Absolute_OperatorDto_VarX(dto);
+            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string xLiteral = _stack.Pop();
             string variableName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(dto);
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             ProcessNumber(dto.A);
 
             return ProcessDivideZeroOrigin(dto);
@@ -187,14 +187,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
         {
             ProcessNumber(dto.B);
-            base.Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(dto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessDivideZeroOrigin(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(Divide_OperatorDto_VarA_VarB_ZeroOrigin dto)
         {
-            base.Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(dto);
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessDivideZeroOrigin(dto);
         }
@@ -296,7 +297,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto)
         {
-            base.Visit_Negative_OperatorDto_VarX(dto);
+            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string xLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
@@ -312,7 +313,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
         {
-            base.Visit_Not_OperatorDto_VarX(dto);
+            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string xLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
@@ -328,7 +329,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
         {
-            base.Visit_OneOverX_OperatorDto_VarX(dto);
+            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string xLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
@@ -344,14 +345,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
         {
-            base.Visit_Power_OperatorDto_VarBase_VarExponent(dto);
+            Visit_OperatorDto_Polymorphic(dto.ExponentOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             return Process_Math_Pow(dto);
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
         {
-            base.Visit_Power_OperatorDto_ConstBase_VarExponent(dto);
+            Visit_OperatorDto_Polymorphic(dto.ExponentOperatorDto);
             ProcessNumber(dto.Base);
 
             return Process_Math_Pow(dto);
@@ -360,14 +362,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto)
         {
             ProcessNumber(dto.Exponent);
-            base.Visit_Power_OperatorDto_VarBase_ConstExponent(dto);
+            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             return Process_Math_Pow(dto);
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent2(Power_OperatorDto_VarBase_Exponent2 dto)
         {
-            base.Visit_Power_OperatorDto_VarBase_Exponent2(dto);
+            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             string baseLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
@@ -383,7 +385,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent3(Power_OperatorDto_VarBase_Exponent3 dto)
         {
-            base.Visit_Power_OperatorDto_VarBase_Exponent3(dto);
+            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             string baseLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
@@ -399,7 +401,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent4(Power_OperatorDto_VarBase_Exponent4 dto)
         {
-            base.Visit_Power_OperatorDto_VarBase_Exponent4(dto);
+            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             string baseLiteral = _stack.Pop();
             string outputName = GenerateOutputNameCamelCase(dto.OperatorTypeName);
@@ -536,7 +538,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
         }
@@ -560,7 +562,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
         }
@@ -594,7 +596,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SINE_FORMULA_FORMAT, x));
         }
@@ -618,7 +620,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(Square_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SQUARE_FORMULA_FORMAT, x));
         }
@@ -782,7 +784,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
         {
-            base.Visit_Subtract_OperatorDto_ConstA_VarB(dto);
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             ProcessNumber(dto.A);
 
             return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
@@ -791,14 +793,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto)
         {
             ProcessNumber(dto.B);
-            base.Visit_Subtract_OperatorDto_VarA_ConstB(dto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_VarB(Subtract_OperatorDto_VarA_VarB dto)
         {
-            base.Visit_Subtract_OperatorDto_VarA_VarB(dto);
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
         }
@@ -841,7 +844,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(Triangle_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(dto);
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             string frequencyLiteral = _stack.Pop();
             string posName = GeneratePositionVariableNameCamelCase(dto);
@@ -858,7 +861,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            base.Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(dto);
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             string frequencyLiteral = _stack.Pop();
 
@@ -881,8 +884,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {
-            base.Visit_VariableInput_OperatorDto(dto);
-
             string inputVariableName = GetInputVariableNameCamelCase(dto);
 
             _stack.Push(inputVariableName);
@@ -909,7 +910,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessLogicalBinaryOperator(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
         {
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             string aLiteral = _stack.Pop();
             string bLiteral = _stack.Pop();
@@ -927,14 +929,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private OperatorDtoBase ProcessComparativeOperator_VarA_ConstB(OperatorDtoBase_VarA_ConstB dto, string operatorSymbol)
         {
             ProcessNumber(dto.B);
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessComparativeOperator(dto, operatorSymbol);
         }
 
         private OperatorDtoBase ProcessComparativeOperator_VarA_VarB(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
         {
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessComparativeOperator(dto, operatorSymbol);
         }
@@ -1056,8 +1059,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private Number_OperatorDto ProcessNumberOperatorDto(Number_OperatorDto dto)
         {
-            base.Visit_OperatorDto_Base(dto);
-
             _sb.AppendLine("// " + dto.OperatorTypeName);
 
             ProcessNumber(dto.Number);
@@ -1069,7 +1070,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessPhaseTracker(OperatorDtoBase_VarFrequency dto, Func<string, string> getRightHandFormulaDelegate)
         {
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             string frequencyLiteral = _stack.Pop();
             string phaseName = GenerateLongLivedPhaseVariableNameCamelCase();
@@ -1266,7 +1267,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(OperatorDtoBase_ConstA_ConstB_VarOrigin dto, string operatorSymbol)
         {
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             ProcessNumber(dto.B);
             ProcessNumber(dto.A);
 
@@ -1284,7 +1285,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessMultiplyOrDivide_ConstA_VarB_VarOrigin(OperatorDtoBase_ConstA_VarB_VarOrigin dto, string operatorSymbol)
         {
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             ProcessNumber(dto.A);
 
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
@@ -1311,21 +1313,23 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private OperatorDtoBase ProcessMultiplyOrDivide_VarA_VarB_ConstOrigin(OperatorDtoBase_VarA_VarB_ConstOrigin dto, string operatorSymbol)
         {
             ProcessNumber(dto.Origin);
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
         private OperatorDtoBase ProcessMultiplyOrDivide_VarA_VarB_VarOrigin(OperatorDtoBase_VarA_VarB_VarOrigin dto, string operatorSymbol)
         {
-            base.Visit_OperatorDto_Base(dto);
+            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
         private OperatorDtoBase ProcessOriginShifter(OperatorDtoBase_ConstFrequency dto, Func<string, string> getRightHandFormulaDelegate)
         {
-            base.Visit_OperatorDto_Base(dto);
             ProcessNumber(dto.Frequency);
 
             string frequencyLiteral = _stack.Pop();
