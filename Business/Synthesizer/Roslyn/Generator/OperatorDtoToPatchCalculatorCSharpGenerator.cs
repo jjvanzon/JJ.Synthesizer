@@ -118,8 +118,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                         sb.AppendLine();
 
                         // Loop
-                        sb.AppendLine("// Writes values in an interleaved way to the buffer.");
-                        sb.AppendLine("for (int i = channelIndex; i < valueCount; i += channelCount)");
+                        sb.AppendLine("for (int i = channelIndex; i < valueCount; i += channelCount)"); // Writes values in an interleaved way to the buffer."
                         sb.AppendLine("{");
                         sb.Indent();
                         {
@@ -130,7 +129,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                             sb.AppendLine("// Accumulate");
                             sb.AppendLine($"double value = {visitorResult.ReturnValueLiteral};");
                             sb.AppendLine();
-                            sb.AppendLine("if (double.IsNaN(value)) // winmm will trip over NaN.");
+                            sb.AppendLine("if (double.IsNaN(value))"); // winmm will trip over NaN.
                             sb.AppendLine("{");
                             sb.Indent();
                             {
@@ -139,7 +138,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                             }
                             sb.AppendLine("}");
                             sb.AppendLine();
-                            sb.AppendLine("float floatValue = (float)value; // TODO: This seems unsafe. What happens if the cast is invalid?");
+                            sb.AppendLine("float floatValue = (float)value;"); // TODO: This seems unsafe. What happens if the cast to float is invalid?
                             sb.AppendLine();
                             sb.AppendLine("PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);");
 

@@ -69,6 +69,10 @@
     <Compile Include="Helpers\VariableInputInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
+      <Project>{5D06A212-5459-47F3-8109-E012C5FC9E3A}</Project>
+      <Name>JJ.Framework.Collections</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>
