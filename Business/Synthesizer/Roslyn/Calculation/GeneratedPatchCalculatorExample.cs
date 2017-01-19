@@ -6,22 +6,22 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace GeneratedCSharp
 {
-    public class Calculator : PatchCalculatorBase
+    public class GeneratedPatchCalculator : PatchCalculatorBase
     {
         // Fields
 
         private double _phase0;
+        private double _phase1;
         private double _prevPos0;
+        private double _prevPos1;
         private double _input0;
-        private double _input1;
 
         // Constructor
 
-        public Calculator(int targetSamplingRate, int channelCount, int channelIndex)
-            : base(targetSamplingRate, channelCount, channelIndex)
+        public GeneratedPatchCalculator(int samplingRate, int channelCount, int channelIndex)
+            : base(samplingRate, channelCount, channelIndex)
         {
-            _input0 = 0.0E0;
-            _input1 = 0.0E0;
+            _input0 = 1.0E0;
 
             Reset(time: 0.0);
         }
@@ -37,41 +37,48 @@ namespace GeneratedCSharp
             int valueCount = frameCount * channelCount;
 
             double phase0 = _phase0;
+            double phase1 = _phase1;
             double prevPos0 = _prevPos0;
+            double prevPos1 = _prevPos1;
             double input0 = _input0;
-            double input1 = _input1;
 
-            double t0 = startTime;
+            double time_sd_a0 = startTime;
 
-            // Writes values in an interleaved way to the buffer.
             for (int i = channelIndex; i < valueCount; i += channelCount)
             {
                 // Sine
-                phase0 += (t0 - prevPos0) * input1;
-                prevPos0 = t0;
-                double sine0 = SineCalculator.Sin(phase0);
+                phase0 += (time_sd_a0 - prevPos0) * input0;
+                prevPos0 = time_sd_a0;
+                double sine_op0 = SineCalculator.Sin(phase0);
 
                 // Multiply
-                double multiply0 = sine0 * input0;
+                double multiply_op0 = sine_op0 * 8.8E2;
 
-                double value = multiply0;
+                // Sine
+                phase1 += (time_sd_a0 - prevPos1) * multiply_op0;
+                prevPos1 = time_sd_a0;
+                double sine_op1 = SineCalculator.Sin(phase1);
 
-                if (double.IsNaN(value)) // winmm will trip over NaN.
+                // Accumulate
+                double value = sine_op1;
+
+                if (double.IsNaN(value))
                 {
                     value = 0;
                 }
 
-                float floatValue = (float)value; // TODO: This seems unsafe. What happens if the cast is invalid?
+                float floatValue = (float)value;
 
                 PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
 
-                t0 += frameDuration;
+                time_sd_a0 += frameDuration;
             }
 
             _phase0 = phase0;
+            _phase1 = phase1;
             _prevPos0 = prevPos0;
+            _prevPos1 = prevPos1;
             _input0 = input0;
-            _input1 = input1;
         }
 
         // Values
@@ -91,10 +98,6 @@ namespace GeneratedCSharp
                     _input0 = value;
                     break;
 
-                case 1:
-                    _input1 = value;
-                    break;
-
             }
         }
 
@@ -104,12 +107,8 @@ namespace GeneratedCSharp
 
             switch (dimensionEnum)
             {
-                case DimensionEnum.Volume:
+                case DimensionEnum.VibratoSpeed:
                     _input0 = value;
-                    break;
-
-                case DimensionEnum.Frequency:
-                    _input1 = value;
                     break;
 
             }
@@ -120,7 +119,9 @@ namespace GeneratedCSharp
         public override void Reset(double time)
         {
             _phase0 = 0.0;
+            _phase1 = 0.0;
             _prevPos0 = time;
+            _prevPos1 = time;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
         private const string MULTIPLY_SYMBOL = "*";
         private const string PLUS_SYMBOL = "+";
         private const string PHASE_VARIABLE_PREFIX = "phase";
-        private const string PREVIOUS_POSITION_VARIABLE_PREFIX = "previousPosition";
+        private const string PREVIOUS_POSITION_VARIABLE_PREFIX = "prevPos";
         private const string INPUT_VARIABLE_PREFIX = "input";
         private const string POSITION_VARIABLE_PREFIX = "position";
 
@@ -41,6 +41,14 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
         protected int _inputVariableCounter;
         protected int _phaseVariableCounter;
         protected int _previousPositionVariableCounter;
+
+        public static string PREVIOUS_POSITION_VARIABLE_PREFIX1
+        {
+            get
+            {
+                return PREVIOUS_POSITION_VARIABLE_PREFIX;
+            }
+        }
 
         public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto, int intialIndentLevel)
         {
@@ -326,7 +334,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 
         private string GeneratePreviousPositionVariableName()
         {
-            string variableName = String.Format("{0}{1}", PREVIOUS_POSITION_VARIABLE_PREFIX, _previousPositionVariableCounter++);
+            string variableName = String.Format("{0}{1}", PREVIOUS_POSITION_VARIABLE_PREFIX1, _previousPositionVariableCounter++);
 
             _previousPositionVariableNamesCamelCase.Add(variableName);
 

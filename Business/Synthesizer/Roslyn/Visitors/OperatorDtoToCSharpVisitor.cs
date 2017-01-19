@@ -9,6 +9,7 @@ using System.Diagnostics;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Roslyn.Visitors
 {
@@ -29,12 +30,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string OR_SYMBOL = "||";
         private const string PLUS_SYMBOL = "+";
         private const string SUBTRACT_SYMBOL = "-";
+
         private const string PHASE_VARIABLE_PREFIX = "phase";
         private const string PREVIOUS_POSITION_VARIABLE_PREFIX = "prevPos";
         private const string INPUT_VARIABLE_PREFIX = "input";
-        private const string STANDARD_DIMENSION_VARIABLE_PREFIX = "s_";
-        private const string CUSTOM_DIMENSION_VARIABLE_PREFIX = "c_";
+        private const string STANDARD_DIMENSION_VARIABLE_SUFFIX = "sd";
+        private const string CUSTOM_DIMENSION_VARIABLE_SUFFIX = "cd";
         private const string ORIGIN_VARIABLE_PREFIX = "origin";
+        private const string OPERATOR_VARIABLE_SUFFIX = "op";
+
         /// <summary> {0} = phase  </summary>
         private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
         /// <summary> {0} = phase  </summary>
@@ -58,7 +62,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
 
         /// <summary> To maintain a counter for numbers to add to a variable names. Each operator type will get its own counter. </summary>
-        private Dictionary<string, int> _camelCaseOperatorTypeName_To_VariableCounter_Dictionary;
+        private Dictionary<string, int> _canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary;
+
+        private int _dimensionAliasCounter;
+        private Dictionary<DimensionEnum, string> _standardDimensionEnum_To_Alias_Dictionary;
+        private Dictionary<string, string> _canonicalCustomDimensionName_To_Alias_Dictionary;
+
         private int _inputVariableCounter;
         private int _phaseVariableCounter;
         private int _previousPositionVariableCounter;
@@ -73,11 +82,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _phaseVariableNamesCamelCase = new List<string>();
             _originVariableNamesCamelCase = new List<string>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
-            _camelCaseOperatorTypeName_To_VariableCounter_Dictionary = new Dictionary<string, int>();
+            _canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary = new Dictionary<string, int>();
             _inputVariableCounter = FIRST_VARIABLE_NUMBER;
             _phaseVariableCounter = FIRST_VARIABLE_NUMBER;
             _previousPositionVariableCounter = FIRST_VARIABLE_NUMBER;
             _originVariableCounter = FIRST_VARIABLE_NUMBER;
+            _dimensionAliasCounter = 0;
+            _standardDimensionEnum_To_Alias_Dictionary = new Dictionary<DimensionEnum, string>();
+            _canonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<string, string>();
 
             _sb = new StringBuilderWithIndentation(TAB_STRING);
             _sb.IndentLevel = intialIndentLevel;
@@ -110,7 +122,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string x = _stack.Pop();
-            string variable = GenerateOutputName(dto.OperatorTypeName);
+            string variable = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {variable} = {x};");
@@ -301,7 +313,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string x = _stack.Pop();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {output} = -{x};");
@@ -317,7 +329,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string x = _stack.Pop();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {output} = {x} == 0.0 ? 1.0 : 0.0;");
@@ -333,7 +345,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string x = _stack.Pop();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {output} = 1.0 / {x};");
@@ -373,7 +385,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             string @base = _stack.Pop();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {output} = {@base} * {@base};");
@@ -389,7 +401,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             string @base = _stack.Pop();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {output} = {@base} * {@base} * {@base};");
@@ -405,7 +417,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             string @base = _stack.Pop();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {output} = {@base} * {@base};");
@@ -813,7 +825,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string frequency = _stack.Pop();
             string position = GeneratePositionName(dto);
-            string variable = GenerateOutputName(dto.OperatorTypeName);
+            string variable = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine($"// {dto.OperatorTypeName}");
             _sb.AppendLine($"double {variable} = {position} * {frequency};");
@@ -832,7 +844,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string position = GeneratePositionName(dto);
             string origin = GenerateOriginName();
-            string variable = GenerateOutputName(dto.OperatorTypeName);
+            string variable = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine($"// {dto.OperatorTypeName}");
             _sb.AppendLine($"double {variable} = ({position} - {origin}) * {frequency};");
@@ -849,7 +861,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string frequency = _stack.Pop();
             string position = GeneratePositionName(dto);
-            string variable = GenerateOutputName(dto.OperatorTypeName);
+            string variable = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine($"// {dto.OperatorTypeName}");
             _sb.AppendLine($"double {variable} = {position} * {frequency};");
@@ -868,7 +880,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string phase = GenerateLongLivedPhaseName();
             string posisition = GeneratePositionName(dto);
-            string variable = GenerateOutputName(dto.OperatorTypeName);
+            string variable = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine($"// {dto.OperatorTypeName}");
             _sb.AppendLine($"{phase} = {posisition} * {frequency};");
@@ -898,7 +910,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b};");
@@ -916,7 +928,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {output} = {a} != 0.0 {operatorSymbol} {b} != 0.0 ? 1.0 : 0.0;");
@@ -947,7 +959,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b} ? 1.0 : 0.0;");
@@ -962,7 +974,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {output} = {a} / {b};");
@@ -978,7 +990,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string a = _stack.Pop();
             string b = _stack.Pop();
             string origin = _stack.Pop();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine($"// {dto.OperatorTypeName}");
             _sb.AppendLine($"double {output} = ({a} - {origin}) {operatorSymbol} {b} + {origin};");
@@ -993,7 +1005,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string @base = _stack.Pop();
             string exponent = _stack.Pop();
-            string variable = GenerateOutputName(dto.OperatorTypeName);
+            string variable = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {variable} = Math.Pow({@base}, {exponent});");
@@ -1021,7 +1033,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessMultiVarOperator(OperatorDtoBase dto, int varCount, string operatorSymbol)
         {
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
 
@@ -1077,7 +1089,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string phase = GenerateLongLivedPhaseName();
             string position = GeneratePositionName(dto);
             string previousPosition = GeneratePreviousPositionName();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
             string rightHandFormula = getRightHandFormulaDelegate(phase);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
@@ -1098,7 +1110,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string phase = GenerateLongLivedPhaseName();
             string position = GeneratePositionName(dto);
             string previousPosition = GeneratePreviousPositionName();
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"{phase} += ({position} - {previousPosition}) * {frequency};");
@@ -1117,7 +1129,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string width = _stack.Pop();
             string position = GeneratePositionName(dto);
             string origin = GenerateOriginName();
-            string variable = GenerateOutputName(dto.OperatorTypeName);
+            string variable = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {variable} = ({position} - {origin}) * {frequency};");
@@ -1135,7 +1147,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string width = _stack.Pop();
             string position = GeneratePositionName(dto);
             string origin = GenerateOriginName();
-            string variable = GenerateOutputName(dto.OperatorTypeName);
+            string variable = GenerateOperatorVariableName(dto.OperatorTypeName);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
             _sb.AppendLine($"double {variable} = {position} * {frequency};");
@@ -1253,7 +1265,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string frequency = _stack.Pop();
             string position = GeneratePositionName(dto);
-            string output = GenerateOutputName(dto.OperatorTypeName);
+            string output = GenerateOperatorVariableName(dto.OperatorTypeName);
             string rightHandFormula = getRightHandFormulaDelegate(output);
 
             _sb.AppendLine("// " + dto.OperatorTypeName);
@@ -1336,7 +1348,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string frequency = _stack.Pop();
             string position = GeneratePositionName(dto);
             string origin = GenerateOriginName();
-            string variable = GenerateOutputName(dto.OperatorTypeName);
+            string variable = GenerateOperatorVariableName(dto.OperatorTypeName);
             string rightHandFormula = getRightHandFormulaDelegate(variable);
             
             _sb.AppendLine("// " + dto.OperatorTypeName);
@@ -1362,19 +1374,19 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         // Helpers
 
-        private string GenerateOutputName(string operatorTypeName)
+        private string GenerateOperatorVariableName(string operatorTypeName)
         {
             string canonicalOperatorTypeNameInCode = ToCanonicalNameInCode(operatorTypeName);
 
             int counter;
-            if (!_camelCaseOperatorTypeName_To_VariableCounter_Dictionary.TryGetValue(canonicalOperatorTypeNameInCode, out counter))
+            if (!_canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary.TryGetValue(canonicalOperatorTypeNameInCode, out counter))
             {
                 counter = FIRST_VARIABLE_NUMBER;
             }
 
-            string variableName = String.Format("{0}{1}", canonicalOperatorTypeNameInCode, counter++);
+            string variableName = String.Format("{0}_{1}{2}", canonicalOperatorTypeNameInCode, OPERATOR_VARIABLE_SUFFIX, counter++);
 
-            _camelCaseOperatorTypeName_To_VariableCounter_Dictionary[canonicalOperatorTypeNameInCode] = counter;
+            _canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary[canonicalOperatorTypeNameInCode] = counter;
 
             return variableName;
         }
@@ -1424,21 +1436,66 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private string GeneratePositionName(IOperatorDto_WithDimension dto, int? alternativeStackIndexLevel = null)
         {
-            string variableName;
+            string dimensionAlias;
             if (dto.StandardDimensionEnum != DimensionEnum.Undefined)
             {
-                string dimensionNameCamelCase = ToCanonicalNameInCode(dto.StandardDimensionEnum.ToString());
-                variableName = string.Format("{0}{1}{2}", STANDARD_DIMENSION_VARIABLE_PREFIX, dimensionNameCamelCase, alternativeStackIndexLevel ?? dto.DimensionStackLevel);
+                dimensionAlias = GetStandardDimensionAlias(dto.StandardDimensionEnum);
             }
             else
             {
-                string dimensionNameCamelCase = ToCanonicalNameInCode(dto.CustomDimensionName);
-                variableName = string.Format("{0}{1}{2}", CUSTOM_DIMENSION_VARIABLE_PREFIX, dimensionNameCamelCase, alternativeStackIndexLevel ?? dto.DimensionStackLevel);
+                dimensionAlias = GetCustomDimensionAlias(dto.CustomDimensionName);
             }
 
-            _positionVariableNamesCamelCaseHashSet.Add(variableName);
+            string positionVariableName = string.Format("{0}{1}", dimensionAlias, alternativeStackIndexLevel ?? dto.DimensionStackLevel);
 
-            return variableName;
+            _positionVariableNamesCamelCaseHashSet.Add(positionVariableName);
+
+            return positionVariableName;
+        }
+
+        /// <summary>
+        /// Formats the DimensionEnum in a string that is close to the dimensionEnun name + a prefix + a letter sequence suffix.
+        /// E.g.: "time_sd_a"
+        /// It will become a little cryptic, but at least it is unique.
+        /// </summary>
+        private string GetStandardDimensionAlias(DimensionEnum dimensionEnum)
+        {
+            string alias;
+            if (!_standardDimensionEnum_To_Alias_Dictionary.TryGetValue(dimensionEnum, out alias))
+            {
+                string formattedDimensionEnum = dimensionEnum.ToString().ToCamelCase();
+                string formattedAliasCounter = FormatDimensionAliasCounter(_dimensionAliasCounter++);
+
+                alias = $"{formattedDimensionEnum}_{STANDARD_DIMENSION_VARIABLE_SUFFIX}_{formattedAliasCounter}";
+
+                _standardDimensionEnum_To_Alias_Dictionary[dimensionEnum] = alias;
+            }
+            return alias;
+        }
+        
+        /// <summary>
+        /// Formats the DimensionEnum in a string that is close to the dimensionEnun name + a suffix _cd + a letter sequence suffix.
+        /// E.g.: "prettiness_cd_b"
+        /// It will become a little cryptic, but at least it is unique.
+        /// </summary>
+        private string GetCustomDimensionAlias(string customDimensionName)
+        {
+            string alias;
+            if (!_canonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(customDimensionName, out alias))
+            {
+                string formattedCustomDimensionName = NameHelper.ToCanonical(customDimensionName).ToCamelCase();
+                string formattedAliasCounter = FormatDimensionAliasCounter(_dimensionAliasCounter++);
+
+                alias = $"{formattedCustomDimensionName}_{CUSTOM_DIMENSION_VARIABLE_SUFFIX}_{formattedAliasCounter}";
+
+                _canonicalCustomDimensionName_To_Alias_Dictionary[customDimensionName] = alias;
+            }
+            return alias;
+        }
+
+        private string FormatDimensionAliasCounter(int dimensionAliasCounter)
+        {
+            return NumberingSystems.ToLetterSequence(dimensionAliasCounter, firstChar: 'a', lastChar: 'z');
         }
 
         private string GenerateOriginName()

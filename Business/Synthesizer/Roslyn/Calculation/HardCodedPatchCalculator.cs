@@ -11,9 +11,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
     {
         // Fields
 
-        private double _input1;
+        private double _input0;
         private double _standardDimensionFrequency1;
         private double _customDimensionPrettiness1;
+        private double _phase0;
+        private double _prevPos0;
         private double _phase1;
         private double _prevPos1;
         private double _phase2;
@@ -28,8 +30,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
         private double _prevPos6;
         private double _phase7;
         private double _prevPos7;
-        private double _phase8;
-        private double _prevPos8;
 
         // Constructor
 
@@ -51,7 +51,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             int channelIndex = _channelIndex;
             int valueCount = frameCount * channelCount;
 
-            double input1 = _input1;
+            double input0 = _input0;
+            double phase0 = _phase0;
+            double prevPos0 = _prevPos0;
             double phase1 = _phase1;
             double prevPos1 = _prevPos1;
             double phase2 = _phase2;
@@ -66,8 +68,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             double prevPos6 = _prevPos6;
             double phase7 = _phase7;
             double prevPos7 = _prevPos7;
-            double phase8 = _phase8;
-            double prevPos8 = _prevPos8;
 
             double t0 = startTime;
             double t1;
@@ -79,9 +79,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
                 t1 = t0 + 0.25;
 
                 // Sine
-                phase1 += (t1 - prevPos1) * input1;
-                prevPos1 = t1;
-                double sine1 = SineCalculator.Sin(phase1);
+                phase0 += (t1 - prevPos0) * input0;
+                prevPos0 = t1;
+                double sine1 = SineCalculator.Sin(phase0);
 
                 // Multiply
                 double multiply1 = 10 * sine1;
@@ -90,9 +90,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
                 t1 = t0 + 0.25;
 
                 // Sine
-                phase2 += (t1 - prevPos2) * input1;
-                prevPos2 = t1;
-                double sine2 = SineCalculator.Sin(phase2);
+                phase1 += (t1 - prevPos1) * input0;
+                prevPos1 = t1;
+                double sine2 = SineCalculator.Sin(phase1);
 
                 // Multiply
                 double multiply2 = 10 * sine2;
@@ -101,9 +101,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
                 t1 = t0 + 0.25;
 
                 // Sine
-                phase3 += (t1 - prevPos3) * input1;
-                prevPos3 = t1;
-                double sine3 = SineCalculator.Sin(phase3);
+                phase2 += (t1 - prevPos2) * input0;
+                prevPos2 = t1;
+                double sine3 = SineCalculator.Sin(phase2);
 
                 // Multiply
                 double multiply3 = 10 * sine3;
@@ -112,9 +112,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
                 t1 = t0 + 0.25;
 
                 // Sine
-                phase4 += (t1 - prevPos4) * input1;
-                prevPos4 = t1;
-                double sine4 = SineCalculator.Sin(phase4);
+                phase3 += (t1 - prevPos3) * input0;
+                prevPos3 = t1;
+                double sine4 = SineCalculator.Sin(phase3);
 
                 // Multiply
                 double multiply4 = 10 * sine4;
@@ -123,9 +123,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
                 t1 = t0 + 0.25;
 
                 // Sine
-                phase5 += (t1 - prevPos5) * input1;
-                prevPos5 = t1;
-                double sine5 = SineCalculator.Sin(phase5);
+                phase4 += (t1 - prevPos4) * input0;
+                prevPos4 = t1;
+                double sine5 = SineCalculator.Sin(phase4);
 
                 // Multiply
                 double multiply5 = 10 * sine5;
@@ -134,9 +134,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
                 t1 = t0 + 0.25;
 
                 // Sine
-                phase6 += (t1 - prevPos6) * input1;
-                prevPos6 = t1;
-                double sine6 = SineCalculator.Sin(phase6);
+                phase5 += (t1 - prevPos5) * input0;
+                prevPos5 = t1;
+                double sine6 = SineCalculator.Sin(phase5);
 
                 // Multiply
                 double multiply6 = 10 * sine6;
@@ -145,9 +145,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
                 t1 = t0 + 0.25;
 
                 // Sine
-                phase7 += (t1 - prevPos7) * input1;
-                prevPos7 = t1;
-                double sine7 = SineCalculator.Sin(phase7);
+                phase6 += (t1 - prevPos6) * input0;
+                prevPos6 = t1;
+                double sine7 = SineCalculator.Sin(phase6);
 
                 // Multiply
                 double multiply7 = 10 * sine7;
@@ -156,9 +156,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
                 t1 = t0 + 0.25;
 
                 // Sine
-                phase8 += (t1 - prevPos8) * input1;
-                prevPos8 = t1;
-                double sine8 = SineCalculator.Sin(phase8);
+                phase7 += (t1 - prevPos7) * input0;
+                prevPos7 = t1;
+                double sine8 = SineCalculator.Sin(phase7);
 
                 // Multiply
                 double multiply8 = 10 * sine8;
@@ -180,7 +180,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
                 t0 += frameDuration;
             }
 
-            _input1 = input1;
+            _input0 = input0;
+            _phase0 = phase0;
+            _prevPos0 = prevPos0;
             _phase1 = phase1;
             _prevPos1 = prevPos1;
             _phase2 = phase2;
@@ -195,8 +197,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             _prevPos6 = prevPos6;
             _phase7 = phase7;
             _prevPos7 = prevPos7;
-            _phase8 = phase8;
-            _prevPos8 = prevPos8;
         }
 
         // Values
@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             switch (listIndex)
             {
                 case 0:
-                    return _input1;
+                    return _input0;
 
                 default:
                     return 0.0;
@@ -220,7 +220,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             switch (listIndex)
             {
                 case 0:
-                    _input1 = value;
+                    _input0 = value;
                     break;
             }
         }
@@ -239,7 +239,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             switch (dimensionEnum)
             {
                 case DimensionEnum.Frequency:
-                    _input1 = value;
+                    _input0 = value;
                     break;
             }
         }
@@ -257,7 +257,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
             if (String.Equals(name, "prettiness", StringComparison.Ordinal))
             {
-                _input1 = value;
+                _input0 = value;
             }
         }
 
@@ -291,7 +291,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
             if (String.Equals(name, "prettiness", StringComparison.Ordinal) && listIndex == 0)
             {
-                _input1 = value;
+                _input0 = value;
             }
         }
 
@@ -302,6 +302,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             // TODO: Use time?
             // TODO: Set dimension variables?
 
+            _phase0 = 0.0;
+            _prevPos0 = 0.0;
             _phase1 = 0.0;
             _prevPos1 = 0.0;
             _phase2 = 0.0;
@@ -316,8 +318,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             _prevPos6 = 0.0;
             _phase7 = 0.0;
             _prevPos7 = 0.0;
-            _phase8 = 0.0;
-            _prevPos8 = 0.0;
         }
     }
 }

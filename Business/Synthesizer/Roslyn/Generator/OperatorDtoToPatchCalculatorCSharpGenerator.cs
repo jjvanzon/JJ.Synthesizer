@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
 
                         // Position Variables
                         // HACK
-                        string time0VariableName = "s_time0";
+                        string time0VariableName = "time_sd_a0";
                         if (time0VariableName != null)
                         {
                             sb.AppendLine($"double {time0VariableName} = startTime;");
@@ -266,7 +266,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                             // DIRTY: Phase of a partial does not have to be related to the time-dimension!
                             sb.AppendLine($"_{variableName} = time;");
                         }
-
 
                         sb.Unindent();
                     }
