@@ -34,7 +34,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string PHASE_VARIABLE_PREFIX = "phase";
         private const string PREVIOUS_POSITION_VARIABLE_PREFIX = "prevPos";
         private const string INPUT_VARIABLE_PREFIX = "input";
-        private const string STANDARD_DIMENSION_VARIABLE_SUFFIX = "sd";
         private const string CUSTOM_DIMENSION_VARIABLE_SUFFIX = "cd";
         private const string ORIGIN_VARIABLE_PREFIX = "origin";
         private const string OPERATOR_VARIABLE_SUFFIX = "op";
@@ -1466,7 +1465,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 string formattedDimensionEnum = dimensionEnum.ToString().ToCamelCase();
                 string formattedAliasCounter = FormatDimensionAliasCounter(_dimensionAliasCounter++);
 
-                alias = $"{formattedDimensionEnum}_{STANDARD_DIMENSION_VARIABLE_SUFFIX}_{formattedAliasCounter}";
+                alias = $"{formattedDimensionEnum}_{formattedAliasCounter}";
 
                 _standardDimensionEnum_To_Alias_Dictionary[dimensionEnum] = alias;
             }
@@ -1480,15 +1479,16 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         /// </summary>
         private string GetCustomDimensionAlias(string customDimensionName)
         {
+            string canonicalCustomDimensionName = NameHelper.ToCanonical(customDimensionName);
             string alias;
-            if (!_canonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(customDimensionName, out alias))
+            if (!_canonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(canonicalCustomDimensionName, out alias))
             {
-                string formattedCustomDimensionName = NameHelper.ToCanonical(customDimensionName).ToCamelCase();
+                string formattedDimensionName = canonicalCustomDimensionName.ToCamelCase();
                 string formattedAliasCounter = FormatDimensionAliasCounter(_dimensionAliasCounter++);
 
-                alias = $"{formattedCustomDimensionName}_{CUSTOM_DIMENSION_VARIABLE_SUFFIX}_{formattedAliasCounter}";
+                alias = $"{formattedDimensionName}_{formattedAliasCounter}";
 
-                _canonicalCustomDimensionName_To_Alias_Dictionary[customDimensionName] = alias;
+                _canonicalCustomDimensionName_To_Alias_Dictionary[canonicalCustomDimensionName] = alias;
             }
             return alias;
         }

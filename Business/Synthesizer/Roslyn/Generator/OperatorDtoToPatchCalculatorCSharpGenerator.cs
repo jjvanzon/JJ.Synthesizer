@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
 
                         // Position Variables
                         // HACK
-                        string time0VariableName = "time_sd_a0";
+                        string time0VariableName = "time_a0";
                         if (time0VariableName != null)
                         {
                             sb.AppendLine($"double {time0VariableName} = startTime;");
