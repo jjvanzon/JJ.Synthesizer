@@ -65,11 +65,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private Dictionary<DimensionEnum, string> _standardDimensionEnum_To_Alias_Dictionary;
         private Dictionary<string, string> _canonicalCustomDimensionName_To_Alias_Dictionary;
 
-        private int _inputVariableCounter;
-        private int _phaseVariableCounter;
-        private int _previousPositionVariableCounter;
-        private int _originVariableCounter;
-
         public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto, int intialIndentLevel)
         {
             _stack = new Stack<string>();
@@ -80,10 +75,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _longLivedOriginVariableNamesCamelCase = new List<string>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary = new Dictionary<string, int>();
-            _inputVariableCounter = FIRST_VARIABLE_NUMBER;
-            _phaseVariableCounter = FIRST_VARIABLE_NUMBER;
-            _previousPositionVariableCounter = FIRST_VARIABLE_NUMBER;
-            _originVariableCounter = FIRST_VARIABLE_NUMBER;
             _letterSequenceCounter = 0;
             _standardDimensionEnum_To_Alias_Dictionary = new Dictionary<DimensionEnum, string>();
             _canonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<string, string>();
@@ -1410,7 +1401,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private InputVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
         {
-            string variableName = GenerateUniqueVariableName(INPUT_VARIABLE_PREFIX, _inputVariableCounter++);
+            string variableName = GenerateUniqueVariableName(INPUT_VARIABLE_PREFIX);
 
             var valueInfo = new InputVariableInfo(variableName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
 
@@ -1421,7 +1412,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private string GenerateLongLivedPhaseName()
         {
-            string variableName = GenerateUniqueVariableName(PHASE_VARIABLE_PREFIX, _phaseVariableCounter++);
+            string variableName = GenerateUniqueVariableName(PHASE_VARIABLE_PREFIX);
 
             _longLivedPhaseVariableNamesCamelCase.Add(variableName);
 
@@ -1430,7 +1421,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private string GeneratePreviousPositionName()
         {
-            string variableName = GenerateUniqueVariableName(PREVIOUS_POSITION_VARIABLE_PREFIX, _previousPositionVariableCounter++);
+            string variableName = GenerateUniqueVariableName(PREVIOUS_POSITION_VARIABLE_PREFIX);
 
             _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
 
@@ -1508,20 +1499,28 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private string GenerateOriginName()
         {
-            string variableName = GenerateUniqueVariableName(ORIGIN_VARIABLE_PREFIX, _originVariableCounter++);
+            string variableName = GenerateUniqueVariableName(ORIGIN_VARIABLE_PREFIX);
 
             _longLivedOriginVariableNamesCamelCase.Add(variableName);
 
             return variableName;
         }
 
-        private string GenerateUniqueVariableName(string displayName, int level)
+        private string GenerateUniqueVariableName(string displayName, int? level = null)
         {
             string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(displayName);
             string uniqueLetterSequence = GenerateUniqueLetterSequence();
 
-            string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}_{level}";
-            return variableName;
+            if (level.HasValue)
+            {
+                string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}_{level}";
+                return variableName;
+            }
+            else
+            {
+                string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}";
+                return variableName;
+            }
         }
 
         private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
