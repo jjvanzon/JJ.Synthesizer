@@ -10,25 +10,25 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string returnValueLiteral,
             IList<InputVariableInfo> variableInputValueInfos,
             IList<string> positionVariableNamesCamelCase,
-            IList<string> previousPositionVariableNamesCamelCase,
-            IList<string> phaseVariableNamesCamelCase,
-            IList<string> originVariableNamesCamelCase)
+            IList<string> longLivedPreviousPositionVariableNamesCamelCase,
+            IList<string> longLivedPhaseVariableNamesCamelCase,
+            IList<string> longLivedOriginVariableNamesCamelCase)
         {
             RawCalculationCode = rawCalculationCode;
             ReturnValueLiteral = returnValueLiteral;
             VariableInputValueInfos = variableInputValueInfos;
             PositionVariableNamesCamelCase = positionVariableNamesCamelCase;
-            PreviousPositionVariableNamesCamelCase = previousPositionVariableNamesCamelCase;
-            PhaseVariableNamesCamelCase = phaseVariableNamesCamelCase;
-            OriginVariableNamesCamelCase = originVariableNamesCamelCase;
+            LongLivedPreviousPositionVariableNamesCamelCase = longLivedPreviousPositionVariableNamesCamelCase;
+            LongLivedPhaseVariableNamesCamelCase = longLivedPhaseVariableNamesCamelCase;
+            LongLivedOriginVariableNamesCamelCase = longLivedOriginVariableNamesCamelCase;
         }
 
         public string RawCalculationCode { get; }
         public string ReturnValueLiteral { get; }
         public IList<InputVariableInfo> VariableInputValueInfos { get; }
         public IList<string> PositionVariableNamesCamelCase { get; }
-        public IList<string> PreviousPositionVariableNamesCamelCase { get; }
-        public IList<string> PhaseVariableNamesCamelCase { get; }
-        public IList<string> OriginVariableNamesCamelCase { get; }
+        public IList<string> LongLivedPreviousPositionVariableNamesCamelCase { get; }
+        public IList<string> LongLivedPhaseVariableNamesCamelCase { get; }
+        public IList<string> LongLivedOriginVariableNamesCamelCase { get; }
     }
 }

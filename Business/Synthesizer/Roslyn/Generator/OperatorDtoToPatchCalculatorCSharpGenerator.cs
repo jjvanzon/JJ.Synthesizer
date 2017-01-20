@@ -23,10 +23,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             OperatorDtoToCSharpVisitorResult visitorResult = visitor.Execute(dto, RAW_CALCULATION_INDENT_LEVEL);
 
             IList<string> instanceVariableNamesCamelCase = 
-                visitorResult.PhaseVariableNamesCamelCase.Union(visitorResult.PreviousPositionVariableNamesCamelCase)
-                                                         .Union(visitorResult.OriginVariableNamesCamelCase)
-                                                         .Union(visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase))
-                                                         .ToArray();
+                visitorResult.LongLivedPhaseVariableNamesCamelCase.Union(visitorResult.LongLivedPreviousPositionVariableNamesCamelCase)
+                                                                  .Union(visitorResult.LongLivedOriginVariableNamesCamelCase)
+                                                                  .Union(visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase))
+                                                                  .ToArray();
             // Build up Code File
             var sb = new StringBuilderWithIndentation(TAB_STRING);
 
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
 
                         // Position Variables
                         // HACK
-                        string time0VariableName = "time_a0";
+                        string time0VariableName = "time_a_0";
                         if (time0VariableName != null)
                         {
                             sb.AppendLine($"double {time0VariableName} = startTime;");
@@ -256,12 +256,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     sb.AppendLine("{");
                     sb.Indent();
                     {
-                        foreach (string variableName in visitorResult.PhaseVariableNamesCamelCase)
+                        foreach (string variableName in visitorResult.LongLivedPhaseVariableNamesCamelCase)
                         {
                             sb.AppendLine($"_{variableName} = 0.0;");
                         }
 
-                        foreach (string variableName in visitorResult.PreviousPositionVariableNamesCamelCase)
+                        foreach (string variableName in visitorResult.LongLivedPreviousPositionVariableNamesCamelCase)
                         {
                             // DIRTY: Phase of a partial does not have to be related to the time-dimension!
                             sb.AppendLine($"_{variableName} = time;");

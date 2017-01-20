@@ -34,9 +34,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string PHASE_VARIABLE_PREFIX = "phase";
         private const string PREVIOUS_POSITION_VARIABLE_PREFIX = "prevPos";
         private const string INPUT_VARIABLE_PREFIX = "input";
-        private const string CUSTOM_DIMENSION_VARIABLE_SUFFIX = "cd";
         private const string ORIGIN_VARIABLE_PREFIX = "origin";
-        private const string OPERATOR_VARIABLE_SUFFIX = "op";
 
         /// <summary> {0} = phase  </summary>
         private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
@@ -53,9 +51,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private Dictionary<string, InputVariableInfo> _inputVariableInfoDictionary;
         /// <summary> HashSet for unicity. </summary>
         private HashSet<string> _positionVariableNamesCamelCaseHashSet;
-        private IList<string> _previousPositionVariableNamesCamelCase;
-        private IList<string> _phaseVariableNamesCamelCase;
-        private IList<string> _originVariableNamesCamelCase;
+        private IList<string> _longLivedPreviousPositionVariableNamesCamelCase;
+        private IList<string> _longLivedPhaseVariableNamesCamelCase;
+        private IList<string> _longLivedOriginVariableNamesCamelCase;
 
         /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
         private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
@@ -63,7 +61,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         /// <summary> To maintain a counter for numbers to add to a variable names. Each operator type will get its own counter. </summary>
         private Dictionary<string, int> _canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary;
 
-        private int _dimensionAliasCounter;
+        private int _letterSequenceCounter;
         private Dictionary<DimensionEnum, string> _standardDimensionEnum_To_Alias_Dictionary;
         private Dictionary<string, string> _canonicalCustomDimensionName_To_Alias_Dictionary;
 
@@ -77,21 +75,24 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _stack = new Stack<string>();
             _inputVariableInfoDictionary = new Dictionary<string, InputVariableInfo>();
             _positionVariableNamesCamelCaseHashSet = new HashSet<string>();
-            _previousPositionVariableNamesCamelCase = new List<string>();
-            _phaseVariableNamesCamelCase = new List<string>();
-            _originVariableNamesCamelCase = new List<string>();
+            _longLivedPreviousPositionVariableNamesCamelCase = new List<string>();
+            _longLivedPhaseVariableNamesCamelCase = new List<string>();
+            _longLivedOriginVariableNamesCamelCase = new List<string>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary = new Dictionary<string, int>();
             _inputVariableCounter = FIRST_VARIABLE_NUMBER;
             _phaseVariableCounter = FIRST_VARIABLE_NUMBER;
             _previousPositionVariableCounter = FIRST_VARIABLE_NUMBER;
             _originVariableCounter = FIRST_VARIABLE_NUMBER;
-            _dimensionAliasCounter = 0;
+            _letterSequenceCounter = 0;
             _standardDimensionEnum_To_Alias_Dictionary = new Dictionary<DimensionEnum, string>();
             _canonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<string, string>();
 
             _sb = new StringBuilderWithIndentation(TAB_STRING);
             _sb.IndentLevel = intialIndentLevel;
+
+            // HACK: Generate a time variable first, so we can make assumptions about its name elsewhere.
+            string time0Name = GeneratePositionName(0, standardDimensionEnum: DimensionEnum.Time);
 
             Visit_OperatorDto_Polymorphic(dto);
 
@@ -103,9 +104,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 returnValue,
                 _inputVariableInfoDictionary.Values.ToArray(),
                 _positionVariableNamesCamelCaseHashSet.ToArray(),
-                _previousPositionVariableNamesCamelCase.ToArray(),
-                _phaseVariableNamesCamelCase.ToArray(),
-                _originVariableNamesCamelCase.ToArray());
+                _longLivedPreviousPositionVariableNamesCamelCase.ToArray(),
+                _longLivedPhaseVariableNamesCamelCase.ToArray(),
+                _longLivedOriginVariableNamesCamelCase.ToArray());
         }
 
         [DebuggerHidden]
@@ -1375,7 +1376,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private string GenerateOperatorVariableName(string operatorTypeName)
         {
-            string canonicalOperatorTypeNameInCode = ToCanonicalNameInCode(operatorTypeName);
+            string canonicalOperatorTypeNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(operatorTypeName);
 
             int counter;
             if (!_canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary.TryGetValue(canonicalOperatorTypeNameInCode, out counter))
@@ -1383,7 +1384,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 counter = FIRST_VARIABLE_NUMBER;
             }
 
-            string variableName = String.Format("{0}_{1}{2}", canonicalOperatorTypeNameInCode, OPERATOR_VARIABLE_SUFFIX, counter++);
+            string uniqueLetterSequence = GenerateUniqueLetterSequence();
+
+            string variableName = String.Format("{0}_{1}_{2}", canonicalOperatorTypeNameInCode, uniqueLetterSequence, counter++);
 
             _canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary[canonicalOperatorTypeNameInCode] = counter;
 
@@ -1407,7 +1410,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private InputVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
         {
-            string variableName = String.Format("{0}{1}", INPUT_VARIABLE_PREFIX, _inputVariableCounter++);
+            string variableName = GenerateUniqueVariableName(INPUT_VARIABLE_PREFIX, _inputVariableCounter++);
+
             var valueInfo = new InputVariableInfo(variableName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
 
             _inputVariableInfoDictionary.Add(variableName, valueInfo);
@@ -1417,35 +1421,44 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private string GenerateLongLivedPhaseName()
         {
-            string variableName = String.Format("{0}{1}", PHASE_VARIABLE_PREFIX, _phaseVariableCounter++);
+            string variableName = GenerateUniqueVariableName(PHASE_VARIABLE_PREFIX, _phaseVariableCounter++);
 
-            _phaseVariableNamesCamelCase.Add(variableName);
+            _longLivedPhaseVariableNamesCamelCase.Add(variableName);
 
             return variableName;
         }
 
         private string GeneratePreviousPositionName()
         {
-            string variableName = String.Format("{0}{1}", PREVIOUS_POSITION_VARIABLE_PREFIX, _previousPositionVariableCounter++);
+            string variableName = GenerateUniqueVariableName(PREVIOUS_POSITION_VARIABLE_PREFIX, _previousPositionVariableCounter++);
 
-            _previousPositionVariableNamesCamelCase.Add(variableName);
+            _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
 
             return variableName;
         }
 
         private string GeneratePositionName(IOperatorDto_WithDimension dto, int? alternativeStackIndexLevel = null)
         {
+            string customDimensionName = dto.CustomDimensionName;
+            DimensionEnum standardDimensionEnum = dto.StandardDimensionEnum;
+            int stackLevel = alternativeStackIndexLevel ?? dto.DimensionStackLevel;
+
+            return GeneratePositionName(stackLevel, standardDimensionEnum, customDimensionName);
+        }
+
+        private string GeneratePositionName(int stackLevel, DimensionEnum standardDimensionEnum = DimensionEnum.Undefined, string customDimensionName = null)
+        {
             string dimensionAlias;
-            if (dto.StandardDimensionEnum != DimensionEnum.Undefined)
+            if (standardDimensionEnum != DimensionEnum.Undefined)
             {
-                dimensionAlias = GetStandardDimensionAlias(dto.StandardDimensionEnum);
+                dimensionAlias = GetStandardDimensionAlias(standardDimensionEnum);
             }
             else
             {
-                dimensionAlias = GetCustomDimensionAlias(dto.CustomDimensionName);
+                dimensionAlias = GetCustomDimensionAlias(customDimensionName);
             }
 
-            string positionVariableName = string.Format("{0}{1}", dimensionAlias, alternativeStackIndexLevel ?? dto.DimensionStackLevel);
+            string positionVariableName = string.Format("{0}_{1}", dimensionAlias, stackLevel);
 
             _positionVariableNamesCamelCaseHashSet.Add(positionVariableName);
 
@@ -1462,8 +1475,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string alias;
             if (!_standardDimensionEnum_To_Alias_Dictionary.TryGetValue(dimensionEnum, out alias))
             {
-                string formattedDimensionEnum = dimensionEnum.ToString().ToCamelCase();
-                string formattedAliasCounter = FormatDimensionAliasCounter(_dimensionAliasCounter++);
+                string formattedDimensionEnum = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(dimensionEnum.ToString());
+                string formattedAliasCounter = GenerateUniqueLetterSequence();
 
                 alias = $"{formattedDimensionEnum}_{formattedAliasCounter}";
 
@@ -1483,46 +1496,43 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string alias;
             if (!_canonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(canonicalCustomDimensionName, out alias))
             {
-                string formattedDimensionName = canonicalCustomDimensionName.ToCamelCase();
-                string formattedAliasCounter = FormatDimensionAliasCounter(_dimensionAliasCounter++);
+                string formattedDimensionName = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(canonicalCustomDimensionName);
+                string uniqueLetterSequence = GenerateUniqueLetterSequence();
 
-                alias = $"{formattedDimensionName}_{formattedAliasCounter}";
+                alias = $"{formattedDimensionName}_{uniqueLetterSequence}";
 
                 _canonicalCustomDimensionName_To_Alias_Dictionary[canonicalCustomDimensionName] = alias;
             }
             return alias;
         }
 
-        private string FormatDimensionAliasCounter(int dimensionAliasCounter)
-        {
-            return NumberingSystems.ToLetterSequence(dimensionAliasCounter, firstChar: 'a', lastChar: 'z');
-        }
-
         private string GenerateOriginName()
         {
-            string variableName = String.Format("{0}{1}", ORIGIN_VARIABLE_PREFIX, _originVariableCounter++);
+            string variableName = GenerateUniqueVariableName(ORIGIN_VARIABLE_PREFIX, _originVariableCounter++);
 
-            _originVariableNamesCamelCase.Add(variableName);
+            _longLivedOriginVariableNamesCamelCase.Add(variableName);
 
             return variableName;
         }
 
-        private static string ToCanonicalNameInCode(string name)
+        private string GenerateUniqueVariableName(string displayName, int level)
         {
-            string convertedName = NameHelper.ToCanonical(name).ToCamelCase();
+            string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(displayName);
+            string uniqueLetterSequence = GenerateUniqueLetterSequence();
 
-            // There is not clash with keywords because coincidentally a numbers is always
-            // appended to the name, but if it becomes a problem, 
-            // you could always add an underscore at the end to prevent any clash with keywords.
-            //convertedName += '_';
+            string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}_{level}";
+            return variableName;
+        }
 
-            // HACK
-            if (String.IsNullOrEmpty(convertedName))
-            {
-                convertedName = "u0000";
-            }
-
+        private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
+        {
+            string convertedName = NameHelper.ToCanonical(arbitraryString).ToCamelCase().Replace("_", "");
             return convertedName;
+        }
+
+        private string GenerateUniqueLetterSequence()
+        {
+            return NumberingSystems.ToLetterSequence(_letterSequenceCounter++, firstChar: 'a', lastChar: 'z');
         }
     }
 }
