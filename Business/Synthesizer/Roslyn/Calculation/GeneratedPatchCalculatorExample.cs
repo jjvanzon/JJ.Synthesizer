@@ -10,18 +10,18 @@ namespace GeneratedCSharp
     {
         // Fields
 
-        private double _phase0;
-        private double _phase1;
-        private double _prevPos0;
-        private double _prevPos1;
-        private double _input0;
+        private double _phase_6;
+        private double _prevpos_7;
+        private double _input_1;
+        private double _input_4;
 
         // Constructor
 
         public GeneratedPatchCalculator(int samplingRate, int channelCount, int channelIndex)
             : base(samplingRate, channelCount, channelIndex)
         {
-            _input0 = 1.0E0;
+            _input_1 = 1.0E0;
+            _input_4 = 4.4E2;
 
             Reset(time: 0.0);
         }
@@ -36,31 +36,30 @@ namespace GeneratedCSharp
             int channelIndex = _channelIndex;
             int valueCount = frameCount * channelCount;
 
-            double phase0 = _phase0;
-            double phase1 = _phase1;
-            double prevPos0 = _prevPos0;
-            double prevPos1 = _prevPos1;
-            double input0 = _input0;
+            double phase_6 = _phase_6;
+            double prevpos_7 = _prevpos_7;
+            double input_1 = _input_1;
+            double input_4 = _input_4;
 
-            double time_sd_a0 = startTime;
+            double time_0_0 = startTime;
+            double u0021blu00e0_2_0 = 0;
 
             for (int i = channelIndex; i < valueCount; i += channelCount)
             {
-                // Sine
-                phase0 += (time_sd_a0 - prevPos0) * input0;
-                prevPos0 = time_sd_a0;
-                double sine_op0 = SineCalculator.Sin(phase0);
+                // SawDown
+                double sawdown_3 = u0021blu00e0_2_0 * input_1;
+                sawdown_3 = 1.0 - (2.0 * sawdown_3 % 2.0);
 
                 // Multiply
-                double multiply_op0 = sine_op0 * 8.8E2;
+                double multiply_5 = input_4 * sawdown_3;
 
                 // Sine
-                phase1 += (time_sd_a0 - prevPos1) * multiply_op0;
-                prevPos1 = time_sd_a0;
-                double sine_op1 = SineCalculator.Sin(phase1);
+                phase_6 += (time_0_0 - prevpos_7) * multiply_5;
+                prevpos_7 = time_0_0;
+                double sine_8 = SineCalculator.Sin(phase_6);
 
                 // Accumulate
-                double value = sine_op1;
+                double value = sine_8;
 
                 if (double.IsNaN(value))
                 {
@@ -71,14 +70,13 @@ namespace GeneratedCSharp
 
                 PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
 
-                time_sd_a0 += frameDuration;
+                time_0_0 += frameDuration;
             }
 
-            _phase0 = phase0;
-            _phase1 = phase1;
-            _prevPos0 = prevPos0;
-            _prevPos1 = prevPos1;
-            _input0 = input0;
+            _phase_6 = phase_6;
+            _prevpos_7 = prevpos_7;
+            _input_1 = input_1;
+            _input_4 = input_4;
         }
 
         // Values
@@ -95,7 +93,11 @@ namespace GeneratedCSharp
             switch (listIndex)
             {
                 case 0:
-                    _input0 = value;
+                    _input_1 = value;
+                    break;
+
+                case 1:
+                    _input_4 = value;
                     break;
 
             }
@@ -107,8 +109,12 @@ namespace GeneratedCSharp
 
             switch (dimensionEnum)
             {
-                case DimensionEnum.VibratoSpeed:
-                    _input0 = value;
+                case DimensionEnum.Undefined:
+                    _input_1 = value;
+                    break;
+
+                case DimensionEnum.Frequency:
+                    _input_4 = value;
                     break;
 
             }
@@ -118,10 +124,8 @@ namespace GeneratedCSharp
 
         public override void Reset(double time)
         {
-            _phase0 = 0.0;
-            _phase1 = 0.0;
-            _prevPos0 = time;
-            _prevPos1 = time;
+            _phase_6 = 0.0;
+            _prevpos_7 = time;
         }
     }
 }

@@ -58,10 +58,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
         private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
 
-        /// <summary> To maintain a counter for numbers to add to a variable names. Each operator type will get its own counter. </summary>
-        private Dictionary<string, int> _canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary;
-
-        private int _letterSequenceCounter;
+        private int _counter;
         private Dictionary<DimensionEnum, string> _standardDimensionEnum_To_Alias_Dictionary;
         private Dictionary<string, string> _canonicalCustomDimensionName_To_Alias_Dictionary;
 
@@ -74,10 +71,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _longLivedPhaseVariableNamesCamelCase = new List<string>();
             _longLivedOriginVariableNamesCamelCase = new List<string>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
-            _canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary = new Dictionary<string, int>();
-            _letterSequenceCounter = 0;
             _standardDimensionEnum_To_Alias_Dictionary = new Dictionary<DimensionEnum, string>();
             _canonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<string, string>();
+            _counter = 0;
 
             _sb = new StringBuilderWithIndentation(TAB_STRING);
             _sb.IndentLevel = intialIndentLevel;
@@ -1367,19 +1363,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private string GenerateOperatorVariableName(string operatorTypeName)
         {
-            string canonicalOperatorTypeNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(operatorTypeName);
-
-            int counter;
-            if (!_canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary.TryGetValue(canonicalOperatorTypeNameInCode, out counter))
-            {
-                counter = FIRST_VARIABLE_NUMBER;
-            }
-
-            string uniqueLetterSequence = GenerateUniqueLetterSequence();
-
-            string variableName = String.Format("{0}_{1}_{2}", canonicalOperatorTypeNameInCode, uniqueLetterSequence, counter++);
-
-            _canonicalOperatorTypeNameInCode_To_VariableCounter_Dictionary[canonicalOperatorTypeNameInCode] = counter;
+            string variableName = GenerateUniqueVariableName(operatorTypeName);
 
             return variableName;
         }
@@ -1401,7 +1385,21 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private InputVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
         {
-            string variableName = GenerateUniqueVariableName(INPUT_VARIABLE_PREFIX);
+            object mnemonic;
+            if (dto.DimensionEnum != DimensionEnum.Undefined)
+            {
+                mnemonic = dto.DimensionEnum;
+            }
+            else if (!String.IsNullOrEmpty(dto.CanonicalName))
+            {
+                mnemonic = dto.CanonicalName;
+            }
+            else
+            {
+                mnemonic = INPUT_VARIABLE_PREFIX;
+            }
+
+            string variableName = GenerateUniqueVariableName(mnemonic);
 
             var valueInfo = new InputVariableInfo(variableName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
 
@@ -1457,19 +1455,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         }
 
         /// <summary>
-        /// Formats the DimensionEnum in a string that is close to the dimensionEnun name + a prefix + a letter sequence suffix.
-        /// E.g.: "time_sd_a"
-        /// It will become a little cryptic, but at least it is unique.
+        /// Formats the dimension into a string that is close to the dimension name + a unique alphanumeric sequence.
+        /// E.g.: "prettiness_cdb"
         /// </summary>
         private string GetStandardDimensionAlias(DimensionEnum dimensionEnum)
         {
             string alias;
             if (!_standardDimensionEnum_To_Alias_Dictionary.TryGetValue(dimensionEnum, out alias))
             {
-                string formattedDimensionEnum = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(dimensionEnum.ToString());
-                string formattedAliasCounter = GenerateUniqueLetterSequence();
-
-                alias = $"{formattedDimensionEnum}_{formattedAliasCounter}";
+                alias = GenerateUniqueVariableName(dimensionEnum);
 
                 _standardDimensionEnum_To_Alias_Dictionary[dimensionEnum] = alias;
             }
@@ -1477,9 +1471,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         }
         
         /// <summary>
-        /// Formats the DimensionEnum in a string that is close to the dimensionEnun name + a suffix _cd + a letter sequence suffix.
-        /// E.g.: "prettiness_cd_b"
-        /// It will become a little cryptic, but at least it is unique.
+        /// Formats the dimension into a string that is close to the dimension name + a unique alphanumeric sequence.
+        /// E.g.: "prettiness_cdb"
         /// </summary>
         private string GetCustomDimensionAlias(string customDimensionName)
         {
@@ -1487,10 +1480,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string alias;
             if (!_canonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(canonicalCustomDimensionName, out alias))
             {
-                string formattedDimensionName = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(canonicalCustomDimensionName);
-                string uniqueLetterSequence = GenerateUniqueLetterSequence();
-
-                alias = $"{formattedDimensionName}_{uniqueLetterSequence}";
+                alias = GenerateUniqueVariableName(canonicalCustomDimensionName);
 
                 _canonicalCustomDimensionName_To_Alias_Dictionary[canonicalCustomDimensionName] = alias;
             }
@@ -1506,21 +1496,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return variableName;
         }
 
-        private string GenerateUniqueVariableName(string displayName, int? level = null)
+        private string GenerateUniqueVariableName(object mnemonic)
         {
-            string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(displayName);
-            string uniqueLetterSequence = GenerateUniqueLetterSequence();
+            string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
+            string uniqueSequence = GenerateAlphanumericCharacterSequence();
 
-            if (level.HasValue)
-            {
-                string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}_{level}";
-                return variableName;
-            }
-            else
-            {
-                string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}";
-                return variableName;
-            }
+            string variableName = $"{nonUniqueNameInCode}_{uniqueSequence}";
+            return variableName;
         }
 
         private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
@@ -1529,9 +1511,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return convertedName;
         }
 
-        private string GenerateUniqueLetterSequence()
+        private string GenerateAlphanumericCharacterSequence()
         {
-            return NumberingSystems.ToLetterSequence(_letterSequenceCounter++, firstChar: 'a', lastChar: 'z');
+            //return NumberingSystems.ToLetterSequence(_letterSequenceCounter++, firstChar: 'a', lastChar: 'z');
+            return $"{_counter++}";
         }
     }
 }
