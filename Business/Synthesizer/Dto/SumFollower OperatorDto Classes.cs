@@ -5,18 +5,18 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal class SumFollower_OperatorDto : OperatorDtoBase_AggregateFollower_AllVars
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.SumFollower);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SumFollower;
     }
 
     internal class SumFollower_OperatorDto_AllVars : OperatorDtoBase_AggregateFollower_AllVars
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.SumFollower);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SumFollower;
     }
 
     /// <summary> Slice length does not matter in this case. </summary>
     internal class SumFollower_OperatorDto_ConstSignal_VarSampleCount : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.SumFollower);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SumFollower;
 
         public double Signal { get; set; }
         public OperatorDtoBase SampleCountOperatorDto { get; set; }
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Dto
     /// <summary> Slice length does not matter in this case. </summary>
     internal class SumFollower_OperatorDto_ConstSignal_ConstSampleCount : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.SumFollower);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SumFollower;
 
         public double Signal { get; set; }
         public double SampleCount { get; set; }

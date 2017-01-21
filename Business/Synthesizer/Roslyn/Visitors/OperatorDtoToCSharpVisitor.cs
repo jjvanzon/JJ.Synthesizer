@@ -108,9 +108,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string x = _stack.Pop();
-            string variable = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {variable} = {x};");
             _sb.AppendLine($"if ({variable} < 0.0) {variable} = -{variable};");
             _sb.AppendLine();
@@ -299,9 +299,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string x = _stack.Pop();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {output} = -{x};");
             _sb.AppendLine();
 
@@ -315,9 +315,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string x = _stack.Pop();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {output} = {x} == 0.0 ? 1.0 : 0.0;");
             _sb.AppendLine();
 
@@ -331,9 +331,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
             string x = _stack.Pop();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {output} = 1.0 / {x};");
             _sb.AppendLine();
 
@@ -371,9 +371,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             string @base = _stack.Pop();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {output} = {@base} * {@base};");
             _sb.AppendLine();
 
@@ -387,9 +387,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             string @base = _stack.Pop();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {output} = {@base} * {@base} * {@base};");
             _sb.AppendLine();
 
@@ -403,9 +403,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             string @base = _stack.Pop();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {output} = {@base} * {@base};");
             _sb.AppendLine($"{output} *= {output};");
             _sb.AppendLine();
@@ -811,9 +811,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string frequency = _stack.Pop();
             string position = GeneratePositionName(dto);
-            string phase = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string phase = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine($"// {dto.OperatorTypeName}");
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {phase} = {position} * {frequency};");
 
             string output = Write_TriangleCode_AfterDeterminePhase(phase);
@@ -831,9 +831,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string position = GeneratePositionName(dto);
             string origin = GenerateOriginName();
-            string phase = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string phase = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine($"// {dto.OperatorTypeName}");
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {phase} = ({position} - {origin}) * {frequency};");
             string output = Write_TriangleCode_AfterDeterminePhase(phase);
 
@@ -848,9 +848,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string frequency = _stack.Pop();
             string position = GeneratePositionName(dto);
-            string phase = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string phase = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine($"// {dto.OperatorTypeName}");
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {phase} = {position} * {frequency};");
             string output = Write_TriangleCode_AfterDeterminePhase(phase);
 
@@ -867,9 +867,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string phase = GenerateLongLivedPhaseName();
             string posisition = GeneratePositionName(dto);
-            string variable = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine($"// {dto.OperatorTypeName}");
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{phase} = {posisition} * {frequency};");
             // From here the code is the same as the method above.
             // TODO: You could prevent the first addition in the code written in the method called here,
@@ -896,9 +896,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b};");
             _sb.AppendLine();
 
@@ -914,9 +914,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {output} = {a} != 0.0 {operatorSymbol} {b} != 0.0 ? 1.0 : 0.0;");
             _sb.AppendLine();
 
@@ -945,9 +945,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b} ? 1.0 : 0.0;");
             _sb.AppendLine();
 
@@ -960,9 +960,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {output} = {a} / {b};");
             _sb.AppendLine();
 
@@ -976,9 +976,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string a = _stack.Pop();
             string b = _stack.Pop();
             string origin = _stack.Pop();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine($"// {dto.OperatorTypeName}");
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {output} = ({a} - {origin}) {operatorSymbol} {b} + {origin};");
             _sb.AppendLine();
 
@@ -991,9 +991,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string @base = _stack.Pop();
             string exponent = _stack.Pop();
-            string variable = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {variable} = Math.Pow({@base}, {exponent});");
             _sb.AppendLine();
 
@@ -1019,9 +1019,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessMultiVarOperator(OperatorDtoBase dto, int varCount, string operatorSymbol)
         {
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
 
             _sb.AppendTabs();
             _sb.Append($"double {output} =");
@@ -1058,7 +1058,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private Number_OperatorDto ProcessNumberOperatorDto(Number_OperatorDto dto)
         {
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
 
             ProcessNumber(dto.Number);
 
@@ -1075,10 +1075,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string phase = GenerateLongLivedPhaseName();
             string position = GeneratePositionName(dto);
             string previousPosition = GeneratePreviousPositionName();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
             string rightHandFormula = getRightHandFormulaDelegate(phase);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"{phase} += ({position} - {previousPosition}) * {frequency};");
             _sb.AppendLine($"{previousPosition} = {position};");
             _sb.AppendLine($"double {output} = {rightHandFormula};");
@@ -1096,9 +1096,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string phase = GenerateLongLivedPhaseName();
             string position = GeneratePositionName(dto);
             string previousPosition = GeneratePreviousPositionName();
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"{phase} += ({position} - {previousPosition}) * {frequency};");
             _sb.AppendLine($"{previousPosition} = {position};");
             _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
@@ -1115,9 +1115,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string width = _stack.Pop();
             string position = GeneratePositionName(dto);
             string origin = GenerateOriginName();
-            string variable = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {variable} = ({position} - {origin}) * {frequency};");
             _sb.AppendLine($"{variable} = {variable} % 1.0 < {width} ? 1.0 : -1.0;");
             _sb.AppendLine();
@@ -1133,9 +1133,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string width = _stack.Pop();
             string position = GeneratePositionName(dto);
             string origin = GenerateOriginName();
-            string variable = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {variable} = {position} * {frequency};");
             _sb.AppendLine($"{variable} = {variable} % 1.0 < {width} ? 1.0 : -1.0;");
             _sb.AppendLine();
@@ -1166,7 +1166,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string sourcePos = GeneratePositionName(dto);
             string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"{destPos} = {sourcePos} {PLUS_SYMBOL} {distanceLiteral};");
             _sb.AppendLine();
 
@@ -1185,7 +1185,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string sourcePos = GeneratePositionName(dto);
             string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {divideOrMultiplySymbol} {factor} + {origin};");
             _sb.AppendLine();
 
@@ -1200,7 +1200,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string sourcePos = GeneratePositionName(dto);
             string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"{destPos} = {sourcePos} {divideOrMultiplySymbol} {factor};");
             _sb.AppendLine();
 
@@ -1216,7 +1216,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
             string origin = GenerateOriginName();
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {divideOrMultiplySymbol} {factor} + {origin};");
             _sb.AppendLine();
 
@@ -1233,7 +1233,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string sourcePosition = GeneratePositionName(dto);
             string destPosition = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {divideOrMultiplySymbol} {factor};");
             _sb.AppendLine($"{previousPosition} = {sourcePosition};");
 
@@ -1251,10 +1251,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string frequency = _stack.Pop();
             string position = GeneratePositionName(dto);
-            string output = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
             string rightHandFormula = getRightHandFormulaDelegate(output);
 
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {output} = {position} * {frequency};");
             _sb.AppendLine($"{output} = {rightHandFormula};");
             _sb.AppendLine();
@@ -1334,10 +1334,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string frequency = _stack.Pop();
             string position = GeneratePositionName(dto);
             string origin = GenerateOriginName();
-            string variable = GenerateUniqueVariableName(dto.OperatorTypeName);
+            string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
             string rightHandFormula = getRightHandFormulaDelegate(variable);
             
-            _sb.AppendLine("// " + dto.OperatorTypeName);
+            _sb.AppendLine("// " + dto.OperatorTypeEnum);
             _sb.AppendLine($"double {variable} = ({position} - {origin}) * {frequency};");
             _sb.AppendLine($"{variable} = {rightHandFormula};");
             _sb.AppendLine();
@@ -1498,6 +1498,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return variableName;
         }
 
+        /// <param name="mnemonic">
+        /// Will be incorporated into the variable name. It will be converted to string.
+        /// It will also be put into a (non-unique) form that will be valid in C#.
+        /// Also underscores are removed from it, because that is a separator character in our variable names.
+        /// </param>
         private string GenerateUniqueVariableName(object mnemonic)
         {
             string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));

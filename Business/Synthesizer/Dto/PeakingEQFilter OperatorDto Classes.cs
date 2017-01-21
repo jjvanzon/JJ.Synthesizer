@@ -8,12 +8,12 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class PeakingEQFilter_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.PeakingEQFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
     }
 
     internal class PeakingEQFilter_OperatorDto_AllVars : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.PeakingEQFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase CenterFrequencyOperatorDto { get; set; }
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class PeakingEQFilter_OperatorDto_ManyConsts : OperatorDtoBase_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.PeakingEQFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
 
         public double CenterFrequency { get; set; }
         public double BandWidth { get; set; }

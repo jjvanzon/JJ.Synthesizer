@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Shift_OperatorDto_ConstSignal_ConstDistance : OperatorDtoBase_WithDimension
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Shift;
 
         public double Signal { get; set; }
         public double Distance { get; set; }
@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Shift_OperatorDto_ConstSignal_VarDistance : OperatorDtoBase_WithDimension
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Shift;
 
         public double Signal { get; set; }
         public OperatorDtoBase DistanceOperatorDto { get; set; }
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Shift_OperatorDto_VarSignal_ConstDistance : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Shift;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double Distance { get; set; }
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Shift_OperatorDto_VarSignal_VarDistance : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Shift;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase DistanceOperatorDto { get; set; }

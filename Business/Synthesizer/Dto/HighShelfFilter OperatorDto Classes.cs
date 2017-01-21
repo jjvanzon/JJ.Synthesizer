@@ -7,16 +7,16 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class HighShelfFilter_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.HighShelfFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighShelfFilter;
     }
 
     internal class HighShelfFilter_OperatorDto_AllVars : OperatorDtoBase_ShelfFilter_AllVars
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.HighShelfFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighShelfFilter;
     }
 
     internal class HighShelfFilter_OperatorDto_ManyConsts : OperatorDtoBase_ShelfFilter_ManyConsts
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.HighShelfFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighShelfFilter;
     }
 }

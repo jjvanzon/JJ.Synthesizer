@@ -8,12 +8,12 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class TimePower_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.TimePower;
     }
 
     internal class TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.TimePower;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase ExponentOperatorDto { get; set; }
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.TimePower);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.TimePower;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase ExponentOperatorDto { get; set; }

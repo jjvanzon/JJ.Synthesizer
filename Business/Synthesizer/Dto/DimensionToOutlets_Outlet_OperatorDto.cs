@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal class DimensionToOutlets_Outlet_OperatorDto : OperatorDtoBase_WithDimension
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.DimensionToOutlets);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.DimensionToOutlets;
 
         public OperatorDtoBase OperandOperatorDto { get; set; }
         public int OutletListIndex { get; set; }

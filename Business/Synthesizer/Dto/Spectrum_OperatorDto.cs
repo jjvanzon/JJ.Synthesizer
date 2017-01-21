@@ -8,12 +8,12 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Spectrum_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Spectrum);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Spectrum;
     }
 
     internal class Spectrum_OperatorDto_AllVars : OperatorDtoBase_WithDimension
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Spectrum);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Spectrum;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase StartOperatorDto { get; set; }

@@ -4,7 +4,7 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal class ClosestOverDimensionExp_OperatorDto : ClosestOverDimension_OperatorDto
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverDimensionExp);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverDimensionExp;
     }
 
     internal class ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous : ClosestOverDimensionExp_OperatorDto

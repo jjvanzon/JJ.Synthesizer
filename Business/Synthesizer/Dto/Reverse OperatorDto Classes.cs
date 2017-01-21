@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Reverse_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Reverse);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reverse;
     }
 
     internal class Reverse_OperatorDto_VarSpeed_WithPhaseTracking : Reverse_OperatorDtoBase_VarSpeed, IOperatorDto_VarSignal
@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class Reverse_OperatorDtoBase_VarSpeed : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Reverse);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reverse;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase SpeedOperatorDto { get; set; }
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class Reverse_OperatorDtoBase_ConstSpeed : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Reverse);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reverse;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double Speed { get; set; }

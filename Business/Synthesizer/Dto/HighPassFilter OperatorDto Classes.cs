@@ -8,12 +8,12 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class HighPassFilter_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.HighPassFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighPassFilter;
     }
 
     internal class HighPassFilter_OperatorDto_AllVars : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.HighPassFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighPassFilter;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase MinFrequencyOperatorDto { get; set; }
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class HighPassFilter_OperatorDto_ManyConsts : OperatorDtoBase_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.HighPassFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighPassFilter;
 
         public double MinFrequency { get; set; }
         public double BandWidth { get; set; }

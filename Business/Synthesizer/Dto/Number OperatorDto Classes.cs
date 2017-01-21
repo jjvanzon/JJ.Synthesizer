@@ -4,7 +4,7 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal class Number_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Number);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Number;
 
         public virtual double Number { get; set; }
     }
@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Dto
     /// <summary> For Machine Optimization </summary>
     internal class Number_OperatorDto_NaN : Number_OperatorDto
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Number);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Number;
 
         public override double Number => double.NaN;
     }
@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Dto
     /// <summary> For Machine Optimization </summary>
     internal class Number_OperatorDto_One : Number_OperatorDto
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Number);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Number;
 
         public override double Number => 1.0;
     }
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Dto
     /// <summary> For Machine Optimization </summary>
     internal class Number_OperatorDto_Zero : Number_OperatorDto
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Number);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Number;
 
         public override double Number => 0.0;
     }

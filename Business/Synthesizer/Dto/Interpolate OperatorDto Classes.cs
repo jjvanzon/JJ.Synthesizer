@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal class Interpolate_OperatorDto : OperatorDtoBase_WithDimension, IInterpolate_OperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Interpolate);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase SamplingRateOperatorDto { get; set; }
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Interpolate_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Interpolate);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
     }
 
     internal class Interpolate_OperatorDto_Block : Interpolate_OperatorDto
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate : OperatorDtoBase_VarSignal, IInterpolate_OperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Interpolate);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
 
         public double SamplingRate { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }

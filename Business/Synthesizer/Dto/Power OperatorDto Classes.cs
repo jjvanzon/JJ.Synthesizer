@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Power_OperatorDto_VarBase_VarExponent : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Power);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Power;
 
         public OperatorDtoBase BaseOperatorDto { get; set; }
         public OperatorDtoBase ExponentOperatorDto { get; set; }
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Power_OperatorDto_ConstBase_VarExponent : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Power);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Power;
 
         public double Base { get; set; }
         public OperatorDtoBase ExponentOperatorDto { get; set; }
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Power_OperatorDto_ConstBase_ConstExponent : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Power);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Power;
 
         public double Base { get; set; }
         public double Exponent { get; set; }
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Dto
     /// <summary> Base class </summary>
     internal abstract class Power_OperatorDtoBase_VarBase : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Power);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Power;
 
         public OperatorDtoBase BaseOperatorDto { get; set; }
 

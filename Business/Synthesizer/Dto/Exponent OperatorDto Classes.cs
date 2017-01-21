@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Exponent_OperatorDto_VarLow_VarHigh_VarRatio : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Exponent);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
         public OperatorDtoBase LowOperatorDto { get; set; }
         public OperatorDtoBase HighOperatorDto { get; set; }
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Exponent_OperatorDto_VarLow_VarHigh_ConstRatio : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Exponent);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
         public OperatorDtoBase LowOperatorDto { get; set; }
         public OperatorDtoBase HighOperatorDto { get; set; }
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Exponent_OperatorDto_VarLow_ConstHigh_VarRatio : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Exponent);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
         public OperatorDtoBase LowOperatorDto { get; set; }
         public double High { get; set; }
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Exponent);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
         public OperatorDtoBase LowOperatorDto { get; set; }
         public double High { get; set; }
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Exponent_OperatorDto_ConstLow_VarHigh_VarRatio : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Exponent);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
         public double Low { get; set; }
         public OperatorDtoBase HighOperatorDto { get; set; }
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Exponent);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
         public double Low { get; set; }
         public OperatorDtoBase HighOperatorDto { get; set; }
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Exponent);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
         public double Low { get; set; }
         public double High { get; set; }
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Exponent);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
         public double Low { get; set; }
         public double High { get; set; }

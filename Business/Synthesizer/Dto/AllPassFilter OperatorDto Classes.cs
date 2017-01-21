@@ -8,12 +8,12 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class AllPassFilter_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.AllPassFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AllPassFilter;
     }
 
     internal class AllPassFilter_OperatorDto_AllVars : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.AllPassFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AllPassFilter;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase CenterFrequencyOperatorDto { get; set; }
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class AllPassFilter_OperatorDto_ManyConsts : OperatorDtoBase_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.AllPassFilter);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AllPassFilter;
 
         public double CenterFrequency { get; set; }
         public double BandWidth { get; set; }

@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Cache_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Cache);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Cache;
     }
 
     // There is a lot of specialization here, that at one point seemed necessary, but is currently (2016-12-14) not used.
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class Cache_OperatorDtoBase_NotConstSignal : OperatorDtoBase_WithDimension
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Cache);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Cache;
 
         /// <summary> Used as a cache key. </summary>
         public int OperatorID { get; set; }

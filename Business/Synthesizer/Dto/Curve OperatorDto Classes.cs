@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal class Curve_OperatorDto : OperatorDtoBase_WithDimension
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Curve);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
 
         public int? CurveID { get; set; }
         public double MinX { get; set; }
@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Curve_OperatorDto_NoCurve : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Curve);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
     }
 
     internal class Curve_OperatorDto_MinX_NoOriginShifting : Curve_OperatorDtoBase_WithMinX
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class Curve_OperatorDtoBase_WithoutMinX : OperatorDtoBase_WithDimension
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Curve);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
 
         public int CurveID { get; set; }
 

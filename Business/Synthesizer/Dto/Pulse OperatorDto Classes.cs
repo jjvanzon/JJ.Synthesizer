@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal class Pulse_OperatorDto : OperatorDtoBase_VarFrequency
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
 
         public OperatorDtoBase WidthOperatorDto { get; set; }
 
@@ -18,24 +18,24 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Pulse_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
     }
 
     internal class Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting : OperatorDtoBase_ConstFrequency
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
     }
 
     internal class Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting : OperatorDtoBase_ConstFrequency
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
 
         public double Width { get; set; }
     }
 
     internal class Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting : OperatorDtoBase_ConstFrequency
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
 
         public OperatorDtoBase WidthOperatorDto { get; set; }
 
@@ -48,12 +48,12 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking : OperatorDtoBase_VarFrequency
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
     }
 
     internal class Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking : OperatorDtoBase_VarFrequency
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Pulse);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
 
         public double Width { get; set; }
     }

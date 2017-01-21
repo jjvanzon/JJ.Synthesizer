@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal class Random_OperatorDto : OperatorDtoBase_WithDimension
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Random);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Random;
 
         public OperatorDtoBase RateOperatorDto { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }

@@ -8,12 +8,12 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Loop_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
     }
 
     internal class Loop_OperatorDto_NoSkipOrRelease_ManyConstants : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double LoopStartMarker { get; set; }
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Loop_OperatorDto_ManyConstants : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double Skip { get; set; }
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double SkipAndLoopStartMarker { get; set; }
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double SkipAndLoopStartMarker { get; set; }
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Loop_OperatorDto_NoSkipOrRelease : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase LoopStartMarkerOperatorDto { get; set; }
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Loop_OperatorDto_AllVars : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Loop);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase SkipOperatorDto { get; set; }

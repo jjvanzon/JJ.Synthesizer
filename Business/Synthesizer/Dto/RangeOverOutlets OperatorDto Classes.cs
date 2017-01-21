@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class RangeOverOutlets_Outlet_OperatorDto_ZeroStep : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
         public OperatorDtoBase FromOperatorDto { get; set; }
 
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
         public OperatorDtoBase FromOperatorDto { get; set; }
         public OperatorDtoBase StepOperatorDto { get; set; }
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
         public OperatorDtoBase FromOperatorDto { get; set; }
         public double Step { get; set; }
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
         public double From { get; set; }
         public OperatorDtoBase StepOperatorDto { get; set; }
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.RangeOverOutlets);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
         public double From { get; set; }
         public double Step { get; set; }

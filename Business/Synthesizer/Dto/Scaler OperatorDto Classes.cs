@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Scaler_OperatorDto_AllConsts : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Scaler);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Scaler;
 
         public double Signal { get; set; }
         public double SourceValueA { get; set; }
@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Scaler_OperatorDto_ManyConsts : OperatorDtoBase_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Scaler);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Scaler;
 
         public double SourceValueA { get; set; }
         public double SourceValueB { get; set; }
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Scaler_OperatorDto_AllVars : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Scaler);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Scaler;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase SourceValueAOperatorDto { get; set; }

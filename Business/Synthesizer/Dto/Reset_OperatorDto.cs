@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal class Reset_OperatorDto : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Reset);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reset;
 
         public OperatorDtoBase PassThroughInputOperatorDto { get; set; }
         public string Name { get; set; }

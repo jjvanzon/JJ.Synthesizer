@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Round_OperatorDto_AllConsts : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public double Signal { get; set; }
         public double Step { get; set; }
@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Round_OperatorDto_ConstSignal : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public double Signal { get; set; }
         public OperatorDtoBase StepOperatorDto { get; set; }
@@ -32,12 +32,12 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Round_OperatorDto_VarSignal_StepOne_OffsetZero : OperatorDtoBase_VarSignal
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
     }
 
     internal class Round_OperatorDto_VarSignal_VarStep_VarOffset : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase StepOperatorDto { get; set; }
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Round_OperatorDto_VarSignal_VarStep_ZeroOffset : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase StepOperatorDto { get; set; }
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Round_OperatorDto_VarSignal_VarStep_ConstOffset : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase StepOperatorDto { get; set; }
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Dto
     
     internal class Round_OperatorDto_VarSignal_ConstStep_VarOffset : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double StepOperatorDto { get; set; }
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Round_OperatorDto_VarSignal_ConstStep_ZeroOffset : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double Step { get; set; }
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Round_OperatorDto_VarSignal_ConstStep_ConstOffset : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.Round);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
         public double StepOperatorDto { get; set; }

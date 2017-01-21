@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class ClosestOverInlets_OperatorDto_ConstInput_ConstItems : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInlets);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverInlets;
 
         public double Input { get; set; }
         public IList<double> Items { get; set; }
@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class ClosestOverInlets_OperatorDto_VarInput_VarItems : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInlets);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverInlets;
 
         public OperatorDtoBase InputOperatorDto { get; set; }
         public IList<OperatorDtoBase> ItemOperatorDtos { get; set; }
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class ClosestOverInlets_OperatorDto_VarInput_ConstItems : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInlets);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverInlets;
 
         public OperatorDtoBase InputOperatorDto { get; set; }
         public IList<double> Items { get; set; }
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Dto
     /// <summary> For Machine Optimization </summary>
     internal class ClosestOverInlets_OperatorDto_VarInput_2ConstItems : OperatorDtoBase
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.ClosestOverInlets);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverInlets;
 
         public OperatorDtoBase InputOperatorDto { get; set; }
         public double Item1 { get; set; }

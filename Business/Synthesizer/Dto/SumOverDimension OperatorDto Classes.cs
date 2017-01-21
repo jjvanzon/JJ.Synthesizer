@@ -4,12 +4,12 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal class SumOverDimension_OperatorDto : OperatorDtoBase_AggregateOverDimension_AllVars
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.SumOverDimension);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SumOverDimension;
     }
 
     internal class SumOverDimension_OperatorDto_AllConsts : OperatorDtoBase_WithoutInputOperatorDtos
     {
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.SumOverDimension);
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SumOverDimension;
 
         public double Signal { get; set; }
         public double From { get; set; }
