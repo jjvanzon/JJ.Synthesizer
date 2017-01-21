@@ -1354,10 +1354,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string relativePhase = GenerateUniqueVariableName(nameof(relativePhase));
             string output = GenerateUniqueVariableName(OperatorTypeEnum.Triangle);
 
+            // Correct the phase shift, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
             _sb.AppendLine($"double {shiftedPhase} = {phase} + 0.25;");
             _sb.AppendLine($"double {relativePhase} = {shiftedPhase} % 1.0;");
             _sb.AppendLine($"double {output};");
+            // Starts going up at a rate of 2 up over 1/2 a cycle.
             _sb.AppendLine($"if ({relativePhase} < 0.5) {output} = -1.0 + 4.0 * {relativePhase};");
+            // And then going down at phase 1/2.
+            // (Extending the line to x = 0 it ends up at y = 3.)
             _sb.AppendLine($"else {output} = 3.0 - 4.0 * {relativePhase};");
             _sb.AppendLine();
 
