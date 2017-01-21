@@ -81,11 +81,6 @@ namespace GeneratedCSharp
 
         // Values
 
-        public override double GetValue(int listIndex)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void SetValue(int listIndex, double value)
         {
             base.SetValue(listIndex, value);

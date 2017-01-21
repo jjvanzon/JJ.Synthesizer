@@ -117,14 +117,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         // Values
 
-        public override double GetValue(int noteIndex)
-        {
-            throw new NotSupportedException();
-        }
-
         public override void SetValue(int noteIndex, double value)
         {
-            throw new NotSupportedException();
+            base.SetValue(noteIndex, value);
+
+            // TODO: Figure out why nothing is done here. If you figured it out, document the reason here.
         }
 
         public override void SetValue(string name, double value)
@@ -141,17 +138,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        public override double GetValue(string name, int noteIndex)
-        {
-            AssertPatchCalculatorNoteIndex(noteIndex);
-
-            IPatchCalculator patchCalculator = _patchCalculators[noteIndex][0];
-
-            return patchCalculator.GetValue(name);
-        }
-
         public override void SetValue(string name, int noteIndex, double value)
         {
+            base.SetValue(name, noteIndex, value);
+
             AssertPatchCalculatorNoteIndex(noteIndex);
 
             for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
@@ -175,19 +165,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        public override double GetValue(DimensionEnum dimensionEnum, int noteIndex)
-        {
-            AssertPatchCalculatorNoteIndex(noteIndex);
-
-            IPatchCalculator patchCalculator = _patchCalculators[noteIndex][0];
-
-            double value = patchCalculator.GetValue(dimensionEnum);
-
-            return value;
-        }
-
         public override void SetValue(DimensionEnum dimensionEnum, int noteIndex, double value)
         {
+            base.SetValue(dimensionEnum, noteIndex, value);
+
             AssertPatchCalculatorNoteIndex(noteIndex);
 
             for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)

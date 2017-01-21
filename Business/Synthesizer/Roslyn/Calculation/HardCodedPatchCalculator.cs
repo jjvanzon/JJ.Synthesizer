@@ -201,18 +201,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
         // Values
 
-        public override double GetValue(int listIndex)
-        {
-            switch (listIndex)
-            {
-                case 0:
-                    return _input0;
-
-                default:
-                    return 0.0;
-            }
-        }
-
         public override void SetValue(int listIndex, double value)
         {
             base.SetValue(listIndex, value);

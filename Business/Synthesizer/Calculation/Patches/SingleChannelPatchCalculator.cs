@@ -178,15 +178,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         // Values
 
-        public override double GetValue(int listIndex)
-        {
-            if (listIndex < 0) return 0.0;
-            if (listIndex >= _inputOperatorCalculators.Length) return 0.0;
-
-            double value = _inputOperatorCalculators[listIndex]._value;
-            return value;
-        }
-
         public override void SetValue(int listIndex, double value)
         {
             base.SetValue(listIndex, value);

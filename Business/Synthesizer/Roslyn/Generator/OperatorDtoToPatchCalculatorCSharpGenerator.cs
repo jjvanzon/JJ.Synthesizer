@@ -167,15 +167,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     // Values
                     sb.AppendLine("// Values");
                     sb.AppendLine();
-                    sb.AppendLine("public override double GetValue(int listIndex)");
-                    sb.AppendLine("{");
-                    sb.Indent();
-                    {
-                        sb.AppendLine("throw new NotImplementedException();");
-                        sb.Unindent();
-                    }
-                    sb.AppendLine("}");
-                    sb.AppendLine();
                     sb.AppendLine("public override void SetValue(int listIndex, double value)");
                     sb.AppendLine("{");
                     sb.Indent();

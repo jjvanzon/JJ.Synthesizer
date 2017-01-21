@@ -46,7 +46,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         // Values
 
-        public abstract double GetValue(int listIndex);
+        public double GetValue(int listIndex)
+        {
+            double value;
+            _listIndex_To_Value_Dictionary.TryGetValue(listIndex, out value);
+            return value;
+        }
 
         public virtual void SetValue(int listIndex, double value)
         {
@@ -81,7 +86,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _name_To_Value_Dictionary[canonicalName] = value;
         }
 
-        public virtual double GetValue(DimensionEnum dimensionEnum, int listIndex)
+        public double GetValue(DimensionEnum dimensionEnum, int listIndex)
         {
             var key = new Tuple<DimensionEnum, int>(dimensionEnum, listIndex);
 
@@ -97,7 +102,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _dimensionEnumAndListIndex_To_Value_Dictionary[key] = value;
         }
 
-        public virtual double GetValue(string name, int listIndex)
+        public double GetValue(string name, int listIndex)
         {
             string canonicalName = NameHelper.ToCanonical(name);
 
