@@ -62,7 +62,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Helpers\WithCSharpCompilation\2016-12-30 Backup of OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\WithStucts\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\OperatorDtoFactory.cs" />
@@ -118,7 +117,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Helpers\WithCSharpCompilation\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

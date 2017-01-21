@@ -77,7 +77,6 @@
     <Compile Include="Visitors\OperatorDtoVisitor_MathSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoPreProcessingExecutor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_PerDimensionWriter.cs" />
-    <Compile Include="Visitors\2017-01-17 Backup of OperatorDtoVisitor_StackLevel_Simple.cs" />
     <Compile Include="Visitors\VisitorHelper.cs" />
   </ItemGroup>
   <ItemGroup>
