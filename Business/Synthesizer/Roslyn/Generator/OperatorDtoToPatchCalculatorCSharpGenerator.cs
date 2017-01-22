@@ -151,15 +151,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 }
                 sb.AppendLine();
 
-                // Position Variables
-                // HACK
-                string time0VariableName = "time_0_0";
-                if (time0VariableName != null)
-                {
-                    sb.AppendLine($"double {time0VariableName} = startTime;");
-                }
+                // First time variableVariables
+                sb.AppendLine($"double {visitorResult.FirstTimeVariableNameCamelCase} = startTime;");
 
-                foreach (string positionVariableName in visitorResult.PositionVariableNamesCamelCase.Except(time0VariableName))
+                foreach (string positionVariableName in visitorResult.PositionVariableNamesCamelCase.Except(visitorResult.FirstTimeVariableNameCamelCase))
                 {
                     // HACK: The = 0 is a hack. Later, only position 0 of the dimensions will be assigned here.
                     sb.AppendLine($"double {positionVariableName} = 0;");
@@ -191,11 +186,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     sb.AppendLine();
                     sb.AppendLine("PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);");
 
-                    if (time0VariableName != null)
-                    {
-                        sb.AppendLine();
-                        sb.AppendLine($"{time0VariableName} += frameDuration;");
-                    }
+                    sb.AppendLine();
+                    sb.AppendLine($"{visitorResult.FirstTimeVariableNameCamelCase} += frameDuration;");
 
                     sb.Unindent();
                 }

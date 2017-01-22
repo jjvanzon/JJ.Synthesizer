@@ -13,6 +13,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         /// <summary> Can be null or empty. </summary>
         public string CanonicalName { get; }
         public DimensionEnum DimensionEnum { get; }
+
+        /// <summary> For dimension values this is the dimension stack level. </summary>
         public int ListIndex { get; }
         public double? DefaultValue { get; }
         public double? Value { get; }

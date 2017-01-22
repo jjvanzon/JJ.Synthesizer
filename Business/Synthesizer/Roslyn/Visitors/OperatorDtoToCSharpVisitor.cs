@@ -83,22 +83,35 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb = new StringBuilderWithIndentation(TAB_STRING);
             _sb.IndentLevel = intialIndentLevel;
 
-            // HACK: Generate a time variable first, so we can make assumptions about its name elsewhere.
-            string time0Name = GeneratePositionName(0, standardDimensionEnum: DimensionEnum.Time);
-
             Visit_OperatorDto_Polymorphic(dto);
 
             string generatedCode = _sb.ToString();
             string returnValue = _stack.Pop();
 
+            // Get some more variable info
+            string firstTimeVariableNameCamelCase = GeneratePositionName(0, standardDimensionEnum: DimensionEnum.Time);
+
+            IList<string> longLivedDimensionVariableNamesCamelCase = 
+                _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
+                                                                                                  .Where(x => x.ListIndex == 0)
+                                                                                                  .Select(x => x.VariableNameCamelCase)
+                                                                                                  .ToArray();
+            IList<string> localDimensionVariableNamesCamelCase =
+                _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
+                                                                                                  .Select(x => x.VariableNameCamelCase)
+                                                                                                  .Except(longLivedDimensionVariableNamesCamelCase)
+                                                                                                  .ToArray();
             return new OperatorDtoToCSharpVisitorResult(
                 generatedCode, 
                 returnValue,
+                firstTimeVariableNameCamelCase,
                 _variableName_to_InputVariableInfo_Dictionary.Values.ToArray(),
                 _positionVariableNamesCamelCaseHashSet.ToArray(),
-                _longLivedPreviousPositionVariableNamesCamelCase.ToArray(),
-                _longLivedPhaseVariableNamesCamelCase.ToArray(),
-                _longLivedOriginVariableNamesCamelCase.ToArray());
+                _longLivedPreviousPositionVariableNamesCamelCase,
+                _longLivedPhaseVariableNamesCamelCase,
+                _longLivedOriginVariableNamesCamelCase,
+                longLivedDimensionVariableNamesCamelCase,
+                localDimensionVariableNamesCamelCase);
         }
 
         [DebuggerHidden]
