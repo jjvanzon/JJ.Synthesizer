@@ -9,7 +9,6 @@ using System.Diagnostics;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
-using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Roslyn.Visitors
 {
@@ -65,10 +64,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         // Information for Dimension Values
 
-        private Dictionary<Tuple<DimensionEnum, int>, ExtendedVariableInfo> _dimensionEnumAndStackLevel_To_DimensionVariableInfo_Dictionary;
-        private Dictionary<Tuple<string, int>, ExtendedVariableInfo> _canonicalDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary;
-        private Dictionary<DimensionEnum, string> _standardDimensionEnum_To_Alias_Dictionary;
-        private Dictionary<string, string> _canonicalCustomDimensionName_To_Alias_Dictionary;
+        private Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo> _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary;
+        private Dictionary<Tuple<DimensionEnum, string>, string> _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary;
 
         public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto, int intialIndentLevel)
         {
@@ -79,10 +76,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _longLivedPhaseVariableNamesCamelCase = new List<string>();
             _longLivedOriginVariableNamesCamelCase = new List<string>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
-            _standardDimensionEnum_To_Alias_Dictionary = new Dictionary<DimensionEnum, string>();
-            _canonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<string, string>();
-            _dimensionEnumAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, ExtendedVariableInfo>();
-            _canonicalDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<string, int>, ExtendedVariableInfo>();
+            _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<Tuple<DimensionEnum, string>, string>();
+            _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
             _counter = 0;
 
             _sb = new StringBuilderWithIndentation(TAB_STRING);
@@ -1450,46 +1445,24 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private string GeneratePositionName(int stackLevel, DimensionEnum standardDimensionEnum = DimensionEnum.Undefined, string customDimensionName = null)
         {
-            string dimensionAlias;
-            if (standardDimensionEnum != DimensionEnum.Undefined)
-            {
-                dimensionAlias = GetStandardDimensionAlias(standardDimensionEnum);
-            }
-            else
-            {
-                dimensionAlias = GetCustomDimensionAlias(customDimensionName);
-            }
+            // Format CustomDimensionName
+            string canonicalCustomDimensionName = NameHelper.ToCanonical(customDimensionName);
 
-            string positionVariableName = string.Format("{0}_{1}", dimensionAlias, stackLevel);
+            // Get DimensionAlias
+            string dimensionAlias = GetDimensionAlias(standardDimensionEnum, canonicalCustomDimensionName);
+
+            // Format PositionVariableNAme
+            string positionVariableName = $"{dimensionAlias}_{stackLevel}";
             _positionVariableNamesCamelCaseHashSet.Add(positionVariableName);
 
-            string canonicalDimensionName = NameHelper.ToCanonical(customDimensionName);
+            // Manage Dictionary with Dimension Info
+            var key = new Tuple<DimensionEnum, string, int>(standardDimensionEnum, canonicalCustomDimensionName, stackLevel);
             ExtendedVariableInfo variableInfo;
-            if (standardDimensionEnum != DimensionEnum.Undefined)
+            if (!_dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out variableInfo))
             {
-                var key = new Tuple<DimensionEnum, int>(standardDimensionEnum, stackLevel);
-                _dimensionEnumAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out variableInfo);
-            }
-            else
-            {
-                var key = new Tuple<string, int>(canonicalDimensionName, stackLevel);
-                _canonicalDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out variableInfo);
-            }
+                variableInfo = new ExtendedVariableInfo(positionVariableName, canonicalCustomDimensionName, standardDimensionEnum, stackLevel, defaultValue: null);
 
-            if (variableInfo == null)
-            {
-                variableInfo = new ExtendedVariableInfo(positionVariableName, canonicalDimensionName, standardDimensionEnum, stackLevel, defaultValue: null);
-            }
-
-            if (standardDimensionEnum != DimensionEnum.Undefined)
-            {
-                var key = new Tuple<DimensionEnum, int>(standardDimensionEnum, stackLevel);
-                _dimensionEnumAndStackLevel_To_DimensionVariableInfo_Dictionary[key] = variableInfo;
-            }
-            else
-            {
-                var key = new Tuple<string, int>(canonicalDimensionName, stackLevel);
-                _canonicalDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary[key] = variableInfo;
+                _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary[key] = variableInfo;
             }
 
             return positionVariableName;
@@ -1497,33 +1470,19 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         /// <summary>
         /// Formats the dimension into a string that is close to the dimension name + a unique alphanumeric sequence.
-        /// E.g.: "prettiness_cdb"
+        /// E.g.: "prettiness_1"
         /// </summary>
-        private string GetStandardDimensionAlias(DimensionEnum dimensionEnum)
+        private string GetDimensionAlias(DimensionEnum dimensionEnum, string customDimensionName)
         {
+            string canonicalCustomDimensionName = NameHelper.ToCanonical(customDimensionName);
+
+            var key = new Tuple<DimensionEnum, string>(dimensionEnum, canonicalCustomDimensionName);
             string alias;
-            if (!_standardDimensionEnum_To_Alias_Dictionary.TryGetValue(dimensionEnum, out alias))
+            if (!_standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(key, out alias))
             {
                 alias = GenerateUniqueVariableName(dimensionEnum);
 
-                _standardDimensionEnum_To_Alias_Dictionary[dimensionEnum] = alias;
-            }
-            return alias;
-        }
-        
-        /// <summary>
-        /// Formats the dimension into a string that is close to the dimension name + a unique alphanumeric sequence.
-        /// E.g.: "prettiness_cdb"
-        /// </summary>
-        private string GetCustomDimensionAlias(string customDimensionName)
-        {
-            string canonicalCustomDimensionName = NameHelper.ToCanonical(customDimensionName);
-            string alias;
-            if (!_canonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(canonicalCustomDimensionName, out alias))
-            {
-                alias = GenerateUniqueVariableName(canonicalCustomDimensionName);
-
-                _canonicalCustomDimensionName_To_Alias_Dictionary[canonicalCustomDimensionName] = alias;
+                _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
             }
             return alias;
         }
