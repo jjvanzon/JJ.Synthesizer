@@ -95,6 +95,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
                                                                                                   .Where(x => x.ListIndex == 0)
                                                                                                   .Select(x => x.VariableNameCamelCase)
+                                                                                                  .Except(firstTimeVariableNameCamelCase)
                                                                                                   .ToArray();
             IList<string> localDimensionVariableNamesCamelCase =
                 _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values

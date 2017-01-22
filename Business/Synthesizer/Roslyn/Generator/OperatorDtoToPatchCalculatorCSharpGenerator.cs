@@ -142,7 +142,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 sb.AppendLine("double frameDuration = _frameDuration;");
                 sb.AppendLine("int channelCount = _channelCount;");
                 sb.AppendLine("int channelIndex = _channelIndex;");
-                sb.AppendLine("int valueCount = frameCount * channelCount;");
 
                 sb.AppendLine();
                 foreach (string variableName in instanceVariableNamesCamelCase)
@@ -151,14 +150,19 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 }
                 sb.AppendLine();
 
-                // First time variableVariables
-                sb.AppendLine($"double {visitorResult.FirstTimeVariableNameCamelCase} = startTime;");
-
-                foreach (string positionVariableName in visitorResult.PositionVariableNamesCamelCase.Except(visitorResult.FirstTimeVariableNameCamelCase))
+                // Declare Locally Reused Variables
+                foreach (string positionVariableName in visitorResult.LocalDimensionVariableNamesCamelCase)
                 {
-                    // HACK: The = 0 is a hack. Later, only position 0 of the dimensions will be assigned here.
-                    sb.AppendLine($"double {positionVariableName} = 0;");
+                    // HACK: 0 is assigned, because the 0-level dimension variables by error do not get fields yet.
+                    sb.AppendLine($"double {positionVariableName} = 0.0;"); 
                 }
+                sb.AppendLine();
+
+                // Initialize ValueCount variable
+                sb.AppendLine("int valueCount = frameCount * channelCount;");
+
+                // Initialize First Time Variable
+                sb.AppendLine($"{visitorResult.FirstTimeVariableNameCamelCase} = startTime;");
                 sb.AppendLine();
 
                 // Loop
@@ -414,6 +418,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
         {
             return visitorResult.LongLivedPhaseVariableNamesCamelCase.Union(visitorResult.LongLivedPreviousPositionVariableNamesCamelCase)
                                                                      .Union(visitorResult.LongLivedOriginVariableNamesCamelCase)
+                                                                     .Union(visitorResult.LongLivedDimensionVariableNamesCamelCase)
                                                                      .Union(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
                                                                      .ToArray();
         }
