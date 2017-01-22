@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
+using System;
 
 namespace JJ.Business.Synthesizer.Roslyn.Generator
 {
@@ -70,7 +71,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     sb.AppendLine();
                     WriteSetValueByDimensionEnum(sb, visitorResult.InputVariableInfos);
                     sb.AppendLine();
-                    WriteSetValueByNameMethod(sb, visitorResult.InputVariableInfos);
+                    WriteSetValueByName(sb, visitorResult.InputVariableInfos);
+                    sb.AppendLine();
+                    WriteSetValueByDimensionEnumAndListIndex(sb, visitorResult.InputVariableInfos);
                     sb.AppendLine();
 
                     // Reset
@@ -88,7 +91,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             return generatedCode;
         }
 
-        private static void WriteFields(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
+        private void WriteFields(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
             IList<string> instanceVariableNamesCamelCase = GetInstanceVariableNamesCamelCase(visitorResult);
 
@@ -98,7 +101,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             }
         }
 
-        private static void WriteConstructor(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult, string generatedClassName)
+        private void WriteConstructor(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult, string generatedClassName)
         {
             sb.AppendLine($"public {generatedClassName}(int samplingRate, int channelCount, int channelIndex)");
             sb.Indent();
@@ -124,7 +127,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private static void WriteCalculateMethod(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
+        private void WriteCalculateMethod(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
             IList<string> instanceVariableNamesCamelCase = GetInstanceVariableNamesCamelCase(visitorResult);
 
@@ -208,7 +211,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private static void WriteSetValueByListIndex(StringBuilderWithIndentation sb, IList<InputVariableInfo> inputVariableInfos)
+        private void WriteSetValueByListIndex(StringBuilderWithIndentation sb, IList<InputVariableInfo> inputVariableInfos)
         {
             sb.AppendLine("public override void SetValue(int listIndex, double value)");
             sb.AppendLine("{");
@@ -246,7 +249,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private static void WriteSetValueByDimensionEnum(StringBuilderWithIndentation sb, IList<InputVariableInfo> inputVariableInfos)
+        private void WriteSetValueByDimensionEnum(StringBuilderWithIndentation sb, IList<InputVariableInfo> inputVariableInfos)
         {
             sb.AppendLine("public override void SetValue(DimensionEnum dimensionEnum, double value)");
             sb.AppendLine("{");
@@ -267,9 +270,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                             sb.AppendLine($"case {nameof(DimensionEnum)}.{group.Key}:");
                             sb.Indent();
                             {
-                                foreach (InputVariableInfo valueInfo in group)
+                                foreach (InputVariableInfo inputVariableInfo in group)
                                 {
-                                    sb.AppendLine($"_{valueInfo.VariableNameCamelCase} = value;");
+                                    sb.AppendLine($"_{inputVariableInfo.VariableNameCamelCase} = value;");
                                 }
                                 sb.AppendLine("break;");
                                 sb.AppendLine();
@@ -286,7 +289,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private static void WriteSetValueByNameMethod(StringBuilderWithIndentation sb, IList<InputVariableInfo> inputVariableInfos)
+        private void WriteSetValueByName(StringBuilderWithIndentation sb, IList<InputVariableInfo> inputVariableInfos)
         {
             sb.AppendLine("public override void SetValue(string name, double value)");
             sb.AppendLine("{");
@@ -306,9 +309,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                         sb.AppendLine("{");
                         sb.Indent();
                         {
-                            foreach (InputVariableInfo valueInfo in group)
+                            foreach (InputVariableInfo inputVariableInfo in group)
                             {
-                                sb.AppendLine($"_{valueInfo.VariableNameCamelCase} = value;");
+                                sb.AppendLine($"_{inputVariableInfo.VariableNameCamelCase} = value;");
                             }
                             sb.Unindent();
                         }
@@ -321,7 +324,41 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private static void WriteResetMethod(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
+        private void WriteSetValueByDimensionEnumAndListIndex(StringBuilderWithIndentation sb, IList<InputVariableInfo> inputVariableInfos)
+        {
+            sb.AppendLine("public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)");
+            sb.AppendLine("{");
+            sb.Indent();
+            {
+                sb.AppendLine("base.SetValue(dimensionEnum, listIndex, value);");
+                sb.AppendLine();
+
+                var groups = inputVariableInfos.GroupBy(x => x.DimensionEnum);
+                foreach (var group in groups)
+                {
+                    int i = 0;
+                    foreach (InputVariableInfo inputVariableInfo in group)
+                    {
+                        sb.AppendLine($"if (dimensionEnum == {nameof(DimensionEnum)}.{group.Key} && listIndex == {i})");
+                        sb.AppendLine("{");
+                        sb.Indent();
+                        {
+                            sb.AppendLine($"_{inputVariableInfo.VariableNameCamelCase} = value;");
+                            sb.Unindent();
+                        }
+                        sb.AppendLine("}");
+                        sb.AppendLine();
+
+                        i++;
+                    }
+                }
+
+                sb.Unindent();
+            }
+            sb.AppendLine("}");
+        }
+
+        private void WriteResetMethod(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
             sb.AppendLine("public override void Reset(double time)");
             sb.AppendLine("{");

@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace GeneratedCSharp
 {
@@ -112,6 +113,22 @@ namespace GeneratedCSharp
                     _frequency_4 = value;
                     break;
 
+            }
+        }
+
+        public override void SetValue(string name, double value)
+        {
+            base.SetValue(name, value);
+
+            string canonicalName = NameHelper.ToCanonical(name);
+
+            if (String.Equals(name, "something", StringComparison.Ordinal))
+            {
+                _something_1 = value;
+            }
+            if (String.Equals(name, "", StringComparison.Ordinal))
+            {
+                _frequency_4 = value;
             }
         }
 
