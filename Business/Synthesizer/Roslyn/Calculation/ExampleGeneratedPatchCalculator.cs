@@ -13,6 +13,7 @@ namespace GeneratedCSharp
 
         private double _phase_6;
         private double _prevpos_7;
+        private double _u0021blu00e0_2_1;
         private double _something_1;
         private double _frequency_4;
 
@@ -35,28 +36,34 @@ namespace GeneratedCSharp
             double frameDuration = _frameDuration;
             int channelCount = _channelCount;
             int channelIndex = _channelIndex;
-            int valueCount = frameCount * channelCount;
 
             double phase_6 = _phase_6;
             double prevpos_7 = _prevpos_7;
+            double u0021blu00e0_2_1 = _u0021blu00e0_2_1;
             double something_1 = _something_1;
             double frequency_4 = _frequency_4;
 
-            double time_0_0 = startTime;
-            double u0021blu00e0_2_0 = 0;
+            double time_0_0;
+            double time_0_1;
+
+            int valueCount = frameCount * channelCount;
+            time_0_0 = startTime;
 
             for (int i = channelIndex; i < valueCount; i += channelCount)
             {
+                // Shift
+                time_0_1 = time_0_0 + 5.0E-1;
+
                 // SawDown
-                double sawdown_3 = u0021blu00e0_2_0 * something_1;
+                double sawdown_3 = u0021blu00e0_2_1 * something_1;
                 sawdown_3 = 1.0 - (2.0 * sawdown_3 % 2.0);
 
                 // Multiply
                 double multiply_5 = frequency_4 * sawdown_3;
 
                 // Sine
-                phase_6 += (time_0_0 - prevpos_7) * multiply_5;
-                prevpos_7 = time_0_0;
+                phase_6 += (time_0_1 - prevpos_7) * multiply_5;
+                prevpos_7 = time_0_1;
                 double sine_8 = SineCalculator.Sin(phase_6);
 
                 // Accumulate
@@ -76,6 +83,7 @@ namespace GeneratedCSharp
 
             _phase_6 = phase_6;
             _prevpos_7 = prevpos_7;
+            _u0021blu00e0_2_1 = u0021blu00e0_2_1;
             _something_1 = something_1;
             _frequency_4 = frequency_4;
         }

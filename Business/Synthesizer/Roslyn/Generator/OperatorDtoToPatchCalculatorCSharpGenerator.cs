@@ -153,8 +153,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 // Declare Locally Reused Variables
                 foreach (string positionVariableName in visitorResult.LocalDimensionVariableNamesCamelCase)
                 {
-                    // HACK: 0 is assigned, because the 0-level dimension variables by error do not get fields yet.
-                    sb.AppendLine($"double {positionVariableName} = 0.0;"); 
+                    sb.AppendLine($"double {positionVariableName};"); 
                 }
                 sb.AppendLine();
 

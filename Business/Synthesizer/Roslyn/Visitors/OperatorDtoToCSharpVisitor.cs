@@ -93,8 +93,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             IList<string> longLivedDimensionVariableNamesCamelCase = 
                 _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                                                                                                  .Where(x => x.ListIndex == 0)
-                                                                                                  .Select(x => x.VariableNameCamelCase)
+                                                                                                  .OrderBy(x => x.ListIndex)
+                                                                                                  .GroupBy(x => new { x.DimensionEnum, x.CanonicalName })
+                                                                                                  .Select(x => x.First().VariableNameCamelCase)
                                                                                                   .Except(firstTimeVariableNameCamelCase)
                                                                                                   .ToArray();
             IList<string> localDimensionVariableNamesCamelCase =
@@ -1483,18 +1484,25 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         }
 
         /// <summary>
-        /// Formats the dimension into a string that is close to the dimension name + a unique alphanumeric sequence.
+        /// Formats the dimension into a string that is close to the dimension name + a unique character sequence.
         /// E.g.: "prettiness_1"
         /// </summary>
-        private string GetDimensionAlias(DimensionEnum dimensionEnum, string customDimensionName)
+        private string GetDimensionAlias(DimensionEnum dimensionEnum, string canonicalCustomDimensionName)
         {
-            string canonicalCustomDimensionName = NameHelper.ToCanonical(customDimensionName);
-
             var key = new Tuple<DimensionEnum, string>(dimensionEnum, canonicalCustomDimensionName);
             string alias;
             if (!_standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(key, out alias))
             {
-                alias = GenerateUniqueVariableName(dimensionEnum);
+                object mnemonic;
+                if (dimensionEnum != DimensionEnum.Undefined)
+                {
+                    mnemonic = dimensionEnum;
+                }
+                else
+                {
+                    mnemonic = canonicalCustomDimensionName;
+                }
+                alias = GenerateUniqueVariableName(mnemonic);
 
                 _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
             }
