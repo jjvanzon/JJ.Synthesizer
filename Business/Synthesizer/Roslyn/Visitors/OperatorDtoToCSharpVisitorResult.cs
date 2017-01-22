@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         public IList<string> LongLivedPreviousPositionVariableNamesCamelCase { get; }
         public IList<string> LongLivedPhaseVariableNamesCamelCase { get; }
         public IList<string> LongLivedOriginVariableNamesCamelCase { get; }
-        public IList<string> LongLivedDimensionVariableNamesCamelCase { get; }
+        public IList<ExtendedVariableInfo> LongLivedDimensionVariableInfos { get; }
         public IList<string> LocalDimensionVariableNamesCamelCase { get; }
 
         public OperatorDtoToCSharpVisitorResult(
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             IList<string> longLivedPreviousPositionVariableNamesCamelCase,
             IList<string> longLivedPhaseVariableNamesCamelCase,
             IList<string> longLivedOriginVariableNamesCamelCase,
-            IList<string> longLivedDimensionVariableNamesCamelCase,
+            IList<ExtendedVariableInfo> longLivedDimensionVariableInfos,
             IList<string> localDimensionVariableNamesCamelCase)
         {
             RawCalculationCode = rawCalculationCode;
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             LongLivedPreviousPositionVariableNamesCamelCase = longLivedPreviousPositionVariableNamesCamelCase;
             LongLivedPhaseVariableNamesCamelCase = longLivedPhaseVariableNamesCamelCase;
             LongLivedOriginVariableNamesCamelCase = longLivedOriginVariableNamesCamelCase;
-            LongLivedDimensionVariableNamesCamelCase = longLivedDimensionVariableNamesCamelCase;
+            LongLivedDimensionVariableInfos = longLivedDimensionVariableInfos;
             LocalDimensionVariableNamesCamelCase = localDimensionVariableNamesCamelCase;
         }
     }

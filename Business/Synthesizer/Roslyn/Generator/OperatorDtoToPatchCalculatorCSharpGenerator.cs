@@ -69,13 +69,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     sb.AppendLine();
                     WriteSetValueByListIndex(sb, visitorResult.InputVariableInfos);
                     sb.AppendLine();
-                    WriteSetValueByDimensionEnum(sb, visitorResult.InputVariableInfos);
+                    WriteSetValueByDimensionEnum(sb, visitorResult.InputVariableInfos, visitorResult.LongLivedDimensionVariableInfos);
                     sb.AppendLine();
-                    WriteSetValueByName(sb, visitorResult.InputVariableInfos);
+                    WriteSetValueByName(sb, visitorResult.InputVariableInfos, visitorResult.LongLivedDimensionVariableInfos);
                     sb.AppendLine();
-                    WriteSetValueByDimensionEnumAndListIndex(sb, visitorResult.InputVariableInfos);
+                    WriteSetValueByDimensionEnumAndListIndex(sb, visitorResult.InputVariableInfos, visitorResult.LongLivedDimensionVariableInfos);
                     sb.AppendLine();
-                    WriteSetValueByNameAndListIndex(sb, visitorResult.InputVariableInfos);
+                    WriteSetValueByNameAndListIndex(sb, visitorResult.InputVariableInfos, visitorResult.LongLivedDimensionVariableInfos);
                     sb.AppendLine();
 
                     // Reset
@@ -246,8 +246,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private void WriteSetValueByDimensionEnum(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> inputVariableInfos)
+        private void WriteSetValueByDimensionEnum(
+            StringBuilderWithIndentation sb, 
+            IList<ExtendedVariableInfo> inputVariableInfos,
+            IList<ExtendedVariableInfo> firstLevelDimensionVariableInfos)
         {
+            IList<ExtendedVariableInfo> variableInfos = firstLevelDimensionVariableInfos.Union(inputVariableInfos).ToArray();
+
             sb.AppendLine("public override void SetValue(DimensionEnum dimensionEnum, double value)");
             sb.AppendLine("{");
             sb.Indent();
@@ -255,73 +260,41 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 sb.AppendLine("base.SetValue(dimensionEnum, value);");
                 sb.AppendLine();
 
-                var groups = inputVariableInfos.GroupBy(x => x.DimensionEnum);
-                if (groups.Any())
-                {
-                    sb.AppendLine("switch (dimensionEnum)");
-                    sb.AppendLine("{");
-                    sb.Indent();
-                    {
-                        foreach (var group in groups)
-                        {
-                            sb.AppendLine($"case {nameof(DimensionEnum)}.{group.Key}:");
-                            sb.Indent();
-                            {
-                                foreach (ExtendedVariableInfo inputVariableInfo in group)
-                                {
-                                    sb.AppendLine($"_{inputVariableInfo.VariableNameCamelCase} = value;");
-                                }
-                                sb.AppendLine("break;");
-                                sb.AppendLine();
-                                sb.Unindent();
-                            }
-                        }
+                WriteFieldAssignmentsByDimensionEnum(sb, variableInfos);
 
-                        sb.Unindent();
-                    }
-                    sb.AppendLine("}");
-                }
                 sb.Unindent();
             }
             sb.AppendLine("}");
         }
 
-        private void WriteSetValueByName(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> inputVariableInfos)
+        private void WriteSetValueByName(
+            StringBuilderWithIndentation sb, 
+            IList<ExtendedVariableInfo> inputVariableInfos,
+            IList<ExtendedVariableInfo> firstLevelDimensionVariableInfos)
         {
+            IList<ExtendedVariableInfo> variableInfos = inputVariableInfos.Union(firstLevelDimensionVariableInfos).ToArray();
+
             sb.AppendLine("public override void SetValue(string name, double value)");
             sb.AppendLine("{");
             sb.Indent();
             {
                 sb.AppendLine("base.SetValue(name, value);");
                 sb.AppendLine();
+
                 sb.AppendLine("string canonicalName = NameHelper.ToCanonical(name);");
                 sb.AppendLine();
 
-                var groups = inputVariableInfos.GroupBy(x => x.CanonicalName);
-                if (groups.Any())
-                {
-                    foreach (var group in groups)
-                    {
-                        sb.AppendLine($"if (String.Equals(name, \"{group.Key}\", StringComparison.Ordinal))");
-                        sb.AppendLine("{");
-                        sb.Indent();
-                        {
-                            foreach (ExtendedVariableInfo inputVariableInfo in group)
-                            {
-                                sb.AppendLine($"_{inputVariableInfo.VariableNameCamelCase} = value;");
-                            }
-                            sb.Unindent();
-                        }
-                        sb.AppendLine("}");
-                        sb.AppendLine();
-                    }
-                }
+                WriteFieldAssignmentsByCanonicalName(sb, variableInfos);
+
                 sb.Unindent();
             }
             sb.AppendLine("}");
         }
 
-        private void WriteSetValueByDimensionEnumAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> inputVariableInfos)
+        private void WriteSetValueByDimensionEnumAndListIndex(
+            StringBuilderWithIndentation sb, 
+            IList<ExtendedVariableInfo> inputVariableInfos,
+            IList<ExtendedVariableInfo> firstLevelDimensionVariableInfos)
         {
             sb.AppendLine("public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)");
             sb.AppendLine("{");
@@ -330,6 +303,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 sb.AppendLine("base.SetValue(dimensionEnum, listIndex, value);");
                 sb.AppendLine();
 
+                // Dimension Variables
+                WriteFieldAssignmentsByDimensionEnum(sb, firstLevelDimensionVariableInfos);
+                sb.AppendLine();
+
+                // Input Variables
                 var groups = inputVariableInfos.GroupBy(x => x.DimensionEnum);
                 foreach (var group in groups)
                 {
@@ -355,7 +333,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private void WriteSetValueByNameAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> inputVariableInfos)
+        private void WriteSetValueByNameAndListIndex(
+            StringBuilderWithIndentation sb, 
+            IList<ExtendedVariableInfo> inputVariableInfos,
+            IList<ExtendedVariableInfo> firstLevelDimensionVariableInfos)
         {
             sb.AppendLine("public override void SetValue(string name, int listIndex, double value)");
             sb.AppendLine("{");
@@ -366,13 +347,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 sb.AppendLine("string canonicalName = NameHelper.ToCanonical(name);");
                 sb.AppendLine();
 
+                // Dimension Variables
+                WriteFieldAssignmentsByCanonicalName(sb, firstLevelDimensionVariableInfos);
+
+                // Input Variables
                 var groups = inputVariableInfos.GroupBy(x => x.CanonicalName);
                 foreach (var group in groups)
                 {
                     int i = 0;
                     foreach (ExtendedVariableInfo inputVariableInfo in group)
                     {
-                        sb.AppendLine($"if (String.Equals(name, \"{group.Key}\") && listIndex == {i})");
+                        sb.AppendLine($"if (String.Equals(canonicalName, \"{group.Key}\") && listIndex == {i})");
                         sb.AppendLine("{");
                         sb.Indent();
                         {
@@ -389,6 +374,65 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 sb.Unindent();
             }
             sb.AppendLine("}");
+        }
+
+        /// <summary> Assumes that the variable dimensionEnum is already declared. </summary>
+        private static void WriteFieldAssignmentsByDimensionEnum(
+            StringBuilderWithIndentation sb,
+            IList<ExtendedVariableInfo> variableInfos)
+        {
+            var groups = variableInfos.GroupBy(x => x.DimensionEnum);
+            if (groups.Any())
+            {
+                sb.AppendLine("switch (dimensionEnum)");
+                sb.AppendLine("{");
+                sb.Indent();
+                {
+                    foreach (var group in groups)
+                    {
+                        sb.AppendLine($"case {nameof(DimensionEnum)}.{group.Key}:");
+                        sb.Indent();
+                        {
+                            foreach (ExtendedVariableInfo variableInfo in group)
+                            {
+                                sb.AppendLine($"_{variableInfo.VariableNameCamelCase} = value;");
+                            }
+                            sb.AppendLine("break;");
+                            sb.AppendLine();
+                            sb.Unindent();
+                        }
+                    }
+
+                    sb.Unindent();
+                }
+                sb.AppendLine("}");
+            }
+        }
+
+        /// <summary> Assumes that the variable canonicalName is already declared. </summary>
+        private static void WriteFieldAssignmentsByCanonicalName(
+            StringBuilderWithIndentation sb, 
+            IList<ExtendedVariableInfo> variableInfos)
+        {
+            var groups = variableInfos.GroupBy(x => x.CanonicalName);
+            if (groups.Any())
+            {
+                foreach (var group in groups)
+                {
+                    sb.AppendLine($"if (String.Equals(canonicalName, \"{group.Key}\", StringComparison.Ordinal))");
+                    sb.AppendLine("{");
+                    sb.Indent();
+                    {
+                        foreach (ExtendedVariableInfo variableInfo in group)
+                        {
+                            sb.AppendLine($"_{variableInfo.VariableNameCamelCase} = value;");
+                        }
+                        sb.Unindent();
+                    }
+                    sb.AppendLine("}");
+                    sb.AppendLine();
+                }
+            }
         }
 
         private void WriteResetMethod(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
@@ -417,7 +461,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
         {
             return visitorResult.LongLivedPhaseVariableNamesCamelCase.Union(visitorResult.LongLivedPreviousPositionVariableNamesCamelCase)
                                                                      .Union(visitorResult.LongLivedOriginVariableNamesCamelCase)
-                                                                     .Union(visitorResult.LongLivedDimensionVariableNamesCamelCase)
+                                                                     .Union(visitorResult.LongLivedDimensionVariableInfos.Select(x => x.VariableNameCamelCase))
                                                                      .Union(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
                                                                      .ToArray();
         }

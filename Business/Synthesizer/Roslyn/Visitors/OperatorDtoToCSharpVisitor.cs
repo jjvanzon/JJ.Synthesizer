@@ -91,17 +91,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             // Get some more variable info
             string firstTimeVariableNameCamelCase = GeneratePositionName(0, standardDimensionEnum: DimensionEnum.Time);
 
-            IList<string> longLivedDimensionVariableNamesCamelCase = 
+            IList<ExtendedVariableInfo> longLivedDimensionVariableInfos = 
                 _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
                                                                                                   .OrderBy(x => x.ListIndex)
                                                                                                   .GroupBy(x => new { x.DimensionEnum, x.CanonicalName })
-                                                                                                  .Select(x => x.First().VariableNameCamelCase)
-                                                                                                  .Except(firstTimeVariableNameCamelCase)
+                                                                                                  .Select(x => x.First())
+                                                                                                  .Except(x => String.Equals(x.VariableNameCamelCase, firstTimeVariableNameCamelCase))
                                                                                                   .ToArray();
             IList<string> localDimensionVariableNamesCamelCase =
                 _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
+                                                                                                  .Except(longLivedDimensionVariableInfos)
                                                                                                   .Select(x => x.VariableNameCamelCase)
-                                                                                                  .Except(longLivedDimensionVariableNamesCamelCase)
                                                                                                   .ToArray();
             return new OperatorDtoToCSharpVisitorResult(
                 generatedCode, 
@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 _longLivedPreviousPositionVariableNamesCamelCase,
                 _longLivedPhaseVariableNamesCamelCase,
                 _longLivedOriginVariableNamesCamelCase,
-                longLivedDimensionVariableNamesCamelCase,
+                longLivedDimensionVariableInfos,
                 localDimensionVariableNamesCamelCase);
         }
 
