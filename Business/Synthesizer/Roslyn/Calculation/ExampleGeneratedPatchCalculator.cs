@@ -115,6 +115,7 @@ namespace GeneratedCSharp
             {
                 case DimensionEnum.Undefined:
                     _something_1 = value;
+                    _u0021blu00e0_2_1 = value;
                     break;
 
                 case DimensionEnum.Frequency:
@@ -130,14 +131,19 @@ namespace GeneratedCSharp
 
             string canonicalName = NameHelper.ToCanonical(name);
 
-            if (String.Equals(name, "something", StringComparison.Ordinal))
+            if (String.Equals(canonicalName, "something", StringComparison.Ordinal))
             {
                 _something_1 = value;
             }
 
-            if (String.Equals(name, "", StringComparison.Ordinal))
+            if (String.Equals(canonicalName, "", StringComparison.Ordinal))
             {
                 _frequency_4 = value;
+            }
+
+            if (String.Equals(canonicalName, "!blà", StringComparison.Ordinal))
+            {
+                _u0021blu00e0_2_1 = value;
             }
 
         }
@@ -146,6 +152,13 @@ namespace GeneratedCSharp
         {
             base.SetValue(dimensionEnum, listIndex, value);
 
+            switch (dimensionEnum)
+            {
+                case DimensionEnum.Undefined:
+                    _u0021blu00e0_2_1 = value;
+                    break;
+
+            }
             if (dimensionEnum == DimensionEnum.Undefined && listIndex == 0)
             {
                 _something_1 = value;
@@ -164,12 +177,17 @@ namespace GeneratedCSharp
 
             string canonicalName = NameHelper.ToCanonical(name);
 
-            if (String.Equals(name, "something") && listIndex == 0)
+            if (String.Equals(canonicalName, "!blà", StringComparison.Ordinal))
+            {
+                _u0021blu00e0_2_1 = value;
+            }
+
+            if (String.Equals(canonicalName, "something") && listIndex == 0)
             {
                 _something_1 = value;
             }
 
-            if (String.Equals(name, "") && listIndex == 0)
+            if (String.Equals(canonicalName, "") && listIndex == 0)
             {
                 _frequency_4 = value;
             }
