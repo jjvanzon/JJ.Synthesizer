@@ -126,10 +126,46 @@ namespace GeneratedCSharp
             {
                 _something_1 = value;
             }
+
             if (String.Equals(name, "", StringComparison.Ordinal))
             {
                 _frequency_4 = value;
             }
+
+        }
+
+        public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)
+        {
+            base.SetValue(dimensionEnum, listIndex, value);
+
+            if (dimensionEnum == DimensionEnum.Undefined && listIndex == 0)
+            {
+                _something_1 = value;
+            }
+
+            if (dimensionEnum == DimensionEnum.Frequency && listIndex == 0)
+            {
+                _frequency_4 = value;
+            }
+
+        }
+
+        public override void SetValue(string name, int listIndex, double value)
+        {
+            base.SetValue(name, listIndex, value);
+
+            string canonicalName = NameHelper.ToCanonical(name);
+
+            if (String.Equals(name, "something") && listIndex == 0)
+            {
+                _something_1 = value;
+            }
+
+            if (String.Equals(name, "") && listIndex == 0)
+            {
+                _frequency_4 = value;
+            }
+
         }
 
         // Reset

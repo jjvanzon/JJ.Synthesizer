@@ -75,6 +75,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     sb.AppendLine();
                     WriteSetValueByDimensionEnumAndListIndex(sb, visitorResult.InputVariableInfos);
                     sb.AppendLine();
+                    WriteSetValueByNameAndListIndex(sb, visitorResult.InputVariableInfos);
+                    sb.AppendLine();
 
                     // Reset
                     sb.AppendLine("// Reset");
@@ -340,6 +342,42 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     foreach (InputVariableInfo inputVariableInfo in group)
                     {
                         sb.AppendLine($"if (dimensionEnum == {nameof(DimensionEnum)}.{group.Key} && listIndex == {i})");
+                        sb.AppendLine("{");
+                        sb.Indent();
+                        {
+                            sb.AppendLine($"_{inputVariableInfo.VariableNameCamelCase} = value;");
+                            sb.Unindent();
+                        }
+                        sb.AppendLine("}");
+                        sb.AppendLine();
+
+                        i++;
+                    }
+                }
+
+                sb.Unindent();
+            }
+            sb.AppendLine("}");
+        }
+
+        private void WriteSetValueByNameAndListIndex(StringBuilderWithIndentation sb, IList<InputVariableInfo> inputVariableInfos)
+        {
+            sb.AppendLine("public override void SetValue(string name, int listIndex, double value)");
+            sb.AppendLine("{");
+            sb.Indent();
+            {
+                sb.AppendLine("base.SetValue(name, listIndex, value);");
+                sb.AppendLine();
+                sb.AppendLine("string canonicalName = NameHelper.ToCanonical(name);");
+                sb.AppendLine();
+
+                var groups = inputVariableInfos.GroupBy(x => x.CanonicalName);
+                foreach (var group in groups)
+                {
+                    int i = 0;
+                    foreach (InputVariableInfo inputVariableInfo in group)
+                    {
+                        sb.AppendLine($"if (String.Equals(name, \"{group.Key}\") && listIndex == {i})");
                         sb.AppendLine("{");
                         sb.Indent();
                         {
