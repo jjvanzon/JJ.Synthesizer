@@ -46,25 +46,34 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private Stack<string> _stack;
         private StringBuilderWithIndentation _sb;
-        /// <summary> Dictionary for unicity. Key is variable name camel-case. </summary>
-        private Dictionary<string, InputVariableInfo> _inputVariableInfoDictionary;
+        private int _counter;
+
+        // Simple Sets of Variable Names
+
         /// <summary> HashSet for unicity. </summary>
         private HashSet<string> _positionVariableNamesCamelCaseHashSet;
         private IList<string> _longLivedPreviousPositionVariableNamesCamelCase;
         private IList<string> _longLivedPhaseVariableNamesCamelCase;
         private IList<string> _longLivedOriginVariableNamesCamelCase;
 
+        // Information for Input Variables
+
+        /// <summary> Dictionary for unicity. Key is variable name camel-case. </summary>
+        private Dictionary<string, ExtendedVariableInfo> _variableName_to_InputVariableInfo_Dictionary;
         /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
         private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
 
-        private int _counter;
+        // Information for Dimension Values
+
+        private Dictionary<Tuple<DimensionEnum, int>, ExtendedVariableInfo> _dimensionEnumAndStackLevel_To_DimensionVariableInfo_Dictionary;
+        private Dictionary<Tuple<string, int>, ExtendedVariableInfo> _canonicalDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary;
         private Dictionary<DimensionEnum, string> _standardDimensionEnum_To_Alias_Dictionary;
         private Dictionary<string, string> _canonicalCustomDimensionName_To_Alias_Dictionary;
 
         public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto, int intialIndentLevel)
         {
             _stack = new Stack<string>();
-            _inputVariableInfoDictionary = new Dictionary<string, InputVariableInfo>();
+            _variableName_to_InputVariableInfo_Dictionary = new Dictionary<string, ExtendedVariableInfo>();
             _positionVariableNamesCamelCaseHashSet = new HashSet<string>();
             _longLivedPreviousPositionVariableNamesCamelCase = new List<string>();
             _longLivedPhaseVariableNamesCamelCase = new List<string>();
@@ -72,6 +81,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _standardDimensionEnum_To_Alias_Dictionary = new Dictionary<DimensionEnum, string>();
             _canonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<string, string>();
+            _dimensionEnumAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, ExtendedVariableInfo>();
+            _canonicalDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<string, int>, ExtendedVariableInfo>();
             _counter = 0;
 
             _sb = new StringBuilderWithIndentation(TAB_STRING);
@@ -88,7 +99,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return new OperatorDtoToCSharpVisitorResult(
                 generatedCode, 
                 returnValue,
-                _inputVariableInfoDictionary.Values.ToArray(),
+                _variableName_to_InputVariableInfo_Dictionary.Values.ToArray(),
                 _positionVariableNamesCamelCaseHashSet.ToArray(),
                 _longLivedPreviousPositionVariableNamesCamelCase.ToArray(),
                 _longLivedPhaseVariableNamesCamelCase.ToArray(),
@@ -1378,14 +1389,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 return name;
             }
 
-            InputVariableInfo valueInfo = GenerateInputVariableInfo(dto);
+            ExtendedVariableInfo inputVariableInfo = GenerateInputVariableInfo(dto);
 
-            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = valueInfo.VariableNameCamelCase;
+            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = inputVariableInfo.VariableNameCamelCase;
 
-            return valueInfo.VariableNameCamelCase;
+            return inputVariableInfo.VariableNameCamelCase;
         }
 
-        private InputVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
+        private ExtendedVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
         {
             object mnemonic;
             if (dto.DimensionEnum != DimensionEnum.Undefined)
@@ -1403,9 +1414,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string variableName = GenerateUniqueVariableName(mnemonic);
 
-            var valueInfo = new InputVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
+            var valueInfo = new ExtendedVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
 
-            _inputVariableInfoDictionary.Add(variableName, valueInfo);
+            _variableName_to_InputVariableInfo_Dictionary.Add(variableName, valueInfo);
 
             return valueInfo;
         }
@@ -1450,8 +1461,36 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             }
 
             string positionVariableName = string.Format("{0}_{1}", dimensionAlias, stackLevel);
-
             _positionVariableNamesCamelCaseHashSet.Add(positionVariableName);
+
+            string canonicalDimensionName = NameHelper.ToCanonical(customDimensionName);
+            ExtendedVariableInfo variableInfo;
+            if (standardDimensionEnum != DimensionEnum.Undefined)
+            {
+                var key = new Tuple<DimensionEnum, int>(standardDimensionEnum, stackLevel);
+                _dimensionEnumAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out variableInfo);
+            }
+            else
+            {
+                var key = new Tuple<string, int>(canonicalDimensionName, stackLevel);
+                _canonicalDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out variableInfo);
+            }
+
+            if (variableInfo == null)
+            {
+                variableInfo = new ExtendedVariableInfo(positionVariableName, canonicalDimensionName, standardDimensionEnum, stackLevel, defaultValue: null);
+            }
+
+            if (standardDimensionEnum != DimensionEnum.Undefined)
+            {
+                var key = new Tuple<DimensionEnum, int>(standardDimensionEnum, stackLevel);
+                _dimensionEnumAndStackLevel_To_DimensionVariableInfo_Dictionary[key] = variableInfo;
+            }
+            else
+            {
+                var key = new Tuple<string, int>(canonicalDimensionName, stackLevel);
+                _canonicalDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary[key] = variableInfo;
+            }
 
             return positionVariableName;
         }

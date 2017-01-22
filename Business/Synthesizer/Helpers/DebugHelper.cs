@@ -35,23 +35,23 @@ namespace JJ.Business.Synthesizer.Helpers
             return operatorDto.GetType().Name;
         }
 
-        public static string GetDebuggerDisplay(InputVariableInfo valueInfo)
+        public static string GetDebuggerDisplay(ExtendedVariableInfo variableInfo)
         {
-            if (valueInfo == null) throw new NullException(() => valueInfo);
+            if (variableInfo == null) throw new NullException(() => variableInfo);
 
             var sb = new StringBuilder();
 
-            sb.AppendFormat("{{{0}}}", valueInfo.GetType().Name);
+            sb.AppendFormat("{{{0}}}", variableInfo.GetType().Name);
 
-            bool nameIsFilledIn = !String.IsNullOrEmpty(valueInfo.VariableNameCamelCase);
-            bool valueIsFilledIn = valueInfo.Value.HasValue;
-            bool miscPropertiesAreFilledIn = valueInfo.DimensionEnum != DimensionEnum.Undefined ||
-                                             valueInfo.ListIndex != 0 ||
-                                             valueInfo.DefaultValue.HasValue;
+            bool nameIsFilledIn = !String.IsNullOrEmpty(variableInfo.VariableNameCamelCase);
+            bool valueIsFilledIn = variableInfo.Value.HasValue;
+            bool miscPropertiesAreFilledIn = variableInfo.DimensionEnum != DimensionEnum.Undefined ||
+                                             variableInfo.ListIndex != 0 ||
+                                             variableInfo.DefaultValue.HasValue;
             if (nameIsFilledIn)
             {
                 sb.Append(' ');
-                sb.Append(valueInfo.VariableNameCamelCase);
+                sb.Append(variableInfo.VariableNameCamelCase);
             }
 
             if (nameIsFilledIn && valueIsFilledIn)
@@ -62,13 +62,13 @@ namespace JJ.Business.Synthesizer.Helpers
             if (valueIsFilledIn)
             {
                 sb.Append(' ');
-                sb.Append(valueInfo.Value);
+                sb.Append(variableInfo.Value);
             }
 
             if (miscPropertiesAreFilledIn)
             {
                 sb.Append(' ');
-                sb.Append(new { valueInfo.DimensionEnum, valueInfo.ListIndex, valueInfo.DefaultValue });
+                sb.Append(new { variableInfo.DimensionEnum, variableInfo.ListIndex, variableInfo.DefaultValue });
             }
 
             return sb.ToString();
