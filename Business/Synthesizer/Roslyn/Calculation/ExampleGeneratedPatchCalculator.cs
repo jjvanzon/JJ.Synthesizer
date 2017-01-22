@@ -12,16 +12,16 @@ namespace GeneratedCSharp
 
         private double _phase_6;
         private double _prevpos_7;
-        private double _input_1;
-        private double _input_4;
+        private double _something_1;
+        private double _frequency_4;
 
         // Constructor
 
         public GeneratedPatchCalculator(int samplingRate, int channelCount, int channelIndex)
             : base(samplingRate, channelCount, channelIndex)
         {
-            _input_1 = 1.0E0;
-            _input_4 = 4.4E2;
+            _something_1 = 1.0E0;
+            _frequency_4 = 4.4E2;
 
             Reset(time: 0.0);
         }
@@ -38,8 +38,8 @@ namespace GeneratedCSharp
 
             double phase_6 = _phase_6;
             double prevpos_7 = _prevpos_7;
-            double input_1 = _input_1;
-            double input_4 = _input_4;
+            double something_1 = _something_1;
+            double frequency_4 = _frequency_4;
 
             double time_0_0 = startTime;
             double u0021blu00e0_2_0 = 0;
@@ -47,11 +47,11 @@ namespace GeneratedCSharp
             for (int i = channelIndex; i < valueCount; i += channelCount)
             {
                 // SawDown
-                double sawdown_3 = u0021blu00e0_2_0 * input_1;
+                double sawdown_3 = u0021blu00e0_2_0 * something_1;
                 sawdown_3 = 1.0 - (2.0 * sawdown_3 % 2.0);
 
                 // Multiply
-                double multiply_5 = input_4 * sawdown_3;
+                double multiply_5 = frequency_4 * sawdown_3;
 
                 // Sine
                 phase_6 += (time_0_0 - prevpos_7) * multiply_5;
@@ -75,8 +75,8 @@ namespace GeneratedCSharp
 
             _phase_6 = phase_6;
             _prevpos_7 = prevpos_7;
-            _input_1 = input_1;
-            _input_4 = input_4;
+            _something_1 = something_1;
+            _frequency_4 = frequency_4;
         }
 
         // Values
@@ -88,11 +88,11 @@ namespace GeneratedCSharp
             switch (listIndex)
             {
                 case 0:
-                    _input_1 = value;
+                    _something_1 = value;
                     break;
 
                 case 1:
-                    _input_4 = value;
+                    _frequency_4 = value;
                     break;
 
             }
@@ -105,11 +105,11 @@ namespace GeneratedCSharp
             switch (dimensionEnum)
             {
                 case DimensionEnum.Undefined:
-                    _input_1 = value;
+                    _something_1 = value;
                     break;
 
                 case DimensionEnum.Frequency:
-                    _input_4 = value;
+                    _frequency_4 = value;
                     break;
 
             }

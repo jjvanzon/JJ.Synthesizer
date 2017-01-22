@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}}", valueInfo.GetType().Name);
 
-            bool nameIsFilledIn = !String.IsNullOrEmpty(valueInfo.NameCamelCase);
+            bool nameIsFilledIn = !String.IsNullOrEmpty(valueInfo.VariableNameCamelCase);
             bool valueIsFilledIn = valueInfo.Value.HasValue;
             bool miscPropertiesAreFilledIn = valueInfo.DimensionEnum != DimensionEnum.Undefined ||
                                              valueInfo.ListIndex != 0 ||
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (nameIsFilledIn)
             {
                 sb.Append(' ');
-                sb.Append(valueInfo.NameCamelCase);
+                sb.Append(valueInfo.VariableNameCamelCase);
             }
 
             if (nameIsFilledIn && valueIsFilledIn)

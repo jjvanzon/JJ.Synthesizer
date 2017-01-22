@@ -1380,9 +1380,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             InputVariableInfo valueInfo = GenerateInputVariableInfo(dto);
 
-            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = valueInfo.NameCamelCase;
+            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = valueInfo.VariableNameCamelCase;
 
-            return valueInfo.NameCamelCase;
+            return valueInfo.VariableNameCamelCase;
         }
 
         private InputVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
@@ -1403,7 +1403,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string variableName = GenerateUniqueVariableName(mnemonic);
 
-            var valueInfo = new InputVariableInfo(variableName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
+            var valueInfo = new InputVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
 
             _inputVariableInfoDictionary.Add(variableName, valueInfo);
 

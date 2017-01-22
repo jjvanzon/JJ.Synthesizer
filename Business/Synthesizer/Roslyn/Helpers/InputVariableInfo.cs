@@ -9,17 +9,25 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal class InputVariableInfo
     {
-        public string NameCamelCase { get; }
+        public string VariableNameCamelCase { get; }
+        /// <summary> Can be null or empty. </summary>
+        public string CanonicalName { get; }
         public DimensionEnum DimensionEnum { get; }
         public int ListIndex { get; }
         public double? DefaultValue { get; }
         public double? Value { get; }
 
-        public InputVariableInfo(string nameCamelCase, DimensionEnum dimensionEnum, int listIndex, double? defaultValue)
+        public InputVariableInfo(
+            string variableNameCamelCase,
+            string canonicalName,
+            DimensionEnum dimensionEnum, 
+            int listIndex, 
+            double? defaultValue)
         {
-            if (String.IsNullOrEmpty(nameCamelCase)) throw new NullOrEmptyException(() => nameCamelCase);
+            if (String.IsNullOrEmpty(variableNameCamelCase)) throw new NullOrEmptyException(() => variableNameCamelCase);
 
-            NameCamelCase = nameCamelCase;
+            VariableNameCamelCase = variableNameCamelCase;
+            CanonicalName = canonicalName;
             DimensionEnum = dimensionEnum;
             ListIndex = listIndex;
             DefaultValue = defaultValue;
