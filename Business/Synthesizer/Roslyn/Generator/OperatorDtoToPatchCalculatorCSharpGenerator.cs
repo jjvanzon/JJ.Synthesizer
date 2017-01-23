@@ -66,15 +66,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                     // Values
                     sb.AppendLine("// Values");
                     sb.AppendLine();
-                    WriteSetValue_ByListIndex(sb, visitorResult.InputVariableInfos);
+                    WriteSetValue_ByListIndex(sb, visitorResult);
                     sb.AppendLine();
-                    WriteSetValueByDimensionEnum(sb, visitorResult.InputVariableInfos, visitorResult.LongLivedDimensionVariableInfos);
+                    WriteSetValue_ByDimensionEnum(sb, visitorResult);
                     sb.AppendLine();
-                    WriteSetValue_ByName(sb, visitorResult.InputVariableInfos, visitorResult.LongLivedDimensionVariableInfos);
+                    WriteSetValue_ByName(sb, visitorResult);
                     sb.AppendLine();
-                    WriteSetValue_ByDimensionEnumAndListIndex(sb, visitorResult.InputVariableInfos, visitorResult.LongLivedDimensionVariableInfos);
+                    WriteSetValue_ByDimensionEnumAndListIndex(sb, visitorResult);
                     sb.AppendLine();
-                    WriteSetValue_ByNameAndListIndex(sb, visitorResult.InputVariableInfos, visitorResult.LongLivedDimensionVariableInfos);
+                    WriteSetValue_ByNameAndListIndex(sb, visitorResult);
                     sb.AppendLine();
 
                     // Reset
@@ -207,8 +207,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private void WriteSetValue_ByListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> inputVariableInfos)
+        private void WriteSetValue_ByListIndex(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
+            IList<ExtendedVariableInfo> inputVariableInfos = visitorResult.InputVariableInfos.OrderBy(x => x.ListIndex).ToArray();
+
             sb.AppendLine("public override void SetValue(int listIndex, double value)");
             sb.AppendLine("{");
             sb.Indent();
@@ -245,12 +247,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private void WriteSetValueByDimensionEnum(
-            StringBuilderWithIndentation sb, 
-            IList<ExtendedVariableInfo> inputVariableInfos,
-            IList<ExtendedVariableInfo> firstLevelDimensionVariableInfos)
+        private void WriteSetValue_ByDimensionEnum(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> variableInfos = firstLevelDimensionVariableInfos.Union(inputVariableInfos).ToArray();
+            IList<ExtendedVariableInfo> variableInfos = visitorResult.LongLivedDimensionVariableInfos
+                                                                     .Union(visitorResult.InputVariableInfos)
+                                                                     .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
+                                                                     .ToArray();
 
             sb.AppendLine("public override void SetValue(DimensionEnum dimensionEnum, double value)");
             sb.AppendLine("{");
@@ -266,12 +268,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private void WriteSetValue_ByName(
-            StringBuilderWithIndentation sb, 
-            IList<ExtendedVariableInfo> inputVariableInfos,
-            IList<ExtendedVariableInfo> firstLevelDimensionVariableInfos)
+        private void WriteSetValue_ByName(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> variableInfos = inputVariableInfos.Union(firstLevelDimensionVariableInfos).ToArray();
+            IList<ExtendedVariableInfo> variableInfos = visitorResult.LongLivedDimensionVariableInfos
+                                                                     .Union(visitorResult.InputVariableInfos)
+                                                                     .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
+                                                                     .ToArray();
 
             sb.AppendLine("public override void SetValue(string name, double value)");
             sb.AppendLine("{");
@@ -290,11 +292,20 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private void WriteSetValue_ByDimensionEnumAndListIndex(
-            StringBuilderWithIndentation sb, 
-            IList<ExtendedVariableInfo> inputVariableInfos,
-            IList<ExtendedVariableInfo> firstLevelDimensionVariableInfos)
+        private void WriteSetValue_ByDimensionEnumAndListIndex(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
+            IList<ExtendedVariableInfo> longLivedDimensionVariableInfosToInclude =
+                visitorResult.LongLivedDimensionVariableInfos
+                             .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
+                             .OrderBy(x => x.ListIndex)
+                             .ToArray();
+
+            IList<ExtendedVariableInfo> inputVariableInfosToInclude =
+                visitorResult.InputVariableInfos
+                             .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
+                             .OrderBy(x => x.ListIndex)
+                             .ToArray();
+
             sb.AppendLine("public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)");
             sb.AppendLine("{");
             sb.Indent();
@@ -303,22 +314,31 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 sb.AppendLine();
 
                 // Dimension Variables
-                WriteFieldAssignments_ByDimensionEnum(sb, firstLevelDimensionVariableInfos);
+                WriteFieldAssignments_ByDimensionEnum(sb, longLivedDimensionVariableInfosToInclude);
                 sb.AppendLine();
 
                 // Input Variables
-                WriteFieldAssignments_ByDimensionEnumAndListIndex(sb, inputVariableInfos);
+                WriteFieldAssignments_ByDimensionEnumAndListIndex(sb, inputVariableInfosToInclude);
 
                 sb.Unindent();
             }
             sb.AppendLine("}");
         }
 
-        private void WriteSetValue_ByNameAndListIndex(
-            StringBuilderWithIndentation sb, 
-            IList<ExtendedVariableInfo> inputVariableInfos,
-            IList<ExtendedVariableInfo> firstLevelDimensionVariableInfos)
+        private void WriteSetValue_ByNameAndListIndex(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
+            IList<ExtendedVariableInfo> longLivedDimensionVariableInfosToInclude =
+                visitorResult.LongLivedDimensionVariableInfos
+                             .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
+                             .OrderBy(x => x.ListIndex)
+                             .ToArray();
+
+            IList<ExtendedVariableInfo> inputVariableInfosToInclude =
+                visitorResult.InputVariableInfos
+                             .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
+                             .OrderBy(x => x.ListIndex)
+                             .ToArray();
+
             sb.AppendLine("public override void SetValue(string name, int listIndex, double value)");
             sb.AppendLine("{");
             sb.Indent();
@@ -329,17 +349,19 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 sb.AppendLine();
 
                 // Dimension Variables
-                WriteFieldAssignments_ByCanonicalName(sb, firstLevelDimensionVariableInfos);
+                WriteFieldAssignments_ByCanonicalName(sb, longLivedDimensionVariableInfosToInclude);
+                sb.AppendLine();
 
-                WriteFieldAssignments_ByCanonicalNameAndListIndex(sb, inputVariableInfos);
+                // Input Variables
+                WriteFieldAssignments_ByCanonicalNameAndListIndex(sb, inputVariableInfosToInclude);
 
                 sb.Unindent();
             }
             sb.AppendLine("}");
         }
 
-        /// <summary> Assumes that the variable dimensionEnum is already declared. </summary>
-        private static void WriteFieldAssignments_ByDimensionEnum(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        /// <summary> Assumes that the variable dimensionEnum is already declared in the generated code. </summary>
+        private void WriteFieldAssignments_ByDimensionEnum(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             var groups = variableInfos.GroupBy(x => x.DimensionEnum);
             if (groups.Any())
@@ -369,8 +391,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             }
         }
 
-        /// <summary> Assumes that the variable canonicalName is already declared. </summary>
-        private static void WriteFieldAssignments_ByCanonicalName(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        /// <summary> 
+        /// Assumes that the variable canonicalName is already declared in the generated code.
+        /// </summary>
+        private void WriteFieldAssignments_ByCanonicalName(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             var groups = variableInfos.GroupBy(x => x.CanonicalName);
             if (groups.Any())
@@ -393,9 +417,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             }
         }
 
-        private static void WriteFieldAssignments_ByDimensionEnumAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> inputVariableInfos)
+        /// <summary> 
+        /// Assumes that the variable dimensionEnum is already declared in the generated code.
+        /// Assumes variableInfos are already order by ListIndex.
+        /// </summary>
+        private void WriteFieldAssignments_ByDimensionEnumAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
-            var groups = inputVariableInfos.GroupBy(x => x.DimensionEnum);
+            var groups = variableInfos.GroupBy(x => x.DimensionEnum);
             foreach (var group in groups)
             {
                 int i = 0;
@@ -416,10 +444,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             }
         }
 
-        private static void WriteFieldAssignments_ByCanonicalNameAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> inputVariableInfos)
+        /// <summary> 
+        /// Assumes that the variable canonicalName is already declared in the generated code.
+        /// Assumes variableInfos are already order by ListIndex.
+        /// </summary>
+        private void WriteFieldAssignments_ByCanonicalNameAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             // Input Variables
-            var groups = inputVariableInfos.GroupBy(x => x.CanonicalName);
+            var groups = variableInfos.GroupBy(x => x.CanonicalName);
             foreach (var group in groups)
             {
                 int i = 0;
@@ -462,13 +494,19 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
         }
 
-        private static IList<string> GetInstanceVariableNamesCamelCase(OperatorDtoToCSharpVisitorResult visitorResult)
+        private IList<string> GetInstanceVariableNamesCamelCase(OperatorDtoToCSharpVisitorResult visitorResult)
         {
             return visitorResult.LongLivedPhaseVariableNamesCamelCase.Union(visitorResult.LongLivedPreviousPositionVariableNamesCamelCase)
                                                                      .Union(visitorResult.LongLivedOriginVariableNamesCamelCase)
                                                                      .Union(visitorResult.LongLivedDimensionVariableInfos.Select(x => x.VariableNameCamelCase))
                                                                      .Union(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
                                                                      .ToArray();
+        }
+
+        private bool IsAnonymousDimension(ExtendedVariableInfo extendedVariableInfo)
+        {
+            bool isAnonymousDimension = extendedVariableInfo.DimensionEnum == DimensionEnum.Undefined && string.IsNullOrEmpty(extendedVariableInfo.CanonicalName);
+            return isAnonymousDimension;
         }
     }
 }
