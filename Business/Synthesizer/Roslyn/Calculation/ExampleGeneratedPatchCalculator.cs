@@ -13,7 +13,7 @@ namespace GeneratedCSharp
 
         private double _phase_6;
         private double _prevpos_7;
-        private double _u0021blu00e0_0_0;
+        private double _u0021blu00e0_a_0;
         private double _something_2;
         private double _frequency_4;
 
@@ -39,35 +39,35 @@ namespace GeneratedCSharp
 
             double phase_6 = _phase_6;
             double prevpos_7 = _prevpos_7;
-            double u0021blu00e0_0_0 = _u0021blu00e0_0_0;
+            double u0021blu00e0_a_0 = _u0021blu00e0_a_0;
             double something_2 = _something_2;
             double frequency_4 = _frequency_4;
 
-            double u0021blu00e0_0_1;
-            double time_1_0;
-            double time_1_1;
+            double u0021blu00e0_a_1;
+            double time_b_0;
+            double time_b_1;
 
             int valueCount = frameCount * channelCount;
-            time_1_0 = startTime;
+            time_b_0 = startTime;
 
             for (int i = channelIndex; i < valueCount; i += channelCount)
             {
                 // Squash
-                u0021blu00e0_0_1 = u0021blu00e0_0_0 * 2.0E0;
+                u0021blu00e0_a_1 = u0021blu00e0_a_0 * 2.0E0;
 
                 // Shift
-                time_1_1 = time_1_0 + 5.0E-1;
+                time_b_1 = time_b_0 + 5.0E-1;
 
                 // SawDown
-                double sawdown_3 = u0021blu00e0_0_1 * something_2;
+                double sawdown_3 = u0021blu00e0_a_1 * something_2;
                 sawdown_3 = 1.0 - (2.0 * sawdown_3 % 2.0);
 
                 // Multiply
                 double multiply_5 = frequency_4 * sawdown_3;
 
                 // Sine
-                phase_6 += (time_1_1 - prevpos_7) * multiply_5;
-                prevpos_7 = time_1_1;
+                phase_6 += (time_b_1 - prevpos_7) * multiply_5;
+                prevpos_7 = time_b_1;
                 double sine_8 = SineCalculator.Sin(phase_6);
 
                 // Accumulate
@@ -82,12 +82,12 @@ namespace GeneratedCSharp
 
                 PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
 
-                time_1_0 += frameDuration;
+                time_b_0 += frameDuration;
             }
 
             _phase_6 = phase_6;
             _prevpos_7 = prevpos_7;
-            _u0021blu00e0_0_0 = u0021blu00e0_0_0;
+            _u0021blu00e0_a_0 = u0021blu00e0_a_0;
             _something_2 = something_2;
             _frequency_4 = frequency_4;
         }
@@ -132,7 +132,7 @@ namespace GeneratedCSharp
 
             if (String.Equals(canonicalName, "!blà", StringComparison.Ordinal))
             {
-                _u0021blu00e0_0_0 = value;
+                _u0021blu00e0_a_0 = value;
             }
 
             if (String.Equals(canonicalName, "something", StringComparison.Ordinal))
@@ -162,7 +162,7 @@ namespace GeneratedCSharp
 
             if (String.Equals(canonicalName, "!blà", StringComparison.Ordinal))
             {
-                _u0021blu00e0_0_0 = value;
+                _u0021blu00e0_a_0 = value;
             }
 
 

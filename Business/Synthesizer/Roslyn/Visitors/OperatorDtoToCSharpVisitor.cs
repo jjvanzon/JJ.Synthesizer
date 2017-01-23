@@ -9,6 +9,7 @@ using System.Diagnostics;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Roslyn.Visitors
 {
@@ -1497,7 +1498,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 {
                     mnemonic = canonicalCustomDimensionName;
                 }
-                alias = GenerateUniqueVariableName(mnemonic);
+                alias = GenerateUniqueDimensionAlias(mnemonic);
 
                 _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
             }
@@ -1521,9 +1522,18 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private string GenerateUniqueVariableName(object mnemonic)
         {
             string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
-            string uniqueSequence = GenerateAlphanumericCharacterSequence();
+            int uniqueNumber = GenerateUniqueNumber();
 
-            string variableName = $"{nonUniqueNameInCode}_{uniqueSequence}";
+            string variableName = $"{nonUniqueNameInCode}_{uniqueNumber}";
+            return variableName;
+        }
+
+        private string GenerateUniqueDimensionAlias(object mnemonic)
+        {
+            string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
+            string uniqueLetterSequence = GenerateUniqueLetterSequence();
+
+            string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}";
             return variableName;
         }
 
@@ -1533,10 +1543,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return convertedName;
         }
 
-        private string GenerateAlphanumericCharacterSequence()
+        private int GenerateUniqueNumber()
         {
-            //return NumberingSystems.ToLetterSequence(_letterSequenceCounter++, firstChar: 'a', lastChar: 'z');
-            return $"{_counter++}";
+            return _counter++;
+        }
+
+        private string GenerateUniqueLetterSequence()
+        {
+            return NumberingSystems.ToLetterSequence(_counter++, firstChar: 'a', lastChar: 'z');
         }
     }
 }
