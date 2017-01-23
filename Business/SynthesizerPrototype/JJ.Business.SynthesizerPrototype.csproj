@@ -76,7 +76,7 @@
     <Compile Include="Visitors\OperatorDtoVisitor_MachineOptimization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MathSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoPreProcessingExecutor.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_StackLevel_PerDimensionWriter.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_StackLevel.cs" />
     <Compile Include="Visitors\VisitorHelper.cs" />
   </ItemGroup>
   <ItemGroup>

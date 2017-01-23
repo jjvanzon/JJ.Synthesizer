@@ -93,9 +93,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfos = 
                 _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                                                                                                  .OrderBy(x => x.ListIndex)
-                                                                                                  .GroupBy(x => new { x.DimensionEnum, x.CanonicalName })
-                                                                                                  .Select(x => x.First())
+                                                                                                  .Where(x => x.ListIndex == 0)
                                                                                                   .Except(x => String.Equals(x.VariableNameCamelCase, firstTimeVariableNameCamelCase))
                                                                                                   .ToArray();
             IList<string> localDimensionVariableNamesCamelCase =

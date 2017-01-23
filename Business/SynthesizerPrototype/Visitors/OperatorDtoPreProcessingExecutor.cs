@@ -11,7 +11,7 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 
             dto = new OperatorDtoVisitor_MathSimplification().Execute(dto);
             dto = new OperatorDtoVisitor_MachineOptimization().Execute(dto);
-            new OperatorDtoVisitor_StackLevel_PerDimensionWriter().Execute(dto);
+            new OperatorDtoVisitor_StackLevel().Execute(dto);
 
             return dto;
         }
