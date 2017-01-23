@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Visitors
             dto = new OperatorDtoVisitor_MathSimplification(_targetChannelCount).Execute(dto);
             dto = new OperatorDtoVisitor_MachineOptimization().Execute(dto);
             dto = new OperatorDtoVisitor_ProgrammerLaziness().Execute(dto);
-            new OperatorDtoVisitor_StackLevel_PerDimensionWriter().Execute(dto);
+            new OperatorDtoVisitor_DimensionStackLevel().Execute(dto);
 
             return dto;
         }
