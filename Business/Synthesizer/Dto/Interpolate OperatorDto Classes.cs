@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public double SamplingRate { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
+        public string CanonicalCustomDimensionName { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
     }
 

@@ -1449,18 +1449,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private string GeneratePositionName(IOperatorDto_WithDimension dto, int? alternativeStackIndexLevel = null)
         {
-            string customDimensionName = dto.CustomDimensionName;
+            string canonicalCustomDimensionName = dto.CanonicalCustomDimensionName;
             DimensionEnum standardDimensionEnum = dto.StandardDimensionEnum;
             int stackLevel = alternativeStackIndexLevel ?? dto.DimensionStackLevel;
 
-            return GeneratePositionName(stackLevel, standardDimensionEnum, customDimensionName);
+            return GeneratePositionName(stackLevel, standardDimensionEnum, canonicalCustomDimensionName);
         }
 
-        private string GeneratePositionName(int stackLevel, DimensionEnum standardDimensionEnum = DimensionEnum.Undefined, string customDimensionName = null)
+        private string GeneratePositionName(int stackLevel, DimensionEnum standardDimensionEnum = DimensionEnum.Undefined, string canonicalCustomDimensionName = null)
         {
-            // Format CustomDimensionName
-            string canonicalCustomDimensionName = NameHelper.ToCanonical(customDimensionName);
-
             // Get DimensionAlias
             string dimensionAlias = GetDimensionAlias(standardDimensionEnum, canonicalCustomDimensionName);
 

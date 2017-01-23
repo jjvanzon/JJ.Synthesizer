@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.InletsToDimension;
 
         public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
+        public string CanonicalCustomDimensionName { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
     }
 

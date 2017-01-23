@@ -7,6 +7,6 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.GetDimension;
 
         public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
+        public string CanonicalCustomDimensionName { get; set; }
     }
 }

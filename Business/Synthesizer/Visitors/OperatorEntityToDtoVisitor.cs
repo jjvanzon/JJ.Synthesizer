@@ -1032,7 +1032,7 @@ namespace JJ.Business.Synthesizer.Visitors
         private void SetDimensionProperties(Operator op, IOperatorDto_WithDimension dto)
         {
             dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
-            dto.CustomDimensionName = op.CustomDimensionName;
+            dto.CanonicalCustomDimensionName = NameHelper.ToCanonical(op.CustomDimensionName);
         }
 
         // Special Visitation

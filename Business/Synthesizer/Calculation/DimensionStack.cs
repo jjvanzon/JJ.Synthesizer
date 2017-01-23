@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private const int DEFAULT_CAPACITY = 128;
 
         public DimensionEnum StandardDimensionEnum { get; }
-        public string CustomDimensionName { get; }
+        public string CanonicalCustomDimensionName { get; }
 
         private int _count;
         private double[] _array;
@@ -20,10 +20,10 @@ namespace JJ.Business.Synthesizer.Calculation
             StandardDimensionEnum = standardDimensionEnum;
         }
 
-        public DimensionStack(string customDimensionName)
+        public DimensionStack(string canonicalCustomDimensionName)
             : this()
         {
-            CustomDimensionName = customDimensionName;
+            CanonicalCustomDimensionName = canonicalCustomDimensionName;
         }
 
         private DimensionStack()

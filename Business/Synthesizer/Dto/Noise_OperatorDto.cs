@@ -10,6 +10,6 @@ namespace JJ.Business.Synthesizer.Dto
         public int OperatorID { get; set; }
 
         public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CustomDimensionName { get; set; }
+        public string CanonicalCustomDimensionName { get; set; }
     }
 }

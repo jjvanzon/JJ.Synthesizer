@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 
@@ -72,7 +71,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var operatorDto_WithDimension = dto as IOperatorDto_WithDimension;
             if (operatorDto_WithDimension != null)
             {
-                dto.DimensionStackLevel = GetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CustomDimensionName);
+                dto.DimensionStackLevel = GetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName);
             }
 
             // Determine whether dto is a dimension writer. If not visit, normally.
@@ -103,22 +102,21 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             // Only behind the signal inlet the dimension stack level increases.
-            int currentStackLevel = GetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CustomDimensionName);
+            int currentStackLevel = GetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName);
 
             currentStackLevel++;
-            SetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CustomDimensionName, currentStackLevel);
+            SetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName, currentStackLevel);
 
             Visit_OperatorDto_Polymorphic(operatorDto_VarSignal.SignalOperatorDto);
 
             currentStackLevel--;
-            SetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CustomDimensionName, currentStackLevel);
+            SetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName, currentStackLevel);
 
             return dto;
         }
 
-        private int GetCurrentStackLevel(DimensionEnum standardDimensionEnum, string customDimensionName)
+        private int GetCurrentStackLevel(DimensionEnum standardDimensionEnum, string canonicalCustomDimensionName)
         {
-            string canonicalCustomDimensionName = NameHelper.ToCanonical(customDimensionName);
             Tuple<DimensionEnum, string> key = new Tuple<DimensionEnum, string>(standardDimensionEnum, canonicalCustomDimensionName);
 
             int stackLevel;
@@ -130,9 +128,8 @@ namespace JJ.Business.Synthesizer.Visitors
             return stackLevel;
         }
 
-        private void SetCurrentStackLevel(DimensionEnum standardDimensionEnum, string customDimensionName, int value)
+        private void SetCurrentStackLevel(DimensionEnum standardDimensionEnum, string canonicalCustomDimensionName, int value)
         {
-            string canonicalCustomDimensionName = NameHelper.ToCanonical(customDimensionName);
             Tuple<DimensionEnum, string> key = new Tuple<DimensionEnum, string>(standardDimensionEnum, canonicalCustomDimensionName);
 
             _dimensionToCurrentStackLevelDictionary[key] = value;

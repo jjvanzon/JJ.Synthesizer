@@ -13,8 +13,8 @@ namespace GeneratedCSharp
 
         private double _phase_6;
         private double _prevpos_7;
-        private double _u0021blu00e0_2_1;
-        private double _something_1;
+        private double _u0021blu00e0_0_0;
+        private double _something_2;
         private double _frequency_4;
 
         // Constructor
@@ -22,7 +22,7 @@ namespace GeneratedCSharp
         public GeneratedPatchCalculator(int samplingRate, int channelCount, int channelIndex)
             : base(samplingRate, channelCount, channelIndex)
         {
-            _something_1 = 1.0E0;
+            _something_2 = 1.0E0;
             _frequency_4 = 4.4E2;
 
             Reset(time: 0.0);
@@ -39,31 +39,35 @@ namespace GeneratedCSharp
 
             double phase_6 = _phase_6;
             double prevpos_7 = _prevpos_7;
-            double u0021blu00e0_2_1 = _u0021blu00e0_2_1;
-            double something_1 = _something_1;
+            double u0021blu00e0_0_0 = _u0021blu00e0_0_0;
+            double something_2 = _something_2;
             double frequency_4 = _frequency_4;
 
-            double time_0_0;
-            double time_0_1;
+            double u0021blu00e0_0_1;
+            double time_1_0;
+            double time_1_1;
 
             int valueCount = frameCount * channelCount;
-            time_0_0 = startTime;
+            time_1_0 = startTime;
 
             for (int i = channelIndex; i < valueCount; i += channelCount)
             {
+                // Squash
+                u0021blu00e0_0_1 = u0021blu00e0_0_0 * 2.0E0;
+
                 // Shift
-                time_0_1 = time_0_0 + 5.0E-1;
+                time_1_1 = time_1_0 + 5.0E-1;
 
                 // SawDown
-                double sawdown_3 = u0021blu00e0_2_1 * something_1;
+                double sawdown_3 = u0021blu00e0_0_1 * something_2;
                 sawdown_3 = 1.0 - (2.0 * sawdown_3 % 2.0);
 
                 // Multiply
                 double multiply_5 = frequency_4 * sawdown_3;
 
                 // Sine
-                phase_6 += (time_0_1 - prevpos_7) * multiply_5;
-                prevpos_7 = time_0_1;
+                phase_6 += (time_1_1 - prevpos_7) * multiply_5;
+                prevpos_7 = time_1_1;
                 double sine_8 = SineCalculator.Sin(phase_6);
 
                 // Accumulate
@@ -78,13 +82,13 @@ namespace GeneratedCSharp
 
                 PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
 
-                time_0_0 += frameDuration;
+                time_1_0 += frameDuration;
             }
 
             _phase_6 = phase_6;
             _prevpos_7 = prevpos_7;
-            _u0021blu00e0_2_1 = u0021blu00e0_2_1;
-            _something_1 = something_1;
+            _u0021blu00e0_0_0 = u0021blu00e0_0_0;
+            _something_2 = something_2;
             _frequency_4 = frequency_4;
         }
 
@@ -97,7 +101,7 @@ namespace GeneratedCSharp
             switch (listIndex)
             {
                 case 0:
-                    _something_1 = value;
+                    _something_2 = value;
                     break;
 
                 case 1:
@@ -113,11 +117,6 @@ namespace GeneratedCSharp
 
             switch (dimensionEnum)
             {
-                case DimensionEnum.Undefined:
-                    _something_1 = value;
-                    _u0021blu00e0_2_1 = value;
-                    break;
-
                 case DimensionEnum.Frequency:
                     _frequency_4 = value;
                     break;
@@ -131,19 +130,14 @@ namespace GeneratedCSharp
 
             string canonicalName = NameHelper.ToCanonical(name);
 
-            if (String.Equals(canonicalName, "something", StringComparison.Ordinal))
-            {
-                _something_1 = value;
-            }
-
-            if (String.Equals(canonicalName, "", StringComparison.Ordinal))
-            {
-                _frequency_4 = value;
-            }
-
             if (String.Equals(canonicalName, "!blà", StringComparison.Ordinal))
             {
-                _u0021blu00e0_2_1 = value;
+                _u0021blu00e0_0_0 = value;
+            }
+
+            if (String.Equals(canonicalName, "something", StringComparison.Ordinal))
+            {
+                _something_2 = value;
             }
 
         }
@@ -152,17 +146,6 @@ namespace GeneratedCSharp
         {
             base.SetValue(dimensionEnum, listIndex, value);
 
-            switch (dimensionEnum)
-            {
-                case DimensionEnum.Undefined:
-                    _u0021blu00e0_2_1 = value;
-                    break;
-
-            }
-            if (dimensionEnum == DimensionEnum.Undefined && listIndex == 0)
-            {
-                _something_1 = value;
-            }
 
             if (dimensionEnum == DimensionEnum.Frequency && listIndex == 0)
             {
@@ -179,17 +162,13 @@ namespace GeneratedCSharp
 
             if (String.Equals(canonicalName, "!blà", StringComparison.Ordinal))
             {
-                _u0021blu00e0_2_1 = value;
+                _u0021blu00e0_0_0 = value;
             }
+
 
             if (String.Equals(canonicalName, "something") && listIndex == 0)
             {
-                _something_1 = value;
-            }
-
-            if (String.Equals(canonicalName, "") && listIndex == 0)
-            {
-                _frequency_4 = value;
+                _something_2 = value;
             }
 
         }

@@ -1611,7 +1611,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     Till = tillMathPropertiesDto.ConstValue,
                     Step = stepMathPropertiesDto.ConstValue,
                     StandardDimensionEnum = dto.StandardDimensionEnum,
-                    CustomDimensionName = dto.CustomDimensionName
+                    CanonicalCustomDimensionName = dto.CanonicalCustomDimensionName
                 };
             }
             else
@@ -1622,7 +1622,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     TillOperatorDto = dto.TillOperatorDto,
                     StepOperatorDto = dto.StepOperatorDto,
                     StandardDimensionEnum = dto.StandardDimensionEnum,
-                    CustomDimensionName = dto.CustomDimensionName
+                    CanonicalCustomDimensionName = dto.CanonicalCustomDimensionName
                 };
             }
         }

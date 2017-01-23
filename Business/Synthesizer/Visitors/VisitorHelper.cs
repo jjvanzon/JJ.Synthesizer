@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 {
                     throw new Exception(String.Format(
                         "DimensionStack.Count for DimensionStack {0} should be 1 but it is {1}.",
-                        new { dimensionStack.CustomDimensionName, dimensionStack.StandardDimensionEnum },
+                        new { dimensionStack.CanonicalCustomDimensionName, dimensionStack.StandardDimensionEnum },
                         dimensionStack.Count));
                 }
             }

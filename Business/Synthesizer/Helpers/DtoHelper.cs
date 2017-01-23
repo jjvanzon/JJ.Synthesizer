@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static void Clone_DimensionProperties(IOperatorDto_WithDimension source, IOperatorDto_WithDimension dest)
         {
-            dest.CustomDimensionName = source.CustomDimensionName;
+            dest.CanonicalCustomDimensionName = source.CanonicalCustomDimensionName;
             dest.StandardDimensionEnum = source.StandardDimensionEnum;
         }
 

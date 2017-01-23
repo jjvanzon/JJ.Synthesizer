@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation
             }
             else
             {
-                return GetDimensionStack(dto.CustomDimensionName);
+                return GetDimensionStack(dto.CanonicalCustomDimensionName);
             }
         }
 
@@ -42,7 +42,8 @@ namespace JJ.Business.Synthesizer.Calculation
             }
             else
             {
-                return GetDimensionStack(op.CustomDimensionName);
+                string canonicalCustomDimensionName = NameHelper.ToCanonical(op.CustomDimensionName);
+                return GetDimensionStack(canonicalCustomDimensionName);
             }
         }
 
@@ -58,15 +59,13 @@ namespace JJ.Business.Synthesizer.Calculation
             return dimensionStack;
         }
 
-        public DimensionStack GetDimensionStack(string customDimensionName)
+        public DimensionStack GetDimensionStack(string canonicalCustomDimensionName)
         {
-            string formattedCustomDimensionName = NameHelper.ToCanonical(customDimensionName);
-
             DimensionStack dimensionStack;
-            if (!_customDimensionName_To_DimensionStack_Dictionary.TryGetValue(formattedCustomDimensionName, out dimensionStack))
+            if (!_customDimensionName_To_DimensionStack_Dictionary.TryGetValue(canonicalCustomDimensionName, out dimensionStack))
             {
-                dimensionStack = CreateDimensionStack(customDimensionName);
-                _customDimensionName_To_DimensionStack_Dictionary[formattedCustomDimensionName] = dimensionStack;
+                dimensionStack = CreateDimensionStack(canonicalCustomDimensionName);
+                _customDimensionName_To_DimensionStack_Dictionary[canonicalCustomDimensionName] = dimensionStack;
             }
 
             return dimensionStack;
@@ -91,9 +90,9 @@ namespace JJ.Business.Synthesizer.Calculation
             return stack;
         }
 
-        private static DimensionStack CreateDimensionStack(string customDimensionName)
+        private static DimensionStack CreateDimensionStack(string canonicalCustomDimensionName)
         {
-            var stack = new DimensionStack(customDimensionName);
+            var stack = new DimensionStack(canonicalCustomDimensionName);
 
             // Initialize stack with one item in it, so Peek immediately works to return 0.0.
             stack.Push(0.0);
