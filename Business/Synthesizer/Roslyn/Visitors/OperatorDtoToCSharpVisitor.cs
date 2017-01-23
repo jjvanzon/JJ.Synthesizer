@@ -1456,7 +1456,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return GeneratePositionName(stackLevel, standardDimensionEnum, canonicalCustomDimensionName);
         }
 
-        private string GeneratePositionName(int stackLevel, DimensionEnum standardDimensionEnum = DimensionEnum.Undefined, string canonicalCustomDimensionName = null)
+        private string GeneratePositionName(int stackLevel, DimensionEnum standardDimensionEnum = DimensionEnum.Undefined, string canonicalCustomDimensionName = "")
         {
             // Get DimensionAlias
             string dimensionAlias = GetDimensionAlias(standardDimensionEnum, canonicalCustomDimensionName);
