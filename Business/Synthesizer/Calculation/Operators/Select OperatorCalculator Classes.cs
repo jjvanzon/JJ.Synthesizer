@@ -14,11 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase positionCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
-            {
-                signalCalculator,
-                positionCalculator
-            })
+            : base(new OperatorCalculatorBase[] { signalCalculator, positionCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(positionCalculator, () => positionCalculator);
@@ -43,7 +39,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
             double result = _signalCalculator.Calculate();
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
@@ -82,10 +77,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double position,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
-            {
-                signalCalculator
-            })
+            : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);

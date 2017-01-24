@@ -591,6 +591,18 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessPhaseTracker(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
         }
 
+        protected override OperatorDtoBase Visit_Select_OperatorDto_VarSignal_ConstPosition(Select_OperatorDto_VarSignal_ConstPosition dto)
+        {
+            throw new NotImplementedException();
+            return base.Visit_Select_OperatorDto_VarSignal_ConstPosition(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Select_OperatorDto_VarSignal_VarPosition(Select_OperatorDto_VarSignal_VarPosition dto)
+        {
+            throw new NotImplementedException();
+            return base.Visit_Select_OperatorDto_VarSignal_VarPosition(dto);
+        }
+
         protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
             return ProcessShift(dto, distance: dto.Distance);

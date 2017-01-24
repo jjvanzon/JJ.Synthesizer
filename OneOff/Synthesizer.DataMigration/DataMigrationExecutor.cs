@@ -10,6 +10,9 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Extensions;
+using System.Linq;
+using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
@@ -17,10 +20,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
     {
         private class InletOrOutletTuple
         {
-            // TODO: Remove outcommented code.
-            //public InletOrOutletTuple()
-            //{ }
-
             public InletOrOutletTuple(
                 OperatorTypeEnum operatorTypeEnum,
                 int listIndex,
@@ -34,7 +33,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             public OperatorTypeEnum OperatorTypeEnum { get; set; }
             public int ListIndex { get; set; }
             public DimensionEnum DimensionEnum { get; set; }
-            //public double DefaultValue { get; set; }
         }
 
         private const int DEFAULT_FREQUENCY = 440;
@@ -2514,8 +2512,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //    progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         //}
 
-        // Helpers
-
         /// <summary>
         /// Back when default values for inlets were added to the PatchManager.CreateOperator methods,
         /// The choice was made to NOT initialize them for already existing data,
@@ -3062,6 +3058,65 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
+
+        public static void Migrate_OperatorType_Select_ToSetDimension(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+                var entityPositionManager = new EntityPositionManager(repositories.EntityPositionRepository, repositories.IDRepository);
+
+                    IList<Operator> source_Select_Operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Select);
+
+                for (int i = 0; i < source_Select_Operators.Count; i++)
+                {
+                    Operator source_Select_Operator = source_Select_Operators[i];
+                    var source_Select_Wrapper = new Select_OperatorWrapper(source_Select_Operator);
+
+                    patchManager.Patch = source_Select_Operator.Patch;
+
+                    SetDimension_OperatorWrapper dest_SetDimension_Wrapper = patchManager.SetDimension(
+                        source_Select_Wrapper.Signal,
+                        source_Select_Wrapper.Position,
+                        source_Select_Operator.GetStandardDimensionEnum(),
+                        source_Select_Operator.CustomDimensionName);
+
+                    dest_SetDimension_Wrapper.Name = source_Select_Operator.Name;
+
+                    Outlet destOutlet = dest_SetDimension_Wrapper.PassThroughOutlet;
+
+                    IList<Inlet> connectedInlets = source_Select_Wrapper.Result.ConnectedInlets.ToArray();
+                    foreach (Inlet connectedInlet in connectedInlets)
+                    {
+                        connectedInlet.LinkTo(destOutlet);
+                    }
+
+                    EntityPosition sourceEntityPosition = entityPositionManager.GetOperatorPosition(source_Select_Operator.ID);
+                    EntityPosition destEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(dest_SetDimension_Wrapper.WrappedOperator.ID);
+                    destEntityPosition.X = sourceEntityPosition.X;
+                    destEntityPosition.Y = sourceEntityPosition.Y;
+
+                    patchManager.DeleteOperatorWithRelatedEntities(source_Select_Operator);
+
+                    string progressMessage = String.Format("Migrated {0} Operator {1}/{2}.", nameof(OperatorTypeEnum.Select), i + 1, source_Select_Operators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        // Helpers
 
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {

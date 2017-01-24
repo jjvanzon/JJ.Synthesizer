@@ -1912,7 +1912,7 @@ namespace JJ.Business.Synthesizer
         }
 
         public SetDimension_OperatorWrapper SetDimension(
-            Outlet calculation = null, 
+            Outlet passThrough = null, 
             Outlet value = null,
             DimensionEnum standardDimension = DimensionEnum.Undefined,
             string customDimension = null)
@@ -1927,7 +1927,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new SetDimension_OperatorWrapper(op)
             {
-                PassThroughInput = calculation,
+                PassThroughInput = passThrough,
                 Value = value
             };
 
