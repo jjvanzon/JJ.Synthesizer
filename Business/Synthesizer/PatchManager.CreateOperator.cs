@@ -1885,32 +1885,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Select_OperatorWrapper Select(
-            Outlet signal = null, 
-            Outlet position = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
-            string customDimension = null)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Select,
-                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined },
-                new DimensionEnum[] { DimensionEnum.Undefined });
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new Select_OperatorWrapper(op)
-            {
-                Signal = signal,
-                Position = position
-            };
-
-            VoidResult result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
         public SetDimension_OperatorWrapper SetDimension(
             Outlet passThrough = null, 
             Outlet value = null,
@@ -2417,7 +2391,6 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.SawDown: return SawDown();
                 case OperatorTypeEnum.SawUp: return SawUp();
                 case OperatorTypeEnum.Scaler: return Scaler();
-                case OperatorTypeEnum.Select: return Select();
                 case OperatorTypeEnum.SetDimension: return SetDimension();
                 case OperatorTypeEnum.Shift: return Shift();
                 case OperatorTypeEnum.Sine: return Sine();

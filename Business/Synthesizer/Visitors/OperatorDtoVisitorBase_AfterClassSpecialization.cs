@@ -300,11 +300,6 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override OperatorDtoBase Visit_Select_OperatorDto(Select_OperatorDto dto)
-        {
-            throw new NotSupportedException();
-        }
-
         protected sealed override OperatorDtoBase Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
         {
             throw new NotSupportedException();

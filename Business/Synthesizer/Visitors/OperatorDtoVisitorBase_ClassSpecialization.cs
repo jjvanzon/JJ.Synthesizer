@@ -1952,56 +1952,30 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_Select_OperatorDto(Select_OperatorDto dto)
+        protected override OperatorDtoBase Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
         {
-            base.Visit_Select_OperatorDto(dto);
+            base.Visit_SetDimension_OperatorDto(dto);
 
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
-            MathPropertiesDto positionMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.PositionOperatorDto);
+            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.PassThroughInputOperatorDto);
+            MathPropertiesDto positionMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.ValueOperatorDto);
 
             OperatorDtoBase_WithDimension dto2;
 
             if (signalMathPropertiesDto.IsConst && positionMathPropertiesDto.IsConst)
             {
-                dto2 = new Select_OperatorDto_ConstSignal_ConstPosition { Signal = signalMathPropertiesDto.ConstValue, Position = positionMathPropertiesDto.ConstValue };
+                dto2 = new SetDimension_OperatorDto_ConstPassThrough_ConstValue { PassThrough = signalMathPropertiesDto.ConstValue, Value = positionMathPropertiesDto.ConstValue };
             }
             else if (signalMathPropertiesDto.IsVar && positionMathPropertiesDto.IsConst)
             {
-                dto2 = new Select_OperatorDto_VarSignal_ConstPosition { SignalOperatorDto = dto.SignalOperatorDto, Position = positionMathPropertiesDto.ConstValue };
+                dto2 = new SetDimension_OperatorDto_VarPassThrough_ConstValue { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, Value = positionMathPropertiesDto.ConstValue };
             }
             else if (signalMathPropertiesDto.IsConst && positionMathPropertiesDto.IsVar)
             {
-                dto2 = new Select_OperatorDto_ConstSignal_VarPosition { Signal = signalMathPropertiesDto.ConstValue, PositionOperatorDto = dto.PositionOperatorDto };
+                dto2 = new SetDimension_OperatorDto_ConstPassThrough_VarValue { PassThrough = signalMathPropertiesDto.ConstValue, ValueOperatorDto = dto.ValueOperatorDto };
             }
             else if (signalMathPropertiesDto.IsVar && positionMathPropertiesDto.IsVar)
             {
-                dto2 = new Select_OperatorDto_VarSignal_VarPosition { SignalOperatorDto = dto.SignalOperatorDto, PositionOperatorDto = dto.PositionOperatorDto };
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
-            }
-
-            DtoHelper.Clone_DimensionProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override OperatorDtoBase Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
-        {
-            base.Visit_SetDimension_OperatorDto(dto);
-
-            MathPropertiesDto valueMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.ValueOperatorDto);
-
-            OperatorDtoBase_WithDimension dto2;
-
-            if (valueMathProperties.IsVar)
-            {
-                dto2 = new SetDimension_OperatorDto_VarValue { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, ValueOperatorDto = dto.ValueOperatorDto };
-            }
-            else if (valueMathProperties.IsConst)
-            {
-                dto2 = new SetDimension_OperatorDto_ConstValue { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, Value = valueMathProperties.ConstValue };
+                dto2 = new SetDimension_OperatorDto_VarPassThrough_VarValue { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, ValueOperatorDto = dto.ValueOperatorDto };
             }
             else
             {

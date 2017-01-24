@@ -33,7 +33,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             EnsureEntity(23, "Triangle", hasDimension: true);
             EnsureEntity(24, "Exponent");
             EnsureEntity(25, "Loop", hasDimension: true);
-            EnsureEntity(26, "Select", hasDimension: true);
+            //EnsureEntity(26, "Select", hasDimension: true);
             //EnsureEntity(27, "Bundle", hasDimension: true);
             //EnsureEntity(28, "Unbundle", hasDimension: true);
             EnsureEntity(29, "Stretch", hasDimension: true);

@@ -1120,24 +1120,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new Scaler_OperatorCalculator_ManyConsts(_stack.Pop(), dto.SourceValueA, dto.SourceValueB, dto.TargetValueA, dto.TargetValueB));
         }
 
-        protected override OperatorDtoBase Visit_Select_OperatorDto_VarSignal_ConstPosition(Select_OperatorDto_VarSignal_ConstPosition dto)
+        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_VarPassThrough_ConstValue(SetDimension_OperatorDto_VarPassThrough_ConstValue dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new Select_OperatorCalculator_VarSignal_ConstPosition(_stack.Pop(), dto.Position, dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new SetDimension_OperatorCalculator_VarPassThrough_ConstValue(_stack.Pop(), dto.Value, dimensionStack));
         }
 
-        protected override OperatorDtoBase Visit_Select_OperatorDto_VarSignal_VarPosition(Select_OperatorDto_VarSignal_VarPosition dto)
+        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_VarPassThrough_VarValue(SetDimension_OperatorDto_VarPassThrough_VarValue dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new Select_OperatorCalculator_VarSignal_VarPosition(_stack.Pop(), _stack.Pop(), dimensionStack));
-        }
-
-        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_ConstValue(SetDimension_OperatorDto_ConstValue dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new SetDimension_OperatorCalculator_ConstValue(_stack.Pop(), dto.Value, dimensionStack));
-        }
-
-        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_VarValue(SetDimension_OperatorDto_VarValue dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new SetDimension_OperatorCalculator_VarValue(_stack.Pop(), _stack.Pop(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new SetDimension_OperatorCalculator_VarPassThrough_VarValue(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)

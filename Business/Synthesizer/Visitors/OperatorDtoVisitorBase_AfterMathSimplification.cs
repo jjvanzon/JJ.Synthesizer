@@ -455,12 +455,12 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override OperatorDtoBase Visit_Select_OperatorDto_ConstSignal_ConstPosition(Select_OperatorDto_ConstSignal_ConstPosition dto)
+        protected sealed override OperatorDtoBase Visit_SetDimension_OperatorDto_ConstPassThrough_ConstValue(SetDimension_OperatorDto_ConstPassThrough_ConstValue dto)
         {
             throw new NotSupportedException();
         }
 
-        protected sealed override OperatorDtoBase Visit_Select_OperatorDto_ConstSignal_VarPosition(Select_OperatorDto_ConstSignal_VarPosition dto)
+        protected sealed override OperatorDtoBase Visit_SetDimension_OperatorDto_ConstPassThrough_VarValue(SetDimension_OperatorDto_ConstPassThrough_VarValue dto)
         {
             throw new NotSupportedException();
         }

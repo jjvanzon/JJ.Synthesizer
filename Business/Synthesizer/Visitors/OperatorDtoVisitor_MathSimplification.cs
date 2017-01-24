@@ -2018,36 +2018,24 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        // Select
-
-        protected override OperatorDtoBase Visit_Select_OperatorDto_ConstSignal_ConstPosition(Select_OperatorDto_ConstSignal_ConstPosition dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override OperatorDtoBase Visit_Select_OperatorDto_ConstSignal_VarPosition(Select_OperatorDto_ConstSignal_VarPosition dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override OperatorDtoBase Visit_Select_OperatorDto_VarSignal_ConstPosition(Select_OperatorDto_VarSignal_ConstPosition dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Select_OperatorDto_VarSignal_VarPosition(Select_OperatorDto_VarSignal_VarPosition dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         // SetDimension
 
-        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_ConstValue(SetDimension_OperatorDto_ConstValue dto)
+        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_ConstPassThrough_ConstValue(SetDimension_OperatorDto_ConstPassThrough_ConstValue dto)
+        {
+            return Process_ConstSignal_Identity(dto.PassThrough);
+        }
+
+        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_ConstPassThrough_VarValue(SetDimension_OperatorDto_ConstPassThrough_VarValue dto)
+        {
+            return Process_ConstSignal_Identity(dto.PassThrough);
+        }
+
+        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_VarPassThrough_ConstValue(SetDimension_OperatorDto_VarPassThrough_ConstValue dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_VarValue(SetDimension_OperatorDto_VarValue dto)
+        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_VarPassThrough_VarValue(SetDimension_OperatorDto_VarPassThrough_VarValue dto)
         {
             return Process_Nothing(dto);
         }

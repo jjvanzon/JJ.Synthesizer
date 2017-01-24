@@ -83,7 +83,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.SawDown, VisitSawDown },
                 { OperatorTypeEnum.SawUp, VisitSawUp },
                 { OperatorTypeEnum.Scaler, VisitScaler },
-                { OperatorTypeEnum.Select, VisitSelect },
                 { OperatorTypeEnum.SetDimension, VisitSetDimension },
                 { OperatorTypeEnum.Shift, VisitShift },
                 { OperatorTypeEnum.Sine, VisitSine },
@@ -610,12 +609,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         [DebuggerHidden]
         protected virtual void VisitScaler(Operator op)
-        {
-            VisitOperatorBase(op);
-        }
-
-        [DebuggerHidden]
-        protected virtual void VisitSelect(Operator op)
         {
             VisitOperatorBase(op);
         }

@@ -476,14 +476,11 @@ namespace JJ.Business.Synthesizer.Api
             Outlet targetValueB = null)
             => _patchManager.Scaler(signal, sourceValueA, sourceValueB, targetValueA, targetValueB);
 
-        public Select_OperatorWrapper Select(
-            Outlet signal = null, 
-            Outlet position = null, 
+        public SetDimension_OperatorWrapper SetDimension(
+            Outlet calculation = null, 
+            Outlet value = null, 
             DimensionEnum standardDimension = DimensionEnum.Undefined, 
             string customDimension = null)
-            => _patchManager.Select(signal, position, standardDimension, customDimension);
-
-        public SetDimension_OperatorWrapper SetDimension(Outlet calculation = null, Outlet value = null, DimensionEnum standardDimension = DimensionEnum.Undefined, string customDimension = null)
             => _patchManager.SetDimension(calculation, value, standardDimension, customDimension);
 
         public Shift_OperatorWrapper Shift(

@@ -79,7 +79,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.SawDown, typeof(SawDown_OperatorWarningValidator) },
             { OperatorTypeEnum.SawUp, typeof(SawUp_OperatorWarningValidator) },
             { OperatorTypeEnum.Scaler, typeof(Scaler_OperatorWarningValidator) },
-            { OperatorTypeEnum.Select, typeof(Select_OperatorWarningValidator) },
             { OperatorTypeEnum.SetDimension, null },
             { OperatorTypeEnum.Shift, typeof(Shift_OperatorWarningValidator) },
             { OperatorTypeEnum.Sine, typeof(Sine_OperatorWarningValidator) },

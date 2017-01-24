@@ -3,24 +3,24 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SetDimension_OperatorCalculator_VarValue : OperatorCalculatorBase_WithChildCalculators
+    internal class SetDimension_OperatorCalculator_VarPassThrough_VarValue : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _calculationCalculator;
+        private readonly OperatorCalculatorBase _passThroughCalculator;
         private readonly OperatorCalculatorBase _valueCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public SetDimension_OperatorCalculator_VarValue(
-            OperatorCalculatorBase calculationCalculator,
+        public SetDimension_OperatorCalculator_VarPassThrough_VarValue(
+            OperatorCalculatorBase passThroughCalculator,
             OperatorCalculatorBase valueCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { calculationCalculator, valueCalculator })
+            : base(new OperatorCalculatorBase[] { passThroughCalculator, valueCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculationCalculator, () => calculationCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(passThroughCalculator, () => passThroughCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(valueCalculator, () => valueCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _calculationCalculator = calculationCalculator;
+            _passThroughCalculator = passThroughCalculator;
             _valueCalculator = valueCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-            double outputValue = _calculationCalculator.Calculate();
+            double outputValue = _passThroughCalculator.Calculate();
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
 #endif
@@ -66,24 +66,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SetDimension_OperatorCalculator_ConstValue : OperatorCalculatorBase_WithChildCalculators
+    internal class SetDimension_OperatorCalculator_VarPassThrough_ConstValue : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _calculationCalculator;
+        private readonly OperatorCalculatorBase _passThroughCalculator;
         private readonly double _value;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public SetDimension_OperatorCalculator_ConstValue(
-            OperatorCalculatorBase calculationCalculator,
+        public SetDimension_OperatorCalculator_VarPassThrough_ConstValue(
+            OperatorCalculatorBase passThroughCalculator,
             double value,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { calculationCalculator })
+            : base(new OperatorCalculatorBase[] { passThroughCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculationCalculator, () => calculationCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(passThroughCalculator, () => passThroughCalculator);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _value = value;
-            _calculationCalculator = calculationCalculator;
+            _passThroughCalculator = passThroughCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
 
-            double outputValue = _calculationCalculator.Calculate();
+            double outputValue = _passThroughCalculator.Calculate();
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
 #endif

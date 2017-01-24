@@ -3565,41 +3565,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        protected override void VisitSelect(Operator op)
-        {
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
-            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
-
-            base.VisitSelect(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase positionCalculator = _stack.Pop();
-
-            double signal = signalCalculator.Calculate();
-            double position = positionCalculator.Calculate();
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool positionIsConst = positionCalculator is Number_OperatorCalculator;
-
-            dimensionStack.Pop();
-
-            if (signalIsConst)
-            {
-                calculator = new Number_OperatorCalculator(signal);
-            }
-            else if (positionIsConst)
-            {
-                calculator = new Select_OperatorCalculator_VarSignal_ConstPosition(signalCalculator, position, dimensionStack);
-            }
-            else
-            {
-                calculator = new Select_OperatorCalculator_VarSignal_VarPosition(signalCalculator, positionCalculator, dimensionStack);
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitSetDimension(Operator op)
         {
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
@@ -3609,27 +3574,27 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase operatorCalculator;
 
-            OperatorCalculatorBase calculationCalculator = _stack.Pop();
+            OperatorCalculatorBase passThroughCalculator = _stack.Pop();
             OperatorCalculatorBase valueCalculator = _stack.Pop();
 
-            bool calculationIsConst = calculationCalculator is Number_OperatorCalculator;
+            bool passThroughIsConst = passThroughCalculator is Number_OperatorCalculator;
             bool valueIsConst = valueCalculator is Number_OperatorCalculator;
 
             double value = valueCalculator.Calculate();
 
             dimensionStack.Pop();
 
-            if (calculationIsConst)
+            if (passThroughIsConst)
             {
-                operatorCalculator = calculationCalculator;
+                operatorCalculator = passThroughCalculator;
             }
             else if (valueIsConst)
             {
-                operatorCalculator = new SetDimension_OperatorCalculator_ConstValue(calculationCalculator, value, dimensionStack);
+                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_ConstValue(passThroughCalculator, value, dimensionStack);
             }
             else
             {
-                operatorCalculator = new SetDimension_OperatorCalculator_VarValue(calculationCalculator, valueCalculator, dimensionStack);
+                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_VarValue(passThroughCalculator, valueCalculator, dimensionStack);
             }
 
             _stack.Push(operatorCalculator);

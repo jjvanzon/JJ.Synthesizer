@@ -80,7 +80,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.SawDown, typeof(SawDown_OperatorValidator) },
             { OperatorTypeEnum.SawUp, typeof(SawUp_OperatorValidator) },
             { OperatorTypeEnum.Scaler, typeof(Scaler_OperatorValidator) },
-            { OperatorTypeEnum.Select, typeof(Select_OperatorValidator) },
             { OperatorTypeEnum.SetDimension, typeof(SetDimension_OperatorValidator) },
             { OperatorTypeEnum.Shift, typeof(Shift_OperatorValidator) },
             { OperatorTypeEnum.Sine, typeof(Sine_OperatorValidator) },

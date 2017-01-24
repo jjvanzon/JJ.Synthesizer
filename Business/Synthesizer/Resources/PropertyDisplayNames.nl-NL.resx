@@ -393,9 +393,6 @@
   <data name="Signal" xml:space="preserve">
     <value>Signaal</value>
   </data>
-  <data name="Select" xml:space="preserve">
-    <value>Selecteren</value>
-  </data>
   <data name="Frequencies" xml:space="preserve">
     <value>Frequenties</value>
   </data>

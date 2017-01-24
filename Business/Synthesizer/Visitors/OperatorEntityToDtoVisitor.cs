@@ -720,21 +720,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
-        protected override void VisitSelect(Operator op)
-        {
-            base.VisitSelect(op);
-
-            var dto = new Select_OperatorDto
-            {
-                SignalOperatorDto  = _stack.Pop(),
-                PositionOperatorDto = _stack.Pop(),
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
 
         protected override void VisitSetDimension(Operator op)
         {

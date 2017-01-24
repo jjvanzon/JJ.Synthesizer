@@ -78,7 +78,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.SawDown, Create_SawDown_OperatorWrapper },
             { OperatorTypeEnum.SawUp, Create_SawUp_OperatorWrapper },
             { OperatorTypeEnum.Scaler, Create_Scaler_OperatorWrapper },
-            { OperatorTypeEnum.Select, Create_Select_OperatorWrapper },
             { OperatorTypeEnum.SetDimension, Create_SetDimension_OperatorWrapper },
             { OperatorTypeEnum.Shift, Create_Shift_OperatorWrapper },
             { OperatorTypeEnum.Sine , Create_Sine_OperatorWrapper },
@@ -194,7 +193,6 @@ namespace JJ.Business.Synthesizer.Helpers
         private static SawDown_OperatorWrapper Create_SawDown_OperatorWrapper(Operator op) { return new SawDown_OperatorWrapper(op); }
         private static SawUp_OperatorWrapper Create_SawUp_OperatorWrapper(Operator op) { return new SawUp_OperatorWrapper(op); }
         private static Scaler_OperatorWrapper Create_Scaler_OperatorWrapper(Operator op) { return new Scaler_OperatorWrapper(op); }
-        private static Select_OperatorWrapper Create_Select_OperatorWrapper(Operator op) { return new Select_OperatorWrapper(op); }
         private static SetDimension_OperatorWrapper Create_SetDimension_OperatorWrapper(Operator op) { return new SetDimension_OperatorWrapper(op); }
         private static Shift_OperatorWrapper Create_Shift_OperatorWrapper(Operator op) { return new Shift_OperatorWrapper(op); }
         private static Sine_OperatorWrapper Create_Sine_OperatorWrapper(Operator op) { return new Sine_OperatorWrapper(op); }
