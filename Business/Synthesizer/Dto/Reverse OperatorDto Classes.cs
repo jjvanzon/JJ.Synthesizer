@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Reverse_OperatorDto_VarSpeed_NoPhaseTracking : Reverse_OperatorDtoBase_VarSpeed
     { }
 
-    internal abstract class Reverse_OperatorDtoBase_VarSpeed : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
+    internal abstract class Reverse_OperatorDtoBase_VarSpeed : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reverse;
 
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Reverse_OperatorDto_ConstSpeed_NoOriginShifting : Reverse_OperatorDtoBase_ConstSpeed
     { }
 
-    internal abstract class Reverse_OperatorDtoBase_ConstSpeed : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
+    internal abstract class Reverse_OperatorDtoBase_ConstSpeed : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reverse;
 

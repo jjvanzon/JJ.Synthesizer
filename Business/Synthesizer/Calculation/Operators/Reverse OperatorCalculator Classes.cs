@@ -218,7 +218,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double speed = _speedCalculator.Calculate();
 
             // IMPORTANT: To squash things in the output, you have to stretch things in the input.
-            double transformedPosition = position * speed;
+            double transformedPosition = position * -speed;
 
             return transformedPosition;
         }
@@ -227,7 +227,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Reverse_OperatorCalculator_ConstSpeed_WithOriginShifting : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _speed;
+        private readonly double _negativeSpeed;
         private readonly DimensionStack _dimensionStack;
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
@@ -245,7 +245,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _speed = -speed;
+            _negativeSpeed = -speed;
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double GetTransformedPosition(double position)
         {
             // IMPORTANT: To squash things in the output, you have to stretch things in the input.
-            double transformedPosition = (position - _origin) * _speed;
+            double transformedPosition = (position - _origin) * _negativeSpeed;
 
             return transformedPosition;
         }
@@ -341,7 +341,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Reverse_OperatorCalculator_ConstSpeed_NoOriginShifting : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _speed;
+        private readonly double _negativeSpeed;
         private readonly DimensionStack _dimensionStack;
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
@@ -357,7 +357,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _signalCalculator = signalCalculator;
-            _speed = -speed;
+            _negativeSpeed = -speed;
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
             _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
@@ -415,7 +415,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
 
             // IMPORTANT: To squash things in the output, you have to stretch things in the input.
-            double transformedPosition = position * _speed;
+            double transformedPosition = position * _negativeSpeed;
 
             return transformedPosition;
         }
