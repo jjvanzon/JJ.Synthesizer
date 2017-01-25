@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class SetDimension_OperatorDto : SetDimension_OperatorDto_VarPassThrough_VarValue
     { }
 
-    internal class SetDimension_OperatorDto_VarPassThrough_VarValue : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
+    internal class SetDimension_OperatorDto_VarPassThrough_VarValue : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
 
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class SetDimension_OperatorDto_VarPassThrough_ConstValue : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
+    internal class SetDimension_OperatorDto_VarPassThrough_ConstValue : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
 
