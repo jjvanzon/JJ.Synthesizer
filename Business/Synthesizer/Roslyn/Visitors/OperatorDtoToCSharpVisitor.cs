@@ -612,6 +612,69 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
+        protected override OperatorDtoBase Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto)
+        {
+            // This DTO is not optimal for this kind of calculation engine. Do some optimization in-place here.
+            MathPropertiesDto offsetMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OffsetOperatorDto);
+
+            if (offsetMathPropertiesDto.IsConstZero)
+            {
+                return ProcessRoundZeroOffset(dto, signalValue: dto.Signal, stepOperatorDto: dto.StepOperatorDto);
+            }
+            else
+            {
+                return ProcessRoundWithOffset(dto, signalValue: dto.Signal, stepOperatorDto: dto.StepOperatorDto, offsetOperatorDto: dto.OffsetOperatorDto);
+            }
+        }
+
+        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffset(Round_OperatorDto_VarSignal_ConstStep_ConstOffset dto)
+        {
+            return ProcessRoundWithOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepValue: dto.Step, offsetValue: dto.Offset);
+        }
+
+        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_VarOffset(Round_OperatorDto_VarSignal_ConstStep_VarOffset dto)
+        {
+            return ProcessRoundWithOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepValue: dto.Step, offsetOperatorDto: dto.OffsetOperatorDto);
+        }
+
+        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_ZeroOffset(Round_OperatorDto_VarSignal_ConstStep_ZeroOffset dto)
+        {
+            return ProcessRoundZeroOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepValue: dto.Step);
+        }
+
+        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_StepOne_OffsetZero(Round_OperatorDto_VarSignal_StepOne_OffsetZero dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+
+            string signal = _stack.Pop();
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+            string math = nameof(Math);
+            string round = nameof(Math.Round);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {output} = {math}.{round}({signal}, MidpointRounding.AwayFromZero);");
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_ConstOffset(Round_OperatorDto_VarSignal_VarStep_ConstOffset dto)
+        {
+            return ProcessRoundWithOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto, offsetValue: dto.Offset);
+        }
+
+        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_VarOffset(Round_OperatorDto_VarSignal_VarStep_VarOffset dto)
+        {
+            return ProcessRoundWithOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto, offsetOperatorDto: dto.OffsetOperatorDto);
+        }
+
+        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_ZeroOffset(Round_OperatorDto_VarSignal_VarStep_ZeroOffset dto)
+        {
+            return ProcessRoundZeroOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto);
+        }
+
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             ProcessNumber(dto.Frequency);
@@ -1344,24 +1407,58 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return (OperatorDtoBase)dto;
         }
 
+        private OperatorDtoBase ProcessRoundWithOffset(
+            OperatorDtoBase dto,
+            OperatorDtoBase signalOperatorDto = null,
+            double? signalValue = null,
+            OperatorDtoBase stepOperatorDto = null,
+            double? stepValue = null,
+            OperatorDtoBase offsetOperatorDto = null,
+            double? offsetValue = null)
+        {
+            string signal = GetLiteralFromOperatorDtoOrValue(signalOperatorDto, signalValue);
+            string step = GetLiteralFromOperatorDtoOrValue(stepOperatorDto, stepValue);
+            string offset = GetLiteralFromOperatorDtoOrValue(offsetOperatorDto, offsetValue);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+            string mathHelper = nameof(MathHelper);
+            string roundWithStep = nameof(MathHelper.RoundWithStep);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step}, {offset});");
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessRoundZeroOffset(
+            OperatorDtoBase dto,
+            OperatorDtoBase signalOperatorDto = null,
+            double? signalValue = null,
+            OperatorDtoBase stepOperatorDto = null,
+            double? stepValue = null)
+        {
+            string signal = GetLiteralFromOperatorDtoOrValue(signalOperatorDto, signalValue);
+            string step = GetLiteralFromOperatorDtoOrValue(stepOperatorDto, stepValue);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+            string mathHelper = nameof(MathHelper);
+            string roundWithStep = nameof(MathHelper.RoundWithStep);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step});");
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return dto;
+        }
+
         private OperatorDtoBase ProcessSetDimension(IOperatorDto_VarSignal_WithDimension dto, OperatorDtoBase valueOperatorDto = null, double? value = null)
         {
             // Do not call base: Base will visit the inlets in one blow. We need to visit the inlets one by one.
 
-            if (valueOperatorDto != null)
-            {
-                Visit_OperatorDto_Polymorphic(valueOperatorDto);
-            }
-            else if (value.HasValue)
-            {
-                ProcessNumber(value.Value);
-            }
-            else
-            {
-                throw new Exception($"{nameof(valueOperatorDto)} and {nameof(value)} cannot both be null.");
-            }
-
-            string valueLiteral = _stack.Pop();
+            string valueLiteral = GetLiteralFromOperatorDtoOrValue(valueOperatorDto, value);
             string position = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -1380,20 +1477,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             // Do not call base: Base will visit the inlets in one blow. We need to visit the inlets one by one.
 
-            if (distanceOperatorDto != null)
-            {
-                Visit_OperatorDto_Polymorphic(distanceOperatorDto);
-            }
-            else if (distance.HasValue)
-            {
-                ProcessNumber(distance.Value);
-            }
-            else
-            {
-                throw new Exception($"{nameof(distanceOperatorDto)} and {nameof(distance)} cannot both be null.");
-            }
-
-            string distanceLiteral = _stack.Pop();
+            string distanceLiteral = GetLiteralFromOperatorDtoOrValue(distanceOperatorDto, distance);
             string sourcePos = GeneratePositionName(dto);
             string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
 
@@ -1518,19 +1602,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         // Helpers
 
-        private string GetInputName(VariableInput_OperatorDto dto)
+        private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
         {
-            string name;
-            if (_variableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out name))
-            {
-                return name;
-            }
-
-            ExtendedVariableInfo inputVariableInfo = GenerateInputVariableInfo(dto);
-
-            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = inputVariableInfo.VariableNameCamelCase;
-
-            return inputVariableInfo.VariableNameCamelCase;
+            string convertedName = NameHelper.ToCanonical(arbitraryString).ToCamelCase().Replace("_", "");
+            return convertedName;
         }
 
         private ExtendedVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
@@ -1665,12 +1740,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return variableName;
         }
 
-        private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
-        {
-            string convertedName = NameHelper.ToCanonical(arbitraryString).ToCamelCase().Replace("_", "");
-            return convertedName;
-        }
-
         private int GenerateUniqueNumber()
         {
             return _counter++;
@@ -1679,6 +1748,42 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private string GenerateUniqueLetterSequence()
         {
             return NumberingSystems.ToLetterSequence(_counter++, firstChar: 'a', lastChar: 'z');
+        }
+
+        private string GetInputName(VariableInput_OperatorDto dto)
+        {
+            string name;
+            if (_variableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out name))
+            {
+                return name;
+            }
+
+            ExtendedVariableInfo inputVariableInfo = GenerateInputVariableInfo(dto);
+
+            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = inputVariableInfo.VariableNameCamelCase;
+
+            return inputVariableInfo.VariableNameCamelCase;
+        }
+
+        private string GetLiteralFromOperatorDtoOrValue(OperatorDtoBase valueOperatorDto = null, double? value = null)
+        {
+            bool xor = valueOperatorDto != null ^ value.HasValue;
+            if (!xor)
+            {
+                throw new Exception($"Either {nameof(value)} or {nameof(valueOperatorDto)} must be filled in, but not both at the same time.");
+            }
+
+            if (valueOperatorDto != null)
+            {
+                Visit_OperatorDto_Polymorphic(valueOperatorDto);
+            }
+            else if (value.HasValue)
+            {
+                ProcessNumber(value.Value);
+            }
+
+            string literal = _stack.Pop();
+            return literal;
         }
     }
 }

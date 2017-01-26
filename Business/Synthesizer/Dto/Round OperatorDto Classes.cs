@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
-        public double StepOperatorDto { get; set; }
+        public double Step { get; set; }
         public OperatorDtoBase OffsetOperatorDto { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
-        public double StepOperatorDto { get; set; }
+        public double Step { get; set; }
         public double Offset { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos

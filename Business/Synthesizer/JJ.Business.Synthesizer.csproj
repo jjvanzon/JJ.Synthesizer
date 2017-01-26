@@ -389,7 +389,9 @@
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
     <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
     <Compile Include="CopiedCode\FromFramework\Interpolator.cs" />
-    <Compile Include="CopiedCode\FromFramework\MathHelper.cs" />
+    <Compile Include="CopiedCode\FromFramework\MathHelper.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="EntityWrappers\HighShelfFilter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\LowShelfFilter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\AllPassFilter_OperatorWrapper.cs" />

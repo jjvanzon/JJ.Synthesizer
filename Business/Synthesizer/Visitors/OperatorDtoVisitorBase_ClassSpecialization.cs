@@ -1699,7 +1699,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Round_OperatorDto(Round_OperatorDto dto)
         {
-            Visit_Round_OperatorDto(dto);
+            base.Visit_Round_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto stepMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.StepOperatorDto);
@@ -1731,7 +1731,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (signalMathPropertiesDto.IsVar && stepMathPropertiesDto.IsConst && offsetMathPropertiesDto.IsVar)
             {
-                return new Round_OperatorDto_VarSignal_ConstStep_VarOffset { SignalOperatorDto = dto.SignalOperatorDto, StepOperatorDto = stepMathPropertiesDto.ConstValue, OffsetOperatorDto = dto.OffsetOperatorDto };
+                return new Round_OperatorDto_VarSignal_ConstStep_VarOffset { SignalOperatorDto = dto.SignalOperatorDto, Step = stepMathPropertiesDto.ConstValue, OffsetOperatorDto = dto.OffsetOperatorDto };
             }
             else if (signalMathPropertiesDto.IsVar && stepMathPropertiesDto.IsConst && offsetMathPropertiesDto.IsConstZero)
             {
@@ -1739,7 +1739,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (signalMathPropertiesDto.IsVar && stepMathPropertiesDto.IsConst && offsetMathPropertiesDto.IsConst)
             {
-                return new Round_OperatorDto_VarSignal_ConstStep_ConstOffset { SignalOperatorDto = dto.SignalOperatorDto, StepOperatorDto = stepMathPropertiesDto.ConstValue, Offset = offsetMathPropertiesDto.ConstValue };
+                return new Round_OperatorDto_VarSignal_ConstStep_ConstOffset { SignalOperatorDto = dto.SignalOperatorDto, Step = stepMathPropertiesDto.ConstValue, Offset = offsetMathPropertiesDto.ConstValue };
             }
             else
             {

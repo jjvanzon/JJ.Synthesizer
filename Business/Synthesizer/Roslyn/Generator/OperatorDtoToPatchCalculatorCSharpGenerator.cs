@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Roslyn.Generator
 {
@@ -36,6 +37,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("using " + typeof(SineCalculator).Namespace + ";");
             sb.AppendLine("using " + typeof(DimensionEnum).Namespace + ";");
             sb.AppendLine("using " + typeof(NameHelper).Namespace + ";");
+            sb.AppendLine("using " + typeof(MathHelper).Namespace + ";");
             sb.AppendLine();
             sb.AppendLine($"namespace {generatedNameSpace}");
             sb.AppendLine("{");

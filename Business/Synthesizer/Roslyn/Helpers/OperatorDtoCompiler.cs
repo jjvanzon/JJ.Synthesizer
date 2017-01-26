@@ -32,7 +32,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
 
         private static readonly SyntaxTree[] _includedSyntaxTrees = CreateIncludedSyntaxTrees(
             @"Calculation\SineCalculator.cs",
-            @"Calculation\Patches\PatchCalculatorHelper.cs");
+            @"Calculation\Patches\PatchCalculatorHelper.cs",
+            @"CopiedCode\FromFramework\MathHelper.cs");
 
         public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int samplingRate, int channelCount, int channelIndex)
         {
