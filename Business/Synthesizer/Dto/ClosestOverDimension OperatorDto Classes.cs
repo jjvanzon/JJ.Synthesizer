@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { InputOperatorDto, CollectionOperatorDto, FromOperatorDto, TillOperatorDto, StepOperatorDto }; }
+            get { return new[] { InputOperatorDto, CollectionOperatorDto, FromOperatorDto, TillOperatorDto, StepOperatorDto }; }
             set { InputOperatorDto = value[0]; CollectionOperatorDto = value[1]; FromOperatorDto = value[2]; TillOperatorDto = value[3]; StepOperatorDto = value[4]; }
         }
     }

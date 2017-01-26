@@ -10,9 +10,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Reset,
-                new DimensionEnum[] { DimensionEnum.Undefined },
-                new DimensionEnum[] { DimensionEnum.Undefined },
-                expectedDataKeys: new string[] { PropertyNames.ListIndex })
+                new[] { DimensionEnum.Undefined },
+                new[] { DimensionEnum.Undefined },
+                expectedDataKeys: new[] { PropertyNames.ListIndex })
         { }
     }
 }

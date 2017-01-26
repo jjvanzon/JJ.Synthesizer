@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public ClosestOverInlets_OperatorCalculator_VarInput_ConstItems(
             OperatorCalculatorBase inputCalculator,
             IList<double> items)
-            : base(new OperatorCalculatorBase[] { inputCalculator })
+            : base(new[] { inputCalculator })
         {
             if (inputCalculator == null) throw new NullException(() => inputCalculator);
             if (items == null) throw new NullException(() => items);
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase inputCalculator,
             double item1,
             double item2)
-            : base(new OperatorCalculatorBase[] { inputCalculator })
+            : base(new[] { inputCalculator })
         {
             if (inputCalculator == null) throw new NullException(() => inputCalculator);
 

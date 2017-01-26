@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase aCalculator,
             double b,
             double origin)
-            : base(new OperatorCalculatorBase[] { aCalculator })
+            : base(new[] { aCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
             if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double a,
             OperatorCalculatorBase bCalculator,
             double origin)
-            : base(new OperatorCalculatorBase[] { bCalculator })
+            : base(new[] { bCalculator })
         {
             if (bCalculator == null) throw new NullException(() => bCalculator);
             if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator,
             double origin)
-            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
+            : base(new[] { aCalculator, bCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
             if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase aCalculator,
             double b,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { aCalculator, originCalculator })
+            : base(new[] { aCalculator, originCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
             if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
@@ -134,7 +134,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double a,
             double b,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { originCalculator })
+            : base(new[] { originCalculator })
         {
             if (b == 0) throw new ZeroException(() => b);
             if (originCalculator == null) throw new NullException(() => originCalculator);
@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double a,
             OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { bCalculator, originCalculator })
+            : base(new[] { bCalculator, originCalculator })
         {
             if (bCalculator == null) throw new NullException(() => bCalculator);
             if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
@@ -196,7 +196,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator, originCalculator })
+            : base(new[] { aCalculator, bCalculator, originCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
             if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
@@ -228,7 +228,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _bCalculator;
 
         public Divide_OperatorCalculator_VarA_VarB_ZeroOrigin(OperatorCalculatorBase aCalculator, OperatorCalculatorBase bCalculator)
-            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
+            : base(new[] { aCalculator, bCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
             if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
@@ -255,7 +255,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _b;
 
         public Divide_OperatorCalculator_VarA_ConstB_ZeroOrigin(OperatorCalculatorBase aCalculator, double b)
-            : base(new OperatorCalculatorBase[] { aCalculator })
+            : base(new[] { aCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
             if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
@@ -279,7 +279,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _bCalculator;
 
         public Divide_OperatorCalculator_ConstA_VarB_ZeroOrigin(double a, OperatorCalculatorBase bCalculator)
-            : base(new OperatorCalculatorBase[] { bCalculator })
+            : base(new[] { bCalculator })
         {
             if (bCalculator == null) throw new NullException(() => bCalculator);
             if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);

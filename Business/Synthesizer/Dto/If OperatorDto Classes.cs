@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { ConditionOperatorDto, ThenOperatorDto, ElseOperatorDto }; }
+            get { return new[] { ConditionOperatorDto, ThenOperatorDto, ElseOperatorDto }; }
             set { ConditionOperatorDto = value[0]; ThenOperatorDto = value[1]; ElseOperatorDto = value[2]; }
         }
     }
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { ConditionOperatorDto, ThenOperatorDto }; }
+            get { return new[] { ConditionOperatorDto, ThenOperatorDto }; }
             set { ConditionOperatorDto = value[0]; ThenOperatorDto = value[1]; }
         }
     }
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { ConditionOperatorDto, ElseOperatorDto }; }
+            get { return new[] { ConditionOperatorDto, ElseOperatorDto }; }
             set { ConditionOperatorDto = value[0]; ElseOperatorDto = value[1]; }
         }
     }
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { ConditionOperatorDto }; }
+            get { return new[] { ConditionOperatorDto }; }
             set { ConditionOperatorDto = value[0]; }
         }
     }
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { ThenOperatorDto, ElseOperatorDto }; }
+            get { return new[] { ThenOperatorDto, ElseOperatorDto }; }
             set { ThenOperatorDto = value[0]; ElseOperatorDto = value[1]; }
         }
     }
@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { ThenOperatorDto }; }
+            get { return new[] { ThenOperatorDto }; }
             set { ThenOperatorDto = value[0]; }
         }
     }
@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { ElseOperatorDto }; }
+            get { return new[] { ElseOperatorDto }; }
             set { ElseOperatorDto = value[0]; }
         }
     }

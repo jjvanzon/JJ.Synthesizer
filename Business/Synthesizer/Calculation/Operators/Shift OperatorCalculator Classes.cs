@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase distanceCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 distanceCalculator
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double distance,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);

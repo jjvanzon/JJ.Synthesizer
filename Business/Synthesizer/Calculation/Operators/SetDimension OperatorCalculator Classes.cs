@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase passThroughCalculator,
             OperatorCalculatorBase valueCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { passThroughCalculator, valueCalculator })
+            : base(new[] { passThroughCalculator, valueCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(passThroughCalculator, () => passThroughCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(valueCalculator, () => valueCalculator);
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase passThroughCalculator,
             double value,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { passThroughCalculator })
+            : base(new[] { passThroughCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(passThroughCalculator, () => passThroughCalculator);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);

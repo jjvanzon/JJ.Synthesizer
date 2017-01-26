@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase bandWidthCalculator,
             double targetSamplingRate,
             int samplesBetweenApplyFilterVariables)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 centerFrequencyCalculator,
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double centerFrequency,
             double bandWidth,
             double targetSamplingRate)
-                : base(new OperatorCalculatorBase[] { signalCalculator })
+                : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertFilterFrequency(centerFrequency, targetSamplingRate);

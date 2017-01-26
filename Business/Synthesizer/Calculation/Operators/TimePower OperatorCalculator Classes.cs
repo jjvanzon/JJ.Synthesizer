@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase exponentCalculator,
             OperatorCalculatorBase originCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator, exponentCalculator, originCalculator })
+            : base(new[] { signalCalculator, exponentCalculator, originCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase exponentCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator, exponentCalculator })
+            : base(new[] { signalCalculator, exponentCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);

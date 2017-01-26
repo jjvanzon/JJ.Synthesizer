@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.DimensionToOutlets,
-                new DimensionEnum[] { DimensionEnum.Undefined },
+                new[] { DimensionEnum.Undefined },
                 Enumerable.Repeat(DimensionEnum.Undefined, obj?.Outlets.Count ?? 0).ToArray())
         { }
 

@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 samplingRateCalculator

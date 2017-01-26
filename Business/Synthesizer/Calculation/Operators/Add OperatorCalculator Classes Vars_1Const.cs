@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			public Add_OperatorCalculator_1Vars_1Const(
 					OperatorCalculatorBase operandCalculator1,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 			})
 			{
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator1,
 					OperatorCalculatorBase operandCalculator2,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 			})
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator2,
 					OperatorCalculatorBase operandCalculator3,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator3,
 					OperatorCalculatorBase operandCalculator4,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -154,7 +154,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator4,
 					OperatorCalculatorBase operandCalculator5,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator5,
 					OperatorCalculatorBase operandCalculator6,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -260,7 +260,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator6,
 					OperatorCalculatorBase operandCalculator7,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -322,7 +322,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator7,
 					OperatorCalculatorBase operandCalculator8,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -390,7 +390,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator8,
 					OperatorCalculatorBase operandCalculator9,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -464,7 +464,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator9,
 					OperatorCalculatorBase operandCalculator10,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -544,7 +544,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator10,
 					OperatorCalculatorBase operandCalculator11,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -630,7 +630,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator11,
 					OperatorCalculatorBase operandCalculator12,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -722,7 +722,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator12,
 					OperatorCalculatorBase operandCalculator13,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -820,7 +820,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator13,
 					OperatorCalculatorBase operandCalculator14,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -924,7 +924,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator14,
 					OperatorCalculatorBase operandCalculator15,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -1034,7 +1034,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator15,
 					OperatorCalculatorBase operandCalculator16,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -1150,7 +1150,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator16,
 					OperatorCalculatorBase operandCalculator17,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -1272,7 +1272,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator17,
 					OperatorCalculatorBase operandCalculator18,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -1400,7 +1400,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator18,
 					OperatorCalculatorBase operandCalculator19,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -1534,7 +1534,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator19,
 					OperatorCalculatorBase operandCalculator20,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -1674,7 +1674,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator20,
 					OperatorCalculatorBase operandCalculator21,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -1820,7 +1820,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator21,
 					OperatorCalculatorBase operandCalculator22,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -1972,7 +1972,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator22,
 					OperatorCalculatorBase operandCalculator23,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -2130,7 +2130,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator23,
 					OperatorCalculatorBase operandCalculator24,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -2294,7 +2294,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator24,
 					OperatorCalculatorBase operandCalculator25,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -2464,7 +2464,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator25,
 					OperatorCalculatorBase operandCalculator26,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -2640,7 +2640,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator26,
 					OperatorCalculatorBase operandCalculator27,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -2822,7 +2822,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator27,
 					OperatorCalculatorBase operandCalculator28,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -3010,7 +3010,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator28,
 					OperatorCalculatorBase operandCalculator29,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -3204,7 +3204,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator29,
 					OperatorCalculatorBase operandCalculator30,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -3404,7 +3404,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator30,
 					OperatorCalculatorBase operandCalculator31,
 				double constValue)
-			: base(new OperatorCalculatorBase[] { 
+			: base(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3

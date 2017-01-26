@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public ToggleTrigger_OperatorCalculator(
             OperatorCalculatorBase calculationCalculator,
             OperatorCalculatorBase resetCalculator)
-            : base(new OperatorCalculatorBase[] { calculationCalculator, resetCalculator })
+            : base(new[] { calculationCalculator, resetCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(calculationCalculator, () => calculationCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(resetCalculator, () => resetCalculator);

@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { BaseOperatorDto, ExponentOperatorDto }; }
+            get { return new[] { BaseOperatorDto, ExponentOperatorDto }; }
             set { BaseOperatorDto = value[0]; ExponentOperatorDto = value[1]; }
         }
     }
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { ExponentOperatorDto }; }
+            get { return new[] { ExponentOperatorDto }; }
             set { ExponentOperatorDto = value[0]; }
         }
     }
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { BaseOperatorDto }; }
+            get { return new[] { BaseOperatorDto }; }
             set { BaseOperatorDto = value[0]; }
         }
     }

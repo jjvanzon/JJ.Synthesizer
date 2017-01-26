@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class Loop_OperatorWarningValidator : OperatorWarningValidator_Base
     {
-        private static int[] indexesToCheck = new int[]
+        private static int[] indexesToCheck = new[]
         {
             OperatorConstants.LOOP_SIGNAL_INDEX,
             OperatorConstants.LOOP_LOOP_START_MARKER_INDEX,

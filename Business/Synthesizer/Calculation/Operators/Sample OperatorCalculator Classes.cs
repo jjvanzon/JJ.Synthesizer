@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack,
             DimensionStack channelDimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+            : base(new[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+            : base(new[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
@@ -345,7 +345,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+            : base(new[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
@@ -487,7 +487,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack,
             DimensionStack channelDimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+            : base(new[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
@@ -617,7 +617,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+            : base(new[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
@@ -707,7 +707,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             ISampleCalculator sampleCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+            : base(new[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (sampleCalculator == null) throw new NullException(() => sampleCalculator);

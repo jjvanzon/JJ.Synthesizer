@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(
                   signalCalculator,
                   dimensionStack,
-                  new OperatorCalculatorBase[]
+                  new[]
                   {
                       signalCalculator,
                       noteDurationCalculator

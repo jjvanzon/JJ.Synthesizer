@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency,
             OperatorCalculatorBase widthCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { widthCalculator })
+            : base(new[] { widthCalculator })
         {
             OperatorCalculatorHelper.AssertFrequency(frequency);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(widthCalculator, () => widthCalculator);
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             double width,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+            : base(new[] { frequencyCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertWidth(width);
@@ -237,7 +237,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase widthCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator, widthCalculator })
+            : base(new[] { frequencyCalculator, widthCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(widthCalculator, () => widthCalculator);
@@ -365,7 +365,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency,
             OperatorCalculatorBase widthCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { widthCalculator })
+            : base(new[] { widthCalculator })
         {
             OperatorCalculatorHelper.AssertFrequency(frequency);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(widthCalculator, () => widthCalculator);
@@ -414,7 +414,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             double width,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+            : base(new[] { frequencyCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertWidth(width);
@@ -463,7 +463,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase widthCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator, widthCalculator })
+            : base(new[] { frequencyCalculator, widthCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(widthCalculator, () => widthCalculator);

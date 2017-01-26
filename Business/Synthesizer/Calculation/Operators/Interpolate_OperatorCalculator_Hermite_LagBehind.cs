@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
+            : base(new[] { signalCalculator, samplingRateCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);

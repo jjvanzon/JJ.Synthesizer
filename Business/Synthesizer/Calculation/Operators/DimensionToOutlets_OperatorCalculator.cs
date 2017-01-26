@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase operandCalculator, 
             double position,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { operandCalculator })
+            : base(new[] { operandCalculator })
         {
             if (operandCalculator == null) throw new NullException(() => operandCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);

@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase conditionCalculator,
             OperatorCalculatorBase thenCalculator,
             OperatorCalculatorBase elseCalculator)
-            : base(new OperatorCalculatorBase[] { conditionCalculator, thenCalculator, elseCalculator })
+            : base(new[] { conditionCalculator, thenCalculator, elseCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(conditionCalculator, () => conditionCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(thenCalculator, () => thenCalculator);
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase conditionCalculator,
             double then,
             OperatorCalculatorBase elseCalculator)
-            : base(new OperatorCalculatorBase[] { conditionCalculator, elseCalculator })
+            : base(new[] { conditionCalculator, elseCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(conditionCalculator, () => conditionCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(elseCalculator, () => elseCalculator);
@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase conditionCalculator,
             OperatorCalculatorBase thenCalculator,
             double @else)
-            : base(new OperatorCalculatorBase[] { conditionCalculator, thenCalculator })
+            : base(new[] { conditionCalculator, thenCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(conditionCalculator, () => conditionCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(thenCalculator, () => thenCalculator);
@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase conditionCalculator,
             double then,
             double @else)
-            : base(new OperatorCalculatorBase[] { conditionCalculator })
+            : base(new[] { conditionCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(conditionCalculator, () => conditionCalculator);
 

@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Dto
         {
             get
             {
-                return new OperatorDtoBase[]
+                return new[]
                 {
                     SignalOperatorDto,
                     SourceValueAOperatorDto,

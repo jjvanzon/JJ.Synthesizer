@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double samplingRate,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator
             })

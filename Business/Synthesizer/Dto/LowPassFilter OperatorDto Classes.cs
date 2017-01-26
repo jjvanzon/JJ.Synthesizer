@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, MaxFrequencyOperatorDto, BandWidthOperatorDto }; }
+            get { return new[] { SignalOperatorDto, MaxFrequencyOperatorDto, BandWidthOperatorDto }; }
             set { SignalOperatorDto = value[0]; MaxFrequencyOperatorDto = value[1]; BandWidthOperatorDto = value[2]; }
         }
     }

@@ -15,8 +15,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   op,
                 OperatorTypeEnum.Curve,
                 new DimensionEnum[0],
-                new DimensionEnum[] { DimensionEnum.Undefined },
-                expectedDataKeys: new string[] { PropertyNames.CurveID })
+                new[] { DimensionEnum.Undefined },
+                expectedDataKeys: new[] { PropertyNames.CurveID })
         { }
 
         protected override void Execute()

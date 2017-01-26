@@ -13,9 +13,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.PatchInlet,
-                new DimensionEnum[] { GetInletDimensionEnum(obj) },
-                new DimensionEnum[] { DimensionEnum.Undefined },
-                expectedDataKeys: new string[] { PropertyNames.ListIndex })
+                new[] { GetInletDimensionEnum(obj) },
+                new[] { DimensionEnum.Undefined },
+                expectedDataKeys: new[] { PropertyNames.ListIndex })
         { }
 
         protected override void Execute()

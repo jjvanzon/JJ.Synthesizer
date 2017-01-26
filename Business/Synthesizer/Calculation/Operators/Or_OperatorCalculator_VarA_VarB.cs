@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Or_OperatorCalculator_VarA_VarB(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator)
-            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
+            : base(new[] { aCalculator, bCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(bCalculator, () => bCalculator);

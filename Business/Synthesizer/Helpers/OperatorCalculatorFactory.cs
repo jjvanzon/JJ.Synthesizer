@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static OperatorCalculatorBase Create_Cache_OperatorCalculator_MultiChannel(IList<ArrayCalculatorBase> arrayCalculators, DimensionStack dimensionStack, DimensionStack channelDimensionStack)
         {
             Type arrayCalculatorType = arrayCalculators.GetItemType();
-            Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_MultiChannel<>).MakeGenericType(new Type[] { arrayCalculatorType });
+            Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_MultiChannel<>).MakeGenericType(new[] { arrayCalculatorType });
             
             var calculator = (OperatorCalculatorBase)Activator.CreateInstance(cache_OperatorCalculator_Type, arrayCalculators, dimensionStack, channelDimensionStack);
             return calculator;
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static OperatorCalculatorBase Create_Cache_OperatorCalculator_SingleChannel(ArrayCalculatorBase arrayCalculator, DimensionStack dimensionStack)
         {
             Type arrayCalculatorType = arrayCalculator.GetType();
-            Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_SingleChannel<>).MakeGenericType(new Type[] { arrayCalculatorType });
+            Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_SingleChannel<>).MakeGenericType(new[] { arrayCalculatorType });
             var calculator = (OperatorCalculatorBase)Activator.CreateInstance(cache_OperatorCalculator_Type, arrayCalculator, dimensionStack);
             return calculator;
         }

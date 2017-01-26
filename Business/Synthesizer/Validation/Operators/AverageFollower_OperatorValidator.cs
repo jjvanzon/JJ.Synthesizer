@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.AverageFollower,
-                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new DimensionEnum[] { DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Undefined },
                 expectedDataKeys: new string[0])
         { }
     }

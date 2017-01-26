@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Cache,
-                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new DimensionEnum[] { DimensionEnum.Signal },
-                expectedDataKeys: new string[]
+                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal },
+                expectedDataKeys: new[]
                 {
                     PropertyNames.InterpolationType,
                     PropertyNames.SpeakerSetup

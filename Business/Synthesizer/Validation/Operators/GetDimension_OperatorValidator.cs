@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 obj,
                 OperatorTypeEnum.GetDimension,
                 new DimensionEnum[0],
-                new DimensionEnum[] { DimensionEnum.Undefined })
+                new[] { DimensionEnum.Undefined })
         { }
     }
 }

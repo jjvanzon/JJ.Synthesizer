@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Interpolate,
-                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined },
-                new DimensionEnum[] { DimensionEnum.Signal },
-                expectedDataKeys: new string[] { PropertyNames.InterpolationType })
+                new[] { DimensionEnum.Signal, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal },
+                expectedDataKeys: new[] { PropertyNames.InterpolationType })
         { }
 
         protected override void Execute()

@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase stepCalculator,
             OperatorCalculatorBase offsetCalculator)
-            : base(new OperatorCalculatorBase[] { signalCalculator, stepCalculator, offsetCalculator })
+            : base(new[] { signalCalculator, stepCalculator, offsetCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(stepCalculator, () => stepCalculator);
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase stepCalculator,
             double offset)
-            : base(new OperatorCalculatorBase[] { signalCalculator, stepCalculator })
+            : base(new[] { signalCalculator, stepCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(stepCalculator, () => signalCalculator);
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Round_OperatorCalculator_VarSignal_VarStep_ZeroOffset(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase stepCalculator)
-            : base(new OperatorCalculatorBase[] { signalCalculator, stepCalculator })
+            : base(new[] { signalCalculator, stepCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(stepCalculator, () => stepCalculator);
@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double step,
             OperatorCalculatorBase offsetCalculator)
-            : base(new OperatorCalculatorBase[] { signalCalculator, offsetCalculator })
+            : base(new[] { signalCalculator, offsetCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertRoundStep(step);
@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double step,
             double offset)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertRoundStep(step);
@@ -168,7 +168,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Round_OperatorCalculator_VarSignal_ConstStep_ZeroOffset(
             OperatorCalculatorBase signalCalculator,
             double step)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertRoundStep(step);
@@ -199,7 +199,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double signal,
             OperatorCalculatorBase stepCalculator,
             OperatorCalculatorBase offsetCalculator)
-            : base(new OperatorCalculatorBase[] { offsetCalculator })
+            : base(new[] { offsetCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(stepCalculator, () => stepCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(offsetCalculator, () => offsetCalculator);
@@ -225,7 +225,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
 
         public Round_OperatorCalculator_VarSignal_StepOne_OffsetZero(OperatorCalculatorBase signalCalculator)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
 

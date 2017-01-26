@@ -10,7 +10,7 @@
             double from,
             OperatorCalculatorBase stepCalculator,
             double position)
-            : base(new OperatorCalculatorBase[] { stepCalculator })
+            : base(new[] { stepCalculator })
         {
             _from = from;
             _stepCalculator = stepCalculator;
@@ -36,7 +36,7 @@
             OperatorCalculatorBase fromCalculator,
             double step,
             double position)
-            : base(new OperatorCalculatorBase[] { fromCalculator })
+            : base(new[] { fromCalculator })
         {
             _fromCalculator = fromCalculator;
 
@@ -63,7 +63,7 @@
             OperatorCalculatorBase fromCalculator, 
             OperatorCalculatorBase stepCalculator, 
             double position)
-            : base(new OperatorCalculatorBase[] { fromCalculator, stepCalculator })
+            : base(new[] { fromCalculator, stepCalculator })
         {
             _fromCalculator = fromCalculator;
             _stepCalculator = stepCalculator;

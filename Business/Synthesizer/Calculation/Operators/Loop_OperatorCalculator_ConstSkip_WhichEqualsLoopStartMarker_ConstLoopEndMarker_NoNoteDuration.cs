@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(
                   signalCalculator,
                   dimensionStack,
-                  new OperatorCalculatorBase[] { signalCalculator })
+                  new[] { signalCalculator })
         {
             _loopStartMarker = loopStartMarker;
             _loopEndMarker = loopEndMarker;

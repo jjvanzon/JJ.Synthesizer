@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Subtract_OperatorCalculator_VarA_VarB(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator)
-            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
+            : base(new[] { aCalculator, bCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
             if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _bCalculator;
 
         public Subtract_OperatorCalculator_ConstA_VarB(double a, OperatorCalculatorBase bCalculator)
-            : base(new OperatorCalculatorBase[] { bCalculator })
+            : base(new[] { bCalculator })
         {
             if (bCalculator == null) throw new NullException(() => bCalculator);
             if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _b;
 
         public Subtract_OperatorCalculator_VarA_ConstB(OperatorCalculatorBase aCalculator, double b)
-            : base(new OperatorCalculatorBase[] { aCalculator })
+            : base(new[] { aCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
             if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);

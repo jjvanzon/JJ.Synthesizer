@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _constValue;
 
         public MaxOverInlets_OperatorCalculator_1Var_1Const(OperatorCalculatorBase varCalculator, double constValue)
-            : base(new OperatorCalculatorBase[] { varCalculator })
+            : base(new[] { varCalculator })
         {
             if (varCalculator == null) throw new NullException(() => varCalculator);
 
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public MaxOverInlets_OperatorCalculator_2Vars(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator)
-            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
+            : base(new[] { aCalculator, bCalculator })
         {
             if (aCalculator == null) throw new NullException(() => aCalculator);
             if (bCalculator == null) throw new NullException(() => bCalculator);

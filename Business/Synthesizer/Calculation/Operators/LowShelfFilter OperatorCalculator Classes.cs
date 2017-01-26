@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase dbGainCalculator,
             double targetSamplingRate,
             int samplesBetweenApplyFilterVariables)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 transitionFrequencyCalculator,
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double transitionSlope,
             double dbGain,
             double samplingRate)
-                : base(new OperatorCalculatorBase[] { signalCalculator })
+                : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertFilterFrequency(transitionFrequency, samplingRate);

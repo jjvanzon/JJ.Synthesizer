@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public GreaterThan_OperatorCalculator_VarA_VarB(
             OperatorCalculatorBase calculatorA,
             OperatorCalculatorBase calculatorB)
-            : base(new OperatorCalculatorBase[] { calculatorA, calculatorB })
+            : base(new[] { calculatorA, calculatorB })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorA, () => calculatorA);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorB, () => calculatorB);
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _b;
 
         public GreaterThan_OperatorCalculator_VarA_ConstB(OperatorCalculatorBase calculatorA, double b)
-            : base(new OperatorCalculatorBase[] { calculatorA })
+            : base(new[] { calculatorA })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorA, () => calculatorA);
 
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _calculatorB;
 
         public GreaterThan_OperatorCalculator_ConstA_VarB(double a, OperatorCalculatorBase calculatorB)
-            : base(new OperatorCalculatorBase[] { calculatorB })
+            : base(new[] { calculatorB })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(calculatorB, () => calculatorB);
 

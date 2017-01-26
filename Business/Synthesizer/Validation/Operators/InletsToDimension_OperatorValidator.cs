@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.InletsToDimension,
-                expectedDataKeys: new string[] { PropertyNames.InterpolationType })
+                expectedDataKeys: new[] { PropertyNames.InterpolationType })
         { }
 
         protected override void Execute()

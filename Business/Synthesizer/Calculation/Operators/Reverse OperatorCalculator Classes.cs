@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase speedCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 speedCalculator
@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase speedCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 speedCalculator
@@ -238,7 +238,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double speed,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertReverseSpeed(speed);
@@ -350,7 +350,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double speed,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertReverseSpeed(speed);

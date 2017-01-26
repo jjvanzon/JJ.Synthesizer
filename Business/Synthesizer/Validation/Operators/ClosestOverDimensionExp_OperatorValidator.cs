@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.ClosestOverDimensionExp,
-                new DimensionEnum[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new DimensionEnum[] { DimensionEnum.Undefined },
-                expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation })
+                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Undefined },
+                expectedDataKeys: new[] { PropertyNames.CollectionRecalculation })
         { }
 
         protected override void Execute()

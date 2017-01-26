@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public ChangeTrigger_OperatorCalculator_VarPassThrough_VarReset(
             OperatorCalculatorBase calculationCalculator,
             OperatorCalculatorBase resetCalculator)
-            : base(new OperatorCalculatorBase[] { calculationCalculator, resetCalculator })
+            : base(new[] { calculationCalculator, resetCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(calculationCalculator, () => calculationCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(resetCalculator, () => resetCalculator);

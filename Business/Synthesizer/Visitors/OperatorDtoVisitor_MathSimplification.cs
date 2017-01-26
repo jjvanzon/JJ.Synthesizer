@@ -1256,7 +1256,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Identity
             return new Multiply_OperatorDto_Vars_1Const
             {
-                Vars = new OperatorDtoBase[] { dto.AOperatorDto },
+                Vars = new[] { dto.AOperatorDto },
                 ConstValue = dto.B
             };
         }
@@ -1276,7 +1276,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ZeroOrigin(dto);
 
             // Identity
-            return new Multiply_OperatorDto_Vars_NoConsts { Vars = new OperatorDtoBase[] { dto.AOperatorDto, dto.BOperatorDto } };
+            return new Multiply_OperatorDto_Vars_NoConsts { Vars = new[] { dto.AOperatorDto, dto.BOperatorDto } };
         }
 
         // Multiply

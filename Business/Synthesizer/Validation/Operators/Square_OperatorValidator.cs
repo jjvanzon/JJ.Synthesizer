@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Square,
-                new DimensionEnum[] { DimensionEnum.Frequency },
-                new DimensionEnum[] { DimensionEnum.Signal })
+                new[] { DimensionEnum.Frequency },
+                new[] { DimensionEnum.Signal })
         { }
     }
 }

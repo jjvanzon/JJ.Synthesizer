@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public NotEqual_OperatorCalculator_VarA_VarB(
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator)
-            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
+            : base(new[] { aCalculator, bCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(bCalculator, () => bCalculator);
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _b;
 
         public NotEqual_OperatorCalculator_VarA_ConstB(OperatorCalculatorBase aCalculator, double b)
-            : base(new OperatorCalculatorBase[] { aCalculator })
+            : base(new[] { aCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
 

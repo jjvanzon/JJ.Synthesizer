@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double maxFrequency,
             double bandWidth,
             double samplingRate)
-                : base(new OperatorCalculatorBase[] { signalCalculator })
+                : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertFilterFrequency(maxFrequency, samplingRate);

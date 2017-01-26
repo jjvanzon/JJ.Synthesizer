@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 obj,
                 OperatorTypeEnum.ClosestOverInlets,
                 Enumerable.Repeat(DimensionEnum.Undefined, obj.Inlets.Count).ToArray(),
-                new DimensionEnum[] { DimensionEnum.Undefined },
+                new[] { DimensionEnum.Undefined },
                 expectedDataKeys: new string[0])
         { }
     }

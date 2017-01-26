@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 obj,
                 expectedOperatorTypeEnum,
                 Enumerable.Repeat(DimensionEnum.Undefined, obj.Inlets.Count).ToArray(),
-                new DimensionEnum[] { DimensionEnum.Undefined },
+                new[] { DimensionEnum.Undefined },
                 expectedDataKeys)
         { }
 

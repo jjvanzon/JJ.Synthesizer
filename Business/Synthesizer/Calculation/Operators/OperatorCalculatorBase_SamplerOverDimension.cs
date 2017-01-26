@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 collectionCalculator,
                 fromCalculator,

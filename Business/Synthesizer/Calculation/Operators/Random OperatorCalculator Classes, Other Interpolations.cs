@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase rateCalculator,
             ResampleInterpolationTypeEnum resampleInterpolationTypeEnum,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { rateCalculator })
+            : base(new[] { rateCalculator })
         {
             // HACK in a piece of patch, to reuse the Interpolate_OperatorCalculator's capability of
             // handling many types of interpolation.

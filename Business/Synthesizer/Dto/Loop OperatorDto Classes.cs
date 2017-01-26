@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, NoteDurationOperatorDto }; }
+            get { return new[] { SignalOperatorDto, NoteDurationOperatorDto }; }
             set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
         }
     }
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, NoteDurationOperatorDto }; }
+            get { return new[] { SignalOperatorDto, NoteDurationOperatorDto }; }
             set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
         }
     }
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, ReleaseEndMarkerOperatorDto }; }
+            get { return new[] { SignalOperatorDto, ReleaseEndMarkerOperatorDto }; }
             set { SignalOperatorDto = value[0]; ReleaseEndMarkerOperatorDto = value[1]; }
         }
     }
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, LoopEndMarkerOperatorDto, ReleaseEndMarkerOperatorDto, }; }
+            get { return new[] { SignalOperatorDto, LoopEndMarkerOperatorDto, ReleaseEndMarkerOperatorDto, }; }
             set { SignalOperatorDto = value[0]; LoopEndMarkerOperatorDto = value[1]; ReleaseEndMarkerOperatorDto = value[2]; }
         }
     }
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Dto
         {
             get
             {
-                return new OperatorDtoBase[]
+                return new[]
                 {
                     SignalOperatorDto,
                     LoopStartMarkerOperatorDto,
@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Dto
         {
             get
             {
-                return new OperatorDtoBase[]
+                return new[]
                 {
                     SignalOperatorDto,
                     SkipOperatorDto,

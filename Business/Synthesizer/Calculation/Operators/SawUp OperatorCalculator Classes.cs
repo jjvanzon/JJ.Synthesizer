@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SawUp_OperatorCalculator_VarFrequency_WithPhaseTracking(
             OperatorCalculatorBase frequencyCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+            : base(new[] { frequencyCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
@@ -172,7 +172,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SawUp_OperatorCalculator_VarFrequency_NoPhaseTracking(
             OperatorCalculatorBase frequencyCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { frequencyCalculator })
+            : base(new[] { frequencyCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);

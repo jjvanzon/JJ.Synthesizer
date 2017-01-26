@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double factor,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertFactor(factor);
@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase factorCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 factorCalculator
@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double factor,
             double origin,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator
             })
@@ -302,7 +302,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double factor,
             OperatorCalculatorBase originCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 originCalculator
@@ -396,7 +396,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase factorCalculator,
             double origin,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 factorCalculator
@@ -491,7 +491,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase factorCalculator,
             OperatorCalculatorBase originCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 factorCalculator,
@@ -589,7 +589,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase factorCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 factorCalculator
@@ -714,7 +714,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             double factor,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
             OperatorCalculatorHelper.AssertFactor(factor);

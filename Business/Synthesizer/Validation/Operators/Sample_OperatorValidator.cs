@@ -15,9 +15,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 op,
                 OperatorTypeEnum.Sample,
-                new DimensionEnum[] { DimensionEnum.Frequency },
-                new DimensionEnum[] { DimensionEnum.Signal },
-                expectedDataKeys: new string[] { PropertyNames.SampleID })
+                new[] { DimensionEnum.Frequency },
+                new[] { DimensionEnum.Signal },
+                expectedDataKeys: new[] { PropertyNames.SampleID })
         { }
 
         protected override void Execute()

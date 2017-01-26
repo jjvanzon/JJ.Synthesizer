@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { fromCalculator, tillCalculator, stepCalculator })
+            : base(new[] { fromCalculator, tillCalculator, stepCalculator })
         {
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 

@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 			})
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator3
 ,					OperatorCalculatorBase operandCalculator4
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator4
 ,					OperatorCalculatorBase operandCalculator5
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator5
 ,					OperatorCalculatorBase operandCalculator6
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -225,7 +225,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator6
 ,					OperatorCalculatorBase operandCalculator7
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -285,7 +285,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator7
 ,					OperatorCalculatorBase operandCalculator8
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -351,7 +351,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator8
 ,					OperatorCalculatorBase operandCalculator9
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -423,7 +423,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator9
 ,					OperatorCalculatorBase operandCalculator10
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -501,7 +501,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator10
 ,					OperatorCalculatorBase operandCalculator11
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -585,7 +585,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator11
 ,					OperatorCalculatorBase operandCalculator12
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -675,7 +675,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator12
 ,					OperatorCalculatorBase operandCalculator13
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -771,7 +771,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator13
 ,					OperatorCalculatorBase operandCalculator14
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -873,7 +873,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator14
 ,					OperatorCalculatorBase operandCalculator15
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3
@@ -981,7 +981,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator15
 ,					OperatorCalculatorBase operandCalculator16
 )			: base
-			(new OperatorCalculatorBase[] { 
+			(new[] { 
 					operandCalculator1
 ,					operandCalculator2
 ,					operandCalculator3

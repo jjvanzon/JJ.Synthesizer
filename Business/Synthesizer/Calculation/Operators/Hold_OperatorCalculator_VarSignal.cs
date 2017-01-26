@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _value;
 
         public Hold_OperatorCalculator_VarSignal(OperatorCalculatorBase signalCalculator)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
 

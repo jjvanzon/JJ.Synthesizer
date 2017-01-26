@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _ratioCalculator;
 
         public Exponent_OperatorCalculator_VarLow_VarHigh_VarRatio(OperatorCalculatorBase lowCalculator, OperatorCalculatorBase highCalculator, OperatorCalculatorBase ratioCalculator)
-            : base(new OperatorCalculatorBase[] { lowCalculator, highCalculator, ratioCalculator })
+            : base(new[] { lowCalculator, highCalculator, ratioCalculator })
         {
             if (lowCalculator == null) throw new NullException(() => lowCalculator);
             if (highCalculator == null) throw new NullException(() => highCalculator);
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _ratioCalculator;
 
         public Exponent_OperatorCalculator_ConstLow_VarHigh_VarRatio(double low, OperatorCalculatorBase highCalculator, OperatorCalculatorBase ratioCalculator)
-            : base(new OperatorCalculatorBase[] { highCalculator, ratioCalculator })
+            : base(new[] { highCalculator, ratioCalculator })
         {
             if (highCalculator == null) throw new NullException(() => highCalculator);
             if (ratioCalculator == null) throw new NullException(() => ratioCalculator);
@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _ratioCalculator;
 
         public Exponent_OperatorCalculator_VarLow_ConstHigh_VarRatio(OperatorCalculatorBase lowCalculator, double high, OperatorCalculatorBase ratioCalculator)
-            : base(new OperatorCalculatorBase[] { lowCalculator, ratioCalculator })
+            : base(new[] { lowCalculator, ratioCalculator })
         {
             if (lowCalculator == null) throw new NullException(() => lowCalculator);
             if (ratioCalculator == null) throw new NullException(() => ratioCalculator);
@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _ratioCalculator;
 
         public Exponent_OperatorCalculator_ConstLow_ConstHigh_VarRatio(double low, double high, OperatorCalculatorBase ratioCalculator)
-            : base(new OperatorCalculatorBase[] { ratioCalculator })
+            : base(new[] { ratioCalculator })
         {
             if (ratioCalculator == null) throw new NullException(() => ratioCalculator);
             if (ratioCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => ratioCalculator);
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _ratio;
 
         public Exponent_OperatorCalculator_VarLow_VarHigh_ConstRatio(OperatorCalculatorBase lowCalculator, OperatorCalculatorBase highCalculator, double ratio)
-            : base(new OperatorCalculatorBase[] { lowCalculator, highCalculator })
+            : base(new[] { lowCalculator, highCalculator })
         {
             if (lowCalculator == null) throw new NullException(() => lowCalculator);
             if (highCalculator == null) throw new NullException(() => highCalculator);
@@ -170,7 +170,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _ratio;
 
         public Exponent_OperatorCalculator_ConstLow_VarHigh_ConstRatio(double low, OperatorCalculatorBase highCalculator, double ratio)
-            : base(new OperatorCalculatorBase[] { highCalculator })
+            : base(new[] { highCalculator })
         {
             if (highCalculator == null) throw new NullException(() => highCalculator);
             if (highCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => highCalculator);
@@ -197,7 +197,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _ratio;
 
         public Exponent_OperatorCalculator_VarLow_ConstHigh_ConstRatio(OperatorCalculatorBase lowCalculator, double high, double ratio)
-            : base(new OperatorCalculatorBase[] { lowCalculator })
+            : base(new[] { lowCalculator })
         {
             if (lowCalculator == null) throw new NullException(() => lowCalculator);
             if (lowCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => lowCalculator);

@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _exponentCalculator;
 
         public Power_OperatorCalculator_VarBase_VarExponent(OperatorCalculatorBase baseCalculator, OperatorCalculatorBase exponentCalculator)
-            : base(new OperatorCalculatorBase[] { baseCalculator, exponentCalculator })
+            : base(new[] { baseCalculator, exponentCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(baseCalculator, () => baseCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(exponentCalculator, () => exponentCalculator);
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _exponentCalculator;
 
         public Power_OperatorCalculator_ConstBase_VarExponent(double baseValue, OperatorCalculatorBase exponentCalculator)
-            : base(new OperatorCalculatorBase[] { exponentCalculator })
+            : base(new[] { exponentCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(exponentCalculator, () => exponentCalculator);
 
@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _exponent;
 
         public Power_OperatorCalculator_VarBase_ConstExponent(OperatorCalculatorBase baseCalculator, double exponent)
-            : base(new OperatorCalculatorBase[] { baseCalculator })
+            : base(new[] { baseCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(baseCalculator, () => baseCalculator);
 
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _baseCalculator;
 
         public Power_OperatorCalculator_VarBase_Exponent2(OperatorCalculatorBase baseCalculator)
-            : base(new OperatorCalculatorBase[] { baseCalculator })
+            : base(new[] { baseCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(baseCalculator, () => baseCalculator);
 
@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _baseCalculator;
 
         public Power_OperatorCalculator_VarBase_Exponent3(OperatorCalculatorBase baseCalculator)
-            : base(new OperatorCalculatorBase[] { baseCalculator })
+            : base(new[] { baseCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(baseCalculator, () => baseCalculator);
 
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _baseCalculator;
 
         public Power_OperatorCalculator_VarBase_Exponent4(OperatorCalculatorBase baseCalculator)
-            : base(new OperatorCalculatorBase[] { baseCalculator })
+            : base(new[] { baseCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(baseCalculator, () => baseCalculator);
 

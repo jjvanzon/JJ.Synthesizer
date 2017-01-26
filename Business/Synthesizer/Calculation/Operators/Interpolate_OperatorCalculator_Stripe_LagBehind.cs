@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
+            : base(new[] { signalCalculator, samplingRateCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new InvalidTypeException<Number_OperatorCalculator>(() => signalCalculator);

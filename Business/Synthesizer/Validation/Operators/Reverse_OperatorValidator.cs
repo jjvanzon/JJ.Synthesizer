@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Reverse,
-                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined },
-                new DimensionEnum[] { DimensionEnum.Signal })
+                new[] { DimensionEnum.Signal, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal })
         { }
     }
 }

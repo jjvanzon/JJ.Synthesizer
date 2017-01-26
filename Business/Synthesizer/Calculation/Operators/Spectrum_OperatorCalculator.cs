@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase endCalculator,
             OperatorCalculatorBase frequencyCountCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[]
+            : base(new[]
             {
                 signalCalculator,
                 startCalculator,
@@ -200,7 +200,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double[] CreateNaNHarmonicVolumes()
         {
-            return new double[] { Double.NaN };
+            return new[] { Double.NaN };
         }
     }
 }

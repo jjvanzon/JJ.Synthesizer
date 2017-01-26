@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double a,
             OperatorCalculatorBase bCalculator,
             double origin)
-            : base(new OperatorCalculatorBase[] { bCalculator })
+            : base(new[] { bCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(bCalculator, () => bCalculator);
 
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase aCalculator,
             double b,
             double origin)
-            : base(new OperatorCalculatorBase[] { aCalculator })
+            : base(new[] { aCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
 
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator,
             double origin)
-            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator })
+            : base(new[] { aCalculator, bCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(bCalculator, () => bCalculator);
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double a,
             double b,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { originCalculator })
+            : base(new[] { originCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(originCalculator, () => originCalculator);
 
@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double a,
             OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { bCalculator, originCalculator })
+            : base(new[] { bCalculator, originCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(bCalculator, () => bCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(originCalculator, () => originCalculator);
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase aCalculator,
             double b,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { aCalculator, originCalculator })
+            : base(new[] { aCalculator, originCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(originCalculator, () => originCalculator);
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator,
             OperatorCalculatorBase originCalculator)
-            : base(new OperatorCalculatorBase[] { aCalculator, bCalculator, originCalculator })
+            : base(new[] { aCalculator, bCalculator, originCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(aCalculator, () => aCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator(bCalculator, () => bCalculator);

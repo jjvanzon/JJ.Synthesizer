@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase sourceValueBCalculator,
             OperatorCalculatorBase targetValueACalculator,
             OperatorCalculatorBase targetValueBCalculator)
-            : base(new OperatorCalculatorBase[] {
+            : base(new[] {
                 signalCalculator,
                 sourceValueACalculator,
                 sourceValueBCalculator,
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double sourceValueB,
             double targetValueA,
             double targetValueB)
-            : base(new OperatorCalculatorBase[] { signalCalculator })
+            : base(new[] { signalCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
 

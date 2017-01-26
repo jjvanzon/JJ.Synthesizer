@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { FactorOperatorDto }; }
+            get { return new[] { FactorOperatorDto }; }
             set { FactorOperatorDto = value[0]; }
         }
     }
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto }; }
+            get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }
         }
     }
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, FactorOperatorDto }; }
+            get { return new[] { SignalOperatorDto, FactorOperatorDto }; }
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
         }
     }
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { OriginOperatorDto }; }
+            get { return new[] { OriginOperatorDto }; }
             set { OriginOperatorDto = value[0]; }
         }
     }
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { FactorOperatorDto }; }
+            get { return new[] { FactorOperatorDto }; }
             set { FactorOperatorDto = value[0]; }
         }
     }
@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { FactorOperatorDto, OriginOperatorDto }; }
+            get { return new[] { FactorOperatorDto, OriginOperatorDto }; }
             set { FactorOperatorDto = value[0]; OriginOperatorDto = value[1]; }
         }
     }
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto }; }
+            get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }
         }
     }
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, OriginOperatorDto }; }
+            get { return new[] { SignalOperatorDto, OriginOperatorDto }; }
             set { SignalOperatorDto = value[0]; OriginOperatorDto = value[1]; }
         }
     }
@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, FactorOperatorDto }; }
+            get { return new[] { SignalOperatorDto, FactorOperatorDto }; }
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
         }
     }
@@ -144,7 +144,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, FactorOperatorDto, OriginOperatorDto }; }
+            get { return new[] { SignalOperatorDto, FactorOperatorDto, OriginOperatorDto }; }
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; OriginOperatorDto = value[2]; }
         }
     }
@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { FactorOperatorDto }; }
+            get { return new[] { FactorOperatorDto }; }
             set { FactorOperatorDto = value[0]; }
         }
     }
@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto }; }
+            get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }
         }
     }
@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new OperatorDtoBase[] { SignalOperatorDto, FactorOperatorDto }; }
+            get { return new[] { SignalOperatorDto, FactorOperatorDto }; }
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
         }
     }

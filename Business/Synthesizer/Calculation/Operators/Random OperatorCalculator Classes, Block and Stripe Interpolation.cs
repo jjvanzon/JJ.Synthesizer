@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             RandomCalculatorBase randomCalculator,
             OperatorCalculatorBase rateCalculator,
             DimensionStack dimensionStack)
-            : base(new OperatorCalculatorBase[] { rateCalculator })
+            : base(new[] { rateCalculator })
         {
             if (randomCalculator == null) throw new NullException(() => randomCalculator);
             // TODO: Make assertion strict again, once you have more calculator variations.

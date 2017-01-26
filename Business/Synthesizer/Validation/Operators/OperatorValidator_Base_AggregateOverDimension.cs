@@ -15,9 +15,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 operatorTypeEnum,
-                new DimensionEnum[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new DimensionEnum[] { outletDimensionEnum },
-                expectedDataKeys: new string[] { PropertyNames.CollectionRecalculation })
+                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { outletDimensionEnum },
+                expectedDataKeys: new[] { PropertyNames.CollectionRecalculation })
         { }
 
         protected override void Execute()
