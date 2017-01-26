@@ -280,6 +280,25 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessComparativeOperator_VarA_VarB(dto, LESS_THAN_OR_EQUAL_SYMBOL);
         }
 
+        //protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
+        //{
+        //    Visit_OperatorDto_Polymorphic(dto.BandWidthOperatorDto);
+        //    Visit_OperatorDto_Polymorphic(dto.MaxFrequencyOperatorDto);
+        //    Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+
+        //    string signal = _stack.Pop();
+        //    string maxFrequency = _stack.Pop();
+        //    string signal = _stack.Pop();
+        //    string 
+
+        //    return base.Visit_LowPassFilter_OperatorDto_AllVars(dto);
+        //}
+
+        //protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ManyConsts(LowPassFilter_OperatorDto_ManyConsts dto)
+        //{
+        //    return base.Visit_LowPassFilter_OperatorDto_ManyConsts(dto);
+        //}
+
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
         {
             return ProcessMultiVarOperator_Vars_NoConsts(dto, MULTIPLY_SYMBOL);
@@ -355,6 +374,50 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _stack.Push(output);
 
             return dto;
+        }
+
+        protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
+        {
+            return ProcessComparativeOperator_VarA_ConstB(dto, NOT_EQUAL_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_VarB(NotEqual_OperatorDto_VarA_VarB dto)
+        {
+            return ProcessComparativeOperator_VarA_VarB(dto, NOT_EQUAL_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Noise_OperatorDto(Noise_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+            //string position = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
+            //string noiseCalculator = GenerateNoiseCalculatorNameCamelCase(dto.OperatorID);
+            //string output = GenerateOutputNameCamelCase(dto.OperatorTypeName);
+
+            //_sb.AppendLine("// " + dto.OperatorTypeName);
+            //_sb.AppendLine($"double {output} = _{noiseCalculator}.GetValue({position});");
+            //_sb.AppendLine();
+
+            //return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
+        {
+            return ProcessNumberOperatorDto(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
+        {
+            return ProcessNumberOperatorDto(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
+        {
+            return ProcessNumberOperatorDto(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
+        {
+            return ProcessNumberOperatorDto(dto);
         }
 
         protected override OperatorDtoBase Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
@@ -444,50 +507,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _stack.Push(output);
 
             return dto;
-        }
-
-        protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
-        {
-            return ProcessComparativeOperator_VarA_ConstB(dto, NOT_EQUAL_SYMBOL);
-        }
-
-        protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_VarB(NotEqual_OperatorDto_VarA_VarB dto)
-        {
-            return ProcessComparativeOperator_VarA_VarB(dto, NOT_EQUAL_SYMBOL);
-        }
-
-        protected override OperatorDtoBase Visit_Noise_OperatorDto(Noise_OperatorDto dto)
-        {
-            throw new NotImplementedException();
-            //string position = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
-            //string noiseCalculator = GenerateNoiseCalculatorNameCamelCase(dto.OperatorID);
-            //string output = GenerateOutputNameCamelCase(dto.OperatorTypeName);
-
-            //_sb.AppendLine("// " + dto.OperatorTypeName);
-            //_sb.AppendLine($"double {output} = _{noiseCalculator}.GetValue({position});");
-            //_sb.AppendLine();
-
-            //return dto;
-        }
-
-        protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
-        {
-            return ProcessNumberOperatorDto(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
-        {
-            return ProcessNumberOperatorDto(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
-        {
-            return ProcessNumberOperatorDto(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
-        {
-            return ProcessNumberOperatorDto(dto);
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)

@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase bandWidthCalculator,
             double targetSamplingRate,
             int samplesBetweenApplyFilterVariables)
-                : base(new OperatorCalculatorBase[]
+                : base(new []
                 {
                     signalCalculator,
                     maxFrequencyCalculator,
