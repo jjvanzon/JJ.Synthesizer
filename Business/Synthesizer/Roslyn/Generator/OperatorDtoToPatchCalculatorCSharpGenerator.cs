@@ -7,7 +7,6 @@ using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Visitors;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
@@ -366,31 +365,34 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
         private void WriteFieldAssignments_ByDimensionEnum(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             var groups = variableInfos.GroupBy(x => x.DimensionEnum);
-            if (groups.Any())
-            {
-                sb.AppendLine("switch (dimensionEnum)");
-                sb.AppendLine("{");
-                sb.Indent();
-                {
-                    foreach (var group in groups)
-                    {
-                        sb.AppendLine($"case {nameof(DimensionEnum)}.{group.Key}:");
-                        sb.Indent();
-                        {
-                            foreach (ExtendedVariableInfo variableInfo in group)
-                            {
-                                sb.AppendLine($"_{variableInfo.VariableNameCamelCase} = value;");
-                            }
-                            sb.AppendLine("break;");
-                            sb.AppendLine();
-                            sb.Unindent();
-                        }
-                    }
 
-                    sb.Unindent();
-                }
-                sb.AppendLine("}");
+            if (!groups.Any())
+            {
+                return;
             }
+
+            sb.AppendLine("switch (dimensionEnum)");
+            sb.AppendLine("{");
+            sb.Indent();
+            {
+                foreach (var group in groups)
+                {
+                    sb.AppendLine($"case {nameof(DimensionEnum)}.{@group.Key}:");
+                    sb.Indent();
+                    {
+                        foreach (ExtendedVariableInfo variableInfo in @group)
+                        {
+                            sb.AppendLine($"_{variableInfo.VariableNameCamelCase} = value;");
+                        }
+                        sb.AppendLine("break;");
+                        sb.AppendLine();
+                        sb.Unindent();
+                    }
+                }
+
+                sb.Unindent();
+            }
+            sb.AppendLine("}");
         }
 
         /// <summary> 
@@ -399,23 +401,25 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
         private void WriteFieldAssignments_ByCanonicalName(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             var groups = variableInfos.GroupBy(x => x.CanonicalName);
-            if (groups.Any())
+            if (!groups.Any())
             {
-                foreach (var group in groups)
+                return;
+            }
+
+            foreach (var group in groups)
+            {
+                sb.AppendLine($"if (String.Equals(canonicalName, \"{@group.Key}\", StringComparison.Ordinal))");
+                sb.AppendLine("{");
+                sb.Indent();
                 {
-                    sb.AppendLine($"if (String.Equals(canonicalName, \"{group.Key}\", StringComparison.Ordinal))");
-                    sb.AppendLine("{");
-                    sb.Indent();
+                    foreach (ExtendedVariableInfo variableInfo in @group)
                     {
-                        foreach (ExtendedVariableInfo variableInfo in group)
-                        {
-                            sb.AppendLine($"_{variableInfo.VariableNameCamelCase} = value;");
-                        }
-                        sb.Unindent();
+                        sb.AppendLine($"_{variableInfo.VariableNameCamelCase} = value;");
                     }
-                    sb.AppendLine("}");
-                    sb.AppendLine();
+                    sb.Unindent();
                 }
+                sb.AppendLine("}");
+                sb.AppendLine();
             }
         }
 

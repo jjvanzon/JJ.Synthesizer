@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (!ConversionHelper.CanCastToNonNegativeInt32(till))
             {
-                throw new Exception(String.Format("_till '{0}' cannot be casted to non-negative Int32", till));
+                throw new Exception($"{new {till}} cannot be casted to non-negative Int32.");
             }
             int tillInt = (int)till;
 

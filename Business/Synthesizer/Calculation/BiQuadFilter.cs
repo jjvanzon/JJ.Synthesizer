@@ -56,13 +56,6 @@ namespace JJ.Business.Synthesizer.Calculation
             ResetSamples();
         }
 
-        private BiQuadFilter(double a0, double a1, double a2, double b0, double b1, double b2)
-        {
-            SetCoefficients(a0, a1, a2, b0, b1, b2);
-
-            ResetSamples();
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SetCoefficients(double aa0, double aa1, double aa2, double b0, double b1, double b2)
         {

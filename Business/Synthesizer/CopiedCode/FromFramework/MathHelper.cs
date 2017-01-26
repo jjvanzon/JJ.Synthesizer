@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Exceptions;
@@ -220,6 +221,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         }
 
         /// <summary> Equally spreads out a number indices over a different number of indices. </summary>
+        [SuppressMessage("ReSharper", "RedundantCast")]
         public static Dictionary<int, int> Spread(int sourceCount, int destCount)
         {
             if (sourceCount == 0 || destCount == 0)

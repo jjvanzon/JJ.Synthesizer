@@ -35,13 +35,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string DEFAULT_INPUT_MNEMONIC = "input";
         private const string ORIGIN_MNEMONIC = "origin";
 
-        /// <summary> {0} = phase  </summary>
+        /// <summary> {0} = phase </summary>
         private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
-        /// <summary> {0} = phase  </summary>
+        /// <summary> {0} = phase </summary>
         private const string SAW_UP_FORMULA_FORMAT = "-1.0 + (2.0 * {0} % 2.0)";
-        /// <summary> {0} = phase  </summary>
+        /// <summary> {0} = phase </summary>
         private const string SINE_FORMULA_FORMAT = "SineCalculator.Sin({0})";
-        /// <summary> {0} = phase  </summary>
+        /// <summary> {0} = phase </summary>
         private const string SQUARE_FORMULA_FORMAT = "{0} % 1.0 < 0.5 ? 1.0 : -1.0";
 
         private Stack<string> _stack;
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         // Information for Input Variables
 
         /// <summary> Dictionary for unicity. Key is variable name camel-case. </summary>
-        private Dictionary<string, ExtendedVariableInfo> _variableName_to_InputVariableInfo_Dictionary;
+        private Dictionary<string, ExtendedVariableInfo> _variableName_To_InputVariableInfo_Dictionary;
         /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
         private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
 
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto, int intialIndentLevel)
         {
             _stack = new Stack<string>();
-            _variableName_to_InputVariableInfo_Dictionary = new Dictionary<string, ExtendedVariableInfo>();
+            _variableName_To_InputVariableInfo_Dictionary = new Dictionary<string, ExtendedVariableInfo>();
             _positionVariableNamesCamelCaseHashSet = new HashSet<string>();
             _longLivedPreviousPositionVariableNamesCamelCase = new List<string>();
             _longLivedPhaseVariableNamesCamelCase = new List<string>();
@@ -81,8 +81,10 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
             _counter = 0;
 
-            _sb = new StringBuilderWithIndentation(TAB_STRING);
-            _sb.IndentLevel = intialIndentLevel;
+            _sb = new StringBuilderWithIndentation(TAB_STRING)
+            {
+                IndentLevel = intialIndentLevel
+            };
 
             Visit_OperatorDto_Polymorphic(dto);
 
@@ -90,12 +92,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string returnValue = _stack.Pop();
 
             // Get some more variable info
-            string firstTimeVariableNameCamelCase = GeneratePositionName(0, standardDimensionEnum: DimensionEnum.Time);
+            string firstTimeVariableNameCamelCase = GeneratePositionName(0, DimensionEnum.Time);
 
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfos = 
                 _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
                                                                                                   .Where(x => x.ListIndex == 0)
-                                                                                                  .Except(x => String.Equals(x.VariableNameCamelCase, firstTimeVariableNameCamelCase))
+                                                                                                  .Except(x => string.Equals(x.VariableNameCamelCase, firstTimeVariableNameCamelCase))
                                                                                                   .ToArray();
             IList<string> localDimensionVariableNamesCamelCase =
                 _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
@@ -106,7 +108,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 generatedCode, 
                 returnValue,
                 firstTimeVariableNameCamelCase,
-                _variableName_to_InputVariableInfo_Dictionary.Values.ToArray(),
+                _variableName_To_InputVariableInfo_Dictionary.Values.ToArray(),
                 _positionVariableNamesCamelCaseHashSet.ToArray(),
                 _longLivedPreviousPositionVariableNamesCamelCase,
                 _longLivedPhaseVariableNamesCamelCase,
@@ -1029,7 +1031,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string phase = GenerateLongLivedPhaseName();
             string posisition = GeneratePositionName(dto);
-            string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{phase} = {posisition} * {frequency};");
@@ -1377,7 +1378,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string frequency = _stack.Pop();
             string width = _stack.Pop();
             string position = GeneratePositionName(dto);
-            string origin = GenerateOriginName();
             string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -1628,7 +1628,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             var valueInfo = new ExtendedVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
 
-            _variableName_to_InputVariableInfo_Dictionary.Add(variableName, valueInfo);
+            _variableName_To_InputVariableInfo_Dictionary.Add(variableName, valueInfo);
 
             return valueInfo;
         }
@@ -1777,7 +1777,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             {
                 Visit_OperatorDto_Polymorphic(valueOperatorDto);
             }
-            else if (value.HasValue)
+            else
             {
                 ProcessNumber(value.Value);
             }
