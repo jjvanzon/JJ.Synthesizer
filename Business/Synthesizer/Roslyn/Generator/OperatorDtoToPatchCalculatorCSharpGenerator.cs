@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine($"public {generatedClassName}(int samplingRate, int channelCount, int channelIndex)");
             sb.Indent();
             {
-                sb.AppendLine($": base(samplingRate, channelCount, channelIndex)");
+                sb.AppendLine(": base(samplingRate, channelCount, channelIndex)");
                 sb.Unindent();
             }
             sb.AppendLine("{");
@@ -142,6 +142,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 sb.AppendLine("double frameDuration = _frameDuration;");
                 sb.AppendLine("int channelCount = _channelCount;");
                 sb.AppendLine("int channelIndex = _channelIndex;");
+                // TODO: Lower priority: 
+                // You might not always need these variables, so you might generatingt these variable assignments conditional,
+                // based on e.g. that it uses filter operators, but other operators may apply too.
+                sb.AppendLine("double samplingRate = _samplingRate;");
+                sb.AppendLine("double nyquistFrequency = _nyquistFrequency;");
 
                 sb.AppendLine();
                 foreach (string variableName in instanceVariableNamesCamelCase)
@@ -504,6 +509,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
         {
             return visitorResult.LongLivedPhaseVariableNamesCamelCase.Union(visitorResult.LongLivedPreviousPositionVariableNamesCamelCase)
                                                                      .Union(visitorResult.LongLivedOriginVariableNamesCamelCase)
+                                                                     .Union(visitorResult.LongLivedMiscVariableNamesCamelCase)
                                                                      .Union(visitorResult.LongLivedDimensionVariableInfos.Select(x => x.VariableNameCamelCase))
                                                                      .Union(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
                                                                      .ToArray();

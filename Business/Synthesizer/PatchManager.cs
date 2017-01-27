@@ -554,6 +554,9 @@ namespace JJ.Business.Synthesizer
                 case CalculationEngineConfigurationEnum.HardCoded:
                     return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex);
 
+                case CalculationEngineConfigurationEnum.ExampleGeneratedCode:
+                    return new GeneratedCSharp.GeneratedPatchCalculator(samplingRate, channelCount, channelIndex);
+
                 default:
                     throw new ValueNotSupportedException(_calculationEngineConfigurationEnum);
             }

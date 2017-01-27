@@ -32,6 +32,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
 
         private static readonly SyntaxTree[] _includedSyntaxTrees = CreateIncludedSyntaxTrees(
             @"Calculation\SineCalculator.cs",
+            @"Calculation\BiQuadFilterWithoutFields.cs",
             @"Calculation\Patches\PatchCalculatorHelper.cs",
             @"CopiedCode\FromFramework\MathHelper.cs");
 
@@ -84,7 +85,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
                     x.IsWarningAsError ||
                     x.Severity == DiagnosticSeverity.Error);
 
-                string concatinatedFailureDiagnostics = String.Join(Environment.NewLine, failureDiagnostics);
+                string concatinatedFailureDiagnostics = string.Join(Environment.NewLine, failureDiagnostics);
                 throw new Exception("CSharpCompilation.Emit failed. " + concatinatedFailureDiagnostics);
             }
 

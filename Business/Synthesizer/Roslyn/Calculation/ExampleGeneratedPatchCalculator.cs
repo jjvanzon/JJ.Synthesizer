@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace GeneratedCSharp
 {
@@ -11,20 +12,23 @@ namespace GeneratedCSharp
     {
         // Fields
 
-        private double _phase_6;
-        private double _prevpos_7;
-        private double _u0021blu00e0_a_0;
-        private double _something_2;
-        private double _frequency_4;
+        private double _origin_1;
+        private double _origin_5;
+        private double _lowpassfilterx1_8;
+        private double _lowpassfilterx2_9;
+        private double _lowpassfiltery1_10;
+        private double _lowpassfiltery2_11;
+        private double _lowpassfiltera0_12;
+        private double _lowpassfiltera1_13;
+        private double _lowpassfiltera2_14;
+        private double _lowpassfiltera3_15;
+        private double _lowpassfiltera4_16;
 
         // Constructor
 
         public GeneratedPatchCalculator(int samplingRate, int channelCount, int channelIndex)
             : base(samplingRate, channelCount, channelIndex)
         {
-            _something_2 = 1.0E0;
-            _frequency_4 = 4.4E2;
-
             Reset(time: 0.0);
         }
 
@@ -36,42 +40,58 @@ namespace GeneratedCSharp
             double frameDuration = _frameDuration;
             int channelCount = _channelCount;
             int channelIndex = _channelIndex;
+            double samplingRate = _samplingRate;
+            double nyquistFrequency = _nyquistFrequency;
 
-            double phase_6 = _phase_6;
-            double prevpos_7 = _prevpos_7;
-            double u0021blu00e0_a_0 = _u0021blu00e0_a_0;
-            double something_2 = _something_2;
-            double frequency_4 = _frequency_4;
+            double origin_1 = _origin_1;
+            double origin_5 = _origin_5;
+            double lowpassfilterx1_8 = _lowpassfilterx1_8;
+            double lowpassfilterx2_9 = _lowpassfilterx2_9;
+            double lowpassfiltery1_10 = _lowpassfiltery1_10;
+            double lowpassfiltery2_11 = _lowpassfiltery2_11;
+            double lowpassfiltera0_12 = _lowpassfiltera0_12;
+            double lowpassfiltera1_13 = _lowpassfiltera1_13;
+            double lowpassfiltera2_14 = _lowpassfiltera2_14;
+            double lowpassfiltera3_15 = _lowpassfiltera3_15;
+            double lowpassfiltera4_16 = _lowpassfiltera4_16;
 
-            double u0021blu00e0_a_1;
-            double time_b_0;
-            double time_b_1;
+            double time_a_0;
 
             int valueCount = frameCount * channelCount;
-            time_b_0 = startTime;
+            time_a_0 = startTime;
 
             for (int i = channelIndex; i < valueCount; i += channelCount)
             {
-                // Squash
-                u0021blu00e0_a_1 = u0021blu00e0_a_0 * 2.0E0;
-
-                // Shift
-                time_b_1 = time_b_0 + 5.0E-1;
-
-                // SawDown
-                double sawdown_3 = u0021blu00e0_a_1 * something_2;
-                sawdown_3 = 1.0 - (2.0 * sawdown_3 % 2.0);
-
-                // Multiply
-                double multiply_5 = frequency_4 * sawdown_3;
+                // Number
 
                 // Sine
-                phase_6 += (time_b_1 - prevpos_7) * multiply_5;
-                prevpos_7 = time_b_1;
-                double sine_8 = SineCalculator.Sin(phase_6);
+                double sine_2 = (time_a_0 - origin_1) * 2.0E0;
+                sine_2 = SineCalculator.Sin(sine_2);
+
+                // Add
+                double add_3 = sine_2 + 3.0E0;
+
+                // Multiply
+                double multiply_4 = add_3 * 4.33333333333333E2;
+
+                // SawDown
+                double sawdown_6 = (time_a_0 - origin_5) * 4.4E2;
+                sawdown_6 = 1.0 - (2.0 * sawdown_6 % 2.0);
+
+                // LowPassFilter
+                double limitedmaxfrequency_17 = multiply_4;
+                if (limitedmaxfrequency_17 > nyquistFrequency) limitedmaxfrequency_17 = nyquistFrequency;
+
+                BiQuadFilterWithoutFields.SetLowPassFilterVariables(
+                    samplingRate, limitedmaxfrequency_17, 1.0E0,
+                    out lowpassfiltera0_12, out lowpassfiltera1_13, out lowpassfiltera2_14, out lowpassfiltera3_15, out lowpassfiltera4_16);
+
+                double lowpassfilter_7 = BiQuadFilterWithoutFields.Transform(
+                    sawdown_6, lowpassfiltera0_12, lowpassfiltera1_13, lowpassfiltera2_14, lowpassfiltera3_15, lowpassfiltera4_16,
+                    ref lowpassfilterx1_8, ref lowpassfilterx2_9, ref lowpassfiltery1_10, ref lowpassfiltery2_11);
 
                 // Accumulate
-                double value = sine_8;
+                double value = lowpassfilter_7;
 
                 if (double.IsNaN(value))
                 {
@@ -82,14 +102,20 @@ namespace GeneratedCSharp
 
                 PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
 
-                time_b_0 += frameDuration;
+                time_a_0 += frameDuration;
             }
 
-            _phase_6 = phase_6;
-            _prevpos_7 = prevpos_7;
-            _u0021blu00e0_a_0 = u0021blu00e0_a_0;
-            _something_2 = something_2;
-            _frequency_4 = frequency_4;
+            _origin_1 = origin_1;
+            _origin_5 = origin_5;
+            _lowpassfilterx1_8 = lowpassfilterx1_8;
+            _lowpassfilterx2_9 = lowpassfilterx2_9;
+            _lowpassfiltery1_10 = lowpassfiltery1_10;
+            _lowpassfiltery2_11 = lowpassfiltery2_11;
+            _lowpassfiltera0_12 = lowpassfiltera0_12;
+            _lowpassfiltera1_13 = lowpassfiltera1_13;
+            _lowpassfiltera2_14 = lowpassfiltera2_14;
+            _lowpassfiltera3_15 = lowpassfiltera3_15;
+            _lowpassfiltera4_16 = lowpassfiltera4_16;
         }
 
         // Values
@@ -98,30 +124,12 @@ namespace GeneratedCSharp
         {
             base.SetValue(listIndex, value);
 
-            switch (listIndex)
-            {
-                case 0:
-                    _something_2 = value;
-                    break;
-
-                case 1:
-                    _frequency_4 = value;
-                    break;
-
-            }
         }
 
         public override void SetValue(DimensionEnum dimensionEnum, double value)
         {
             base.SetValue(dimensionEnum, value);
 
-            switch (dimensionEnum)
-            {
-                case DimensionEnum.Frequency:
-                    _frequency_4 = value;
-                    break;
-
-            }
         }
 
         public override void SetValue(string name, double value)
@@ -130,27 +138,12 @@ namespace GeneratedCSharp
 
             string canonicalName = NameHelper.ToCanonical(name);
 
-            if (String.Equals(canonicalName, "!blà", StringComparison.Ordinal))
-            {
-                _u0021blu00e0_a_0 = value;
-            }
-
-            if (String.Equals(canonicalName, "something", StringComparison.Ordinal))
-            {
-                _something_2 = value;
-            }
-
         }
 
         public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)
         {
             base.SetValue(dimensionEnum, listIndex, value);
 
-
-            if (dimensionEnum == DimensionEnum.Frequency && listIndex == 0)
-            {
-                _frequency_4 = value;
-            }
 
         }
 
@@ -160,16 +153,6 @@ namespace GeneratedCSharp
 
             string canonicalName = NameHelper.ToCanonical(name);
 
-            if (String.Equals(canonicalName, "!blà", StringComparison.Ordinal))
-            {
-                _u0021blu00e0_a_0 = value;
-            }
-
-
-            if (String.Equals(canonicalName, "something") && listIndex == 0)
-            {
-                _something_2 = value;
-            }
 
         }
 
@@ -177,8 +160,6 @@ namespace GeneratedCSharp
 
         public override void Reset(double time)
         {
-            _phase_6 = 0.0;
-            _prevpos_7 = time;
         }
     }
 }

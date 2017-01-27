@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Visitors;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Framework.Common;
 using System.Diagnostics;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
@@ -35,6 +36,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string DEFAULT_INPUT_MNEMONIC = "input";
         private const string ORIGIN_MNEMONIC = "origin";
 
+        private const string SAMPLING_RATE_VARIABLE_NAME = "samplingRate";
+        private const string NYQUIST_FREQUENCY_VARIABLE_NAME = "nyquistFrequency";
+
         /// <summary> {0} = phase </summary>
         private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
         /// <summary> {0} = phase </summary>
@@ -55,6 +59,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private IList<string> _longLivedPreviousPositionVariableNamesCamelCase;
         private IList<string> _longLivedPhaseVariableNamesCamelCase;
         private IList<string> _longLivedOriginVariableNamesCamelCase;
+        private IList<string> _longLivedMiscVariableNamesCamelCase;
 
         // Information for Input Variables
 
@@ -76,6 +81,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _longLivedPreviousPositionVariableNamesCamelCase = new List<string>();
             _longLivedPhaseVariableNamesCamelCase = new List<string>();
             _longLivedOriginVariableNamesCamelCase = new List<string>();
+            _longLivedMiscVariableNamesCamelCase = new List<string>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<Tuple<DimensionEnum, string>, string>();
             _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
@@ -114,7 +120,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 _longLivedPhaseVariableNamesCamelCase,
                 _longLivedOriginVariableNamesCamelCase,
                 longLivedDimensionVariableInfos,
-                localDimensionVariableNamesCamelCase);
+                localDimensionVariableNamesCamelCase,
+                _longLivedMiscVariableNamesCamelCase);
         }
 
         [DebuggerHidden]
@@ -280,24 +287,64 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessComparativeOperator_VarA_VarB(dto, LESS_THAN_OR_EQUAL_SYMBOL);
         }
 
-        //protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
-        //{
-        //    Visit_OperatorDto_Polymorphic(dto.BandWidthOperatorDto);
-        //    Visit_OperatorDto_Polymorphic(dto.MaxFrequencyOperatorDto);
-        //    Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+        protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.BandWidthOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.MaxFrequencyOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
 
-        //    string signal = _stack.Pop();
-        //    string maxFrequency = _stack.Pop();
-        //    string signal = _stack.Pop();
-        //    string 
+            string signal = _stack.Pop();
+            string maxFrequency = _stack.Pop();
+            string bandWidth = _stack.Pop();
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-        //    return base.Visit_LowPassFilter_OperatorDto_AllVars(dto);
-        //}
+            string x1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
+            string x2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
+            string y1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
+            string y2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
+            string a0 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a0)}");
+            string a1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a1)}");
+            string a2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a2)}");
+            string a3 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a3)}");
+            string a4 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a4)}");
 
-        //protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ManyConsts(LowPassFilter_OperatorDto_ManyConsts dto)
-        //{
-        //    return base.Visit_LowPassFilter_OperatorDto_ManyConsts(dto);
-        //}
+            string limitedMaxFrequency = GenerateUniqueVariableName(nameof(limitedMaxFrequency));
+            const string nyquistFrequency = NYQUIST_FREQUENCY_VARIABLE_NAME;
+            const string samplingRate = SAMPLING_RATE_VARIABLE_NAME;
+            const string biQuadFilterWithoutFields = nameof(BiQuadFilterWithoutFields);
+            const string setLowPassFilterVariables = nameof(BiQuadFilterWithoutFields.SetLowPassFilterVariables);
+            const string transform = nameof(BiQuadFilterWithoutFields.Transform);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {limitedMaxFrequency} = {maxFrequency};");
+            _sb.AppendLine($"if ({limitedMaxFrequency} > {nyquistFrequency}) {limitedMaxFrequency} = {nyquistFrequency};");
+            _sb.AppendLine();
+            _sb.AppendLine($"{biQuadFilterWithoutFields}.{setLowPassFilterVariables}(");
+            _sb.Indent();
+            {
+                _sb.AppendLine($"{samplingRate}, {limitedMaxFrequency}, {bandWidth}, ");
+                _sb.AppendLine($"out {a0}, out {a1}, out {a2}, out {a3}, out {a4});");
+                _sb.Unindent();
+            }
+            _sb.AppendLine();
+            _sb.AppendLine($"double {output} = {biQuadFilterWithoutFields}.{transform}(");
+            {
+                _sb.Indent();
+                _sb.AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4}, ");
+                _sb.AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
+                _sb.Unindent();
+            }
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ManyConsts(LowPassFilter_OperatorDto_ManyConsts dto)
+        {
+            return base.Visit_LowPassFilter_OperatorDto_ManyConsts(dto);
+        }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
         {
@@ -587,7 +634,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string speed = _stack.Pop();
             string sourcePos = GeneratePositionName(dto);
             string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
-            string origin = GenerateOriginName();
+            string origin = GenerateLongLivedOriginName();
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) * -{speed} + {origin};");
@@ -613,7 +660,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string speed = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
-            string previousPosition = GeneratePreviousPositionName();
+            string previousPosition = GenerateLongLivedPreviousPositionName();
             string sourcePosition = GeneratePositionName(dto);
             string destPosition = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
 
@@ -1013,7 +1060,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string frequency = _stack.Pop();
 
             string position = GeneratePositionName(dto);
-            string origin = GenerateOriginName();
+            string origin = GenerateLongLivedOriginName();
             string phase = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -1318,7 +1365,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string frequency = _stack.Pop();
             string position = GeneratePositionName(dto);
-            string origin = GenerateOriginName();
+            string origin = GenerateLongLivedOriginName();
             string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
             string rightHandFormula = getRightHandFormulaDelegate(variable);
 
@@ -1339,7 +1386,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string frequency = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
             string position = GeneratePositionName(dto);
-            string previousPosition = GeneratePreviousPositionName();
+            string previousPosition = GenerateLongLivedPreviousPositionName();
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
             string rightHandFormula = getRightHandFormulaDelegate(phase);
 
@@ -1360,7 +1407,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string width = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
             string position = GeneratePositionName(dto);
-            string previousPosition = GeneratePreviousPositionName();
+            string previousPosition = GenerateLongLivedPreviousPositionName();
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -1379,7 +1426,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string frequency = _stack.Pop();
             string width = _stack.Pop();
             string position = GeneratePositionName(dto);
-            string origin = GenerateOriginName();
+            string origin = GenerateLongLivedOriginName();
             string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -1548,7 +1595,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string factor = _stack.Pop();
             string sourcePos = GeneratePositionName(dto);
             string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
-            string origin = GenerateOriginName();
+            string origin = GenerateLongLivedOriginName();
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {divideOrMultiplySymbol} {factor} + {origin};");
@@ -1563,7 +1610,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string factor = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
-            string previousPosition = GeneratePreviousPositionName();
+            string previousPosition = GenerateLongLivedPreviousPositionName();
             string sourcePosition = GeneratePositionName(dto);
             string destPosition = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
 
@@ -1652,24 +1699,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return valueInfo;
         }
 
-        private string GenerateLongLivedPhaseName()
-        {
-            string variableName = GenerateUniqueVariableName(PHASE_MNEMONIC);
-
-            _longLivedPhaseVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
-
-        private string GeneratePreviousPositionName()
-        {
-            string variableName = GenerateUniqueVariableName(PREVIOUS_POSITION_MNEMONIC);
-
-            _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
-
         private string GeneratePositionName(IOperatorDto_WithDimension dto, int? alternativeStackIndexLevel = null)
         {
             string canonicalCustomDimensionName = dto.CanonicalCustomDimensionName;
@@ -1727,7 +1756,34 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return alias;
         }
 
-        private string GenerateOriginName()
+        private string GenerateLongLivedVariableName(object mnemonic)
+        {
+            string variableName = GenerateUniqueVariableName(mnemonic);
+
+            _longLivedMiscVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
+        }
+
+        private string GenerateLongLivedPhaseName()
+        {
+            string variableName = GenerateUniqueVariableName(PHASE_MNEMONIC);
+
+            _longLivedPhaseVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
+        }
+
+        private string GenerateLongLivedPreviousPositionName()
+        {
+            string variableName = GenerateUniqueVariableName(PREVIOUS_POSITION_MNEMONIC);
+
+            _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
+        }
+
+        private string GenerateLongLivedOriginName()
         {
             string variableName = GenerateUniqueVariableName(ORIGIN_MNEMONIC);
 

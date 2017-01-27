@@ -11,6 +11,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected readonly double _frameDuration;
         protected readonly int _channelCount;
         protected readonly int _channelIndex;
+        protected readonly double _samplingRate;
+        protected readonly double _nyquistFrequency;
 
         protected readonly Dictionary<DimensionEnum, double> _dimensionEnum_To_Value_Dictionary = new Dictionary<DimensionEnum, double>();
         protected readonly Dictionary<string, double> _name_To_Value_Dictionary = new Dictionary<string, double>();
@@ -23,9 +25,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             if (channelCount <= 0) throw new LessThanOrEqualException(() => channelCount, 0);
             PatchCalculatorHelper.AssertChannelIndex(channelIndex, channelCount);
 
-            _frameDuration = 1.0 / samplingRate;
+            _samplingRate = samplingRate;
             _channelCount = channelCount;
             _channelIndex = channelIndex;
+
+            _frameDuration = 1.0 / _samplingRate;
+            _nyquistFrequency = _samplingRate / 2.0;
         }
 
         // Calculate

@@ -6,6 +6,7 @@
         EntityToCalculatorDirectly,
         EntityThruDtoToCalculator,
         RoslynRuntimeCompilation,
-        HardCoded
+        HardCoded,
+        ExampleGeneratedCode
     }
 }

@@ -33,14 +33,14 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using JJ.Framework.Mathematics;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-    internal class BiQuadFilterWithoutFields
+    internal static class BiQuadFilterWithoutFields
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void ResetSamples(out double x1, out double x2, out double y1, out double y2)
+        public static void ResetSamples(out double x1, out double x2, out double y1, out double y2)
         {
             // zero initial samples
             x1 = 0;
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Calculation
         /// <param name="inSample">Input sample</param>
         /// <returns>Output sample</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Transform(
+        public static double Transform(
             double inSample, double a0, double a1, double a2, double a3, double a4,
             ref double x1, ref double x2, ref double y1, ref double y2)
         {
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void SetCoefficients(
+        private static void SetCoefficients(
             double aa0, double aa1, double aa2, double b0, double b1, double b2,
             out double a0, out double a1, out double a2, out double a3, out double a4)
         {
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Calculation
         // Set Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetLowPassFilterVariables(
+        public static void SetLowPassFilterVariables(
             double sampleRate, double cutoffFrequency, double q,
             out double a0, out double a1, out double a2, out double a3, out double a4)
         {
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Calculation
         /// <param name="q">Bandwidth (Q)</param>
         /// <param name="dbGain">Gain in decibels</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetPeakingEQVariables(
+        public static void SetPeakingEQVariables(
             double sampleRate, double centreFrequency, double q, double dbGain,
             out double a0, out double a1, out double a2, out double a3, out double a4)
         {
@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetHighPassFilterVariables(
+        public static void SetHighPassFilterVariables(
             double sampleRate, double cutoffFrequency, double q,
             out double a0, out double a1, out double a2, out double a3, out double a4)
         {
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetBandPassFilterConstantSkirtGainVariables(
+        public static void SetBandPassFilterConstantSkirtGainVariables(
             double sampleRate, double centreFrequency, double q,
             out double a0, out double a1, out double a2, out double a3, out double a4)
         {
@@ -170,7 +170,7 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetBandPassFilterConstantPeakGainVariables(
+        public static void SetBandPassFilterConstantPeakGainVariables(
             double sampleRate, double centreFrequency, double q,
             out double a0, out double a1, out double a2, out double a3, out double a4)
         {
@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetNotchFilterVariables(
+        public static void SetNotchFilterVariables(
             double sampleRate, double centreFrequency, double q,
             out double a0, out double a1, out double a2, out double a3, out double a4)
         {
@@ -212,7 +212,7 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetAllPassFilterVariables(
+        public static void SetAllPassFilterVariables(
             double sampleRate, double centreFrequency, double q,
             out double a0, out double a1, out double a2, out double a3, out double a4)
         {
@@ -239,7 +239,7 @@ namespace JJ.Business.Synthesizer.Calculation
         /// remains proportional to S for all other values for a fixed f0/Fs and dBgain.</param>
         /// <param name="dbGain">Gain in decibels</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetLowShelfVariables(
+        public static void SetLowShelfVariables(
             double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain,
             out double a0, out double a1, out double a2, out double a3, out double a4)
         {
@@ -262,7 +262,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
         /// <summary> H(s) = A * (A*s^2 + (sqrt(A)/Q)*s + 1)/(s^2 + (sqrt(A)/Q)*s + A) </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetHighShelfVariables(
+        public static void SetHighShelfVariables(
             double sampleRate, double cutoffFrequency, double transitionSlope, double dbGain,
             out double a0, out double a1, out double a2, out double a3, out double a4)
         {
