@@ -287,94 +287,49 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessComparativeOperator_VarA_VarB(dto, LESS_THAN_OR_EQUAL_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_AllVars(HighShelfFilter_OperatorDto_AllVars dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.DBGainOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.TransitionSlopeOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.TransitionFrequencyOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-
-            string signal = _stack.Pop();
-            string transitionFrequency = _stack.Pop();
-            string transitionSlope = _stack.Pop();
-            string dbGain = _stack.Pop();
-
-            return Process_Filter_OperatorDto_AllVars(dto, signal, transitionFrequency, new[] { transitionSlope, dbGain }, nameof(BiQuadFilterWithoutFields.SetHighShelfVariables));
-        }
-
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.BandWidthOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.MaxFrequencyOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-
-            string signal = _stack.Pop();
-            string maxFrequency = _stack.Pop();
-            string bandWidth = _stack.Pop();
-
-            return Process_Filter_OperatorDto_AllVars(dto, signal, maxFrequency, new[] { bandWidth }, nameof(BiQuadFilterWithoutFields.SetLowPassFilterVariables));
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetLowPassFilterVariables));
         }
 
-        /// <summary>
-        /// Caller is expected to visit the input values and pop their literals from the stack first.
-        /// The rest is taken care of by this method.
-        /// </summary>
-        /// <param name="additionalFilterParameters">
-        /// E.g.: "new[] { transitionSlope, dbGain }"
-        /// Consider the parameter list of the setFilterVariablesMethodName. Disinclude the parameters samplingRate, signal, frequency, a0, a1, a2, a3 and a4.
-        /// </param>
-        private OperatorDtoBase Process_Filter_OperatorDto_AllVars(OperatorDtoBase dto, string signal, string frequency, IList<string> additionalFilterParameters, string setFilterVariablesMethodName)
+        protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto)
         {
-            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
-
-            string x1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
-            string x2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
-            string y1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
-            string y2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
-            string a0 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a0)}");
-            string a1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a1)}");
-            string a2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a2)}");
-            string a3 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a3)}");
-            string a4 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a4)}");
-
-            string limitedFrequency = GenerateUniqueVariableName(nameof(limitedFrequency));
-            const string nyquistFrequency = NYQUIST_FREQUENCY_VARIABLE_NAME;
-            const string samplingRate = SAMPLING_RATE_VARIABLE_NAME;
-            const string biQuadFilter = nameof(BiQuadFilterWithoutFields);
-            string setFilterVariables = setFilterVariablesMethodName;
-            const string transform = nameof(BiQuadFilterWithoutFields.Transform);
-
-            string concatinatedAdditionalFilterParameters = string.Join(", ", additionalFilterParameters);
-
-            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
-            _sb.AppendLine($"double {limitedFrequency} = {frequency};");
-            _sb.AppendLine($"if ({limitedFrequency} > {nyquistFrequency}) {limitedFrequency} = {nyquistFrequency};");
-            _sb.AppendLine();
-            _sb.AppendLine($"{biQuadFilter}.{setFilterVariables}(");
-            _sb.Indent();
-            {
-                _sb.AppendLine($"{samplingRate}, {limitedFrequency}, {concatinatedAdditionalFilterParameters}, ");
-                _sb.AppendLine($"out {a0}, out {a1}, out {a2}, out {a3}, out {a4});");
-                _sb.Unindent();
-            }
-            _sb.AppendLine();
-            _sb.AppendLine($"double {output} = {biQuadFilter}.{transform}(");
-            {
-                _sb.Indent();
-                _sb.AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4}, ");
-                _sb.AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
-                _sb.Unindent();
-            }
-            _sb.AppendLine();
-
-            _stack.Push(output);
-
-            return dto;
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetLowShelfFilterVariables));
         }
 
-        protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ManyConsts(LowPassFilter_OperatorDto_ManyConsts dto)
+        protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_AllVars(HighShelfFilter_OperatorDto_AllVars dto)
         {
-            return base.Visit_LowPassFilter_OperatorDto_ManyConsts(dto);
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetHighShelfFilterVariables));
+        }
+
+        protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_AllVars(HighPassFilter_OperatorDto_AllVars dto)
+        {
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetHighPassFilterVariables));
+        }
+
+        protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_AllVars(AllPassFilter_OperatorDto_AllVars dto)
+        {
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetAllPassFilterVariables));
+        }
+
+        protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        {
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables));
+        }
+
+        protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_AllVars(NotchFilter_OperatorDto_AllVars dto)
+        {
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetNotchFilterVariables));
+        }
+
+        protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto)
+        {
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetPeakingEQFilterVariables));
+        }
+
+        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        {
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables));
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
@@ -1206,6 +1161,62 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {output} = {a} / {b};");
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return dto;
+        }
+
+        private OperatorDtoBase Process_Filter_OperatorDto_AllVars(OperatorDtoBase dto, string biQuadFilterSetFilterVariablesMethodName)
+        {
+            Visit_OperatorDto_Base(dto);
+
+            string signal = _stack.Pop();
+            string frequency = _stack.Pop();
+
+            IList<string> additionalFilterParameters = dto.InputOperatorDtos.Skip(2).Select(x => _stack.Pop()).ToArray();
+
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+
+            string x1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
+            string x2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
+            string y1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
+            string y2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
+            string a0 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a0)}");
+            string a1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a1)}");
+            string a2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a2)}");
+            string a3 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a3)}");
+            string a4 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a4)}");
+
+            string limitedFrequency = GenerateUniqueVariableName(nameof(limitedFrequency));
+            const string nyquistFrequency = NYQUIST_FREQUENCY_VARIABLE_NAME;
+            const string samplingRate = SAMPLING_RATE_VARIABLE_NAME;
+            const string biQuadFilter = nameof(BiQuadFilterWithoutFields);
+            string setFilterVariables = biQuadFilterSetFilterVariablesMethodName;
+            const string transform = nameof(BiQuadFilterWithoutFields.Transform);
+
+            string concatinatedAdditionalFilterParameters = string.Join(", ", additionalFilterParameters);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {limitedFrequency} = {frequency};");
+            _sb.AppendLine($"if ({limitedFrequency} > {nyquistFrequency}) {limitedFrequency} = {nyquistFrequency};");
+            _sb.AppendLine();
+            _sb.AppendLine($"{biQuadFilter}.{setFilterVariables}(");
+            _sb.Indent();
+            {
+                _sb.AppendLine($"{samplingRate}, {limitedFrequency}, {concatinatedAdditionalFilterParameters}, ");
+                _sb.AppendLine($"out {a0}, out {a1}, out {a2}, out {a3}, out {a4});");
+                _sb.Unindent();
+            }
+            _sb.AppendLine();
+            _sb.AppendLine($"double {output} = {biQuadFilter}.{transform}(");
+            {
+                _sb.Indent();
+                _sb.AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4}, ");
+                _sb.AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
+                _sb.Unindent();
+            }
             _sb.AppendLine();
 
             _stack.Push(output);
