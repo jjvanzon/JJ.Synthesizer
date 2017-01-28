@@ -18,11 +18,6 @@ namespace GeneratedCSharp
         private double _lowpassfilterx2_9;
         private double _lowpassfiltery1_10;
         private double _lowpassfiltery2_11;
-        private double _lowpassfiltera0_12;
-        private double _lowpassfiltera1_13;
-        private double _lowpassfiltera2_14;
-        private double _lowpassfiltera3_15;
-        private double _lowpassfiltera4_16;
 
         // Constructor
 
@@ -38,10 +33,6 @@ namespace GeneratedCSharp
         public override void Calculate(float[] buffer, int frameCount, double startTime)
         {
             double frameDuration = _frameDuration;
-            int channelCount = _channelCount;
-            int channelIndex = _channelIndex;
-            double samplingRate = _samplingRate;
-            double nyquistFrequency = _nyquistFrequency;
 
             double origin_1 = _origin_1;
             double origin_5 = _origin_5;
@@ -49,21 +40,14 @@ namespace GeneratedCSharp
             double lowpassfilterx2_9 = _lowpassfilterx2_9;
             double lowpassfiltery1_10 = _lowpassfiltery1_10;
             double lowpassfiltery2_11 = _lowpassfiltery2_11;
-            double lowpassfiltera0_12 = _lowpassfiltera0_12;
-            double lowpassfiltera1_13 = _lowpassfiltera1_13;
-            double lowpassfiltera2_14 = _lowpassfiltera2_14;
-            double lowpassfiltera3_15 = _lowpassfiltera3_15;
-            double lowpassfiltera4_16 = _lowpassfiltera4_16;
 
             double time_a_0;
 
-            int valueCount = frameCount * channelCount;
+            int valueCount = frameCount * 2;
             time_a_0 = startTime;
 
-            for (int i = channelIndex; i < valueCount; i += channelCount)
+            for (int i = 1; i < valueCount; i += 2)
             {
-                // Number
-
                 // Sine
                 double sine_2 = (time_a_0 - origin_1) * 2.0E0;
                 sine_2 = SineCalculator.Sin(sine_2);
@@ -79,11 +63,13 @@ namespace GeneratedCSharp
                 sawdown_6 = 1.0 - (2.0 * sawdown_6 % 2.0);
 
                 // LowPassFilter
-                double limitedmaxfrequency_17 = multiply_4;
-                if (limitedmaxfrequency_17 > nyquistFrequency) limitedmaxfrequency_17 = nyquistFrequency;
+                double limitedfrequency_17 = multiply_4;
+                if (limitedfrequency_17 > 2.205E4) limitedfrequency_17 = 2.205E4;
+
+                double lowpassfiltera0_12, lowpassfiltera1_13, lowpassfiltera2_14, lowpassfiltera3_15, lowpassfiltera4_16;
 
                 BiQuadFilterWithoutFields.SetLowPassFilterVariables(
-                    samplingRate, limitedmaxfrequency_17, 1.0E0,
+                    4.41E4, limitedfrequency_17, 1.0E0,
                     out lowpassfiltera0_12, out lowpassfiltera1_13, out lowpassfiltera2_14, out lowpassfiltera3_15, out lowpassfiltera4_16);
 
                 double lowpassfilter_7 = BiQuadFilterWithoutFields.Transform(
@@ -111,11 +97,6 @@ namespace GeneratedCSharp
             _lowpassfilterx2_9 = lowpassfilterx2_9;
             _lowpassfiltery1_10 = lowpassfiltery1_10;
             _lowpassfiltery2_11 = lowpassfiltery2_11;
-            _lowpassfiltera0_12 = lowpassfiltera0_12;
-            _lowpassfiltera1_13 = lowpassfiltera1_13;
-            _lowpassfiltera2_14 = lowpassfiltera2_14;
-            _lowpassfiltera3_15 = lowpassfiltera3_15;
-            _lowpassfiltera4_16 = lowpassfiltera4_16;
         }
 
         // Values

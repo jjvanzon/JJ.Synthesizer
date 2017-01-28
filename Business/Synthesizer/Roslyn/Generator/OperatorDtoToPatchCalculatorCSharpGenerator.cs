@@ -18,6 +18,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
         private const string TAB_STRING = "    ";
         private const int RAW_CALCULATION_INDENT_LEVEL = 4;
 
+        private readonly int _channelCount;
+        private readonly int _channelIndex;
+
+        public OperatorDtoToPatchCalculatorCSharpGenerator(int channelCount, int channelIndex)
+        {
+            _channelCount = channelCount;
+            _channelIndex = channelIndex;
+        }
+
         public string Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName)
         {
             if (string.IsNullOrEmpty(generatedNameSpace)) throw new NullOrEmptyException(() => generatedNameSpace);
@@ -140,8 +149,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             {
                 // Copy Fields to Local
                 sb.AppendLine("double frameDuration = _frameDuration;");
-                sb.AppendLine("int channelCount = _channelCount;");
-                sb.AppendLine("int channelIndex = _channelIndex;");
 
                 sb.AppendLine();
                 foreach (string variableName in instanceVariableNamesCamelCase)
@@ -158,14 +165,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 sb.AppendLine();
 
                 // Initialize ValueCount variable
-                sb.AppendLine("int valueCount = frameCount * channelCount;");
+                sb.AppendLine($"int valueCount = frameCount * {_channelCount};");
 
                 // Initialize First Time Variable
                 sb.AppendLine($"{visitorResult.FirstTimeVariableNameCamelCase} = startTime;");
                 sb.AppendLine();
 
                 // Loop
-                sb.AppendLine("for (int i = channelIndex; i < valueCount; i += channelCount)"); // Writes values in an interleaved way to the buffer."
+                sb.AppendLine($"for (int i = {_channelIndex}; i < valueCount; i += {_channelCount})"); // Writes values in an interleaved way to the buffer."
                 sb.AppendLine("{");
                 sb.Indent();
                 {

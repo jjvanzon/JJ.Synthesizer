@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
             dto = preProcessingVisitor.Execute(dto);
 
-            var codeGeneratingVisitor = new OperatorDtoToPatchCalculatorCSharpGenerator();
+            var codeGeneratingVisitor = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex);
             string generatedCode = codeGeneratingVisitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             Type type = Compile(generatedCode);
