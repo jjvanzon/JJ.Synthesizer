@@ -11,7 +11,10 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorDtoVisitor_MathSimplification : OperatorDtoVisitorBase_ClassSpecialization
+    /// <summary>
+    /// Also takes care of the ClassSpecialization, since it derives from OperatorDtoVisitor_ClassSpecializationBase.
+    /// </summary>
+    internal class OperatorDtoVisitor_MathSimplification : OperatorDtoVisitor_ClassSpecializationBase
     {
         public OperatorDtoVisitor_MathSimplification(int targetChannelCount)
             : base(targetChannelCount)
@@ -104,14 +107,32 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_ConstSignal(AllPassFilter_OperatorDto_ConstSignal dto)
         {
             return Process_ConstSignal_Identity(dto.Signal);
+        }
+
+        protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto)
+        {
+            double limitedFrequency = dto.CenterFrequency;
+            if (limitedFrequency > dto.NyquistFrequency)
+            {
+                limitedFrequency = dto.NyquistFrequency;
+            }
+
+            double a0, a1, a2, a3, a4;
+
+            BiQuadFilterWithoutFields.SetAllPassFilterVariables(
+                dto.SamplingRate, limitedFrequency, dto.BandWidth,
+                out a0, out a1, out a2, out a3, out a4);
+
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
+
+            return dto;
         }
 
         // And
@@ -214,12 +235,25 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
-            return Process_Nothing(dto);
-        }
+            double limitedFrequency = dto.CenterFrequency;
+            if (limitedFrequency > dto.NyquistFrequency)
+            {
+                limitedFrequency = dto.NyquistFrequency;
+            }
 
-        protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
-        {
-            return Process_Nothing(dto);
+            double a0, a1, a2, a3, a4;
+
+            BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables(
+                dto.SamplingRate, limitedFrequency, dto.BandWidth,
+                out a0, out a1, out a2, out a3, out a4);
+
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstSignal(BandPassFilterConstantPeakGain_OperatorDto_ConstSignal dto)
@@ -227,21 +261,44 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_ConstSignal_Identity(dto.Signal);
         }
 
+        protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        {
+            return Process_Nothing(dto);
+        }
+
         // BandPassFilterConstantTransitionGain
+
+        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal(BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal dto)
+        {
+            return Process_ConstSignal_Identity(dto.Signal);
+        }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
-            return Process_Nothing(dto);
+            double limitedFrequency = dto.CenterFrequency;
+            if (limitedFrequency > dto.NyquistFrequency)
+            {
+                limitedFrequency = dto.NyquistFrequency;
+            }
+
+            double a0, a1, a2, a3, a4;
+
+            BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables(
+                dto.SamplingRate, limitedFrequency, dto.BandWidth,
+                out a0, out a1, out a2, out a3, out a4);
+
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
         {
             return Process_Nothing(dto);
-        }
-
-        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal(BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
         }
 
         // Cache
@@ -696,14 +753,32 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_ManyConsts(HighPassFilter_OperatorDto_ManyConsts dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_ConstSignal(HighPassFilter_OperatorDto_ConstSignal dto)
         {
             return Process_ConstSignal_Identity(dto.Signal);
+        }
+
+        protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_ManyConsts(HighPassFilter_OperatorDto_ManyConsts dto)
+        {
+            double limitedFrequency = dto.MinFrequency;
+            if (limitedFrequency > dto.NyquistFrequency)
+            {
+                limitedFrequency = dto.NyquistFrequency;
+            }
+
+            double a0, a1, a2, a3, a4;
+
+            BiQuadFilterWithoutFields.SetHighPassFilterVariables(
+                dto.SamplingRate, limitedFrequency, dto.BandWidth,
+                out a0, out a1, out a2, out a3, out a4);
+
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
+
+            return dto;
         }
 
         // HighShelfFilter
@@ -713,14 +788,32 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_ManyConsts(HighShelfFilter_OperatorDto_ManyConsts dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_ConstSignal(HighShelfFilter_OperatorDto_ConstSignal dto)
         {
             return Process_ConstSignal_Identity(dto.Signal);
+        }
+
+        protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_ManyConsts(HighShelfFilter_OperatorDto_ManyConsts dto)
+        {
+            double limitedFrequency = dto.TransitionFrequency;
+            if (limitedFrequency > dto.NyquistFrequency)
+            {
+                limitedFrequency = dto.NyquistFrequency;
+            }
+
+            double a0, a1, a2, a3, a4;
+
+            BiQuadFilterWithoutFields.SetHighShelfFilterVariables(
+                dto.SamplingRate, limitedFrequency, dto.TransitionSlope, dto.DBGain,
+                out a0, out a1, out a2, out a3, out a4);
+
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
+
+            return dto;
         }
 
         // Hold
@@ -1023,6 +1116,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // LowPassFilter
 
+        protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ConstSignal(LowPassFilter_OperatorDto_ConstSignal dto)
+        {
+            return Process_ConstSignal_Identity(dto.Signal);
+        }
+
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
         {
             return Process_Nothing(dto);
@@ -1051,12 +1149,12 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ConstSignal(LowPassFilter_OperatorDto_ConstSignal dto)
+        // LowShelfFilter
+
+        protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_ConstSignal(LowShelfFilter_OperatorDto_ConstSignal dto)
         {
             return Process_ConstSignal_Identity(dto.Signal);
         }
-
-        // LowShelfFilter
 
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto)
         {
@@ -1065,12 +1163,25 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_ManyConsts(LowShelfFilter_OperatorDto_ManyConsts dto)
         {
-            return Process_Nothing(dto);
-        }
+            double limitedFrequency = dto.TransitionFrequency;
+            if (limitedFrequency > dto.NyquistFrequency)
+            {
+                limitedFrequency = dto.NyquistFrequency;
+            }
 
-        protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_ConstSignal(LowShelfFilter_OperatorDto_ConstSignal dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
+            double a0, a1, a2, a3, a4;
+
+            BiQuadFilterWithoutFields.SetLowShelfFilterVariables(
+                dto.SamplingRate, limitedFrequency, dto.TransitionSlope, dto.DBGain,
+                out a0, out a1, out a2, out a3, out a4);
+
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
+
+            return dto;
         }
 
         // MaxFollower
@@ -1366,14 +1477,32 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_ManyConsts(NotchFilter_OperatorDto_ManyConsts dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_ConstSignal(NotchFilter_OperatorDto_ConstSignal dto)
         {
             return Process_ConstSignal_Identity(dto.Signal);
+        }
+
+        protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_ManyConsts(NotchFilter_OperatorDto_ManyConsts dto)
+        {
+            double limitedFrequency = dto.CenterFrequency;
+            if (limitedFrequency > dto.NyquistFrequency)
+            {
+                limitedFrequency = dto.NyquistFrequency;
+            }
+
+            double a0, a1, a2, a3, a4;
+
+            BiQuadFilterWithoutFields.SetNotchFilterVariables(
+                dto.SamplingRate, limitedFrequency, dto.BandWidth,
+                out a0, out a1, out a2, out a3, out a4);
+
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
+
+            return dto;
         }
 
         // NotEqual
@@ -1533,15 +1662,36 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ConstSignal(PeakingEQFilter_OperatorDto_ConstSignal dto)
         {
             return Process_ConstSignal_Identity(dto.Signal);
         }
+
+        protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto)
+        {
+            double limitedFrequency = dto.CenterFrequency;
+            if (limitedFrequency > dto.NyquistFrequency)
+            {
+                limitedFrequency = dto.NyquistFrequency;
+            }
+
+            double a0, a1, a2, a3, a4;
+
+            BiQuadFilterWithoutFields.SetPeakingEQFilterVariables(
+                dto.SamplingRate, limitedFrequency, dto.BandWidth, dto.DBGain,
+                out a0, out a1, out a2, out a3, out a4);
+
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
+
+            return dto;
+        }
+
+
+
 
         // Power
 

@@ -11,11 +11,10 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.NotchFilter;
     }
 
-    internal class NotchFilter_OperatorDto_AllVars : OperatorDtoBase
+    internal class NotchFilter_OperatorDto_AllVars : OperatorDtoBase_Filter_VarSignal
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.NotchFilter;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase CenterFrequencyOperatorDto { get; set; }
         public OperatorDtoBase BandWidthOperatorDto { get; set; }
 
@@ -26,7 +25,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class NotchFilter_OperatorDto_ManyConsts : OperatorDtoBase_VarSignal
+    internal class NotchFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.LowPassFilter;
 

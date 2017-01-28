@@ -2,9 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_ShelfFilter_AllVars : OperatorDtoBase
+    internal abstract class OperatorDtoBase_ShelfFilter_AllVars : OperatorDtoBase_Filter_VarSignal
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase TransitionFrequencyOperatorDto { get; set; }
         public OperatorDtoBase TransitionSlopeOperatorDto { get; set; }
         public OperatorDtoBase DBGainOperatorDto { get; set; }
@@ -16,7 +15,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal abstract class OperatorDtoBase_ShelfFilter_ManyConsts : OperatorDtoBase_VarSignal
+    internal abstract class OperatorDtoBase_ShelfFilter_ManyConsts : OperatorDtoBase_Filter_ManyConsts
     {
         public double TransitionFrequency { get; set; }
         public double TransitionSlope { get; set; }

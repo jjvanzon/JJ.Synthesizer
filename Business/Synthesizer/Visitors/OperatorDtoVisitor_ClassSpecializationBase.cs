@@ -6,11 +6,11 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal abstract class OperatorDtoVisitorBase_ClassSpecialization : OperatorDtoVisitorBase
+    internal abstract class OperatorDtoVisitor_ClassSpecializationBase : OperatorDtoVisitorBase
     {
         private readonly int _targetChannelCount;
 
-        public OperatorDtoVisitorBase_ClassSpecialization(int targetChannelCount)
+        public OperatorDtoVisitor_ClassSpecializationBase(int targetChannelCount)
         {
             if (targetChannelCount <= 0) throw new LessThanOrEqualException(() => targetChannelCount, 0);
 
@@ -69,18 +69,24 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
+            OperatorDtoBase dto2;
+
             if (signalMathPropertiesDto.IsConst)
             {
-                return new AllPassFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+                dto2 = new AllPassFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new AllPassFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                dto2 = new AllPassFilter_OperatorDto_ManyConsts { CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new AllPassFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
+                dto2 = new AllPassFilter_OperatorDto_AllVars { CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
+
+            DtoCloner.TryClone_FilterVarSignalProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_And_OperatorDto(And_OperatorDto dto)
@@ -190,18 +196,24 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
+            OperatorDtoBase dto2;
+
             if (signalMathPropertiesDto.IsConst)
             {
-                return new BandPassFilterConstantPeakGain_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+                dto2 = new BandPassFilterConstantPeakGain_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                dto2 = new BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth { CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
+                dto2 = new BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth { CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
+
+            DtoCloner.TryClone_FilterVarSignalProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto(BandPassFilterConstantTransitionGain_OperatorDto dto)
@@ -212,18 +224,24 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
+            OperatorDtoBase dto2;
+
             if (signalMathPropertiesDto.IsConst)
             {
-                return new BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+                dto2 = new BandPassFilterConstantTransitionGain_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                dto2 = new BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth { CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
+                dto2 = new BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth { CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
+
+            DtoCloner.TryClone_FilterVarSignalProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Cache_OperatorDto(Cache_OperatorDto dto)
@@ -641,18 +659,24 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto minFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.MinFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
+            OperatorDtoBase dto2;
+
             if (signalMathPropertiesDto.IsConst)
             {
-                return new HighPassFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+                dto2 = new HighPassFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (minFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new HighPassFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, MinFrequency = minFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                dto2 = new HighPassFilter_OperatorDto_ManyConsts { MinFrequency = minFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new HighPassFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, MinFrequencyOperatorDto = dto.MinFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
+                dto2 = new HighPassFilter_OperatorDto_AllVars { MinFrequencyOperatorDto = dto.MinFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
+
+            DtoCloner.TryClone_FilterVarSignalProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto)
@@ -664,18 +688,24 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto transitionSlopeMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TransitionSlopeOperatorDto);
             MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DBGainOperatorDto);
 
+            OperatorDtoBase dto2;
+
             if (signalMathPropertiesDto.IsConst)
             {
-                return new HighShelfFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+                dto2 = new HighShelfFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (transitionFrequencyMathPropertiesDto.IsConst && transitionSlopeMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
             {
-                return new HighShelfFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, TransitionFrequency = transitionFrequencyMathPropertiesDto.ConstValue, TransitionSlope = transitionSlopeMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
+                dto2 = new HighShelfFilter_OperatorDto_ManyConsts { TransitionFrequency = transitionFrequencyMathPropertiesDto.ConstValue, TransitionSlope = transitionSlopeMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new HighShelfFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, TransitionFrequencyOperatorDto = dto.TransitionFrequencyOperatorDto, TransitionSlopeOperatorDto = dto.TransitionSlopeOperatorDto, DBGainOperatorDto = dto.DBGainOperatorDto };
+                dto2 = new HighShelfFilter_OperatorDto_AllVars { TransitionFrequencyOperatorDto = dto.TransitionFrequencyOperatorDto, TransitionSlopeOperatorDto = dto.TransitionSlopeOperatorDto, DBGainOperatorDto = dto.DBGainOperatorDto };
             }
+
+            DtoCloner.TryClone_FilterVarSignalProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Hold_OperatorDto(Hold_OperatorDto dto)
@@ -1006,7 +1036,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto2 = new LowPassFilter_OperatorDto_AllVars { MaxFrequencyOperatorDto = dto.MaxFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
 
-            DtoCloner.TryClone_FilterProperties(dto, dto2);
+            DtoCloner.TryClone_FilterVarSignalProperties(dto, dto2);
 
             return dto2;
         }
@@ -1020,18 +1050,24 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto transitionSlopeMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TransitionSlopeOperatorDto);
             MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DBGainOperatorDto);
 
+            OperatorDtoBase dto2;
+
             if (signalMathPropertiesDto.IsConst)
             {
-                return new LowShelfFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+                dto2 = new LowShelfFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (transitionFrequencyMathPropertiesDto.IsConst && transitionSlopeMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
             {
-                return new LowShelfFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, TransitionFrequency = transitionFrequencyMathPropertiesDto.ConstValue, TransitionSlope = transitionSlopeMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
+                dto2 = new LowShelfFilter_OperatorDto_ManyConsts { TransitionFrequency = transitionFrequencyMathPropertiesDto.ConstValue, TransitionSlope = transitionSlopeMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new LowShelfFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, TransitionFrequencyOperatorDto = dto.TransitionSlopeOperatorDto, TransitionSlopeOperatorDto = dto.TransitionSlopeOperatorDto, DBGainOperatorDto = dto.DBGainOperatorDto };
+                dto2 = new LowShelfFilter_OperatorDto_AllVars { TransitionFrequencyOperatorDto = dto.TransitionSlopeOperatorDto, TransitionSlopeOperatorDto = dto.TransitionSlopeOperatorDto, DBGainOperatorDto = dto.DBGainOperatorDto };
             }
+
+            DtoCloner.TryClone_FilterVarSignalProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto)
@@ -1320,18 +1356,24 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
+            OperatorDtoBase dto2;
+
             if (signalMathPropertiesDto.IsConst)
             {
-                return new NotchFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+                dto2 = new NotchFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new NotchFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                dto2 = new NotchFilter_OperatorDto_ManyConsts { CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new NotchFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
+                dto2 = new NotchFilter_OperatorDto_AllVars { CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
+
+            DtoCloner.TryClone_FilterVarSignalProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
@@ -1415,18 +1457,24 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
             MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DBGainOperatorDto);
 
+            OperatorDtoBase dto2;
+
             if (signalMathPropertiesDto.IsConst)
             {
-                return new PeakingEQFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+                dto2 = new PeakingEQFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (centerFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst & dbGainMathPropertiesDto.IsConst)
             {
-                return new PeakingEQFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
+                dto2 = new PeakingEQFilter_OperatorDto_ManyConsts { CenterFrequency = centerFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue, DBGain = dbGainMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new PeakingEQFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto, DBGainOperatorDto = dto.DBGainOperatorDto };
+                dto2 =new PeakingEQFilter_OperatorDto_AllVars { CenterFrequencyOperatorDto = dto.CenterFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto, DBGainOperatorDto = dto.DBGainOperatorDto };
             }
+
+            DtoCloner.TryClone_FilterVarSignalProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto(Power_OperatorDto dto)

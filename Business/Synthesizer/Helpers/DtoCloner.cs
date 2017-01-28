@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Helpers
             }
         }
 
-        public static void TryClone_FilterProperties(OperatorDtoBase_Filter_VarSignal source, OperatorDtoBase dest)
+        public static void TryClone_FilterVarSignalProperties(OperatorDtoBase_Filter_VarSignal source, OperatorDtoBase dest)
         {
             var destOperatorDto_Filter_VarSignal = dest as OperatorDtoBase_Filter_VarSignal;
             if (destOperatorDto_Filter_VarSignal != null)

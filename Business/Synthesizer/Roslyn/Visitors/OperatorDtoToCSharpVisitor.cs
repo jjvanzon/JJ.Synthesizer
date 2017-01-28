@@ -36,9 +36,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string DEFAULT_INPUT_MNEMONIC = "input";
         private const string ORIGIN_MNEMONIC = "origin";
 
-        private const string SAMPLING_RATE_VARIABLE_NAME = "samplingRate";
-        private const string NYQUIST_FREQUENCY_VARIABLE_NAME = "nyquistFrequency";
-
         /// <summary> {0} = phase </summary>
         private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
         /// <summary> {0} = phase </summary>
@@ -171,6 +168,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetAllPassFilterVariables));
         }
 
+        protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto)
+        {
+            return Process_Filter_OperatorDto_ManyConsts(dto);
+        }
+
         protected override OperatorDtoBase Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto)
         {
             return ProcessLogicalBinaryOperator(dto, AND_SYMBOL);
@@ -181,9 +183,19 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables));
         }
 
+        protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        {
+            return Process_Filter_OperatorDto_ManyConsts(dto);
+        }
+
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables));
+        }
+
+        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        {
+            return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
@@ -284,14 +296,24 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessComparativeOperator_VarA_VarB(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
         }
 
+        protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_AllVars(HighPassFilter_OperatorDto_AllVars dto)
+        {
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetHighPassFilterVariables));
+        }
+
+        protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_ManyConsts(HighPassFilter_OperatorDto_ManyConsts dto)
+        {
+            return Process_Filter_OperatorDto_ManyConsts(dto);
+        }
+
         protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_AllVars(HighShelfFilter_OperatorDto_AllVars dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetHighShelfFilterVariables));
         }
 
-        protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_AllVars(HighPassFilter_OperatorDto_AllVars dto)
+        protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_ManyConsts(HighShelfFilter_OperatorDto_ManyConsts dto)
         {
-            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetHighPassFilterVariables));
+            return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
         protected override OperatorDtoBase Visit_LessThan_OperatorDto_VarA_ConstB(LessThan_OperatorDto_VarA_ConstB dto)
@@ -327,6 +349,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetLowShelfFilterVariables));
+        }
+
+        protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_ManyConsts(LowShelfFilter_OperatorDto_ManyConsts dto)
+        {
+            return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
@@ -411,6 +438,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetNotchFilterVariables));
         }
 
+        protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_ManyConsts(NotchFilter_OperatorDto_ManyConsts dto)
+        {
+            return Process_Filter_OperatorDto_ManyConsts(dto);
+        }
+
         protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, NOT_EQUAL_SYMBOL);
@@ -479,6 +511,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetPeakingEQFilterVariables));
+        }
+
+        protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto)
+        {
+            return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
@@ -1180,7 +1217,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
-        private OperatorDtoBase Process_Filter_OperatorDto_AllVars(OperatorDtoBase dto, string biQuadFilterSetFilterVariablesMethodName)
+        private OperatorDtoBase Process_Filter_OperatorDto_AllVars(OperatorDtoBase_Filter_VarSignal dto, string biQuadFilterSetFilterVariablesMethodName)
         {
             Visit_OperatorDto_Base(dto);
 
@@ -1201,12 +1238,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string a3 = GenerateUniqueVariableName($"{dto.OperatorTypeEnum}{nameof(a3)}");
             string a4 = GenerateUniqueVariableName($"{dto.OperatorTypeEnum}{nameof(a4)}");
 
+            string nyquistFrequency = CompilationHelper.FormatValue(dto.NyquistFrequency);
+            string samplingRate = CompilationHelper.FormatValue(dto.SamplingRate);
             string limitedFrequency = GenerateUniqueVariableName(nameof(limitedFrequency));
-            const string nyquistFrequency = NYQUIST_FREQUENCY_VARIABLE_NAME;
-            const string samplingRate = SAMPLING_RATE_VARIABLE_NAME;
-            const string biQuadFilter = nameof(BiQuadFilterWithoutFields);
-            string setFilterVariables = biQuadFilterSetFilterVariablesMethodName;
-            const string transform = nameof(BiQuadFilterWithoutFields.Transform);
+            const string biQuadFilterClassName = nameof(BiQuadFilterWithoutFields);
+            string setFilterVariablesMethodName = biQuadFilterSetFilterVariablesMethodName;
+            const string transformMethodName = nameof(BiQuadFilterWithoutFields.Transform);
 
             string concatinatedAdditionalFilterParameters = string.Join(", ", additionalFilterParameters);
 
@@ -1216,7 +1253,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine();
             _sb.AppendLine($"double {a0}, {a1}, {a2}, {a3}, {a4};");
             _sb.AppendLine();
-            _sb.AppendLine($"{biQuadFilter}.{setFilterVariables}(");
+            _sb.AppendLine($"{biQuadFilterClassName}.{setFilterVariablesMethodName}(");
             _sb.Indent();
             {
                 _sb.AppendLine($"{samplingRate}, {limitedFrequency}, {concatinatedAdditionalFilterParameters}, ");
@@ -1224,7 +1261,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 _sb.Unindent();
             }
             _sb.AppendLine();
-            _sb.AppendLine($"double {output} = {biQuadFilter}.{transform}(");
+            _sb.AppendLine($"double {output} = {biQuadFilterClassName}.{transformMethodName}(");
             {
                 _sb.Indent();
                 _sb.AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4},");
@@ -1243,11 +1280,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
-            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
             string x1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
             string x2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
             string y1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
             string y2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
             string a0 = CompilationHelper.FormatValue(dto.A0);
             string a1 = CompilationHelper.FormatValue(dto.A1);

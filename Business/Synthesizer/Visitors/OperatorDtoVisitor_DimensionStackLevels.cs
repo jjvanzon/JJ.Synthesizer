@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         public void Execute(OperatorDtoBase dto)
         {
-            _dimensionToCurrentStackLevelDictionary = new Dictionary<Tuple<Enums.DimensionEnum, string>, int>();
+            _dimensionToCurrentStackLevelDictionary = new Dictionary<Tuple<DimensionEnum, string>, int>();
 
             Visit_OperatorDto_Polymorphic(dto);
         }

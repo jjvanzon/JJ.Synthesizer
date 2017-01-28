@@ -2,9 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth : OperatorDtoBase
+    internal abstract class OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth : OperatorDtoBase_Filter_VarSignal
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
         public OperatorDtoBase CenterFrequencyOperatorDto { get; set; }
         public OperatorDtoBase BandWidthOperatorDto { get; set; }
 
