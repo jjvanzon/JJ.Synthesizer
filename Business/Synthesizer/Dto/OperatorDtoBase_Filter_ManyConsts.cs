@@ -2,6 +2,8 @@
 {
     internal abstract class OperatorDtoBase_Filter_ManyConsts : OperatorDtoBase_Filter_VarSignal
     {
+        public abstract double Frequency { get; }
+
         public double A0 { get; set; }
         public double A1 { get; set; }
         public double A2 { get; set; }

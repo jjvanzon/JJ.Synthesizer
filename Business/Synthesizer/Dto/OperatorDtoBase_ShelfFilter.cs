@@ -17,6 +17,8 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class OperatorDtoBase_ShelfFilter_ManyConsts : OperatorDtoBase_Filter_ManyConsts
     {
+        public override double Frequency => TransitionFrequency;
+
         public double TransitionFrequency { get; set; }
         public double TransitionSlope { get; set; }
         public double DBGain { get; set; }

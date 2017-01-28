@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -44,6 +45,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class PeakingEQFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
+        public override double Frequency => CenterFrequency;
 
         public double CenterFrequency { get; set; }
         public double BandWidth { get; set; }

@@ -25,11 +25,11 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class NotchFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts
+    internal class NotchFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts_WithBandWidth
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.LowPassFilter;
+        public override double Frequency => CenterFrequency;
 
         public double CenterFrequency { get; set; }
-        public double BandWidth { get; set; }
     }
 }

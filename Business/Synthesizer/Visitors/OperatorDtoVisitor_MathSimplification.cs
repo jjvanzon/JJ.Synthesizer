@@ -16,6 +16,14 @@ namespace JJ.Business.Synthesizer.Visitors
     /// </summary>
     internal class OperatorDtoVisitor_MathSimplification : OperatorDtoVisitor_ClassSpecializationBase
     {
+        private delegate void SetFilterParametersWithBandWidthDelegate(
+            double samplingRate, double limitedFrequency, double bandWidth, 
+            out double a0, out double a1, out double a2, out double a3, out double a4);
+
+        private delegate void SetShelfFilterParametersDelegate(
+            double samplingRate, double limitedFrequency, double transitionSlope, double dbGain,
+            out double a0, out double a1, out double a2, out double a3, out double a4);
+
         public OperatorDtoVisitor_MathSimplification(int targetChannelCount)
             : base(targetChannelCount)
         { }
@@ -114,25 +122,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto)
         {
-            double limitedFrequency = dto.CenterFrequency;
-            if (limitedFrequency > dto.NyquistFrequency)
-            {
-                limitedFrequency = dto.NyquistFrequency;
-            }
-
-            double a0, a1, a2, a3, a4;
-
-            BiQuadFilterWithoutFields.SetAllPassFilterVariables(
-                dto.SamplingRate, limitedFrequency, dto.BandWidth,
-                out a0, out a1, out a2, out a3, out a4);
-
-            dto.A0 = a0;
-            dto.A1 = a1;
-            dto.A2 = a2;
-            dto.A3 = a3;
-            dto.A4 = a4;
-
-            return dto;
+            return Process_Filter_ManyConsts_WithBandWidth(dto, BiQuadFilterWithoutFields.SetAllPassFilterVariables);
         }
 
         // And
@@ -235,25 +225,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
-            double limitedFrequency = dto.CenterFrequency;
-            if (limitedFrequency > dto.NyquistFrequency)
-            {
-                limitedFrequency = dto.NyquistFrequency;
-            }
-
-            double a0, a1, a2, a3, a4;
-
-            BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables(
-                dto.SamplingRate, limitedFrequency, dto.BandWidth,
-                out a0, out a1, out a2, out a3, out a4);
-
-            dto.A0 = a0;
-            dto.A1 = a1;
-            dto.A2 = a2;
-            dto.A3 = a3;
-            dto.A4 = a4;
-
-            return dto;
+            return Process_Filter_ManyConsts_WithBandWidth(dto, BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables);
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstSignal(BandPassFilterConstantPeakGain_OperatorDto_ConstSignal dto)
@@ -275,25 +247,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
-            double limitedFrequency = dto.CenterFrequency;
-            if (limitedFrequency > dto.NyquistFrequency)
-            {
-                limitedFrequency = dto.NyquistFrequency;
-            }
-
-            double a0, a1, a2, a3, a4;
-
-            BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables(
-                dto.SamplingRate, limitedFrequency, dto.BandWidth,
-                out a0, out a1, out a2, out a3, out a4);
-
-            dto.A0 = a0;
-            dto.A1 = a1;
-            dto.A2 = a2;
-            dto.A3 = a3;
-            dto.A4 = a4;
-
-            return dto;
+            return Process_Filter_ManyConsts_WithBandWidth(dto, BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables);
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
@@ -760,25 +714,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_ManyConsts(HighPassFilter_OperatorDto_ManyConsts dto)
         {
-            double limitedFrequency = dto.MinFrequency;
-            if (limitedFrequency > dto.NyquistFrequency)
-            {
-                limitedFrequency = dto.NyquistFrequency;
-            }
-
-            double a0, a1, a2, a3, a4;
-
-            BiQuadFilterWithoutFields.SetHighPassFilterVariables(
-                dto.SamplingRate, limitedFrequency, dto.BandWidth,
-                out a0, out a1, out a2, out a3, out a4);
-
-            dto.A0 = a0;
-            dto.A1 = a1;
-            dto.A2 = a2;
-            dto.A3 = a3;
-            dto.A4 = a4;
-
-            return dto;
+            return Process_Filter_ManyConsts_WithBandWidth(dto, BiQuadFilterWithoutFields.SetHighPassFilterVariables);
         }
 
         // HighShelfFilter
@@ -795,25 +731,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_ManyConsts(HighShelfFilter_OperatorDto_ManyConsts dto)
         {
-            double limitedFrequency = dto.TransitionFrequency;
-            if (limitedFrequency > dto.NyquistFrequency)
-            {
-                limitedFrequency = dto.NyquistFrequency;
-            }
-
-            double a0, a1, a2, a3, a4;
-
-            BiQuadFilterWithoutFields.SetHighShelfFilterVariables(
-                dto.SamplingRate, limitedFrequency, dto.TransitionSlope, dto.DBGain,
-                out a0, out a1, out a2, out a3, out a4);
-
-            dto.A0 = a0;
-            dto.A1 = a1;
-            dto.A2 = a2;
-            dto.A3 = a3;
-            dto.A4 = a4;
-
-            return dto;
+            return ProcessShelfFilter_ManyConsts(dto, BiQuadFilterWithoutFields.SetHighShelfFilterVariables);
         }
 
         // Hold
@@ -1128,25 +1046,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ManyConsts(LowPassFilter_OperatorDto_ManyConsts dto)
         {
-            double limitedFrequency = dto.MaxFrequency;
-            if (limitedFrequency > dto.NyquistFrequency)
-            {
-                limitedFrequency = dto.NyquistFrequency;
-            }
-
-            double a0, a1, a2, a3, a4;
-
-            BiQuadFilterWithoutFields.SetLowPassFilterVariables(
-                dto.SamplingRate, limitedFrequency, dto.BandWidth,
-                out a0, out a1, out a2, out a3, out a4);
-
-            dto.A0 = a0;
-            dto.A1 = a1;
-            dto.A2 = a2;
-            dto.A3 = a3;
-            dto.A4 = a4;
-
-            return dto;
+            return Process_Filter_ManyConsts_WithBandWidth(dto, BiQuadFilterWithoutFields.SetLowPassFilterVariables);
         }
 
         // LowShelfFilter
@@ -1163,11 +1063,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_ManyConsts(LowShelfFilter_OperatorDto_ManyConsts dto)
         {
-            double limitedFrequency = dto.TransitionFrequency;
-            if (limitedFrequency > dto.NyquistFrequency)
-            {
-                limitedFrequency = dto.NyquistFrequency;
-            }
+            double limitedFrequency = LimitFrequency(dto.Frequency, dto.NyquistFrequency);
 
             double a0, a1, a2, a3, a4;
 
@@ -1484,25 +1380,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_ManyConsts(NotchFilter_OperatorDto_ManyConsts dto)
         {
-            double limitedFrequency = dto.CenterFrequency;
-            if (limitedFrequency > dto.NyquistFrequency)
-            {
-                limitedFrequency = dto.NyquistFrequency;
-            }
-
-            double a0, a1, a2, a3, a4;
-
-            BiQuadFilterWithoutFields.SetNotchFilterVariables(
-                dto.SamplingRate, limitedFrequency, dto.BandWidth,
-                out a0, out a1, out a2, out a3, out a4);
-
-            dto.A0 = a0;
-            dto.A1 = a1;
-            dto.A2 = a2;
-            dto.A3 = a3;
-            dto.A4 = a4;
-
-            return dto;
+            return Process_Filter_ManyConsts_WithBandWidth(dto, BiQuadFilterWithoutFields.SetNotchFilterVariables);
         }
 
         // NotEqual
@@ -1669,11 +1547,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto)
         {
-            double limitedFrequency = dto.CenterFrequency;
-            if (limitedFrequency > dto.NyquistFrequency)
-            {
-                limitedFrequency = dto.NyquistFrequency;
-            }
+            double limitedFrequency = LimitFrequency(dto.Frequency, dto.NyquistFrequency);
 
             double a0, a1, a2, a3, a4;
 
@@ -1689,9 +1563,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             return dto;
         }
-
-
-
 
         // Power
 
@@ -2652,6 +2523,44 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Helpers
 
+        private OperatorDtoBase Process_ConstSignal_Identity(double signal)
+        {
+            // Identity
+            return new Number_OperatorDto { Number = signal };
+        }
+
+        private OperatorDtoBase Process_Filter_ManyConsts_WithBandWidth(
+            OperatorDtoBase_Filter_ManyConsts_WithBandWidth dto,
+            SetFilterParametersWithBandWidthDelegate setFilterParametersDelegate)
+        {
+            double limitedFrequency = LimitFrequency(dto.Frequency, dto.NyquistFrequency);
+
+            double a0, a1, a2, a3, a4;
+
+            setFilterParametersDelegate(
+                dto.SamplingRate, limitedFrequency, dto.BandWidth,
+                out a0, out a1, out a2, out a3, out a4);
+
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
+
+            return dto;
+        }
+
+        private double LimitFrequency(double frequency, double nyquistFrequency)
+        {
+            double limitedFrequency = frequency;
+            if (limitedFrequency > nyquistFrequency)
+            {
+                limitedFrequency = nyquistFrequency;
+            }
+
+            return limitedFrequency;
+        }
+
         /// <summary> 
         /// For overrides that do not add any processing. 
         /// They are overridden for maintainability purposes,
@@ -2683,28 +2592,25 @@ namespace JJ.Business.Synthesizer.Visitors
             return new Number_OperatorDto_Zero();
         }
 
-        private OperatorDtoBase Process_Vars_NoConsts(OperatorDtoBase_Vars dto)
+        private OperatorDtoBase ProcessShelfFilter_ManyConsts(
+            OperatorDtoBase_ShelfFilter_ManyConsts dto,
+            SetShelfFilterParametersDelegate setFilterParametersDelegate)
         {
-            base.Visit_OperatorDto_Base(dto);
+            double limitedFrequency = LimitFrequency(dto.Frequency, dto.NyquistFrequency);
 
-            switch (dto.Vars.Count)
-            {
-                case 0:
-                    // 0
-                    return new Number_OperatorDto_Zero();
+            double a0, a1, a2, a3, a4;
 
-                case 1:
-                    return dto.Vars[0];
+            setFilterParametersDelegate(
+                dto.SamplingRate, limitedFrequency, dto.TransitionSlope, dto.DBGain,
+                out a0, out a1, out a2, out a3, out a4);
 
-                default:
-                    return dto;
-            }
-        }
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
 
-        private OperatorDtoBase Process_ConstSignal_Identity(double signal)
-        {
-            // Identity
-            return new Number_OperatorDto { Number = signal };
+            return dto;
         }
 
         private OperatorDtoBase Process_Trigger_ConstPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger_ConstPassThrough_ConstReset dto)
@@ -2723,6 +2629,24 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             // Identity
             return dto.PassThroughInputOperatorDto;
+        }
+
+        private OperatorDtoBase Process_Vars_NoConsts(OperatorDtoBase_Vars dto)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            switch (dto.Vars.Count)
+            {
+                case 0:
+                    // 0
+                    return new Number_OperatorDto_Zero();
+
+                case 1:
+                    return dto.Vars[0];
+
+                default:
+                    return dto;
+            }
         }
 
         private OperatorDtoBase Process_ZeroFrequency(OperatorDtoBase dto)

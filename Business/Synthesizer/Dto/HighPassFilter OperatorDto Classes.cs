@@ -25,11 +25,11 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class HighPassFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts
+    internal class HighPassFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts_WithBandWidth
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighPassFilter;
+        public override double Frequency => MinFrequency;
 
         public double MinFrequency { get; set; }
-        public double BandWidth { get; set; }
     }
 }
