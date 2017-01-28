@@ -8,6 +8,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     public abstract class PatchCalculatorBase : IPatchCalculator
     {
+        // TODO: Some of these variables might become obsolete.
+        // Generated code should use numeric literals instead of variables for some of these things.
         protected readonly double _frameDuration;
         protected readonly int _channelCount;
         protected readonly int _channelIndex;

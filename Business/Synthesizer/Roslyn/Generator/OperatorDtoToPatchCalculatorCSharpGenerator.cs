@@ -142,11 +142,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                 sb.AppendLine("double frameDuration = _frameDuration;");
                 sb.AppendLine("int channelCount = _channelCount;");
                 sb.AppendLine("int channelIndex = _channelIndex;");
-                // TODO: Lower priority: 
-                // You might not always need these variables, so you might generatingt these variable assignments conditional,
-                // based on e.g. that it uses filter operators, but other operators may apply too.
-                sb.AppendLine("double samplingRate = _samplingRate;");
-                sb.AppendLine("double nyquistFrequency = _nyquistFrequency;");
 
                 sb.AppendLine();
                 foreach (string variableName in instanceVariableNamesCamelCase)

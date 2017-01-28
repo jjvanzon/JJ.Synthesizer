@@ -1478,11 +1478,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private Number_OperatorDto ProcessNumberOperatorDto(Number_OperatorDto dto)
         {
-            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
-
             ProcessNumber(dto.Number);
-
-            _sb.AppendLine();
 
             return dto;
         }
