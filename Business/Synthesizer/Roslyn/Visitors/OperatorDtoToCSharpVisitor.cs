@@ -48,8 +48,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         /// <summary> {0} = phase </summary>
         private const string SQUARE_FORMULA_FORMAT = "{0} % 1.0 < 0.5 ? 1.0 : -1.0";
 
+        private readonly int _rawCalculationIndentLevel;
+        private readonly int _constructorIndentLevel;
+
         private Stack<string> _stack;
         private StringBuilderWithIndentation _sb;
+        private StringBuilderWithIndentation _constructorStringBuilder;
         private int _counter;
 
         // Simple Sets of Variable Names
@@ -73,7 +77,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo> _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary;
         private Dictionary<Tuple<DimensionEnum, string>, string> _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary;
 
-        public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto, int intialIndentLevel)
+        public OperatorDtoToCSharpVisitor(int rawCalculationIndentLevel, int constructorIndentLevel)
+        {
+            _rawCalculationIndentLevel = rawCalculationIndentLevel;
+            _constructorIndentLevel = constructorIndentLevel;
+        }
+
+        public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto)
         {
             _stack = new Stack<string>();
             _variableName_To_InputVariableInfo_Dictionary = new Dictionary<string, ExtendedVariableInfo>();
@@ -89,7 +99,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             _sb = new StringBuilderWithIndentation(TAB_STRING)
             {
-                IndentLevel = intialIndentLevel
+                IndentLevel = _rawCalculationIndentLevel
+            };
+
+            _constructorStringBuilder = new StringBuilderWithIndentation(TAB_STRING)
+            {
+                IndentLevel = _constructorIndentLevel
             };
 
             Visit_OperatorDto_Polymorphic(dto);
@@ -310,6 +325,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetLowPassFilterVariables));
+        }
+
+        protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ManyConsts(LowPassFilter_OperatorDto_ManyConsts dto)
+        {
+            string maxFrequency = CompilationHelper.FormatValue(dto.MaxFrequency);
+            string bandWidth = CompilationHelper.FormatValue(dto.BandWidth);
+
+            return Process_Filter_OperatorDto_ManyConsts(dto, nameof(BiQuadFilterWithoutFields.SetLowPassFilterVariables), maxFrequency, bandWidth);
         }
 
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto)
@@ -1224,6 +1247,68 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _stack.Push(output);
 
             return dto;
+        }
+
+        private OperatorDtoBase Process_Filter_OperatorDto_ManyConsts(
+            IOperatorDto_VarSignal dto, 
+            string biQuadFilterSetFilterVariablesMethodName,
+            string frequency,
+            params string[] additionalFilterParameters)
+        {
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+
+            string signal = _stack.Pop();
+
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+            string x1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
+            string x2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
+            string y1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
+            string y2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
+            // For ManyConsts these are LongLived variables.
+            string a0 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a0)}");
+            string a1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a1)}");
+            string a2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a2)}");
+            string a3 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a3)}");
+            string a4 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a4)}");
+
+            string limitedFrequency = GenerateUniqueVariableName(nameof(limitedFrequency));
+            const string nyquistFrequency = NYQUIST_FREQUENCY_VARIABLE_NAME;
+            const string samplingRate = SAMPLING_RATE_VARIABLE_NAME;
+            const string biQuadFilter = nameof(BiQuadFilterWithoutFields);
+            string setFilterVariables = biQuadFilterSetFilterVariablesMethodName;
+            const string transform = nameof(BiQuadFilterWithoutFields.Transform);
+
+            string concatinatedAdditionalFilterParameters = string.Join(", ", additionalFilterParameters);
+
+            // Differences for ManyConstants:
+            // - Different StringBuilder 
+            // - No local a0, a1, a2, a3 and a4 variable declarations.
+            _constructorStringBuilder.AppendLine($"// {dto.OperatorTypeEnum}");
+            _constructorStringBuilder.AppendLine($"double {limitedFrequency} = {frequency};");
+            _constructorStringBuilder.AppendLine($"if ({limitedFrequency} > {nyquistFrequency}) {limitedFrequency} = {nyquistFrequency};");
+            _constructorStringBuilder.AppendLine();
+            _constructorStringBuilder.AppendLine($"{biQuadFilter}.{setFilterVariables}(");
+            _constructorStringBuilder.Indent();
+            {
+                _constructorStringBuilder.AppendLine($"{samplingRate}, {limitedFrequency}, {concatinatedAdditionalFilterParameters}, ");
+                _constructorStringBuilder.AppendLine($"out _{a0}, out _{a1}, out _{a2}, out _{a3}, out _{a4});");
+                _constructorStringBuilder.Unindent();
+            }
+            _constructorStringBuilder.AppendLine();
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {output} = {biQuadFilter}.{transform}(");
+            {
+                _sb.Indent();
+                _sb.AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4},");
+                _sb.AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
+                _sb.Unindent();
+            }
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return (OperatorDtoBase)dto;
         }
 
         private OperatorDtoBase ProcessLogicalBinaryOperator(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
