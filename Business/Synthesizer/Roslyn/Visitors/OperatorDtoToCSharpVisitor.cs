@@ -236,14 +236,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            ProcessNumber(dto.A);
+            PutNumberOnStack(dto.A);
 
             return ProcessDivideZeroOrigin(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
         {
-            ProcessNumber(dto.B);
+            PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessDivideZeroOrigin(dto);
@@ -529,14 +529,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
         {
             Visit_OperatorDto_Polymorphic(dto.ExponentOperatorDto);
-            ProcessNumber(dto.Base);
+            PutNumberOnStack(dto.Base);
 
             return Process_Math_Pow(dto);
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto)
         {
-            ProcessNumber(dto.Exponent);
+            PutNumberOnStack(dto.Exponent);
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
             return Process_Math_Pow(dto);
@@ -593,16 +593,16 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
         {
-            ProcessNumber(dto.Width);
-            ProcessNumber(dto.Frequency);
+            PutNumberOnStack(dto.Width);
+            PutNumberOnStack(dto.Frequency);
 
             return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting dto)
         {
-            ProcessNumber(dto.Width);
-            ProcessNumber(dto.Frequency);
+            PutNumberOnStack(dto.Width);
+            PutNumberOnStack(dto.Frequency);
 
             return Process_Pulse_WithOriginShifting(dto);
         }
@@ -610,7 +610,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting dto)
         {
             Visit_OperatorDto_Polymorphic(dto.WidthOperatorDto);
-            ProcessNumber(dto.Frequency);
+            PutNumberOnStack(dto.Frequency);
 
             return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
         }
@@ -618,14 +618,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting dto)
         {
             Visit_OperatorDto_Polymorphic(dto.WidthOperatorDto);
-            ProcessNumber(dto.Frequency);
+            PutNumberOnStack(dto.Frequency);
 
             return Process_Pulse_WithOriginShifting(dto);
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking dto)
         {
-            ProcessNumber(dto.Width);
+            PutNumberOnStack(dto.Width);
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
@@ -633,7 +633,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking dto)
         {
-            ProcessNumber(dto.Width);
+            PutNumberOnStack(dto.Width);
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             return Process_Pulse_WithPhaseTracking(dto);
@@ -657,16 +657,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_NoOriginShifting(Reverse_OperatorDto_ConstSpeed_NoOriginShifting dto)
         {
-            ProcessNumber(dto.Speed);
+            PutNumberOnStack(dto.Speed);
 
             return ProcessReverse_NoPhaseTrackingOrOriginShifting(dto);
         }
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_WithOriginShifting(Reverse_OperatorDto_ConstSpeed_WithOriginShifting dto)
         {
-            ProcessNumber(dto.Speed);
-
-            string speed = _stack.Pop();
+            string speed = CompilationHelper.FormatValue(dto.Speed);
             string sourcePos = GeneratePositionName(dto);
             string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
             string origin = GenerateLongLivedOriginName();
@@ -751,8 +749,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string signal = _stack.Pop();
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
-            string math = nameof(Math);
-            string round = nameof(Math.Round);
+            const string math = nameof(Math);
+            const string round = nameof(Math.Round);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {output} = {math}.{round}({signal}, MidpointRounding.AwayFromZero);");
@@ -780,7 +778,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            ProcessNumber(dto.Frequency);
+            PutNumberOnStack(dto.Frequency);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_DOWN_FORMULA_FORMAT, x));
         }
@@ -804,7 +802,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            ProcessNumber(dto.Frequency);
+            PutNumberOnStack(dto.Frequency);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SAW_UP_FORMULA_FORMAT, x));
         }
@@ -848,7 +846,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            ProcessNumber(dto.Frequency);
+            PutNumberOnStack(dto.Frequency);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SINE_FORMULA_FORMAT, x));
         }
@@ -872,7 +870,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            ProcessNumber(dto.Frequency);
+            PutNumberOnStack(dto.Frequency);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => String.Format(SQUARE_FORMULA_FORMAT, x));
         }
@@ -896,8 +894,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
         {
-            ProcessNumber(dto.Origin);
-            ProcessNumber(dto.Factor);
+            PutNumberOnStack(dto.Origin);
+            PutNumberOnStack(dto.Factor);
 
             Process_StretchOrSquash_WithOrigin(dto, MULTIPLY_SYMBOL);
 
@@ -907,7 +905,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
-            ProcessNumber(dto.Factor);
+            PutNumberOnStack(dto.Factor);
 
             Process_StretchOrSquash_WithOrigin(dto, MULTIPLY_SYMBOL);
 
@@ -916,7 +914,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
         {
-            ProcessNumber(dto.Origin);
+            PutNumberOnStack(dto.Origin);
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
             Process_StretchOrSquash_WithOrigin(dto, MULTIPLY_SYMBOL);
@@ -936,7 +934,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
         {
-            ProcessNumber(dto.Factor);
+            PutNumberOnStack(dto.Factor);
 
             Process_StretchOrSquash_ZeroOrigin(dto, MULTIPLY_SYMBOL);
 
@@ -954,7 +952,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
         {
-            ProcessNumber(dto.Factor);
+            PutNumberOnStack(dto.Factor);
 
             Process_StretchOrSquash_WithOriginShifting(dto, MULTIPLY_SYMBOL);
 
@@ -972,8 +970,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
         {
-            ProcessNumber(dto.Origin);
-            ProcessNumber(dto.Factor);
+            PutNumberOnStack(dto.Origin);
+            PutNumberOnStack(dto.Factor);
 
             Process_StretchOrSquash_WithOrigin(dto, DIVIDE_SYMBOL);
 
@@ -983,7 +981,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
-            ProcessNumber(dto.Factor);
+            PutNumberOnStack(dto.Factor);
 
             Process_StretchOrSquash_WithOrigin(dto, DIVIDE_SYMBOL);
 
@@ -992,7 +990,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
         {
-            ProcessNumber(dto.Origin);
+            PutNumberOnStack(dto.Origin);
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
             Process_StretchOrSquash_WithOrigin(dto, DIVIDE_SYMBOL);
@@ -1012,7 +1010,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
         {
-            ProcessNumber(dto.Factor);
+            PutNumberOnStack(dto.Factor);
 
             Process_StretchOrSquash_ZeroOrigin(dto, DIVIDE_SYMBOL);
 
@@ -1030,7 +1028,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
         {
-            ProcessNumber(dto.Factor);
+            PutNumberOnStack(dto.Factor);
 
             Process_StretchOrSquash_WithOriginShifting(dto, DIVIDE_SYMBOL);
 
@@ -1049,14 +1047,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            ProcessNumber(dto.A);
+            PutNumberOnStack(dto.A);
 
             return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto)
         {
-            ProcessNumber(dto.B);
+            PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
@@ -1072,9 +1070,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            ProcessNumber(dto.Frequency);
-
-            string frequency = _stack.Pop();
+            string frequency = CompilationHelper.FormatValue(dto.Frequency);
             string position = GeneratePositionName(dto);
             string phase = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
@@ -1090,10 +1086,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(Triangle_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            ProcessNumber(dto.Frequency);
-
-            string frequency = _stack.Pop();
-
+            string frequency = CompilationHelper.FormatValue(dto.Frequency);
             string position = GeneratePositionName(dto);
             string origin = GenerateLongLivedOriginName();
             string phase = GenerateUniqueVariableName(dto.OperatorTypeEnum);
@@ -1173,7 +1166,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessComparativeOperator_VarA_ConstB(OperatorDtoBase_VarA_ConstB dto, string operatorSymbol)
         {
-            ProcessNumber(dto.B);
+            PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessComparativeOperator(dto, operatorSymbol);
@@ -1362,17 +1355,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private OperatorDtoBase ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(OperatorDtoBase_ConstA_ConstB_VarOrigin dto, string operatorSymbol)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
-            ProcessNumber(dto.B);
-            ProcessNumber(dto.A);
+            PutNumberOnStack(dto.B);
+            PutNumberOnStack(dto.A);
 
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
         private OperatorDtoBase ProcessMultiplyOrDivide_ConstA_VarB_ConstOrigin(OperatorDtoBase_ConstA_VarB_ConstOrigin dto, string operatorSymbol)
         {
-            ProcessNumber(dto.Origin);
+            PutNumberOnStack(dto.Origin);
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            ProcessNumber(dto.A);
+            PutNumberOnStack(dto.A);
 
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
@@ -1381,15 +1374,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            ProcessNumber(dto.A);
+            PutNumberOnStack(dto.A);
 
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
         private OperatorDtoBase ProcessMultiplyOrDivide_VarA_ConstB_ConstOrigin(OperatorDtoBase_VarA_ConstB_ConstOrigin dto, string operatorSymbol)
         {
-            ProcessNumber(dto.Origin);
-            ProcessNumber(dto.B);
+            PutNumberOnStack(dto.Origin);
+            PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
@@ -1398,7 +1391,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private OperatorDtoBase ProcessMultiplyOrDivide_VarA_ConstB_VarOrigin(OperatorDtoBase_VarA_ConstB_VarOrigin dto, string operatorSymbol)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
-            ProcessNumber(dto.B);
+            PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
@@ -1406,7 +1399,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessMultiplyOrDivide_VarA_VarB_ConstOrigin(OperatorDtoBase_VarA_VarB_ConstOrigin dto, string operatorSymbol)
         {
-            ProcessNumber(dto.Origin);
+            PutNumberOnStack(dto.Origin);
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
@@ -1431,7 +1424,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private OperatorDtoBase ProcessMultiVarOperator_Vars_1Const(OperatorDtoBase_Vars_1Const dto, string operatorSymbol)
         {
-            ProcessNumber(dto.ConstValue);
+            PutNumberOnStack(dto.ConstValue);
             dto.Vars.ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
             return ProcessMultiVarOperator(dto, dto.Vars.Count + 1, operatorSymbol);
@@ -1471,23 +1464,21 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return dto;
         }
 
-        private void ProcessNumber(double value)
+        private void PutNumberOnStack(double value)
         {
             _stack.Push(CompilationHelper.FormatValue(value));
         }
 
         private Number_OperatorDto ProcessNumberOperatorDto(Number_OperatorDto dto)
         {
-            ProcessNumber(dto.Number);
+            PutNumberOnStack(dto.Number);
 
             return dto;
         }
 
         private OperatorDtoBase ProcessOriginShifter(OperatorDtoBase_ConstFrequency dto, Func<string, string> getRightHandFormulaDelegate)
         {
-            ProcessNumber(dto.Frequency);
-
-            string frequency = _stack.Pop();
+            string frequency = CompilationHelper.FormatValue(dto.Frequency);
             string position = GeneratePositionName(dto);
             string origin = GenerateLongLivedOriginName();
             string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
@@ -1610,8 +1601,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string step = GetLiteralFromOperatorDtoOrValue(stepOperatorDto, stepValue);
             string offset = GetLiteralFromOperatorDtoOrValue(offsetOperatorDto, offsetValue);
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
-            string mathHelper = nameof(MathHelper);
-            string roundWithStep = nameof(MathHelper.RoundWithStep);
+            const string mathHelper = nameof(MathHelper);
+            const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step}, {offset});");
@@ -1632,8 +1623,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string signal = GetLiteralFromOperatorDtoOrValue(signalOperatorDto, signalValue);
             string step = GetLiteralFromOperatorDtoOrValue(stepOperatorDto, stepValue);
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
-            string mathHelper = nameof(MathHelper);
-            string roundWithStep = nameof(MathHelper.RoundWithStep);
+            const string mathHelper = nameof(MathHelper);
+            const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step});");
@@ -1975,14 +1966,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             if (valueOperatorDto != null)
             {
                 Visit_OperatorDto_Polymorphic(valueOperatorDto);
+                string literal = _stack.Pop();
+                return literal;
             }
             else
             {
-                ProcessNumber(value.Value);
+                return CompilationHelper.FormatValue(value.Value);
             }
-
-            string literal = _stack.Pop();
-            return literal;
         }
     }
 }
