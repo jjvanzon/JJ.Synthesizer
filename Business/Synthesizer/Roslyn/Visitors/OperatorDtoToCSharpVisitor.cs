@@ -1179,15 +1179,15 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
-            string x1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
-            string x2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
-            string y1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
-            string y2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
-            string a0 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a0)}");
-            string a1 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a1)}");
-            string a2 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a2)}");
-            string a3 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a3)}");
-            string a4 = GenerateLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(a4)}");
+            string x1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
+            string x2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
+            string y1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
+            string y2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
+            string a0 = GenerateUniqueVariableName($"{dto.OperatorTypeEnum}{nameof(a0)}");
+            string a1 = GenerateUniqueVariableName($"{dto.OperatorTypeEnum}{nameof(a1)}");
+            string a2 = GenerateUniqueVariableName($"{dto.OperatorTypeEnum}{nameof(a2)}");
+            string a3 = GenerateUniqueVariableName($"{dto.OperatorTypeEnum}{nameof(a3)}");
+            string a4 = GenerateUniqueVariableName($"{dto.OperatorTypeEnum}{nameof(a4)}");
 
             string limitedFrequency = GenerateUniqueVariableName(nameof(limitedFrequency));
             const string nyquistFrequency = NYQUIST_FREQUENCY_VARIABLE_NAME;
@@ -1202,6 +1202,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"double {limitedFrequency} = {frequency};");
             _sb.AppendLine($"if ({limitedFrequency} > {nyquistFrequency}) {limitedFrequency} = {nyquistFrequency};");
             _sb.AppendLine();
+            _sb.AppendLine($"double {a0}, {a1}, {a2}, {a3}, {a4};");
+            _sb.AppendLine();
             _sb.AppendLine($"{biQuadFilter}.{setFilterVariables}(");
             _sb.Indent();
             {
@@ -1213,7 +1215,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _sb.AppendLine($"double {output} = {biQuadFilter}.{transform}(");
             {
                 _sb.Indent();
-                _sb.AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4}, ");
+                _sb.AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4},");
                 _sb.AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
                 _sb.Unindent();
             }
@@ -1798,7 +1800,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return alias;
         }
 
-        private string GenerateLongLivedVariableName(object mnemonic)
+        private string GenerateUniqueLongLivedVariableName(object mnemonic)
         {
             string variableName = GenerateUniqueVariableName(mnemonic);
 
