@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_AggregateOverDimensionProperties(dto, dto2);
+            DtoCloner.TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto2 = new AverageFollower_OperatorDto_AllVars();
             }
 
-            DtoHelper.TryClone_AggregateFollowerProperties(dto, dto2);
+            DtoCloner.TryClone_AggregateFollowerProperties(dto, dto2);
 
             return dto;
         }
@@ -283,7 +283,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_CacheOperatorProperties(dto, dto2);
+            DtoCloner.TryClone_CacheOperatorProperties(dto, dto2);
 
             return dto2;
         }
@@ -337,7 +337,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
             }
 
-            DtoHelper.Clone_ClosestOverDimensionProperties(dto, dto2);
+            DtoCloner.Clone_ClosestOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -362,7 +362,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     throw new ValueNotSupportedException(dto.CollectionRecalculationEnum);
             }
 
-            DtoHelper.Clone_ClosestOverDimensionProperties(dto, dto2);
+            DtoCloner.Clone_ClosestOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -443,7 +443,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_CurveProperties(dto, dto2);
+            DtoCloner.TryClone_CurveProperties(dto, dto2);
 
             return dto2;
         }
@@ -777,7 +777,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -832,7 +832,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_InterpolateOperatorProperties(dto, dto2);
+            DtoCloner.TryClone_InterpolateOperatorProperties(dto, dto2);
 
             return dto2;
         }
@@ -978,7 +978,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 };
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -991,18 +991,24 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto maxFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.MaxFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
+            OperatorDtoBase dto2;
+
             if (signalMathPropertiesDto.IsConst)
             {
-                return new LowPassFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
+                dto2 = new LowPassFilter_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
             else if (maxFrequencyMathPropertiesDto.IsConst && bandWidthMathPropertiesDto.IsConst)
             {
-                return new LowPassFilter_OperatorDto_ManyConsts { SignalOperatorDto = dto.SignalOperatorDto, MaxFrequency = maxFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
+                dto2 = new LowPassFilter_OperatorDto_ManyConsts { MaxFrequency = maxFrequencyMathPropertiesDto.ConstValue, BandWidth = bandWidthMathPropertiesDto.ConstValue };
             }
             else
             {
-                return new LowPassFilter_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, MaxFrequencyOperatorDto = dto.MaxFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
+                dto2 = new LowPassFilter_OperatorDto_AllVars { MaxFrequencyOperatorDto = dto.MaxFrequencyOperatorDto, BandWidthOperatorDto = dto.BandWidthOperatorDto };
             }
+
+            DtoCloner.TryClone_FilterProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto)
@@ -1053,7 +1059,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_AggregateOverDimensionProperties(dto, dto2);
+            DtoCloner.TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1075,7 +1081,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto2 = new MaxFollower_OperatorDto_AllVars();
             }
 
-            DtoHelper.TryClone_AggregateFollowerProperties(dto, dto2);
+            DtoCloner.TryClone_AggregateFollowerProperties(dto, dto2);
 
             return dto;
         }
@@ -1131,7 +1137,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_AggregateOverDimensionProperties(dto, dto2);
+            DtoCloner.TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1153,7 +1159,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto2 = new MinFollower_OperatorDto_AllVars();
             }
 
-            DtoHelper.TryClone_AggregateFollowerProperties(dto, dto2);
+            DtoCloner.TryClone_AggregateFollowerProperties(dto, dto2);
 
             return dto;
         }
@@ -1517,7 +1523,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1590,7 +1596,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.Clone_RandomOperatorProperties(dto, dto2);
+            DtoCloner.Clone_RandomOperatorProperties(dto, dto2);
 
             return dto2;
         }
@@ -1692,7 +1698,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1819,7 +1825,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_SampleProperties(dto, dto2);
+            DtoCloner.TryClone_SampleProperties(dto, dto2);
 
             return dto2;
         }
@@ -1857,7 +1863,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1895,7 +1901,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1982,7 +1988,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.Clone_DimensionProperties(dto, dto2);
+            DtoCloner.Clone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2017,7 +2023,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2055,7 +2061,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2085,7 +2091,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_AggregateOverDimensionProperties(dto, dto2);
+            DtoCloner.TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2110,7 +2116,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     FrequencyCountOperatorDto = dto.FrequencyCountOperatorDto
                 };
 
-                DtoHelper.Clone_DimensionProperties(dto, dto2);
+                DtoCloner.Clone_DimensionProperties(dto, dto2);
 
                 return dto2;
             }
@@ -2149,7 +2155,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2243,7 +2249,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2337,7 +2343,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2397,7 +2403,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_AggregateOverDimensionProperties(dto, dto2);
+            DtoCloner.TryClone_AggregateOverDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2425,7 +2431,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto2 = new SumFollower_OperatorDto_AllVars { SignalOperatorDto = dto.SignalOperatorDto, SliceLengthOperatorDto = dto.SliceLengthOperatorDto, SampleCountOperatorDto = dto.SampleCountOperatorDto };
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2452,7 +2458,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto2 = new TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin { SignalOperatorDto = dto.SignalOperatorDto, ExponentOperatorDto = dto.ExponentOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -2519,7 +2525,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoHelper.TryClone_DimensionProperties(dto, dto2);
+            DtoCloner.TryClone_DimensionProperties(dto, dto2);
 
             return dto2;
         }

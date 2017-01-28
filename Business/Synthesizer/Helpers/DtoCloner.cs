@@ -3,7 +3,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
-    internal static class DtoHelper
+    internal static class DtoCloner
     {
         public static void Clone_AggregateOverDimensionProperties(OperatorDtoBase_AggregateOverDimension_AllVars source, OperatorDtoBase_AggregateOverDimension_AllVars dest)
         {
@@ -124,11 +124,27 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static void TryClone_DimensionProperties(IOperatorDto_WithDimension source, OperatorDtoBase dest)
         {
-            var asIOperatorDto_WithDimension = dest as IOperatorDto_WithDimension;
-            if (asIOperatorDto_WithDimension != null)
+            var destOperatorDto_WithDimension = dest as IOperatorDto_WithDimension;
+            if (destOperatorDto_WithDimension != null)
             {
-                Clone_DimensionProperties(source, asIOperatorDto_WithDimension);
+                Clone_DimensionProperties(source, destOperatorDto_WithDimension);
             }
+        }
+
+        public static void TryClone_FilterProperties(OperatorDtoBase_Filter_VarSignal source, OperatorDtoBase dest)
+        {
+            var destOperatorDto_Filter_VarSignal = dest as OperatorDtoBase_Filter_VarSignal;
+            if (destOperatorDto_Filter_VarSignal != null)
+            {
+                Clone_FilterProperties(source, destOperatorDto_Filter_VarSignal);
+            }
+        }
+
+        public static void Clone_FilterProperties(OperatorDtoBase_Filter_VarSignal source, OperatorDtoBase_Filter_VarSignal dest)
+        {
+            dest.SignalOperatorDto = source.SignalOperatorDto;
+            dest.SamplingRate = source.SamplingRate;
+            dest.NyquistFrequency = source.NyquistFrequency;
         }
 
         public static void Clone_InterpolateOperatorProperties(IInterpolate_OperatorDto_VarSignal source, IInterpolate_OperatorDto_VarSignal dest)

@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         {
             if (dto == null) throw new NullException(() => dto);
 
-            var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(channelCount);
+            var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
             dto = preProcessingVisitor.Execute(dto);
 
             var codeGeneratingVisitor = new OperatorDtoToPatchCalculatorCSharpGenerator();

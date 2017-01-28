@@ -1030,7 +1030,25 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ManyConsts(LowPassFilter_OperatorDto_ManyConsts dto)
         {
-            return Process_Nothing(dto);
+            double limitedFrequency = dto.MaxFrequency;
+            if (limitedFrequency > dto.NyquistFrequency)
+            {
+                limitedFrequency = dto.NyquistFrequency;
+            }
+
+            double a0, a1, a2, a3, a4;
+
+            BiQuadFilterWithoutFields.SetLowPassFilterVariables(
+                dto.SamplingRate, limitedFrequency, dto.BandWidth,
+                out a0, out a1, out a2, out a3, out a4);
+
+            dto.A0 = a0;
+            dto.A1 = a1;
+            dto.A2 = a2;
+            dto.A3 = a3;
+            dto.A4 = a4;
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ConstSignal(LowPassFilter_OperatorDto_ConstSignal dto)
@@ -1620,7 +1638,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Simplify
             var dto2 = new Square_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = dto.Frequency };
-            DtoHelper.Clone_DimensionProperties(dto, dto2);
+            DtoCloner.Clone_DimensionProperties(dto, dto2);
             return dto2;
         }
 
@@ -1630,7 +1648,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Simplify
             var dto2 = new Square_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = dto.Frequency };
-            DtoHelper.Clone_DimensionProperties(dto, dto2);
+            DtoCloner.Clone_DimensionProperties(dto, dto2);
             return dto2;
         }
 
@@ -1660,7 +1678,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Simplify
             var dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
-            DtoHelper.Clone_DimensionProperties(dto, dto2);
+            DtoCloner.Clone_DimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -1671,7 +1689,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Simplify
             var dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
-            DtoHelper.Clone_DimensionProperties(dto, dto2);
+            DtoCloner.Clone_DimensionProperties(dto, dto2);
 
             return dto2;
         }

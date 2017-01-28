@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (stepMathPropertiesDto.IsConstOne)
             {
                 var dto2 = new RangeOverDimension_OperatorDto_WithConsts_AndStepOne { From = dto.From, Till = dto.Till };
-                DtoHelper.Clone_DimensionProperties(dto, dto2);
+                DtoCloner.Clone_DimensionProperties(dto, dto2);
 
                 return dto2;
             }

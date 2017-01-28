@@ -104,6 +104,8 @@
     <Compile Include="Dto\IOperatorDto.cs" />
     <Compile Include="Dto\IOperatorDto_VarSignal.cs" />
     <Compile Include="Dto\IOperatorDto_VarSignal_WithDimension.cs" />
+    <Compile Include="Dto\OperatorDtoBase_Filter_VarSignal.cs" />
+    <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\CurveArrayInfo.cs" />
@@ -258,7 +260,8 @@
     <Compile Include="Roslyn\Helpers\ExtendedVariableInfo.cs" />
     <Compile Include="Roslyn\Generator\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevel.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevels.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
     <Compile Include="Visitors\OperatorEntityThruDtoToCalculatorExecutor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase_WithInletCoalescing.cs" />
     <Compile Include="Visitors\ToCalculatorResult.cs" />
@@ -383,7 +386,7 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithFrequency.cs" />
     <Compile Include="EntityWrappers\StretchOrSquash_OperatorWrapperBase.cs" />
     <Compile Include="Extensions\InletExtensions.cs" />
-    <Compile Include="Helpers\DtoHelper.cs" />
+    <Compile Include="Helpers\DtoCloner.cs" />
     <Compile Include="Helpers\MathPropertiesHelper.cs" />
     <Compile Include="Helpers\NameHelper.cs" />
     <Compile Include="Dto\PatchGroupDto.cs" />

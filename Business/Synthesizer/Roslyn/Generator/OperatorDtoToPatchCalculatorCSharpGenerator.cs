@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
     {
         private const string TAB_STRING = "    ";
         private const int RAW_CALCULATION_INDENT_LEVEL = 4;
-        private const int CONSTRUCTOR_INDENT_LEVEL = 3;
 
         public string Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName)
         {
@@ -25,7 +24,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             if (string.IsNullOrEmpty(generatedClassName)) throw new NullOrEmptyException(() => generatedClassName);
 
             // Build up Method Body
-            var visitor = new OperatorDtoToCSharpVisitor(RAW_CALCULATION_INDENT_LEVEL, CONSTRUCTOR_INDENT_LEVEL);
+            var visitor = new OperatorDtoToCSharpVisitor(RAW_CALCULATION_INDENT_LEVEL);
             OperatorDtoToCSharpVisitorResult visitorResult = visitor.Execute(dto);
 
             // Build up Code File

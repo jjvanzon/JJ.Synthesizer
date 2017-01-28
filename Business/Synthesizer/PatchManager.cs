@@ -543,7 +543,7 @@ namespace JJ.Business.Synthesizer
                     var entityToDtoVisitor = new OperatorEntityToDtoVisitor(_repositories.CurveRepository, _repositories.PatchRepository, _repositories.SampleRepository, _repositories.SpeakerSetupRepository);
                     OperatorDtoBase dto = entityToDtoVisitor.Execute(outlet);
 
-                    var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(channelCount);
+                    var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
                     dto = preProcessingVisitor.Execute(dto);
 
                     var compiler = new OperatorDtoCompiler();

@@ -7,7 +7,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorDtoVisitor_DimensionStackLevel : OperatorDtoVisitorBase
+    internal class OperatorDtoVisitor_DimensionStackLevels : OperatorDtoVisitorBase
     {
         private readonly HashSet<Type> _dimensionWriting_OperatorDto_Types = new HashSet<Type>
         {
