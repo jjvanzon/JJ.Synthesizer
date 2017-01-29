@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Type validatorType;
             if (!_validatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
             {
-                throw new Exception(string.Format("_validatorTypeDictionary does not contain key OperatorTypeEnum '{0}'.", operatorTypeEnum));
+                throw new Exception($"_validatorTypeDictionary does not contain key OperatorTypeEnum '{operatorTypeEnum}'.");
             }
             else
             {

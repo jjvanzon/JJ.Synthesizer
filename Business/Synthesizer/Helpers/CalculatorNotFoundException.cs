@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (method != null)
             {
-                _message = string.Format("Error in {0} optimization. No appropriate variation on the calculation was found.", method.Name);
+                _message = $"Error in {method.Name} optimization. No appropriate variation on the calculation was found.";
             }
             else
             {

@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use ListIndex
-            string inletIdentifier = string.Format("{0} {1}", PropertyDisplayNames.Inlet, inlet.ListIndex);
+            string inletIdentifier = $"{PropertyDisplayNames.Inlet} {inlet.ListIndex}";
             return inletIdentifier;
         }
 
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use ListIndex
-            string outletIdentifier = string.Format("{0} {1}", PropertyDisplayNames.Outlet, outlet.ListIndex);
+            string outletIdentifier = $"{PropertyDisplayNames.Outlet} {outlet.ListIndex}";
             return outletIdentifier;
         }
     }

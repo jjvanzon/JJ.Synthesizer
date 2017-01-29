@@ -126,11 +126,14 @@ namespace JJ.Business.Synthesizer
 
             if (dest_UnderlyingPatch_PatchInlet == null)
             {
-                throw new Exception(string.Format(
-                    "PatchInlet not found in UnderlyingPatch. CustomOperator Inlet: Name = '{0}', DimensionEnum = '{1}', ListIndex = '{2}'.",
+                var identifier = new
+                {
                     source_CustomOperator_Inlet.Name,
-                    source_CustomOperator_Inlet.GetDimensionEnum(),
-                    source_CustomOperator_Inlet.ListIndex));
+                    DimensionEnum =source_CustomOperator_Inlet.GetDimensionEnum(),
+                    source_CustomOperator_Inlet.ListIndex
+                };
+
+                throw new Exception($"PatchInlet not found in UnderlyingPatch. {nameof(source_CustomOperator_Inlet)}: {identifier}");
             }
 
             return dest_UnderlyingPatch_PatchInlet;
@@ -215,11 +218,14 @@ namespace JJ.Business.Synthesizer
 
             if (dest_UnderlyingPatch_PatchOutlet == null)
             {
-                throw new Exception(string.Format(
-                    "PatchOutlet not found in UnderlyingPatch. CustomOperator Outlet: Name = '{0}', DimensionEnum = '{1}', ListIndex = '{2}'.",
+                var identifier = new
+                {
                     source_CustomOperator_Outlet.Name,
-                    source_CustomOperator_Outlet.GetDimensionEnum(),
-                    source_CustomOperator_Outlet.ListIndex));
+                    DimensionEnum = source_CustomOperator_Outlet.GetDimensionEnum(),
+                    source_CustomOperator_Outlet.ListIndex
+                };
+
+                throw new Exception($"PatchOutlet not found in UnderlyingPatch. {nameof(source_CustomOperator_Outlet)}: {identifier}.");
             }
 
             return dest_UnderlyingPatch_PatchOutlet;
@@ -342,10 +348,7 @@ namespace JJ.Business.Synthesizer
             if (dest_PatchOutlet_Outlet == null)
             {
                 // TODO: Low priority: This is a vague error message. Can it be made more specific?
-                throw new Exception(string.Format(
-                    "{0} was null after {1}.",
-                    nameof(dest_PatchOutlet_Outlet),
-                    nameof(InletOutletMatcher.TryApplyCustomOperatorToUnderlyingPatch)));
+                throw new Exception($"{nameof(dest_PatchOutlet_Outlet)} was null after {nameof(TryApplyCustomOperatorToUnderlyingPatch)}.");
             }
 
             return dest_PatchOutlet_Outlet;

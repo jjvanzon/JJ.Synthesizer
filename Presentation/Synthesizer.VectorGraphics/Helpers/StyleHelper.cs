@@ -276,8 +276,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
             for (int i = 0; i < gradeCount; i++)
             {
-                // ReSharper disable once RedundantCast
-                double ratio = (double)i / (double)(gradeCount - 1);
+                double ratio = (double)i / (gradeCount - 1);
                 double grade = minBrightness + ratio * deltaBrightness;
 
                 int gradedColor = ColorHelper.SetBrightness(BackStyle.Color, grade);

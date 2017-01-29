@@ -97,17 +97,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Rectangle destElement)
         {
-            if (_destOutletRectangleHashSet.Contains(destElement))
+            if (!_destOutletRectangleHashSet.Contains(destElement))
             {
-                int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
-
-                _destOutletRectangleDictionary.Remove(outletID);
-                _destOutletRectangleHashSet.Remove(destElement);
-
-                destElement.Children.Clear();
-                destElement.Parent = null;
-                destElement.Diagram = null;
+                return;
             }
+
+            int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
+
+            _destOutletRectangleDictionary.Remove(outletID);
+            _destOutletRectangleHashSet.Remove(destElement);
+
+            destElement.Children.Clear();
+            destElement.Parent = null;
+            destElement.Diagram = null;
         }
     }
 }

@@ -48,7 +48,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public static void AssertRoundOffset(double offset)
         {
-            if (offset % 1.0 == 0.0) throw new Exception(string.Format("{0} cannot be a multple of 1.", ExpressionHelper.GetText(() => offset)));
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            if (offset % 1.0 == 0.0) throw new Exception($"{nameof(offset)} cannot be a multple of 1.");
             if (double.IsNaN(offset)) throw new NaNException(() => offset);
             if (double.IsInfinity(offset)) throw new InfinityException(() => offset);
         }

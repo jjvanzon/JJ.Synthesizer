@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer
                     if (intermediateCustomOperatorInletDimensionEnum != DimensionEnum.Undefined)
                     {
                         PatchInlet_OperatorWrapper destPatchInletWrapper = ConvertToPatchInlet(intermediateCustomOperatorInlet);
-                        destPatchInletWrapper.Name = string.Format("{0} {1}", intermediateCustomOperatorInletDimensionEnum, i);
+                        destPatchInletWrapper.Name = $"{intermediateCustomOperatorInletDimensionEnum} {i}";
                         destPatchInletWrapper.ListIndex = inletListIndex++;
 
                         intermediateCustomOperatorInlet.LinkTo(destPatchInletWrapper.Result);
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer
             foreach (Patch sourceUnderlyingPatch in sourceUnderlyingPatches)
             {
                 CustomOperator_OperatorWrapper intermediateCustomOperatorWrapper = CustomOperator(sourceUnderlyingPatch);
-                intermediateCustomOperatorWrapper.Name = string.Format("{0}", sourceUnderlyingPatch.Name);
+                intermediateCustomOperatorWrapper.Name = $"{sourceUnderlyingPatch.Name}";
 
                 intermediateCustomOperators.Add(intermediateCustomOperatorWrapper);
             }

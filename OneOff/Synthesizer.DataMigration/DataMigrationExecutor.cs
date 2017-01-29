@@ -37,7 +37,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(string.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
@@ -45,14 +45,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 AssertDocuments(repositories, progressCallback);
             }
 
-            progressCallback(string.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
         public static void DeleteOrphanedEntityPositions(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(string.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
@@ -66,7 +66,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 context.Commit();
             }
 
-            progressCallback(string.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
         //public static void MigrateSineVolumes(Action<string> progressCallback)
@@ -3128,7 +3128,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             {
                 Document rootDocument = rootDocuments[i];
 
-                string progressMessage = string.Format("Validating document {0}/{1}: '{2}'.", i + 1, rootDocuments.Count, rootDocument.Name);
+                string progressMessage = $"Validating document {i + 1}/{rootDocuments.Count}: '{rootDocument.Name}'.";
                 progressCallback(progressMessage);
 
                 // Validate

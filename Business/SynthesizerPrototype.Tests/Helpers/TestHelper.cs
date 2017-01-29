@@ -6,7 +6,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers
     {
         public static string GetPerformanceInfoMessage(int iterationCount, TimeSpan elapsed)
         {
-            return string.Format("{0} iterations, time elapsed: {1} ms ", iterationCount, elapsed.TotalMilliseconds);
+            return $"{iterationCount} iterations, time elapsed: {elapsed.TotalMilliseconds} ms ";
         }
     }
 }

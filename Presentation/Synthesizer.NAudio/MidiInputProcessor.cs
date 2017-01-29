@@ -235,7 +235,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                         calculator.SetValue(controllerInfo.DimensionEnum, value);
 
-                        Debug.WriteLine(string.Format("{0} = {1}", controllerInfo.DimensionEnum, value));
+                        Debug.WriteLine($"{controllerInfo.DimensionEnum} = {value}");
                     }
                 }
                 finally

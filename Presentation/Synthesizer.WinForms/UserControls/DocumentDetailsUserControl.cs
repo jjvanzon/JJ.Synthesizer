@@ -101,6 +101,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void DocumentDetailsUserControl_VisibleChanged(object sender, EventArgs e)
         {
+            // ReSharper disable once InvertIf
             if (Visible)
             {
                 textBoxName.Focus();
@@ -110,6 +111,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            // ReSharper disable once InvertIf
             if (keyData == Keys.Enter)
             {
                 buttonSave.PerformClick();

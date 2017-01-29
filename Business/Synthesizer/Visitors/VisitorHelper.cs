@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Visitors
             double samplesBetweenApplyFilterVariablesDouble = secondsBetweenApplyFilterVariables * samplingRate;
             if (!ConversionHelper.CanCastToPositiveInt32(samplesBetweenApplyFilterVariablesDouble))
             {
-                throw new Exception(string.Format("{0} cannot be cast to positive Int32.", new { samplesBetweenApplyFilterVariablesDouble }));
+                throw new Exception($"{new { samplesBetweenApplyFilterVariablesDouble }} cannot be cast to positive Int32.");
             }
             int samplesBetweenApplyFilterVariables = (int)(secondsBetweenApplyFilterVariables * samplingRate);
             return samplesBetweenApplyFilterVariables;
@@ -63,10 +63,8 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
                 {
-                    throw new Exception(string.Format(
-                        "DimensionStack.Count for DimensionStack {0} should be 1 but it is {1}.",
-                        new { dimensionStack.CanonicalCustomDimensionName, dimensionStack.StandardDimensionEnum },
-                        dimensionStack.Count));
+                    var dimensionIdentifier = new { dimensionStack.CanonicalCustomDimensionName, dimensionStack.StandardDimensionEnum };
+                    throw new Exception($"DimensionStack.Count for DimensionStack {dimensionIdentifier} should be 1 but it is {dimensionStack.Count}.");
                 }
             }
         }

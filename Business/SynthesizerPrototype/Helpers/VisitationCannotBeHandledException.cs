@@ -11,7 +11,7 @@ namespace JJ.Business.SynthesizerPrototype.Helpers
         {
             if (method != null)
             {
-                _message = string.Format("Error in {0}. The variation could not be handled.", method.Name);
+                _message = $"Error in {method.Name}. The variation could not be handled.";
             }
             else
             {

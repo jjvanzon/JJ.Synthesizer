@@ -2,11 +2,15 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {
 
-    public struct Add_OperatorCalculator_2Vars
+		public struct Add_OperatorCalculator_2Vars
 			<
 					TChildCalculator1
 ,					TChildCalculator2
@@ -31,7 +35,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 
 						default:
-							throw new Exception(string.Format("i {0} not valid.", i));
+							throw new Exception($"i {i} not valid.");
 				}
 			}
 
@@ -75,7 +79,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 
 						default:
-							throw new Exception(string.Format("i {0} not valid.", i));
+							throw new Exception($"i {i} not valid.");
 				}
 			}
 
@@ -127,7 +131,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 
 						default:
-							throw new Exception(string.Format("i {0} not valid.", i));
+							throw new Exception($"i {i} not valid.");
 				}
 			}
 
@@ -187,7 +191,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 
 						default:
-							throw new Exception(string.Format("i {0} not valid.", i));
+							throw new Exception($"i {i} not valid.");
 				}
 			}
 
@@ -255,7 +259,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 
 						default:
-							throw new Exception(string.Format("i {0} not valid.", i));
+							throw new Exception($"i {i} not valid.");
 				}
 			}
 
@@ -331,7 +335,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 
 						default:
-							throw new Exception(string.Format("i {0} not valid.", i));
+							throw new Exception($"i {i} not valid.");
 				}
 			}
 
@@ -415,7 +419,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 
 						default:
-							throw new Exception(string.Format("i {0} not valid.", i));
+							throw new Exception($"i {i} not valid.");
 				}
 			}
 

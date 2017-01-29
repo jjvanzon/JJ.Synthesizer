@@ -10,9 +10,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
     {
         // RepositoryWrapper
 
-        private static readonly RepositoryWrapper _repositories = CreateRepositories();
-
-        public static RepositoryWrapper Repositories { get { return _repositories; } }
+        public static RepositoryWrapper Repositories { get; } = CreateRepositories();
 
         private static RepositoryWrapper CreateRepositories()
         {
@@ -47,46 +45,38 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 
         // AudioFileOutputRepositories
 
-        private static readonly AudioFileOutputRepositories _audioFileOutputRepositories = CreateAudioFileOutputRepositories();
-
-        public static AudioFileOutputRepositories AudioFileOutputRepositories { get { return _audioFileOutputRepositories; } }
+        public static AudioFileOutputRepositories AudioFileOutputRepositories { get; } = CreateAudioFileOutputRepositories();
 
         private static AudioFileOutputRepositories CreateAudioFileOutputRepositories()
         {
-            return new AudioFileOutputRepositories(_repositories);
+            return new AudioFileOutputRepositories(Repositories);
         }
 
         // CurveRepositories
 
-        private static readonly CurveRepositories _curveRepositories = CreateCurveRepositories();
-
-        public static CurveRepositories CurveRepositories { get { return _curveRepositories; } }
+        public static CurveRepositories CurveRepositories { get; } = CreateCurveRepositories();
 
         private static CurveRepositories CreateCurveRepositories()
         {
-            return new CurveRepositories(_repositories);
+            return new CurveRepositories(Repositories);
         }
 
         // PatchRepositories
 
-        private static readonly PatchRepositories _patchRepositories = CreatePatchRepositories();
-
-        public static PatchRepositories PatchRepositories { get { return _patchRepositories; } }
+        public static PatchRepositories PatchRepositories { get; } = CreatePatchRepositories();
 
         private static PatchRepositories CreatePatchRepositories()
         {
-            return new PatchRepositories(_repositories);
+            return new PatchRepositories(Repositories);
         }
 
         // SampleRepositories
 
-        private static readonly SampleRepositories _sampleRepositories = CreateSampleRepositories();
-
-        public static SampleRepositories SampleRepositories { get { return _sampleRepositories; } }
+        public static SampleRepositories SampleRepositories { get; } = CreateSampleRepositories();
 
         private static SampleRepositories CreateSampleRepositories()
         {
-            return new SampleRepositories(_repositories);
+            return new SampleRepositories(Repositories);
         }
 
         // Helpers

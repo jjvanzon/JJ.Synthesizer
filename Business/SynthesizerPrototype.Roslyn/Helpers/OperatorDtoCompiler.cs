@@ -108,7 +108,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
                     x.IsWarningAsError ||
                     x.Severity == DiagnosticSeverity.Error);
 
-                string concatinatedFailureDiagnostics = string.Join(Environment.NewLine, failureDiagnostics.Select(x => string.Format("{0} - {1}", x.Id, x.GetMessage())));
+                string concatinatedFailureDiagnostics = string.Join(Environment.NewLine, failureDiagnostics.Select(x => $"{x.Id} - {x.GetMessage()}"));
                 throw new Exception("CSharpCompilation.Emit failed. " + concatinatedFailureDiagnostics);
             }
 

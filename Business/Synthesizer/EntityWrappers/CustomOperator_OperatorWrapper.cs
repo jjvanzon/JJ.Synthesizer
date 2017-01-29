@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             // Use List Position (not ListIndex, becuase it does not have to be consecutive).
             int listPosition = WrappedOperator.Inlets.IndexOf(inlet);
-            string displayName = string.Format("{0} {1}", PropertyDisplayNames.Inlet, listPosition + 1);
+            string displayName = $"{PropertyDisplayNames.Inlet} {listPosition + 1}";
             return displayName;
         }
 
@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             // Use List Position (not ListIndex, becuase it does not have to be consecutive).
             int listPosition = WrappedOperator.Outlets.IndexOf(outlet);
-            string displayName = string.Format("{0} {1}", PropertyDisplayNames.Outlet, listPosition + 1);
+            string displayName = $"{PropertyDisplayNames.Outlet} {listPosition + 1}";
             return displayName;
 
         }

@@ -251,7 +251,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
-                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = $"Ratio: {ratio * 100:0.00}%, {sw.ElapsedMilliseconds}ms.";
                 Assert.Inconclusive(message);
             }
         }
@@ -289,7 +289,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
-                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = $"Ratio: {ratio * 100:0.00}%, {sw.ElapsedMilliseconds}ms.";
                 Assert.Inconclusive(message);
             }
         }
@@ -348,7 +348,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / seconds;
-                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = $"Ratio: {ratio * 100:0.00}%, {sw.ElapsedMilliseconds}ms.";
                 Assert.Inconclusive(message);
             }
         }
@@ -407,7 +407,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / seconds;
-                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = $"Ratio: {ratio * 100:0.00}%, {sw.ElapsedMilliseconds}ms.";
                 Assert.Inconclusive(message);
             }
         }
@@ -561,7 +561,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
-                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = $"Ratio: {ratio * 100:0.00}%, {sw.ElapsedMilliseconds}ms.";
 
                 // Also test interpreted calculator
                 IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
@@ -630,7 +630,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
-                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = $"Ratio: {ratio * 100:0.00}%, {sw.ElapsedMilliseconds}ms.";
 
                 //// Also test interpreted calculator
                 //IPatchCalculator calculator = patchManager.CreateCalculator(false, outlet);

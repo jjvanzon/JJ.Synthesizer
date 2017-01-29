@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
             if (listIndex > WrappedOperator.Inlets.Count) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
 
-            string name = string.Format("{0} {1}", PropertyDisplayNames.Inlet, listIndex + 1);
+            string name = $"{PropertyDisplayNames.Inlet} {listIndex + 1}";
             return name;
         }
     }

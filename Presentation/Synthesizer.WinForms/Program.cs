@@ -148,7 +148,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private static string GetMessageBoxCaption()
         {
-            return string.Format("{0} - Exception", Titles.ApplicationName);
+            return $"{Titles.ApplicationName} - Exception";
         }
     }
 }

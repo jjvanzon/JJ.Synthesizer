@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Resources
         {
             if (duplicateNames == null) throw new NullException(() => duplicateNames);
 
-            string formattedDuplicateNames = string.Join(", ", duplicateNames.Select(x => string.Format("'{0}'", x)));
+            string formattedDuplicateNames = string.Join(", ", duplicateNames.Select(x => $"'{x}'"));
 
             return string.Format(Messages.NamesNotUnique_WithEntityTypeNameAndNames, entityTypeDisplayName, formattedDuplicateNames);
         }

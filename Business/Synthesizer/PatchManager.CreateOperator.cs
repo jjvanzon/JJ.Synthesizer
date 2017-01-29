@@ -2408,7 +2408,7 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.Triangle: return Triangle();
 
                 default:
-                    throw new Exception(string.Format("OperatorTypeEnum '{0}' not supported by the PatchManager.CreateOperator method.", operatorTypeEnum));
+                    throw new Exception($"OperatorTypeEnum '{operatorTypeEnum}' not supported by the PatchManager.CreateOperator method.");
             }
         }
 

@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer
         {
             if (bytes.Length < WavHeaderConstants.WAV_HEADER_LENGTH)
             {
-                throw new Exception(string.Format("A WAV file must be at least {0} bytes.", WavHeaderConstants.WAV_HEADER_LENGTH));
+                throw new Exception($"A WAV file must be at least {WavHeaderConstants.WAV_HEADER_LENGTH} bytes.");
             }
 
             // Read header
@@ -251,7 +251,7 @@ namespace JJ.Business.Synthesizer
                     break;
 
                 default:
-                    throw new Exception(string.Format("audioFileInfo.ChannelCount value '{0}' not supported.", audioFileInfo.ChannelCount));
+                    throw new Exception($"audioFileInfo.ChannelCount value '{audioFileInfo.ChannelCount}' not supported.");
             }
 
             switch (audioFileInfo.BytesPerValue)
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer
                     break;
 
                 default:
-                    throw new Exception(string.Format("audioFileInfo.BytesPerValue value '{0}' not supported.", audioFileInfo.BytesPerValue));
+                    throw new Exception($"audioFileInfo.BytesPerValue value '{audioFileInfo.BytesPerValue}' not supported.");
             }
 
             return sample;

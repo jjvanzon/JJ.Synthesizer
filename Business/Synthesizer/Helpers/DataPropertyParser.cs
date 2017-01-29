@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Helpers
             double? value = TryGetDouble(data, key);
             if (!value.HasValue)
             {
-                throw new Exception(string.Format("Value with key '{0}' in data '{1}' is empty.", key, data));
+                throw new Exception($"Value with key '{key}' in data '{data}' is empty.");
             }
             return value.Value;
         }
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Helpers
             double value;
             if (!DoubleHelper.TryParse(str, _formattingCulture, out value))
             {
-                throw new Exception(string.Format("Value with key '{0}' in data '{1}' could not be parsed to Double.", key, data));
+                throw new Exception($"Value with key '{key}' in data '{data}' could not be parsed to Double.");
             }
             return value;
         }
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Helpers
             int? value = TryGetInt32(data, key);
             if (!value.HasValue)
             {
-                throw new Exception(string.Format("Value with key '{0}' in data '{1}' is empty.", key, data));
+                throw new Exception($"Value with key '{key}' in data '{data}' is empty.");
             }
             return value.Value;
         }
@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Helpers
             int value;
             if (!int.TryParse(str, out value))
             {
-                throw new Exception(string.Format("Value with key '{0}' in data '{1}' could not be parsed to Int32.", key, data));
+                throw new Exception($"Value with key '{key}' in data '{data}' could not be parsed to Int32.");
             }
             return value;
         }
@@ -246,7 +246,7 @@ namespace JJ.Business.Synthesizer.Helpers
             TEnum value;
             if (!Enum.TryParse(str, out value))
             {
-                throw new Exception(string.Format("Value with key '{0}' in data '{1}' could not be parsed to Enum of type '{2}'.", key, data, typeof(TEnum).FullName));
+                throw new Exception($"Value with key '{key}' in data '{data}' could not be parsed to Enum of type '{typeof(TEnum).FullName}'.");
             }
             return value;
         }
@@ -358,7 +358,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             if (keyAndValueSplit.Length != 2)
             {
-                throw new Exception(string.Format("keyValueString in data must have an '=' character in it. keyValueString = '{0} ', data = '{1}'.", keyValueString, data));
+                throw new Exception($"keyValueString in data must have an '=' character in it. keyValueString = '{keyValueString} ', data = '{data}'.");
             }
 
             string key = keyAndValueSplit[0];

@@ -80,17 +80,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Point destElement)
         {
-            if (_destOutletControlPointHashSet.Contains(destElement))
+            if (!_destOutletControlPointHashSet.Contains(destElement))
             {
-                int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
-
-                _destOutletControlPointDictionary.Remove(outletID);
-                _destOutletControlPointHashSet.Remove(destElement);
-
-                destElement.Children.Clear();
-                destElement.Parent = null;
-                destElement.Diagram = null;
+                return;
             }
+
+            int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
+
+            _destOutletControlPointDictionary.Remove(outletID);
+            _destOutletControlPointHashSet.Remove(destElement);
+
+            destElement.Children.Clear();
+            destElement.Parent = null;
+            destElement.Diagram = null;
         }
     }
 }

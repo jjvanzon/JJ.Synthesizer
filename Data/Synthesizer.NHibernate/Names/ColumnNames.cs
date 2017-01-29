@@ -1,4 +1,5 @@
-﻿namespace JJ.Data.Synthesizer.NHibernate.Names
+﻿// ReSharper disable InconsistentNaming
+namespace JJ.Data.Synthesizer.NHibernate.Names
 {
     internal static class ColumnNames
     {

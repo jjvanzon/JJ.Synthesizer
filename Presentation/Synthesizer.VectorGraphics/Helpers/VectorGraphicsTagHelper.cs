@@ -15,17 +15,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
         public static object GetOperatorTag(int operatorID)
         {
-            return string.Format("{0}{1}", OPERATOR_TAG_PREFIX, operatorID);
+            return $"{OPERATOR_TAG_PREFIX}{operatorID}";
         }
 
         public static object GetInletTag(int inletID)
         {
-            return string.Format("{0}{1}", INLET_TAG_PREFIX, inletID);
+            return $"{INLET_TAG_PREFIX}{inletID}";
         }
 
         public static object GetOutletTag(int outletID)
         {
-            return string.Format("{0}{1}", OUTLET_TAG_PREFIX, outletID);
+            return $"{OUTLET_TAG_PREFIX}{outletID}";
         }
 
         // Is Tag
@@ -131,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
             if (!tagString.StartsWith(tagPrefix))
             {
-                throw new Exception(string.Format("tag '{0}' does not start with '{1}'.", tag, tagPrefix));
+                throw new Exception($"tag '{tag}' does not start with '{tagPrefix}'.");
             }
 
             string idString = tagString.CutLeft(tagPrefix.Length);

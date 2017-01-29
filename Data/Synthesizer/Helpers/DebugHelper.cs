@@ -57,6 +57,7 @@ namespace JJ.Data.Synthesizer.Helpers
         {
             if (entityPosition == null) throw new NullException(() => entityPosition);
 
+            // ReSharper disable once UseStringInterpolation
             string debuggerDisplay = string.Format(
                 "{{{0}}} {1} {2}: X={3}, Y={4}",
                 entityPosition.GetType().Name,
@@ -270,7 +271,7 @@ namespace JJ.Data.Synthesizer.Helpers
 
         private static string GetDebuggDisplayWithIDAndName<TEntity>(int id, string name)
         {
-            string debuggerDisplay = string.Format("{{{0}}} {1} (ID = {2})", typeof(TEntity).Name, name, id);
+            string debuggerDisplay = $"{{{typeof(TEntity).Name}}} {name} (ID = {id})";
             return debuggerDisplay;
         }
     }

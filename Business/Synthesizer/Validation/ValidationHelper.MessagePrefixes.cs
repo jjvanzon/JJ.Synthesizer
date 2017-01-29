@@ -45,12 +45,12 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (!string.IsNullOrEmpty(entity.Name))
             {
-                string messagePrefix = string.Format("{0} '{1}': ", PropertyDisplayNames.Inlet, entity.Name);
+                string messagePrefix = $"{PropertyDisplayNames.Inlet} '{entity.Name}': ";
                 return messagePrefix;
             }
             else if (number.HasValue)
             {
-                string messagePrefix = string.Format("{0} {1}: ", PropertyDisplayNames.Inlet, number);
+                string messagePrefix = $"{PropertyDisplayNames.Inlet} {number}: ";
                 return messagePrefix;
             }
             else
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string messagePrefix = string.Format("{0} {1}: ", PropertyDisplayNames.Node, number);
+            string messagePrefix = $"{PropertyDisplayNames.Node} {number}: ";
             return messagePrefix;
         }
 
@@ -189,8 +189,7 @@ namespace JJ.Business.Synthesizer.Validation
                 double? number = DataPropertyParser.TryParseDouble(entity.Data, PropertyNames.Number);
                 if (number.HasValue)
                 {
-                    string formattedValue = number.Value.ToString("0.######");
-                    string messagePrefix = string.Format("{0} '{1}': ", operatorTypeDisplayName, formattedValue);
+                    string messagePrefix = $"{operatorTypeDisplayName} '{number.Value:0.######}': ";
                     return messagePrefix;
                 }
             }
@@ -312,7 +311,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string messagePrefix = string.Format("{0} {1}: ", PropertyDisplayNames.Outlet, number);
+            string messagePrefix = $"{PropertyDisplayNames.Outlet} {number}: ";
             return messagePrefix;
         }
 
@@ -323,12 +322,12 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (!string.IsNullOrEmpty(entity.Name))
             {
-                string messagePrefix = string.Format("{0} '{1}': ", PropertyDisplayNames.Outlet, entity.Name);
+                string messagePrefix = $"{PropertyDisplayNames.Outlet} '{entity.Name}': ";
                 return messagePrefix;
             }
             else if (number.HasValue)
             {
-                string messagePrefix = string.Format("{0} {1}: ", PropertyDisplayNames.Outlet, number);
+                string messagePrefix = $"{PropertyDisplayNames.Outlet} {number}: ";
                 return messagePrefix;
             }
             else
@@ -375,11 +374,11 @@ namespace JJ.Business.Synthesizer.Validation
             string messagePrefix;
             if (string.IsNullOrEmpty(name))
             {
-                messagePrefix = string.Format("{0}: ", entityTypeDisplayName);
+                messagePrefix = $"{entityTypeDisplayName}: ";
             }
             else
             {
-                messagePrefix = string.Format("{0} '{1}': ", entityTypeDisplayName, name);
+                messagePrefix = $"{entityTypeDisplayName} '{name}': ";
             }
             return messagePrefix;
         }

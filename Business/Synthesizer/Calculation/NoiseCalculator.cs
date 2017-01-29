@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
             if (!ConversionHelper.CanCastToNonNegativeInt32(sampleCountDouble))
             {
-                throw new Exception(string.Format("sampleCount '{0}' cannot be cast to non-negative Int32.", sampleCountDouble));
+                throw new Exception($"sampleCount '{sampleCountDouble}' cannot be cast to non-negative Int32.");
             }
 
             int sampleCount = (int)sampleCountDouble;

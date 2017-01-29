@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Extensions
             OperatorTypeEnum operatorTypeEnum;
             if (!_OperatorWrapperType_To_OperatorTypeEnum_dictionary.TryGetValue(operatorWrapperType, out operatorTypeEnum))
             {
-                throw new NotSupportedException(string.Format("OperatorWrapper Type '{0}' not supported.", typeof(TOperatorWrapper).Name));
+                throw new NotSupportedException($"OperatorWrapper Type '{typeof(TOperatorWrapper)}' not supported.");
             }
 
             IList<Operator> operators = GetOperatorsOfType(patch, operatorTypeEnum);

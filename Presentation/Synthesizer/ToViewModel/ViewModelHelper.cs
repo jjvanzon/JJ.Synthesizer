@@ -1095,6 +1095,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             sb.Append(dto.Entity.Name);
 
+            // ReSharper disable once InvertIf
             if (dto.UsedInIDAndNames.Count > 0)
             {
                 string formattedUsedInList = FormatUsedInList(dto.UsedInIDAndNames);
@@ -1112,6 +1113,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             sb.Append(dto.Entity.Name);
 
+            // ReSharper disable once InvertIf
             if (dto.UsedInIDAndNames.Count > 0)
             {
                 string formattedUsedInList = FormatUsedInList(dto.UsedInIDAndNames);

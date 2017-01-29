@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Inlet inlet = TryGetInlet(op, name);
             if (inlet == null)
             {
-                throw new Exception(string.Format("Inlet '{0}' not found.", name));
+                throw new Exception($"Inlet '{name}' not found.");
             }
             return inlet;
         }

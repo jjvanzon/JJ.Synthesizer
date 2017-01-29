@@ -100,13 +100,15 @@ namespace JJ.Presentation.Synthesizer.Converters
 
                 foreach (OperatorViewModel operatorViewModel in operatorViewModels)
                 {
-                    if (operatorViewModel.Dimension.Visible)
+                    if (!operatorViewModel.Dimension.Visible)
                     {
-                        StyleGradeEnum styleGradeEnum;
-                        if (dimensionKey_To_StyleGrade_Dictionary.TryGetValue(operatorViewModel.Dimension.Key, out styleGradeEnum))
-                        {
-                            operatorViewModel.StyleGrade = styleGradeEnum;
-                        }
+                        continue;
+                    }
+
+                    StyleGradeEnum styleGradeEnum;
+                    if (dimensionKey_To_StyleGrade_Dictionary.TryGetValue(operatorViewModel.Dimension.Key, out styleGradeEnum))
+                    {
+                        operatorViewModel.StyleGrade = styleGradeEnum;
                     }
                 }
             }

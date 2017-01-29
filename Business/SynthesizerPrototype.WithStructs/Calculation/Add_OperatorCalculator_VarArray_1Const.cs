@@ -55,7 +55,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
             }
             else
             {
-                throw new Exception(string.Format("i {0} not valid.", i));
+                throw new Exception($"i {i} not valid.");
             }
         }
     }

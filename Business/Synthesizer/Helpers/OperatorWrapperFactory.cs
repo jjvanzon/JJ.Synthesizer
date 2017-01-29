@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Helpers
                     Func<Operator, OperatorWrapperBase> func;
                     if (!_createOperatorWrapperDelegateDictionary.TryGetValue(operatorTypeEnum, out func))
                     {
-                        throw new Exception(string.Format("_createOperatorWrapperDelegateDictionary does not contain entry for OperatorTypeEnum '{0}'.", operatorTypeEnum));
+                        throw new Exception($"_createOperatorWrapperDelegateDictionary does not contain entry for OperatorTypeEnum '{operatorTypeEnum}'.");
                     }
 
                     OperatorWrapperBase wrapper = func(op);

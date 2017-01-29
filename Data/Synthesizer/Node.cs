@@ -17,9 +17,6 @@ namespace JJ.Data.Synthesizer
         /// <summary> parent </summary>
         public virtual Curve Curve { get; set; }
 
-        private string DebuggerDisplay
-        {
-            get { return DebugHelper.GetDebuggerDisplay(this); }
-        }
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

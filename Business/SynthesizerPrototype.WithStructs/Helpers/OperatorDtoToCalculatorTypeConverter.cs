@@ -104,7 +104,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
             Type type;
             if (!_dtoType_Concrete_To_CalculatorType_OpenGeneric_Dictionary.TryGetValue(dtoType_Concrete, out type))
             {
-                throw new Exception(string.Format("No calculator type available for DTO type '{0}'.", dtoType_Concrete.Name));
+                throw new Exception($"No calculator type available for DTO type '{dtoType_Concrete.Name}'.");
             }
             return type;
         }

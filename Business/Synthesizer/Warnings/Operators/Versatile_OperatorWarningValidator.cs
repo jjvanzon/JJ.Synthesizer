@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             Type validatorType;
             if (!_warningValidatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
             {
-                throw new Exception(string.Format("_warningValidatorTypeDictionary does not contain key OperatorTypeEnum '{0}'.", operatorTypeEnum));
+                throw new Exception($"_warningValidatorTypeDictionary does not contain key OperatorTypeEnum '{operatorTypeEnum}'.");
             }
             else
             {

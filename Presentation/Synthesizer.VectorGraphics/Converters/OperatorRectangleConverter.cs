@@ -38,10 +38,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             _showOperatorPropertiesMouseGesture = showOperatorPropertiesMouseGesture;
         }
 
-        public Rectangle ConvertToOperatorRectangle(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
+        public Rectangle ConvertToOperatorRectangle(OperatorViewModel sourceOperatorViewModel)
         {
             if (sourceOperatorViewModel == null) throw new NullException(() => sourceOperatorViewModel);
-            if (destDiagram == null) throw new NullException(() => destDiagram);
 
             int operatorID = sourceOperatorViewModel.ID;
 
@@ -50,8 +49,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             {
                 destOperatorRectangle = new Rectangle
                 {
-                    Diagram = destDiagram,
-                    Parent = destDiagram.Background,
+                    Diagram = _diagram,
+                    Parent = _diagram.Background,
                     Tag = VectorGraphicsTagHelper.GetOperatorTag(operatorID)
                 };
 
@@ -126,11 +125,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         private static float GetOtherOperatorMinimumWidth(OperatorViewModel sourceOperatorViewModel)
         {
-            float minimumWidth;
-
             // Apply a minimum inlet and outlet height.
             int inletOrOutletCount = Math.Max(sourceOperatorViewModel.Outlets.Count, sourceOperatorViewModel.Inlets.Count);
-            minimumWidth = inletOrOutletCount * StyleHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
+            float minimumWidth = inletOrOutletCount * StyleHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
 
             // Apply minimum operator width
             if (minimumWidth < StyleHelper.OPERATOR_MINIMUM_WIDTH)
@@ -163,17 +160,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public void TryRemove(Rectangle destElement)
         {
-            if (_destOperatorRectangleHashSet.Contains(destElement))
+            if (!_destOperatorRectangleHashSet.Contains(destElement))
             {
-                int operatorID = VectorGraphicsTagHelper.GetOperatorID(destElement.Tag);
-
-                _destOperatorRectangleDictionary.Remove(operatorID);
-                _destOperatorRectangleHashSet.Remove(destElement);
-
-                destElement.Children.Clear();
-                destElement.Parent = null;
-                destElement.Diagram = null;
+                return;
             }
+
+            int operatorID = VectorGraphicsTagHelper.GetOperatorID(destElement.Tag);
+
+            _destOperatorRectangleDictionary.Remove(operatorID);
+            _destOperatorRectangleHashSet.Remove(destElement);
+
+            destElement.Children.Clear();
+            destElement.Parent = null;
+            destElement.Diagram = null;
         }
 
         private static bool IsNumberOperator(OperatorViewModel sourceOperatorViewModel)

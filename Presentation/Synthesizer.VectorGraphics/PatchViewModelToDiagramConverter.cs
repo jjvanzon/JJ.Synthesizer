@@ -178,7 +178,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 return operatorVectorGraphicsElements1;
             }
 
-            operatorVectorGraphicsElements1 = ConvertToRectangle_WithRelatedObjects(sourceOperatorViewModel1, destDiagram);
+            operatorVectorGraphicsElements1 = ConvertToRectangle_WithRelatedObjects(sourceOperatorViewModel1);
 
             _operatorID_OperatorElements_Dictionary.Add(sourceOperatorViewModel1.ID, operatorVectorGraphicsElements1);
 
@@ -289,9 +289,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return curve;
         }
 
-        private OperatorElements ConvertToRectangle_WithRelatedObjects(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
+        private OperatorElements ConvertToRectangle_WithRelatedObjects(OperatorViewModel sourceOperatorViewModel)
         {
-            Rectangle destOperatorRectangle = _operatorRectangleConverter.ConvertToOperatorRectangle(sourceOperatorViewModel, destDiagram);
+            Rectangle destOperatorRectangle = _operatorRectangleConverter.ConvertToOperatorRectangle(sourceOperatorViewModel);
             Label destLabel = _operatorLabelConverter.ConvertToOperatorLabel(sourceOperatorViewModel, destOperatorRectangle);
             Label destDimensionLabel = _operatorDimensionLabelConverter.TryConvertToDimensionLabel(sourceOperatorViewModel, destOperatorRectangle);
 

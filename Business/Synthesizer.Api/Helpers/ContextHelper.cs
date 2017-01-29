@@ -7,9 +7,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 {
     internal static class ContextHelper
     {
-        private static readonly IContext _memoryContext = CreateMemoryContext();
-
-        public static IContext MemoryContext { get { return _memoryContext; } }
+        public static IContext MemoryContext { get; } = CreateMemoryContext();
 
         private static IContext CreateMemoryContext()
         {
