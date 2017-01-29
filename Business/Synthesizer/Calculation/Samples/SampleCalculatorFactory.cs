@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     break;
             }
 
-            throw new Exception($"{new { speakerSetupEnum }} combined with {new { interpolationTypeEnum }} is not supported.";
+            throw new Exception($"{new { speakerSetupEnum }} combined with {new { interpolationTypeEnum }} is not supported.");
         }
     }
 }
