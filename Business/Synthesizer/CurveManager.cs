@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer
 {
     public class CurveManager
     {
-        private CurveRepositories _repositories;
+        private readonly CurveRepositories _repositories;
 
         public CurveManager(CurveRepositories repositories)
         {

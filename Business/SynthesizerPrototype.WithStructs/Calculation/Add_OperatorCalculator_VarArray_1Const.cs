@@ -10,7 +10,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
     {
         private IOperatorCalculator[] _varCalculators;
         private int _varCalculatorsCount;
-        private double _constValue;
+        private readonly double _constValue;
 
         public Add_OperatorCalculator_VarArray_1Const(IList<IOperatorCalculator> operandCalculators, double constValue)
         {
@@ -55,7 +55,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
             }
             else
             {
-                throw new Exception(String.Format("i {0} not valid.", i));
+                throw new Exception(string.Format("i {0} not valid.", i));
             }
         }
     }

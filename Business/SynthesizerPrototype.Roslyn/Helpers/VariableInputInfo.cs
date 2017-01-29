@@ -11,7 +11,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 
         public VariableInputInfo(string nameCamelCase, double value)
         {
-            if (String.IsNullOrEmpty(nameCamelCase)) throw new NullOrEmptyException(() => nameCamelCase);
+            if (string.IsNullOrEmpty(nameCamelCase)) throw new NullOrEmptyException(() => nameCamelCase);
 
             NameCamelCase = nameCamelCase;
             Value = value;

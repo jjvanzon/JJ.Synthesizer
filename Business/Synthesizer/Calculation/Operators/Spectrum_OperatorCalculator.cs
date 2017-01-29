@@ -200,7 +200,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double[] CreateNaNHarmonicVolumes()
         {
-            return new[] { Double.NaN };
+            return new[] { double.NaN };
         }
     }
 }

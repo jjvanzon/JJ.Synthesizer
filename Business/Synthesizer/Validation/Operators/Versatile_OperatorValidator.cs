@@ -10,9 +10,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class Versatile_OperatorValidator : ValidatorBase<Operator>
     {
-        private IPatchRepository _patchRepository;
+        private readonly IPatchRepository _patchRepository;
 
-        private Dictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
+        private readonly Dictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
             { OperatorTypeEnum.Absolute, typeof(Absolute_OperatorValidator) },
             { OperatorTypeEnum.Add, typeof(Add_OperatorValidator) },
@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Type validatorType;
             if (!_validatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
             {
-                throw new Exception(String.Format("_validatorTypeDictionary does not contain key OperatorTypeEnum '{0}'.", operatorTypeEnum));
+                throw new Exception(string.Format("_validatorTypeDictionary does not contain key OperatorTypeEnum '{0}'.", operatorTypeEnum));
             }
             else
             {

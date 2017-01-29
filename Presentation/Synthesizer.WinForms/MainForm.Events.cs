@@ -761,7 +761,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 string outputFilePath = _presenter.TonePlay(e.ScaleID, e.ToneID);
 
-                if (!String.IsNullOrEmpty(outputFilePath))
+                if (!string.IsNullOrEmpty(outputFilePath))
                 {
                     SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
                     soundPlayer.Play();

@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private const double DEFAULT_DURATION = 0.75;
         private const int DEFAULT_CHANNEL_INDEX = 0;
 
-        private static string _playOutputFilePath = GetPlayOutputFilePath();
+        private static readonly string _playOutputFilePath = GetPlayOutputFilePath();
 
         private readonly RepositoryWrapper _repositories;
         private readonly PatchRepositories _patchRepositories;

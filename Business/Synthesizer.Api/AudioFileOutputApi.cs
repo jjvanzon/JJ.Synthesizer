@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Api
 {
     public static class AudioFileOutputApi
     {
-        private static AudioFileOutputManager _audioFileOutputManager = CreateAudioFileOutputManager();
+        private static readonly AudioFileOutputManager _audioFileOutputManager = CreateAudioFileOutputManager();
 
         private static AudioFileOutputManager CreateAudioFileOutputManager()
         {

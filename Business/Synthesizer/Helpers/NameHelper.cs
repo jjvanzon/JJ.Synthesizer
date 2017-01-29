@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// </summary>
         public static bool IsFilledIn(string name)
         {
-            return !String.IsNullOrWhiteSpace(name);
+            return !string.IsNullOrWhiteSpace(name);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             string canonicalName1 = ToCanonical(name1);
             string canonicalName2 = ToCanonical(name2);
-            bool areEqual = String.Equals(name1, name2);
+            bool areEqual = string.Equals(name1, name2);
             return areEqual;
         }
     }

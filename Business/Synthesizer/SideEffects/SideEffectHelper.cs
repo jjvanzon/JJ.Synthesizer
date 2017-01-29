@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 
             do
             {
-                suggestedName = String.Format("{0} {1}", entityDisplayName, number++);
+                suggestedName = string.Format("{0} {1}", entityDisplayName, number++);
                 nameExists = canonicalExistingNamesHashSet.Contains(NameHelper.ToCanonical(suggestedName));
             }
             while (nameExists);

@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.SideEffects
 {
     internal class Sample_SideEffect_SetDefaults : ISideEffect
     {
-        private Sample _entity;
-        private SampleRepositories _repositories;
+        private readonly Sample _entity;
+        private readonly SampleRepositories _repositories;
 
         public Sample_SideEffect_SetDefaults(Sample entity, SampleRepositories repositories)
         {

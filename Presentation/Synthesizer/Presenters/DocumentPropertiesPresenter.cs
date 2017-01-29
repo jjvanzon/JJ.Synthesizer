@@ -11,8 +11,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class DocumentPropertiesPresenter : PresenterBase<DocumentPropertiesViewModel>
     {
-        private RepositoryWrapper _repositories;
-        private DocumentManager _documentManager;
+        private readonly RepositoryWrapper _repositories;
+        private readonly DocumentManager _documentManager;
 
         public DocumentPropertiesPresenter(RepositoryWrapper repositories)
         {

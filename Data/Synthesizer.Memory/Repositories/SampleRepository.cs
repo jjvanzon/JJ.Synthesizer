@@ -5,8 +5,8 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
 {
     public class SampleRepository : DefaultRepositories.SampleRepository
     {
-        private Dictionary<int, byte[]> _bytesDictionary = new Dictionary<int, byte[]>();
-        private object _bytesDictionaryLock = new object();
+        private readonly Dictionary<int, byte[]> _bytesDictionary = new Dictionary<int, byte[]>();
+        private readonly object _bytesDictionaryLock = new object();
 
         public SampleRepository(IContext context)
             : base(context)

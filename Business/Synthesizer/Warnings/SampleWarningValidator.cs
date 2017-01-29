@@ -8,8 +8,8 @@ namespace JJ.Business.Synthesizer.Warnings
 {
     internal class SampleWarningValidator : VersatileValidator<Sample>
     {
-        private byte[] _bytes;
-        private HashSet<object> _alreadyDone;
+        private readonly byte[] _bytes;
+        private readonly HashSet<object> _alreadyDone;
 
         /// <param name="bytes">nullable</param>
         public SampleWarningValidator(Sample obj, byte[] bytes, HashSet<object> alreadyDone)

@@ -11,8 +11,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class DocumentDeletePresenter : PresenterBase<DocumentDeleteViewModel>
     {
-        private IDocumentRepository _documentRepository;
-        private DocumentManager _documentManager;
+        private readonly IDocumentRepository _documentRepository;
+        private readonly DocumentManager _documentManager;
 
         public DocumentDeletePresenter(RepositoryWrapper repositoryWrapper)
         {

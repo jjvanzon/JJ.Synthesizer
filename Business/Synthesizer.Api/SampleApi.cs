@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Api
 {
     public static class SampleApi
     {
-        private static SampleManager _sampleManager = CreateSampleManager();
+        private static readonly SampleManager _sampleManager = CreateSampleManager();
 
         private static SampleManager CreateSampleManager()
         {

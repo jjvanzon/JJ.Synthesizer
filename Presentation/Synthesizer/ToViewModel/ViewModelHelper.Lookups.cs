@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         // AudioFileFormat
 
-        private static IList<IDAndName> _audioFileFormatLookupViewModel = CreateAudioFileFormatLookupViewModel();
+        private static readonly IList<IDAndName> _audioFileFormatLookupViewModel = CreateAudioFileFormatLookupViewModel();
 
         public static IList<IDAndName> GetAudioFileFormatLookupViewModel()
         {
@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // CollectionRecalculation
 
-        private static IList<IDAndName> _collectionRecalculationLookupViewModel = CreateCollectionRecalculationLookupViewModel();
+        private static readonly IList<IDAndName> _collectionRecalculationLookupViewModel = CreateCollectionRecalculationLookupViewModel();
 
         public static IList<IDAndName> GetCollectionRecalculationLookupViewModel()
         {
@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Dimension
 
-        private static IList<IDAndName> _dimensionLookupViewModel = CreateDimensionLookupViewModel();
+        private static readonly IList<IDAndName> _dimensionLookupViewModel = CreateDimensionLookupViewModel();
 
         public static IList<IDAndName> GetDimensionLookupViewModel()
         {
@@ -79,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // InterpolationType
 
-        private static object _interpolationTypeLookupViewModelLock = new object();
+        private static readonly object _interpolationTypeLookupViewModelLock = new object();
 
         private static IList<IDAndName> _interpolationTypeLookupViewModel;
 
@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // NodeType
 
-        private static IList<IDAndName> _nodeTypeLookupViewModel = CreateNodeTypeLookupViewModel();
+        private static readonly IList<IDAndName> _nodeTypeLookupViewModel = CreateNodeTypeLookupViewModel();
 
         public static IList<IDAndName> GetNodeTypeLookupViewModel()
         {
@@ -117,7 +117,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // OperatorType
 
-        private static IList<IDAndName> _operatorTypesViewModel = CreateOperatorTypesViewModel();
+        private static readonly IList<IDAndName> _operatorTypesViewModel = CreateOperatorTypesViewModel();
 
         public static IList<IDAndName> GetOperatorTypesViewModel()
         {
@@ -135,7 +135,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // ResampleInterpolationType
 
-        private static IList<IDAndName> _resampleInterpolationLookupViewModel = CreateResampleInterpolationLookupViewModel();
+        private static readonly IList<IDAndName> _resampleInterpolationLookupViewModel = CreateResampleInterpolationLookupViewModel();
 
         public static IList<IDAndName> GetResampleInterpolationLookupViewModel()
         {
@@ -150,7 +150,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // SampleDataType
 
-        private static IList<IDAndName> _sampleDataTypeLookupViewModel = CreateSampleDataTypeLookupViewModel();
+        private static readonly IList<IDAndName> _sampleDataTypeLookupViewModel = CreateSampleDataTypeLookupViewModel();
 
         public static IList<IDAndName> GetSampleDataTypeLookupViewModel()
         {
@@ -181,7 +181,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // ScaleType
 
-        private static IList<IDAndName> _scaleTypeLookupViewModel =  CreateScaleTypeLookupViewModel();
+        private static readonly IList<IDAndName> _scaleTypeLookupViewModel =  CreateScaleTypeLookupViewModel();
 
         public static IList<IDAndName> GetScaleTypeLookupViewModel()
         {
@@ -216,7 +216,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // SpeakerSetup
 
-        private static IList<IDAndName> _speakerSetupLookupViewModel = CreateSpeakerSetupLookupViewModel();
+        private static readonly IList<IDAndName> _speakerSetupLookupViewModel = CreateSpeakerSetupLookupViewModel();
 
         public static IList<IDAndName> GetSpeakerSetupLookupViewModel()
         {

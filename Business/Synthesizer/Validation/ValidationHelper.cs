@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (op == null) throw new NullException(() => op);
 
-            if (!String.IsNullOrEmpty(op.Name))
+            if (!string.IsNullOrEmpty(op.Name))
             {
                 return op.Name;
             }
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (inlet == null) throw new NullException(() => inlet);
 
             // Use Name
-            if (!String.IsNullOrEmpty(inlet.Name))
+            if (!string.IsNullOrEmpty(inlet.Name))
             {
                 return inlet.Name;
             }
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use ListIndex
-            string inletIdentifier = String.Format("{0} {1}", PropertyDisplayNames.Inlet, inlet.ListIndex);
+            string inletIdentifier = string.Format("{0} {1}", PropertyDisplayNames.Inlet, inlet.ListIndex);
             return inletIdentifier;
         }
 
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (outlet == null) throw new NullException(() => outlet);
 
             // Use Name
-            if (!String.IsNullOrEmpty(outlet.Name))
+            if (!string.IsNullOrEmpty(outlet.Name))
             {
                 return outlet.Name;
             }
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use ListIndex
-            string outletIdentifier = String.Format("{0} {1}", PropertyDisplayNames.Outlet, outlet.ListIndex);
+            string outletIdentifier = string.Format("{0} {1}", PropertyDisplayNames.Outlet, outlet.ListIndex);
             return outletIdentifier;
         }
     }

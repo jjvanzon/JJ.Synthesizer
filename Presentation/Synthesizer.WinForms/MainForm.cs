@@ -19,12 +19,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal partial class MainForm : Form
     {
-        private IContext _context;
-        private RepositoryWrapper _repositories;
-        private MainPresenter _presenter;
+        private readonly IContext _context;
+        private readonly RepositoryWrapper _repositories;
+        private readonly MainPresenter _presenter;
 
-        private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
-        private PatchDetailsForm _autoPatchDetailsForm = new PatchDetailsForm();
+        private readonly DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
+        private readonly PatchDetailsForm _autoPatchDetailsForm = new PatchDetailsForm();
 
         public MainForm()
         {
@@ -151,14 +151,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (!result.Successful)
             {
                 // TODO: Make a distinction between Data.Canonical and Business.Canonical, so that you have a place to put helpers for this.
-                string formattedMessages = String.Join(Environment.NewLine, result.Messages.Select(y => y.Text));
+                string formattedMessages = string.Join(Environment.NewLine, result.Messages.Select(y => y.Text));
                 throw new Exception(formattedMessages);
             }
 
             return x.Patch;
         }
 
-        private IList<UserControlBase> _userControls;
+        private readonly IList<UserControlBase> _userControls;
 
         private IList<UserControlBase> CreateUserControlsCollection()
         {

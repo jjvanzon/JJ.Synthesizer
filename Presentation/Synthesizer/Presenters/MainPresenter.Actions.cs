@@ -1308,7 +1308,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            throw new Exception(String.Format("Properties ViewModel not found for Operator with ID '{0}'.", id));
+            throw new Exception(string.Format("Properties ViewModel not found for Operator with ID '{0}'.", id));
         }
 
         public void OperatorPropertiesClose(int id)

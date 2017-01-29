@@ -11,10 +11,10 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 {
     internal class PatchValidator : VersatileValidator<Patch>
     {
-        private ICurveRepository _curveRepository;
-        private ISampleRepository _sampleRepository;
-        private IPatchRepository _patchRepository;
-        private HashSet<object> _alreadyDone;
+        private readonly ICurveRepository _curveRepository;
+        private readonly ISampleRepository _sampleRepository;
+        private readonly IPatchRepository _patchRepository;
+        private readonly HashSet<object> _alreadyDone;
 
         public PatchValidator(
             Patch obj,

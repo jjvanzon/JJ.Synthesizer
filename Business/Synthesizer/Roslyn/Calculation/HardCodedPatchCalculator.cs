@@ -168,7 +168,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
                 double value = add1;
 
-                if (Double.IsNaN(value)) // winmm will trip over NaN.
+                if (double.IsNaN(value)) // winmm will trip over NaN.
                 {
                     value = 0;
                 }
@@ -238,12 +238,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
             string canonicalName = NameHelper.ToCanonical(name);
 
-            if (String.Equals(name, "prettiness", StringComparison.Ordinal))
+            if (string.Equals(name, "prettiness", StringComparison.Ordinal))
             {
                 _customDimensionPrettiness1 = value;
             }
 
-            if (String.Equals(name, "prettiness", StringComparison.Ordinal))
+            if (string.Equals(name, "prettiness", StringComparison.Ordinal))
             {
                 _input0 = value;
             }
@@ -272,12 +272,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
             string canonicalName = NameHelper.ToCanonical(name);
 
-            if (String.Equals(name, "prettiness", StringComparison.Ordinal) && listIndex == 0)
+            if (string.Equals(name, "prettiness", StringComparison.Ordinal) && listIndex == 0)
             {
                 _customDimensionPrettiness1 = value;
             }
 
-            if (String.Equals(name, "prettiness", StringComparison.Ordinal) && listIndex == 0)
+            if (string.Equals(name, "prettiness", StringComparison.Ordinal) && listIndex == 0)
             {
                 _input0 = value;
             }

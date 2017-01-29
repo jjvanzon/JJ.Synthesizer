@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 {
     internal class Operator_SideEffect_GeneratePatchInletListIndex : ISideEffect
     {
-        private Operator _entity;
+        private readonly Operator _entity;
 
         public Operator_SideEffect_GeneratePatchInletListIndex(Operator entity)
         {

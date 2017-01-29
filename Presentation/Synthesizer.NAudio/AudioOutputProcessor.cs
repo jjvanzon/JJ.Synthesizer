@@ -8,7 +8,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
     /// <summary> Most of the work is done by the AudioOutputSampleProvider. </summary>
     public class AudioOutputProcessor
     {
-        private int _desiredLatencyInMilliseconds;
+        private readonly int _desiredLatencyInMilliseconds;
 
         private readonly AudioOutputSampleProvider _sampleProvider;
         private WaveOut _waveOut;

@@ -8,7 +8,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
     public class DocumentRepository : DefaultRepositories.DocumentRepository
     {
-        private new NHibernateContext _context;
+        private new readonly NHibernateContext _context;
 
         public DocumentRepository(IContext context)
             : base(context)

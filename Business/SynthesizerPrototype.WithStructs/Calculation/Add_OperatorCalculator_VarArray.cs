@@ -60,7 +60,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
             }
             else
             {
-                throw new Exception(String.Format("i {0} not valid.", i));
+                throw new Exception(string.Format("i {0} not valid.", i));
             }
         }
     }

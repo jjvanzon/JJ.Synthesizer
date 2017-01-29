@@ -697,7 +697,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             // TODO: Low Priority: ViewModel validator to detect, that it is not a valid integer number.
             var wrapper = new Number_OperatorWrapper(entity);
             double number;
-            if (Double.TryParse(viewModel.Number, out number))
+            if (double.TryParse(viewModel.Number, out number))
             {
                 wrapper.Number = number;
             }
@@ -725,11 +725,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 repositories.InletRepository.Insert(inlet);
             }
 
-            if (!String.IsNullOrEmpty(viewModel.DefaultValue))
+            if (!string.IsNullOrEmpty(viewModel.DefaultValue))
             {
                 // Tolerance, to make ToEntity not fail, before view model validation goes off.
                 double defaultValue;
-                if (Double.TryParse(viewModel.DefaultValue, out defaultValue))
+                if (double.TryParse(viewModel.DefaultValue, out defaultValue))
                 {
                     inlet.DefaultValue = defaultValue;
                 }
@@ -1217,13 +1217,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             double number;
-            if (Double.TryParse(viewModel.Number, out number))
+            if (double.TryParse(viewModel.Number, out number))
             {
                 entity.Number = number;
             }
 
             int octave;
-            if (Int32.TryParse(viewModel.Octave, out octave))
+            if (int.TryParse(viewModel.Octave, out octave))
             {
                 entity.Octave = octave;
             }

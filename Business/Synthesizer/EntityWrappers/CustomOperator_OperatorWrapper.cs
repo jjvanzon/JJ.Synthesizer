@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             Inlet inlet = Inlets[listIndex];
 
             // Use Name
-            if (!String.IsNullOrEmpty(inlet.Name))
+            if (!string.IsNullOrEmpty(inlet.Name))
             {
                 return inlet.Name;
             }
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             // Use List Position (not ListIndex, becuase it does not have to be consecutive).
             int listPosition = WrappedOperator.Inlets.IndexOf(inlet);
-            string displayName = String.Format("{0} {1}", PropertyDisplayNames.Inlet, listPosition + 1);
+            string displayName = string.Format("{0} {1}", PropertyDisplayNames.Inlet, listPosition + 1);
             return displayName;
         }
 
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             Outlet outlet = Outlets[listIndex];
 
             // Use Name
-            if (!String.IsNullOrEmpty(outlet.Name))
+            if (!string.IsNullOrEmpty(outlet.Name))
             {
                 return outlet.Name;
             }
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             // Use List Position (not ListIndex, becuase it does not have to be consecutive).
             int listPosition = WrappedOperator.Outlets.IndexOf(outlet);
-            string displayName = String.Format("{0} {1}", PropertyDisplayNames.Outlet, listPosition + 1);
+            string displayName = string.Format("{0} {1}", PropertyDisplayNames.Outlet, listPosition + 1);
             return displayName;
 
         }

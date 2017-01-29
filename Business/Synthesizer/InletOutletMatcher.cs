@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer
                 {
                     string canonical_DestCustomOperatorInlet_Name = NameHelper.ToCanonical(destCustomOperatorInlet.Name);
 
-                    bool namesAreEqual = String.Equals(
+                    bool namesAreEqual = string.Equals(
                         canonical_DestCustomOperatorInlet_Name,
                         canonical_SourcePatchInlet_Name);
 
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer
                 {
                     string canoncial_DestCustomOperatorOutlet_Name = NameHelper.ToCanonical(destCustomOperatorOutlet.Name);
 
-                    bool namesAreEqual = String.Equals(
+                    bool namesAreEqual = string.Equals(
                         canoncial_DestCustomOperatorOutlet_Name,
                         canonical_SourcePatchOutlet_Name);
 
@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer
 
             if (dest_UnderlyingPatch_PatchInlet == null)
             {
-                throw new Exception(String.Format(
+                throw new Exception(string.Format(
                     "PatchInlet not found in UnderlyingPatch. CustomOperator Inlet: Name = '{0}', DimensionEnum = '{1}', ListIndex = '{2}'.",
                     source_CustomOperator_Inlet.Name,
                     source_CustomOperator_Inlet.GetDimensionEnum(),
@@ -158,7 +158,7 @@ namespace JJ.Business.Synthesizer
                 {
                     string canonical_Dest_UnderlyingPatch_PatchInlet_Name = NameHelper.ToCanonical(dest_UnderlyingPatch_PatchInlet.Name);
 
-                    bool namesAreEqual = String.Equals(
+                    bool namesAreEqual = string.Equals(
                         canonical_Dest_UnderlyingPatch_PatchInlet_Name,
                         canonical_Source_CustomOperator_Inlet_Name);
 
@@ -215,7 +215,7 @@ namespace JJ.Business.Synthesizer
 
             if (dest_UnderlyingPatch_PatchOutlet == null)
             {
-                throw new Exception(String.Format(
+                throw new Exception(string.Format(
                     "PatchOutlet not found in UnderlyingPatch. CustomOperator Outlet: Name = '{0}', DimensionEnum = '{1}', ListIndex = '{2}'.",
                     source_CustomOperator_Outlet.Name,
                     source_CustomOperator_Outlet.GetDimensionEnum(),
@@ -247,7 +247,7 @@ namespace JJ.Business.Synthesizer
                 {
                     string canonical_Dest_UnderlyingPatch_PatchOutlet_Name = NameHelper.ToCanonical(dest_UnderlyingPatch_PatchOutlet.Name);
 
-                    bool namesAreEqual = String.Equals(
+                    bool namesAreEqual = string.Equals(
                         canonical_Dest_UnderlyingPatch_PatchOutlet_Name,
                         canonical_Source_CustomOperator_Outlet_Name);
 
@@ -342,7 +342,7 @@ namespace JJ.Business.Synthesizer
             if (dest_PatchOutlet_Outlet == null)
             {
                 // TODO: Low priority: This is a vague error message. Can it be made more specific?
-                throw new Exception(String.Format(
+                throw new Exception(string.Format(
                     "{0} was null after {1}.",
                     nameof(dest_PatchOutlet_Outlet),
                     nameof(InletOutletMatcher.TryApplyCustomOperatorToUnderlyingPatch)));

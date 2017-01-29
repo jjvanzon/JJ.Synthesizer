@@ -1084,7 +1084,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 viewModelDictionary.Remove(canonicalGroupToDelete);
 
-                if (String.Equals(canonicalVisiblePatchGridGroup, canonicalGroupToDelete))
+                if (string.Equals(canonicalVisiblePatchGridGroup, canonicalGroupToDelete))
                 {
                     MainViewModel.Document.VisiblePatchGrid = null;
                 }

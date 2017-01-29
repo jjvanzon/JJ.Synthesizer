@@ -58,7 +58,7 @@ namespace JJ.Data.Synthesizer.Helpers
         {
             if (entityPosition == null) throw new NullException(() => entityPosition);
 
-            string debuggerDisplay = String.Format(
+            string debuggerDisplay = string.Format(
                 "{{{0}}} {1} {2}: X={3}, Y={4}",
                 entityPosition.GetType().Name,
                 entityPosition.EntityTypeName,
@@ -79,7 +79,7 @@ namespace JJ.Data.Synthesizer.Helpers
 
             sb.AppendFormat("[{0}] ", entity.ListIndex);
 
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!string.IsNullOrEmpty(entity.Name))
             {
                 sb.AppendFormat("'{0}' ", entity.Name);
             }
@@ -121,7 +121,7 @@ namespace JJ.Data.Synthesizer.Helpers
 
             if (entity.NodeType != null)
             {
-                if (!String.IsNullOrEmpty(entity.NodeType.Name))
+                if (!string.IsNullOrEmpty(entity.NodeType.Name))
                 {
                     sb.AppendFormat("({0}) ", entity.NodeType.Name);
                 }
@@ -150,7 +150,7 @@ namespace JJ.Data.Synthesizer.Helpers
 
             if (op.OperatorType != null)
             {
-                if (!String.IsNullOrEmpty(op.OperatorType.Name))
+                if (!string.IsNullOrEmpty(op.OperatorType.Name))
                 {
                     sb.Append(op.OperatorType.Name);
                     sb.Append(' ');
@@ -158,7 +158,7 @@ namespace JJ.Data.Synthesizer.Helpers
             }
 
             bool isValidPatchInlet = op.OperatorType != null &&
-                                     String.Equals(op.OperatorType.Name, "PatchInlet") &&
+                                     string.Equals(op.OperatorType.Name, "PatchInlet") &&
                                      op.Inlets.Count == 1 &&
                                      op.Inlets[0] != null;
             if (isValidPatchInlet)
@@ -173,7 +173,7 @@ namespace JJ.Data.Synthesizer.Helpers
                 }
             }
 
-            if (!String.IsNullOrEmpty(op.Name))
+            if (!string.IsNullOrEmpty(op.Name))
             {
                 sb.AppendFormat("'{0}' ", op.Name);
             }
@@ -199,7 +199,7 @@ namespace JJ.Data.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
 
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!string.IsNullOrEmpty(entity.Name))
             {
                 sb.AppendFormat("'{0}' ", entity.Name);
             }
@@ -271,7 +271,7 @@ namespace JJ.Data.Synthesizer.Helpers
 
         private static string GetDebuggDisplayWithIDAndName<TEntity>(int id, string name)
         {
-            string debuggerDisplay = String.Format("{{{0}}} {1} (ID = {2})", typeof(TEntity).Name, name, id);
+            string debuggerDisplay = string.Format("{{{0}}} {1} (ID = {2})", typeof(TEntity).Name, name, id);
             return debuggerDisplay;
         }
     }

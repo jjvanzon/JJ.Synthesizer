@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Inlet inlet = TryGetInlet(op, name);
             if (inlet == null)
             {
-                throw new Exception(String.Format("Inlet '{0}' not found.", name));
+                throw new Exception(string.Format("Inlet '{0}' not found.", name));
             }
             return inlet;
         }
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Inlet> inlets = op.Inlets.Where(x => String.Equals(x.Name, name)).ToArray();
+            IList<Inlet> inlets = op.Inlets.Where(x => string.Equals(x.Name, name)).ToArray();
             switch (inlets.Count)
             {
                 case 0:
@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Outlet> outlets = op.Outlets.Where(x => String.Equals(x.Name, name)).ToArray();
+            IList<Outlet> outlets = op.Outlets.Where(x => string.Equals(x.Name, name)).ToArray();
             switch (outlets.Count)
             {
                 case 0:

@@ -16,10 +16,10 @@ namespace JJ.Business.Synthesizer
         private const int MIN_RANDOM_Y = 50;
         private const int MAX_RANDOM_Y = 400;
 
-        private IEntityPositionRepository _entityPositionRepository;
-        private IIDRepository _idRepository;
+        private readonly IEntityPositionRepository _entityPositionRepository;
+        private readonly IIDRepository _idRepository;
 
-        private Dictionary<int, EntityPosition> _operatorPositionDictionary = new Dictionary<int, EntityPosition>();
+        private readonly Dictionary<int, EntityPosition> _operatorPositionDictionary = new Dictionary<int, EntityPosition>();
 
         public EntityPositionManager(IEntityPositionRepository entityPositionRepository, IIDRepository idRepository)
         {

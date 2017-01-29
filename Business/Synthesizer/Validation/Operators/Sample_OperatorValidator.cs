@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 For(() => sampleIDString, PropertyDisplayNames.SampleID).IsInteger();
 
                 int sampleID;
-                if (Int32.TryParse(sampleIDString, out sampleID))
+                if (int.TryParse(sampleIDString, out sampleID))
                 {
                     // Check reference constraint of the Sample.
                     // (We are quite tollerant here: we omit the check if it is not in a patch or document.)

@@ -278,12 +278,12 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (channelCount < 1) throw new LessThanException(() => channelCount, 1);
-            if (Double.IsNaN(end)) throw new NaNException(() => end);
-            if (Double.IsInfinity(end)) throw new InfinityException(() => end);
-            if (Double.IsNaN(start)) throw new NaNException(() => start);
-            if (Double.IsInfinity(start)) throw new InfinityException(() => start);
-            if (Double.IsNaN(rate)) throw new NaNException(() => rate);
-            if (Double.IsInfinity(rate)) throw new InfinityException(() => rate);
+            if (double.IsNaN(end)) throw new NaNException(() => end);
+            if (double.IsInfinity(end)) throw new InfinityException(() => end);
+            if (double.IsNaN(start)) throw new NaNException(() => start);
+            if (double.IsInfinity(start)) throw new InfinityException(() => start);
+            if (double.IsNaN(rate)) throw new NaNException(() => rate);
+            if (double.IsInfinity(rate)) throw new InfinityException(() => rate);
             if (rate <= 0.0) throw new LessThanOrEqualException(() => rate, 0.0);
             if (end <= start) throw new LessThanOrEqualException(() => end, () => start);
             if (dimensionStack == null) throw new NullException(() => dimensionStack);

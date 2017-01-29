@@ -32,11 +32,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         // TODO: These two constants do not belong here, because they should be determined by the vector graphics.
         private const float ESTIMATED_OPERATOR_WIDTH = 50f;
         private const float OPERATOR_HEIGHT = 30f;
-        private static double _patchPlayDuration = GetPatchPlayDuration();
-        private static string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
+        private static readonly double _patchPlayDuration = GetPatchPlayDuration();
+        private static readonly string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
 
-        private PatchRepositories _repositories;
-        private EntityPositionManager _entityPositionManager;
+        private readonly PatchRepositories _repositories;
+        private readonly EntityPositionManager _entityPositionManager;
 
         public PatchDetailsPresenter(PatchRepositories repositories, EntityPositionManager entityPositionManager)
         {

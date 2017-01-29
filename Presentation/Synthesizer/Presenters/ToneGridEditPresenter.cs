@@ -13,8 +13,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class ToneGridEditPresenter : PresenterBase<ToneGridEditViewModel>
     {
-        private ScaleRepositories _repositories;
-        private ScaleManager _scaleManager;
+        private readonly ScaleRepositories _repositories;
+        private readonly ScaleManager _scaleManager;
 
         public ToneGridEditPresenter(ScaleRepositories repositories)
         {

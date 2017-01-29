@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}}", variableInfo.GetType().Name);
 
-            bool nameIsFilledIn = !String.IsNullOrEmpty(variableInfo.VariableNameCamelCase);
+            bool nameIsFilledIn = !string.IsNullOrEmpty(variableInfo.VariableNameCamelCase);
             bool valueIsFilledIn = variableInfo.Value.HasValue;
             bool miscPropertiesAreFilledIn = variableInfo.DimensionEnum != DimensionEnum.Undefined ||
                                              variableInfo.ListIndex != 0 ||

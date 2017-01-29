@@ -8,7 +8,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            return Double.NaN;
+            return double.NaN;
         }
     }
 }

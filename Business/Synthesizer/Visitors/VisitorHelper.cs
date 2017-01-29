@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (stack.Count != expectedStackCount)
             {
-                throw new Exception(String.Format(
+                throw new Exception(string.Format(
                     "{2} was not incremented by exactly 1 after visitation. {0} = {1}, {2} = {3}.",
                     nameof(expectedStackCount),
                     expectedStackCount,
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Visitors
             double samplesBetweenApplyFilterVariablesDouble = secondsBetweenApplyFilterVariables * samplingRate;
             if (!ConversionHelper.CanCastToPositiveInt32(samplesBetweenApplyFilterVariablesDouble))
             {
-                throw new Exception(String.Format("{0} cannot be cast to positive Int32.", new { samplesBetweenApplyFilterVariablesDouble }));
+                throw new Exception(string.Format("{0} cannot be cast to positive Int32.", new { samplesBetweenApplyFilterVariablesDouble }));
             }
             int samplesBetweenApplyFilterVariables = (int)(secondsBetweenApplyFilterVariables * samplingRate);
             return samplesBetweenApplyFilterVariables;
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
                 {
-                    throw new Exception(String.Format(
+                    throw new Exception(string.Format(
                         "DimensionStack.Count for DimensionStack {0} should be 1 but it is {1}.",
                         new { dimensionStack.CanonicalCustomDimensionName, dimensionStack.StandardDimensionEnum },
                         dimensionStack.Count));

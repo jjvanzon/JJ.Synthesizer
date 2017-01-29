@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         {
             // Assert
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            if (String.IsNullOrEmpty(audioFileOutput.FilePath)) throw new NullOrEmptyException(() => audioFileOutput.FilePath);
+            if (string.IsNullOrEmpty(audioFileOutput.FilePath)) throw new NullOrEmptyException(() => audioFileOutput.FilePath);
             int channelCount = audioFileOutput.GetChannelCount();
             if (_patchCalculators.Length != channelCount) throw new NotEqualException(() => _patchCalculators.Length, audioFileOutput.GetChannelCount());
 

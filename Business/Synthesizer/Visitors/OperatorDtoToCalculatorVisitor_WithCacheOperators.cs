@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Visitors
             bool parametersAreValid = CalculationHelper.CacheParametersAreValid(start, end, samplingRate);
             if (!parametersAreValid)
             {
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else
             {

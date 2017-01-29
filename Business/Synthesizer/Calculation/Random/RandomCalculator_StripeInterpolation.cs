@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Calculation.Random
 {
     internal class RandomCalculator_StripeInterpolation : RandomCalculatorBase
     {
-        private ArrayCalculator_RotatePosition_Stripe_NoRate _arrayCalculator;
+        private readonly ArrayCalculator_RotatePosition_Stripe_NoRate _arrayCalculator;
 
         public RandomCalculator_StripeInterpolation()
         {

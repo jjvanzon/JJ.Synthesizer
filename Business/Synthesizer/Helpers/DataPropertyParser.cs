@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// Whatever I try, I just cannot make the last semi-colon optional.
         /// Not sure what I am doing wrong, so I am going to work around it.
         /// </summary>
-        private static Regex _regex_WithExcessSemiColonAtTheEnd = CreateRegex_WithExcessiveSemiColonAtTheEnd();
+        private static readonly Regex _regex_WithExcessSemiColonAtTheEnd = CreateRegex_WithExcessiveSemiColonAtTheEnd();
 
         private static Regex CreateRegex_WithExcessiveSemiColonAtTheEnd()
         {
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Helpers
             return regex;
         }
 
-        private static CultureInfo _formattingCulture = new CultureInfo("en-US");
+        private static readonly CultureInfo _formattingCulture = new CultureInfo("en-US");
 
         public static CultureInfo FormattingCulture
         {
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static bool DataIsWellFormed(string data)
         {
-            if (String.IsNullOrEmpty(data))
+            if (string.IsNullOrEmpty(data))
             {
                 return true;
             }
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Helpers
             double? value = TryGetDouble(data, key);
             if (!value.HasValue)
             {
-                throw new Exception(String.Format("Value with key '{0}' in data '{1}' is empty.", key, data));
+                throw new Exception(string.Format("Value with key '{0}' in data '{1}' is empty.", key, data));
             }
             return value.Value;
         }
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static double? TryGetDouble(string data, string key)
         {
             string str = TryGetString(data, key);
-            if (String.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(str))
             {
                 return null;
             }
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Helpers
             double value;
             if (!DoubleHelper.TryParse(str, _formattingCulture, out value))
             {
-                throw new Exception(String.Format("Value with key '{0}' in data '{1}' could not be parsed to Double.", key, data));
+                throw new Exception(string.Format("Value with key '{0}' in data '{1}' could not be parsed to Double.", key, data));
             }
             return value;
         }
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Helpers
             int? value = TryGetInt32(data, key);
             if (!value.HasValue)
             {
-                throw new Exception(String.Format("Value with key '{0}' in data '{1}' is empty.", key, data));
+                throw new Exception(string.Format("Value with key '{0}' in data '{1}' is empty.", key, data));
             }
             return value.Value;
         }
@@ -173,15 +173,15 @@ namespace JJ.Business.Synthesizer.Helpers
         public static int? TryGetInt32(string data, string key)
         {
             string str = TryGetString(data, key);
-            if (String.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(str))
             {
                 return null;
             }
 
             int value;
-            if (!Int32.TryParse(str, out value))
+            if (!int.TryParse(str, out value))
             {
-                throw new Exception(String.Format("Value with key '{0}' in data '{1}' could not be parsed to Int32.", key, data));
+                throw new Exception(string.Format("Value with key '{0}' in data '{1}' could not be parsed to Int32.", key, data));
             }
             return value;
         }
@@ -205,13 +205,13 @@ namespace JJ.Business.Synthesizer.Helpers
         public static int? TryParseInt32(string data, string key)
         {
             string str = TryGetString(data, key);
-            if (String.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(str))
             {
                 return null;
             }
 
             int value;
-            if (Int32.TryParse(str, out value))
+            if (int.TryParse(str, out value))
             {
                 return value;
             }
@@ -238,7 +238,7 @@ namespace JJ.Business.Synthesizer.Helpers
             where TEnum : struct
         {
             string str = TryGetString(data, key);
-            if (String.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(str))
             {
                 return default(TEnum);
             }
@@ -246,7 +246,7 @@ namespace JJ.Business.Synthesizer.Helpers
             TEnum value;
             if (!Enum.TryParse(str, out value))
             {
-                throw new Exception(String.Format("Value with key '{0}' in data '{1}' could not be parsed to Enum of type '{2}'.", key, data, typeof(TEnum).FullName));
+                throw new Exception(string.Format("Value with key '{0}' in data '{1}' could not be parsed to Enum of type '{2}'.", key, data, typeof(TEnum).FullName));
             }
             return value;
         }
@@ -269,7 +269,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             IList<ParsedKeyValuePair> results = Parse(data);
 
-            ParsedKeyValuePair result = results.Where(x => String.Equals(x.Key, key)).FirstOrDefault();
+            ParsedKeyValuePair result = results.Where(x => string.Equals(x.Key, key)).FirstOrDefault();
             if (result == null)
             {
                 return null;
@@ -302,7 +302,7 @@ namespace JJ.Business.Synthesizer.Helpers
             IList<ParsedKeyValuePair> results = Parse(data);
 
             // Remove original value.
-            results = results.Where(x => !String.Equals(x.Key, key)).ToList();
+            results = results.Where(x => !string.Equals(x.Key, key)).ToList();
 
             // Add new value
             var result = new ParsedKeyValuePair(key, Convert.ToString(value, _formattingCulture));
@@ -323,7 +323,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             IList<ParsedKeyValuePair> results = Parse(data);
 
-            results = results.Where(x => !String.Equals(x.Key, key)).ToList();
+            results = results.Where(x => !string.Equals(x.Key, key)).ToList();
 
             string newData = Format(results);
 
@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         private static IList<ParsedKeyValuePair> Parse(string data)
         {
-            if (String.IsNullOrEmpty(data))
+            if (string.IsNullOrEmpty(data))
             {
                 return new ParsedKeyValuePair[0];
             }
@@ -358,7 +358,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             if (keyAndValueSplit.Length != 2)
             {
-                throw new Exception(String.Format("keyValueString in data must have an '=' character in it. keyValueString = '{0} ', data = '{1}'.", keyValueString, data));
+                throw new Exception(string.Format("keyValueString in data must have an '=' character in it. keyValueString = '{0} ', data = '{1}'.", keyValueString, data));
             }
 
             string key = keyAndValueSplit[0];
@@ -375,7 +375,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 AssertParsedKeyValuePair(parsedKeyValuePair);
             }
 
-            string str = String.Join(";", parsedKeyValuePairs.Select(x => String.Format(_formattingCulture, "{0}={1}", x.Key, x.Value)));
+            string str = string.Join(";", parsedKeyValuePairs.Select(x => string.Format(_formattingCulture, "{0}={1}", x.Key, x.Value)));
             return str;
         }
 

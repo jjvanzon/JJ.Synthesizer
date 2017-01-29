@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Extensions
 {
     public static class PatchExtensions
     {
-        private static Dictionary<Type, OperatorTypeEnum> _OperatorWrapperType_To_OperatorTypeEnum_dictionary = new Dictionary<Type, OperatorTypeEnum>
+        private static readonly Dictionary<Type, OperatorTypeEnum> _OperatorWrapperType_To_OperatorTypeEnum_dictionary = new Dictionary<Type, OperatorTypeEnum>
         {
             { typeof(Add_OperatorWrapper), OperatorTypeEnum.Add },
             { typeof(Divide_OperatorWrapper), OperatorTypeEnum.Divide },
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Extensions
             OperatorTypeEnum operatorTypeEnum;
             if (!_OperatorWrapperType_To_OperatorTypeEnum_dictionary.TryGetValue(operatorWrapperType, out operatorTypeEnum))
             {
-                throw new NotSupportedException(String.Format("OperatorWrapper Type '{0}' not supported.", typeof(TOperatorWrapper).Name));
+                throw new NotSupportedException(string.Format("OperatorWrapper Type '{0}' not supported.", typeof(TOperatorWrapper).Name));
             }
 
             IList<Operator> operators = GetOperatorsOfType(patch, operatorTypeEnum);

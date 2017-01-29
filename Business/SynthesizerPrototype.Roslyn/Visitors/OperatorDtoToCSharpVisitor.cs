@@ -291,7 +291,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
                 counter = FIRST_VARIABLE_NUMBER;
             }
 
-            string variableName = String.Format("{0}{1}", camelCaseOperatorTypeName, counter++);
+            string variableName = string.Format("{0}{1}", camelCaseOperatorTypeName, counter++);
 
             _camelCaseOperatorTypeName_To_VariableCounter_Dictionary[camelCaseOperatorTypeName] = counter;
 
@@ -315,7 +315,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 
         private VariableInputInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
         {
-            string variableName = String.Format("{0}{1}", INPUT_VARIABLE_PREFIX, _inputVariableCounter++);
+            string variableName = string.Format("{0}{1}", INPUT_VARIABLE_PREFIX, _inputVariableCounter++);
             var valueInfo = new VariableInputInfo(variableName, dto.DefaultValue);
 
             _inputVariableInfoDictionary.Add(variableName, valueInfo);
@@ -325,7 +325,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 
         private string GeneratePhaseVariableName()
         {
-            string variableName = String.Format("{0}{1}", PHASE_VARIABLE_PREFIX, _phaseVariableCounter++);
+            string variableName = string.Format("{0}{1}", PHASE_VARIABLE_PREFIX, _phaseVariableCounter++);
 
             _phaseVariableNamesCamelCase.Add(variableName);
 
@@ -334,7 +334,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 
         private string GeneratePreviousPositionVariableName()
         {
-            string variableName = String.Format("{0}{1}", PREVIOUS_POSITION_VARIABLE_PREFIX1, _previousPositionVariableCounter++);
+            string variableName = string.Format("{0}{1}", PREVIOUS_POSITION_VARIABLE_PREFIX1, _previousPositionVariableCounter++);
 
             _previousPositionVariableNamesCamelCase.Add(variableName);
 
@@ -343,7 +343,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 
         private string GeneratePositionVariableName(int stackLevel)
         {
-            string variableName = String.Format("{0}{1}", POSITION_VARIABLE_PREFIX, stackLevel);
+            string variableName = string.Format("{0}{1}", POSITION_VARIABLE_PREFIX, stackLevel);
 
             _positionVariableNamesCamelCaseHashSet.Add(variableName);
 

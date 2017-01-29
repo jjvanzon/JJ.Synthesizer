@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer
 {
     public class AudioFileOutputManager
     {
-        private AudioFileOutputRepositories _repositories;
+        private readonly AudioFileOutputRepositories _repositories;
 
         public AudioFileOutputManager(AudioFileOutputRepositories repositories)
         {

@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     public class DragLineGesture : DragGesture, IDisposable
     {
         private Diagram _diagram;
-        private Line _line;
+        private readonly Line _line;
         private float _sourceX;
         private float _sourceY;
 

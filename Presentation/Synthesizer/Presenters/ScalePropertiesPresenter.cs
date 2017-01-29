@@ -10,8 +10,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class ScalePropertiesPresenter : PresenterBase<ScalePropertiesViewModel>
     {
-        private ScaleRepositories _repositories;
-        private ScaleManager _scaleManager;
+        private readonly ScaleRepositories _repositories;
+        private readonly ScaleManager _scaleManager;
 
         public ScalePropertiesPresenter(ScaleRepositories repositories)
         {

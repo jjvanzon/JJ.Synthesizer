@@ -4,7 +4,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
     public class SampleRepository : DefaultRepositories.SampleRepository
     {
-        private new SynthesizerContext _context;
+        private new readonly SynthesizerContext _context;
 
         public SampleRepository(IContext context)
             : base(context)

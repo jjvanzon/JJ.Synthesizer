@@ -5,13 +5,13 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class CalculatorNotFoundException : Exception
     {
-        private string _message;
+        private readonly string _message;
 
         public CalculatorNotFoundException(MethodBase method)
         {
             if (method != null)
             {
-                _message = String.Format("Error in {0} optimization. No appropriate variation on the calculation was found.", method.Name);
+                _message = string.Format("Error in {0} optimization. No appropriate variation on the calculation was found.", method.Name);
             }
             else
             {

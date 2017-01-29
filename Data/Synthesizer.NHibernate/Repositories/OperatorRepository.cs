@@ -6,7 +6,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
     public class OperatorRepository : DefaultRepositories.OperatorRepository
     {
-        private new NHibernateContext _context;
+        private new readonly NHibernateContext _context;
 
         public OperatorRepository(IContext context) 
             : base(context)

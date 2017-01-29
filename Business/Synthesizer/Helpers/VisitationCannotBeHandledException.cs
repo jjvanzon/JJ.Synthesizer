@@ -5,13 +5,13 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class VisitationCannotBeHandledException : Exception
     {
-        private string _message;
+        private readonly string _message;
 
         public VisitationCannotBeHandledException(MethodBase method)
         {
             if (method != null)
             {
-                _message = String.Format("Error in {0}. The variation could not be handled.", method.Name);
+                _message = string.Format("Error in {0}. The variation could not be handled.", method.Name);
             }
             else
             {

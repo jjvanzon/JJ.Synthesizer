@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class HardCodedOperatorCalculator
     {
-        private ISampleCalculator _sampleCalculator;
+        private readonly ISampleCalculator _sampleCalculator;
 
         public HardCodedOperatorCalculator(Sample sample, byte[] bytes)
         {

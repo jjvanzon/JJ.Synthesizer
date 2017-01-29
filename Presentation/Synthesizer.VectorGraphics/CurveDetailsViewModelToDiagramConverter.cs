@@ -42,10 +42,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         /// <summary> Elements with this tag are deleted and recreated upon each conversion. <summary>
         private const string HELPER_ELEMENT_TAG = "Helper Element";
 
-        private static int _lineSegmentCount = GetLineSegmentCount();
-        private static int _lineSegmentPointCount = GetLineSegmentCount() + 1;
-        private static float _nodeClickableRegionSizeInPixels = GetNodeClickableRegionSizeInPixels();
-        private static bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
+        private static readonly int _lineSegmentCount = GetLineSegmentCount();
+        private static readonly int _lineSegmentPointCount = GetLineSegmentCount() + 1;
+        private static readonly float _nodeClickableRegionSizeInPixels = GetNodeClickableRegionSizeInPixels();
+        private static readonly bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
 
         private readonly Line _xAxis;
         private readonly Line _yAxis;
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             // Delete All Lines
             IList<Element> elementsToDelete = Result.Diagram.Elements
-                                                            .Where(x => String.Equals(Convert.ToString(x.Tag), HELPER_ELEMENT_TAG))
+                                                            .Where(x => string.Equals(Convert.ToString(x.Tag), HELPER_ELEMENT_TAG))
                                                             .ToArray();
 
             foreach (Element elementToDelete in elementsToDelete)

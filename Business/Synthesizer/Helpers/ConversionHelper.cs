@@ -9,27 +9,27 @@ namespace JJ.Business.Synthesizer.Helpers
         public static bool CanCastToNonNegativeInt32(double value)
         {
             return value >= 0.0 &&
-                   value <= Int32.MaxValue &&
-                   !Double.IsNaN(value) &&
-                   !Double.IsInfinity(value);
+                   value <= int.MaxValue &&
+                   !double.IsNaN(value) &&
+                   !double.IsInfinity(value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CanCastToPositiveInt32(double value)
         {
             return value >= 1.0 &&
-                   value <= Int32.MaxValue &&
-                   !Double.IsNaN(value) &&
-                   !Double.IsInfinity(value);
+                   value <= int.MaxValue &&
+                   !double.IsNaN(value) &&
+                   !double.IsInfinity(value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CanCastToInt32(double value)
         {
-            return value >= Int32.MinValue &&
-                   value <= Int32.MaxValue &&
-                   !Double.IsNaN(value) &&
-                   !Double.IsInfinity(value);
+            return value >= int.MinValue &&
+                   value <= int.MaxValue &&
+                   !double.IsNaN(value) &&
+                   !double.IsInfinity(value);
         }
 
         /// <param name="max">max is assumed to fit in an Int32.</param>
@@ -38,8 +38,8 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             return value >= 0.0 &&
                    value <= max &&
-                   !Double.IsNaN(value) &&
-                   !Double.IsInfinity(value);
+                   !double.IsNaN(value) &&
+                   !double.IsInfinity(value);
         }
     }
 }

@@ -15,23 +15,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public static void AssertIsNotSpecialNumber(double value, Expression<Func<object>> expression)
         {
-            if (Double.IsNaN(value)) throw new NaNException(expression);
-            if (Double.IsInfinity(value)) throw new InfinityException(expression);
+            if (double.IsNaN(value)) throw new NaNException(expression);
+            if (double.IsInfinity(value)) throw new InfinityException(expression);
         }
 
         public static void AssertFrequency(double frequency)
         {
             if (frequency == 0.0) throw new ZeroException(() => frequency);
-            if (Double.IsNaN(frequency)) throw new NaNException(() => frequency);
-            if (Double.IsInfinity(frequency)) throw new InfinityException(() => frequency);
+            if (double.IsNaN(frequency)) throw new NaNException(() => frequency);
+            if (double.IsInfinity(frequency)) throw new InfinityException(() => frequency);
         }
 
         public static void AssertWidth(double width)
         {
             if (width == 0.0) throw new ZeroException(() => width);
             if (width >= 1.0) throw new GreaterThanOrEqualException(() => width, 1.0);
-            if (Double.IsNaN(width)) throw new NaNException(() => width);
-            if (Double.IsInfinity(width)) throw new InfinityException(() => width);
+            if (double.IsNaN(width)) throw new NaNException(() => width);
+            if (double.IsInfinity(width)) throw new InfinityException(() => width);
         }
 
         public static void AssertDimensionStack(DimensionStack dimensionStack)
@@ -48,27 +48,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public static void AssertRoundOffset(double offset)
         {
-            if (offset % 1.0 == 0.0) throw new Exception(String.Format("{0} cannot be a multple of 1.", ExpressionHelper.GetText(() => offset)));
-            if (Double.IsNaN(offset)) throw new NaNException(() => offset);
-            if (Double.IsInfinity(offset)) throw new InfinityException(() => offset);
+            if (offset % 1.0 == 0.0) throw new Exception(string.Format("{0} cannot be a multple of 1.", ExpressionHelper.GetText(() => offset)));
+            if (double.IsNaN(offset)) throw new NaNException(() => offset);
+            if (double.IsInfinity(offset)) throw new InfinityException(() => offset);
         }
 
         public static void AssertRoundStep(double step)
         {
             if (step == 0.0) throw new ZeroException(() => step);
-            if (Double.IsNaN(step)) throw new NaNException(() => step);
-            if (Double.IsInfinity(step)) throw new InfinityException(() => step);
+            if (double.IsNaN(step)) throw new NaNException(() => step);
+            if (double.IsInfinity(step)) throw new InfinityException(() => step);
         }
 
         public static void AssertFilterFrequency(double filterFrequency, double targetSamplingRate)
         {
             if (filterFrequency == 0.0) throw new ZeroException(() => filterFrequency);
-            if (Double.IsNaN(filterFrequency)) throw new NaNException(() => filterFrequency);
-            if (Double.IsInfinity(filterFrequency)) throw new InfinityException(() => filterFrequency);
+            if (double.IsNaN(filterFrequency)) throw new NaNException(() => filterFrequency);
+            if (double.IsInfinity(filterFrequency)) throw new InfinityException(() => filterFrequency);
 
             if (targetSamplingRate == 0.0) throw new ZeroException(() => targetSamplingRate);
-            if (Double.IsNaN(targetSamplingRate)) throw new NaNException(() => targetSamplingRate);
-            if (Double.IsInfinity(targetSamplingRate)) throw new InfinityException(() => targetSamplingRate);
+            if (double.IsNaN(targetSamplingRate)) throw new NaNException(() => targetSamplingRate);
+            if (double.IsInfinity(targetSamplingRate)) throw new InfinityException(() => targetSamplingRate);
 
             double nyquistFrequency = targetSamplingRate / 2.0;
             if (filterFrequency > nyquistFrequency)
@@ -81,15 +81,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (factor == 0.0) throw new ZeroException(() => factor);
             if (factor == 1.0) throw new EqualException(() => factor, 1);
-            if (Double.IsNaN(factor)) throw new NaNException(() => factor);
-            if (Double.IsInfinity(factor)) throw new InfinityException(() => factor);
+            if (double.IsNaN(factor)) throw new NaNException(() => factor);
+            if (double.IsInfinity(factor)) throw new InfinityException(() => factor);
         }
 
         public static void AssertReverseSpeed(double speed)
         {
             if (speed == 0.0) throw new ZeroException(() => speed);
-            if (Double.IsNaN(speed)) throw new NaNException(() => speed);
-            if (Double.IsInfinity(speed)) throw new InfinityException(() => speed);
+            if (double.IsNaN(speed)) throw new NaNException(() => speed);
+            if (double.IsInfinity(speed)) throw new InfinityException(() => speed);
         }
 
         /// <summary> Asserts that the calculator is not null and not a Number_OperatorCalculator.</summary>

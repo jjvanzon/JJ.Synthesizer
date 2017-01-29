@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     public class DropLineGesture : DropGesture, IDisposable
     {
         private Diagram _diagram;
-        private Line _line;
+        private readonly Line _line;
 
         public DropLineGesture(Diagram diagram, params DragLineGesture[] dragLineGestures)
             : this(diagram, (IList<DragLineGesture>)dragLineGestures)

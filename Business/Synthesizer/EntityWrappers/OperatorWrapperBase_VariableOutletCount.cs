@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Outlets.Count);
             if (listIndex > WrappedOperator.Outlets.Count) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Outlets.Count);
 
-            string name = String.Format("{0} {1}", PropertyDisplayNames.Outlet, listIndex + 1);
+            string name = string.Format("{0} {1}", PropertyDisplayNames.Outlet, listIndex + 1);
             return name;
         }
     }

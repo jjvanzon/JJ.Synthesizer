@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             LineStyle lineStyle,
             TextStyle textStyle,
             bool preferShowOnBottom = false,
-            int zIndex = Int32.MaxValue / 2)
+            int zIndex = int.MaxValue / 2)
         {
             if (diagram == null) throw new NullException(() => diagram);
 
@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             var e2 = new ToolTipTextEventArgs(e.Element);
             ToolTipTextRequested(sender, e2);
 
-            if (!String.IsNullOrEmpty(e2.ToolTipText))
+            if (!string.IsNullOrEmpty(e2.ToolTipText))
             {
                 SetToolTipText(e2.Element, e2.ToolTipText);
             }
@@ -131,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
             HideToolTip(element); // Also removes it from the previous diagram, if needed.
 
-            if (String.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
                 // Keep it hidden, in case of no text.
                 return;

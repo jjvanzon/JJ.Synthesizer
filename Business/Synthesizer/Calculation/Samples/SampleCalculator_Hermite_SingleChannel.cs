@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     internal class SampleCalculator_Hermite_SingleChannel : SampleCalculatorBase
     {
-        private ArrayCalculator_MinPositionZero_Hermite _arrayCalculator;
+        private readonly ArrayCalculator_MinPositionZero_Hermite _arrayCalculator;
 
         public SampleCalculator_Hermite_SingleChannel(Sample sample, byte[] bytes)
             : base(sample, bytes)

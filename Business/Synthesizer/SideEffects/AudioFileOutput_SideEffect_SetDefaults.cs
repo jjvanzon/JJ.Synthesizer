@@ -14,10 +14,10 @@ namespace JJ.Business.Synthesizer.SideEffects
         private static readonly SpeakerSetupEnum _defaultSpeakerSetupEnum = ConfigurationHelper.GetSection<ConfigurationSection>().DefaultSpeakerSetup;
         private static readonly int _defaultSamplingRate = ConfigurationHelper.GetSection<ConfigurationSection>().DefaultSamplingRate;
 
-        private AudioFileOutput _entity;
-        private ISampleDataTypeRepository _sampleDataTypeRepository;
-        private ISpeakerSetupRepository _speakerSetupRepository;
-        private IAudioFileFormatRepository _audioFileFormatRepository;
+        private readonly AudioFileOutput _entity;
+        private readonly ISampleDataTypeRepository _sampleDataTypeRepository;
+        private readonly ISpeakerSetupRepository _speakerSetupRepository;
+        private readonly IAudioFileFormatRepository _audioFileFormatRepository;
 
         public AudioFileOutput_SideEffect_SetDefaults(
             AudioFileOutput entity,

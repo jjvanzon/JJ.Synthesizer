@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             // Execute it on the doubles, to prevent integer overflow.
             if (position < _minPosition) return _valueBefore;
             if (position > _maxPosition) return _valueAfter;
-            if (Double.IsNaN(position)) return 0.0;
-            if (Double.IsInfinity(position)) return 0.0;
+            if (double.IsNaN(position)) return 0.0;
+            if (double.IsInfinity(position)) return 0.0;
 
             double t = (position - _minPosition) * _rate;
 

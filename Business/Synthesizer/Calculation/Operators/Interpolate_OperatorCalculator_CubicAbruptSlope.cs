@@ -26,8 +26,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _x2 = 0.4;
 
         private double _y0 = 0;
-        private double _y1 = 12000.0 / Int16.MaxValue;
-        private double _y2 = -24000.0 / Int16.MaxValue;
+        private double _y1 = 12000.0 / short.MaxValue;
+        private double _y2 = -24000.0 / short.MaxValue;
 
         private double _dx0 = 0.2;
         private double _dx1 = 0.2;

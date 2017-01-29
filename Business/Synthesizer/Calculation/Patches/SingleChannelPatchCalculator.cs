@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 double value = _outputOperatorCalculator.Calculate();
 
                 // winmm will trip over NaN.
-                if (Double.IsNaN(value))
+                if (double.IsNaN(value))
                 {
                     value = 0;
                 }
@@ -214,7 +214,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
             {
-                if (String.Equals(inputCalculator.CanonicalName, canonicalName))
+                if (string.Equals(inputCalculator.CanonicalName, canonicalName))
                 {
                     inputCalculator._value = value;
                 }
@@ -256,7 +256,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             int listIndex2 = 0;
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
             {
-                if (String.Equals(inputCalculator.CanonicalName, canonicalName))
+                if (string.Equals(inputCalculator.CanonicalName, canonicalName))
                 {
                     if (listIndex2 == listIndex)
                     {

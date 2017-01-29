@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public static class OperatorWrapperFactory
     {
-        private static Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>> _createOperatorWrapperDelegateDictionary =
+        private static readonly Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>> _createOperatorWrapperDelegateDictionary =
                    new Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>>
         {
             { OperatorTypeEnum.Absolute, Create_Absolute_OperatorWrapper },
@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Helpers
                     Func<Operator, OperatorWrapperBase> func;
                     if (!_createOperatorWrapperDelegateDictionary.TryGetValue(operatorTypeEnum, out func))
                     {
-                        throw new Exception(String.Format("_createOperatorWrapperDelegateDictionary does not contain entry for OperatorTypeEnum '{0}'.", operatorTypeEnum));
+                        throw new Exception(string.Format("_createOperatorWrapperDelegateDictionary does not contain entry for OperatorTypeEnum '{0}'.", operatorTypeEnum));
                     }
 
                     OperatorWrapperBase wrapper = func(op);

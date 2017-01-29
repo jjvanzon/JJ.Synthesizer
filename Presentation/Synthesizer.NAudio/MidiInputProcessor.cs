@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private readonly AudioOutputProcessor _audioOutputProcessor;
 
         private MidiIn _midiIn;
-        private NoteRecycler _noteRecycler;
+        private readonly NoteRecycler _noteRecycler;
 
         /// <param name="audioOutputProcessor">Only used to get the time.</param>
         public MidiInputProcessor(
@@ -235,7 +235,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                         calculator.SetValue(controllerInfo.DimensionEnum, value);
 
-                        Debug.WriteLine(String.Format("{0} = {1}", controllerInfo.DimensionEnum, value));
+                        Debug.WriteLine(string.Format("{0} = {1}", controllerInfo.DimensionEnum, value));
                     }
                 }
                 finally

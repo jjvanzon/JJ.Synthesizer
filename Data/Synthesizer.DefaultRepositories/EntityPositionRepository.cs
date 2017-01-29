@@ -16,7 +16,7 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             EntityPosition entity = TryGetByEntityTypeNameAndEntityID(entityTypeName, entityID);
             if (entity == null)
             {
-                throw new Exception(String.Format("EntityPosition with EntityTypeName '{0}' and EntityID '{1}' not found.", entityTypeName, entityID));
+                throw new Exception(string.Format("EntityPosition with EntityTypeName '{0}' and EntityID '{1}' not found.", entityTypeName, entityID));
             }
             return entity;
         }

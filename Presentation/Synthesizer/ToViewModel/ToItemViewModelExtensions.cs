@@ -242,7 +242,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID
             };
 
-            viewModel.Caption = String.Format("{0:0.####}, {1:0.####}", entity.X, entity.Y);
+            viewModel.Caption = string.Format("{0:0.####}, {1:0.####}", entity.X, entity.Y);
 
             return viewModel;
         }

@@ -128,11 +128,11 @@ namespace JJ.Presentation.Synthesizer.Converters
                         {
                             if (operatorViewModel.Dimension.Key.StartsWith(ViewModelHelper.CUSTOM_DIMENSION_KEY_PREFIX))
                             {
-                                operatorViewModel.Dimension.Name += String.Format(" ({0})", Titles.Custom);
+                                operatorViewModel.Dimension.Name += string.Format(" ({0})", Titles.Custom);
                             }
                             else
                             {
-                                operatorViewModel.Dimension.Name += String.Format(" ({0})", Titles.Standard);
+                                operatorViewModel.Dimension.Name += string.Format(" ({0})", Titles.Standard);
                             }
                         }
                     }

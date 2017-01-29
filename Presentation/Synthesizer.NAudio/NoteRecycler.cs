@@ -8,7 +8,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 {
     public class NoteRecycler
     {
-        private int _maxConcurrentNotes;
+        private readonly int _maxConcurrentNotes;
         private readonly IList<NoteInfo> _noteInfos;
 
         public NoteRecycler(int maxConcurrentNotes)

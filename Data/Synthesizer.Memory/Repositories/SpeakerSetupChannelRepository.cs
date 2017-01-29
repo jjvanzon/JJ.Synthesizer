@@ -7,7 +7,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
 {
     public class SpeakerSetupChannelRepository : DefaultRepositories.SpeakerSetupChannelRepository
     {
-        private IList<SpeakerSetupChannel> _list = new List<SpeakerSetupChannel>();
+        private readonly IList<SpeakerSetupChannel> _list = new List<SpeakerSetupChannel>();
 
         public SpeakerSetupChannelRepository(IContext context)
             : base(context)

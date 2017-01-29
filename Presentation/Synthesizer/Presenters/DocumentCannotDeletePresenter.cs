@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class DocumentCannotDeletePresenter : PresenterBase<DocumentCannotDeleteViewModel>
     {
-        private IDocumentRepository _documentRepository;
+        private readonly IDocumentRepository _documentRepository;
 
         public DocumentCannotDeletePresenter(IDocumentRepository documentRepository)
         {

@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Api
 {
     public static class AudioOutputApi
     {
-        private static AudioOutputManager _audioOutputManager = CreateAudioOutputManager();
+        private static readonly AudioOutputManager _audioOutputManager = CreateAudioOutputManager();
 
         private static AudioOutputManager CreateAudioOutputManager()
         {

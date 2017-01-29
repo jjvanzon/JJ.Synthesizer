@@ -99,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (_presenter.MainViewModel.ValidationMessages.Count != 0)
             {
                 // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
-                MessageBoxHelper.ShowMessageBox(this, String.Join(Environment.NewLine, _presenter.MainViewModel.ValidationMessages.Select(x => x.Text)));
+                MessageBoxHelper.ShowMessageBox(this, string.Join(Environment.NewLine, _presenter.MainViewModel.ValidationMessages.Select(x => x.Text)));
 
                 // Clear them so the next time the message box is not shown (message box is a temporary solution).
                 _presenter.MainViewModel.ValidationMessages.Clear();

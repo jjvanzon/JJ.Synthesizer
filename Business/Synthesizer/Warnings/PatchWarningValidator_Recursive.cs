@@ -10,9 +10,9 @@ namespace JJ.Business.Synthesizer.Warnings
 {
     internal class PatchWarningValidator_Recursive : VersatileValidator<Patch>
     {
-        private ISampleRepository _sampleRepository;
+        private readonly ISampleRepository _sampleRepository;
 
-        private HashSet<object> _alreadyDone;
+        private readonly HashSet<object> _alreadyDone;
 
         public PatchWarningValidator_Recursive(Patch obj, ISampleRepository sampleRepository, HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)

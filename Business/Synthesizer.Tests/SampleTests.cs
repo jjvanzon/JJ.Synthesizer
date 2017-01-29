@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Tests
                     VoidResult validationResult = sampleManager.Save(sample);
                     if (!validationResult.Successful)
                     {
-                        throw new Exception(String.Join(Environment.NewLine, validationResult.Messages));
+                        throw new Exception(string.Join(Environment.NewLine, validationResult.Messages));
                     }
                 }
 
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Tests
                     VoidResult validationResult = audioFileOutputManager.Save(audioFileOutput);
                     if (!validationResult.Successful)
                     {
-                        throw new Exception(String.Join(Environment.NewLine, validationResult.Messages));
+                        throw new Exception(string.Join(Environment.NewLine, validationResult.Messages));
                     }
                 }
 

@@ -642,9 +642,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string operatorTypeDisplayName = PropertyDisplayNames.Curve;
 
             // Use Operator.Name
-            if (!String.IsNullOrWhiteSpace(op.Name))
+            if (!string.IsNullOrWhiteSpace(op.Name))
             {
-                return String.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
+                return string.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
             }
 
             // Use Curve.Name
@@ -652,9 +652,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             Curve underlyingEntity = wrapper.Curve;
             if (underlyingEntity != null)
             {
-                if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
+                if (!string.IsNullOrWhiteSpace(underlyingEntity.Name))
                 {
-                    return String.Format("{0}: {1}", operatorTypeDisplayName, underlyingEntity.Name);
+                    return string.Format("{0}: {1}", operatorTypeDisplayName, underlyingEntity.Name);
                 }
             }
 
@@ -666,7 +666,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static string GetOperatorCaption_ForCustomOperator(Operator op, IPatchRepository patchRepository)
         {
             // Use Operator.Name
-            if (!String.IsNullOrWhiteSpace(op.Name))
+            if (!string.IsNullOrWhiteSpace(op.Name))
             {
                 return op.Name;
             }
@@ -676,7 +676,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             Patch underlyingPatch = wrapper.UnderlyingPatch;
             if (underlyingPatch != null)
             {
-                if (!String.IsNullOrWhiteSpace(underlyingPatch.Name))
+                if (!string.IsNullOrWhiteSpace(underlyingPatch.Name))
                 {
                     return underlyingPatch.Name;
                 }
@@ -693,13 +693,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var wrapper = new Number_OperatorWrapper(op);
             string formattedValue = wrapper.Number.ToString("0.####");
 
-            if (String.IsNullOrWhiteSpace(op.Name))
+            if (string.IsNullOrWhiteSpace(op.Name))
             {
                 return formattedValue;
             }
             else
             {
-                return String.Format("{0}: {1}", op.Name, formattedValue);
+                return string.Format("{0}: {1}", op.Name, formattedValue);
             }
         }
 
@@ -715,7 +715,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             sb.Append(PropertyDisplayNames.Inlet);
 
             // Try Use Operator Name
-            if (!String.IsNullOrWhiteSpace(op.Name))
+            if (!string.IsNullOrWhiteSpace(op.Name))
             {
                 sb.AppendFormat(": {0}", op.Name);
             }
@@ -752,7 +752,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             sb.Append(PropertyDisplayNames.Outlet);
 
             // Try Use Operator Name
-            if (!String.IsNullOrWhiteSpace(op.Name))
+            if (!string.IsNullOrWhiteSpace(op.Name))
             {
                 sb.AppendFormat(": {0}", op.Name);
             }
@@ -775,9 +775,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string operatorTypeDisplayName = PropertyDisplayNames.Sample;
 
             // Use Operator.Name
-            if (!String.IsNullOrWhiteSpace(op.Name))
+            if (!string.IsNullOrWhiteSpace(op.Name))
             {
-                return String.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
+                return string.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
             }
 
             // Use Sample.Name
@@ -785,9 +785,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             Sample underlyingEntity = wrapper.Sample;
             if (underlyingEntity != null)
             {
-                if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
+                if (!string.IsNullOrWhiteSpace(underlyingEntity.Name))
                 {
-                    return String.Format("{0}: {1}", operatorTypeDisplayName, underlyingEntity.Name);
+                    return string.Format("{0}: {1}", operatorTypeDisplayName, underlyingEntity.Name);
                 }
             }
 
@@ -813,7 +813,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
-                formattedOperatorTypeDisplayName = String.Format(operatorTypeDisplayNameWithPlaceholder, dimensionDisplayName);
+                formattedOperatorTypeDisplayName = string.Format(operatorTypeDisplayNameWithPlaceholder, dimensionDisplayName);
             }
             else
             {
@@ -821,9 +821,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // Use Operator.Name
-            if (!String.IsNullOrWhiteSpace(op.Name))
+            if (!string.IsNullOrWhiteSpace(op.Name))
             {
-                return String.Format("{0}: {1}", formattedOperatorTypeDisplayName, op.Name);
+                return string.Format("{0}: {1}", formattedOperatorTypeDisplayName, op.Name);
             }
             // Use OperatorType DisplayName only.
             else
@@ -837,9 +837,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string operatorTypeDisplayName = ResourceHelper.GetDisplayName(op.GetOperatorTypeEnum());
 
             // Use Operator.Name
-            if (!String.IsNullOrWhiteSpace(op.Name))
+            if (!string.IsNullOrWhiteSpace(op.Name))
             {
-                return String.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
+                return string.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
             }
 
             // Use OperatorType DisplayName
@@ -1088,7 +1088,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (count != 0)
             {
-                text += String.Format(" ({0})", count);
+                text += string.Format(" ({0})", count);
             }
 
             return text;
@@ -1134,16 +1134,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (idAndNames == null) throw new NullException(() => idAndNames);
 
-            string concatinatedUsedIn = String.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
+            string concatinatedUsedIn = string.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
 
             return concatinatedUsedIn;
         }
 
         public static string GetDimensionKey(Operator op)
         {
-            if (!String.IsNullOrEmpty(op.CustomDimensionName))
+            if (!string.IsNullOrEmpty(op.CustomDimensionName))
             {
-                return String.Format("{0}{1}", CUSTOM_DIMENSION_KEY_PREFIX, op.CustomDimensionName);
+                return string.Format("{0}{1}", CUSTOM_DIMENSION_KEY_PREFIX, op.CustomDimensionName);
             }
             else
             {
@@ -1155,7 +1155,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (standardDimensionEnum != DimensionEnum.Undefined)
             {
-                return String.Format("{0}{1}", STANDARD_DIMENSION_KEY_PREFIX, standardDimensionEnum);
+                return string.Format("{0}{1}", STANDARD_DIMENSION_KEY_PREFIX, standardDimensionEnum);
             }
 
             return DIMENSION_KEY_EMPTY;
@@ -1163,7 +1163,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static string TryGetDimensionName(Operator op)
         {
-            if (!String.IsNullOrEmpty(op.CustomDimensionName))
+            if (!string.IsNullOrEmpty(op.CustomDimensionName))
             {
                 return op.CustomDimensionName;
             }

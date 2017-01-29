@@ -12,10 +12,10 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 {
     internal class Recursive_DocumentValidator : VersatileValidator<Document>
     {
-        private ICurveRepository _curveRepository;
-        private ISampleRepository _sampleRepository;
-        private IPatchRepository _patchRepository;
-        private HashSet<object> _alreadyDone;
+        private readonly ICurveRepository _curveRepository;
+        private readonly ISampleRepository _sampleRepository;
+        private readonly IPatchRepository _patchRepository;
+        private readonly HashSet<object> _alreadyDone;
 
         public Recursive_DocumentValidator(
             Document document, 

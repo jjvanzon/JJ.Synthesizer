@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer
 {
     public class DocumentManager
     {
-        private RepositoryWrapper _repositories;
+        private readonly RepositoryWrapper _repositories;
 
         public DocumentManager(RepositoryWrapper repositories)
         {

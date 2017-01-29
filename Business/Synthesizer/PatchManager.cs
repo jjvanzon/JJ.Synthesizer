@@ -399,7 +399,7 @@ namespace JJ.Business.Synthesizer
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
-            if (String.IsNullOrWhiteSpace(groupName))
+            if (string.IsNullOrWhiteSpace(groupName))
             {
                 return GetGrouplessPatches(patchesInDocument);
             }
@@ -413,7 +413,7 @@ namespace JJ.Business.Synthesizer
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
-            IList<Patch> list = patchesInDocument.Where(x => String.IsNullOrWhiteSpace(x.GroupName)).ToArray();
+            IList<Patch> list = patchesInDocument.Where(x => string.IsNullOrWhiteSpace(x.GroupName)).ToArray();
 
             return list;
         }
@@ -421,13 +421,13 @@ namespace JJ.Business.Synthesizer
         public IList<Patch> GetPatchesInGroup(IList<Patch> patchesInDocument, string groupName)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
-            if (String.IsNullOrWhiteSpace(groupName)) throw new NullOrWhiteSpaceException(() => groupName);
+            if (string.IsNullOrWhiteSpace(groupName)) throw new NullOrWhiteSpaceException(() => groupName);
 
             string canonicalGroupName = NameHelper.ToCanonical(groupName);
 
             IList<Patch> patchesInGroup =
                 patchesInDocument.Where(x => NameHelper.IsFilledIn(x.GroupName))
-                                 .Where(x => String.Equals(NameHelper.ToCanonical(x.GroupName), canonicalGroupName))
+                                 .Where(x => string.Equals(NameHelper.ToCanonical(x.GroupName), canonicalGroupName))
                                  .ToArray();
 
             return patchesInGroup;

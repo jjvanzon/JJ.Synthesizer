@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal static class PersistenceHelper
     {
-        private static ConfigurationSection _config;
+        private static readonly ConfigurationSection _config;
 
         static PersistenceHelper()
         {

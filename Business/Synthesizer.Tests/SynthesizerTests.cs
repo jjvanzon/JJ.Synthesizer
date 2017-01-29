@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Tests
                 VoidResult result = curveManager.SaveCurveWithRelatedEntities(curve);
                 if (!result.Successful)
                 {
-                    string messages = String.Join(", ", result.Messages.Select(y => y.Text));
+                    string messages = string.Join(", ", result.Messages.Select(y => y.Text));
                     throw new Exception(messages);
                 }
                 
@@ -251,7 +251,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
-                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
                 Assert.Inconclusive(message);
             }
         }
@@ -289,7 +289,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
-                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
                 Assert.Inconclusive(message);
             }
         }
@@ -348,7 +348,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / seconds;
-                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
                 Assert.Inconclusive(message);
             }
         }
@@ -407,7 +407,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / seconds;
-                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
                 Assert.Inconclusive(message);
             }
         }
@@ -544,7 +544,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 x.CreatePatch();
 
-                Outlet outlet = x.MultiplyWithOrigin(x.Noise(), x.Number(Int16.MaxValue));
+                Outlet outlet = x.MultiplyWithOrigin(x.Noise(), x.Number(short.MaxValue));
 
                 IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
@@ -561,7 +561,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
-                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
 
                 // Also test interpreted calculator
                 IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
@@ -631,7 +631,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
-                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                string message = string.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
 
                 //// Also test interpreted calculator
                 //IPatchCalculator calculator = patchManager.CreateCalculator(false, outlet);
@@ -1044,7 +1044,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 if (messages.Count > 0)
                 {
-                    string formattedMessages = String.Join(" ", messages.Select(x => x.Text));
+                    string formattedMessages = string.Join(" ", messages.Select(x => x.Text));
                     throw new Exception(formattedMessages);
                 }
             }

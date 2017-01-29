@@ -10,8 +10,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class SamplePropertiesPresenter : PresenterBase<SamplePropertiesViewModel>
     {
-        private SampleRepositories _repositories;
-        private SampleManager _sampleManager;
+        private readonly SampleRepositories _repositories;
+        private readonly SampleManager _sampleManager;
 
         public SamplePropertiesPresenter(SampleRepositories repositories)
         {

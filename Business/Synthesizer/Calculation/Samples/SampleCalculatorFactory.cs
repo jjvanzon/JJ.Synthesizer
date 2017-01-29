@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     break;
             }
 
-            throw new Exception(String.Format(
+            throw new Exception(string.Format(
                 "{0} '{1}' combined with {2} '{3}' is not supported.",
                 typeof(SpeakerSetupEnum).Name, speakerSetupEnum,
                 typeof(InterpolationTypeEnum).Name, interpolationTypeEnum));

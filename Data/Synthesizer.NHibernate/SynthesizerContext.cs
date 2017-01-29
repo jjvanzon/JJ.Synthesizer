@@ -43,9 +43,9 @@ namespace JJ.Data.Synthesizer.NHibernate
             : base(connectionString, modelAssembly, mappingAssembly, dialect)
         { }
 
-        private object _sampleBytesLock = new object();
-        private Dictionary<int, byte[]> _sampleBytesReadDictionary = new Dictionary<int, byte[]>();
-        private Dictionary<int, byte[]> _sampleBytesToSaveDictionary = new Dictionary<int, byte[]>();
+        private readonly object _sampleBytesLock = new object();
+        private readonly Dictionary<int, byte[]> _sampleBytesReadDictionary = new Dictionary<int, byte[]>();
+        private readonly Dictionary<int, byte[]> _sampleBytesToSaveDictionary = new Dictionary<int, byte[]>();
 
         public byte[] TryGetSampleBytes(int sampleID)
         {

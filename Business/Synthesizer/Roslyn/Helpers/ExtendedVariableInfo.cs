@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             int listIndex, 
             double? defaultValue)
         {
-            if (String.IsNullOrEmpty(variableNameCamelCase)) throw new NullOrEmptyException(() => variableNameCamelCase);
+            if (string.IsNullOrEmpty(variableNameCamelCase)) throw new NullOrEmptyException(() => variableNameCamelCase);
 
             VariableNameCamelCase = variableNameCamelCase;
             CanonicalName = canonicalName;

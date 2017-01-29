@@ -19,10 +19,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     /// </summary>
     internal class Recursive_OperatorValidator : ValidatorBase<Operator>
     {
-        private ICurveRepository _curveRepository;
-        private ISampleRepository _sampleRepository;
-        private IPatchRepository _patchRepository;
-        private HashSet<object> _alreadyDone;
+        private readonly ICurveRepository _curveRepository;
+        private readonly ISampleRepository _sampleRepository;
+        private readonly IPatchRepository _patchRepository;
+        private readonly HashSet<object> _alreadyDone;
 
         /// <summary>
         /// Validates a root operator and its descendant operators.
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             if (operatorTypeEnum == OperatorTypeEnum.Curve)
             {
                 int curveID;
-                if (Int32.TryParse(op.Data, out curveID))
+                if (int.TryParse(op.Data, out curveID))
                 {
                     Curve curve = _curveRepository.TryGet(curveID);
                     if (curve != null)
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             if (operatorTypeEnum == OperatorTypeEnum.Sample)
             {
                 int sampleID;
-                if (Int32.TryParse(op.Data, out sampleID))
+                if (int.TryParse(op.Data, out sampleID))
                 {
                     Sample sample = _sampleRepository.TryGet(sampleID);
                     if (sample != null)

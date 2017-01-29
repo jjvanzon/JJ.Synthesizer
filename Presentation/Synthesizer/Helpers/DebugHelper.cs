@@ -17,14 +17,14 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             if (viewModel.OperatorType != null)
             {
-                if (!String.IsNullOrEmpty(viewModel.OperatorType.Name))
+                if (!string.IsNullOrEmpty(viewModel.OperatorType.Name))
                 {
                     sb.Append(viewModel.OperatorType.Name);
                     sb.Append(' ');
                 }
             }
 
-            if (!String.IsNullOrEmpty(viewModel.Caption))
+            if (!string.IsNullOrEmpty(viewModel.Caption))
             {
                 sb.AppendFormat("'{0}' ", viewModel.Caption);
             }
@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}} ", viewModel.GetType().Name);
 
-            if (!String.IsNullOrEmpty(viewModel.Name))
+            if (!string.IsNullOrEmpty(viewModel.Name))
             {
                 sb.AppendFormat("'{0}' ", viewModel.Name);
             }
@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}} ", viewModel.GetType().Name);
 
-            if (!String.IsNullOrEmpty(viewModel.Name))
+            if (!string.IsNullOrEmpty(viewModel.Name))
             {
                 sb.AppendFormat("'{0}' ", viewModel.Name);
             }

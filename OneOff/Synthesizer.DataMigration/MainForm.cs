@@ -21,7 +21,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         private const int TOP_RADIO_BUTTON_Y = 123;
         private const int SPACING = 4;
 
-        private IList<MethodTuple> _methodTuples;
+        private readonly IList<MethodTuple> _methodTuples;
 
         public MainForm()
         {

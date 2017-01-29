@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer
                     if (intermediateCustomOperatorInletDimensionEnum != DimensionEnum.Undefined)
                     {
                         PatchInlet_OperatorWrapper destPatchInletWrapper = ConvertToPatchInlet(intermediateCustomOperatorInlet);
-                        destPatchInletWrapper.Name = String.Format("{0} {1}", intermediateCustomOperatorInletDimensionEnum, i);
+                        destPatchInletWrapper.Name = string.Format("{0} {1}", intermediateCustomOperatorInletDimensionEnum, i);
                         destPatchInletWrapper.ListIndex = inletListIndex++;
 
                         intermediateCustomOperatorInlet.LinkTo(destPatchInletWrapper.Result);
@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer
             foreach (Patch sourceUnderlyingPatch in sourceUnderlyingPatches)
             {
                 CustomOperator_OperatorWrapper intermediateCustomOperatorWrapper = CustomOperator(sourceUnderlyingPatch);
-                intermediateCustomOperatorWrapper.Name = String.Format("{0}", sourceUnderlyingPatch.Name);
+                intermediateCustomOperatorWrapper.Name = string.Format("{0}", sourceUnderlyingPatch.Name);
 
                 intermediateCustomOperators.Add(intermediateCustomOperatorWrapper);
             }
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // If there is overlap in name, they will merge to a single PatchInlet.
-            var intermediateUnmatchedInlets_WithoutDimension_GroupedByName = intermediateUnmatchedInlets.Where(x => x.Dimension == null && !String.IsNullOrEmpty(x.Name))
+            var intermediateUnmatchedInlets_WithoutDimension_GroupedByName = intermediateUnmatchedInlets.Where(x => x.Dimension == null && !string.IsNullOrEmpty(x.Name))
                                                                                                         .GroupBy(x => x.Name);
             foreach (var intermediateUnmatchedInletGroup in intermediateUnmatchedInlets_WithoutDimension_GroupedByName)
             {
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // If there is no Inlet Dimension or name, unmatched Inlets will convert to individual PatchInlets.
-            var intermediateUnmatchedInlets_WithoutDimensionOrName = intermediateUnmatchedInlets.Where(x => x.Dimension == null && String.IsNullOrEmpty(x.Name));
+            var intermediateUnmatchedInlets_WithoutDimensionOrName = intermediateUnmatchedInlets.Where(x => x.Dimension == null && string.IsNullOrEmpty(x.Name));
             foreach (Inlet unmatchedInlet in intermediateUnmatchedInlets_WithoutDimensionOrName)
             {
                 PatchInlet_OperatorWrapper patchInletOperatorWrapper = ConvertToPatchInlet(unmatchedInlet);
@@ -223,7 +223,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // If there is overlap in name, they will merge to a single PatchOutlet.
-            var intermediateUnmatchedOutlets_WithoutDimension_GroupedByName = intermediateUnmatchedOutlets.Where(x => x.Dimension == null && !String.IsNullOrEmpty(x.Name))
+            var intermediateUnmatchedOutlets_WithoutDimension_GroupedByName = intermediateUnmatchedOutlets.Where(x => x.Dimension == null && !string.IsNullOrEmpty(x.Name))
                                                                                                           .GroupBy(x => x.Name);
             foreach (var intermediateUnmatchedOutletGroup in intermediateUnmatchedOutlets_WithoutDimension_GroupedByName)
             {
@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // If there is no Dimension or name, unmatched Outlets will convert to individual PatchOutlets.
-            var intermediateUnmatchedOutlets_WithoutDimensionOrName = intermediateUnmatchedOutlets.Where(x => x.Dimension == null && String.IsNullOrEmpty(x.Name));
+            var intermediateUnmatchedOutlets_WithoutDimensionOrName = intermediateUnmatchedOutlets.Where(x => x.Dimension == null && string.IsNullOrEmpty(x.Name));
             foreach (Outlet intermediateUnmatchedOutlet in intermediateUnmatchedOutlets_WithoutDimensionOrName)
             {
                 PatchOutlet_OperatorWrapper destPatchOutletOperatorWrapper = ConvertToPatchOutlet(intermediateUnmatchedOutlet);

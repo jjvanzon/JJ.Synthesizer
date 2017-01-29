@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     internal class SampleCalculator_Line_SingleChannel : SampleCalculatorBase
     {
-        private ArrayCalculator_MinPositionZero_Line _arrayCalculator;
+        private readonly ArrayCalculator_MinPositionZero_Line _arrayCalculator;
 
         public SampleCalculator_Line_SingleChannel(Sample sample, byte[] bytes)
             : base(sample, bytes)

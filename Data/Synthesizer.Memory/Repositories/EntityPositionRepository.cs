@@ -6,7 +6,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
 {
     public class EntityPositionRepository : DefaultRepositories.EntityPositionRepository
     {
-        private new MemoryContext _context;
+        private new readonly MemoryContext _context;
 
         public EntityPositionRepository(IContext context)
             : base(context)

@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer
 {
     public class SampleManager
     {
-        private SampleRepositories _repositories;
+        private readonly SampleRepositories _repositories;
 
         public SampleManager(SampleRepositories repositories)
         {
@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer
         {
             if (bytes.Length < WavHeaderConstants.WAV_HEADER_LENGTH)
             {
-                throw new Exception(String.Format("A WAV file must be at least {0} bytes.", WavHeaderConstants.WAV_HEADER_LENGTH));
+                throw new Exception(string.Format("A WAV file must be at least {0} bytes.", WavHeaderConstants.WAV_HEADER_LENGTH));
             }
 
             // Read header
@@ -251,7 +251,7 @@ namespace JJ.Business.Synthesizer
                     break;
 
                 default:
-                    throw new Exception(String.Format("audioFileInfo.ChannelCount value '{0}' not supported.", audioFileInfo.ChannelCount));
+                    throw new Exception(string.Format("audioFileInfo.ChannelCount value '{0}' not supported.", audioFileInfo.ChannelCount));
             }
 
             switch (audioFileInfo.BytesPerValue)
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer
                     break;
 
                 default:
-                    throw new Exception(String.Format("audioFileInfo.BytesPerValue value '{0}' not supported.", audioFileInfo.BytesPerValue));
+                    throw new Exception(string.Format("audioFileInfo.BytesPerValue value '{0}' not supported.", audioFileInfo.BytesPerValue));
             }
 
             return sample;

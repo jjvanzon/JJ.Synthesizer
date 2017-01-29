@@ -41,7 +41,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+            progressCallback(string.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
@@ -49,14 +49,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 AssertDocuments(repositories, progressCallback);
             }
 
-            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+            progressCallback(string.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
         public static void DeleteOrphanedEntityPositions(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+            progressCallback(string.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
@@ -70,7 +70,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 context.Commit();
             }
 
-            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+            progressCallback(string.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
         //public static void MigrateSineVolumes(Action<string> progressCallback)
@@ -3132,7 +3132,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             {
                 Document rootDocument = rootDocuments[i];
 
-                string progressMessage = String.Format("Validating document {0}/{1}: '{2}'.", i + 1, rootDocuments.Count, rootDocument.Name);
+                string progressMessage = string.Format("Validating document {0}/{1}: '{2}'.", i + 1, rootDocuments.Count, rootDocument.Name);
                 progressCallback(progressMessage);
 
                 // Validate
@@ -3147,7 +3147,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             }
             catch
             {
-                string progressMessage = String.Format("Exception while validating documents.");
+                string progressMessage = string.Format("Exception while validating documents.");
                 progressCallback(progressMessage);
                 throw;
             }

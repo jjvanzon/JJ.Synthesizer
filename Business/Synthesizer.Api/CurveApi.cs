@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Api
 {
     public class CurveApi
     {
-        private static CurveManager _curveManager = CreateCurveManager();
+        private static readonly CurveManager _curveManager = CreateCurveManager();
 
         private static CurveManager CreateCurveManager()
         {

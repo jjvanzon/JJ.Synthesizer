@@ -10,8 +10,8 @@ namespace JJ.Business.Synthesizer.Warnings
 {
     internal class DocumentWarningValidator_Recursive : VersatileValidator<Document>
     {
-        private ISampleRepository _sampleRepository;
-        private HashSet<object> _alreadyDone;
+        private readonly ISampleRepository _sampleRepository;
+        private readonly HashSet<object> _alreadyDone;
 
         public DocumentWarningValidator_Recursive(Document document, ISampleRepository sampleRepository, HashSet<object> alreadyDone)
             : base(document, postponeExecute: true)

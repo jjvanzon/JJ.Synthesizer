@@ -741,7 +741,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
-            return ProcessOperatorDto(dto, () => new Number_OperatorCalculator(Double.NaN));
+            return ProcessOperatorDto(dto, () => new Number_OperatorCalculator(double.NaN));
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)

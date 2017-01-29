@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
             else
             {
-                string name = String.Format("{0} {1}", CommonTitles.Item, listIndex);
+                string name = string.Format("{0} {1}", CommonTitles.Item, listIndex);
                 return name;
             }
         }

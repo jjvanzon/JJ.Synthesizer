@@ -10,7 +10,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Calculation
         // because otherwise it would not be a fair performance comparison.
 
         //private double[] _values;
-        private int _framesPerChunk;
+        private readonly int _framesPerChunk;
 
         private double _input1;
         private double _phase1;

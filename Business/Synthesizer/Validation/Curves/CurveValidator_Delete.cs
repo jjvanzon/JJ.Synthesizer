@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
 {
     internal class CurveValidator_Delete : VersatileValidator<Curve>
     {
-        private ICurveRepository _curveRepository;
+        private readonly ICurveRepository _curveRepository;
 
         public CurveValidator_Delete(Curve curve, ICurveRepository curveRepository)
             : base(curve, postponeExecute: true)

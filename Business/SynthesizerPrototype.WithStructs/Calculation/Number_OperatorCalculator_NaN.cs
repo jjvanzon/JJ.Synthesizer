@@ -9,7 +9,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
     public struct Number_OperatorCalculator_NaN : IOperatorCalculator
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Calculate() => Double.NaN;
+        public double Calculate() => double.NaN;
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }

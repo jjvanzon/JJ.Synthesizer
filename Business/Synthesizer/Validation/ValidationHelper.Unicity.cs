@@ -197,7 +197,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             string canonicalName = NameHelper.ToCanonical(name);
 
-            int nameCount = nameEnumerable.Where(x => String.Equals(NameHelper.ToCanonical(x), canonicalName))
+            int nameCount = nameEnumerable.Where(x => string.Equals(NameHelper.ToCanonical(x), canonicalName))
                                           .Take(2)
                                           .Count();
             return nameCount <= 1;

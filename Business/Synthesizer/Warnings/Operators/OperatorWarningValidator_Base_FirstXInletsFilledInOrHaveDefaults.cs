@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal abstract class OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults : OperatorWarningValidator_Base
     {
-        private int _inletCount;
+        private readonly int _inletCount;
 
         public OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults(Operator obj, int inletCount)
             : base(obj, postponeExecute: true)

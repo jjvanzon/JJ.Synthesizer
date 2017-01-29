@@ -12,8 +12,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
 
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _samplingRateCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _samplingRateCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;

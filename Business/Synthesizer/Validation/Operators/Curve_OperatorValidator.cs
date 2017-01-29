@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 For(() => curveIDString, PropertyDisplayNames.CurveID).IsInteger();
 
                 int curveID;
-                if (Int32.TryParse(curveIDString, out curveID))
+                if (int.TryParse(curveIDString, out curveID))
                 {
                     // Check reference constraint of the Curve.
                     // (We are quite tollerant here: we omit the check if it is not in a patch or document.)

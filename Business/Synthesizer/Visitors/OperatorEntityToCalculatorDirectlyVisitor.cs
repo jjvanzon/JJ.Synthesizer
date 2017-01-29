@@ -226,7 +226,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConst)
             {
@@ -378,7 +378,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
-                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+                operatorCalculator = new Number_OperatorCalculator(double.NaN);
             }
             else
             {
@@ -466,7 +466,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConst)
             {
@@ -527,7 +527,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConst)
             {
@@ -583,7 +583,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (!parametersAreValid)
             {
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConst)
             {
@@ -789,7 +789,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 tillIsConstSpecialValue ||
                 stepIsConstSpecialValue)
             {
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (stepIsConstZero)
             {
@@ -877,7 +877,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 tillIsConstSpecialValue ||
                 stepIsConstSpecialValue)
             {
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (stepIsConstZero)
             {
@@ -1388,7 +1388,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (signalIsConstSpecialValue || minFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConst)
             {
@@ -1451,7 +1451,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (signalIsConstSpecialValue || transitionFrequencyIsConstSpecialValue || transitionSlopeIsConstSpecialValue || dbGainIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConst)
             {
@@ -1777,7 +1777,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (signalIsConstSpecialValue || maxFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConst)
             {
@@ -1840,7 +1840,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (signalIsConstSpecialValue || transitionFrequencyIsConstSpecialValue || transitionSlopeIsConstSpecialValue || dbGainIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConst)
             {
@@ -2050,7 +2050,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
-                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+                operatorCalculator = new Number_OperatorCalculator(double.NaN);
             }
             else
             {
@@ -2217,7 +2217,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
-                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+                operatorCalculator = new Number_OperatorCalculator(double.NaN);
             }
             else
             {
@@ -2505,7 +2505,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConst)
             {
@@ -2709,7 +2709,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue || dbGainIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConst)
             {
@@ -2858,7 +2858,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (frequencyIsConstSpecialValue || widthIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (frequencyIsConstZero)
             {
@@ -2974,7 +2974,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (rateIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (rateIsConstZero)
             {
@@ -3054,11 +3054,11 @@ namespace JJ.Business.Synthesizer.Visitors
             if (stepIsConstZero)
             {
                 // Would eventually lead to divide by zero and an infinite amount of index positions.
-                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+                operatorCalculator = new Number_OperatorCalculator(double.NaN);
             }
             if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
-                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+                operatorCalculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (fromIsConst && tillIsConst && stepIsConstOne)
             {
@@ -3104,7 +3104,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (fromIsConstSpecialValue || stepIsConstSpecialValue)
             {
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (stepIsConstZero)
             {
@@ -3170,7 +3170,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Wierd number
                 // Note that if signal is const,
                 // an indeterminate sampling rate can still render a determinite result.
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else
             {
@@ -3212,7 +3212,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (speedIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConstSpecialValue)
             {
@@ -3281,7 +3281,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (signalIsConstSpecialValue || stepIsConstSpecialValue || offsetIsConstSpecialValue)
             {
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConst)
             {
@@ -3617,7 +3617,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (frequencyIsConstSpecialValue)
             {
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             if (frequencyIsConstZero)
             {
@@ -3691,7 +3691,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
-                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+                operatorCalculator = new Number_OperatorCalculator(double.NaN);
             }
             else
             {
@@ -3795,7 +3795,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (signalIsConstSpecialValue || startIsConstSpecialValue || endIsConstSpecialValue || frequencyCountIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConstZero)
             {
@@ -3837,7 +3837,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (frequencyIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             if (frequencyIsConstZero)
             {
@@ -3905,7 +3905,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (signalIsConstSpecialValue || factorIsConstSpecialValue || originIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (factorIsConstZero)
             {
@@ -4009,13 +4009,13 @@ namespace JJ.Business.Synthesizer.Visitors
             if (factorIsConstSpecialValue || signalIsConstSpecialValue || originIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             if (factorIsConstZero)
             {
                 // Special Value
                 // Slow down 0 times, means speed up to infinity, equals undefined.
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             else if (signalIsConstZero)
             {
@@ -4164,7 +4164,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
-                operatorCalculator = new Number_OperatorCalculator(Double.NaN);
+                operatorCalculator = new Number_OperatorCalculator(double.NaN);
             }
             else
             {
@@ -4330,7 +4330,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (frequencyIsConstSpecialValue)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator(Double.NaN);
+                calculator = new Number_OperatorCalculator(double.NaN);
             }
             if (frequencyIsConstZero)
             {

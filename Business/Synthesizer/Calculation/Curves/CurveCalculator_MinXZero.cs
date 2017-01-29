@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 {
     internal class CurveCalculator_MinXZero : ICurveCalculator
     {
-        private ArrayCalculator_MinPositionZero_Line _arrayCalculator;
+        private readonly ArrayCalculator_MinPositionZero_Line _arrayCalculator;
 
         public CurveCalculator_MinXZero(CurveArrayInfo curveArrayInfo)
         {

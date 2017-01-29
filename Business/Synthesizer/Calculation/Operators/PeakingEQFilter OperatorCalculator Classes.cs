@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _samplingRate;
         private readonly double _nyquistFrequency;
         private readonly int _samplesBetweenApplyFilterVariables;
-        private BiQuadFilter _biQuadFilter;
+        private readonly BiQuadFilter _biQuadFilter;
 
         private int _counter;
 

@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 For(() => underlyingPatchIDString, PropertyDisplayNames.UnderlyingPatchID).IsInteger();
 
                 int underlyingPatchID;
-                if (Int32.TryParse(underlyingPatchIDString, out underlyingPatchID))
+                if (int.TryParse(underlyingPatchIDString, out underlyingPatchID))
                 {
                     Patch underlyingPatch = _patchRepository.TryGet(underlyingPatchID);
                     if (underlyingPatch == null)
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private void ValidateInletNamesUnique()
         {
-            IList<string> names = Object.Inlets.Where(x => !String.IsNullOrEmpty(x.Name))
+            IList<string> names = Object.Inlets.Where(x => !string.IsNullOrEmpty(x.Name))
                                                .Select(x => x.Name)
                                                .ToArray();
 
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private void ValidateOutletNamesUnique()
         {
-            IList<string> names = Object.Outlets.Where(x => !String.IsNullOrEmpty(x.Name))
+            IList<string> names = Object.Outlets.Where(x => !string.IsNullOrEmpty(x.Name))
                                                 .Select(x => x.Name)
                                                 .ToArray();
 
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     ValidationMessages.Add(PropertyNames.Inlet, message);
                 }
 
-                if (!String.Equals(customOperatorInlet.Name, underlyingPatchInletOperator.Name))
+                if (!string.Equals(customOperatorInlet.Name, underlyingPatchInletOperator.Name))
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
                         CommonTitles.Name,
@@ -238,7 +238,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     ValidationMessages.Add(PropertyNames.Outlet, message);
                 }
 
-                if (!String.Equals(customOperatorOutlet.Name, underlyingPatchOutlet.Name))
+                if (!string.Equals(customOperatorOutlet.Name, underlyingPatchOutlet.Name))
                 {
                     string message = GetOutletPropertyDoesNotMatchMessage(
                         CommonTitles.Name,

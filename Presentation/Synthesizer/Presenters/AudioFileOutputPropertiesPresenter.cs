@@ -11,8 +11,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class AudioFileOutputPropertiesPresenter : PresenterBase<AudioFileOutputPropertiesViewModel>
     {
-        private AudioFileOutputRepositories _repositories;
-        private AudioFileOutputManager _audioFileOutputManager;
+        private readonly AudioFileOutputRepositories _repositories;
+        private readonly AudioFileOutputManager _audioFileOutputManager;
 
         public AudioFileOutputPropertiesPresenter(AudioFileOutputRepositories repositories)
         {

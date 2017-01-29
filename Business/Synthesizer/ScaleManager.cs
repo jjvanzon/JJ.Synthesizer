@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer
 {
     public class ScaleManager
     {
-        private ScaleRepositories _repositories;
+        private readonly ScaleRepositories _repositories;
 
         public ScaleManager(ScaleRepositories repositories)
         {

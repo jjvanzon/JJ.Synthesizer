@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Resources
         {
             string str = PropertyDisplayNames.ResourceManager.GetString(resourceName);
 
-            if (String.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(str))
             {
                 str = resourceName;
             }

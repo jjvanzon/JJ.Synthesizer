@@ -29,14 +29,14 @@ namespace JJ.Business.Synthesizer.Calculation
         /// But also should not too far apart, or the chance that we get the same offset becomes bigger.
         /// </summary>
         private const double OFFSET_SNAP_IN_SECONDS = 0.1;
-        private static int _offsetSnapCount = GetOffsetSnapCount();
+        private static readonly int _offsetSnapCount = GetOffsetSnapCount();
         private double _offset;
 
         /// <summary>
         /// Block interpolation should be enough,
         /// because in practice the time speed should so that each sample is a random number.
         /// </summary>
-        private static ArrayCalculator_RotatePosition_Block _arrayCalculator = CreateArrayCalculator();
+        private static readonly ArrayCalculator_RotatePosition_Block _arrayCalculator = CreateArrayCalculator();
 
         private static ArrayCalculator_RotatePosition_Block CreateArrayCalculator()
         {
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
             if (!ConversionHelper.CanCastToNonNegativeInt32(sampleCountDouble))
             {
-                throw new Exception(String.Format("sampleCount '{0}' cannot be cast to non-negative Int32.", sampleCountDouble));
+                throw new Exception(string.Format("sampleCount '{0}' cannot be cast to non-negative Int32.", sampleCountDouble));
             }
 
             int sampleCount = (int)sampleCountDouble;

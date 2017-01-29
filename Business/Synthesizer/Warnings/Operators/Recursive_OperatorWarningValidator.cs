@@ -11,8 +11,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class Recursive_OperatorWarningValidator : ValidatorBase<Operator>
     {
-        private ISampleRepository _sampleRepository;
-        private HashSet<object> _alreadyDone;
+        private readonly ISampleRepository _sampleRepository;
+        private readonly HashSet<object> _alreadyDone;
 
         public Recursive_OperatorWarningValidator(Operator obj, ISampleRepository sampleRepository, HashSet<object> alreadyDone = null)
             : base(obj, postponeExecute: true)
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             if (Object.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
             {
                 int sampleID;
-                if (Int32.TryParse(Object.Data, out sampleID))
+                if (int.TryParse(Object.Data, out sampleID))
                 {
                     Sample sample = _sampleRepository.TryGet(sampleID);
                     if (sample != null)

@@ -20,7 +20,7 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 
             if (stack.Count != expectedStackCount)
             {
-                throw new Exception(String.Format(
+                throw new Exception(string.Format(
                     "{2} was not incremented by exactly 1 after visitation. {0} = {1}, {2} = {3}.",
                     nameof(expectedStackCount),
                     expectedStackCount,

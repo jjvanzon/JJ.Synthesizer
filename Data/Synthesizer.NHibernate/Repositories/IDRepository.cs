@@ -6,7 +6,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
     public class IDRepository : JJ.Data.Synthesizer.DefaultRepositories.IDRepository
     {
-        private string _connectionString;
+        private readonly string _connectionString;
 
         public IDRepository(IContext context)
             : base(context)

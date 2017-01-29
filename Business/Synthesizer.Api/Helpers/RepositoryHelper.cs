@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
     {
         // RepositoryWrapper
 
-        private static RepositoryWrapper _repositories = CreateRepositories();
+        private static readonly RepositoryWrapper _repositories = CreateRepositories();
 
         public static RepositoryWrapper Repositories { get { return _repositories; } }
 
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 
         // AudioFileOutputRepositories
 
-        private static AudioFileOutputRepositories _audioFileOutputRepositories = CreateAudioFileOutputRepositories();
+        private static readonly AudioFileOutputRepositories _audioFileOutputRepositories = CreateAudioFileOutputRepositories();
 
         public static AudioFileOutputRepositories AudioFileOutputRepositories { get { return _audioFileOutputRepositories; } }
 
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 
         // CurveRepositories
 
-        private static CurveRepositories _curveRepositories = CreateCurveRepositories();
+        private static readonly CurveRepositories _curveRepositories = CreateCurveRepositories();
 
         public static CurveRepositories CurveRepositories { get { return _curveRepositories; } }
 
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 
         // PatchRepositories
 
-        private static PatchRepositories _patchRepositories = CreatePatchRepositories();
+        private static readonly PatchRepositories _patchRepositories = CreatePatchRepositories();
 
         public static PatchRepositories PatchRepositories { get { return _patchRepositories; } }
 
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 
         // SampleRepositories
 
-        private static SampleRepositories _sampleRepositories = CreateSampleRepositories();
+        private static readonly SampleRepositories _sampleRepositories = CreateSampleRepositories();
 
         public static SampleRepositories SampleRepositories { get { return _sampleRepositories; } }
 

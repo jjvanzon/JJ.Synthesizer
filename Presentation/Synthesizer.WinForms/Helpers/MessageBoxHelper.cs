@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
     /// </summary>
     internal static class MessageBoxHelper
     {
-        private static object _dummySender = new object();
+        private static readonly object _dummySender = new object();
 
         public static event EventHandler<EventArgs<int>> DocumentDeleteConfirmed;
         public static event EventHandler DocumentDeleteCanceled;
@@ -93,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             // Class summary explains why this is 'async'.
             parentForm.BeginInvoke(new Action(() =>
             {
-                MessageBox.Show(String.Join(Environment.NewLine, popupMessages.Select(x => x.Text)));
+                MessageBox.Show(string.Join(Environment.NewLine, popupMessages.Select(x => x.Text)));
 
                 if (PopupMessagesOK != null)
                 {

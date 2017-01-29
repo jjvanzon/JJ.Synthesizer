@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class DocumentGridPresenter : PresenterBase<DocumentGridViewModel>
     {
-        private IDocumentRepository _documentRepository;
+        private readonly IDocumentRepository _documentRepository;
 
         public DocumentGridPresenter(IDocumentRepository documentRepository)
         {

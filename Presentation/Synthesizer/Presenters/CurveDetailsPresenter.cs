@@ -11,8 +11,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class CurveDetailsPresenter : PresenterBase<CurveDetailsViewModel>
     {
-        private CurveRepositories _repositories;
-        private CurveManager _curveManager;
+        private readonly CurveRepositories _repositories;
+        private readonly CurveManager _curveManager;
 
         public CurveDetailsPresenter(CurveRepositories repositories)
         {

@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     public partial class MainPresenter
     {
-        private Dictionary<Type, Action<object>> _dispatchDelegateDictionary;
+        private readonly Dictionary<Type, Action<object>> _dispatchDelegateDictionary;
 
         private Dictionary<Type, Action<object>> CreateDispatchDelegateDictionary()
         {

@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Converters
     /// </summary>
     internal class PatchToOperatorConverter
     {
-        private PatchRepositories _repositories;
+        private readonly PatchRepositories _repositories;
 
         public PatchToOperatorConverter(PatchRepositories repositories)
         {

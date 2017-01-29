@@ -8,7 +8,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class TitleBarPresenter
     {
-        private static string _titleBarExtraText = GetTitleBarExtraText();
+        private static readonly string _titleBarExtraText = GetTitleBarExtraText();
 
         public string Show(Document openDocument = null)
         {

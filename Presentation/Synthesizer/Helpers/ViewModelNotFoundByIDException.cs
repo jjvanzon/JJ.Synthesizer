@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         public ViewModelNotFoundByIDException(int id)
         {
-            _message = String.Format("{0} with id '{1}' not found.",  typeof(TViewModel).Name, id);
+            _message = string.Format("{0} with id '{1}' not found.",  typeof(TViewModel).Name, id);
         }
     }
 }

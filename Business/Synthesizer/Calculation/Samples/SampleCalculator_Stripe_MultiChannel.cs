@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     internal class SampleCalculator_Stripe_MultiChannel : SampleCalculatorBase
     {
-        private ArrayCalculator_MinPositionZero_Stripe[] _arrayCalculators;
+        private readonly ArrayCalculator_MinPositionZero_Stripe[] _arrayCalculators;
 
         public SampleCalculator_Stripe_MultiChannel(Sample sample, byte[] bytes)
             : base(sample, bytes)

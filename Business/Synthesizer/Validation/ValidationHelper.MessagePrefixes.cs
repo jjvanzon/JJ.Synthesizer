@@ -44,14 +44,14 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!string.IsNullOrEmpty(entity.Name))
             {
-                string messagePrefix = String.Format("{0} '{1}': ", PropertyDisplayNames.Inlet, entity.Name);
+                string messagePrefix = string.Format("{0} '{1}': ", PropertyDisplayNames.Inlet, entity.Name);
                 return messagePrefix;
             }
             else if (number.HasValue)
             {
-                string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Inlet, number);
+                string messagePrefix = string.Format("{0} {1}: ", PropertyDisplayNames.Inlet, number);
                 return messagePrefix;
             }
             else
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Node, number);
+            string messagePrefix = string.Format("{0} {1}: ", PropertyDisplayNames.Node, number);
             return messagePrefix;
         }
 
@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Validation
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
 
             // Use Operator Name
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!string.IsNullOrEmpty(entity.Name))
             {
                 return GetMessagePrefix(operatorTypeDisplayName, entity.Name);
             }
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Validation
                     Curve underlyingEntity = curveRepository.TryGet(underlyingEntityID.Value);
                     if (underlyingEntity != null)
                     {
-                        if (!String.IsNullOrEmpty(underlyingEntity.Name))
+                        if (!string.IsNullOrEmpty(underlyingEntity.Name))
                         {
                             return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
                         }
@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Validation
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
 
             // Use Operator Name
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!string.IsNullOrEmpty(entity.Name))
             {
                 return GetMessagePrefix(operatorTypeDisplayName, entity.Name);
             }
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Validation
                     Patch underlyingEntity = patchRepository.TryGet(underlyingEntityID.Value);
                     if (underlyingEntity != null)
                     {
-                        if (!String.IsNullOrEmpty(underlyingEntity.Name))
+                        if (!string.IsNullOrEmpty(underlyingEntity.Name))
                         {
                             return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
                         }
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Validation
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
 
             // Use Operator Name
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!string.IsNullOrEmpty(entity.Name))
             {
                 return GetMessagePrefix(operatorTypeDisplayName, entity.Name);
             }
@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Validation
                 if (number.HasValue)
                 {
                     string formattedValue = number.Value.ToString("0.######");
-                    string messagePrefix = String.Format("{0} '{1}': ", operatorTypeDisplayName, formattedValue);
+                    string messagePrefix = string.Format("{0} '{1}': ", operatorTypeDisplayName, formattedValue);
                     return messagePrefix;
                 }
             }
@@ -205,7 +205,7 @@ namespace JJ.Business.Synthesizer.Validation
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
 
             // Use Name
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!string.IsNullOrEmpty(entity.Name))
             {
                 string messagePrefix = GetMessagePrefix(operatorTypeDisplayName, entity.Name);
                 return messagePrefix;
@@ -233,7 +233,7 @@ namespace JJ.Business.Synthesizer.Validation
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
 
             // Use Name
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!string.IsNullOrEmpty(entity.Name))
             {
                 string messagePrefix = GetMessagePrefix(operatorTypeDisplayName, entity.Name);
                 return messagePrefix;
@@ -263,7 +263,7 @@ namespace JJ.Business.Synthesizer.Validation
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
 
             // Use Operator Name
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!string.IsNullOrEmpty(entity.Name))
             {
                 return GetMessagePrefix(operatorTypeDisplayName, entity.Name);
             }
@@ -277,7 +277,7 @@ namespace JJ.Business.Synthesizer.Validation
                     Sample underlyingEntity = sampleRepository.TryGet(underlyingEntityID.Value);
                     if (underlyingEntity != null)
                     {
-                        if (!String.IsNullOrEmpty(underlyingEntity.Name))
+                        if (!string.IsNullOrEmpty(underlyingEntity.Name))
                         {
                             return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
                         }
@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer.Validation
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
 
             // Use Name
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!string.IsNullOrEmpty(entity.Name))
             {
                 return GetMessagePrefix(operatorTypeDisplayName, entity.Name);
             }
@@ -313,7 +313,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Outlet, number);
+            string messagePrefix = string.Format("{0} {1}: ", PropertyDisplayNames.Outlet, number);
             return messagePrefix;
         }
 
@@ -322,14 +322,14 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!string.IsNullOrEmpty(entity.Name))
             {
-                string messagePrefix = String.Format("{0} '{1}': ", PropertyDisplayNames.Outlet, entity.Name);
+                string messagePrefix = string.Format("{0} '{1}': ", PropertyDisplayNames.Outlet, entity.Name);
                 return messagePrefix;
             }
             else if (number.HasValue)
             {
-                string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Outlet, number);
+                string messagePrefix = string.Format("{0} {1}: ", PropertyDisplayNames.Outlet, number);
                 return messagePrefix;
             }
             else
@@ -374,13 +374,13 @@ namespace JJ.Business.Synthesizer.Validation
         private static string GetMessagePrefix(string entityTypeDisplayName, string name)
         {
             string messagePrefix;
-            if (String.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
             {
-                messagePrefix = String.Format("{0}: ", entityTypeDisplayName);
+                messagePrefix = string.Format("{0}: ", entityTypeDisplayName);
             }
             else
             {
-                messagePrefix = String.Format("{0} '{1}': ", entityTypeDisplayName, name);
+                messagePrefix = string.Format("{0} '{1}': ", entityTypeDisplayName, name);
             }
             return messagePrefix;
         }

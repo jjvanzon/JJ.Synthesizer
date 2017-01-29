@@ -7,8 +7,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 {
     internal static class LineGestureHelper
     {
-        private static Dictionary<Diagram, Line> _lineDictionary = new Dictionary<Diagram, Line>();
-        private static object _lock = new object();
+        private static readonly Dictionary<Diagram, Line> _lineDictionary = new Dictionary<Diagram, Line>();
+        private static readonly object _lock = new object();
 
         public static Line CreateLine(Diagram diagram, LineStyle lineStyle, int lineZIndex)
         {

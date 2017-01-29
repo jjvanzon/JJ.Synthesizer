@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal class SampleValidator_Delete : VersatileValidator<Sample>
     {
-        private ISampleRepository _sampleRepository;
+        private readonly ISampleRepository _sampleRepository;
 
         public SampleValidator_Delete(Sample obj, ISampleRepository sampleRepository)
             : base(obj, postponeExecute: true)
