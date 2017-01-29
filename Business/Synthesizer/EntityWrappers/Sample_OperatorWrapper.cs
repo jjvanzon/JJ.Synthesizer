@@ -70,7 +70,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 return new SampleInfo
                 {
+                    // ReSharper disable once ArrangeThisQualifier
                     Sample = this.Sample,
+                    // ReSharper disable once ArrangeThisQualifier
                     Bytes = this.SampleBytes
                 };
             }

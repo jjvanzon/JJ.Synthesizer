@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reverse;
     }
 
-    internal class Reverse_OperatorDto_VarSpeed_WithPhaseTracking : Reverse_OperatorDtoBase_VarSpeed, IOperatorDto_VarSignal
+    internal class Reverse_OperatorDto_VarSpeed_WithPhaseTracking : Reverse_OperatorDtoBase_VarSpeed
     { }
 
     internal class Reverse_OperatorDto_VarSpeed_NoPhaseTracking : Reverse_OperatorDtoBase_VarSpeed

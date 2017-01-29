@@ -5,6 +5,5 @@
         public override double Frequency => CenterFrequency;
 
         public double CenterFrequency { get; set; }
-        public double BandWidth { get; set; }
     }
 }

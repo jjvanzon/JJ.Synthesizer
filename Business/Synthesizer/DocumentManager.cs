@@ -14,7 +14,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Framework.Collections;
-using JJ.Business.Synthesizer.Dtos;
+using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Business.Synthesizer
 {

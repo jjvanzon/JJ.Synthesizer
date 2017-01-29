@@ -15,7 +15,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Dtos;
+using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

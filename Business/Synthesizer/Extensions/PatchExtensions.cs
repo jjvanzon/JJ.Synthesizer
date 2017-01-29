@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Extensions
 {
     public static class PatchExtensions
     {
-        private static readonly Dictionary<Type, OperatorTypeEnum> _OperatorWrapperType_To_OperatorTypeEnum_dictionary = new Dictionary<Type, OperatorTypeEnum>
+        private static readonly Dictionary<Type, OperatorTypeEnum> _operatorWrapperType_To_OperatorTypeEnum_Dictionary = new Dictionary<Type, OperatorTypeEnum>
         {
             { typeof(Add_OperatorWrapper), OperatorTypeEnum.Add },
             { typeof(Divide_OperatorWrapper), OperatorTypeEnum.Divide },
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             Type operatorWrapperType = typeof(TOperatorWrapper);
             OperatorTypeEnum operatorTypeEnum;
-            if (!_OperatorWrapperType_To_OperatorTypeEnum_dictionary.TryGetValue(operatorWrapperType, out operatorTypeEnum))
+            if (!_operatorWrapperType_To_OperatorTypeEnum_Dictionary.TryGetValue(operatorWrapperType, out operatorTypeEnum))
             {
                 throw new NotSupportedException($"OperatorWrapper Type '{typeof(TOperatorWrapper)}' not supported.");
             }

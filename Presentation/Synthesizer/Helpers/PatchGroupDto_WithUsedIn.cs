@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using JJ.Business.Synthesizer.Dtos;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Data.Synthesizer;
 
 namespace JJ.Presentation.Synthesizer.Helpers

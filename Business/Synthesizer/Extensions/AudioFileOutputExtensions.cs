@@ -21,9 +21,11 @@ namespace JJ.Business.Synthesizer.Extensions
         public static double GetFrameDuration(this AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (audioFileOutput.SamplingRate == 0.0) throw new ZeroException(() => audioFileOutput.SamplingRate);
 
-            double frameDuration = 1 / audioFileOutput.SamplingRate;
+            // ReSharper disable once RedundantCast
+            double frameDuration = 1.0 / (double)audioFileOutput.SamplingRate;
             return frameDuration;
         }
     }

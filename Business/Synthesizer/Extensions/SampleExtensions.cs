@@ -27,9 +27,13 @@ namespace JJ.Business.Synthesizer.Extensions
             if (sample == null) throw new NullException(() => sample);
             if (sample.SamplingRate == 0) throw new ZeroException(() => sample.SamplingRate);
 
+            // ReSharper disable once RedundantCast
             double duration = (double)(byteCount - sample.BytesToSkip)
+                              // ReSharper disable once RedundantCast
                               / (double)sample.GetChannelCount()
+                              // ReSharper disable once RedundantCast
                               / (double)sample.SamplingRate
+                              // ReSharper disable once RedundantCast
                               / (double)SampleDataTypeHelper.SizeOf(sample.SampleDataType)
                               * sample.TimeMultiplier;
             return duration;

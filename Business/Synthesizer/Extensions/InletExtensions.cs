@@ -16,13 +16,13 @@ namespace JJ.Business.Synthesizer.Extensions
                 return null;
             }
 
-            if (DataPropertyParser.DataIsWellFormed(inlet.InputOutlet.Operator.Data))
+            if (!DataPropertyParser.DataIsWellFormed(inlet.InputOutlet.Operator.Data))
             {
-                double? number = DataPropertyParser.TryParseDouble(inlet.InputOutlet.Operator, PropertyNames.Number);
-                return number;
+                return null;
             }
 
-            return null;
+            double? number = DataPropertyParser.TryParseDouble(inlet.InputOutlet.Operator, PropertyNames.Number);
+            return number;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly DimensionStack _channelDimensionStack;
 
         private readonly OperatorCalculatorBase _outputOperatorCalculator;
-        /// <summary> Array, instead of IList<T> for optimization in calculating values. </summary>
+        /// <summary> Array, instead of IList&lt;T&gt; for optimization in calculating values. </summary>
         private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
 
         private readonly Dictionary<int, IList<OperatorCalculatorBase>> _listIndex_To_ResettableOperatorCalculators_Dictionary;

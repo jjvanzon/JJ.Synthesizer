@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

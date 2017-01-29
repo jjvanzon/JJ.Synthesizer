@@ -5,15 +5,15 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class AudioFileOutputRepositories
     {
-        public IAudioFileOutputRepository AudioFileOutputRepository { get; private set; }
-        public IAudioFileFormatRepository AudioFileFormatRepository { get; private set; }
-        public ISampleDataTypeRepository SampleDataTypeRepository { get; private set; }
-        public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
-        public IOutletRepository OutletRepository { get; private set; }
-        public ICurveRepository CurveRepository { get; private set; }
-        public ISampleRepository SampleRepository { get; private set; }
-        public IPatchRepository PatchRepository { get; internal set; }
-        public IIDRepository IDRepository { get; private set; }
+        public IAudioFileOutputRepository AudioFileOutputRepository { get; }
+        public IAudioFileFormatRepository AudioFileFormatRepository { get; }
+        public ISampleDataTypeRepository SampleDataTypeRepository { get; }
+        public ISpeakerSetupRepository SpeakerSetupRepository { get; }
+        public IOutletRepository OutletRepository { get; }
+        public ICurveRepository CurveRepository { get; }
+        public ISampleRepository SampleRepository { get; }
+        public IPatchRepository PatchRepository { get; }
+        public IIDRepository IDRepository { get; }
 
         public AudioFileOutputRepositories(RepositoryWrapper repositoryWrapper)
         {

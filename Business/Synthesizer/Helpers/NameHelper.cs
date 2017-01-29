@@ -38,7 +38,7 @@
         {
             string canonicalName1 = ToCanonical(name1);
             string canonicalName2 = ToCanonical(name2);
-            bool areEqual = string.Equals(name1, name2);
+            bool areEqual = string.Equals(canonicalName1, canonicalName2);
             return areEqual;
         }
     }

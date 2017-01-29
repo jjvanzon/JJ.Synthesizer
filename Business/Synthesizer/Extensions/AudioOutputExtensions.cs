@@ -16,6 +16,7 @@ namespace JJ.Business.Synthesizer.Extensions
             if (entity == null) throw new NullException(() => entity);
             if (entity.SamplingRate == 0.0) throw new ZeroException(() => entity.SamplingRate);
 
+            // ReSharper disable once RedundantCast
             double frameDuration = 1.0 / (double)entity.SamplingRate;
             return frameDuration;
         }

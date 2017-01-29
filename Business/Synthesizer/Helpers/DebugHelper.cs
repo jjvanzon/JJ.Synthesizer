@@ -64,6 +64,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 sb.Append(variableInfo.Value);
             }
 
+            // ReSharper disable once InvertIf
             if (miscPropertiesAreFilledIn)
             {
                 sb.Append(' ');

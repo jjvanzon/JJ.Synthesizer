@@ -33,10 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { CollectionInlet.LinkTo(value); }
         }
 
-        public Inlet CollectionInlet
-        {
-            get { return OperatorHelper.GetInlet(WrappedOperator, COLLECTION_INDEX); }
-        }
+        public Inlet CollectionInlet => OperatorHelper.GetInlet(WrappedOperator, COLLECTION_INDEX);
 
         public Outlet From
         {

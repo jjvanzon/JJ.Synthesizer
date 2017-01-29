@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using JJ.Data.Canonical;
 
-namespace JJ.Business.Synthesizer.Dtos
+namespace JJ.Business.Synthesizer.Dto
 {
     public class UsedInDto<TEntity>
     {

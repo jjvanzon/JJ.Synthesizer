@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
@@ -93,7 +92,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static OperatorCalculatorBase Create_Cache_OperatorCalculator_MultiChannel(IList<ICalculatorWithPosition> arrayCalculators, DimensionStack dimensionStack, DimensionStack channelDimensionStack)
         {
             Type arrayCalculatorType = arrayCalculators.GetItemType();
-            Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_MultiChannel<>).MakeGenericType(new[] { arrayCalculatorType });
+            Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_MultiChannel<>).MakeGenericType(arrayCalculatorType);
             
             var calculator = (OperatorCalculatorBase)Activator.CreateInstance(cache_OperatorCalculator_Type, arrayCalculators, dimensionStack, channelDimensionStack);
             return calculator;
@@ -102,7 +101,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static OperatorCalculatorBase Create_Cache_OperatorCalculator_SingleChannel(ICalculatorWithPosition arrayCalculator, DimensionStack dimensionStack)
         {
             Type arrayCalculatorType = arrayCalculator.GetType();
-            Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_SingleChannel<>).MakeGenericType(new[] { arrayCalculatorType });
+            Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_SingleChannel<>).MakeGenericType(arrayCalculatorType);
             var calculator = (OperatorCalculatorBase)Activator.CreateInstance(cache_OperatorCalculator_Type, arrayCalculator, dimensionStack);
             return calculator;
         }

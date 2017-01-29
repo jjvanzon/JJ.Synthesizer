@@ -13,10 +13,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        /// <summary> Executes a loop, so prevent calling it multiple times. summary>
+        /// <summary> Executes a loop, so prevent calling it multiple times. </summary>
         public IList<Outlet> Operands => OperatorHelper.GetSortedInputOutlets(WrappedOperator);
 
-        /// <summary> Executes a loop, so prevent calling it multiple times. summary>
+        /// <summary> Executes a loop, so prevent calling it multiple times. </summary>
         public IList<Inlet> Inlets => OperatorHelper.GetSortedInlets(WrappedOperator);
 
         public ResampleInterpolationTypeEnum InterpolationType

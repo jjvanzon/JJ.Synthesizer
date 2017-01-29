@@ -19,8 +19,8 @@ namespace JJ.Business.Synthesizer.Helpers
                 Value = value;
             }
 
-            public string Key { get; private set; }
-            public string Value { get; private set; }
+            public string Key { get; }
+            public string Value { get; }
         }
 
         /// <summary>
@@ -35,12 +35,7 @@ namespace JJ.Business.Synthesizer.Helpers
             return regex;
         }
 
-        private static readonly CultureInfo _formattingCulture = new CultureInfo("en-US");
-
-        public static CultureInfo FormattingCulture
-        {
-            get { return _formattingCulture; }
-        }
+        public static CultureInfo FormattingCulture { get; } = new CultureInfo("en-US");
 
         public static bool DataIsWellFormed(Operator op)
         {
@@ -102,7 +97,7 @@ namespace JJ.Business.Synthesizer.Helpers
             }
 
             double value;
-            if (!DoubleHelper.TryParse(str, _formattingCulture, out value))
+            if (!DoubleHelper.TryParse(str, FormattingCulture, out value))
             {
                 throw new Exception($"Value with key '{key}' in data '{data}' could not be parsed to Double.");
             }
@@ -130,7 +125,7 @@ namespace JJ.Business.Synthesizer.Helpers
             string str = TryGetString(data, key);
 
             double value;
-            if (DoubleHelper.TryParse(str, _formattingCulture, out value))
+            if (DoubleHelper.TryParse(str, FormattingCulture, out value))
             {
                 return value;
             }
@@ -270,12 +265,8 @@ namespace JJ.Business.Synthesizer.Helpers
             IList<ParsedKeyValuePair> results = Parse(data);
 
             ParsedKeyValuePair result = results.Where(x => string.Equals(x.Key, key)).FirstOrDefault();
-            if (result == null)
-            {
-                return null;
-            }
 
-            return result.Value;
+            return result?.Value;
         }
 
         public static IList<string> GetKeys(Operator op)
@@ -305,7 +296,7 @@ namespace JJ.Business.Synthesizer.Helpers
             results = results.Where(x => !string.Equals(x.Key, key)).ToList();
 
             // Add new value
-            var result = new ParsedKeyValuePair(key, Convert.ToString(value, _formattingCulture));
+            var result = new ParsedKeyValuePair(key, Convert.ToString(value, FormattingCulture));
             results.Add(result);
 
             string newData = Format(results);
@@ -375,7 +366,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 AssertParsedKeyValuePair(parsedKeyValuePair);
             }
 
-            string str = string.Join(";", parsedKeyValuePairs.Select(x => string.Format(_formattingCulture, "{0}={1}", x.Key, x.Value)));
+            string str = string.Join(";", parsedKeyValuePairs.Select(x => string.Format(FormattingCulture, "{0}={1}", x.Key, x.Value)));
             return str;
         }
 
@@ -387,6 +378,7 @@ namespace JJ.Business.Synthesizer.Helpers
             AssertKeyOrValue(parsedKeyValuePair.Value);
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private static void AssertKeyOrValue(string keyOrValue)
         {
             if (keyOrValue.Contains(';')) throw new Exception("keyOrValue cannot contain ';' character");

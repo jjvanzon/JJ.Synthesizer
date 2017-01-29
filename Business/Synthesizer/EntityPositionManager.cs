@@ -68,12 +68,14 @@ namespace JJ.Business.Synthesizer
                 string entityTypeName = typeof(Operator).Name;
                 int entityID = operatorID;
 
-                entityPosition = new EntityPosition();
-                entityPosition.ID = _idRepository.GetID();
-                entityPosition.EntityTypeName = entityTypeName;
-                entityPosition.EntityID = entityID;
-                entityPosition.X = Randomizer.GetInt32(MIN_RANDOM_X, MAX_RANDOM_X);
-                entityPosition.Y = Randomizer.GetInt32(MIN_RANDOM_Y, MAX_RANDOM_Y);
+                entityPosition = new EntityPosition
+                {
+                    ID = _idRepository.GetID(),
+                    EntityTypeName = entityTypeName,
+                    EntityID = entityID,
+                    X = Randomizer.GetInt32(MIN_RANDOM_X, MAX_RANDOM_X),
+                    Y = Randomizer.GetInt32(MIN_RANDOM_Y, MAX_RANDOM_Y)
+                };
                 _entityPositionRepository.Insert(entityPosition);
 
                 _operatorPositionDictionary.Add(entityID, entityPosition);
@@ -93,10 +95,12 @@ namespace JJ.Business.Synthesizer
                 entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndEntityID(entityTypeName, entityID);
                 if (entityPosition == null)
                 {
-                    entityPosition = new EntityPosition();
-                    entityPosition.ID = _idRepository.GetID();
-                    entityPosition.EntityTypeName = entityTypeName;
-                    entityPosition.EntityID = entityID;
+                    entityPosition = new EntityPosition
+                    {
+                        ID = _idRepository.GetID(),
+                        EntityTypeName = entityTypeName,
+                        EntityID = entityID
+                    };
                     _entityPositionRepository.Insert(entityPosition);
                 }
 

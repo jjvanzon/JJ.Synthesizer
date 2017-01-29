@@ -166,14 +166,7 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             var wrapper = new CustomOperator_OperatorWrapper(customOperator, patchRepository);
 
-            Patch underlyingPatch2 = wrapper.UnderlyingPatch;
-
-            if (underlyingPatch2 == null)
-            {
-                return false;
-            }
-
-            return underlyingPatch2.ID == underlyingPatch.ID;
+            return wrapper.UnderlyingPatch?.ID == underlyingPatch.ID;
         }
 
         /// <summary>  Should be same as patch.Operators, but in case of an invalid entity structure it might not be. </summary>
