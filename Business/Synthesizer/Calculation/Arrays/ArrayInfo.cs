@@ -3,21 +3,21 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal abstract class ArrayCalculatorBase : ICalculatorWithDimension
+    internal class ArrayInfo
     {
         // Fields for performance
-        protected double[] _array;
-        protected double _valueBefore;
-        protected double _valueAfter;
+        public double[] _array;
+        public double _valueBefore;
+        public double _valueAfter;
 
-        protected double _minPosition;
-        protected double _maxPosition;
-        protected double _length;
-        protected double _rate;
-        protected double _tickCount;
+        public double _minPosition;
+        public double _maxPosition;
+        public double _length;
+        public double _rate;
+        public double _tickCount;
 
         /// <param name="extraTicksBefore">You can let this base class add extra ticks _array for interpolation purposes.</param>
-        public ArrayCalculatorBase(
+        public ArrayInfo(
             double[] array, double rate, double minPosition, int extraTicksBefore, int extraTicksAfter)
         {
             if (array == null) throw new NullException(() => array);
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             }
         }
 
-        public ArrayCalculatorBase(
+        public ArrayInfo(
             double[] array,
             double rate,
             double minPosition,
@@ -76,7 +76,5 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             _valueBefore = valueBefore;
             _valueAfter = valueAfter;
         }
-
-        public abstract double Calculate(double position);
     }
 }

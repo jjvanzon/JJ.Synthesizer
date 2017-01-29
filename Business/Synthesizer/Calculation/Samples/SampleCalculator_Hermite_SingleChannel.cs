@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 
         public override double CalculateValue(double time, int channelIndex)
         {
-            return _arrayCalculator.CalculateValue(time);
+            return _arrayCalculator.Calculate(time);
         }
     }
 }

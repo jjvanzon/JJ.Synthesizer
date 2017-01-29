@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-            double value = _arrayCalculator.CalculateValue(position);
+            double value = _arrayCalculator.Calculate(position);
             return value;
         }
 

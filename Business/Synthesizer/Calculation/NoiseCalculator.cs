@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
             int sampleCount = (int)sampleCountDouble;
 
-            double[] samples = new double[sampleCount];
+            var samples = new double[sampleCount];
             for (int i = 0; i < sampleCount; i++)
             {
                 double noiseSample = Randomizer.GetDouble() * 2.0 - 1.0;
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             double transformedTime = time + _offset;
 
-            return _arrayCalculator.CalculateValue(transformedTime);
+            return _arrayCalculator.Calculate(transformedTime);
         }
 
         public void Reseed()

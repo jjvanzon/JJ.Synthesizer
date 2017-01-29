@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Random
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double GetValue(double time)
         {
-            return _arrayCalculator.CalculateValue(time + _offset);
+            return _arrayCalculator.Calculate(time + _offset);
         }
     }
 }

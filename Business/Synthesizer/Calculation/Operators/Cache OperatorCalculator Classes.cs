@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-            return _arrayCalculator.CalculateValue(time);
+            return _arrayCalculator.Calculate(time);
         }
     }
 
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-            return _arrayCalculators[channelInt].CalculateValue(position);
+            return _arrayCalculators[channelInt].Calculate(position);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double CalculateY(double x)
         {
-            return _arrayCalculator.CalculateValue(x);
+            return _arrayCalculator.Calculate(x);
         }
     }
 }

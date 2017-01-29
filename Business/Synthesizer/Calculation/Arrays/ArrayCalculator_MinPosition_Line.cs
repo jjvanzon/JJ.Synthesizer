@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double CalculateValue(double position)
+        public override double Calculate(double position)
         {
             // Return if sample not in range.
             // Execute it on the doubles, to prevent integer overflow.
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 
             double t = (position - _minPosition) * _rate;
 
-            return base.CalculateValue(t);
+            return base.Calculate(t);
         }
     }
 }

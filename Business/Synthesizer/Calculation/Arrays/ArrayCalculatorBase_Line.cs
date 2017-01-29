@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 
         /// <summary> Base method does not check bounds or transform position from 'seconds to samples'. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double CalculateValue(double x)
+        public override double Calculate(double x)
         {
             int x0 = (int)x;
             int x1 = x0 + 1;

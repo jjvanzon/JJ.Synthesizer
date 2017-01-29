@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double CalculateValue(double position)
+        public override double Calculate(double position)
         {
             if (double.IsNaN(position)) return 0.0;
             if (double.IsInfinity(position)) return 0.0;
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                 transformedPosition += _length;
             }
 
-            return base.CalculateValue(transformedPosition);
+            return base.Calculate(transformedPosition);
         }
     }
 }

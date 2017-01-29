@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double CalculateValue(double position)
+        public override double Calculate(double position)
         {
             // Return if sample not in range.
             // Execute it on the doubles, to prevent integer overflow later.
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             if (double.IsNaN(position)) return 0.0;
             if (double.IsInfinity(position)) return 0.0;
 
-            return base.CalculateValue(position);
+            return base.Calculate(position);
         }
     }
 }
