@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation
         /// This dictionary is about reusing the same CurveCalculator in multiple OperatorCalculator_Curve's
         /// in case they uses the same Curve, more than optimizing things by using a dictionary.
         /// </summary>
-        private readonly Dictionary<Curve, ICurveCalculator> _curve_CurveCalculator_Dictionary = new Dictionary<Curve, ICurveCalculator>();
+        private readonly Dictionary<Curve, ICalculatorWithPosition> _curve_CurveCalculator_Dictionary = new Dictionary<Curve, ICalculatorWithPosition>();
         private readonly object _curveLock = new object();
 
         /// <summary>
@@ -45,24 +45,24 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<int, IList<ICalculatorWithPosition>> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, IList<ICalculatorWithPosition>>();
         private readonly object _cacheOperatorID_To_ArrayCalculators_Dictionary_Lock = new object();
 
-        internal ICurveCalculator GetCurveCalculator(int curveID, ICurveRepository curveRepository)
+        internal ICalculatorWithPosition GetCurveCalculator(int curveID, ICurveRepository curveRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
 
             Curve curve = curveRepository.Get(curveID);
 
-            ICurveCalculator curveCalculator = GetCurveCalculator(curve);
+            ICalculatorWithPosition curveCalculator = GetCurveCalculator(curve);
 
             return curveCalculator;
         }
 
-        internal ICurveCalculator GetCurveCalculator(Curve curve)
+        internal ICalculatorWithPosition GetCurveCalculator(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
 
             lock (_curveLock)
             {
-                ICurveCalculator curveCalculator;
+                ICalculatorWithPosition curveCalculator;
                 if (!_curve_CurveCalculator_Dictionary.TryGetValue(curve, out curveCalculator))
                 {
                     curveCalculator = CurveCalculatorFactory.CreateCurveCalculator(curve);

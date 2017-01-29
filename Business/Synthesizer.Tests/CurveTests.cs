@@ -8,7 +8,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Testing;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Api;
-using JJ.Business.Synthesizer.Calculation.Curves;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Tests
@@ -31,12 +31,12 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = CreateTestCurve();
                 curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Off, nodeTypeRepository));
 
-                ICurveCalculator calculator = CurveApi.CreateInterpretedCalculator(curve);
-                AssertHelper.AreEqual(0, () => calculator.CalculateY(0.0));
-                AssertHelper.AreEqual(0, () => calculator.CalculateY(0.5));
-                AssertHelper.AreEqual(0, () => calculator.CalculateY(1.0));
-                AssertHelper.AreEqual(0, () => calculator.CalculateY(1.5));
-                AssertHelper.AreEqual(0, () => calculator.CalculateY(2.0));
+                ICalculatorWithPosition calculator = CurveApi.CreateInterpretedCalculator(curve);
+                AssertHelper.AreEqual(0, () => calculator.Calculate(0.0));
+                AssertHelper.AreEqual(0, () => calculator.Calculate(0.5));
+                AssertHelper.AreEqual(0, () => calculator.Calculate(1.0));
+                AssertHelper.AreEqual(0, () => calculator.Calculate(1.5));
+                AssertHelper.AreEqual(0, () => calculator.Calculate(2.0));
             }
         }
 
@@ -50,12 +50,12 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = CreateTestCurve();
                 curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Block, nodeTypeRepository));
 
-                ICurveCalculator calculator = CurveApi.CreateInterpretedCalculator(curve);
-                AssertHelper.AreEqual(1, () => calculator.CalculateY(0.0));
-                AssertHelper.AreEqual(1, () => calculator.CalculateY(0.5));
-                AssertHelper.AreEqual(2, () => calculator.CalculateY(1.0));
-                AssertHelper.AreEqual(2, () => calculator.CalculateY(1.5));
-                AssertHelper.AreEqual(0, () => calculator.CalculateY(2.0));
+                ICalculatorWithPosition calculator = CurveApi.CreateInterpretedCalculator(curve);
+                AssertHelper.AreEqual(1, () => calculator.Calculate(0.0));
+                AssertHelper.AreEqual(1, () => calculator.Calculate(0.5));
+                AssertHelper.AreEqual(2, () => calculator.Calculate(1.0));
+                AssertHelper.AreEqual(2, () => calculator.Calculate(1.5));
+                AssertHelper.AreEqual(0, () => calculator.Calculate(2.0));
             }
         }
 
@@ -69,12 +69,12 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = CreateTestCurve();
                 curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Line, nodeTypeRepository));
 
-                ICurveCalculator calculator = CurveApi.CreateInterpretedCalculator(curve);
-                AssertHelper.AreEqual(1.0, () => calculator.CalculateY(0.0));
-                AssertHelper.AreEqual(1.5, () => calculator.CalculateY(0.5));
-                AssertHelper.AreEqual(2.0, () => calculator.CalculateY(1.0));
-                AssertHelper.AreEqual(1.0, () => calculator.CalculateY(1.5));
-                AssertHelper.AreEqual(0.0, () => calculator.CalculateY(2.0));
+                ICalculatorWithPosition calculator = CurveApi.CreateInterpretedCalculator(curve);
+                AssertHelper.AreEqual(1.0, () => calculator.Calculate(0.0));
+                AssertHelper.AreEqual(1.5, () => calculator.Calculate(0.5));
+                AssertHelper.AreEqual(2.0, () => calculator.Calculate(1.0));
+                AssertHelper.AreEqual(1.0, () => calculator.Calculate(1.5));
+                AssertHelper.AreEqual(0.0, () => calculator.Calculate(2.0));
             }
         }
 
@@ -95,22 +95,22 @@ namespace JJ.Business.Synthesizer.Tests
                     new NodeInfo(0.5, NodeTypeEnum.Off)
                 );
 
-                ICurveCalculator calculator = CurveApi.CreateInterpretedCalculator(curve);
+                ICalculatorWithPosition calculator = CurveApi.CreateInterpretedCalculator(curve);
 
                 // Off
-                AssertHelper.AreEqual(0.00, () => calculator.CalculateY(0.0));
-                AssertHelper.AreEqual(0.00, () => calculator.CalculateY(0.5));
+                AssertHelper.AreEqual(0.00, () => calculator.Calculate(0.0));
+                AssertHelper.AreEqual(0.00, () => calculator.Calculate(0.5));
                 // Block
-                AssertHelper.AreEqual(2.00, () => calculator.CalculateY(1.0));
-                AssertHelper.AreEqual(2.00, () => calculator.CalculateY(1.5));
+                AssertHelper.AreEqual(2.00, () => calculator.Calculate(1.0));
+                AssertHelper.AreEqual(2.00, () => calculator.Calculate(1.5));
                 // Line
-                AssertHelper.AreEqual(1.00, () => calculator.CalculateY(2.0));
+                AssertHelper.AreEqual(1.00, () => calculator.Calculate(2.0));
                 // Behavior is different in JJ code base compared to the Circle code base. 
                 // In the Circle code base, an Off node means value = 0.
                 // In the JJ code base, a previous linear node will use the non-zero the value of the Off node.
-                AssertHelper.AreEqual(0.75, () => calculator.CalculateY(2.5));
+                AssertHelper.AreEqual(0.75, () => calculator.Calculate(2.5));
                 // Off
-                AssertHelper.AreEqual(0.00, () => calculator.CalculateY(3.0));
+                AssertHelper.AreEqual(0.00, () => calculator.Calculate(3.0));
             }
         }
 

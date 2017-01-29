@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Api;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
@@ -64,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         /// using the same calculation as in the sound.
         /// </summary>
         private CurveInfo _currentCurveInfo;
-        private ICurveCalculator _currentCurveCalculator;
+        private ICalculatorWithPosition _currentCurveCalculator;
 
         /// <summary> Not nullable. Never replaced with a new instance. Neither are its properties. </summary>
         public CurveDetailsViewModelToDiagramConverterResult Result { get; }
@@ -598,7 +599,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             double x = mockNode0.X + step;
             for (int i = 0; i < _lineSegmentPointCount - 2; i++)
             {
-                double y = _currentCurveCalculator.CalculateY(x);
+                double y = _currentCurveCalculator.Calculate(x);
 
                 var destPoint = new Point
                 {

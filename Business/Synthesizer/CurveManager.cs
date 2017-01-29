@@ -13,6 +13,7 @@ using System.Linq;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Validation.Curves;
 
 namespace JJ.Business.Synthesizer
@@ -308,13 +309,13 @@ namespace JJ.Business.Synthesizer
         // Misc
 
         /// <summary> Faster initialization, slower calculation. </summary>
-        public ICurveCalculator CreateInterpretedCalculator(Curve curve)
+        public ICalculatorWithPosition CreateInterpretedCalculator(Curve curve)
         {
             return new InterpretedCurveCalculator(curve);
         }
 
         /// <summary> Slower initialization, faster calculation. </summary>
-        public ICurveCalculator CreateOptimizedCalculator(Curve curve)
+        public ICalculatorWithPosition CreateOptimizedCalculator(Curve curve)
         {
             return CurveCalculatorFactory.CreateCurveCalculator(curve);
         }
@@ -386,9 +387,9 @@ namespace JJ.Business.Synthesizer
 
                 case NodeTypeEnum.Curve:
                     {
-                        ICurveCalculator calculator = CreateInterpretedCalculator(beforeNode.Curve);
+                        ICalculatorWithPosition calculator = CreateInterpretedCalculator(beforeNode.Curve);
                         double x = (beforeNode.X + afterNode.X) / 2;
-                        double y = calculator.CalculateY(x);
+                        double y = calculator.Calculate(x);
                         return y;
                     }
 

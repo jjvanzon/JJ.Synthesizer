@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Api.Helpers;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -68,13 +69,13 @@ namespace JJ.Business.Synthesizer.Api
         }
 
         /// <summary> Faster initialization, slower calculation. </summary>
-        public static ICurveCalculator CreateInterpretedCalculator(Curve curve)
+        public static ICalculatorWithPosition CreateInterpretedCalculator(Curve curve)
         {
             return _curveManager.CreateInterpretedCalculator(curve);
         }
 
         /// <summary> Slower initialization, faster calculation. </summary>
-        public static ICurveCalculator CreateOptimizedCalculator(Curve curve)
+        public static ICalculatorWithPosition CreateOptimizedCalculator(Curve curve)
         {
             return _curveManager.CreateOptimizedCalculator(curve);
         }

@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
 
-            double value = _curveCalculator.CalculateY(position);
+            double value = _curveCalculator.Calculate(position);
 
             return value;
         }
@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double phase = position - _origin;
 
-            double value = _curveCalculator.CalculateY(phase);
+            double value = _curveCalculator.Calculate(phase);
 
             return value;
         }
@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
 
-            double value = _curveCalculator.CalculateY(position);
+            double value = _curveCalculator.Calculate(position);
             return value;
         }
     }
@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double phase = position - _origin;
 
-            double value = _curveCalculator.CalculateY(phase);
+            double value = _curveCalculator.Calculate(phase);
 
             return value;
         }

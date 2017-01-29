@@ -114,7 +114,7 @@
     <Compile Include="Calculation\Curves\CurveArrayInfo.cs" />
     <Compile Include="Calculation\Curves\CurveArrayHelper.cs" />
     <Compile Include="Calculation\Curves\CurveCalculatorFactory.cs" />
-    <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
+    <Compile Include="Calculation\Curves\2017-01-29 Backup of ICurveCalculator.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinXZero.cs" />
     <Compile Include="Calculation\Curves\CurveCalculator_MinX.cs" />
     <Compile Include="Calculation\DimensionStackCollection.cs" />

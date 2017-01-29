@@ -4,7 +4,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Curves
 {
-    internal class CurveCalculator_MinX : ICurveCalculator
+    internal class CurveCalculator_MinX : ICalculatorWithPosition
     {
         private readonly ArrayCalculator_MinPosition_Line _arrayCalculator;
 
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double CalculateY(double x)
+        public double Calculate(double x)
         {
             return _arrayCalculator.Calculate(x);
         }

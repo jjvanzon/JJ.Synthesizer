@@ -942,7 +942,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                ICurveCalculator curveCalculator = _calculatorCache.GetCurveCalculator(curve);
+                ICalculatorWithPosition curveCalculator = _calculatorCache.GetCurveCalculator(curve);
 
                 var curveCalculator_MinPosition = curveCalculator as CurveCalculator_MinX;
                 if (curveCalculator_MinPosition != null)

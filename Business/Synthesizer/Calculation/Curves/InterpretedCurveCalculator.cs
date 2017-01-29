@@ -11,7 +11,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Curves
 {
-    internal class InterpretedCurveCalculator : ICurveCalculator
+    internal class InterpretedCurveCalculator : ICalculatorWithPosition
     {
         private readonly Curve _curve;
 
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             return sortedNodesIncludingFakeNodes;
         }
 
-        public double CalculateY(double x)
+        public double Calculate(double x)
         {
             // Find the node right after the time.
             Node node1 = null;

@@ -39,11 +39,11 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
             // Calculate the array.
             double[] samples = new double[sampleCount];
-            ICurveCalculator interpretedCurveCalculator = new InterpretedCurveCalculator(curve);
+            ICalculatorWithPosition interpretedCurveCalculator = new InterpretedCurveCalculator(curve);
             double x = minX;
             for (int i = 0; i < sampleCount; i++)
             {
-                double sample = interpretedCurveCalculator.CalculateY(x);
+                double sample = interpretedCurveCalculator.Calculate(x);
                 samples[i] = sample;
                 x += step;
             }
