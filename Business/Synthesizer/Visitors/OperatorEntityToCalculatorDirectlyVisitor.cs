@@ -591,7 +591,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                IList<ArrayCalculatorBase> arrayCalculators = _calculatorCache.GetCacheArrayCalculators(
+                IList<ICalculatorWithPosition> arrayCalculators = _calculatorCache.GetCacheArrayCalculators(
                     op,
                     signalCalculator,
                     start,

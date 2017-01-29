@@ -3,7 +3,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal abstract class ArrayCalculatorBase : ICalculatorWithDimension
+    internal abstract class ArrayCalculatorBase
     {
         // Fields for performance
         protected double[] _array;
@@ -76,7 +76,5 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             _valueBefore = valueBefore;
             _valueAfter = valueAfter;
         }
-
-        public abstract double Calculate(double position);
     }
 }

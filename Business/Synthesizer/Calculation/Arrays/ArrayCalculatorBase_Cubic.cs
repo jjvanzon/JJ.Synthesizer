@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal abstract class ArrayCalculatorBase_Cubic : ArrayCalculatorBase
+    internal abstract class ArrayCalculatorBase_Cubic : ArrayCalculatorBase, ICalculatorWithPosition
     {
         private const int EXTRA_TICKS_BEFORE = 1;
         private const int EXTRA_TICKS_AFTER = 2;
@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 
         /// <summary> Base method does not check bounds or transform position from 'seconds to samples'. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(double x)
+        public double Calculate(double x)
         {
             x += EXTRA_TICKS_BEFORE;
 

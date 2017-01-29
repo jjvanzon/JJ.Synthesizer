@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<int, RandomCalculator_StripeInterpolation> _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary = new Dictionary<int, RandomCalculator_StripeInterpolation>();
         private readonly object _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary_Lock = new object();
 
-        private readonly Dictionary<int, IList<ArrayCalculatorBase>> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, IList<ArrayCalculatorBase>>();
+        private readonly Dictionary<int, IList<ICalculatorWithPosition>> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, IList<ICalculatorWithPosition>>();
         private readonly object _cacheOperatorID_To_ArrayCalculators_Dictionary_Lock = new object();
 
         internal ICurveCalculator GetCurveCalculator(int curveID, ICurveRepository curveRepository)
@@ -197,7 +197,7 @@ namespace JJ.Business.Synthesizer.Calculation
         /// you only have to check one of them.
         /// </summary>
         /// <param name="samplingRate">greater than 0</param>
-        internal IList<ArrayCalculatorBase> GetCacheArrayCalculators(
+        internal IList<ICalculatorWithPosition> GetCacheArrayCalculators(
             Operator op,
             OperatorCalculatorBase signalCalculator,
             double start,
@@ -216,7 +216,7 @@ namespace JJ.Business.Synthesizer.Calculation
             int channelCount = speakerSetup.SpeakerSetupChannels.Count;
             InterpolationTypeEnum interpolationTypeEnum = wrapper.InterpolationType;
 
-            IList<ArrayCalculatorBase> arrayCalculators = GetCacheArrayCalculators(
+            IList<ICalculatorWithPosition> arrayCalculators = GetCacheArrayCalculators(
                 op.ID, 
                 signalCalculator, 
                 start, 
@@ -230,7 +230,7 @@ namespace JJ.Business.Synthesizer.Calculation
             return arrayCalculators;
         }
 
-        internal IList<ArrayCalculatorBase> GetCacheArrayCalculators(
+        internal IList<ICalculatorWithPosition> GetCacheArrayCalculators(
             int operatorID, 
             OperatorCalculatorBase signalCalculator, 
             double start, 
@@ -245,7 +245,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
             lock (_cacheOperatorID_To_ArrayCalculators_Dictionary_Lock)
             {
-                IList<ArrayCalculatorBase> arrayCalculators;
+                IList<ICalculatorWithPosition> arrayCalculators;
                 if (!_cacheOperatorID_To_ArrayCalculators_Dictionary.TryGetValue(operatorID, out arrayCalculators))
                 {
                     arrayCalculators = CreateCacheArrayCalculators(
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
-        private IList<ArrayCalculatorBase> CreateCacheArrayCalculators(
+        private IList<ICalculatorWithPosition> CreateCacheArrayCalculators(
             OperatorCalculatorBase signalCalculator,
             double start, 
             double end, 
@@ -292,7 +292,7 @@ namespace JJ.Business.Synthesizer.Calculation
             int tickCount = (int)(length * rate) + 1;
             double tickLength = 1.0 / rate;
 
-            var arrayCalculators = new ArrayCalculatorBase[channelCount];
+            var arrayCalculators = new ICalculatorWithPosition[channelCount];
 
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {
@@ -324,7 +324,7 @@ namespace JJ.Business.Synthesizer.Calculation
 #endif
                 }
 
-                ArrayCalculatorBase arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(
+                ICalculatorWithPosition arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(
                     samples, 
                     rate, 
                     start, 

@@ -69,13 +69,13 @@ namespace JJ.Business.Synthesizer.Helpers
         }
 
         public static OperatorCalculatorBase Create_Cache_OperatorCalculator(
-            IList<ArrayCalculatorBase> arrayCalculators,
+            IList<ICalculatorWithPosition> arrayCalculators,
             DimensionStack dimensionStack,
             DimensionStack channelDimensionStack)
         {
             if (arrayCalculators.Count == 1)
             {
-                ArrayCalculatorBase arrayCalculator = arrayCalculators[0];
+                ICalculatorWithPosition arrayCalculator = arrayCalculators[0];
                 OperatorCalculatorBase calculator = Create_Cache_OperatorCalculator_SingleChannel(arrayCalculator, dimensionStack);
                 return calculator;
             }
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Helpers
         // We need the array calculator as a concrete type argument 
         // to prevent some indirections imposed by calling an abstract type.
 
-        public static OperatorCalculatorBase Create_Cache_OperatorCalculator_MultiChannel(IList<ArrayCalculatorBase> arrayCalculators, DimensionStack dimensionStack, DimensionStack channelDimensionStack)
+        public static OperatorCalculatorBase Create_Cache_OperatorCalculator_MultiChannel(IList<ICalculatorWithPosition> arrayCalculators, DimensionStack dimensionStack, DimensionStack channelDimensionStack)
         {
             Type arrayCalculatorType = arrayCalculators.GetItemType();
             Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_MultiChannel<>).MakeGenericType(new[] { arrayCalculatorType });
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Helpers
             return calculator;
         }
 
-        public static OperatorCalculatorBase Create_Cache_OperatorCalculator_SingleChannel(ArrayCalculatorBase arrayCalculator, DimensionStack dimensionStack)
+        public static OperatorCalculatorBase Create_Cache_OperatorCalculator_SingleChannel(ICalculatorWithPosition arrayCalculator, DimensionStack dimensionStack)
         {
             Type arrayCalculatorType = arrayCalculator.GetType();
             Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_SingleChannel<>).MakeGenericType(new[] { arrayCalculatorType });

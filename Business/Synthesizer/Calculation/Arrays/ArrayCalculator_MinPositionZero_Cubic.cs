@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(double position)
+        public new double Calculate(double position)
         {
             // Return if sample not in range.
             // Execute it on the doubles, to prevent integer overflow later.

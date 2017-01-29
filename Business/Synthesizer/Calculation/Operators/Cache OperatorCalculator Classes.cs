@@ -8,7 +8,7 @@ using JJ.Framework.Exceptions;
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Cache_OperatorCalculator_SingleChannel<TArrayCalculator> : OperatorCalculatorBase
-        where TArrayCalculator : ArrayCalculatorBase
+        where TArrayCalculator : ICalculatorWithPosition
     {
         private readonly TArrayCalculator _arrayCalculator;
         private readonly DimensionStack _dimensionStack;
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     }
 
     internal class Cache_OperatorCalculator_MultiChannel<TArrayCalculator> : OperatorCalculatorBase
-        where TArrayCalculator : ArrayCalculatorBase
+        where TArrayCalculator : ICalculatorWithPosition
     {
         private readonly TArrayCalculator[] _arrayCalculators;
         private readonly int _arrayCalculatorsMaxIndex;

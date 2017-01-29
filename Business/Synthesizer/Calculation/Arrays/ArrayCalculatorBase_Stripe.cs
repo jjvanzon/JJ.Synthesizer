@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal abstract class ArrayCalculatorBase_Stripe : ArrayCalculatorBase
+    internal abstract class ArrayCalculatorBase_Stripe : ArrayCalculatorBase, ICalculatorWithPosition
     {
         private const int EXTRA_TICKS_BEFORE = 0;
         private const int EXTRA_TICKS_AFTER = 1;
@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 
         /// <summary> Base method does not check bounds or transform position from 'seconds to samples'. </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate(double x)
+        public double Calculate(double x)
         {
             x += 0.5;
 

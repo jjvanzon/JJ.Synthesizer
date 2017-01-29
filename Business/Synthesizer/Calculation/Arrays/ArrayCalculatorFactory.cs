@@ -5,12 +5,13 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
     internal static class ArrayCalculatorFactory
     {
-        public static ArrayCalculatorBase CreateArrayCalculator(
+        public static ICalculatorWithPosition CreateArrayCalculator(
             double[] array,
             double rate,
             double minPosition,
             InterpolationTypeEnum interpolationTypeEnum)
         {
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (minPosition == 0.0)
             {
                 switch (interpolationTypeEnum)
@@ -28,10 +29,12 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                         return new ArrayCalculator_MinPositionZero_Line(array, rate);
 
                     case InterpolationTypeEnum.Stripe:
+                        // ReSharper disable once CompareOfFloatsByEqualityOperator
                         if (rate == 1.0)
                         {
                             return new ArrayCalculator_MinPositionZero_Stripe_NoRate(array);
                         }
+                        // ReSharper disable once RedundantIfElseBlock
                         else
                         {
                             return new ArrayCalculator_MinPositionZero_Stripe(array, rate);
@@ -41,6 +44,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                         throw new ValueNotSupportedException(interpolationTypeEnum);
                 }
             }
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 switch (interpolationTypeEnum)
@@ -66,7 +70,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             }
         }
 
-        public static ArrayCalculatorBase CreateArrayCalculator(
+        public static ICalculatorWithPosition CreateArrayCalculator(
             double[] array,
             double rate,
             double minPosition,
@@ -74,6 +78,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             double valueAfter,
             InterpolationTypeEnum interpolationTypeEnum)
         {
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (minPosition == 0.0)
             {
                 switch (interpolationTypeEnum)
@@ -91,10 +96,12 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                         return new ArrayCalculator_MinPositionZero_Line(array, rate, valueBefore, valueAfter);
 
                     case InterpolationTypeEnum.Stripe:
+                        // ReSharper disable once CompareOfFloatsByEqualityOperator
                         if (rate == 1.0)
                         {
                             return new ArrayCalculator_MinPositionZero_Stripe_NoRate(array, valueBefore, valueAfter);
                         }
+                        // ReSharper disable once RedundantIfElseBlock
                         else
                         {
                             return new ArrayCalculator_MinPositionZero_Stripe(array, rate, valueBefore, valueAfter);
@@ -104,6 +111,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                         throw new ValueNotSupportedException(interpolationTypeEnum);
                 }
             }
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 switch (interpolationTypeEnum)
@@ -137,10 +145,12 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             switch (interpolationTypeEnum)
             {
                 case InterpolationTypeEnum.Block:
+                    // ReSharper disable once CompareOfFloatsByEqualityOperator
                     if (rate == 1.0)
                     {
                         return new ArrayCalculator_RotatePosition_Block_NoRate(array);
                     }
+                    // ReSharper disable once RedundantIfElseBlock
                     else
                     {
                         return new ArrayCalculator_RotatePosition_Block(array, rate);
@@ -153,20 +163,24 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                     return new ArrayCalculator_RotatePosition_Hermite(array, rate);
 
                 case InterpolationTypeEnum.Line:
+                    // ReSharper disable once CompareOfFloatsByEqualityOperator
                     if (rate == 1.0)
                     {
                         return new ArrayCalculator_RotatePosition_Line_NoRate(array);
                     }
+                    // ReSharper disable once RedundantIfElseBlock
                     else
                     {
                         return new ArrayCalculator_RotatePosition_Line(array, rate);
                     }
 
                 case InterpolationTypeEnum.Stripe:
+                    // ReSharper disable once CompareOfFloatsByEqualityOperator
                     if (rate == 1.0)
                     {
                         return new ArrayCalculator_RotatePosition_Stripe_NoRate(array);
                     }
+                    // ReSharper disable once RedundantIfElseBlock
                     else
                     {
                         return new ArrayCalculator_RotatePosition_Stripe(array, rate);

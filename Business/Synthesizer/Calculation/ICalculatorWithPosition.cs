@@ -1,6 +1,6 @@
 ﻿namespace JJ.Business.Synthesizer.Calculation
 {
-    internal interface ICalculatorWithDimension
+    internal interface ICalculatorWithPosition
     {
         double Calculate(double position);
     }
