@@ -74,9 +74,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private int? TryGetSelectedSampleID()
         {
             if (comboBoxSample.DataSource == null) return null;
-            IDAndName idAndName = (IDAndName)comboBoxSample.SelectedItem;
-            if (idAndName == null) return null;
-            return idAndName.ID;
+            var idAndName = (IDAndName)comboBoxSample.SelectedItem;
+            return idAndName?.ID;
         }
     }
 }

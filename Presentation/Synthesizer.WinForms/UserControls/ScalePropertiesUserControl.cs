@@ -62,14 +62,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             comboBoxScaleType.SelectedValue = ViewModel.Entity.ScaleType.ID;
         }
 
-        private int? TryGetSelectedSampleID()
-        {
-            if (comboBoxScaleType.DataSource == null) return null;
-            IDAndName idAndName = (IDAndName)comboBoxScaleType.SelectedItem;
-            if (idAndName == null) return null;
-            return idAndName.ID;
-        }
-
         protected override void ApplyControlsToViewModel()
         {
             ViewModel.Entity.Name = textBoxName.Text;

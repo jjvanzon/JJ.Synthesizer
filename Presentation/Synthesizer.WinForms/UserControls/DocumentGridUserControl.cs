@@ -45,25 +45,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Open()
         {
-            if (OpenRequested != null)
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    OpenRequested(this, new EventArgs<int>(id.Value));
-                }
+                OpenRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 
         private void Delete()
         {
-            if (DeleteRequested != null)
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    DeleteRequested(this, new EventArgs<int>(id.Value));
-                }
+                DeleteRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 

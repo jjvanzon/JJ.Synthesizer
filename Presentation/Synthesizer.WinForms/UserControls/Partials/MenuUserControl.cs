@@ -113,6 +113,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             var toolStripMenuItem = new ToolStripMenuItem
             {
                 Name = "menuToolStripMenuItem",
+                // ReSharper disable once LocalizableElement
                 Text = "&" + CommonTitles.Menu
             };
 
@@ -124,6 +125,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             var toolStripMenuItem = new ToolStripMenuItem
             {
                 Name = "documentTreeToolStripMenuItem",
+                // ReSharper disable once LocalizableElement
                 Text = "&" + Titles.DocumentTree
             };
 
@@ -135,6 +137,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             var toolStripMenuItem = new ToolStripMenuItem
             {
                 Name = "currentPatchesToolStripMenuItem",
+                // ReSharper disable once LocalizableElement
                 Text = "&" + Titles.CurrentPatches
             };
 
@@ -146,6 +149,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             var toolStripMenuItem = new ToolStripMenuItem
             {
                 Name = "documentSaveToolStripMenuItem",
+                // ReSharper disable once LocalizableElement
                 Text = "&" + CommonTitleFormatter.SaveObject(PropertyDisplayNames.Document)
             };
 
@@ -157,6 +161,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             var toolStripMenuItem = new ToolStripMenuItem
             {
                 Name = "documentCloseToolStripMenuItem",
+                // ReSharper disable once LocalizableElement
                 Text = "&" + CommonTitleFormatter.CloseObject(PropertyDisplayNames.Document)
             };
 
@@ -168,6 +173,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             var toolStripMenuItem = new ToolStripMenuItem
             {
                 Name = "documentListToolStripMenuItem",
+                // ReSharper disable once LocalizableElement
                 Text = "&" + Titles.DocumentList
             };
 
@@ -179,6 +185,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             var toolStripMenuItem = new ToolStripMenuItem
             {
                 Name = "documentPropertiesToolStripMenuItem",
+                // ReSharper disable once LocalizableElement
                 Text = "&" + CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Document)
             };
 

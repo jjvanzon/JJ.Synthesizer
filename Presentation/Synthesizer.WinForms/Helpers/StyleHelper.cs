@@ -49,7 +49,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             // not only because it is protected,
             // but because WinForms does not make AutoScaleFactor.Width > 1
             // when the font is changed in the form.
-            float fontScalingCorrectionFactor = 0.9f; // Completely arbitrary experimentally obtained factor.
+            const float fontScalingCorrectionFactor = 0.9f; // Completely arbitrary experimentally obtained factor.
+            if (userControl.ParentForm == null)
+            {
+                throw new NullException(() => userControl.ParentForm);
+            }
             float autoScaleFactor = userControl.Font.Size / userControl.ParentForm.Font.Size * fontScalingCorrectionFactor;
             labelColumnWidth *= autoScaleFactor;
 

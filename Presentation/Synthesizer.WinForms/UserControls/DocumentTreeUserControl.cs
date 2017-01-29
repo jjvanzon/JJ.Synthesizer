@@ -50,17 +50,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set { base.ViewModel = value; }
         }
 
-        /// <summary>
-        /// TODO: Either check _applyViewModelIsBusy in ApplyViewModelToControls for some threading safety,
-        /// or if it is not needed, remove this variable and all of its references.
-        /// </summary>
-        private bool _applyViewModelIsBusy = false;
-
         protected override void ApplyViewModelToControls()
         {
             try
             {
-                _applyViewModelIsBusy = true;
                 treeView.SuspendLayout();
                 treeView.BeginUpdate();
 
@@ -106,7 +99,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
             finally
             {
-                _applyViewModelIsBusy = false;
                 treeView.EndUpdate();
                 treeView.ResumeLayout();
             }
@@ -122,8 +114,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // PatchGroups
             foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in documentTreeViewModel.PatchesNode.PatchGroupNodes)
             {
-                var patchGroupTreeNode = new TreeNode(patchGroupViewModel.Text);
-                patchGroupTreeNode.Tag = patchGroupViewModel.GroupName;
+                var patchGroupTreeNode = new TreeNode(patchGroupViewModel.Text)
+                {
+                    Tag = patchGroupViewModel.GroupName
+                };
                 patchesTreeNode.Nodes.Add(patchGroupTreeNode);
                 _patchesTreeNodes.Add(patchGroupTreeNode);
 
@@ -168,8 +162,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private TreeNode ConvertPatchTreeNode(PatchTreeNodeViewModel patchTreeNodeViewModel)
         {
-            var patchTreeNode = new TreeNode(patchTreeNodeViewModel.Text);
-            patchTreeNode.Tag = patchTreeNodeViewModel.PatchID;
+            var patchTreeNode = new TreeNode(patchTreeNodeViewModel.Text)
+            {
+                Tag = patchTreeNodeViewModel.PatchID
+            };
 
             return patchTreeNode;
         }

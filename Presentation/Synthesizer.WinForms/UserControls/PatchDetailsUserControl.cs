@@ -22,6 +22,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchDetailsUserControl : DetailsOrPropertiesUserControlBase
     {
+        private const bool DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING = false;
+
+        private static readonly Size _defaultToolStripLabelSize = new Size(86, 22);
+        private static readonly bool _mustExecuteOperatorMoveActionWhileDragging = GetMustExecuteOperatorMoveActionWhileDragging();
+
         public event EventHandler<EventArgs<int>> DeleteOperatorRequested;
         public event EventHandler<CreateOperatorEventArgs> CreateOperatorRequested;
         public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
@@ -31,15 +36,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> ShowOperatorPropertiesRequested;
         public event EventHandler<EventArgs<int>> ShowPatchPropertiesRequested;
 
-        private const bool DEFAULT_ALWAYS_RECREATE_DIAGRAM = false;
-        private const bool DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING = false;
-
-        private readonly static Size _defaultToolStripLabelSize = new Size(86, 22);
-        private readonly static bool _mustExecuteOperatorMoveActionWhileDragging = GetMustExecuteOperatorMoveActionWhileDragging();
-
         private PatchViewModelToDiagramConverter _converter;
         private PatchViewModelToDiagramConverterResult _converterResult;
-        private bool _operatorToolboxItemsViewModelIsApplied = false; // Dirty way to only apply it once.
+        private bool _operatorToolboxItemsViewModelIsApplied; // Dirty way to only apply it once.
 
         // Constructors
 
@@ -124,6 +123,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void UnbindVectorGraphicsEvents()
         {
+            // ReSharper disable once InvertIf
             if (_converterResult != null)
             {
                 _converterResult.SelectOperatorGesture.OperatorSelected -= SelectOperatorGesture_OperatorSelected;

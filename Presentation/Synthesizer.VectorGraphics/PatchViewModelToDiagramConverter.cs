@@ -225,7 +225,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                         destCurve.LineStyle = StyleHelper.LineStyle;
                     }
 
-
                     destCurve.PointA = operatorVectorGraphicsElements1.InletPoints[i];
                     destCurve.ControlPointA = operatorVectorGraphicsElements1.InletControlPoints[i];
 

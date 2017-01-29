@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
@@ -11,13 +12,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
         public PatchDetailsViewModel ViewModel
         {
-            get { return (PatchDetailsViewModel) patchDetailsUserControl.ViewModel; }
+            get { return patchDetailsUserControl.ViewModel; }
             set { patchDetailsUserControl.ViewModel = value; }
         }
 
         public PatchDetailsForm()
         {
             InitializeComponent();
+
+            patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
         }
 
         private void PatchDetailsForm_Load(object sender, EventArgs e)
@@ -30,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             Text = Titles.ApplicationName;
         }
 
-        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs e)
+        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             Close();
         }

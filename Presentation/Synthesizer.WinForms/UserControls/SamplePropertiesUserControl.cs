@@ -50,6 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelBytesToSkip.Text = PropertyDisplayNames.BytesToSkip;
             labelInterpolationType.Text = PropertyDisplayNames.InterpolationType;
             labelOriginalLocation.Text = PropertyDisplayNames.OriginalLocation;
+            // ReSharper disable once LocalizableElement
             labelDurationTitle.Text = PropertyDisplayNames.Duration + ":";
         }
 

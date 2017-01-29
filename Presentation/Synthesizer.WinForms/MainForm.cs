@@ -60,8 +60,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             if (disposing)
             {
-                if (components != null) components.Dispose();
-                if (_context != null) _context.Dispose();
+                components?.Dispose();
+                _context?.Dispose();
             }
 
             base.Dispose(disposing);
@@ -133,7 +133,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var x = new PatchManager(new PatchRepositories(_repositories));
             x.CreatePatch();
 
-            var signalOutlet = x.PatchOutlet
+            x.PatchOutlet
             (
                 DimensionEnum.Signal,
                 x.MultiplyWithOrigin

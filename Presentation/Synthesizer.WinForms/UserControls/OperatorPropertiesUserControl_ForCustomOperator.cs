@@ -71,9 +71,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private int? TryGetSelectedUnderlyingPatchID()
         {
             if (comboBoxUnderlyingPatch.DataSource == null) return null;
-            IDAndName idAndName = (IDAndName)comboBoxUnderlyingPatch.SelectedItem;
-            if (idAndName == null) return null;
-            return idAndName.ID;
+            var idAndName = (IDAndName)comboBoxUnderlyingPatch.SelectedItem;
+            return idAndName?.ID;
         }
     }
 }

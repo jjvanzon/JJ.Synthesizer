@@ -72,9 +72,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private int? TryGetSelectedCurveID()
         {
             if (comboBoxCurve.DataSource == null) return null;
-            IDAndName idAndName = (IDAndName)comboBoxCurve.SelectedItem;
-            if (idAndName == null) return null;
-            return idAndName.ID;
+            var idAndName = (IDAndName)comboBoxCurve.SelectedItem;
+            return idAndName?.ID;
         }
     }
 }

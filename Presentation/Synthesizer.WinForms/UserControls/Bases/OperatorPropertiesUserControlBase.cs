@@ -64,6 +64,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         {
             TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
             _labelName.Text = CommonTitles.Name;
+            // ReSharper disable once LocalizableElement
             _labelOperatorTypeTitle.Text = Titles.Type + ":";
             _labelStandardDimension.Text = PropertyDisplayNames.StandardDimension;
             _labelCustomDimensionName.Text = Titles.CustomDimension;

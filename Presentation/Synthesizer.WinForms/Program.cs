@@ -20,7 +20,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
         public static IPatchCalculatorContainer PatchCalculatorContainer { get; private set; }
         public static AudioOutput AudioOutput { get; private set; }
 
+        // ReSharper disable once NotAccessedField.Local
         private static Thread _audioOutputThread;
+        // ReSharper disable once NotAccessedField.Local
         private static Thread _midiInputThread;
 
         [STAThread]
@@ -95,18 +97,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor.Stop();
             if (winFormsConfig.MidiInputEnabled) _midiInputProcessor.Stop();
 
-            IDisposable disposablePatchCalculator = PatchCalculatorContainer.Calculator as IDisposable;
-            if (disposablePatchCalculator != null)
-            {
-                disposablePatchCalculator.Dispose();
-            }
+            var disposablePatchCalculator = PatchCalculatorContainer.Calculator as IDisposable;
+            disposablePatchCalculator?.Dispose();
         }
 
         private static Thread StartMidiInputThread(MidiInputProcessor midiInputProcessor)
         {
             if (midiInputProcessor == null) throw new NullException(() => midiInputProcessor);
 
-            Thread thread = new Thread(() => midiInputProcessor.TryStart());
+            var thread = new Thread(() => midiInputProcessor.TryStart());
             thread.Start();
 
             return thread;
@@ -116,7 +115,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             if (audioOutputProcessor == null) throw new NullException(() => audioOutputProcessor);
 
-            Thread thread = new Thread(() => audioOutputProcessor.Start());
+            var thread = new Thread(() => audioOutputProcessor.Start());
             thread.Start();
 
             // Starting AudioOutputProcessor on another thread seems to start and keep alive a new Windows message loop,

@@ -362,22 +362,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void OperatorProperties_ForCustomOperatorViewModel_Refresh(OperatorPropertiesViewModel_ForCustomOperator userInput)
-        {
-            OperatorPropertiesViewModel_ForCustomOperator viewModel = _operatorPropertiesPresenter_ForCustomOperator.Refresh(userInput);
-
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_ForCustomOperatorViewModels_Refresh(int underlyingPatchID)
-        {
-            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in
-                MainViewModel.Document.OperatorPropertiesDictionary_ForCustomOperators.Values)
-            {
-                OperatorProperties_ForCustomOperatorViewModel_Refresh(propertiesViewModel);
-            }
-        }
-
         private void OperatorProperties_ForInletsToDimension_Refresh(OperatorPropertiesViewModel_ForInletsToDimension userInput)
         {
             OperatorPropertiesViewModel_ForInletsToDimension viewModel = _operatorPropertiesPresenter_ForInletsToDimension.Refresh(userInput);
@@ -1046,6 +1030,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void PatchGridDictionaryRefresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.PatchGridDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -1091,51 +1076,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void PatchGridRefresh(string group)
-        {
-            PatchGridViewModel viewModel = ViewModelSelector.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
-
-            PatchGridRefresh(viewModel);
-        }
-
         private void PatchGridRefresh(PatchGridViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
             PatchGridViewModel viewModel = _patchGridPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
-        }
-
-        private void PatchGridsRefresh()
-        {
-            // GetEntity
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-            // Business
-            var patchManager = new PatchManager(_patchRepositories);
-            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches);
-            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos(document.Patches);
-
-            // TODO: Ugly code.
-            IList<UsedInDto<Patch>> grouplessPatchUsedInDtos = _documentManager.GetUsedIn(grouplessPatches);
-            IList<PatchGroupDto_WithUsedIn> patchGroupDtos_WithUsedIn = patchGroupDtos.Select(x => new PatchGroupDto_WithUsedIn
-            {
-                GroupName = x.GroupName,
-                PatchUsedInDtos = _documentManager.GetUsedIn(x.Patches)
-            }).ToArray();
-
-            // ToViewModel
-            // Patch grids can be updated, created and deleted as group names are changed.
-            // All the logic in CreatePatchGridViewModelDictionary is required for this.
-            MainViewModel.Document.PatchGridDictionary = ViewModelHelper.CreatePatchGridViewModelDictionary(
-                grouplessPatchUsedInDtos,
-                patchGroupDtos_WithUsedIn,
-                document.ID);
-
-            // DispatchViewModel
-            foreach (PatchGridViewModel gridViewModel in MainViewModel.Document.PatchGridDictionary.Values.ToArray())
-            {
-                DispatchViewModel(gridViewModel);
-            }
         }
 
         private void PatchPropertiesDictionaryRefresh()

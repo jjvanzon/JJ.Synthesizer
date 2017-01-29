@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     /// </summary>
     public class ShowOperatorPropertiesKeyboardGesture : GestureBase
     {
-        public EventHandler<IDEventArgs> ShowOperatorPropertiesRequested;
+        public event EventHandler<IDEventArgs> ShowOperatorPropertiesRequested;
 
         public int SelectedOperatorID { get; set; }
 

@@ -61,14 +61,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Delete()
         {
-            if (DeleteRequested != null)
+            int? id = TryGetSelectedID();
+            // ReSharper disable once InvertIf
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    var e = new EventArgs<int>(id.Value);
-                    DeleteRequested(this, e);
-                }
+                var e = new EventArgs<int>(id.Value);
+                DeleteRequested?.Invoke(this, e);
             }
         }
 
@@ -79,14 +77,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowDetails()
         {
-            if (ShowDetailsRequested != null)
+            int? id = TryGetSelectedID();
+            // ReSharper disable once InvertIf
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    var e = new EventArgs<int>(id.Value);
-                    ShowDetailsRequested(this, e);
-                }
+                var e = new EventArgs<int>(id.Value);
+                ShowDetailsRequested?.Invoke(this, e);
             }
         }
 
