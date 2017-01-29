@@ -14,6 +14,7 @@ namespace JJ.Presentation.Synthesizer.Validators
         {
             _numberPropertyDisplayName = numberPropertyDisplayName;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
         }
 

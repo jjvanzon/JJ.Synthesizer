@@ -5,7 +5,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     internal class ExtendedVariableInfo
     {
         public string VariableNameCamelCase { get; }

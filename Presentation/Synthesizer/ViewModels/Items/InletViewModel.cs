@@ -4,7 +4,7 @@ using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public sealed class InletViewModel
     {
         public int ID { get; set; }
@@ -37,10 +37,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// <summary> Read-only, nullable, not necessarily displayed. </summary>
         public IDAndName Dimension { get; set; }
 
-
-        private string DebuggerDisplay
-        {
-            get { return DebugHelper.GetDebuggerDisplay(this); }
-        }
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

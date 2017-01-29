@@ -274,7 +274,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             double controllerFactorForFilters = 8.0 / MAX_CONTROLLER_VALUE;
             double controllerFactorForModulationSpeed = 30.0 / MAX_CONTROLLER_VALUE;
 
-            var controllerInfos = new ControllerInfo[]
+            var controllerInfos = new[]
             {
                 new ControllerInfo
                 {

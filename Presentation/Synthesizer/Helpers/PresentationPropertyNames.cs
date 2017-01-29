@@ -1,4 +1,5 @@
-﻿namespace JJ.Presentation.Synthesizer.Helpers
+﻿// ReSharper disable InconsistentNaming
+namespace JJ.Presentation.Synthesizer.Helpers
 {
     internal static class PresentationPropertyNames
     {

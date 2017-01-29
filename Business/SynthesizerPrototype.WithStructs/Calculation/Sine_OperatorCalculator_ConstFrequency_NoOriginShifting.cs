@@ -5,7 +5,7 @@ using JJ.Business.SynthesizerPrototype.WithStructs.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public struct Sine_OperatorCalculator_ConstFrequency_NoOriginShifting : IOperatorCalculator
     {
         private double _frequency;

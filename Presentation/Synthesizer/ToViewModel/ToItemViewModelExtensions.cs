@@ -238,10 +238,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 X = entity.X,
                 Y = entity.Y,
                 NodeType = entity.NodeType.ToIDAndDisplayName(),
-                ID = entity.ID
+                ID = entity.ID,
+                Caption = ViewModelHelper.GetNodeCaption(entity)
             };
-
-            viewModel.Caption = string.Format("{0:0.####}, {1:0.####}", entity.X, entity.Y);
 
             return viewModel;
         }
@@ -399,11 +398,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 IsActive = entity.IsActive,
                 SamplingRate = entity.SamplingRate,
                 BytesToSkip = entity.BytesToSkip,
-                OriginalLocation = entity.OriginalLocation
+                OriginalLocation = entity.OriginalLocation,
+                Bytes = bytes,
+                Duration = entity.GetDuration(bytes)
             };
-
-            viewModel.Bytes = bytes;
-            viewModel.Duration = entity.GetDuration(bytes);
 
             if (entity.AudioFileFormat != null)
             {

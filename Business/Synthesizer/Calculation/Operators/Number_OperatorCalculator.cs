@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     internal class Number_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly double _number;

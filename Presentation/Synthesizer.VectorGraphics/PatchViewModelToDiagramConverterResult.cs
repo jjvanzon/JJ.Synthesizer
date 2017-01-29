@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             DropLineGesture = new DropLineGesture(
                 Diagram,
-                new DragLineGesture[] { DragLineGesture },
+                new[] { DragLineGesture },
                 StyleHelper.LineStyleDashed,
                 StyleHelper.DRAG_DROP_LINE_ZINDEX);
 

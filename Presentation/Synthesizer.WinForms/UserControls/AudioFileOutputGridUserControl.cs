@@ -52,10 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
         {
-            if (CreateRequested != null)
-            {
-                CreateRequested(this, EventArgs.Empty);
-            }
+            CreateRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void titleBarUserControl_RemoveClicked(object sender, EventArgs e)
@@ -65,10 +62,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
-            }
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
@@ -94,25 +88,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Delete()
         {
-            if (DeleteRequested != null)
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    DeleteRequested(this, new EventArgs<int>(id.Value));
-                }
+                DeleteRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 
         private void ShowProperties()
         {
-            if (ShowPropertiesRequested != null)
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
-                {
-                    ShowPropertiesRequested(this, new EventArgs<int>(id.Value));
-                }
+                ShowPropertiesRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 

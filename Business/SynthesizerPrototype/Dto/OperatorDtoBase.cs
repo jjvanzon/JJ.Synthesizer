@@ -4,7 +4,7 @@ using JJ.Business.SynthesizerPrototype.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.Dto
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public abstract class OperatorDtoBase
     {
         public int DimensionStackLevel { get; set; }

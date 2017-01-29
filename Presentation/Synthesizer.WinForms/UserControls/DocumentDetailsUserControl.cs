@@ -65,11 +65,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Save()
         {
-            if (SaveRequested != null)
-            {
-                ApplyControlsToViewModel();
-                SaveRequested(this, EventArgs.Empty);
-            }
+            ApplyControlsToViewModel();
+            SaveRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void Close()

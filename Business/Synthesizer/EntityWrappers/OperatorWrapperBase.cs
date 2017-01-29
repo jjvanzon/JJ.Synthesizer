@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public abstract class OperatorWrapperBase
     {
         public OperatorWrapperBase(Operator wrappedOperator)

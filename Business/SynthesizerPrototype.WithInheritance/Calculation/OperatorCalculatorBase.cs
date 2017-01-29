@@ -3,7 +3,7 @@ using JJ.Business.SynthesizerPrototype.WithInheritance.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public abstract class OperatorCalculatorBase
     {
         public abstract double Calculate();

@@ -8,13 +8,12 @@ using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using JJ.Data.Canonical;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
+namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class CurrentPatchesUserControl : UserControlBase
     {
-        private const int BUTTON_COUNT = 3;
-
         public event EventHandler<EventArgs<int>> RemoveRequested;
         public event EventHandler CloseRequested;
         public event EventHandler ShowAutoPatchRequested;
@@ -45,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
 
             // Update
-            int minCount = new int[] { itemUserControls.Count, ViewModel.List.Count }.Min();
+            int minCount = new[] { itemUserControls.Count, ViewModel.List.Count }.Min();
             for (int i = 0; i < minCount; i++)
             {
                 IDAndName itemViewModel = ViewModel.List[i];

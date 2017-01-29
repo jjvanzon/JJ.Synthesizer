@@ -61,10 +61,9 @@ namespace JJ.Presentation.Synthesizer.Converters
             var viewModel = new PatchDetailsViewModel
             {
                 Entity = ConvertToViewModelRecursive(patch),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<Message>(),
+                OperatorToolboxItems = ViewModelHelper.GetOperatorTypesViewModel()
             };
-
-            viewModel.OperatorToolboxItems = ViewModelHelper.GetOperatorTypesViewModel();
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Entity.OperatorDictionary.Values)
             {
@@ -119,8 +118,10 @@ namespace JJ.Presentation.Synthesizer.Converters
             {
                 var dimensionKeyGroups = dimensionNameGroup.GroupBy(x => x.Dimension.Key);
 
+                // ReSharper disable once PossibleMultipleEnumeration
                 if (dimensionKeyGroups.Take(2).Count() >= 2)
                 {
+                    // ReSharper disable once PossibleMultipleEnumeration
                     foreach (var dimensionKeyGroup in dimensionKeyGroups)
                     {
                         foreach (OperatorViewModel operatorViewModel in dimensionKeyGroup)

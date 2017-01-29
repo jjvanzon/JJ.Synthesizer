@@ -40,10 +40,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Create()
         {
-            if (CreateRequested != null)
-            {
-                CreateRequested(this, EventArgs.Empty);
-            }
+            CreateRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void Open()
@@ -72,10 +69,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Close()
         {
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
-            }
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         // Events

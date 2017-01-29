@@ -57,10 +57,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 
                     case DialogResult.No:
 
-                        if (DocumentDeleteCanceled != null)
-                        {
-                            DocumentDeleteCanceled(_dummySender, EventArgs.Empty);
-                        }
+                        DocumentDeleteCanceled?.Invoke(_dummySender, EventArgs.Empty);
                         break;
 
                     default:
@@ -78,10 +75,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             {
                 MessageBox.Show(CommonMessageFormatter.ObjectIsDeleted(PropertyDisplayNames.Document));
 
-                if (DocumentDeletedOK != null)
-                {
-                    DocumentDeletedOK(_dummySender, EventArgs.Empty);
-                }
+                DocumentDeletedOK?.Invoke(_dummySender, EventArgs.Empty);
             }));
         }
 
@@ -95,10 +89,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             {
                 MessageBox.Show(string.Join(Environment.NewLine, popupMessages.Select(x => x.Text)));
 
-                if (PopupMessagesOK != null)
-                {
-                    PopupMessagesOK(_dummySender, EventArgs.Empty);
-                }
+                PopupMessagesOK?.Invoke(_dummySender, EventArgs.Empty);
             }));
         }
 

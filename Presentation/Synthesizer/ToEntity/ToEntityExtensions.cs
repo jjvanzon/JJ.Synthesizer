@@ -38,8 +38,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             AudioFileOutput entity = repositories.AudioFileOutputRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new AudioFileOutput();
-                entity.ID = viewModel.ID;
+                entity = new AudioFileOutput { ID = viewModel.ID };
                 repositories.AudioFileOutputRepository.Insert(entity);
             }
             entity.Name = viewModel.Name;
@@ -131,8 +130,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             AudioOutput entity = audioOutputRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new AudioOutput();
-                entity.ID = viewModel.ID;
+                entity = new AudioOutput { ID = viewModel.ID };
                 audioOutputRepository.Insert(entity);
             }
 
@@ -243,8 +241,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Curve entity = curveRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Curve();
-                entity.ID = viewModel.ID;
+                entity = new Curve { ID = viewModel.ID };
                 curveRepository.Insert(entity);
             }
             entity.Name = viewModel.Name;
@@ -260,8 +257,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Curve curve = repositories.CurveRepository.TryGet(viewModel.CurveID);
             if (curve == null)
             {
-                curve = new Curve();
-                curve.ID = viewModel.CurveID;
+                curve = new Curve { ID = viewModel.CurveID };
                 repositories.CurveRepository.Insert(curve);
             }
 
@@ -290,6 +286,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             var patchRepositories = new PatchRepositories(repositories);
             var scaleRepositories = new ScaleRepositories(repositories);
 
+            // ReSharper disable once RedundantAssignment
             Document destDocument = repositories.DocumentRepository.TryGetComplete(userInput.ID); // Eager loading
             destDocument = userInput.ToEntity(repositories.DocumentRepository);
             userInput.DocumentProperties.ToEntity(repositories.DocumentRepository);
@@ -391,8 +388,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Document document = documentRepository.TryGet(viewModel.ID);
             if (document == null)
             {
-                document = new Document();
-                document.ID = viewModel.ID;
+                document = new Document { ID = viewModel.ID };
                 documentRepository.Insert(document);
             }
             document.Name = viewModel.DocumentProperties.Entity.Name;
@@ -439,8 +435,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Document entity = documentRepository.TryGet(idAndName.ID);
             if (entity == null)
             {
-                entity = new Document();
-                entity.ID = idAndName.ID;
+                entity = new Document { ID = idAndName.ID };
                 documentRepository.Insert(entity);
             }
 
@@ -462,8 +457,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             EntityPosition entityPosition = entityPositionRepository.TryGet(viewModel.EntityPositionID);
             if (entityPosition == null)
             {
-                entityPosition = new EntityPosition();
-                entityPosition.ID = viewModel.EntityPositionID;
+                entityPosition = new EntityPosition { ID = viewModel.EntityPositionID };
                 entityPositionRepository.Insert(entityPosition);
             }
             entityPosition.X = viewModel.CenterX;
@@ -485,8 +479,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Inlet entity = inletRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Inlet();
-                entity.ID = viewModel.ID;
+                entity = new Inlet { ID = viewModel.ID };
                 inletRepository.Insert(entity);
             }
             entity.ListIndex = viewModel.ListIndex;
@@ -542,8 +535,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Node entity = nodeRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Node();
-                entity.ID = viewModel.ID;
+                entity = new Node { ID = viewModel.ID };
                 nodeRepository.Insert(entity);
             }
             entity.X = viewModel.X;
@@ -577,8 +569,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Operator entity = operatorRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
+                entity = new Operator { ID = viewModel.ID };
                 operatorRepository.Insert(entity);
             }
 
@@ -608,9 +599,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
 
-            var wrapper = new Cache_OperatorWrapper(entity);
-            wrapper.InterpolationType = (InterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0);
-            wrapper.SpeakerSetup = (SpeakerSetupEnum)(viewModel.SpeakerSetup?.ID ?? 0);
+            new Cache_OperatorWrapper(entity)
+            {
+                InterpolationType = (InterpolationTypeEnum) (viewModel.Interpolation?.ID ?? 0),
+                SpeakerSetup = (SpeakerSetupEnum) (viewModel.SpeakerSetup?.ID ?? 0)
+            };
 
             return entity;
         }
@@ -677,8 +670,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
 
-            var wrapper = new InletsToDimension_OperatorWrapper(entity);
-            wrapper.InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0);
+            new InletsToDimension_OperatorWrapper(entity)
+            {
+                InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0)
+            };
 
             return entity;
         }
@@ -713,14 +708,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator op = ConvertToOperator_Base(viewModel, repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
 
-            var wrapper = new PatchInlet_OperatorWrapper(op);
-            wrapper.ListIndex = viewModel.Number - 1;
+            new PatchInlet_OperatorWrapper(op) { ListIndex = viewModel.Number - 1 };
 
             Inlet inlet = op.Inlets.FirstOrDefault();
             if (inlet == null)
             {
-                inlet = new Inlet();
-                inlet.ID = repositories.IDRepository.GetID();
+                inlet = new Inlet { ID = repositories.IDRepository.GetID() };
                 repositories.InletRepository.Insert(inlet);
             }
 
@@ -762,14 +755,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator op = ConvertToOperator_Base(viewModel, repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
 
-            var wrapper = new PatchOutlet_OperatorWrapper(op);
-            wrapper.ListIndex = viewModel.Number - 1;
+            new PatchOutlet_OperatorWrapper(op) { ListIndex = viewModel.Number - 1 };
 
             Outlet outlet = op.Outlets.FirstOrDefault();
             if (outlet == null)
             {
-                outlet = new Outlet();
-                outlet.ID = repositories.IDRepository.GetID();
+                outlet = new Outlet { ID = repositories.IDRepository.GetID() };
                 repositories.OutletRepository.Insert(outlet);
             }
 
@@ -824,8 +815,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
 
-            var wrapper = new Interpolate_OperatorWrapper(entity);
-            wrapper.InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0);
+            new Interpolate_OperatorWrapper(entity) { InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0) };
 
             return entity;
         }
@@ -840,8 +830,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
 
-            var wrapper = new SumOverDimension_OperatorWrapper(entity);
-            wrapper.CollectionRecalculation = (CollectionRecalculationEnum)(viewModel.CollectionRecalculation?.ID ?? 0);
+            new SumOverDimension_OperatorWrapper(entity)
+            {
+                CollectionRecalculation = (CollectionRecalculationEnum)(viewModel.CollectionRecalculation?.ID ?? 0)
+            };
 
             return entity;
         }
@@ -886,8 +878,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Operator entity = operatorRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
+                entity = new Operator { ID = viewModel.ID };
                 operatorRepository.Insert(entity);
             }
             entity.Name = viewModel.Name;
@@ -913,8 +904,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Outlet entity = outletRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Outlet();
-                entity.ID = viewModel.ID;
+                entity = new Outlet { ID = viewModel.ID };
                 outletRepository.Insert(entity);
             }
             entity.ListIndex = viewModel.ListIndex;
@@ -936,8 +926,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Patch entity = patchRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Patch();
-                entity.ID = viewModel.ID;
+                entity = new Patch { ID = viewModel.ID };
                 patchRepository.Insert(entity);
             }
 
@@ -982,8 +971,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Patch patch = patchRepository.TryGet(viewModel.ID);
             if (patch == null)
             {
-                patch = new Patch();
-                patch.ID = viewModel.ID;
+                patch = new Patch { ID = viewModel.ID };
                 patchRepository.Insert(patch);
             }
             patch.Name = viewModel.Name;
@@ -997,8 +985,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
 
             ToPatchWithRelatedEntitiesResult result = viewModel.Entity.ToEntityWithRelatedEntities(repositories);
-            Patch patch = result.Patch;
-            IList<Operator> operatorsToDelete = result.OperatorsToDelete;
 
             return result;
         }
@@ -1038,8 +1024,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Sample entity = repositories.SampleRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Sample();
-                entity.ID = viewModel.ID;
+                entity = new Sample { ID = viewModel.ID };
                 repositories.SampleRepository.Insert(entity);
             }
             entity.Name = viewModel.Name;
@@ -1157,8 +1142,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Scale entity = scaleRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Scale();
-                entity.ID = viewModel.ID;
+                entity = new Scale { ID = viewModel.ID };
                 scaleRepository.Insert(entity);
             }
 
@@ -1210,8 +1194,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Tone entity = toneRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Tone();
-                entity.ID = viewModel.ID;
+                entity = new Tone { ID = viewModel.ID };
                 toneRepository.Insert(entity);
             }
 

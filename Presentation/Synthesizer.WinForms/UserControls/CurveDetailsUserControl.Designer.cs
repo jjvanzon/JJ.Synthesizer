@@ -42,10 +42,14 @@
             // 
             // CurveDetailsUserControl
             // 
+            this.AddButtonVisible = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.diagramControl);
             this.Name = "CurveDetailsUserControl";
+            this.RemoveButtonVisible = true;
             this.Size = new System.Drawing.Size(672, 393);
+            this.AddClicked += new System.EventHandler(this.CurveDetailsUserControl_AddClicked);
+            this.RemoveClicked += new System.EventHandler(this.CurveDetailsUserControl_RemoveClicked);
             this.Load += new System.EventHandler(this.CurveDetailsUserControl_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.CurveDetailsUserControl_Paint);
             this.Resize += new System.EventHandler(this.CurveDetailsUserControl_Resize);

@@ -120,6 +120,7 @@
   <data name="AddToCurrentPatches" xml:space="preserve">
     <value>Toevoegen aan huidige schakelingen</value>
   </data>
+  <!-- ReSharper disable once OverriddenWithSameValue -->
   <data name="ApplicationName" xml:space="preserve">
     <value>Synthesizer</value>
   </data>
@@ -157,6 +158,7 @@
   <data name="Group" xml:space="preserve">
     <value>Groep</value>
   </data>
+  <!-- ReSharper disable once OverriddenWithSameValue -->
   <data name="Max" xml:space="preserve">
     <value>Max</value>
   </data>

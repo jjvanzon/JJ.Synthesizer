@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public class EntityPosition
     {
         /// <summary> Data store generated, auto-incremented ID, unlike other entities. </summary>

@@ -339,6 +339,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (grouplessPatchUsedInDtos == null) throw new NullException(() => grouplessPatchUsedInDtos);
             if (patchGroupDtos == null) throw new NullException(() => patchGroupDtos);
 
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var list = new List<PatchGridViewModel>();
 
             list.Add(grouplessPatchUsedInDtos.ToPatchGridViewModel(rootDocumentID, null));
@@ -369,7 +370,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 case OperatorTypeEnum.Squash:
                     if (inlet.ListIndex == STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX)
                     {
-                        var wrapper = new Stretch_OperatorWrapper(inlet.Operator);
                         if (op.GetStandardDimensionEnum() == DimensionEnum.Time)
                         {
                             return false;
@@ -643,18 +643,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use Operator.Name
             if (!string.IsNullOrWhiteSpace(op.Name))
             {
-                return string.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
+                return $"{operatorTypeDisplayName}: {op.Name}";
             }
 
             // Use Curve.Name
             var wrapper = new Curve_OperatorWrapper(op, curveRepository);
             Curve underlyingEntity = wrapper.Curve;
-            if (underlyingEntity != null)
+            if (!string.IsNullOrWhiteSpace(underlyingEntity?.Name))
             {
-                if (!string.IsNullOrWhiteSpace(underlyingEntity.Name))
-                {
-                    return string.Format("{0}: {1}", operatorTypeDisplayName, underlyingEntity.Name);
-                }
+                return $"{operatorTypeDisplayName}: {underlyingEntity.Name}";
             }
 
             // Use OperatorTypeDisplayName
@@ -673,12 +670,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use UnderlyingPatch.Name
             var wrapper = new CustomOperator_OperatorWrapper(op, patchRepository);
             Patch underlyingPatch = wrapper.UnderlyingPatch;
-            if (underlyingPatch != null)
+            if (!string.IsNullOrWhiteSpace(underlyingPatch?.Name))
             {
-                if (!string.IsNullOrWhiteSpace(underlyingPatch.Name))
-                {
-                    return underlyingPatch.Name;
-                }
+                return underlyingPatch.Name;
             }
 
             // Use OperatorTypeDisplayName
@@ -766,7 +760,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 sb.AppendFormat(" {0}", wrapper.ListIndex + 1);
             }
 
-            return sb.ToString(); ;
+            return sb.ToString();
         }
 
         private static string GetOperatorCaption_ForSample(Operator op, ISampleRepository sampleRepository)
@@ -782,12 +776,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use Sample.Name
             var wrapper = new Sample_OperatorWrapper(op, sampleRepository);
             Sample underlyingEntity = wrapper.Sample;
-            if (underlyingEntity != null)
+            if (!string.IsNullOrWhiteSpace(underlyingEntity?.Name))
             {
-                if (!string.IsNullOrWhiteSpace(underlyingEntity.Name))
-                {
-                    return string.Format("{0}: {1}", operatorTypeDisplayName, underlyingEntity.Name);
-                }
+                return $"{operatorTypeDisplayName}: {underlyingEntity.Name}";
             }
 
             // Use OperatorType DisplayName
@@ -1191,6 +1182,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             return entity.OperatorType.HasDimension;
+        }
+
+        public static string GetNodeCaption(Node entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return $"{entity.X:0.####}, {entity.Y:0.####}";
         }
     }
 }

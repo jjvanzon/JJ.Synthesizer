@@ -4,7 +4,7 @@ using JJ.Business.SynthesizerPrototype.WithStructs.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public struct Number_OperatorCalculator_Zero : IOperatorCalculator
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

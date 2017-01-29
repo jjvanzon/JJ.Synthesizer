@@ -380,8 +380,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     audioOutput.SamplingRate, 
                     channelCount, 
                     i, 
-                    calculatorCache, 
-                    mustSubstituteSineForUnfilledInSignalPatchInlets: true);
+                    calculatorCache);
             }
 
             var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));

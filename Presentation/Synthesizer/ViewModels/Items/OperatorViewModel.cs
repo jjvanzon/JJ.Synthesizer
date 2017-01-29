@@ -7,9 +7,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
     /// <summary>
     /// NOTE: This is one of the few view models with an inverse property.
-    /// OutletViewModel.Operator <=> Operator.Outlets
+    /// OutletViewModel.Operator &lt;=&gt; Operator.Outlets
     /// </summary>
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public sealed class OperatorViewModel
     {
         public int ID { get; set; }
@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 
         /// <summary>
         /// NOTE: This property has an inverse property
-        /// Operator.Outlets <=> OutletViewModel.Operator
+        /// Operator.Outlets &lt;=&gt; OutletViewModel.Operator
         /// </summary>
         public IList<OutletViewModel> Outlets { get; set; }
 
@@ -37,9 +37,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 
         public bool IsOwned { get; set; }
 
-        private string DebuggerDisplay
-        {
-            get { return DebugHelper.GetDebuggerDisplay(this); }
-        }
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

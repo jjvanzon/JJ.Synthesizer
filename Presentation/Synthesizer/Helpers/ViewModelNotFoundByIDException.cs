@@ -4,13 +4,11 @@ namespace JJ.Presentation.Synthesizer.Helpers
 {
     public class ViewModelNotFoundByIDException<TViewModel> : Exception
     {
-        private readonly string _message;
-
-        public override string Message => _message; 
+        public override string Message { get; }
 
         public ViewModelNotFoundByIDException(int id)
         {
-            _message = string.Format("{0} with id '{1}' not found.",  typeof(TViewModel).Name, id);
+            Message = $"{typeof(TViewModel).Name} with id '{id}' not found.";
         }
     }
 }

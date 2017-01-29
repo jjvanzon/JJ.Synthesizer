@@ -5,7 +5,7 @@ using JJ.Business.SynthesizerPrototype.WithStructs.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public struct Multiply_OperatorCalculator_VarA_ConstB<TACalculator> 
         : IOperatorCalculator_VarA_ConstB
         where TACalculator : IOperatorCalculator

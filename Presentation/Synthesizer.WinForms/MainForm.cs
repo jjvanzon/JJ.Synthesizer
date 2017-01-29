@@ -122,7 +122,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                              .ToArray();
             if (patches.Count == 0)
             {
-                patches = new Patch[] { CreateDefaultSinePatch() };
+                patches = new[] { CreateDefaultSinePatch() };
             }
 
             Program.PatchCalculatorContainer.RecreateCalculator(patches, Program.AudioOutput, _repositories);

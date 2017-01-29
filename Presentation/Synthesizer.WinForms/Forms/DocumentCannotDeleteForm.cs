@@ -28,10 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         {
             Close();
 
-            if (OKClicked != null)
-            {
-                OKClicked(this, EventArgs.Empty);
-            }
+            OKClicked?.Invoke(this, EventArgs.Empty);
         }
 
         private void DocumentCannotDeleteForm_FormClosing(object sender, FormClosingEventArgs e)

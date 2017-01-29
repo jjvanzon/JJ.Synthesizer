@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// <summary>
     /// If you have child OperatorCalculators use OperatorCalculatorBase_WithChildCalculators instead.
     /// </summary>
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     internal abstract class OperatorCalculatorBase
     {
         public abstract double Calculate();

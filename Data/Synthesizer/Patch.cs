@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public class Patch
     {
         public virtual int ID { get; set; }

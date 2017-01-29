@@ -50,7 +50,7 @@
             this.operatorPropertiesUserControl_ForCustomOperator = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCustomOperator();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-            this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.CurrentPatchesUserControl();
+            this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentPatchesUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -580,7 +580,7 @@
         private UserControls.CurvePropertiesUserControl curvePropertiesUserControl;
         private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_WithOutletCount operatorPropertiesUserControl_WithOutletCount;
-        private UserControls.Partials.CurrentPatchesUserControl currentPatchesUserControl;
+        private UserControls.CurrentPatchesUserControl currentPatchesUserControl;
         private UserControls.OperatorPropertiesUserControl_WithInterpolation operatorPropertiesUserControl_WithInterpolation;
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
         private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;

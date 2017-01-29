@@ -551,6 +551,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_ForCustomOperators_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCustomOperators;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);

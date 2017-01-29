@@ -106,12 +106,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void titleBarUserControl_AddClicked(object sender, EventArgs e)
+        private void CurveDetailsUserControl_AddClicked(object sender, EventArgs e)
         {
             CreateNode();
+
         }
 
-        private void titleBarUserControl_RemoveClicked(object sender, EventArgs e)
+        private void CurveDetailsUserControl_RemoveClicked(object sender, EventArgs e)
         {
             DeleteSelectedNode();
         }

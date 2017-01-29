@@ -14,13 +14,10 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}} ", viewModel.GetType().Name);
 
-            if (viewModel.OperatorType != null)
+            if (!string.IsNullOrEmpty(viewModel.OperatorType?.Name))
             {
-                if (!string.IsNullOrEmpty(viewModel.OperatorType.Name))
-                {
-                    sb.Append(viewModel.OperatorType.Name);
-                    sb.Append(' ');
-                }
+                sb.Append(viewModel.OperatorType.Name);
+                sb.Append(' ');
             }
 
             if (!string.IsNullOrEmpty(viewModel.Caption))

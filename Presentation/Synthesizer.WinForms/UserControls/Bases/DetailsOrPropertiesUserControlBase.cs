@@ -16,6 +16,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         public event EventHandler<EventArgs<int>> CloseRequested;
         public event EventHandler<EventArgs<int>> LoseFocusRequested;
 
+        public event EventHandler AddClicked
+        {
+            add { _titleBarUserControl.AddClicked += value ; }
+            remove { _titleBarUserControl.AddClicked -= value; }
+        }
+
+        public event EventHandler RemoveClicked
+        {
+            add { _titleBarUserControl.RemoveClicked += value; }
+            remove { _titleBarUserControl.RemoveClicked -= value; }
+        }
+
         public DetailsOrPropertiesUserControlBase()
         {
             Name = GetType().Name;
@@ -59,15 +71,30 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         protected virtual void SetTitles()
         { }
 
-        public int TitleBarHeight
-        {
-            get { return TITLE_BAR_HEIGHT; }
-        }
+        public int TitleBarHeight => TITLE_BAR_HEIGHT;
 
         public string TitleBarText
         {
             get { return _titleBarUserControl.Text; }
             set { _titleBarUserControl.Text = value; }
+        }
+
+        public bool CloseButtonVisible
+        {
+            get { return _titleBarUserControl.CloseButtonVisible; }
+            set { _titleBarUserControl.CloseButtonVisible = value; }
+        }
+
+        public bool RemoveButtonVisible
+        {
+            get { return _titleBarUserControl.RemoveButtonVisible; }
+            set { _titleBarUserControl.RemoveButtonVisible = value; }
+        }
+
+        public bool AddButtonVisible
+        {
+            get { return _titleBarUserControl.AddButtonVisible; }
+            set { _titleBarUserControl.AddButtonVisible = value; }
         }
 
         protected virtual void PositionControls()
@@ -113,6 +140,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         }
 
         // Events
+
 
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {

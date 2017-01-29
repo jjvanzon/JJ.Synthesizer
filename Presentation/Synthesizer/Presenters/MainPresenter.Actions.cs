@@ -49,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void PopupMessagesOK()
         {
-            MainViewModel.PopupMessages = new List<Message> { };
+            MainViewModel.PopupMessages = new List<Message>();
         }
 
         // AudioFileOutput
@@ -425,7 +425,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                 // Business
-                Curve curve = _curveManager.Create(document, mustGenerateName: true);
+                _curveManager.Create(document, mustGenerateName: true);
 
                 // Successful
                 userInput.Successful = true;
@@ -704,7 +704,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentDeleteViewModel userInput = MainViewModel.DocumentDelete;
 
             // Partial Action
-            DocumentDeleteViewModel viewModel = _documentDeletePresenter.Cancel(MainViewModel.DocumentDelete);
+            DocumentDeleteViewModel viewModel = _documentDeletePresenter.Cancel(userInput);
 
             // DispatchViewModel
             DispatchViewModel(viewModel);
@@ -787,7 +787,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.PatchPropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.SampleGrid.Successful = true;
             viewModel.SamplePropertiesDictionary.Values.ForEach(x => x.Successful = true);
-            viewModel.SamplePropertiesDictionary.Values.Select(x => x.Successful = true);
+            viewModel.SamplePropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.ScaleGrid.Successful = true;
             viewModel.ScalePropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.ToneGridEditDictionary.Values.ForEach(x => x.Successful = true);
@@ -992,6 +992,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 // Business
+                // ReSharper disable once UnusedVariable
                 Node node = _curveManager.CreateNode(curve, afterNode);
 
                 // Successful
@@ -1047,6 +1048,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 userInput.ValidationMessages = result.Messages;
+                userInput.SelectedNodeID = null;
 
                 // Successful?
                 userInput.Successful = result.Successful;
@@ -1855,7 +1857,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary> Returns output file path if ViewModel.Successful. <summary>
+        /// <summary> Returns output file path if ViewModel.Successful. </summary>
         public string PatchPlay(int id)
         {
             // GetViewModel
@@ -1975,12 +1977,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Set !Successful
                 userInput.Successful = false;
 
-                // GetEntity
-                Patch patch = _repositories.PatchRepository.Get(patchID);
-
                 // Businesss
-                var patchManager = new PatchManager(_patchRepositories);
-                patchManager.PatchID = patchID;
+                var patchManager = new PatchManager(_patchRepositories)
+                {
+                    PatchID = patchID
+                };
+
                 IResult result = patchManager.DeletePatchWithRelatedEntities();
 
                 // Non-Persisted
@@ -2037,6 +2039,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                 // Business
+                // ReSharper disable once UnusedVariable
                 Sample sample = _sampleManager.CreateSample(document, mustGenerateName: true);
 
                 // Successful
@@ -2109,7 +2112,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleSampleProperties = null;
 
                 // Refresh
-                Sample sample = _repositories.SampleRepository.Get(id);
                 SampleGridRefresh();
                 SampleLookupRefresh();
                 OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
@@ -2127,7 +2129,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                Sample sample = _repositories.SampleRepository.Get(id);
                 SampleGridRefresh();
                 SampleLookupRefresh();
                 OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
@@ -2172,6 +2173,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
 
                 // Business
+                // ReSharper disable once UnusedVariable
                 Scale scale = _scaleManager.Create(document, mustSetDefaults: true, mustGenerateName: true);
 
                 // Successful
@@ -2202,6 +2204,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Successful = false;
 
                 // GetEntity
+                // ReSharper disable once UnusedVariable
                 Scale scale = _repositories.ScaleRepository.Get(id);
 
                 // Business
@@ -2529,8 +2532,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 audioOutput.SamplingRate,
                 audioOutput.GetChannelCount(), 
                 DEFAULT_CHANNEL_INDEX, 
-                new CalculatorCache(),
-                mustSubstituteSineForUnfilledInSignalPatchInlets: true);
+                new CalculatorCache());
 
             // Infrastructure
             AudioFileOutput audioFileOutput = _audioFileOutputManager.Create();

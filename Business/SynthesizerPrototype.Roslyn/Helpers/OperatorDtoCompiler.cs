@@ -80,7 +80,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 
             SyntaxTree generatedSyntaxTree = CSharpSyntaxTree.ParseText(generatedCode, path: generatedCodeFileName, encoding: _encoding);
 
-            var syntaxTrees = new SyntaxTree[]
+            var syntaxTrees = new[]
             {
                 generatedSyntaxTree,
                 _sineCalculatorSyntaxTree

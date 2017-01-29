@@ -5,7 +5,7 @@ using JJ.Business.SynthesizerPrototype.WithStructs.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public struct Shift_OperatorCalculator_VarSignal_ConstDistance<TSignalCalculator> 
         : IShift_OperatorCalculator_VarSignal_ConstDistance
         where TSignalCalculator : IOperatorCalculator

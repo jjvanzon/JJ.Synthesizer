@@ -1,4 +1,4 @@
-﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
+﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     partial class CurrentPatchesUserControl
     {

@@ -74,10 +74,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Close()
         {
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
-            }
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void ShowDetails()

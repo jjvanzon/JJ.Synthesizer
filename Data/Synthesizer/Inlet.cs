@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace JJ.Data.Synthesizer
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public class Inlet
     {
         public virtual int ID { get; set; }

@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Tests
                 
                 var calculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
-                var times = new double[]
+                var times = new[]
                 {
                     0.00,
                     0.05,
@@ -961,7 +961,7 @@ namespace JJ.Business.Synthesizer.Tests
                 DEFAULT_CHANNEL_INDEX, 
                 new CalculatorCache());
 
-            var times = new double[]
+            var times = new[]
             {
                 0.00,
                 0.25,

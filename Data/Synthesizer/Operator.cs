@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace JJ.Data.Synthesizer
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public class Operator
     {
         public Operator()

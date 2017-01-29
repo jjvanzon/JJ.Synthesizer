@@ -64,7 +64,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         protected void AddProperty(Control nameControl, Control valueControl)
         {
-            if (nameControl == null && valueControl == null) throw new Exception(string.Format("{0} and {1] cannot both be null.", nameof(nameControl), nameof(valueControl)));
+            if (nameControl == null && valueControl == null) throw new Exception($"{nameof(nameControl)} and {nameof(valueControl)} cannot both be null.");
 
             int rowIndex = _tableLayoutPanel.RowCount++;
 

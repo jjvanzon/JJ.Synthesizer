@@ -6,9 +6,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
     /// <summary>
     /// NOTE: This is one of the few view models with an inverse property.
-    /// OutletViewModel.Operator <=> Operator.Outlets
+    /// OutletViewModel.Operator &lt;=&gt; Operator.Outlets
     /// </summary>
-    [DebuggerDisplay("{DebuggerDisplay}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public sealed class OutletViewModel
     {
         public int ID { get; set; }
@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 
         /// <summary>
         /// NOTE: This property has an inverse property
-        /// OutletViewModel.Operator <=> Operator.Outlets
+        /// OutletViewModel.Operator &lt;=&gt; Operator.Outlets
         /// </summary>
         public OperatorViewModel Operator { get; set; }
 
@@ -36,9 +36,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// <summary> Read-only, nullable, not necessarily displayed. </summary>
         public IDAndName Dimension { get; set; }
 
-        private string DebuggerDisplay
-        {
-            get { return DebugHelper.GetDebuggerDisplay(this); }
-        }
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

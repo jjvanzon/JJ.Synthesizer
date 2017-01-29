@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.Validators
                 ToneViewModel toneViewModel = Object.Tones[i];
                 string messagePrefix = ValidationHelper.GetMessagePrefix(toneViewModel, i + 1);
 
-                ExecuteValidator(new ToneViewModelValidator(toneViewModel, Object.NumberTitle));
+                ExecuteValidator(new ToneViewModelValidator(toneViewModel, Object.NumberTitle), messagePrefix);
             }
         }
     }
