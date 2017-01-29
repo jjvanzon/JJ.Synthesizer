@@ -824,6 +824,28 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return ProcessPhaseTracker(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
         }
 
+        protected override OperatorDtoBase Visit_Scaler_OperatorDto_AllVars(Scaler_OperatorDto_AllVars dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.TargetValueBOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.TargetValueAOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.SourceValueBOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.SourceValueAOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+
+            return ProcessScaler(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Scaler_OperatorDto_ManyConsts(Scaler_OperatorDto_ManyConsts dto)
+        {
+            PutNumberOnStack(dto.TargetValueB);
+            PutNumberOnStack(dto.TargetValueA);
+            PutNumberOnStack(dto.SourceValueB);
+            PutNumberOnStack(dto.SourceValueA);
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+
+            return ProcessScaler(dto);
+        }
+
         protected override OperatorDtoBase Visit_SetDimension_OperatorDto_VarPassThrough_ConstValue(SetDimension_OperatorDto_VarPassThrough_ConstValue dto)
         {
             return ProcessSetDimension(dto, value: dto.Value);
@@ -1447,11 +1469,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 _sb.Append(value);
 
                 bool isLast = i == varCount - 1;
-                if (!isLast)
+                if (isLast)
                 {
-                    _sb.Append(' ');
-                    _sb.Append(operatorSymbol);
+                    break;
                 }
+
+                _sb.Append(' ');
+                _sb.Append(operatorSymbol);
             }
 
             _sb.Append(';');
@@ -1628,6 +1652,25 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step});");
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return dto;
+        }
+
+        /// <summary> Assumes all inlets literals are have been put on the _stack. </summary>
+        private OperatorDtoBase ProcessScaler(OperatorDtoBase dto)
+        {
+            string signal = _stack.Pop();
+            string sourceValueA = _stack.Pop();
+            string sourceValueB = _stack.Pop();
+            string targetValueA = _stack.Pop();
+            string targetValueB = _stack.Pop();
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {output} = MathHelper.ScaleLinearly({signal}, {sourceValueA}, {sourceValueB}, {targetValueA}, {targetValueB});");
             _sb.AppendLine();
 
             _stack.Push(output);
@@ -1835,12 +1878,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             // Manage Dictionary with Dimension Info
             var key = new Tuple<DimensionEnum, string, int>(standardDimensionEnum, canonicalCustomDimensionName, stackLevel);
             ExtendedVariableInfo variableInfo;
-            if (!_dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out variableInfo))
-            {
-                variableInfo = new ExtendedVariableInfo(positionVariableName, canonicalCustomDimensionName, standardDimensionEnum, stackLevel, defaultValue: null);
 
-                _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary[key] = variableInfo;
+            if (_dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out variableInfo))
+            {
+                return positionVariableName;
             }
+
+            variableInfo = new ExtendedVariableInfo(positionVariableName, canonicalCustomDimensionName, standardDimensionEnum, stackLevel, defaultValue: null);
+            _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary[key] = variableInfo;
 
             return positionVariableName;
         }
@@ -1853,21 +1898,24 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             var key = new Tuple<DimensionEnum, string>(dimensionEnum, canonicalCustomDimensionName);
             string alias;
-            if (!_standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(key, out alias))
-            {
-                object mnemonic;
-                if (dimensionEnum != DimensionEnum.Undefined)
-                {
-                    mnemonic = dimensionEnum;
-                }
-                else
-                {
-                    mnemonic = canonicalCustomDimensionName;
-                }
-                alias = GenerateUniqueDimensionAlias(mnemonic);
 
-                _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
+            if (_standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(key, out alias))
+            {
+                return alias;
             }
+
+            object mnemonic;
+            if (dimensionEnum != DimensionEnum.Undefined)
+            {
+                mnemonic = dimensionEnum;
+            }
+            else
+            {
+                mnemonic = canonicalCustomDimensionName;
+            }
+            alias = GenerateUniqueDimensionAlias(mnemonic);
+
+            _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
             return alias;
         }
 
