@@ -3,7 +3,6 @@ using JJ.Data.Synthesizer;
 using System.Collections.Generic;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Resources;
-using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

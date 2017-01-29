@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace JJ.Business.Synthesizer.Dto
+﻿namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_BandPassFilter_ConstCenterFrequency_ConstBandWidth : OperatorDtoBase_Filter_ManyConsts_WithBandWidth
     {

@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Enums;
-using System;
 using System.Collections.Generic;
 using JJ.Framework.Exceptions;
 using System.Linq;

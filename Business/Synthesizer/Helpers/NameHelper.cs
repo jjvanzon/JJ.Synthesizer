@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace JJ.Business.Synthesizer.Helpers
+﻿namespace JJ.Business.Synthesizer.Helpers
 {
     public static class NameHelper
     {
