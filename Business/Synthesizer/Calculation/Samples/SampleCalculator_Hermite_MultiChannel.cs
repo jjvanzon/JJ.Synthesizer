@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             _arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Hermite(x, _rate)).ToArray();
         }
 
-        public override double CalculateValue(double time, int channelIndex)
+        public override double Calculate(double time, int channelIndex)
         {
             return _arrayCalculators[channelIndex].Calculate(time);
         }

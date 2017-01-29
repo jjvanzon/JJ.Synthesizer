@@ -29,6 +29,6 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 
         public int ChannelCount { get; }
 
-        public abstract double CalculateValue(double time, int channelIndex);
+        public abstract double Calculate(double time, int channelIndex);
     }
 }

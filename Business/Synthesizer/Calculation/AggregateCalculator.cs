@@ -46,6 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
                 double distance = Geometry.AbsoluteDistance(input, item);
 
+                // ReSharper disable once InvertIf
                 if (smallestDistance > distance)
                 {
                     smallestDistance = distance;
@@ -71,6 +72,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
                 double distance = Geometry.AbsoluteDistance(logInput, Math.Log(item));
 
+                // ReSharper disable once InvertIf
                 if (smallestDistance > distance)
                 {
                     smallestDistance = distance;
@@ -87,14 +89,7 @@ namespace JJ.Business.Synthesizer.Calculation
             double distance1 = Geometry.AbsoluteDistance(input, item1);
             double distance2 = Geometry.AbsoluteDistance(input, item2);
 
-            if (distance1 < distance2)
-            {
-                return item1;
-            }
-            else
-            {
-                return item2;
-            }
+            return distance1 < distance2 ? item1 : item2;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -105,14 +100,7 @@ namespace JJ.Business.Synthesizer.Calculation
             double distance1 = Geometry.AbsoluteDistance(logInput, Math.Log(item1));
             double distance2 = Geometry.AbsoluteDistance(logInput, Math.Log(item2));
 
-            if (distance1 < distance2)
-            {
-                return item1;
-            }
-            else
-            {
-                return item2;
-            }
+            return distance1 < distance2 ? item1 : item2;
         }
     }
 }

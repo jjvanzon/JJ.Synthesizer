@@ -13,8 +13,9 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
     internal class SampleCalculatorHelper
     {
         private const double BYTE_VALUE_DIVIDER = 128.0;
-        private const double INT16_VALUE_DIVIDER = (double)-short.MinValue;
+        private const double INT16_VALUE_DIVIDER = -short.MinValue;
 
+        /// <summary> In the returned array, the first array index is channel index, the second array index is the frame. </summary>
         public static double[][] ReadSamples(Sample sample, byte[] bytes)
         {
             if (sample == null) throw new NullException(() => sample);
@@ -35,11 +36,13 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             }
         }
 
+        /// <summary> In the returned array, the first array index is channel index, the second array index is the frame. </summary>
         private static double[][] ReadInt16Samples(Sample sample, byte[] bytes)
         {
             return ReadSamplesTemplateMethod(sample, bytes, ReadInt16Value);
         }
 
+        /// <summary> In the returned array, the first array index is channel index, the second array index is the frame. </summary>
         private static double ReadInt16Value(BinaryReader binaryReader)
         {
             short shrt = binaryReader.ReadInt16();
@@ -47,6 +50,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             return value;
         }
 
+        /// <summary> In the returned array, the first array index is channel index, the second array index is the frame. </summary>
         private static double[][] ReadByteSamples(Sample sample, byte[] bytes)
         {
             return ReadSamplesTemplateMethod(sample, bytes, ReadByteValue);
@@ -60,17 +64,18 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             return value;
         }
 
+        /// <summary> In the returned array, the first array index is channel index, the second array index is the frame. </summary>
         private static double[][] ReadSamplesTemplateMethod(
             Sample sample, byte[] bytes, Func<BinaryReader, double> readValueDelegate)
         {
             int channelCount = sample.GetChannelCount();
             int bytesPerValue = SampleDataTypeHelper.SizeOf(sample.SampleDataType);
             double amplifier = sample.Amplifier;
-            double[] doubles;
 
             // First read out the doubles.
             using (Stream stream = StreamHelper.BytesToStream(bytes))
             {
+                double[] doubles;
                 using (var reader = new BinaryReader(stream))
                 {
                     int headerLength;

@@ -3,6 +3,6 @@
     public interface ISampleCalculator
     {
         int ChannelCount { get; }
-        double CalculateValue(double time, int channelIndex);
+        double Calculate(double time, int channelIndex);
     }
 }
