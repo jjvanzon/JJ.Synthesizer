@@ -13,10 +13,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         {
             if (e.KeyCode == KeyCodeEnum.Space)
             {
-                if (ChangeNodeTypeRequested != null)
-                {
-                    ChangeNodeTypeRequested(sender, EventArgs.Empty);
-                }
+                ChangeNodeTypeRequested?.Invoke(sender, EventArgs.Empty);
             }
         }
     }

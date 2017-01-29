@@ -35,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
             // Business
-            PatchManager patchManager = new PatchManager(entity.Patch, _repositories);
+            var patchManager = new PatchManager(entity.Patch, _repositories);
             VoidResult result1 = patchManager.SetOperatorOutletCount(entity, userInput.OutletCount);
             if (!result1.Successful)
             {

@@ -20,7 +20,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.CopiedCode.From_JJ_Bu
             var samples = new double[SAMPLES_PER_CYCLE_INT];
 
             double t = 0;
-            double step = TWO_PI / SAMPLES_PER_CYCLE_INT;
+            const double step = TWO_PI / SAMPLES_PER_CYCLE_INT;
 
             for (int i = 0; i < SAMPLES_PER_CYCLE_INT; i++)
             {

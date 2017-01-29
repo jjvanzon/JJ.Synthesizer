@@ -486,7 +486,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.DefaultValue = viewModel.DefaultValue;
 
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
             entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             return entity;
@@ -541,7 +541,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.X = viewModel.X;
             entity.Y = viewModel.Y;
 
-            NodeTypeEnum nodeTypeEnum = (NodeTypeEnum)(viewModel.NodeType?.ID ?? 0);
+            var nodeTypeEnum = (NodeTypeEnum)(viewModel.NodeType?.ID ?? 0);
             entity.SetNodeTypeEnum(nodeTypeEnum, nodeTypeRepository);
 
             return entity;
@@ -567,6 +567,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
             Operator entity = operatorRepository.TryGet(viewModel.ID);
+            // ReSharper disable once InvertIf
             if (entity == null)
             {
                 entity = new Operator { ID = viewModel.ID };
@@ -732,7 +733,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             // Set Dimension of Inlet.
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
             inlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
 
             // Delete excessive inlets.
@@ -765,7 +766,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             // Set Dimension of Outlet.
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
             outlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
 
             // Delete excessive outlets.
@@ -884,10 +885,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.CustomDimensionName = viewModel.CustomDimensionName;
 
-            DimensionEnum standardDimensionEnum = (DimensionEnum)(viewModel.StandardDimension?.ID ?? 0);
+            var standardDimensionEnum = (DimensionEnum)(viewModel.StandardDimension?.ID ?? 0);
             entity.SetStandardDimensionEnum(standardDimensionEnum, dimensionRepository);
 
-            OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
+            var operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
             entity.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
 
             return entity;
@@ -910,7 +911,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.ListIndex = viewModel.ListIndex;
             entity.Name = viewModel.Name;
 
-            DimensionEnum dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
+            var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
             entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
             return entity;
@@ -924,6 +925,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
             Patch entity = patchRepository.TryGet(viewModel.ID);
+            // ReSharper disable once InvertIf
             if (entity == null)
             {
                 entity = new Patch { ID = viewModel.ID };
@@ -1035,16 +1037,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.BytesToSkip = viewModel.BytesToSkip;
             entity.OriginalLocation = viewModel.OriginalLocation;
 
-            AudioFileFormatEnum audioFileFormatEnum = (AudioFileFormatEnum)(viewModel.AudioFileFormat?.ID ?? 0);
+            var audioFileFormatEnum = (AudioFileFormatEnum)(viewModel.AudioFileFormat?.ID ?? 0);
             entity.SetAudioFileFormatEnum(audioFileFormatEnum, repositories.AudioFileFormatRepository);
 
-            InterpolationTypeEnum interpolationTypeEnum = (InterpolationTypeEnum)(viewModel.InterpolationType?.ID ?? 0);
+            var interpolationTypeEnum = (InterpolationTypeEnum)(viewModel.InterpolationType?.ID ?? 0);
             entity.SetInterpolationTypeEnum(interpolationTypeEnum, repositories.InterpolationTypeRepository);
 
-            SampleDataTypeEnum sampleDataTypeEnum = (SampleDataTypeEnum)(viewModel.SampleDataType?.ID ?? 0);
+            var sampleDataTypeEnum = (SampleDataTypeEnum)(viewModel.SampleDataType?.ID ?? 0);
             entity.SetSampleDataTypeEnum(sampleDataTypeEnum, repositories.SampleDataTypeRepository);
 
-            SpeakerSetupEnum speakerSetupEnum = (SpeakerSetupEnum)(viewModel.SpeakerSetup?.ID ?? 0);
+            var speakerSetupEnum = (SpeakerSetupEnum)(viewModel.SpeakerSetup?.ID ?? 0);
             entity.SetSpeakerSetupEnum(speakerSetupEnum, repositories.SpeakerSetupRepository);
 
             repositories.SampleRepository.SetBytes(viewModel.ID, viewModel.Bytes);
@@ -1149,7 +1151,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.BaseFrequency = viewModel.BaseFrequency;
 
-            ScaleTypeEnum scaleTypeEnum = (ScaleTypeEnum)(viewModel.ScaleType?.ID ?? 0);
+            var scaleTypeEnum = (ScaleTypeEnum)(viewModel.ScaleType?.ID ?? 0);
             entity.SetScaleTypeEnum(scaleTypeEnum, scaleTypeRepository);
 
             return entity;

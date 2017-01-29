@@ -13,8 +13,8 @@ namespace JJ.Business.SynthesizerPrototype.Tests
         [TestMethod]
         public void PerformanceTest_SynthesizerPrototype_Roslyn_ByChunk()
         {
-            int framesPerChunk = 5000;
-            double frameDuration = 1.0 / 50000.0;
+            const int framesPerChunk = 5000;
+            const double frameDuration = 1.0 / 50000.0;
 
             OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             var compiler = new OperatorDtoCompiler();

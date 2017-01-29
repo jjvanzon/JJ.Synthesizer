@@ -193,8 +193,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             // Use ProcessCmdKey,because OnKeyDown produces an annoying Ding sound.
             // every time you hit enter.
+
+            // ReSharper disable once InvertIf
             if (keyData == Keys.Enter)
             {
+                // ReSharper disable once InvertIf
                 if (treeView.SelectedNode != null)
                 {
                     HandleNodeKeyEnterOrDoubleClick(treeView.SelectedNode);

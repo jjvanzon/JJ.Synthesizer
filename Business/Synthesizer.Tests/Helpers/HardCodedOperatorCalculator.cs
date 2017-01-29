@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             double value = 0;
             double cumulativeDenominator = 1;
             double cumulativeDelay = 0;
-            double exponent = 1.5;
+            const double exponent = 1.5;
 
             for (int i = 0; i < 15; i++)
             {
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             double value = 0;
             double cumulativeDenominator = 1;
             double cumulativeDelay = 0;
-            double multiplier = 1.5;
+            const double multiplier = 1.5;
 
             for (int i = 0; i < 15; i++)
             {

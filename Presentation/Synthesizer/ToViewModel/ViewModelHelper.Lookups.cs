@@ -90,6 +90,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             lock (_interpolationTypeLookupViewModelLock)
             {
+                // ReSharper disable once InvertIf
                 if (_interpolationTypeLookupViewModel == null)
                 {
                     // Cannot delegate to CreateEnumLookupViewModel, because we need to order by SortOrder.
@@ -207,7 +208,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     continue;
                 }
 
-                var idAndName = enumValue.ToIDAndDisplayNamePlural();
+                IDAndName idAndName = enumValue.ToIDAndDisplayNamePlural();
                 idAndNames.Add(idAndName);
             }
 

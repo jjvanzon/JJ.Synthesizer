@@ -11,7 +11,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
     public class DragLineGesture : DragGesture, IDisposable
     {
-        private Diagram _diagram;
         private readonly Line _line;
         private float _sourceX;
         private float _sourceY;
@@ -20,12 +19,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         {
             if (diagram == null) throw new NullException(() => diagram);
 
-            _diagram = diagram;
-
             _line = LineGestureHelper.CreateLine(diagram, lineStyle, lineZIndex);
 
-            this.Dragging += this_Dragging;
-            this.DragCanceled += this_DragCancelled;
+            Dragging += this_Dragging;
+            DragCanceled += this_DragCancelled;
         }
 
         ~DragLineGesture()
@@ -35,8 +32,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         public void Dispose()
         {
-            this.Dragging -= this_Dragging;
-            this.DragCanceled -= this_DragCancelled;
+            Dragging -= this_Dragging;
+            DragCanceled -= this_DragCancelled;
 
             GC.SuppressFinalize(this);
         }

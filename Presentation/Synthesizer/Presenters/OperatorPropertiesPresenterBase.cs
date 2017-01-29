@@ -115,7 +115,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
             // Business
-            PatchManager patchManager = new PatchManager(entity.Patch, _repositories);
+            var patchManager = new PatchManager(entity.Patch, _repositories);
             VoidResult result = patchManager.SaveOperator(entity);
 
             // ToViewModel

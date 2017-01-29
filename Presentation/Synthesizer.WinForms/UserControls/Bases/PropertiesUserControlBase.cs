@@ -75,6 +75,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 Controls.Remove(nameControl);
             }
 
+            // ReSharper disable once InvertIf
             if (valueControl != null)
             {
                 _tableLayoutPanel.Controls.Add(valueControl, VALUE_COLUMN, rowIndex);

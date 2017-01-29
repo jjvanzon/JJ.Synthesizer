@@ -106,14 +106,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private int? TryGetSelectedID()
         {
-            if (dataGridView.CurrentRow != null)
+            if (dataGridView.CurrentRow == null)
             {
-                DataGridViewCell cell = dataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
-                int id = (int)cell.Value;
-                return id;
+                return null;
             }
 
-            return null;
+            DataGridViewCell cell = dataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
+            int id = (int)cell.Value;
+            return id;
         }
     }
 }

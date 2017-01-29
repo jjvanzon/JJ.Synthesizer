@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Drawing;
 using System.Windows.Forms;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -27,10 +28,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set
             {
                 // DataGridView screws up if you do assign a data source that has 0 items.
-                IList ilist = value as IList;
-                if (ilist == null)
+                var asIList = value as IList;
+                if (asIList == null)
                 {
-                    throw new Exception("value must be IList.");
+                    throw new InvalidTypeException<IList>(() => value);
                 }
 
                 // DataGridView screws up if you do not first assign null
@@ -38,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 base.DataSource = null;
 
                 // DataGridView screws up if you do assign a data source that has 0 items.
-                if (ilist.Count != 0)
+                if (asIList.Count != 0)
                 {
                     base.DataSource = value;
                 }

@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private const float DEFAULT_CLICKABLE_REGION_SIZE_IN_PIXELS = 20;
         private const bool DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS = false;
 
-        /// <summary> Elements with this tag are deleted and recreated upon each conversion. <summary>
+        /// <summary> Elements with this tag are deleted and recreated upon each conversion. </summary>
         private const string HELPER_ELEMENT_TAG = "Helper Element";
 
         private static readonly int _lineSegmentCount = GetLineSegmentCount();
@@ -67,9 +67,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private ICurveCalculator _currentCurveCalculator;
 
         /// <summary> Not nullable. Never replaced with a new instance. Neither are its properties. </summary>
-        public CurveDetailsViewModelToDiagramConverterResult Result { get; private set; }
+        public CurveDetailsViewModelToDiagramConverterResult Result { get; }
 
-        /// <param name="mustShowInvisibleElements">for debugging</param>
         public CurveDetailsViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
             Result = new CurveDetailsViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
@@ -231,7 +230,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 if (previousPoint != null)
                 {
-                    NodeTypeEnum nodeTypeEnum = (NodeTypeEnum)previousNodeViewModel.NodeType.ID;
+                    var nodeTypeEnum = (NodeTypeEnum)previousNodeViewModel.NodeType.ID;
                     CreateLines_WithRelatedElements(Result.Diagram, previousPoint, point, nodeTypeEnum);
                 }
 
@@ -264,6 +263,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 // Delete rectangle
                 Rectangle rectangleToDelete;
+                // ReSharper disable once InvertIf
                 if (_rectangleDictionary.TryGetValue(idToDelete, out rectangleToDelete))
                 {
                     rectangleToDelete.Children.Clear();
@@ -375,6 +375,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private Label CreateRightBoundLabel(Diagram diagram)
         {
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var label = new Label
             {
                 Diagram = diagram,
@@ -422,6 +423,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private Label CreateBottomBoundLabel(Diagram diagram)
         {
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var label = new Label
             {
                 Diagram = diagram,
@@ -461,7 +463,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     break;
 
                 case NodeTypeEnum.Curve:
-                    CreateLines_WithRelatedElements_ForNodeTypeCurve(diagram, previousPoint, nextPoint);
+                    CreateLines_WithRelatedElements_ForNodeTypeCurve(previousPoint, nextPoint);
                     break;
 
                 default:
@@ -471,6 +473,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void CreateLines_WithRelatedElements_ForNodeTypeOff(Diagram diagram, Point previousPoint, Point nextPoint)
         {
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var verticalLineTo0 = new Line
             {
                 Diagram = diagram,
@@ -490,6 +493,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             verticalLineTo0.PointB.Position.X = 0;
             verticalLineTo0.PointB.Position.Y = previousPoint.Position.AbsoluteToRelativeY(0);
 
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var horizontalLine = new Line
             {
                 Diagram = diagram,
@@ -509,7 +513,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             horizontalLine.PointB.Position.X = 0;
             horizontalLine.PointB.Position.Y = nextPoint.Position.AbsoluteToRelativeY(0);
 
-
+            // ReSharper disable once UnusedVariable
             var verticalLineToNextPoint = new Line
             {
                 Diagram = diagram,
@@ -524,6 +528,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private void CreateLines_WithRelatedElements_ForNodeTypeBlock(Diagram diagram, Point previousPoint, Point nextPoint)
         {
             // Create horizontal line to the next node.
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var line = new Line
             {
                 Diagram = diagram,
@@ -544,6 +549,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             line.PointB.Position.Y = nextPoint.Position.AbsoluteToRelativeY(previousPoint.Position.AbsoluteY);
 
             // Create vertical line down.
+            // ReSharper disable once UnusedVariable
             var line2 = new Line
             {
                 Diagram = diagram,
@@ -557,6 +563,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void CreateLines_WithRelatedElements_ForNodeTypeLine(Diagram diagram, Point previousPoint, Point nextPoint)
         {
+            // ReSharper disable once UnusedVariable
             var line = new Line
             {
                 Diagram = diagram,
@@ -568,8 +575,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             };
         }
 
-        private void CreateLines_WithRelatedElements_ForNodeTypeCurve(Diagram diagram, Point previousPoint, Point nextPoint)
+        private void CreateLines_WithRelatedElements_ForNodeTypeCurve(Point previousPoint, Point nextPoint)
         {
+            Diagram diagram = previousPoint.Diagram;
+
             Node mockNode0 = _currentCurveInfo.NodeTuples
                                               .Where(nt => nt.NodeViewModel.ID == (int)previousPoint.Tag)
                                               .Select(nt => nt.MockNode)
@@ -580,6 +589,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                                               .Select(nt => nt.MockNode)
                                               .Single();
 
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var destPoints = new List<Point>(_lineSegmentPointCount);
 
             destPoints.Add(previousPoint);
@@ -592,8 +602,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 var destPoint = new Point
                 {
-                    Diagram = previousPoint.Diagram,
-                    Parent = previousPoint.Diagram.Background,
+                    Diagram = diagram,
+                    Parent = diagram.Background,
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_ELEMENT_TAG
                 };
@@ -608,24 +618,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             destPoints.Add(nextPoint);
 
-            var destLines = new List<Line>(_lineSegmentCount);
-
             for (int i = 0; i < destPoints.Count - 1; i++)
             {
                 Point destPointA = destPoints[i];
                 Point destPointB = destPoints[i + 1];
 
+                // ReSharper disable once UnusedVariable
                 var destLine = new Line
                 {
-                    Diagram = previousPoint.Diagram,
+                    Diagram = diagram,
                     Parent = previousPoint,
                     PointA = destPointA,
                     PointB = destPointB,
                     LineStyle = StyleHelper.LineStyleThick,
                     Tag = HELPER_ELEMENT_TAG
                 };
-
-                destLines.Add(destLine);
             }
         }
 

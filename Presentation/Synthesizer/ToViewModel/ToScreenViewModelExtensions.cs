@@ -278,15 +278,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModels = new List<OperatorPropertiesViewModel>();
 
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (Operator op in patch.Operators)
             {
-                OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-
-                if (ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView.Contains(operatorTypeEnum))
+                if (!ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView.Contains(op.GetOperatorTypeEnum()))
                 {
-                    OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
-                    viewModels.Add(viewModel);
+                    continue;
                 }
+
+                OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
+                viewModels.Add(viewModel);
             }
 
             return viewModels;
@@ -660,6 +661,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.StandardDimension = new IDAndName();
             }
 
+            // ReSharper disable once InvertIf
             if (entity.OperatorType != null &&
                 entity.OperatorType.HasDimension)
             {

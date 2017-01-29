@@ -89,6 +89,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.AudioFileOutputGrid = (AudioFileOutputGridViewModel)viewModel2;
 
+            // ReSharper disable once InvertIf
             if (castedViewModel.Visible)
             {
                 HideAllGridAndDetailViewModels();
@@ -175,6 +176,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.CurveGrid = castedViewModel;
 
+            // ReSharper disable once InvertIf
             if (castedViewModel.Visible)
             {
                 HideAllGridAndDetailViewModels();
@@ -252,6 +254,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.DocumentGrid = castedViewModel;
 
+            // ReSharper disable once InvertIf
             if (castedViewModel.Visible)
             {
                 HideAllGridAndDetailViewModels();
@@ -600,6 +603,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.SampleGrid = castedViewModel;
 
+            // ReSharper disable once InvertIf
             if (castedViewModel.Visible)
             {
                 HideAllGridAndDetailViewModels();
@@ -631,6 +635,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.ScaleGrid = (ScaleGridViewModel)viewModel2;
 
+            // ReSharper disable once InvertIf
             if (castedViewModel.Visible)
             {
                 HideAllGridAndDetailViewModels();

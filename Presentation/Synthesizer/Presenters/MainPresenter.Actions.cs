@@ -23,6 +23,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Dtos;
 using JJ.Framework.Collections;
+// ReSharper disable InvertIf
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -1309,7 +1310,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            throw new Exception(string.Format("Properties ViewModel not found for Operator with ID '{0}'.", id));
+            throw new Exception($"Properties ViewModel not found for Operator with ID '{id}'.");
         }
 
         public void OperatorPropertiesClose(int id)

@@ -102,6 +102,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             AudioOutputPropertiesViewModel viewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
 
+            // ReSharper disable once InvertIf
             if (viewModel.Successful)
             {
                 AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(viewModel.Entity.ID);
@@ -148,6 +149,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             // This makes side-effects go off.
             VoidResult result = x.SavePatch();
+            // ReSharper disable once InvertIf
             if (!result.Successful)
             {
                 // TODO: Make a distinction between Data.Canonical and Business.Canonical, so that you have a place to put helpers for this.

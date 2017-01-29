@@ -119,16 +119,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
             // Focus control if not valid.
             foreach (UserControlBase userControl in _userControls)
             {
-                if (userControl.ViewModel != null)
+                if (userControl.ViewModel == null)
                 {
-                    bool mustFocus = MustBecomeVisible(userControl) && 
-                                     !userControl.ViewModel.Successful;
-                    if (mustFocus)
-                    {
-                        userControl.Focus();
-                        break;
-                    }
+                    continue;
                 }
+
+                bool mustFocus = MustBecomeVisible(userControl) && 
+                                 !userControl.ViewModel.Successful;
+                if (!mustFocus)
+                {
+                    continue;
+                }
+
+                userControl.Focus();
+                break;
             }
         }
 

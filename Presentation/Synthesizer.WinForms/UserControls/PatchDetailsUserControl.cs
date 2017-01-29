@@ -225,7 +225,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ViewModel == null) return;
 
-            ToolStripItem control = (ToolStripItem)sender;
+            var control = (ToolStripItem)sender;
             int operatorTypeID = (int)control.Tag;
 
             CreateOperatorRequested?.Invoke(this, new CreateOperatorEventArgs(ViewModel.Entity.ID, operatorTypeID));

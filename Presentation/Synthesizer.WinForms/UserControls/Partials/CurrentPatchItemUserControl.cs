@@ -64,11 +64,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            if (RemoveRequested != null)
-            {
-                var e2 = new EventArgs<int>(_viewModel.ID);
-                RemoveRequested(this, e2);
-            }
+            var e2 = new EventArgs<int>(_viewModel.ID);
+            RemoveRequested?.Invoke(this, e2);
         }
     }
 }

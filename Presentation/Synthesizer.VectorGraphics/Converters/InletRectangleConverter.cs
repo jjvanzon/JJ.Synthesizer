@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             IList<Rectangle> destInletRectangles = new List<Rectangle>(sourceInletViewModelsToConvert.Count);
 
             float rowHeight = destOperatorRectangle.Position.Height / 4;
-            float heightOverflow = StyleHelper.INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS;
+            const float heightOverflow = StyleHelper.INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS;
             float inletWidth = destOperatorRectangle.Position.Width / sourceInletViewModelsToConvert.Count;
             float x = 0;
 

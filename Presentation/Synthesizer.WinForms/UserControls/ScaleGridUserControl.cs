@@ -52,22 +52,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Create()
         {
-            if (CreateRequested != null)
-            {
-                var e = new EventArgs<int>(ViewModel.DocumentID);
-                CreateRequested(this, e);
-            }
+            var e = new EventArgs<int>(ViewModel.DocumentID);
+            CreateRequested?.Invoke(this, e);
         }
 
         private void Delete()
         {
             int? id = TryGetSelectedID();
-            // ReSharper disable once InvertIf
-            if (id.HasValue)
+            if (!id.HasValue)
             {
-                var e = new EventArgs<int>(id.Value);
-                DeleteRequested?.Invoke(this, e);
+                return;
             }
+
+            var e = new EventArgs<int>(id.Value);
+            DeleteRequested?.Invoke(this, e);
         }
 
         private void Close()
@@ -126,14 +124,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private int? TryGetSelectedID()
         {
-            if (specializedDataGridView.CurrentRow != null)
+            if (specializedDataGridView.CurrentRow == null)
             {
-                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
-                int id = (int)cell.Value;
-                return id;
+                return null;
             }
 
-            return null;
+            DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
+            int id = (int)cell.Value;
+            return id;
         }
     }
 }

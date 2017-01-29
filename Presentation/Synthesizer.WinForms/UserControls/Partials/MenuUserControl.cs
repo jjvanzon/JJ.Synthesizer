@@ -100,6 +100,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
 
             // DocumentProperties
+            // ReSharper disable once InvertIf
             if (viewModel.DocumentProperties.Visible)
             {
                 toolStripMenuItem = CreateDocumentPropertiesToolStripMenuItem();

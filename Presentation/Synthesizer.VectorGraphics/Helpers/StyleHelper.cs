@@ -270,12 +270,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
             int gradeCount = (int)EnumHelper.GetValues<StyleGradeEnum>().Max();
 
-            double minBrightness = 0.8;
-            double maxBrightness = 1.075;
-            double deltaBrightness = maxBrightness - minBrightness;
+            const double minBrightness = 0.8;
+            const double maxBrightness = 1.075;
+            const double deltaBrightness = maxBrightness - minBrightness;
 
             for (int i = 0; i < gradeCount; i++)
             {
+                // ReSharper disable once RedundantCast
                 double ratio = (double)i / (double)(gradeCount - 1);
                 double grade = minBrightness + ratio * deltaBrightness;
 

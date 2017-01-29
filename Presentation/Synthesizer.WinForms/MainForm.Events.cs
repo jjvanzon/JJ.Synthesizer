@@ -612,12 +612,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() =>
             {
                 string outputFilePath = _presenter.PatchPlay(e.Value);
-
-                if (outputFilePath != null)
+                if (outputFilePath == null)
                 {
-                    SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
-                    soundPlayer.Play();
+                    return;
                 }
+
+                var soundPlayer = new SoundPlayer(outputFilePath);
+                soundPlayer.Play();
             });
         }
 
@@ -760,12 +761,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() =>
             {
                 string outputFilePath = _presenter.TonePlay(e.ScaleID, e.ToneID);
-
-                if (!string.IsNullOrEmpty(outputFilePath))
+                if (string.IsNullOrEmpty(outputFilePath))
                 {
-                    SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
-                    soundPlayer.Play();
+                    return;
                 }
+
+                var soundPlayer = new SoundPlayer(outputFilePath);
+                soundPlayer.Play();
             });
         }
 

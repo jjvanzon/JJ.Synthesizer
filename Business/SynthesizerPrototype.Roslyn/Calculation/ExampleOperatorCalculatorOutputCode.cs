@@ -8,8 +8,10 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Calculation
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate()
         {
+            // ReSharper disable once ConvertToConstant.Local
             double t0 = 0.0;
             double t1 = 0.0;
+            // ReSharper disable once ConvertToConstant.Local
             double input1 = 0.0;
             double phase1 = 0.0;
             double prevPos1 = 0.0;

@@ -318,7 +318,7 @@ namespace JJ.Business.Synthesizer.Tests
                 {
                     using (BinaryWriter writer = new BinaryWriter(destStream))
                     {
-                        int destFrameCount = (int)(samplingRate * seconds);
+                        const int destFrameCount = (int)(samplingRate * seconds);
 
                         // Write header
                         var audioFileInfo = new AudioFileInfo
@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer.Tests
                         writer.WriteStruct(wavHeaderStruct);
 
                         double t = 0;
-                        double dt = 1.0 / samplingRate;
+                        const double dt = 1.0 / samplingRate;
 
                         for (int i = 0; i < destFrameCount; i++)
                         {
@@ -377,7 +377,7 @@ namespace JJ.Business.Synthesizer.Tests
                 {
                     using (BinaryWriter writer = new BinaryWriter(destStream))
                     {
-                        int destFrameCount = (int)(samplingRate * seconds);
+                        const int destFrameCount = (int)(samplingRate * seconds);
 
                         // Write header
                         var audioFileInfo = new AudioFileInfo
@@ -391,7 +391,7 @@ namespace JJ.Business.Synthesizer.Tests
                         writer.WriteStruct(wavHeaderStruct);
 
                         double t = 0;
-                        double dt = 1.0 / samplingRate;
+                        const double dt = 1.0 / samplingRate;
 
                         for (int i = 0; i < destFrameCount; i++)
                         {
@@ -581,11 +581,10 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Noise()
         {
-            double duration = 2;
-            int outputSamplingRate = 100;
-            //int alternativeSamplingRate = outputSamplingRate / 32;
-            int alternativeSamplingRate = 25;
-            int amplification = 20000;
+            const double duration = 2;
+            const int outputSamplingRate = 100;
+            const int alternativeSamplingRate = 25;
+            const int amplification = 20000;
 
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -655,8 +654,8 @@ namespace JJ.Business.Synthesizer.Tests
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 SampleManager sampleManager = new SampleManager(new SampleRepositories(repositories));
 
-                double duration = 2;
-                int outputSamplingRate = 44100;
+                const double duration = 2;
+                const int outputSamplingRate = 44100;
                 int alternativeSamplingRate = outputSamplingRate / 8;
 
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
@@ -699,10 +698,10 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Curve()
         {
             // DO NOT JUST CHANGE THIS TEST. THIS GAVE VERY GOOD ERRORS TO DEBUG!
-            double duration = 2;
-            int outputSamplingRate = 200;
-            int alternativeSamplingRate = 5;
-            int amplification = 30000;
+            const double duration = 2;
+            const int outputSamplingRate = 200;
+            const int alternativeSamplingRate = 5;
+            const int amplification = 30000;
 
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -767,11 +766,11 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_InterpolateOperator_VariableSamplingRate_Noise()
         {
-            double duration = 6;
-            int outputSamplingRate = 44100;
-            int samplingRate1 = 11025;
+            const double duration = 6;
+            const int outputSamplingRate = 44100;
+            const int samplingRate1 = 11025;
             int samplingRate2 = samplingRate1 / 1024;
-            int amplification = 20000;
+            const int amplification = 20000;
 
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -812,11 +811,11 @@ namespace JJ.Business.Synthesizer.Tests
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 CurveManager curveManager = new CurveManager(new CurveRepositories(repositories));
 
-                double duration = 2;
+                const double duration = 2;
 
-                int outputSamplingRate = 44100;
-                int samplingRate1 = 10000;
-                int samplingRate2 = 20;
+                const int outputSamplingRate = 44100;
+                const int samplingRate1 = 10000;
+                const int samplingRate2 = 20;
                 Curve curve = curveManager.Create(duration, samplingRate2, samplingRate1);
 
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
@@ -854,11 +853,11 @@ namespace JJ.Business.Synthesizer.Tests
 
                 x.CreatePatch();
 
-                double volume = 1;
-                double frequency = 1.0;
+                const double volume = 1;
+                const double frequency = 1.0;
                 Outlet sine = x.Multiply(x.Number(volume), x.Sine(x.Number(frequency)));
 
-                double newSamplingRate = 4;
+                const double newSamplingRate = 4;
                 Outlet interpolated = x.Interpolate(sine, x.Number(newSamplingRate));
 
                 IPatchCalculator patchCalculator;

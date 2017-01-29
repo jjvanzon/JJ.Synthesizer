@@ -75,11 +75,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void ShowProperties()
         {
             int? id = TryGetSelectedID();
-            if (id.HasValue)
+            if (!id.HasValue)
             {
-                var e = new EventArgs<int>(id.Value);
-                ShowDetailsRequested?.Invoke(this, e);
+                return;
             }
+
+            var e = new EventArgs<int>(id.Value);
+            ShowDetailsRequested?.Invoke(this, e);
         }
 
         // Events
@@ -122,14 +124,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private int? TryGetSelectedID()
         {
-            if (specializedDataGridView.CurrentRow != null)
+            if (specializedDataGridView.CurrentRow == null)
             {
-                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
-                int id = (int)cell.Value;
-                return id;
+                return null;
             }
 
-            return null;
+            DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
+            int id = (int)cell.Value;
+            return id;
         }
     }
 }

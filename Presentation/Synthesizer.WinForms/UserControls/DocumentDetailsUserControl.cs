@@ -76,13 +76,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Delete()
         {
-            if (DeleteRequested != null)
-            {
-                if (ViewModel == null) return;
+            if (ViewModel == null) return;
 
-                var e = new EventArgs<int>(ViewModel.Document.ID);
-                DeleteRequested(this, e);
-            }
+            var e = new EventArgs<int>(ViewModel.Document.ID);
+            DeleteRequested?.Invoke(this, e);
         }
 
         // Events

@@ -20,10 +20,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         // before saving the properties.
         protected override void HandleMouseUp(object sender, MouseEventArgs e)
         {
-            if (OperatorSelected != null)
-            {
-                OperatorSelected(sender, new ElementEventArgs(e.Element));
-            }
+            OperatorSelected?.Invoke(sender, new ElementEventArgs(e.Element));
         }
     }
 }

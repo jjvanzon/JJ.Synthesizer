@@ -112,28 +112,37 @@ namespace JJ.Presentation.Synthesizer.Converters
             }
 
             // A custom dimension name could clash with a standard dimension name.
+            // Disambiguate by putting (Custom) or (Standard) behind the dimension names.
+            
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dimensionNameGroups = operatorViewModels.GroupBy(x => NameHelper.ToCanonical(x.Dimension.Name));
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var dimensionNameGroup in dimensionNameGroups)
             {
+                // ReSharper disable once SuggestVarOrType_Elsewhere
                 var dimensionKeyGroups = dimensionNameGroup.GroupBy(x => x.Dimension.Key);
 
                 // ReSharper disable once PossibleMultipleEnumeration
-                if (dimensionKeyGroups.Take(2).Count() >= 2)
+                bool customDimensionNameClashesWithStandardDimensionName = dimensionKeyGroups.Take(2).Count() >= 2;
+                if (!customDimensionNameClashesWithStandardDimensionName)
                 {
-                    // ReSharper disable once PossibleMultipleEnumeration
-                    foreach (var dimensionKeyGroup in dimensionKeyGroups)
+                    continue;
+                }
+
+                // ReSharper disable once PossibleMultipleEnumeration
+                // ReSharper disable once SuggestVarOrType_Elsewhere
+                foreach (var dimensionKeyGroup in dimensionKeyGroups)
+                {
+                    foreach (OperatorViewModel operatorViewModel in dimensionKeyGroup)
                     {
-                        foreach (OperatorViewModel operatorViewModel in dimensionKeyGroup)
+                        if (operatorViewModel.Dimension.Key.StartsWith(ViewModelHelper.CUSTOM_DIMENSION_KEY_PREFIX))
                         {
-                            if (operatorViewModel.Dimension.Key.StartsWith(ViewModelHelper.CUSTOM_DIMENSION_KEY_PREFIX))
-                            {
-                                operatorViewModel.Dimension.Name += string.Format(" ({0})", Titles.Custom);
-                            }
-                            else
-                            {
-                                operatorViewModel.Dimension.Name += string.Format(" ({0})", Titles.Standard);
-                            }
+                            operatorViewModel.Dimension.Name += $" ({Titles.Custom})";
+                        }
+                        else
+                        {
+                            operatorViewModel.Dimension.Name += $" ({Titles.Standard})";
                         }
                     }
                 }

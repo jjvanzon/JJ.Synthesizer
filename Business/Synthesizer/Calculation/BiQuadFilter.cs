@@ -165,7 +165,7 @@ namespace JJ.Business.Synthesizer.Calculation
             double alpha = sinw0 / (2 * q);
 
             double b0 = sinw0 / 2; // =   Q*alpha
-            double b1 = 0;
+            const double b1 = 0;
             double b2 = -sinw0 / 2; // =  -Q*alpha
             double a0 = 1 + alpha;
             double a1 = -2 * cosw0;
@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Calculation
             double alpha = sinw0 / (2 * q);
 
             double b0 = alpha;
-            double b1 = 0;
+            const double b1 = 0;
             double b2 = -alpha;
             double a0 = 1 + alpha;
             double a1 = -2 * cosw0;
@@ -202,9 +202,9 @@ namespace JJ.Business.Synthesizer.Calculation
             double sinw0 = Math.Sin(w0);
             double alpha = sinw0 / (2 * q);
 
-            double b0 = 1;
+            const double b0 = 1;
             double b1 = -2 * cosw0;
-            double b2 = 1;
+            const double b2 = 1;
             double a0 = 1 + alpha;
             double a1 = -2 * cosw0;
             double a2 = 1 - alpha;

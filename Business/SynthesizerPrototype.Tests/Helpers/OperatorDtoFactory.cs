@@ -9,7 +9,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers
         {
             VariableInput_OperatorDto frequency_OperatorDto = Create_Frequency_VariableInput_OperatorDto();
 
-            int partialCount = 8;
+            const int partialCount = 8;
 
             IList<OperatorDtoBase> partialOperatorDtos = new List<OperatorDtoBase>(partialCount);
 
@@ -32,8 +32,8 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers
 
         private static OperatorDtoBase CreateOperatorDto_SinglePartial(VariableInput_OperatorDto frequency_VariableInput_OperatorDto)
         {
-            double volume = 10.0;
-            double phaseShift = 0.25;
+            const double volume = 10.0;
+            const double phaseShift = 0.25;
 
             var dto = new Multiply_OperatorDto
             {
@@ -56,7 +56,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers
 
         private static VariableInput_OperatorDto Create_Frequency_VariableInput_OperatorDto()
         {
-            double frequency = 440.0;
+            const double frequency = 440.0;
             return new VariableInput_OperatorDto { DefaultValue = frequency };
         }
     }

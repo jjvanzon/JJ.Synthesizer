@@ -22,9 +22,9 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithStructs
         {
             if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
-            double frequency = 440.0;
-            double volume = 10.0;
-            double phaseShift = 0.25;
+            const double frequency = 440.0;
+            const double volume = 10.0;
+            const double phaseShift = 0.25;
 
             var variableInputCalculator = new VariableInput_OperatorCalculator();
             variableInputCalculator._value = frequency;
@@ -239,7 +239,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithStructs
                     >
                 >();
 
-            int count = 8;
+            const int count = 8;
             for (int i = 0; i < count; i++)
             {
                 addCalculator.SetVarCalculator(i, CreateOperatorCalculatorStructure_SinglePartial(dimensionStack));

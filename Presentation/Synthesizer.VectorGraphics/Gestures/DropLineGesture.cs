@@ -12,7 +12,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
     public class DropLineGesture : DropGesture, IDisposable
     {
-        private Diagram _diagram;
         private readonly Line _line;
 
         public DropLineGesture(Diagram diagram, params DragLineGesture[] dragLineGestures)
@@ -20,21 +19,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         { }
 
         public DropLineGesture(Diagram diagram, IList<DragLineGesture> dragLineGestures = null)
-            : this(diagram, dragLineGestures, null, 0)
+            : this(diagram, dragLineGestures, null)
         { }
 
         public DropLineGesture(Diagram diagram,
             IList<DragLineGesture> dragLineGestures = null,
             LineStyle lineStyle = null,
             int lineZIndex = 0) 
-            : base(dragLineGestures.OfType<DragGesture>().ToArray())
+            : base(dragLineGestures?.OfType<DragGesture>().ToArray() ?? new DragGesture[0])
         {
             if (diagram == null) throw new NullException(() => diagram);
 
-            _diagram = diagram;
             _line = LineGestureHelper.CreateLine(diagram, lineStyle, lineZIndex);
 
-            this.Dropped += this_Dropped;
+            Dropped += this_Dropped;
         }
 
         ~DropLineGesture()
@@ -44,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         public void Dispose()
         {
-            this.Dropped -= this_Dropped;
+            Dropped -= this_Dropped;
 
             GC.SuppressFinalize(this);
         }

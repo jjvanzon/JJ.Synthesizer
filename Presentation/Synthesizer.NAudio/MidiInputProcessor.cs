@@ -66,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 //throw new Exception("No connected MIDI devices.");
             }
 
-            int deviceIndex = 0;
+            const int deviceIndex = 0;
 
             var midiIn = new MidiIn(deviceIndex);
             midiIn.MessageReceived += _midiIn_MessageReceived;
@@ -270,9 +270,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private static Dictionary<int, ControllerInfo> Create_ControllerCode_To_ControllerInfo_Dictionary()
         {
-            double controllerFactorForVolumeChangeRate = 4.0 / MAX_CONTROLLER_VALUE;
-            double controllerFactorForFilters = 8.0 / MAX_CONTROLLER_VALUE;
-            double controllerFactorForModulationSpeed = 30.0 / MAX_CONTROLLER_VALUE;
+            const double controllerFactorForVolumeChangeRate = 4.0 / MAX_CONTROLLER_VALUE;
+            const double controllerFactorForFilters = 8.0 / MAX_CONTROLLER_VALUE;
+            const double controllerFactorForModulationSpeed = 30.0 / MAX_CONTROLLER_VALUE;
 
             var controllerInfos = new[]
             {

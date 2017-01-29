@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.SideEffects
         private static double GetDefaultBaseFrequency()
         {
             // Start with A
-            double a = 440;
+            const double a = 440;
             // Then turn it into a C
             double c = a * Math.Pow(2, 3.0 / 12.0);
             // Then lower it to the sub-contra octave, which according to Wikipedia

@@ -67,7 +67,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
             IOperatorCalculator calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             double t = 0.0;
-            double dt = 1.0 / 500000.0;
+            const double dt = 1.0 / 500000.0;
 
             while (t <= 1.0)
             {

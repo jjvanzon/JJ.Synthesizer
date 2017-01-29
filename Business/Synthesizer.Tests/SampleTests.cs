@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Tests
                     }
                 }
 
-                double timeMultiplier = 1;
+                const double timeMultiplier = 1;
                 double duration = sample.GetDuration(stream.Length);
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));

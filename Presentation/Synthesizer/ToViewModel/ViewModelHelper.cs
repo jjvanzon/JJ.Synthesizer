@@ -405,6 +405,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// </summary>
         public static bool GetOperatorIsOwned(Operator entity)
         {
+            // ReSharper disable once InvertIf
             if (entity.Outlets.Count > 0)
             {
                 bool isOwned = entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number &&
@@ -692,7 +693,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                return string.Format("{0}: {1}", op.Name, formattedValue);
+                return $"{op.Name}: {formattedValue}";
             }
         }
 
@@ -770,7 +771,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use Operator.Name
             if (!string.IsNullOrWhiteSpace(op.Name))
             {
-                return string.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
+                return $"{operatorTypeDisplayName}: {op.Name}";
             }
 
             // Use Sample.Name
@@ -813,7 +814,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use Operator.Name
             if (!string.IsNullOrWhiteSpace(op.Name))
             {
-                return string.Format("{0}: {1}", formattedOperatorTypeDisplayName, op.Name);
+                return $"{formattedOperatorTypeDisplayName}: {op.Name}";
             }
             // Use OperatorType DisplayName only.
             else
@@ -829,7 +830,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use Operator.Name
             if (!string.IsNullOrWhiteSpace(op.Name))
             {
-                return string.Format("{0}: {1}", operatorTypeDisplayName, op.Name);
+                return $"{operatorTypeDisplayName}: {op.Name}";
             }
 
             // Use OperatorType DisplayName
@@ -848,7 +849,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
             if (!OperatorTypeEnums_WithHiddenInletNames.Contains(operatorTypeEnum))
             {
-                var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
                     inlet.Operator,
                     curveRepository,
                     sampleRepository,
@@ -962,7 +963,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
             if (OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum))
             {
-                var wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
                     outlet.Operator,
                     curveRepository,
                     sampleRepository,
@@ -1078,7 +1079,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (count != 0)
             {
-                text += string.Format(" ({0})", count);
+                text += $" ({count})";
             }
 
             return text;
@@ -1114,7 +1115,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (dto.UsedInIDAndNames.Count > 0)
             {
                 string formattedUsedInList = FormatUsedInList(dto.UsedInIDAndNames);
-                sb.AppendFormat(" ({0}: {1})", Titles.UsedIn, formattedUsedInList);
+                sb.Append($" ({Titles.UsedIn}: {formattedUsedInList})");
             }
 
             return sb.ToString();
@@ -1133,7 +1134,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (!string.IsNullOrEmpty(op.CustomDimensionName))
             {
-                return string.Format("{0}{1}", CUSTOM_DIMENSION_KEY_PREFIX, op.CustomDimensionName);
+                return $"{CUSTOM_DIMENSION_KEY_PREFIX}{op.CustomDimensionName}";
             }
             else
             {
@@ -1145,7 +1146,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (standardDimensionEnum != DimensionEnum.Undefined)
             {
-                return string.Format("{0}{1}", STANDARD_DIMENSION_KEY_PREFIX, standardDimensionEnum);
+                return $"{STANDARD_DIMENSION_KEY_PREFIX}{standardDimensionEnum}";
             }
 
             return DIMENSION_KEY_EMPTY;

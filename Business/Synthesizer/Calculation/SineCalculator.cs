@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation
             var samples = new double[SAMPLES_PER_CYCLE];
 
             double t = 0;
-            double step = MathHelper.TWO_PI / SAMPLES_PER_CYCLE;
+            const double step = MathHelper.TWO_PI / SAMPLES_PER_CYCLE;
 
             for (int i = 0; i < SAMPLES_PER_CYCLE; i++)
             {

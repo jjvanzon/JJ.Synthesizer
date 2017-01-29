@@ -149,7 +149,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int nodeID = (int)e.Element.Tag;
 
-            Rectangle rectangle = (Rectangle)e.Element;
+            var rectangle = (Rectangle)e.Element;
 
             float x = rectangle.Position.AbsoluteX + rectangle.Position.Width / 2;
             float y = rectangle.Position.AbsoluteY + rectangle.Position.Height / 2;

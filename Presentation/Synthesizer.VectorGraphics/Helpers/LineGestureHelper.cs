@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 if (lineStyle != null)
                 {
                     line.LineStyle = lineStyle;
-                };
+                }
 
                 _lineDictionary.Add(diagram, line);
                 return line;

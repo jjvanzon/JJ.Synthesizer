@@ -141,10 +141,11 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
         private static CSharpCompilationOptions GetCSharpCompilationOptions()
         {
 #if DEBUG
-            OptimizationLevel optimizationLevel = OptimizationLevel.Debug;
+            const OptimizationLevel optimizationLevel = OptimizationLevel.Debug;
 #else
-            OptimizationLevel optimizationLevel = OptimizationLevel.Release;
+            const OptimizationLevel optimizationLevel = OptimizationLevel.Release;
 #endif
+            // ReSharper disable once RedundantArgumentDefaultValue
             return new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: optimizationLevel);
         }
 

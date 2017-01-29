@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Calculation
             double alpha = sinw0 / (2 * bandWidth);
 
             double b0 = sinw0 / 2; // =   Q*alpha
-            double b1 = 0;
+            const double b1 = 0;
             double b2 = -sinw0 / 2; // =  -Q*alpha
             double aa0 = 1 + alpha;
             double aa1 = -2 * cosw0;
@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Calculation
             double alpha = sinw0 / (2 * bandWidth);
 
             double b0 = alpha;
-            double b1 = 0;
+            const double b1 = 0;
             double b2 = -alpha;
             double aa0 = 1 + alpha;
             double aa1 = -2 * cosw0;
@@ -201,9 +201,9 @@ namespace JJ.Business.Synthesizer.Calculation
             double sinw0 = Math.Sin(w0);
             double alpha = sinw0 / (2 * bandWidth);
 
-            double b0 = 1;
+            const double b0 = 1;
             double b1 = -2 * cosw0;
-            double b2 = 1;
+            const double b2 = 1;
             double aa0 = 1 + alpha;
             double aa1 = -2 * cosw0;
             double aa2 = 1 - alpha;

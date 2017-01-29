@@ -293,7 +293,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _toolTipLabel.Parent = null;
             _toolTipRectangle.Parent = null;
 
-            _toolTipLabel.Children.Clear();;
+            _toolTipLabel.Children.Clear();
             _toolTipRectangle.Children.Clear();
 
             _toolTipLabel.Diagram = null;
@@ -301,10 +301,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
             parentElement.Gestures.Remove(_mouseLeaveGesture);
 
-            if (_previousElement != null)
-            {
-                _previousElement.Gestures.Remove(_mouseLeaveGesture);
-            }
+            _previousElement?.Gestures.Remove(_mouseLeaveGesture);
             _previousElement = null;
         }
     }

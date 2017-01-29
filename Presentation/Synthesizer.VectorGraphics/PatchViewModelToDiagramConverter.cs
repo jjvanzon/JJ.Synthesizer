@@ -188,78 +188,81 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 InletViewModel inletViewModel = sourceOperatorViewModel1.Inlets[i];
 
-                if (inletViewModel.InputOutlet != null)
+                if (inletViewModel.InputOutlet == null)
                 {
-                    OperatorViewModel sourceOperatorViewModel2 = inletViewModel.InputOutlet.Operator;
+                    continue;
+                }
 
-                    // Recursive call
-                    OperatorElements operatorVectorGraphicsElements2 =
-                        ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel2, destDiagram);
+                OperatorViewModel sourceOperatorViewModel2 = inletViewModel.InputOutlet.Operator;
 
-                    int inletID = inletViewModel.ID;
+                // Recursive call
+                OperatorElements operatorVectorGraphicsElements2 =
+                    ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel2, destDiagram);
 
-                    Curve destCurve = TryGetInletCurve(inletID);
-                    if (destCurve == null)
+                int inletID = inletViewModel.ID;
+
+                Curve destCurve = TryGetInletCurve(inletID);
+                if (destCurve == null)
+                {
+                    destCurve = new Curve
                     {
-                        destCurve = new Curve
-                        {
-                            SegmentCount = _lineSegmentCount,
-                            ZIndex = -1,
-                            Tag = VectorGraphicsTagHelper.GetInletTag(inletID),
-                            Diagram = destDiagram,
-                            Parent = destDiagram.Background
-                        };
-                        _inletID_Curve_Dictionary.Add(inletID, destCurve);
-                    }
+                        SegmentCount = _lineSegmentCount,
+                        ZIndex = -1,
+                        Tag = VectorGraphicsTagHelper.GetInletTag(inletID),
+                        Diagram = destDiagram,
+                        Parent = destDiagram.Background
+                    };
+                    _inletID_Curve_Dictionary.Add(inletID, destCurve);
+                }
 
-                    _convertedElements.Add(destCurve);
+                _convertedElements.Add(destCurve);
 
-                    bool mustHaveWarningAppearance = inletViewModel.HasWarningAppearance ||
-                                                    (inletViewModel.InputOutlet?.HasWarningAppearance ?? false);
-                    if (mustHaveWarningAppearance)
-                    {
-                        destCurve.LineStyle = StyleHelper.LineStyleWarning;
-                    }
-                    else
-                    {
-                        destCurve.LineStyle = StyleHelper.LineStyle;
-                    }
+                bool mustHaveWarningAppearance = inletViewModel.HasWarningAppearance ||
+                                                 (inletViewModel.InputOutlet?.HasWarningAppearance ?? false);
+                if (mustHaveWarningAppearance)
+                {
+                    destCurve.LineStyle = StyleHelper.LineStyleWarning;
+                }
+                else
+                {
+                    destCurve.LineStyle = StyleHelper.LineStyle;
+                }
 
-                    destCurve.PointA = operatorVectorGraphicsElements1.InletPoints[i];
-                    destCurve.ControlPointA = operatorVectorGraphicsElements1.InletControlPoints[i];
+                destCurve.PointA = operatorVectorGraphicsElements1.InletPoints[i];
+                destCurve.ControlPointA = operatorVectorGraphicsElements1.InletControlPoints[i];
 
-                    int? outletIndex = operatorVectorGraphicsElements2.OutletPoints.TryGetIndexOf(x => VectorGraphicsTagHelper.GetOutletID(x.Tag) == inletViewModel.InputOutlet.ID);
-                    if (outletIndex.HasValue)
-                    {
-                        destCurve.PointB = operatorVectorGraphicsElements2.OutletPoints[outletIndex.Value];
-                        destCurve.ControlPointB = operatorVectorGraphicsElements2.OutletControlPoints[outletIndex.Value];
+                int? outletIndex = operatorVectorGraphicsElements2.OutletPoints.TryGetIndexOf(x => VectorGraphicsTagHelper.GetOutletID(x.Tag) == inletViewModel.InputOutlet.ID);
+                // ReSharper disable once InvertIf
+                if (outletIndex.HasValue)
+                {
+                    destCurve.PointB = operatorVectorGraphicsElements2.OutletPoints[outletIndex.Value];
+                    destCurve.ControlPointB = operatorVectorGraphicsElements2.OutletControlPoints[outletIndex.Value];
 
-                        // Owned operators move along with the operator they are connected to.
-                        //bool operator2IsOwned = inletViewModel.InputOutlet.Operator.IsOwned;
-                        //if (operator2IsOwned)
-                        //{
-                        //    operatorVectorGraphicsElements2.OperatorRectangle.Parent = operatorVectorGraphicsElements1.OperatorRectangle;
-                        //    operatorVectorGraphicsElements2.OperatorRectangle.MustBubble = false;
+                    // Owned operators move along with the operator they are connected to.
+                    //bool operator2IsOwned = inletViewModel.InputOutlet.Operator.IsOwned;
+                    //if (operator2IsOwned)
+                    //{
+                    //    operatorVectorGraphicsElements2.OperatorRectangle.Parent = operatorVectorGraphicsElements1.OperatorRectangle;
+                    //    operatorVectorGraphicsElements2.OperatorRectangle.MustBubble = false;
 
-                        //    // Make coordinates relative to the owner rectangle
-                        //    // and take into account that the centers are stored, 
-                        //    // while the top-left corner is assigned to the
-                        //    // vector graphics elements.
-                        //    operatorVectorGraphicsElements2.OperatorRectangle.X =
-                        //        sourceOperatorViewModel2.CenterX - sourceOperatorViewModel1.CenterX
-                        //        - operatorVectorGraphicsElements2.OperatorRectangle.Width / 2f
-                        //        + operatorVectorGraphicsElements1.OperatorRectangle.Width / 2f;
+                    //    // Make coordinates relative to the owner rectangle
+                    //    // and take into account that the centers are stored, 
+                    //    // while the top-left corner is assigned to the
+                    //    // vector graphics elements.
+                    //    operatorVectorGraphicsElements2.OperatorRectangle.X =
+                    //        sourceOperatorViewModel2.CenterX - sourceOperatorViewModel1.CenterX
+                    //        - operatorVectorGraphicsElements2.OperatorRectangle.Width / 2f
+                    //        + operatorVectorGraphicsElements1.OperatorRectangle.Width / 2f;
 
-                        //    operatorVectorGraphicsElements2.OperatorRectangle.Y =
-                        //        sourceOperatorViewModel2.CenterY - sourceOperatorViewModel1.CenterY
-                        //        - operatorVectorGraphicsElements2.OperatorRectangle.Height / 2f
-                        //        + operatorVectorGraphicsElements1.OperatorRectangle.Height / 2f;
-                        //}
-                        //else
-                        //{
-                        operatorVectorGraphicsElements2.OperatorRectangle.Parent = destDiagram.Background;
-                        //}
-                    }
+                    //    operatorVectorGraphicsElements2.OperatorRectangle.Y =
+                    //        sourceOperatorViewModel2.CenterY - sourceOperatorViewModel1.CenterY
+                    //        - operatorVectorGraphicsElements2.OperatorRectangle.Height / 2f
+                    //        + operatorVectorGraphicsElements1.OperatorRectangle.Height / 2f;
+                    //}
+                    //else
+                    //{
+                    operatorVectorGraphicsElements2.OperatorRectangle.Parent = destDiagram.Background;
+                    //}
                 }
             }
 
