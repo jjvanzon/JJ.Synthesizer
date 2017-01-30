@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
@@ -40,15 +42,12 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
         public HardCodedPatchCalculator(
             int samplingRate, 
             int channelCount, 
-            int channelIndex, 
-            CalculatorCache calculatorCache,
-            ICurveRepository curveRepository)
+            int channelIndex,
+            Dictionary<string, double[]> curveArrays,
+            Dictionary<string, double> curveRates)
             : base(samplingRate, channelCount, channelIndex)
         {
-            if (calculatorCache == null) throw new ArgumentNullException(nameof(calculatorCache));
-            if (curveRepository == null) throw new ArgumentNullException(nameof(curveRepository));
-
-            _curveCalculator32415_1 = (ArrayCalculator_MinPositionZero_Line)calculatorCache.GetCurveCalculator(32415, curveRepository);
+            _curveCalculator32415_1 = new ArrayCalculator_MinPositionZero_Line(curveArrays["curveCalculator32415_1"], curveRates["curveCalculator32415_1"]);
 
             Reset(time: 0.0);
 

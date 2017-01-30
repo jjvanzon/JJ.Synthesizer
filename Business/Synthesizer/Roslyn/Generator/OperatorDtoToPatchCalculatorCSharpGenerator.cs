@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             _curveRepository = curveRepository;
         }
 
-        public string Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName)
+        public OperatorDtoToPatchCalculatorCSharpGeneratorResult Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName)
         {
             if (string.IsNullOrEmpty(generatedNameSpace)) throw new NullOrEmptyException(() => generatedNameSpace);
             if (string.IsNullOrEmpty(generatedClassName)) throw new NullOrEmptyException(() => generatedClassName);
@@ -55,6 +55,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
 
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Runtime.CompilerServices;");
+            sb.AppendLine("using " + typeof(Dictionary<,>).Namespace + ";");
             sb.AppendLine("using " + typeof(PatchCalculatorBase).Namespace + ";");
             sb.AppendLine("using " + typeof(SineCalculator).Namespace + ";");
             sb.AppendLine("using " + typeof(DimensionEnum).Namespace + ";");
@@ -115,7 +116,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("}");
 
             string generatedCode = sb.ToString();
-            return generatedCode;
+
+            var result = new OperatorDtoToPatchCalculatorCSharpGeneratorResult
+            {
+                GeneratedCode = generatedCode,
+                CurveCalculatorVariableInfos = visitorResult.CurveCalculatorVariableInfos
+            };
+
+            return result;
         }
 
         private void WriteFields(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
@@ -143,7 +151,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
 
         private void WriteConstructor(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult, string generatedClassName)
         {
-            sb.AppendLine($"public {generatedClassName}(int samplingRate, int channelCount, int channelIndex, CalculatorCache calculatorCache, ICurveRepository curveRepository)");
+            sb.AppendLine($"public {generatedClassName}(");
+            sb.Indent();
+            {
+                sb.AppendLine("int samplingRate,");
+                sb.AppendLine("int channelCount,");
+                sb.AppendLine("int channelIndex,");
+                sb.AppendLine("Dictionary<string, double[]> curveArrays,");
+                sb.AppendLine("Dictionary<string, double> curveRates");
+                sb.AppendLine(")");
+                sb.Unindent();
+            }
             sb.Indent();
             {
                 sb.AppendLine(": base(samplingRate, channelCount, channelIndex)");
@@ -152,9 +170,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("{");
             sb.Indent();
             {
-                sb.AppendLine("if (calculatorCache == null) throw new ArgumentNullException(nameof(calculatorCache));");
-                sb.AppendLine("if (curveRepository == null) throw new ArgumentNullException(nameof(curveRepository));");
-
                 if (visitorResult.InputVariableInfos.Any())
                 {
                     foreach (ExtendedVariableInfo inputVariableInfo in visitorResult.InputVariableInfos)
@@ -172,7 +187,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
                         string type = variableInfo.TypeName;
                         string nameCamelCase = variableInfo.NameCamelCase;
 
-                        sb.AppendLine($"_{nameCamelCase} = ({type})calculatorCache.GetCurveCalculator({id}, curveRepository);");
+                        sb.AppendLine($"_{nameCamelCase} = new {type}(curveArrays[\"{nameCamelCase}\"], curveRates[\"{nameCamelCase}\"]);");
                     }
                     sb.AppendLine();
                 }

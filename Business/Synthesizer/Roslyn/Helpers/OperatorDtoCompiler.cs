@@ -59,11 +59,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
             dto = preProcessingVisitor.Execute(dto);
 
-            var codeGeneratingVisitor = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex, calculatorCache, curveRepository);
-            string generatedCode = codeGeneratingVisitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
+            var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex, calculatorCache, curveRepository);
+            OperatorDtoToPatchCalculatorCSharpGeneratorResult codeGeneratorResult = codeGenerator.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
-            Type type = Compile(generatedCode);
-            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex, calculatorCache, curveRepository);
+            Dictionary<string, double[]> curveArrays = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._array);
+            Dictionary<string, double> curveRates = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._rate);
+
+            Type type = Compile(codeGeneratorResult.GeneratedCode);
+            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex, curveArrays, curveRates);
             return calculator;
         }
 

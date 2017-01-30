@@ -6,15 +6,15 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
     internal abstract class ArrayCalculatorBase
     {
         // Fields for performance
-        protected double[] _array;
-        protected double _valueBefore;
-        protected double _valueAfter;
+        public readonly double[] _array;
+        public readonly double _valueBefore;
+        public readonly double _valueAfter;
 
-        protected double _minPosition;
-        protected double _maxPosition;
-        protected double _length;
-        protected double _rate;
-        protected double _tickCount;
+        public readonly double _minPosition;
+        public readonly double _maxPosition;
+        public readonly double _length;
+        public readonly double _rate;
+        public readonly double _tickCount;
 
         /// <param name="extraTicksBefore">You can let this base class add extra ticks _array for interpolation purposes.</param>
         public ArrayCalculatorBase(

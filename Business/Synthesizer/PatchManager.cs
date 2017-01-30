@@ -552,7 +552,7 @@ namespace JJ.Business.Synthesizer
                     break;
 
                 case CalculationEngineConfigurationEnum.HardCoded:
-                    return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, calculatorCache, _repositories.CurveRepository);
+                    return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
 
                 case CalculationEngineConfigurationEnum.ExampleGeneratedCode:
                     return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, calculatorCache, _repositories.CurveRepository);

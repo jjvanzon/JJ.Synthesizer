@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Framework.Common;
 using System.Diagnostics;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -1906,7 +1907,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 {
                     CurveID = dto.CurveID,
                     NameCamelCase = nameCamelCase,
-                    TypeName = typeName
+                    TypeName = typeName,
+                    // DIRTY: Type assumption
+                    Calculator = (ArrayCalculatorBase)calculator
                 };
 
                 _curveID_To_CurveCalculatorVariableInfo_Dictionary[dto.CurveID] = variableInfo;
