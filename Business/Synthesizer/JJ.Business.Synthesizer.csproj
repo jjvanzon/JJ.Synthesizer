@@ -115,8 +115,8 @@
     <Compile Include="Calculation\Curves\CurveArrayHelper.cs" />
     <Compile Include="Calculation\Curves\CurveCalculatorFactory.cs" />
     <Compile Include="Calculation\Curves\2017-01-29 Backup of ICurveCalculator.cs" />
-    <Compile Include="Calculation\Curves\CurveCalculator_MinXZero.cs" />
-    <Compile Include="Calculation\Curves\CurveCalculator_MinX.cs" />
+    <Compile Include="Calculation\Curves\2017-01-30 Backup of CurveCalculator_MinXZero.cs" />
+    <Compile Include="Calculation\Curves\2017-01-30 Backup of CurveCalculator_MinX.cs" />
     <Compile Include="Calculation\DimensionStackCollection.cs" />
     <Compile Include="Calculation\Operators\Add OperatorCalculator Classes Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>

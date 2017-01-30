@@ -1,21 +1,22 @@
 ﻿using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Calculation.Arrays;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Curve_OperatorCalculator_MinX_NoOriginShifting : OperatorCalculatorBase
     {
-        private readonly CurveCalculator_MinX _curveCalculator;
+        private readonly ArrayCalculator_MinPosition_Line _underlyingCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Curve_OperatorCalculator_MinX_NoOriginShifting(CurveCalculator_MinX curveCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinX_NoOriginShifting(ArrayCalculator_MinPosition_Line underlyingCalculator, DimensionStack dimensionStack)
         {
-            if (curveCalculator == null) throw new NullException(() => curveCalculator);
+            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _curveCalculator = curveCalculator;
+            _underlyingCalculator = underlyingCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
@@ -32,7 +33,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
 
-            double value = _curveCalculator.Calculate(position);
+            double value = _underlyingCalculator.Calculate(position);
 
             return value;
         }
@@ -40,18 +41,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Curve_OperatorCalculator_MinX_WithOriginShifting : OperatorCalculatorBase
     {
-        private readonly CurveCalculator_MinX _curveCalculator;
+        private readonly ArrayCalculator_MinPosition_Line _underlyingCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
         private double _origin;
 
-        public Curve_OperatorCalculator_MinX_WithOriginShifting(CurveCalculator_MinX curveCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinX_WithOriginShifting(ArrayCalculator_MinPosition_Line underlyingCalculator, DimensionStack dimensionStack)
         {
-            if (curveCalculator == null) throw new NullException(() => curveCalculator);
+            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _curveCalculator = curveCalculator;
+            _underlyingCalculator = underlyingCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
@@ -73,7 +74,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double phase = position - _origin;
 
-            double value = _curveCalculator.Calculate(phase);
+            double value = _underlyingCalculator.Calculate(phase);
 
             return value;
         }
@@ -98,16 +99,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Curve_OperatorCalculator_MinXZero_NoOriginShifting : OperatorCalculatorBase
     {
-        private readonly CurveCalculator_MinXZero _curveCalculator;
+        private readonly ArrayCalculator_MinPositionZero_Line _underlyingCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public Curve_OperatorCalculator_MinXZero_NoOriginShifting(CurveCalculator_MinXZero curveCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinXZero_NoOriginShifting(ArrayCalculator_MinPositionZero_Line underlyingCalculator, DimensionStack dimensionStack)
         {
-            if (curveCalculator == null) throw new NullException(() => curveCalculator);
+            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _curveCalculator = curveCalculator;
+            _underlyingCalculator = underlyingCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
@@ -124,25 +125,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
 
-            double value = _curveCalculator.Calculate(position);
+            double value = _underlyingCalculator.Calculate(position);
             return value;
         }
     }
 
     internal class Curve_OperatorCalculator_MinXZero_WithOriginShifting : OperatorCalculatorBase
     {
-        private readonly CurveCalculator_MinXZero _curveCalculator;
+        private readonly ArrayCalculator_MinPositionZero_Line _underlyingCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
         private double _origin;
 
-        public Curve_OperatorCalculator_MinXZero_WithOriginShifting(CurveCalculator_MinXZero curveCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinXZero_WithOriginShifting(ArrayCalculator_MinPositionZero_Line underlyingCalculator, DimensionStack dimensionStack)
         {
-            if (curveCalculator == null) throw new NullException(() => curveCalculator);
+            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _curveCalculator = curveCalculator;
+            _underlyingCalculator = underlyingCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
@@ -163,7 +164,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double phase = position - _origin;
 
-            double value = _curveCalculator.Calculate(phase);
+            double value = _underlyingCalculator.Calculate(phase);
 
             return value;
         }

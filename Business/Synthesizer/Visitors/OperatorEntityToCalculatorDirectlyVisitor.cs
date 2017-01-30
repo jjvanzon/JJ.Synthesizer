@@ -944,7 +944,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 ICalculatorWithPosition curveCalculator = _calculatorCache.GetCurveCalculator(curve);
 
-                var curveCalculator_MinPosition = curveCalculator as CurveCalculator_MinX;
+                var curveCalculator_MinPosition = curveCalculator as ArrayCalculator_MinPosition_Line;
                 if (curveCalculator_MinPosition != null)
                 {
                     if (standardDimensionEnum == DimensionEnum.Time)
@@ -957,7 +957,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     }
                 }
 
-                var curveCalculator_MinPositionZero = curveCalculator as CurveCalculator_MinXZero;
+                var curveCalculator_MinPositionZero = curveCalculator as ArrayCalculator_MinPositionZero_Line;
                 if (curveCalculator_MinPositionZero != null)
                 {
                     if (standardDimensionEnum == DimensionEnum.Time)

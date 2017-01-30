@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Patches;
@@ -211,9 +212,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            var curveCalculator = (CurveCalculator_MinXZero)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+            // Cast to concrete calculator type for performance.
+            var underlyingCalculator = (ArrayCalculator_MinPositionZero_Line)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
 
-            var calculator = new Curve_OperatorCalculator_MinXZero_NoOriginShifting(curveCalculator, dimensionStack);
+            var calculator = new Curve_OperatorCalculator_MinXZero_NoOriginShifting(underlyingCalculator, dimensionStack);
             _stack.Push(calculator);
 
             return dto;
@@ -225,9 +227,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            var curveCalculator = (CurveCalculator_MinXZero)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+            // Cast to concrete calculator type for performance.
+            var underlyingCalculator = (ArrayCalculator_MinPositionZero_Line)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
 
-            var calculator = new Curve_OperatorCalculator_MinXZero_WithOriginShifting(curveCalculator, dimensionStack);
+            var calculator = new Curve_OperatorCalculator_MinXZero_WithOriginShifting(underlyingCalculator, dimensionStack);
             _stack.Push(calculator);
 
             return dto;
@@ -239,9 +242,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            var curveCalculator = (CurveCalculator_MinX)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+            // Cast to concrete calculator type for performance.
+            var underlyingCalculator = (ArrayCalculator_MinPosition_Line)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
 
-            var calculator = new Curve_OperatorCalculator_MinX_NoOriginShifting(curveCalculator, dimensionStack);
+            var calculator = new Curve_OperatorCalculator_MinX_NoOriginShifting(underlyingCalculator, dimensionStack);
             _stack.Push(calculator);
 
             return dto;
@@ -253,9 +257,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            var curveCalculator = (CurveCalculator_MinX)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+            // Cast to concrete calculator type for performance.
+            var underlyingCalculator = (ArrayCalculator_MinPosition_Line)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
 
-            var calculator = new Curve_OperatorCalculator_MinX_WithOriginShifting(curveCalculator, dimensionStack);
+            var calculator = new Curve_OperatorCalculator_MinX_WithOriginShifting(underlyingCalculator, dimensionStack);
             _stack.Push(calculator);
 
             return dto;
