@@ -17,8 +17,6 @@ namespace JJ.Business.Synthesizer.Calculation
     /// <summary> Caches several calculators for shared use between PatchCalculators, to save memory. </summary>
     public class CalculatorCache
     {
-        private const int TOP_LEVEL_DIMENSION_STACK_INDEX = 0;
-
         /// <summary>
         /// This dictionary is about reusing the same CurveCalculator in multiple OperatorCalculator_Curve's
         /// in case they uses the same Curve, more than optimizing things by using a dictionary.
@@ -63,6 +61,7 @@ namespace JJ.Business.Synthesizer.Calculation
             lock (_curveLock)
             {
                 ICalculatorWithPosition curveCalculator;
+                // ReSharper disable once InvertIf
                 if (!_curve_CurveCalculator_Dictionary.TryGetValue(curve, out curveCalculator))
                 {
                     curveCalculator = CurveCalculatorFactory.CreateCurveCalculator(curve);
@@ -95,6 +94,7 @@ namespace JJ.Business.Synthesizer.Calculation
             lock (_sampleLock)
             {
                 ISampleCalculator sampleCalculator;
+                // ReSharper disable once InvertIf
                 if (!_sample_SampleCalculator_Dictionary.TryGetValue(sampleInfo.Sample, out sampleCalculator))
                 {
                     sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleInfo.Sample, sampleInfo.Bytes);
@@ -112,6 +112,7 @@ namespace JJ.Business.Synthesizer.Calculation
             lock (_operatorID_To_NoiseCalculator_Dictionary_Lock)
             {
                 NoiseCalculator noiseCalculator;
+                // ReSharper disable once InvertIf
                 if (!_operatorID_To_NoiseCalculator_Dictionary.TryGetValue(operatorID, out noiseCalculator))
                 {
                     noiseCalculator = new NoiseCalculator();
@@ -164,6 +165,7 @@ namespace JJ.Business.Synthesizer.Calculation
             lock (_operatorID_To_RandomCalculator_StripeInterpolation_Dictionary_Lock)
             {
                 RandomCalculator_StripeInterpolation randomCalculator;
+                // ReSharper disable once InvertIf
                 if (!_operatorID_To_RandomCalculator_StripeInterpolation_Dictionary.TryGetValue(operatorID, out randomCalculator))
                 {
                     randomCalculator = new RandomCalculator_StripeInterpolation();
@@ -181,6 +183,7 @@ namespace JJ.Business.Synthesizer.Calculation
             lock (_operatorID_To_RandomCalculator_BlockInterpolation_Dictionary_Lock)
             {
                 RandomCalculator_BlockInterpolation randomCalculator;
+                // ReSharper disable once InvertIf
                 if (!_operatorID_To_RandomCalculator_BlockInterpolation_Dictionary.TryGetValue(operatorID, out randomCalculator))
                 {
                     randomCalculator = new RandomCalculator_BlockInterpolation();
@@ -246,6 +249,7 @@ namespace JJ.Business.Synthesizer.Calculation
             lock (_cacheOperatorID_To_ArrayCalculators_Dictionary_Lock)
             {
                 IList<ICalculatorWithPosition> arrayCalculators;
+                // ReSharper disable once InvertIf
                 if (!_cacheOperatorID_To_ArrayCalculators_Dictionary.TryGetValue(operatorID, out arrayCalculators))
                 {
                     arrayCalculators = CreateCacheArrayCalculators(

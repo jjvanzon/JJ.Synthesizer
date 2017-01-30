@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Roslyn.Calculation
 {
@@ -31,11 +33,23 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
         private double _phase7;
         private double _prevPos7;
 
+        private readonly ArrayCalculator_MinPositionZero_Line _curveCalculator32415_1;
+
         // Constructor
 
-        public HardCodedPatchCalculator(int samplingRate, int channelCount, int channelIndex)
+        public HardCodedPatchCalculator(
+            int samplingRate, 
+            int channelCount, 
+            int channelIndex, 
+            CalculatorCache calculatorCache,
+            ICurveRepository curveRepository)
             : base(samplingRate, channelCount, channelIndex)
         {
+            if (calculatorCache == null) throw new ArgumentNullException(nameof(calculatorCache));
+            if (curveRepository == null) throw new ArgumentNullException(nameof(curveRepository));
+
+            _curveCalculator32415_1 = (ArrayCalculator_MinPositionZero_Line)calculatorCache.GetCurveCalculator(32415, curveRepository);
+
             Reset(time: 0.0);
 
             // TODO: Copy defaults from fields to value dictionaries in the base, like SingleChannelPatchCalculator's constructor.
@@ -68,6 +82,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             double prevPos6 = _prevPos6;
             double phase7 = _phase7;
             double prevPos7 = _prevPos7;
+
+            var curveCalculator32415_1 = _curveCalculator32415_1;
 
             double t0 = startTime;
             double t1;
@@ -166,7 +182,14 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
                 // Add
                 double add1 = multiply8 + multiply7 + multiply6 + multiply5 + multiply4 + multiply3 + multiply2 + multiply1;
 
-                double value = add1;
+                // Curve
+                double curve1 = curveCalculator32415_1.Calculate(t1);
+
+                // Multiply
+                double multiply9 = add1 * curve1;
+
+                // Accumulate
+                double value = multiply9;
 
                 if (double.IsNaN(value)) // winmm will trip over NaN.
                 {

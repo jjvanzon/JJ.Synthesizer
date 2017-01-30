@@ -17,13 +17,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     public class SingleChannelPatchCalculator : PatchCalculatorBase
     {
 #if !USE_INVAR_INDICES
+        // ReSharper disable once UnusedMember.Local
         private const int TOP_LEVEL_DIMENSION_STACK_INDEX = 0;
 #endif
         private static readonly CalculationEngineConfigurationEnum _calculationEngineConfigurationEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationEngine;
 
         private readonly DimensionStackCollection _dimensionStackCollection;
         private readonly DimensionStack _timeDimensionStack;
-        private readonly DimensionStack _channelDimensionStack;
 
         private readonly OperatorCalculatorBase _outputOperatorCalculator;
         /// <summary> Array, instead of IList&lt;T&gt; for optimization in calculating values. </summary>
@@ -122,11 +122,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             // Get special dimensions' stacks.
             _timeDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Time);
-            _channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
+            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
 
             // Set special channel dimension value.
 #if !USE_INVAR_INDICES
-            _channelDimensionStack.Set(channelIndex);
+            channelDimensionStack.Set(channelIndex);
 #else
             _channelDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
 #endif

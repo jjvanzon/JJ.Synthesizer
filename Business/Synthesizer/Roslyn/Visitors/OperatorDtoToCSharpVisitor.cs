@@ -9,7 +9,9 @@ using System.Diagnostics;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Collections;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Roslyn.Visitors
@@ -35,6 +37,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string PREVIOUS_POSITION_MNEMONIC = "prevPos";
         private const string DEFAULT_INPUT_MNEMONIC = "input";
         private const string ORIGIN_MNEMONIC = "origin";
+        private const string CURVE_CALCULATOR_MNEMONIC = "CurveCalculator";
 
         /// <summary> {0} = phase </summary>
         private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
@@ -46,6 +49,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private const string SQUARE_FORMULA_FORMAT = "{0} % 1.0 < 0.5 ? 1.0 : -1.0";
 
         private readonly int _indentLevel;
+        private readonly CalculatorCache _calculatorCache;
+        private readonly ICurveRepository _curveRepository;
 
         private Stack<string> _stack;
         private StringBuilderWithIndentation _sb;
@@ -72,9 +77,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo> _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary;
         private Dictionary<Tuple<DimensionEnum, string>, string> _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary;
 
-        public OperatorDtoToCSharpVisitor(int rawCalculationIndentLevel)
+        // Information about Satellite Calculators
+        private Dictionary<int, CurveCalculatorVariableInfo> _curveID_To_CurveCalculatorVariableInfo_Dictionary;
+
+        public OperatorDtoToCSharpVisitor(int indentLevel, CalculatorCache calculatorCache, ICurveRepository curveRepository)
         {
-            _indentLevel = rawCalculationIndentLevel;
+            if (calculatorCache == null) throw new NullException(() => calculatorCache);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+
+            _indentLevel = indentLevel;
+            _calculatorCache = calculatorCache;
+            _curveRepository = curveRepository;
         }
 
         public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto)
@@ -89,6 +102,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<Tuple<DimensionEnum, string>, string>();
             _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
+            _curveID_To_CurveCalculatorVariableInfo_Dictionary = new Dictionary<int, CurveCalculatorVariableInfo>();
             _counter = 0;
 
             _sb = new StringBuilderWithIndentation(TAB_STRING)
@@ -102,7 +116,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string returnValue = _stack.Pop();
 
             // Get some more variable info
-            string firstTimeVariableNameCamelCase = GeneratePositionName(0, DimensionEnum.Time);
+            string firstTimeVariableNameCamelCase = GeneratePositionNameCamelCase(0, DimensionEnum.Time);
 
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfos = 
                 _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
@@ -125,7 +139,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 _longLivedOriginVariableNamesCamelCase,
                 longLivedDimensionVariableInfos,
                 localDimensionVariableNamesCamelCase,
-                _longLivedMiscVariableNamesCamelCase);
+                _longLivedMiscVariableNamesCamelCase,
+                _curveID_To_CurveCalculatorVariableInfo_Dictionary.Values.ToArray());
         }
 
         [DebuggerHidden]
@@ -196,6 +211,26 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto)
+        {
+            return ProcessCurve_NoOriginShifting(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(Curve_OperatorDto_MinXZero_WithOriginShifting dto)
+        {
+            return ProcessCurve_WithOriginShifting(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_NoOriginShifting(Curve_OperatorDto_MinX_NoOriginShifting dto)
+        {
+            return ProcessCurve_NoOriginShifting(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto)
+        {
+            return ProcessCurve_WithOriginShifting(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
@@ -269,7 +304,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         protected override OperatorDtoBase Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
         {
-            string position = GeneratePositionName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
 
             _stack.Push(position);
 
@@ -665,8 +700,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_WithOriginShifting(Reverse_OperatorDto_ConstSpeed_WithOriginShifting dto)
         {
             string speed = CompilationHelper.FormatValue(dto.Speed);
-            string sourcePos = GeneratePositionName(dto);
-            string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
+            string sourcePos = GeneratePositionNameCamelCase(dto);
+            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string origin = GenerateLongLivedOriginName();
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -694,8 +729,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string speed = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
             string previousPosition = GenerateLongLivedPreviousPositionName();
-            string sourcePosition = GeneratePositionName(dto);
-            string destPosition = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) * -{speed};");
@@ -1093,7 +1128,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
-            string position = GeneratePositionName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
             string phase = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -1109,7 +1144,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(Triangle_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
-            string position = GeneratePositionName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
             string origin = GenerateLongLivedOriginName();
             string phase = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
@@ -1127,7 +1162,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             string frequency = _stack.Pop();
-            string position = GeneratePositionName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
             string phase = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -1146,7 +1181,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string frequency = _stack.Pop();
 
             string phase = GenerateLongLivedPhaseName();
-            string posisition = GeneratePositionName(dto);
+            string posisition = GeneratePositionNameCamelCase(dto);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{phase} = {posisition} * {frequency};");
@@ -1210,6 +1245,37 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b} ? 1.0 : 0.0;");
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessCurve_NoOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
+        {
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+            string calculatorNameCamelCase = GenerateCurveCalculatorVariableNameCamelCase(dto);
+            string position = GeneratePositionNameCamelCase(dto);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {output} = {calculatorNameCamelCase}.Calculate({position});");
+            _sb.AppendLine();
+
+            return dto;
+        }
+
+        private OperatorDtoBase ProcessCurve_WithOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
+        {
+            string phase = GenerateUniqueVariableName(PHASE_MNEMONIC);
+            string position = GeneratePositionNameCamelCase(dto);
+            string origin = GenerateLongLivedOriginName();
+            string calculatorNameCamelCase = GenerateCurveCalculatorVariableNameCamelCase(dto);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {phase} = {position} - {origin};");
+            _sb.AppendLine($"double {output} = {calculatorNameCamelCase}.Calculate({phase});");
             _sb.AppendLine();
 
             _stack.Push(output);
@@ -1503,7 +1569,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private OperatorDtoBase ProcessOriginShifter(OperatorDtoBase_ConstFrequency dto, Func<string, string> getRightHandFormulaDelegate)
         {
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
-            string position = GeneratePositionName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
             string origin = GenerateLongLivedOriginName();
             string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
             string rightHandFormula = getRightHandFormulaDelegate(variable);
@@ -1524,7 +1590,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
             string frequency = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
-            string position = GeneratePositionName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
             string previousPosition = GenerateLongLivedPreviousPositionName();
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
             string rightHandFormula = getRightHandFormulaDelegate(phase);
@@ -1545,7 +1611,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string frequency = _stack.Pop();
             string width = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
-            string position = GeneratePositionName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
             string previousPosition = GenerateLongLivedPreviousPositionName();
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
@@ -1564,7 +1630,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string frequency = _stack.Pop();
             string width = _stack.Pop();
-            string position = GeneratePositionName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
             string origin = GenerateLongLivedOriginName();
             string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
@@ -1582,7 +1648,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string frequency = _stack.Pop();
             string width = _stack.Pop();
-            string position = GeneratePositionName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
             string variable = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -1598,8 +1664,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private OperatorDtoBase ProcessReverse_NoPhaseTrackingOrOriginShifting(IOperatorDto_VarSignal_WithDimension dto)
         {
             string speed = _stack.Pop();
-            string sourcePos = GeneratePositionName(dto);
-            string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
+            string sourcePos = GeneratePositionNameCamelCase(dto);
+            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{destPos} = {sourcePos} * -{speed};");
@@ -1683,7 +1749,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             // Do not call base: Base will visit the inlets in one blow. We need to visit the inlets one by one.
 
             string valueLiteral = GetLiteralFromOperatorDtoOrValue(valueOperatorDto, value);
-            string position = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
+            string position = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{position} = {valueLiteral};");
@@ -1702,8 +1768,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             // Do not call base: Base will visit the inlets in one blow. We need to visit the inlets one by one.
 
             string distanceLiteral = GetLiteralFromOperatorDtoOrValue(distanceOperatorDto, distance);
-            string sourcePos = GeneratePositionName(dto);
-            string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
+            string sourcePos = GeneratePositionNameCamelCase(dto);
+            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{destPos} = {sourcePos} {PLUS_SYMBOL} {distanceLiteral};");
@@ -1721,8 +1787,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         {
             string factor = _stack.Pop();
             string origin = _stack.Pop();
-            string sourcePos = GeneratePositionName(dto);
-            string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
+            string sourcePos = GeneratePositionNameCamelCase(dto);
+            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {divideOrMultiplySymbol} {factor} + {origin};");
@@ -1736,8 +1802,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private void Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
         {
             string factor = _stack.Pop();
-            string sourcePos = GeneratePositionName(dto);
-            string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
+            string sourcePos = GeneratePositionNameCamelCase(dto);
+            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{destPos} = {sourcePos} {divideOrMultiplySymbol} {factor};");
@@ -1751,8 +1817,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private void Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
         {
             string factor = _stack.Pop();
-            string sourcePos = GeneratePositionName(dto);
-            string destPos = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
+            string sourcePos = GeneratePositionNameCamelCase(dto);
+            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string origin = GenerateLongLivedOriginName();
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -1769,8 +1835,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             string factor = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
             string previousPosition = GenerateLongLivedPreviousPositionName();
-            string sourcePosition = GeneratePositionName(dto);
-            string destPosition = GeneratePositionName(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {divideOrMultiplySymbol} {factor};");
@@ -1789,7 +1855,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private OperatorDtoBase ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto, Func<string, string> getRightHandFormulaDelegate)
         {
             string frequency = _stack.Pop();
-            string position = GeneratePositionName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
             string rightHandFormula = getRightHandFormulaDelegate(output);
 
@@ -1826,6 +1892,29 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         // Helpers
 
+        private string GenerateCurveCalculatorVariableNameCamelCase(Curve_OperatorDtoBase_WithoutMinX dto)
+        {
+            CurveCalculatorVariableInfo variableInfo;
+            // ReSharper disable once InvertIf
+            if (!_curveID_To_CurveCalculatorVariableInfo_Dictionary.TryGetValue(dto.CurveID, out variableInfo))
+            {
+                ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+                string typeName = calculator.GetType().Name;
+                string nameCamelCase = GenerateUniqueVariableName(CURVE_CALCULATOR_MNEMONIC + dto.CurveID);
+
+                variableInfo = new CurveCalculatorVariableInfo
+                {
+                    CurveID = dto.CurveID,
+                    NameCamelCase = nameCamelCase,
+                    TypeName = typeName
+                };
+
+                _curveID_To_CurveCalculatorVariableInfo_Dictionary[dto.CurveID] = variableInfo;
+            }
+
+            return variableInfo.NameCamelCase;
+        }
+
         private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
         {
             string convertedName = NameHelper.ToCanonical(arbitraryString).ToCamelCase().Replace("_", "");
@@ -1857,16 +1946,16 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             return valueInfo;
         }
 
-        private string GeneratePositionName(IOperatorDto_WithDimension dto, int? alternativeStackIndexLevel = null)
+        private string GeneratePositionNameCamelCase(IOperatorDto_WithDimension dto, int? alternativeStackIndexLevel = null)
         {
             string canonicalCustomDimensionName = dto.CanonicalCustomDimensionName;
             DimensionEnum standardDimensionEnum = dto.StandardDimensionEnum;
             int stackLevel = alternativeStackIndexLevel ?? dto.DimensionStackLevel;
 
-            return GeneratePositionName(stackLevel, standardDimensionEnum, canonicalCustomDimensionName);
+            return GeneratePositionNameCamelCase(stackLevel, standardDimensionEnum, canonicalCustomDimensionName);
         }
 
-        private string GeneratePositionName(int stackLevel, DimensionEnum standardDimensionEnum = DimensionEnum.Undefined, string canonicalCustomDimensionName = "")
+        private string GeneratePositionNameCamelCase(int stackLevel, DimensionEnum standardDimensionEnum = DimensionEnum.Undefined, string canonicalCustomDimensionName = "")
         {
             // Get DimensionAlias
             string dimensionAlias = GetDimensionAlias(standardDimensionEnum, canonicalCustomDimensionName);

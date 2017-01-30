@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GeneratedCSharp;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Framework.Business;
@@ -546,15 +547,15 @@ namespace JJ.Business.Synthesizer
                     dto = preProcessingVisitor.Execute(dto);
 
                     var compiler = new OperatorDtoCompiler();
-                    patchCalculator = compiler.CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
+                    patchCalculator = compiler.CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex, calculatorCache, _repositories.CurveRepository);
 
                     break;
 
                 case CalculationEngineConfigurationEnum.HardCoded:
-                    return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex);
+                    return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, calculatorCache, _repositories.CurveRepository);
 
                 case CalculationEngineConfigurationEnum.ExampleGeneratedCode:
-                    return new GeneratedCSharp.GeneratedPatchCalculator(samplingRate, channelCount, channelIndex);
+                    return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, calculatorCache, _repositories.CurveRepository);
 
                 default:
                     throw new ValueNotSupportedException(_calculationEngineConfigurationEnum);

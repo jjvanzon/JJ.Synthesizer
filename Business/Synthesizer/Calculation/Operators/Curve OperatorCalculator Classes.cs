@@ -1,5 +1,4 @@
 ﻿using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Calculation.Curves;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 
@@ -9,6 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly ArrayCalculator_MinPosition_Line _underlyingCalculator;
         private readonly DimensionStack _dimensionStack;
+        // ReSharper disable once NotAccessedField.Local
         private readonly int _dimensionStackIndex;
 
         public Curve_OperatorCalculator_MinX_NoOriginShifting(ArrayCalculator_MinPosition_Line underlyingCalculator, DimensionStack dimensionStack)
@@ -43,6 +43,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly ArrayCalculator_MinPosition_Line _underlyingCalculator;
         private readonly DimensionStack _dimensionStack;
+        // ReSharper disable once NotAccessedField.Local
         private readonly int _dimensionStackIndex;
 
         private double _origin;
@@ -71,7 +72,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             double phase = position - _origin;
 
             double value = _underlyingCalculator.Calculate(phase);
@@ -101,6 +101,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly ArrayCalculator_MinPositionZero_Line _underlyingCalculator;
         private readonly DimensionStack _dimensionStack;
+        // ReSharper disable once NotAccessedField.Local
         private readonly int _dimensionStackIndex;
 
         public Curve_OperatorCalculator_MinXZero_NoOriginShifting(ArrayCalculator_MinPositionZero_Line underlyingCalculator, DimensionStack dimensionStack)
@@ -134,6 +135,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly ArrayCalculator_MinPositionZero_Line _underlyingCalculator;
         private readonly DimensionStack _dimensionStack;
+        // ReSharper disable once NotAccessedField.Local
         private readonly int _dimensionStackIndex;
 
         private double _origin;
@@ -147,6 +149,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             Reset();
         }
 

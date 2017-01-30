@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Visitors;
 using JJ.Business.Synthesizer.Calculation.Patches;
@@ -10,6 +12,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Roslyn.Generator
 {
@@ -20,11 +23,22 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
 
         private readonly int _channelCount;
         private readonly int _channelIndex;
+        private readonly CalculatorCache _calculatorCache;
+        private readonly ICurveRepository _curveRepository;
 
-        public OperatorDtoToPatchCalculatorCSharpGenerator(int channelCount, int channelIndex)
+        public OperatorDtoToPatchCalculatorCSharpGenerator(
+            int channelCount, 
+            int channelIndex, 
+            CalculatorCache calculatorCache, 
+            ICurveRepository curveRepository)
         {
+            if (calculatorCache == null) throw new NullException(() => calculatorCache);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+
             _channelCount = channelCount;
             _channelIndex = channelIndex;
+            _calculatorCache = calculatorCache;
+            _curveRepository = curveRepository;
         }
 
         public string Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName)
@@ -33,7 +47,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             if (string.IsNullOrEmpty(generatedClassName)) throw new NullOrEmptyException(() => generatedClassName);
 
             // Build up Method Body
-            var visitor = new OperatorDtoToCSharpVisitor(RAW_CALCULATION_INDENT_LEVEL);
+            var visitor = new OperatorDtoToCSharpVisitor(RAW_CALCULATION_INDENT_LEVEL, _calculatorCache, _curveRepository);
             OperatorDtoToCSharpVisitorResult visitorResult = visitor.Execute(dto);
 
             // Build up Code File
@@ -46,6 +60,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("using " + typeof(DimensionEnum).Namespace + ";");
             sb.AppendLine("using " + typeof(NameHelper).Namespace + ";");
             sb.AppendLine("using " + typeof(MathHelper).Namespace + ";");
+            sb.AppendLine("using " + typeof(ArrayCalculatorBase).Namespace + ";");
+            sb.AppendLine("using " + typeof(ICurveRepository).Namespace + ";");
             sb.AppendLine();
             sb.AppendLine($"namespace {generatedNameSpace}");
             sb.AppendLine("{");
@@ -106,15 +122,28 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
         {
             IList<string> instanceVariableNamesCamelCase = GetInstanceVariableNamesCamelCase(visitorResult);
 
-            foreach (string variableName in instanceVariableNamesCamelCase)
+            if (instanceVariableNamesCamelCase.Any())
             {
-                sb.AppendLine($"private double _{variableName};");
+                foreach (string variableName in instanceVariableNamesCamelCase)
+                {
+                    sb.AppendLine($"private double _{variableName};");
+                }
+                sb.AppendLine();
+            }
+
+            if (visitorResult.CurveCalculatorVariableInfos.Any())
+            {
+                foreach (CurveCalculatorVariableInfo variableInfo in visitorResult.CurveCalculatorVariableInfos)
+                {
+                    sb.AppendLine($"private readonly {variableInfo.TypeName} _{variableInfo.NameCamelCase};");
+                }
+                sb.AppendLine();
             }
         }
 
         private void WriteConstructor(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult, string generatedClassName)
         {
-            sb.AppendLine($"public {generatedClassName}(int samplingRate, int channelCount, int channelIndex)");
+            sb.AppendLine($"public {generatedClassName}(int samplingRate, int channelCount, int channelIndex, CalculatorCache calculatorCache, ICurveRepository curveRepository)");
             sb.Indent();
             {
                 sb.AppendLine(": base(samplingRate, channelCount, channelIndex)");
@@ -123,13 +152,29 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             sb.AppendLine("{");
             sb.Indent();
             {
+                sb.AppendLine("if (calculatorCache == null) throw new ArgumentNullException(nameof(calculatorCache));");
+                sb.AppendLine("if (curveRepository == null) throw new ArgumentNullException(nameof(curveRepository));");
+
                 if (visitorResult.InputVariableInfos.Any())
                 {
                     foreach (ExtendedVariableInfo inputVariableInfo in visitorResult.InputVariableInfos)
                     {
                         sb.AppendLine($"_{inputVariableInfo.VariableNameCamelCase} = {CompilationHelper.FormatValue(inputVariableInfo.Value ?? 0.0)};");
                     }
-                    sb.AppendLine("");
+                    sb.AppendLine();
+                }
+
+                if (visitorResult.CurveCalculatorVariableInfos.Any())
+                {
+                    foreach (CurveCalculatorVariableInfo variableInfo in visitorResult.CurveCalculatorVariableInfos)
+                    {
+                        var id = variableInfo.CurveID;
+                        string type = variableInfo.TypeName;
+                        string nameCamelCase = variableInfo.NameCamelCase;
+
+                        sb.AppendLine($"_{nameCamelCase} = ({type})calculatorCache.GetCurveCalculator({id}, curveRepository);");
+                    }
+                    sb.AppendLine();
                 }
 
                 sb.AppendLine("Reset(time: 0.0);");
@@ -149,13 +194,25 @@ namespace JJ.Business.Synthesizer.Roslyn.Generator
             {
                 // Copy Fields to Local
                 sb.AppendLine("double frameDuration = _frameDuration;");
+                sb.AppendLine();
 
-                sb.AppendLine();
-                foreach (string variableName in instanceVariableNamesCamelCase)
+                if (instanceVariableNamesCamelCase.Any())
                 {
-                    sb.AppendLine($"double {variableName} = _{variableName};");
+                    foreach (string variableName in instanceVariableNamesCamelCase)
+                    {
+                        sb.AppendLine($"double {variableName} = _{variableName};");
+                    }
+                    sb.AppendLine();
                 }
-                sb.AppendLine();
+
+                if (visitorResult.CurveCalculatorVariableInfos.Any())
+                {
+                    foreach (CurveCalculatorVariableInfo variableInfo in visitorResult.CurveCalculatorVariableInfos)
+                    {
+                        sb.AppendLine($"var {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
+                    }
+                    sb.AppendLine();
+                }
 
                 // Declare Locally Reused Variables
                 foreach (string positionVariableName in visitorResult.LocalDimensionVariableNamesCamelCase)

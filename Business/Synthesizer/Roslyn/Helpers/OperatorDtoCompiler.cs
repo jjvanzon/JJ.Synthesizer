@@ -17,6 +17,10 @@ using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Framework.Collections;
 using System.Linq.Expressions;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
@@ -27,27 +31,39 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         private const string GENERATED_CLASS_FULL_NAME = GENERATED_NAME_SPACE + "." + GENERATED_CLASS_NAME;
 
         private static readonly bool _includeSymbols = ConfigurationHelper.GetSection<ConfigurationSection>().IncludeSymbolsWithCompilation;
-        private static readonly IList<MetadataReference> _metaDataReferences = GetMetadataReferences();
         private static readonly CSharpCompilationOptions _csharpCompilationOptions = GetCSharpCompilationOptions();
 
         private static readonly SyntaxTree[] _includedSyntaxTrees = CreateIncludedSyntaxTrees(
-            @"Calculation\SineCalculator.cs",
-            @"Calculation\BiQuadFilterWithoutFields.cs",
-            @"Calculation\Patches\PatchCalculatorHelper.cs",
-            @"CopiedCode\FromFramework\MathHelper.cs");
+            $"Calculation\\{nameof(SineCalculator)}.cs",
+            $"Calculation\\{nameof(BiQuadFilterWithoutFields)}.cs",
+            $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase)}.cs",
+            $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase_Line)}.cs",
+            $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Line)}.cs",
+            $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPositionZero_Line)}.cs",
+            $"Calculation\\Patches\\{nameof(PatchCalculatorHelper)}.cs",
+            $"CopiedCode\\FromFramework\\{nameof(MathHelper)}.cs");
 
-        public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int samplingRate, int channelCount, int channelIndex)
+        private static readonly IList<MetadataReference> _metaDataReferences = new MetadataReference[]
+        {
+            MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(IPatchCalculator).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(LessThanException).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(Expression).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(ICurveRepository).Assembly.Location)
+        };
+
+        public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int samplingRate, int channelCount, int channelIndex, CalculatorCache calculatorCache, ICurveRepository curveRepository)
         {
             if (dto == null) throw new NullException(() => dto);
 
             var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
             dto = preProcessingVisitor.Execute(dto);
 
-            var codeGeneratingVisitor = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex);
+            var codeGeneratingVisitor = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex, calculatorCache, curveRepository);
             string generatedCode = codeGeneratingVisitor.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             Type type = Compile(generatedCode);
-            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex);
+            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex, calculatorCache, curveRepository);
             return calculator;
         }
 
@@ -105,17 +121,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             Type type = assembly.GetType(GENERATED_CLASS_FULL_NAME);
 
             return type;
-        }
-
-        private static IList<MetadataReference> GetMetadataReferences()
-        {
-            return new MetadataReference[]
-            {
-                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(IPatchCalculator).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(LessThanException).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(Expression).Assembly.Location)
-            };
         }
 
         private static CSharpCompilationOptions GetCSharpCompilationOptions()

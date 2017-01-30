@@ -1,8 +1,12 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace GeneratedCSharp
 {
@@ -10,18 +14,21 @@ namespace GeneratedCSharp
     {
         // Fields
 
-        private double _origin_1;
+        private double _origin_2;
         private double _origin_5;
-        private double _lowpassfilterx1_8;
-        private double _lowpassfilterx2_9;
-        private double _lowpassfiltery1_10;
-        private double _lowpassfiltery2_11;
+
+        private readonly ArrayCalculator_MinPositionZero_Line _curvecalculator1498745_3;
+
 
         // Constructor
 
-        public GeneratedPatchCalculator(int samplingRate, int channelCount, int channelIndex)
+        public GeneratedPatchCalculator(int samplingRate, int channelCount, int channelIndex, CalculatorCache calculatorCache, ICurveRepository curveRepository)
             : base(samplingRate, channelCount, channelIndex)
         {
+            if (calculatorCache == null) throw new ArgumentNullException(nameof(calculatorCache));
+            if (curveRepository == null) throw new ArgumentNullException(nameof(curveRepository));
+            _curvecalculator1498745_3 = (ArrayCalculator_MinPositionZero_Line)calculatorCache.GetCurveCalculator(1498745, curveRepository);
+
             Reset(time: 0.0);
         }
 
@@ -32,50 +39,31 @@ namespace GeneratedCSharp
         {
             double frameDuration = _frameDuration;
 
-            double origin_1 = _origin_1;
+            double origin_2 = _origin_2;
             double origin_5 = _origin_5;
-            double lowpassfilterx1_8 = _lowpassfilterx1_8;
-            double lowpassfilterx2_9 = _lowpassfilterx2_9;
-            double lowpassfiltery1_10 = _lowpassfiltery1_10;
-            double lowpassfiltery2_11 = _lowpassfiltery2_11;
 
-            double time_a_0;
+            var curvecalculator1498745_3 = _curvecalculator1498745_3;
 
-            int valueCount = frameCount * 2;
-            time_a_0 = startTime;
+            double time_b_0;
 
-            for (int i = 1; i < valueCount; i += 2)
+            int valueCount = frameCount * 1;
+            time_b_0 = startTime;
+
+            for (int i = 0; i < valueCount; i += 1)
             {
-                // Sine
-                double sine_2 = (time_a_0 - origin_1) * 2.0E0;
-                sine_2 = SineCalculator.Sin(sine_2);
+                // Curve
+                double phase_0 = time_b_0 - origin_2;
+                double curve_4 = curvecalculator1498745_3.Calculate(phase_0);
 
-                // Add
-                double add_3 = sine_2 + 3.0E0;
+                // Sine
+                double sine_6 = (time_b_0 - origin_5) * 8.8E2;
+                sine_6 = SineCalculator.Sin(sine_6);
 
                 // Multiply
-                double multiply_4 = add_3 * 4.33333333333333E2;
-
-                // SawDown
-                double sawdown_6 = (time_a_0 - origin_5) * 4.4E2;
-                sawdown_6 = 1.0 - (2.0 * sawdown_6 % 2.0);
-
-                // LowPassFilter
-                double limitedfrequency_17 = multiply_4;
-                if (limitedfrequency_17 > 2.205E4) limitedfrequency_17 = 2.205E4;
-
-                double lowpassfiltera0_12, lowpassfiltera1_13, lowpassfiltera2_14, lowpassfiltera3_15, lowpassfiltera4_16;
-
-                BiQuadFilterWithoutFields.SetLowPassFilterVariables(
-                    4.41E4, limitedfrequency_17, 1.0E0,
-                    out lowpassfiltera0_12, out lowpassfiltera1_13, out lowpassfiltera2_14, out lowpassfiltera3_15, out lowpassfiltera4_16);
-
-                double lowpassfilter_7 = BiQuadFilterWithoutFields.Transform(
-                    sawdown_6, lowpassfiltera0_12, lowpassfiltera1_13, lowpassfiltera2_14, lowpassfiltera3_15, lowpassfiltera4_16,
-                    ref lowpassfilterx1_8, ref lowpassfilterx2_9, ref lowpassfiltery1_10, ref lowpassfiltery2_11);
+                double multiply_7 = sine_6 * curve_4;
 
                 // Accumulate
-                double value = lowpassfilter_7;
+                double value = multiply_7;
 
                 if (double.IsNaN(value))
                 {
@@ -86,15 +74,11 @@ namespace GeneratedCSharp
 
                 PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
 
-                time_a_0 += frameDuration;
+                time_b_0 += frameDuration;
             }
 
-            _origin_1 = origin_1;
+            _origin_2 = origin_2;
             _origin_5 = origin_5;
-            _lowpassfilterx1_8 = lowpassfilterx1_8;
-            _lowpassfilterx2_9 = lowpassfilterx2_9;
-            _lowpassfiltery1_10 = lowpassfiltery1_10;
-            _lowpassfiltery2_11 = lowpassfiltery2_11;
         }
 
         // Values
