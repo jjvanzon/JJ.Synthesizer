@@ -98,7 +98,6 @@
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Line.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Calculation\Arrays\2017-01-29 Backup of ArrayInfo.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
@@ -128,9 +127,6 @@
     <Compile Include="Calculation\CurveArrayInfo.cs" />
     <Compile Include="Calculation\CurveArrayHelper.cs" />
     <Compile Include="Calculation\CurveArrayCalculatorFactory.cs" />
-    <Compile Include="Calculation\Curves\2017-01-29 Backup of ICurveCalculator.cs" />
-    <Compile Include="Calculation\Curves\2017-01-30 Backup of CurveCalculator_MinXZero.cs" />
-    <Compile Include="Calculation\Curves\2017-01-30 Backup of CurveCalculator_MinX.cs" />
     <Compile Include="Calculation\DimensionStackCollection.cs" />
     <Compile Include="Calculation\Operators\Add OperatorCalculator Classes Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
@@ -456,19 +452,6 @@
     <Compile Include="Calculation\Random\RandomCalculator_Stripe.cs" />
     <Compile Include="Calculation\SampleCalculatorHelper.cs" />
     <Compile Include="Calculation\InterpretedCurveCalculator.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Hermite_SingleChannel.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Hermite_MultiChannel.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Cubic_SingleChannel.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Cubic_MultiChannel.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Stripe_SingleChannel.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Stripe_MultiChannel.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Line_MultiChannel.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of  SampleCalculator_Block_MultiChannel.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Block_SingleChannel.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Line_SingleChannel.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of ISampleCalculator.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Zero.cs" />
-    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculatorBase.cs" />
     <Compile Include="Calculation\SampleCalculatorFactory.cs" />
     <Compile Include="Calculation\SineCalculator.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -977,7 +960,6 @@
   <ItemGroup>
     <None Include="Calculation\AudioFileOutputs\AudioFileOutputCalculators.cd" />
     <None Include="Calculation\Operators\OperatorCalculator Inheritance.cd" />
-    <None Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculators.cd" />
     <Compile Include="Validation\ValidationHelper.Unicity.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1021,7 +1003,10 @@
     <Content Include="CopiedCode\FromFramework\README.TXT" />
     <Content Include="CopiedCode\FromNAudio\README.TXT" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Calculation\2017-01-31 Backup of Samples\" />
+    <Folder Include="Calculation\Curves\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
