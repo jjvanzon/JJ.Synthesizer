@@ -125,9 +125,9 @@
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
-    <Compile Include="Calculation\Curves\CurveArrayInfo.cs" />
-    <Compile Include="Calculation\Curves\CurveArrayHelper.cs" />
-    <Compile Include="Calculation\Curves\CurveArrayCalculatorFactory.cs" />
+    <Compile Include="Calculation\CurveArrayInfo.cs" />
+    <Compile Include="Calculation\CurveArrayHelper.cs" />
+    <Compile Include="Calculation\CurveArrayCalculatorFactory.cs" />
     <Compile Include="Calculation\Curves\2017-01-29 Backup of ICurveCalculator.cs" />
     <Compile Include="Calculation\Curves\2017-01-30 Backup of CurveCalculator_MinXZero.cs" />
     <Compile Include="Calculation\Curves\2017-01-30 Backup of CurveCalculator_MinX.cs" />
@@ -454,22 +454,22 @@
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_Stripe.cs" />
-    <Compile Include="Calculation\Samples\SampleCalculatorHelper.cs" />
-    <Compile Include="Calculation\Curves\InterpretedCurveCalculator.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of SampleCalculator_Hermite_SingleChannel.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of SampleCalculator_Hermite_MultiChannel.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of SampleCalculator_Cubic_SingleChannel.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of SampleCalculator_Cubic_MultiChannel.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of SampleCalculator_Stripe_SingleChannel.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of SampleCalculator_Stripe_MultiChannel.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of SampleCalculator_Line_MultiChannel.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of  SampleCalculator_Block_MultiChannel.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of SampleCalculator_Block_SingleChannel.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of SampleCalculator_Line_SingleChannel.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of ISampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of SampleCalculator_Zero.cs" />
-    <Compile Include="Calculation\Samples\2017-01-31 Backup of SampleCalculatorBase.cs" />
-    <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
+    <Compile Include="Calculation\SampleCalculatorHelper.cs" />
+    <Compile Include="Calculation\InterpretedCurveCalculator.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Hermite_SingleChannel.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Hermite_MultiChannel.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Cubic_SingleChannel.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Cubic_MultiChannel.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Stripe_SingleChannel.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Stripe_MultiChannel.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Line_MultiChannel.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of  SampleCalculator_Block_MultiChannel.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Block_SingleChannel.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Line_SingleChannel.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of ISampleCalculator.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculator_Zero.cs" />
+    <Compile Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculatorBase.cs" />
+    <Compile Include="Calculation\SampleCalculatorFactory.cs" />
     <Compile Include="Calculation\SineCalculator.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
@@ -977,7 +977,7 @@
   <ItemGroup>
     <None Include="Calculation\AudioFileOutputs\AudioFileOutputCalculators.cd" />
     <None Include="Calculation\Operators\OperatorCalculator Inheritance.cd" />
-    <None Include="Calculation\Samples\2017-01-31 Backup of SampleCalculators.cd" />
+    <None Include="Calculation\2017-01-31 Backup of Samples\2017-01-31 Backup of SampleCalculators.cd" />
     <Compile Include="Validation\ValidationHelper.Unicity.cs" />
   </ItemGroup>
   <ItemGroup>

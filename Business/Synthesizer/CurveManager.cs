@@ -11,7 +11,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using System.Linq;
 using System.Collections.Generic;
-using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Validation.Curves;

@@ -2,7 +2,7 @@
 using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 
-namespace JJ.Business.Synthesizer.Calculation.Curves
+namespace JJ.Business.Synthesizer.Calculation
 {
     internal static class CurveArrayCalculatorFactory
     {

@@ -1,16 +1,17 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Exceptions;
-using JJ.Data.Synthesizer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Data.Synthesizer;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
+
 // ReSharper disable CoVariantArrayConversion
 
-namespace JJ.Business.Synthesizer.Calculation.Samples
+namespace JJ.Business.Synthesizer.Calculation
 {
     internal static class SampleCalculatorFactory
     {

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Random;
-using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;

@@ -1,4 +1,4 @@
-﻿namespace JJ.Business.Synthesizer.Calculation.Curves
+﻿namespace JJ.Business.Synthesizer.Calculation
 {
     internal class CurveArrayInfo
     {

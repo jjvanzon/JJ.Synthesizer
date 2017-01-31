@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;

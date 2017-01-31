@@ -1,15 +1,15 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Validation.Curves;
+using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Data.Synthesizer;
-using System.Linq;
-using System.Collections.Generic;
-using JJ.Business.Synthesizer.Validation.Curves;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
-using JJ.Business.Synthesizer.Helpers;
 
-namespace JJ.Business.Synthesizer.Calculation.Curves
+namespace JJ.Business.Synthesizer.Calculation
 {
     internal class InterpretedCurveCalculator : ICalculatorWithPosition
     {

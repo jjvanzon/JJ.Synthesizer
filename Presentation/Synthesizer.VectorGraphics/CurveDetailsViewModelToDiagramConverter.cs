@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;

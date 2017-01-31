@@ -8,7 +8,7 @@ using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
 
-namespace JJ.Business.Synthesizer.Calculation.Samples
+namespace JJ.Business.Synthesizer.Calculation
 {
     internal class SampleCalculatorHelper
     {

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
