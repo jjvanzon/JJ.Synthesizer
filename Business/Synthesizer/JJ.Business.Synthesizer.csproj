@@ -72,7 +72,9 @@
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Stripe_NoRate.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Stripe.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Block.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Block.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Block.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Cubic.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Block_NoRate.cs" />
@@ -82,7 +84,9 @@
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Line.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Stripe_NoRate.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Stripe.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Block.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Block.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Stripe.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Block.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Line.cs">
@@ -104,6 +108,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Calculation\ICalculatorWithPosition.cs" />
+    <Compile Include="Calculation\NoiseCalculationHelper.cs" />
+    <Compile Include="Calculation\NoiseArrayInfo.cs" />
     <Compile Include="Calculation\Operators\IPositionTransformer.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_StripeInterpolation.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorBase.cs" />
@@ -121,7 +127,7 @@
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\Curves\CurveArrayInfo.cs" />
     <Compile Include="Calculation\Curves\CurveArrayHelper.cs" />
-    <Compile Include="Calculation\Curves\CurveCalculatorFactory.cs" />
+    <Compile Include="Calculation\Curves\CurveArrayCalculatorFactory.cs" />
     <Compile Include="Calculation\Curves\2017-01-29 Backup of ICurveCalculator.cs" />
     <Compile Include="Calculation\Curves\2017-01-30 Backup of CurveCalculator_MinXZero.cs" />
     <Compile Include="Calculation\Curves\2017-01-30 Backup of CurveCalculator_MinX.cs" />
@@ -262,7 +268,7 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
-    <Compile Include="Roslyn\Calculation\ExampleGeneratedPatchCalculator.cs" />
+    <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator.cs" />
     <Compile Include="Roslyn\Calculation\HardCodedPatchCalculator.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoToPatchCalculatorCSharpGeneratorResult.cs" />
     <Compile Include="Roslyn\Helpers\CompilationHelper.cs" />
@@ -1015,10 +1021,7 @@
     <Content Include="CopiedCode\FromFramework\README.TXT" />
     <Content Include="CopiedCode\FromNAudio\README.TXT" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Roslyn\Generator\" />
-    <Folder Include="Roslyn\Visitors\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

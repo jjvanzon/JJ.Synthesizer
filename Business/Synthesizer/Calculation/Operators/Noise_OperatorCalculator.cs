@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-            double value = _noiseCalculator.GetValue(position);
+            double value = _noiseCalculator.Calculate(position);
 
             return value;
         }

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Business.Synthesizer.Configuration;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Common;
-using JJ.Framework.Mathematics;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
@@ -17,20 +11,9 @@ namespace JJ.Business.Synthesizer.Calculation
     /// Each instance shares the same pre-sampled noise data, but has a different offset into it,
     /// so that there is a different virtual random set for each instance of NoiseCalculator.
     /// </summary>
-    internal class NoiseCalculator
+    internal class NoiseCalculator : ICalculatorWithPosition
     {
-        public NoiseCalculator()
-        {
-            Reseed();
-        }
-
-        /// <summary>
-        /// Prevent artifacts by making sure the random offsets are not too close together,
-        /// But also should not too far apart, or the chance that we get the same offset becomes bigger.
-        /// </summary>
-        private const double OFFSET_SNAP_IN_SECONDS = 0.1;
-        private static readonly int _offsetSnapCount = GetOffsetSnapCount();
-        private double _offset;
+        public double Offset { get; internal set; }
 
         /// <summary>
         /// Block interpolation should be enough,
@@ -38,64 +21,30 @@ namespace JJ.Business.Synthesizer.Calculation
         /// </summary>
         private static readonly ArrayCalculator_RotatePosition_Block _arrayCalculator = CreateArrayCalculator();
 
+        public ICalculatorWithPosition ArrayCalculator => _arrayCalculator;
+
+        public NoiseCalculator()
+        {
+            Reseed();
+        }
+
         private static ArrayCalculator_RotatePosition_Block CreateArrayCalculator()
         {
-            int samplingRate = GetSamplingRate();
-            double cachedSeconds = GetCachedSeconds();
-
-            double sampleCountDouble = samplingRate * cachedSeconds;
-
-            if (!ConversionHelper.CanCastToNonNegativeInt32(sampleCountDouble))
-            {
-                throw new Exception($"sampleCount '{sampleCountDouble}' cannot be cast to non-negative Int32.");
-            }
-
-            int sampleCount = (int)sampleCountDouble;
-
-            var samples = new double[sampleCount];
-            for (int i = 0; i < sampleCount; i++)
-            {
-                double noiseSample = Randomizer.GetDouble() * 2.0 - 1.0;
-                samples[i] = noiseSample;
-            }
-
-            var arrayCalculator = new ArrayCalculator_RotatePosition_Block(samples, samplingRate);
-
+            NoiseArrayInfo noiseArrayInfo = NoiseCalculationHelper.CreateNoiseArrayInfo();
+            var arrayCalculator = new ArrayCalculator_RotatePosition_Block(noiseArrayInfo.Array, noiseArrayInfo.Rate);
             return arrayCalculator;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double GetValue(double time)
+        public double Calculate(double time)
         {
-            double transformedTime = time + _offset;
-
+            double transformedTime = time + Offset;
             return _arrayCalculator.Calculate(transformedTime);
         }
 
         public void Reseed()
         {
-            int offsetSnapPosition = Randomizer.GetInt32(_offsetSnapCount - 1);
-            _offset = offsetSnapPosition * OFFSET_SNAP_IN_SECONDS;
-        }
-
-        private static int GetSamplingRate()
-        {
-            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            if (config.CachedNoiseSamplingRate <= 0) throw new LessThanOrEqualException(() => config.CachedNoiseSamplingRate, 0);
-            return config.CachedNoiseSamplingRate;
-        }
-
-        private static double GetCachedSeconds()
-        {
-            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            if (config.CachedNoiseSeconds <= 0) throw new LessThanOrEqualException(() => config.CachedNoiseSeconds, 0);
-            return config.CachedNoiseSeconds;
-        }
-
-        private static int GetOffsetSnapCount()
-        {
-            double cachedSeconds = GetCachedSeconds();
-            return (int)(cachedSeconds / OFFSET_SNAP_IN_SECONDS);
+            Offset = NoiseCalculationHelper.GetOffset();
         }
     }
 }

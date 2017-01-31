@@ -6,9 +6,11 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
+using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
@@ -38,7 +40,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string PREVIOUS_POSITION_MNEMONIC = "prevPos";
         private const string DEFAULT_INPUT_MNEMONIC = "input";
         private const string ORIGIN_MNEMONIC = "origin";
-        private const string CURVE_CALCULATOR_MNEMONIC = "CurveCalculator";
+        private const string ARRAY_CALCULATOR_MNEMONIC = "ArrayCalculator";
 
         /// <summary> {0} = phase </summary>
         private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
@@ -52,6 +54,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private readonly int _indentLevel;
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
+        private readonly IOperatorRepository _operatorRepository;
 
         private Stack<string> _stack;
         private StringBuilderWithIndentation _sb;
@@ -79,16 +82,23 @@ namespace JJ.Business.Synthesizer.Roslyn
         private Dictionary<Tuple<DimensionEnum, string>, string> _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary;
 
         // Information about Satellite Calculators
-        private Dictionary<int, CalculatorVariableInfo> _curveID_To_CurveCalculatorVariableInfo_Dictionary;
+        private Dictionary<int, CalculatorVariableInfo> _entityID_To_CalculatorVariableInfo_Dictionary;
+        private Dictionary<int, string> _noiseOperatorID_To_OffsetNumberLiteral_Dictionary;
 
-        public OperatorDtoToRawCSharpVisitor(int indentLevel, CalculatorCache calculatorCache, ICurveRepository curveRepository)
+        public OperatorDtoToRawCSharpVisitor(
+            int indentLevel, 
+            CalculatorCache calculatorCache, 
+            ICurveRepository curveRepository, 
+            IOperatorRepository operatorRepository)
         {
             if (calculatorCache == null) throw new NullException(() => calculatorCache);
             if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
             _indentLevel = indentLevel;
             _calculatorCache = calculatorCache;
             _curveRepository = curveRepository;
+            _operatorRepository = operatorRepository;
         }
 
         public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto)
@@ -103,7 +113,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<Tuple<DimensionEnum, string>, string>();
             _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
-            _curveID_To_CurveCalculatorVariableInfo_Dictionary = new Dictionary<int, CalculatorVariableInfo>();
+            _entityID_To_CalculatorVariableInfo_Dictionary = new Dictionary<int, CalculatorVariableInfo>();
+            _noiseOperatorID_To_OffsetNumberLiteral_Dictionary = new Dictionary<int, string>();
             _counter = 0;
 
             _sb = new StringBuilderWithIndentation(TAB_STRING)
@@ -141,7 +152,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 longLivedDimensionVariableInfos,
                 localDimensionVariableNamesCamelCase,
                 _longLivedMiscVariableNamesCamelCase,
-                _curveID_To_CurveCalculatorVariableInfo_Dictionary.Values.ToArray());
+                _entityID_To_CalculatorVariableInfo_Dictionary.Values.ToArray());
         }
 
         [DebuggerHidden]
@@ -453,6 +464,22 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
+        protected override OperatorDtoBase Visit_Noise_OperatorDto(Noise_OperatorDto dto)
+        {
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+            string calculatorNameCamelCase = GenerateCalculatorVariableNameCamelCase(dto.OperatorID);
+            string position = GeneratePositionNameCamelCase(dto);
+            string offset = GetOffsetNumberLiteral(dto.OperatorID);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {output} = {calculatorNameCamelCase}.Calculate({position} + {offset});");
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return dto;
+        }
+
         protected override OperatorDtoBase Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
         {
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
@@ -487,20 +514,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_VarB(NotEqual_OperatorDto_VarA_VarB dto)
         {
             return ProcessComparativeOperator_VarA_VarB(dto, NOT_EQUAL_SYMBOL);
-        }
-
-        protected override OperatorDtoBase Visit_Noise_OperatorDto(Noise_OperatorDto dto)
-        {
-            throw new NotImplementedException();
-            //string position = GeneratePositionVariableNameCamelCase(dto.DimensionStackLevel);
-            //string noiseCalculator = GenerateNoiseCalculatorNameCamelCase(dto.OperatorID);
-            //string output = GenerateOutputNameCamelCase(dto.OperatorTypeName);
-
-            //_sb.AppendLine("// " + dto.OperatorTypeName);
-            //_sb.AppendLine($"double {output} = _{noiseCalculator}.GetValue({position});");
-            //_sb.AppendLine();
-
-            //return dto;
         }
 
         protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
@@ -1256,7 +1269,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private OperatorDtoBase ProcessCurve_NoOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
         {
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
-            string calculatorNameCamelCase = GenerateCurveCalculatorVariableNameCamelCase(dto);
+            string calculatorNameCamelCase = GenerateCalculatorVariableNameCamelCase(dto.CurveID);
             string position = GeneratePositionNameCamelCase(dto);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -1271,7 +1284,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string phase = GenerateUniqueVariableName(PHASE_MNEMONIC);
             string position = GeneratePositionNameCamelCase(dto);
             string origin = GenerateLongLivedOriginName();
-            string calculatorNameCamelCase = GenerateCurveCalculatorVariableNameCamelCase(dto);
+            string calculatorNameCamelCase = GenerateCalculatorVariableNameCamelCase(dto.CurveID);
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
@@ -1607,6 +1620,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
+        // ReSharper disable once SuggestBaseTypeForParameter
         private OperatorDtoBase Process_Pulse_WithPhaseTracking(OperatorDtoBase_VarFrequency dto)
         {
             string frequency = _stack.Pop();
@@ -1627,6 +1641,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
+        // ReSharper disable once SuggestBaseTypeForParameter
         private OperatorDtoBase Process_Pulse_WithOriginShifting(OperatorDtoBase_ConstFrequency dto)
         {
             string frequency = _stack.Pop();
@@ -1893,35 +1908,54 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         // Helpers
 
-        private string GenerateCurveCalculatorVariableNameCamelCase(Curve_OperatorDtoBase_WithoutMinX dto)
+        private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
+        {
+            string convertedName = NameHelper.ToCanonical(arbitraryString).ToCamelCase().Replace("_", "");
+            return convertedName;
+        }
+
+        private string GenerateCalculatorVariableNameCamelCase(int entityID)
         {
             CalculatorVariableInfo variableInfo;
             // ReSharper disable once InvertIf
-            if (!_curveID_To_CurveCalculatorVariableInfo_Dictionary.TryGetValue(dto.CurveID, out variableInfo))
+            if (!_entityID_To_CalculatorVariableInfo_Dictionary.TryGetValue(entityID, out variableInfo))
             {
-                ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+                ICalculatorWithPosition calculator = GetCalculator(entityID);
                 string typeName = calculator.GetType().Name;
-                string nameCamelCase = GenerateUniqueVariableName(CURVE_CALCULATOR_MNEMONIC + dto.CurveID);
+                string nameCamelCase = GenerateUniqueVariableName(ARRAY_CALCULATOR_MNEMONIC + entityID);
 
                 variableInfo = new CalculatorVariableInfo
                 {
-                    EntityID = dto.CurveID,
+                    EntityID = entityID,
                     NameCamelCase = nameCamelCase,
                     TypeName = typeName,
                     // DIRTY: Type assumption
                     Calculator = (ArrayCalculatorBase)calculator
                 };
 
-                _curveID_To_CurveCalculatorVariableInfo_Dictionary[dto.CurveID] = variableInfo;
+                _entityID_To_CalculatorVariableInfo_Dictionary[entityID] = variableInfo;
             }
 
             return variableInfo.NameCamelCase;
         }
 
-        private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
+
+        private ICalculatorWithPosition GetCalculator(int entityID)
         {
-            string convertedName = NameHelper.ToCanonical(arbitraryString).ToCamelCase().Replace("_", "");
-            return convertedName;
+            Curve curve = _curveRepository.TryGet(entityID);
+            if (curve != null)
+            {
+                return _calculatorCache.GetCurveCalculator(curve);
+            }
+
+            Operator op = _operatorRepository.TryGet(entityID);
+            OperatorTypeEnum? operatorTypeEnum = op?.GetOperatorTypeEnum();
+            if (operatorTypeEnum == OperatorTypeEnum.Noise)
+            {
+                return _calculatorCache.GetNoiseUnderlyingArrayCalculator(op.ID);
+            }
+
+            throw new Exception($"Calculator type could not be determined for {new { entityID }}.");
         }
 
         private ExtendedVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
@@ -1947,6 +1981,33 @@ namespace JJ.Business.Synthesizer.Roslyn
             _variableName_To_InputVariableInfo_Dictionary.Add(variableName, valueInfo);
 
             return valueInfo;
+        }
+
+        private string GenerateLongLivedOriginName()
+        {
+            string variableName = GenerateUniqueVariableName(ORIGIN_MNEMONIC);
+
+            _longLivedOriginVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
+        }
+
+        private string GenerateLongLivedPhaseName()
+        {
+            string variableName = GenerateUniqueVariableName(PHASE_MNEMONIC);
+
+            _longLivedPhaseVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
+        }
+
+        private string GenerateLongLivedPreviousPositionName()
+        {
+            string variableName = GenerateUniqueVariableName(PREVIOUS_POSITION_MNEMONIC);
+
+            _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
         }
 
         private string GeneratePositionNameCamelCase(IOperatorDto_WithDimension dto, int? alternativeStackIndexLevel = null)
@@ -1982,6 +2043,48 @@ namespace JJ.Business.Synthesizer.Roslyn
             return positionVariableName;
         }
 
+        private string GenerateUniqueDimensionAlias(object mnemonic)
+        {
+            string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
+            string uniqueLetterSequence = GenerateUniqueLetterSequence();
+
+            string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}";
+            return variableName;
+        }
+
+        private string GenerateUniqueLetterSequence()
+        {
+            return NumberingSystems.ToLetterSequence(_counter++, firstChar: 'a', lastChar: 'z');
+        }
+
+        private string GenerateUniqueLongLivedVariableName(object mnemonic)
+        {
+            string variableName = GenerateUniqueVariableName(mnemonic);
+
+            _longLivedMiscVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
+        }
+
+        private int GenerateUniqueNumber()
+        {
+            return _counter++;
+        }
+
+        /// <param name="mnemonic">
+        /// Will be incorporated into the variable name. It will be converted to string.
+        /// It will also be put into a (non-unique) form that will be valid in C#.
+        /// Also underscores are removed from it, because that is a separator character in our variable names.
+        /// </param>
+        private string GenerateUniqueVariableName(object mnemonic)
+        {
+            string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
+            int uniqueNumber = GenerateUniqueNumber();
+
+            string variableName = $"{nonUniqueNameInCode}_{uniqueNumber}";
+            return variableName;
+        }
+
         /// <summary>
         /// Formats the dimension into a string that is close to the dimension name + a unique character sequence.
         /// E.g.: "prettiness_1"
@@ -2009,75 +2112,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
             return alias;
-        }
-
-        private string GenerateUniqueLongLivedVariableName(object mnemonic)
-        {
-            string variableName = GenerateUniqueVariableName(mnemonic);
-
-            _longLivedMiscVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
-
-        private string GenerateLongLivedPhaseName()
-        {
-            string variableName = GenerateUniqueVariableName(PHASE_MNEMONIC);
-
-            _longLivedPhaseVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
-
-        private string GenerateLongLivedPreviousPositionName()
-        {
-            string variableName = GenerateUniqueVariableName(PREVIOUS_POSITION_MNEMONIC);
-
-            _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
-
-        private string GenerateLongLivedOriginName()
-        {
-            string variableName = GenerateUniqueVariableName(ORIGIN_MNEMONIC);
-
-            _longLivedOriginVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
-
-        /// <param name="mnemonic">
-        /// Will be incorporated into the variable name. It will be converted to string.
-        /// It will also be put into a (non-unique) form that will be valid in C#.
-        /// Also underscores are removed from it, because that is a separator character in our variable names.
-        /// </param>
-        private string GenerateUniqueVariableName(object mnemonic)
-        {
-            string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
-            int uniqueNumber = GenerateUniqueNumber();
-
-            string variableName = $"{nonUniqueNameInCode}_{uniqueNumber}";
-            return variableName;
-        }
-
-        private string GenerateUniqueDimensionAlias(object mnemonic)
-        {
-            string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
-            string uniqueLetterSequence = GenerateUniqueLetterSequence();
-
-            string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}";
-            return variableName;
-        }
-
-        private int GenerateUniqueNumber()
-        {
-            return _counter++;
-        }
-
-        private string GenerateUniqueLetterSequence()
-        {
-            return NumberingSystems.ToLetterSequence(_counter++, firstChar: 'a', lastChar: 'z');
         }
 
         private string GetInputName(VariableInput_OperatorDto dto)
@@ -2113,6 +2147,21 @@ namespace JJ.Business.Synthesizer.Roslyn
             {
                 return CompilationHelper.FormatValue(value.Value);
             }
+        }
+
+        private string GetOffsetNumberLiteral(int noiseOperatorID)
+        {
+            string offsetNumberLiteral;
+            // ReSharper disable once InvertIf
+            if (!_noiseOperatorID_To_OffsetNumberLiteral_Dictionary.TryGetValue(noiseOperatorID, out offsetNumberLiteral))
+            {
+                double offset = NoiseCalculationHelper.GetOffset();
+                offsetNumberLiteral = CompilationHelper.FormatValue(offset);
+
+                _noiseOperatorID_To_OffsetNumberLiteral_Dictionary[noiseOperatorID] = offsetNumberLiteral;
+            }
+
+            return offsetNumberLiteral;
         }
     }
 }

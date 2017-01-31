@@ -2437,7 +2437,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
             base.VisitNoise(op);
 
-            NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(op.ID);
+            // Cast to concrete calculator type for performance.
+            var noiseCalculator = (NoiseCalculator)_calculatorCache.GetNoiseCalculator(op.ID);
 
             var calculator = new Noise_OperatorCalculator(noiseCalculator, dimensionStack);
             _stack.Push(calculator);

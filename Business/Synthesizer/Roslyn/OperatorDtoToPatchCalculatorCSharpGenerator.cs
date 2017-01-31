@@ -23,20 +23,24 @@ namespace JJ.Business.Synthesizer.Roslyn
         private readonly int _channelIndex;
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
+        private readonly IOperatorRepository _operatorRepository;
 
         public OperatorDtoToPatchCalculatorCSharpGenerator(
             int channelCount, 
             int channelIndex, 
             CalculatorCache calculatorCache, 
-            ICurveRepository curveRepository)
+            ICurveRepository curveRepository, 
+            IOperatorRepository operatorRepository)
         {
             if (calculatorCache == null) throw new NullException(() => calculatorCache);
             if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
             _channelCount = channelCount;
             _channelIndex = channelIndex;
             _calculatorCache = calculatorCache;
             _curveRepository = curveRepository;
+            _operatorRepository = operatorRepository;
         }
 
         public OperatorDtoToPatchCalculatorCSharpGeneratorResult Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName)
@@ -45,7 +49,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             if (string.IsNullOrEmpty(generatedClassName)) throw new NullOrEmptyException(() => generatedClassName);
 
             // Build up Method Body
-            var visitor = new OperatorDtoToRawCSharpVisitor(RAW_CALCULATION_INDENT_LEVEL, _calculatorCache, _curveRepository);
+            var visitor = new OperatorDtoToRawCSharpVisitor(RAW_CALCULATION_INDENT_LEVEL, _calculatorCache, _curveRepository, _operatorRepository);
             OperatorDtoToCSharpVisitorResult visitorResult = visitor.Execute(dto);
 
             // Build up Code File
@@ -117,7 +121,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             var result = new OperatorDtoToPatchCalculatorCSharpGeneratorResult
             {
                 GeneratedCode = generatedCode,
-                CurveCalculatorVariableInfos = visitorResult.CurveCalculatorVariableInfos
+                CurveCalculatorVariableInfos = visitorResult.CalculatorVariableInfos
             };
 
             return result;
@@ -136,9 +140,9 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
             }
 
-            if (visitorResult.CurveCalculatorVariableInfos.Any())
+            if (visitorResult.CalculatorVariableInfos.Any())
             {
-                foreach (CalculatorVariableInfo variableInfo in visitorResult.CurveCalculatorVariableInfos)
+                foreach (CalculatorVariableInfo variableInfo in visitorResult.CalculatorVariableInfos)
                 {
                     sb.AppendLine($"private readonly {variableInfo.TypeName} _{variableInfo.NameCamelCase};");
                 }
@@ -176,9 +180,9 @@ namespace JJ.Business.Synthesizer.Roslyn
                     sb.AppendLine();
                 }
 
-                if (visitorResult.CurveCalculatorVariableInfos.Any())
+                if (visitorResult.CalculatorVariableInfos.Any())
                 {
-                    foreach (CalculatorVariableInfo variableInfo in visitorResult.CurveCalculatorVariableInfos)
+                    foreach (CalculatorVariableInfo variableInfo in visitorResult.CalculatorVariableInfos)
                     {
                         var id = variableInfo.EntityID;
                         string type = variableInfo.TypeName;
@@ -217,9 +221,9 @@ namespace JJ.Business.Synthesizer.Roslyn
                     sb.AppendLine();
                 }
 
-                if (visitorResult.CurveCalculatorVariableInfos.Any())
+                if (visitorResult.CalculatorVariableInfos.Any())
                 {
-                    foreach (CalculatorVariableInfo variableInfo in visitorResult.CurveCalculatorVariableInfos)
+                    foreach (CalculatorVariableInfo variableInfo in visitorResult.CalculatorVariableInfos)
                     {
                         sb.AppendLine($"var {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
                     }

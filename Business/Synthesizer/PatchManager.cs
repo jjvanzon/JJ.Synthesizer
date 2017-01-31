@@ -548,7 +548,7 @@ namespace JJ.Business.Synthesizer
                     dto = preProcessingVisitor.Execute(dto);
 
                     var compiler = new OperatorDtoCompiler();
-                    patchCalculator = compiler.CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex, calculatorCache, _repositories.CurveRepository);
+                    patchCalculator = compiler.CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex, calculatorCache, _repositories.CurveRepository, _repositories.OperatorRepository);
 
                     break;
 

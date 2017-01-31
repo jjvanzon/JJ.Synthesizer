@@ -37,9 +37,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             $"Calculation\\{nameof(SineCalculator)}.cs",
             $"Calculation\\{nameof(BiQuadFilterWithoutFields)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase)}.cs",
+            $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase_Block)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase_Line)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Line)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPositionZero_Line)}.cs",
+            $"Calculation\\Arrays\\{nameof(ArrayCalculator_RotatePosition_Block)}.cs",
             $"Calculation\\Patches\\{nameof(PatchCalculatorHelper)}.cs",
             $"CopiedCode\\FromFramework\\{nameof(MathHelper)}.cs");
 
@@ -51,14 +53,21 @@ namespace JJ.Business.Synthesizer.Roslyn
             MetadataReference.CreateFromFile(typeof(Expression).Assembly.Location)
         };
 
-        public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int samplingRate, int channelCount, int channelIndex, CalculatorCache calculatorCache, ICurveRepository curveRepository)
+        public IPatchCalculator CompileToPatchCalculator(
+            OperatorDtoBase dto, 
+            int samplingRate, 
+            int channelCount, 
+            int channelIndex, 
+            CalculatorCache calculatorCache, 
+            ICurveRepository curveRepository,
+            IOperatorRepository operatorRepository)
         {
             if (dto == null) throw new NullException(() => dto);
 
             var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
             dto = preProcessingVisitor.Execute(dto);
 
-            var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex, calculatorCache, curveRepository);
+            var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex, calculatorCache, curveRepository, operatorRepository);
             OperatorDtoToPatchCalculatorCSharpGeneratorResult codeGeneratorResult = codeGenerator.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             Dictionary<int, double[]> arrays = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.EntityID, x => x.Calculator._array);

@@ -4,7 +4,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Curves
 {
-    internal static class CurveCalculatorFactory
+    internal static class CurveArrayCalculatorFactory
     {
         public static ICalculatorWithPosition CreateCurveCalculator(Curve curve)
         {

@@ -706,7 +706,8 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Noise_OperatorDto(dto);
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(dto.OperatorID);
+            // Cast to concrete calculator type for performance.
+            var noiseCalculator = (NoiseCalculator)_calculatorCache.GetNoiseCalculator(dto.OperatorID);
 
             var calculator = new Noise_OperatorCalculator(noiseCalculator, dimensionStack);
             _stack.Push(calculator);

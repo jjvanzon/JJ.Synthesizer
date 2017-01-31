@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Operators;
@@ -31,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<Sample, ISampleCalculator> _sample_SampleCalculator_Dictionary = new Dictionary<Sample, ISampleCalculator>();
         private readonly object _sampleLock = new object();
 
-        private readonly Dictionary<int, NoiseCalculator> _operatorID_To_NoiseCalculator_Dictionary = new Dictionary<int, NoiseCalculator>();
+        private readonly Dictionary<int, ICalculatorWithPosition> _operatorID_To_NoiseCalculator_Dictionary = new Dictionary<int, ICalculatorWithPosition>();
         private readonly object _operatorID_To_NoiseCalculator_Dictionary_Lock = new object();
 
         private readonly Dictionary<int, RandomCalculator_BlockInterpolation> _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary = new Dictionary<int, RandomCalculator_BlockInterpolation>();
@@ -64,7 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation
                 // ReSharper disable once InvertIf
                 if (!_curve_CurveCalculator_Dictionary.TryGetValue(curve, out curveCalculator))
                 {
-                    curveCalculator = CurveCalculatorFactory.CreateCurveCalculator(curve);
+                    curveCalculator = CurveArrayCalculatorFactory.CreateCurveCalculator(curve);
                     _curve_CurveCalculator_Dictionary.Add(curve, curveCalculator);
                 }
 
@@ -105,13 +106,13 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
-        internal NoiseCalculator GetNoiseCalculator(int operatorID)
+        internal ICalculatorWithPosition GetNoiseCalculator(int operatorID)
         {
             if (operatorID == 0) throw new ZeroException(() => operatorID);
 
             lock (_operatorID_To_NoiseCalculator_Dictionary_Lock)
             {
-                NoiseCalculator noiseCalculator;
+                ICalculatorWithPosition noiseCalculator;
                 // ReSharper disable once InvertIf
                 if (!_operatorID_To_NoiseCalculator_Dictionary.TryGetValue(operatorID, out noiseCalculator))
                 {
@@ -121,6 +122,13 @@ namespace JJ.Business.Synthesizer.Calculation
 
                 return noiseCalculator;
             }
+        }
+
+        internal ICalculatorWithPosition GetNoiseUnderlyingArrayCalculator(int operatorID)
+        {
+            // DIRTY: Type assumption
+            var noiseCalculator = (NoiseCalculator)GetNoiseCalculator(operatorID);
+            return noiseCalculator.ArrayCalculator;
         }
 
         internal RandomCalculatorBase GetRandomCalculator(Operator op)

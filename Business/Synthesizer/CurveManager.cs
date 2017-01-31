@@ -317,7 +317,7 @@ namespace JJ.Business.Synthesizer
         /// <summary> Slower initialization, faster calculation. </summary>
         public ICalculatorWithPosition CreateOptimizedCalculator(Curve curve)
         {
-            return CurveCalculatorFactory.CreateCurveCalculator(curve);
+            return CurveArrayCalculatorFactory.CreateCurveCalculator(curve);
         }
 
         public void RotateNodeType(Node node)
