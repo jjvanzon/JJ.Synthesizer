@@ -2,27 +2,27 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Configuration;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Framework.IO;
+using JJ.Business.Synthesizer.Roslyn.Helpers;
+using JJ.Business.Synthesizer.Visitors;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Collections;
+using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
+using JJ.Framework.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
-using JJ.Business.Synthesizer.Visitors;
-using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Roslyn.Generator;
-using JJ.Framework.Common;
-using JJ.Business.Synthesizer.Configuration;
-using JJ.Framework.Collections;
-using System.Linq.Expressions;
-using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
-namespace JJ.Business.Synthesizer.Roslyn.Helpers
+namespace JJ.Business.Synthesizer.Roslyn
 {
     internal class OperatorDtoCompiler
     {
@@ -48,8 +48,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(IPatchCalculator).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(LessThanException).Assembly.Location),
-            MetadataReference.CreateFromFile(typeof(Expression).Assembly.Location),
-            MetadataReference.CreateFromFile(typeof(ICurveRepository).Assembly.Location)
+            MetadataReference.CreateFromFile(typeof(Expression).Assembly.Location)
         };
 
         public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int samplingRate, int channelCount, int channelIndex, CalculatorCache calculatorCache, ICurveRepository curveRepository)
@@ -62,11 +61,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex, calculatorCache, curveRepository);
             OperatorDtoToPatchCalculatorCSharpGeneratorResult codeGeneratorResult = codeGenerator.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
-            Dictionary<string, double[]> curveArrays = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._array);
-            Dictionary<string, double> curveRates = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._rate);
+            Dictionary<int, double[]> arrays = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.EntityID, x => x.Calculator._array);
+            Dictionary<int, double> arrayRates = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.EntityID, x => x.Calculator._rate);
 
             Type type = Compile(codeGeneratorResult.GeneratedCode);
-            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex, curveArrays, curveRates);
+            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex, arrays, arrayRates);
             return calculator;
         }
 

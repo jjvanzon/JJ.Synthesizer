@@ -24,6 +24,7 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Roslyn;
 using JJ.Business.Synthesizer.Roslyn.Calculation;
 
 namespace JJ.Business.Synthesizer
@@ -555,7 +556,7 @@ namespace JJ.Business.Synthesizer
                     return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
 
                 case CalculationEngineConfigurationEnum.ExampleGeneratedCode:
-                    return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, calculatorCache, _repositories.CurveRepository);
+                    return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<int, double[]>(), new Dictionary<int, double>());
 
                 default:
                     throw new ValueNotSupportedException(_calculationEngineConfigurationEnum);

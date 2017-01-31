@@ -15,10 +15,10 @@ namespace GeneratedCSharp
     {
         // Fields
 
-        private double _origin_1;
-        private double _origin_7;
+        private double _origin_2;
+        private double _origin_5;
 
-        private readonly ArrayCalculator_MinPositionZero_Line _curvecalculator1498745_8;
+        private readonly ArrayCalculator_MinPositionZero_Line _curvecalculator1498745_3;
 
 
         // Constructor
@@ -27,12 +27,12 @@ namespace GeneratedCSharp
             int samplingRate,
             int channelCount,
             int channelIndex,
-            Dictionary<string, double[]> curveArrays,
-            Dictionary<string, double> curveRates
+            Dictionary<int, double[]> arrays,
+            Dictionary<int, double> arrayRates
             )
             : base(samplingRate, channelCount, channelIndex)
         {
-            _curvecalculator1498745_8 = new ArrayCalculator_MinPositionZero_Line(curveArrays["curvecalculator1498745_8"], curveRates["curvecalculator1498745_8"]);
+            _curvecalculator1498745_3 = new ArrayCalculator_MinPositionZero_Line(arrays[1498745], arrayRates[1498745]);
 
             Reset(time: 0.0);
         }
@@ -44,35 +44,31 @@ namespace GeneratedCSharp
         {
             double frameDuration = _frameDuration;
 
-            double origin_1 = _origin_1;
-            double origin_7 = _origin_7;
+            double origin_2 = _origin_2;
+            double origin_5 = _origin_5;
 
-            var curvecalculator1498745_8 = _curvecalculator1498745_8;
+            var curvecalculator1498745_3 = _curvecalculator1498745_3;
 
-            double time_a_0;
+            double time_b_0;
 
             int valueCount = frameCount * 1;
-            time_a_0 = startTime;
+            time_b_0 = startTime;
 
             for (int i = 0; i < valueCount; i += 1)
             {
-                // Triangle
-                double triangle_2 = (time_a_0 - origin_1) * 8.8E2;
-                double shiftedphase_3 = triangle_2 + 0.25;
-                double relativephase_4 = shiftedphase_3 % 1.0;
-                double triangle_5;
-                if (relativephase_4 < 0.5) triangle_5 = -1.0 + 4.0 * relativephase_4;
-                else triangle_5 = 3.0 - 4.0 * relativephase_4;
-
                 // Curve
-                double phase_6 = time_a_0 - origin_7;
-                double curve_9 = curvecalculator1498745_8.Calculate(phase_6);
+                double phase_0 = time_b_0 - origin_2;
+                double curve_4 = curvecalculator1498745_3.Calculate(phase_0);
+
+                // Sine
+                double sine_6 = (time_b_0 - origin_5) * 8.8E2;
+                sine_6 = SineCalculator.Sin(sine_6);
 
                 // Multiply
-                double multiply_10 = curve_9 * triangle_5;
+                double multiply_7 = sine_6 * curve_4;
 
                 // Accumulate
-                double value = multiply_10;
+                double value = multiply_7;
 
                 if (double.IsNaN(value))
                 {
@@ -83,11 +79,11 @@ namespace GeneratedCSharp
 
                 PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
 
-                time_a_0 += frameDuration;
+                time_b_0 += frameDuration;
             }
 
-            _origin_1 = origin_1;
-            _origin_7 = origin_7;
+            _origin_2 = origin_2;
+            _origin_5 = origin_5;
         }
 
         // Values

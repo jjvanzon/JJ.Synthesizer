@@ -2,9 +2,9 @@
 
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
-    internal class CurveCalculatorVariableInfo
+    internal class CalculatorVariableInfo
     {
-        public int CurveID { get; set; }
+        public int EntityID { get; set; }
         public string NameCamelCase { get; set; }
         public string TypeName { get; set; }
         public ArrayCalculatorBase Calculator { get; set; }

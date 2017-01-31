@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Visitors;
-using JJ.Business.Synthesizer.Roslyn.Helpers;
-using JJ.Framework.Common;
 using System.Diagnostics;
+using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Roslyn.Helpers;
+using JJ.Business.Synthesizer.Visitors;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Collections;
+using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Mathematics;
 
-namespace JJ.Business.Synthesizer.Roslyn.Visitors
+namespace JJ.Business.Synthesizer.Roslyn
 {
-    internal class OperatorDtoToCSharpVisitor : OperatorDtoVisitorBase_AfterProgrammerLaziness
+    internal class OperatorDtoToRawCSharpVisitor : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
         private const string TAB_STRING = "    ";
 
@@ -79,9 +79,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
         private Dictionary<Tuple<DimensionEnum, string>, string> _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary;
 
         // Information about Satellite Calculators
-        private Dictionary<int, CurveCalculatorVariableInfo> _curveID_To_CurveCalculatorVariableInfo_Dictionary;
+        private Dictionary<int, CalculatorVariableInfo> _curveID_To_CurveCalculatorVariableInfo_Dictionary;
 
-        public OperatorDtoToCSharpVisitor(int indentLevel, CalculatorCache calculatorCache, ICurveRepository curveRepository)
+        public OperatorDtoToRawCSharpVisitor(int indentLevel, CalculatorCache calculatorCache, ICurveRepository curveRepository)
         {
             if (calculatorCache == null) throw new NullException(() => calculatorCache);
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<Tuple<DimensionEnum, string>, string>();
             _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
-            _curveID_To_CurveCalculatorVariableInfo_Dictionary = new Dictionary<int, CurveCalculatorVariableInfo>();
+            _curveID_To_CurveCalculatorVariableInfo_Dictionary = new Dictionary<int, CalculatorVariableInfo>();
             _counter = 0;
 
             _sb = new StringBuilderWithIndentation(TAB_STRING)
@@ -1895,7 +1895,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
 
         private string GenerateCurveCalculatorVariableNameCamelCase(Curve_OperatorDtoBase_WithoutMinX dto)
         {
-            CurveCalculatorVariableInfo variableInfo;
+            CalculatorVariableInfo variableInfo;
             // ReSharper disable once InvertIf
             if (!_curveID_To_CurveCalculatorVariableInfo_Dictionary.TryGetValue(dto.CurveID, out variableInfo))
             {
@@ -1903,9 +1903,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Visitors
                 string typeName = calculator.GetType().Name;
                 string nameCamelCase = GenerateUniqueVariableName(CURVE_CALCULATOR_MNEMONIC + dto.CurveID);
 
-                variableInfo = new CurveCalculatorVariableInfo
+                variableInfo = new CalculatorVariableInfo
                 {
-                    CurveID = dto.CurveID,
+                    EntityID = dto.CurveID,
                     NameCamelCase = nameCamelCase,
                     TypeName = typeName,
                     // DIRTY: Type assumption
