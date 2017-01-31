@@ -35,7 +35,5 @@ namespace JJ.Business.Synthesizer.Calculation.Random
             int offsetIndex = Randomizer.GetInt32(OFFSET_COUNT - 1);
             _offset = offsetIndex * OFFSET_SNAP;
         }
-
-        public abstract double GetValue(double time);
     }
 }

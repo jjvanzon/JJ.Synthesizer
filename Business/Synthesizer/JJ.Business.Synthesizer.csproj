@@ -453,7 +453,7 @@
     </Compile>
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
-    <Compile Include="Calculation\Random\RandomCalculator_StripeInterpolation.cs" />
+    <Compile Include="Calculation\Random\RandomCalculator_Stripe.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorHelper.cs" />
     <Compile Include="Calculation\Curves\InterpretedCurveCalculator.cs" />
     <Compile Include="Calculation\Samples\SampleCalculator_Hermite_SingleChannel.cs" />
@@ -473,7 +473,7 @@
     <Compile Include="Calculation\SineCalculator.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Calculation\Random\RandomCalculator_BlockInterpolation.cs" />
+    <Compile Include="Calculation\Random\RandomCalculator_Block.cs" />
     <Compile Include="Calculation\NoiseCalculator.cs" />
     <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />

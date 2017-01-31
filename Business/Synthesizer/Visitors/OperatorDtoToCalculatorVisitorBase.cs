@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
@@ -857,7 +858,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
         {
-            return Process_Random_OperatorDto_BlockAndStripe(dto);
+            base.Visit_OperatorDto_Base(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+            RandomCalculator_Block randomCalculator = _calculatorCache.GetRandomCalculator_Block(dto.OperatorID);
+
+            var calculator = new Random_OperatorCalculator_Block_VarFrequency(randomCalculator, _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto)
@@ -887,7 +896,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe(Random_OperatorDto_Stripe dto)
         {
-            return Process_Random_OperatorDto_BlockAndStripe(dto);
+            base.Visit_OperatorDto_Base(dto);
+
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+            RandomCalculator_Stripe randomCalculator = _calculatorCache.GetRandomCalculator_Stripe(dto.OperatorID);
+
+            var calculator = new Random_OperatorCalculator_Stripe_VarFrequency(randomCalculator, _stack.Pop(), dimensionStack);
+            _stack.Push(calculator);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
@@ -1419,22 +1436,9 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_OperatorDto_Base(dto);
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            var randomCalculator = _calculatorCache.GetRandomCalculator(dto.OperatorID, dto.ResampleInterpolationTypeEnum);
+            RandomCalculator_Stripe randomCalculator = _calculatorCache.GetRandomCalculator_Stripe(dto.OperatorID);
 
             var calculator = new Random_OperatorCalculator_OtherInterpolationTypes(randomCalculator, _stack.Pop(), dto.ResampleInterpolationTypeEnum, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
-        }
-
-        private OperatorDtoBase Process_Random_OperatorDto_BlockAndStripe(Random_OperatorDto dto)
-        {
-            base.Visit_OperatorDto_Base(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            var randomCalculator = _calculatorCache.GetRandomCalculator(dto.OperatorID, dto.ResampleInterpolationTypeEnum);
-
-            var calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(randomCalculator, _stack.Pop(), dimensionStack);
             _stack.Push(calculator);
 
             return dto;

@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 {
     internal static class CurveArrayCalculatorFactory
     {
-        public static ICalculatorWithPosition CreateCurveCalculator(Curve curve)
+        public static ICalculatorWithPosition CreateCurveArrayCalculator(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
 

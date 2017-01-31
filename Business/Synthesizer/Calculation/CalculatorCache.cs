@@ -35,10 +35,10 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<int, ICalculatorWithPosition> _operatorID_To_NoiseCalculator_Dictionary = new Dictionary<int, ICalculatorWithPosition>();
         private readonly object _operatorID_To_NoiseCalculator_Dictionary_Lock = new object();
 
-        private readonly Dictionary<int, RandomCalculator_BlockInterpolation> _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary = new Dictionary<int, RandomCalculator_BlockInterpolation>();
+        private readonly Dictionary<int, RandomCalculator_Block> _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary = new Dictionary<int, RandomCalculator_Block>();
         private readonly object _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary_Lock = new object();
 
-        private readonly Dictionary<int, RandomCalculator_StripeInterpolation> _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary = new Dictionary<int, RandomCalculator_StripeInterpolation>();
+        private readonly Dictionary<int, RandomCalculator_Stripe> _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary = new Dictionary<int, RandomCalculator_Stripe>();
         private readonly object _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary_Lock = new object();
 
         private readonly Dictionary<int, IList<ICalculatorWithPosition>> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, IList<ICalculatorWithPosition>>();
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation
                 // ReSharper disable once InvertIf
                 if (!_curve_CurveCalculator_Dictionary.TryGetValue(curve, out curveCalculator))
                 {
-                    curveCalculator = CurveArrayCalculatorFactory.CreateCurveCalculator(curve);
+                    curveCalculator = CurveArrayCalculatorFactory.CreateCurveArrayCalculator(curve);
                     _curve_CurveCalculator_Dictionary.Add(curve, curveCalculator);
                 }
 
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Calculation
             switch (resampleInterpolationType)
             {
                 case ResampleInterpolationTypeEnum.Block:
-                    return Get_RandomCalculator_BlockInterpolation(operatorID);
+                    return GetRandomCalculator_Block(operatorID);
 
                 case ResampleInterpolationTypeEnum.Stripe:
                 case ResampleInterpolationTypeEnum.Line:
@@ -159,24 +159,24 @@ namespace JJ.Business.Synthesizer.Calculation
                 case ResampleInterpolationTypeEnum.CubicAbruptSlope:
                 case ResampleInterpolationTypeEnum.CubicSmoothSlope:
                 case ResampleInterpolationTypeEnum.Hermite:
-                    return Get_RandomCalculator_StripeInterpolation(operatorID);
+                    return GetRandomCalculator_Stripe(operatorID);
 
                 default:
                     throw new ValueNotSupportedException(resampleInterpolationType);
             }
         }
 
-        private RandomCalculator_StripeInterpolation Get_RandomCalculator_StripeInterpolation(int operatorID)
+        internal RandomCalculator_Stripe GetRandomCalculator_Stripe(int operatorID)
         {
             if (operatorID == 0) throw new ZeroException(() => operatorID);
 
             lock (_operatorID_To_RandomCalculator_StripeInterpolation_Dictionary_Lock)
             {
-                RandomCalculator_StripeInterpolation randomCalculator;
+                RandomCalculator_Stripe randomCalculator;
                 // ReSharper disable once InvertIf
                 if (!_operatorID_To_RandomCalculator_StripeInterpolation_Dictionary.TryGetValue(operatorID, out randomCalculator))
                 {
-                    randomCalculator = new RandomCalculator_StripeInterpolation();
+                    randomCalculator = new RandomCalculator_Stripe();
                     _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary.Add(operatorID, randomCalculator);
                 }
 
@@ -184,17 +184,17 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
-        private RandomCalculator_BlockInterpolation Get_RandomCalculator_BlockInterpolation(int operatorID)
+        internal RandomCalculator_Block GetRandomCalculator_Block(int operatorID)
         {
             if (operatorID == 0) throw new ZeroException(() => operatorID);
 
             lock (_operatorID_To_RandomCalculator_BlockInterpolation_Dictionary_Lock)
             {
-                RandomCalculator_BlockInterpolation randomCalculator;
+                RandomCalculator_Block randomCalculator;
                 // ReSharper disable once InvertIf
                 if (!_operatorID_To_RandomCalculator_BlockInterpolation_Dictionary.TryGetValue(operatorID, out randomCalculator))
                 {
-                    randomCalculator = new RandomCalculator_BlockInterpolation();
+                    randomCalculator = new RandomCalculator_Block();
                     _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary.Add(operatorID, randomCalculator);
                 }
                 return randomCalculator;

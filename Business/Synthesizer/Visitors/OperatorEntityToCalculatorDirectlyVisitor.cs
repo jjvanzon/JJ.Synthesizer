@@ -2988,15 +2988,22 @@ namespace JJ.Business.Synthesizer.Visitors
                 var wrapper = new Random_OperatorWrapper(op);
                 ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.InterpolationType;
 
-                RandomCalculatorBase randomCalculator = _calculatorCache.GetRandomCalculator(op);
-
                 switch (resampleInterpolationTypeEnum)
                 {
                     case ResampleInterpolationTypeEnum.Block:
+                        {
+                            calculator = new Random_OperatorCalculator_Block_VarFrequency(
+                                _calculatorCache.GetRandomCalculator_Block(op.ID),
+                                rateCalculator,
+                                dimensionStack);
+
+                            break;
+                        }
+
                     case ResampleInterpolationTypeEnum.Stripe:
                         {
-                            calculator = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
-                                randomCalculator,
+                            calculator = new Random_OperatorCalculator_Stripe_VarFrequency(
+                                _calculatorCache.GetRandomCalculator_Stripe(op.ID),
                                 rateCalculator,
                                 dimensionStack);
 
@@ -3010,7 +3017,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     case ResampleInterpolationTypeEnum.Hermite:
                         {
                             calculator = new Random_OperatorCalculator_OtherInterpolationTypes(
-                                randomCalculator,
+                                _calculatorCache.GetRandomCalculator_Stripe(op.ID),
                                 rateCalculator,
                                 resampleInterpolationTypeEnum,
                                 dimensionStack);

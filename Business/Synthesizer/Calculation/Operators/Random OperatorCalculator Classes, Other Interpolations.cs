@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _interpolateOperator;
 
         public Random_OperatorCalculator_OtherInterpolationTypes(
-            RandomCalculatorBase randomCalculator,
+            RandomCalculator_Stripe randomCalculator,
             OperatorCalculatorBase rateCalculator,
             ResampleInterpolationTypeEnum resampleInterpolationTypeEnum,
             DimensionStack dimensionStack)
@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // handling many types of interpolation.
 
             // Create a second Random operator calculator.
-            var randomCalculator2 = new Random_OperatorCalculator_BlockAndStripe_VarFrequency(
+            var randomCalculator2 = new Random_OperatorCalculator_Stripe_VarFrequency(
                 randomCalculator, rateCalculator, dimensionStack);
 
             // Lead their outputs to a Interpolate operator calculator
