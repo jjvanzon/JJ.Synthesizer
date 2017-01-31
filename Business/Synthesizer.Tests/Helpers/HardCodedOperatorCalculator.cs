@@ -1,17 +1,18 @@
-﻿using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 using System;
+using System.Collections.Generic;
 using JJ.Business.Synthesizer.Api;
+using JJ.Business.Synthesizer.Calculation;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class HardCodedOperatorCalculator
     {
-        private readonly ISampleCalculator _sampleCalculator;
+        private readonly IList<ICalculatorWithPosition> _sampleCalculators;
 
         public HardCodedOperatorCalculator(Sample sample, byte[] bytes)
         {
-            _sampleCalculator = SampleApi.CreateCalculator(sample, bytes);
+            _sampleCalculators = SampleApi.CreateCalculators(sample, bytes);
         }
 
         public double CalculateTimePowerWithEcho(double time)
@@ -31,7 +32,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 transformedTime = Math.Sign(transformedTime) * Math.Pow(Math.Abs(transformedTime), 1 / exponent);
 
                 // Sample
-                double value2 = _sampleCalculator.Calculate(transformedTime, 0);
+                double value2 = _sampleCalculators[0].Calculate(transformedTime);
 
                 // Divide
                 value2 /= cumulativeDenominator;
@@ -60,7 +61,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 double transformedTime = time - cumulativeDelay;
 
                 // Sample
-                double value2 = _sampleCalculator.Calculate(transformedTime, 0);
+                double value2 = _sampleCalculators[0].Calculate(transformedTime);
 
                 // Multiply
                 value2 *= multiplier;

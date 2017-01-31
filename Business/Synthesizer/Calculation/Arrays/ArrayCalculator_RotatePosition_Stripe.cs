@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal class ArrayCalculator_RotatePosition_Stripe : ArrayCalculatorBase_Stripe
+    internal class ArrayCalculator_RotatePosition_Stripe : ArrayCalculatorBase_Stripe, ICalculatorWithPosition
     {
         private const double DEFAULT_MIN_POSITION = 0;
 

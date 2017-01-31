@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal class ArrayCalculator_MinPosition_Line : ArrayCalculatorBase_Line
+    internal class ArrayCalculator_MinPosition_Line : ArrayCalculatorBase_Line, ICalculatorWithPosition
     {
         public ArrayCalculator_MinPosition_Line(
             double[] array, double rate, double minPosition)

@@ -3,23 +3,38 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Framework.Validation;
+// ReSharper disable CoVariantArrayConversion
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     internal static class SampleCalculatorFactory
     {
         /// <param name="bytes">nullable</param>
-        public static ISampleCalculator CreateSampleCalculator(Sample sample, byte[] bytes)
+        public static IList<ICalculatorWithPosition> CreateSampleCalculators(Sample sample, byte[] bytes)
         {
             if (sample == null) throw new NullException(() => sample);
 
+            IValidator validator = new SampleValidator(sample);
+            validator.Assert();
+
             if (bytes == null || bytes.Length == 0 || !sample.IsActive)
             {
-                return new SampleCalculator_Zero(sample.GetChannelCount());
+                // HACK: Optimize to a literal 0 instead.
+                return new ICalculatorWithPosition[] { new ArrayCalculator_MinPositionZero_Block(new double[0], 0) };
             }
 
             InterpolationTypeEnum interpolationTypeEnum = sample.GetInterpolationTypeEnum();
             SpeakerSetupEnum speakerSetupEnum = sample.GetSpeakerSetupEnum();
+            double rate = sample.SamplingRate / sample.TimeMultiplier;
+
+            double[][] samples = SampleCalculatorHelper.ReadSamples(sample, bytes);
+
+            IList<ICalculatorWithPosition> arrayCalculators = null;
 
             switch (interpolationTypeEnum)
             {
@@ -27,10 +42,12 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     switch (speakerSetupEnum)
                     {
                         case SpeakerSetupEnum.Mono:
-                            return new SampleCalculator_Block_SingleChannel(sample, bytes);
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Block(x, rate)).ToArray();
+                            break;
 
                         case SpeakerSetupEnum.Stereo:
-                            return new SampleCalculator_Block_MultiChannel(sample, bytes);
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Block(x, rate)).ToArray();
+                            break;
                     }
                     break;
 
@@ -38,10 +55,12 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     switch (speakerSetupEnum)
                     {
                         case SpeakerSetupEnum.Mono:
-                            return new SampleCalculator_Stripe_SingleChannel(sample, bytes);
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Stripe(x, rate)).ToArray();
+                            break;
 
                         case SpeakerSetupEnum.Stereo:
-                            return new SampleCalculator_Stripe_MultiChannel(sample, bytes);
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Stripe(x, rate)).ToArray();
+                            break;
                     }
                     break;
 
@@ -49,10 +68,12 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     switch (speakerSetupEnum)
                     {
                         case SpeakerSetupEnum.Mono:
-                            return new SampleCalculator_Line_SingleChannel(sample, bytes);
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Line(x, rate)).ToArray();
+                            break;
 
                         case SpeakerSetupEnum.Stereo:
-                            return new SampleCalculator_Line_MultiChannel(sample, bytes);
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Line(x, rate)).ToArray();
+                            break;
                     }
                     break;
 
@@ -60,10 +81,12 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     switch (speakerSetupEnum)
                     {
                         case SpeakerSetupEnum.Mono:
-                            return new SampleCalculator_Cubic_SingleChannel(sample, bytes);
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Cubic(x, rate)).ToArray();
+                            break;
 
                         case SpeakerSetupEnum.Stereo:
-                            return new SampleCalculator_Cubic_MultiChannel(sample, bytes);
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Cubic(x, rate)).ToArray();
+                            break;
                     }
                     break;
 
@@ -71,15 +94,22 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     switch (speakerSetupEnum)
                     {
                         case SpeakerSetupEnum.Mono:
-                            return new SampleCalculator_Hermite_SingleChannel(sample, bytes);
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Hermite(x, rate)).ToArray();
+                            break;
 
                         case SpeakerSetupEnum.Stereo:
-                            return new SampleCalculator_Hermite_MultiChannel(sample, bytes);
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Hermite(x, rate)).ToArray();
+                            break;
                     }
                     break;
             }
 
-            throw new Exception($"{new { speakerSetupEnum }} combined with {new { interpolationTypeEnum }} is not supported.");
+            if (arrayCalculators == null)
+            {
+                throw new Exception($"{new { speakerSetupEnum }} combined with {new { interpolationTypeEnum }} is not supported.");
+            }
+
+            return arrayCalculators;
         }
     }
 }

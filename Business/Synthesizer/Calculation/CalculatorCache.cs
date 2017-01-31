@@ -22,14 +22,14 @@ namespace JJ.Business.Synthesizer.Calculation
         /// This dictionary is about reusing the same CurveCalculator in multiple OperatorCalculator_Curve's
         /// in case they uses the same Curve, more than optimizing things by using a dictionary.
         /// </summary>
-        private readonly Dictionary<Curve, ICalculatorWithPosition> _curve_CurveCalculator_Dictionary = new Dictionary<Curve, ICalculatorWithPosition>();
+        private readonly Dictionary<Curve, ICalculatorWithPosition> _curve_To_Calculator_Dictionary = new Dictionary<Curve, ICalculatorWithPosition>();
         private readonly object _curveLock = new object();
 
         /// <summary>
         /// This dictionary is about reusing the same SampleCalculator in multiple OperatorCalculator_Sample's
         /// in case they uses the same Sample, more than optimizing things by using a dictionary.
         /// </summary>
-        private readonly Dictionary<Sample, ISampleCalculator> _sample_SampleCalculator_Dictionary = new Dictionary<Sample, ISampleCalculator>();
+        private readonly Dictionary<Sample, IList<ICalculatorWithPosition>> _sample_To_Calculators_Dictionary = new Dictionary<Sample, IList<ICalculatorWithPosition>>();
         private readonly object _sampleLock = new object();
 
         private readonly Dictionary<int, ICalculatorWithPosition> _operatorID_To_NoiseCalculator_Dictionary = new Dictionary<int, ICalculatorWithPosition>();
@@ -63,17 +63,18 @@ namespace JJ.Business.Synthesizer.Calculation
             {
                 ICalculatorWithPosition curveCalculator;
                 // ReSharper disable once InvertIf
-                if (!_curve_CurveCalculator_Dictionary.TryGetValue(curve, out curveCalculator))
+                if (!_curve_To_Calculator_Dictionary.TryGetValue(curve, out curveCalculator))
                 {
                     curveCalculator = CurveArrayCalculatorFactory.CreateCurveArrayCalculator(curve);
-                    _curve_CurveCalculator_Dictionary.Add(curve, curveCalculator);
+                    _curve_To_Calculator_Dictionary.Add(curve, curveCalculator);
                 }
 
                 return curveCalculator;
             }
         }
 
-        internal ISampleCalculator GetSampleCalculator(int sampleID, ISampleRepository sampleRepository)
+        /// <summary> Returns one calculator for each channel. </summary>
+        internal IList<ICalculatorWithPosition> GetSampleCalculators(int sampleID, ISampleRepository sampleRepository)
         {
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
@@ -82,27 +83,28 @@ namespace JJ.Business.Synthesizer.Calculation
 
             var sampleInfo = new SampleInfo { Sample = sample, Bytes = bytes };
 
-            ISampleCalculator sampleCalculator = GetSampleCalculator(sampleInfo);
+            IList<ICalculatorWithPosition> calculators = GetSampleCalculators(sampleInfo);
 
-            return sampleCalculator;
+            return calculators;
         }
 
-        internal ISampleCalculator GetSampleCalculator(SampleInfo sampleInfo)
+        /// <summary> Returns one calculator for each channel. </summary>
+        internal IList<ICalculatorWithPosition> GetSampleCalculators(SampleInfo sampleInfo)
         {
             if (sampleInfo == null) throw new NullException(() => sampleInfo);
             if (sampleInfo.Sample == null) throw new NullException(() => sampleInfo.Sample);
 
             lock (_sampleLock)
             {
-                ISampleCalculator sampleCalculator;
+                IList<ICalculatorWithPosition> calculators;
                 // ReSharper disable once InvertIf
-                if (!_sample_SampleCalculator_Dictionary.TryGetValue(sampleInfo.Sample, out sampleCalculator))
+                if (!_sample_To_Calculators_Dictionary.TryGetValue(sampleInfo.Sample, out calculators))
                 {
-                    sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleInfo.Sample, sampleInfo.Bytes);
-                    _sample_SampleCalculator_Dictionary.Add(sampleInfo.Sample, sampleCalculator);
+                    calculators = SampleCalculatorFactory.CreateSampleCalculators(sampleInfo.Sample, sampleInfo.Bytes);
+                    _sample_To_Calculators_Dictionary.Add(sampleInfo.Sample, calculators);
                 }
 
-                return sampleCalculator;
+                return calculators;
             }
         }
 

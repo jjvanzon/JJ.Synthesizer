@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Enums;
@@ -151,9 +152,10 @@ namespace JJ.Business.Synthesizer
 
         // Misc
 
-        public ISampleCalculator CreateCalculator(Sample sample, byte[] bytes)
+        /// <summary> Returns a calculator for each channel. </summary>
+        public IList<ICalculatorWithPosition> CreateCalculators(Sample sample, byte[] bytes)
         {
-            return SampleCalculatorFactory.CreateSampleCalculator(sample, bytes);
+            return SampleCalculatorFactory.CreateSampleCalculators(sample, bytes);
         }
 
         // Private Methods

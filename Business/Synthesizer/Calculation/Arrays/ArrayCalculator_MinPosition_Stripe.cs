@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal class ArrayCalculator_MinPosition_Stripe : ArrayCalculatorBase_Stripe
+    internal class ArrayCalculator_MinPosition_Stripe : ArrayCalculatorBase_Stripe, ICalculatorWithPosition
     {
         public ArrayCalculator_MinPosition_Stripe(
             double[] array, double rate, double minPosition) 

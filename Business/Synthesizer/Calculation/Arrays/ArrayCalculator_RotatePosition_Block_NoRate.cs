@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal class ArrayCalculator_RotatePosition_Block_NoRate : ArrayCalculatorBase_Block
+    internal class ArrayCalculator_RotatePosition_Block_NoRate : ArrayCalculatorBase_Block, ICalculatorWithPosition
     {
         private const double DEFAULT_MIN_POSITION = 0.0;
         private const double DEFAULT_RATE = 1.0;

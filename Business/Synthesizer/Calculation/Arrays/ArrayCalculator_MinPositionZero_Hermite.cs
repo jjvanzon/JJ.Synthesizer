@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal class ArrayCalculator_MinPositionZero_Hermite : ArrayCalculatorBase_Hermite
+    internal class ArrayCalculator_MinPositionZero_Hermite : ArrayCalculatorBase_Hermite, ICalculatorWithPosition
     {
         private const double MIN_POSITION = 0.0;
 

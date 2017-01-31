@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal abstract class ArrayCalculatorBase_Cubic : ArrayCalculatorBase, ICalculatorWithPosition
+    internal abstract class ArrayCalculatorBase_Cubic : ArrayCalculatorBase
     {
         private const int EXTRA_TICKS_BEFORE = 1;
         private const int EXTRA_TICKS_AFTER = 2;
