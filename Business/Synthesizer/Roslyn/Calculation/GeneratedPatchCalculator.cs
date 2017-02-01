@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace GeneratedCSharp
 {
@@ -14,10 +15,10 @@ namespace GeneratedCSharp
     {
         // Fields
 
-        private double _origin_1;
-        private double _origin_7;
+        private double _channel_a_0;
+        private double __e_0;
 
-        private readonly ArrayCalculator_MinPositionZero_Line _curvecalculator1498745_8;
+        private readonly ArrayCalculator_MinPositionZero_Line _arraycalculator_5;
 
 
         // Constructor
@@ -26,12 +27,12 @@ namespace GeneratedCSharp
             int samplingRate,
             int channelCount,
             int channelIndex,
-            Dictionary<int, double[]> arrays,
-            Dictionary<int, double> arrayRates
+            Dictionary<string, double[]> arrays,
+            Dictionary<string, double> arrayRates
             )
             : base(samplingRate, channelCount, channelIndex)
         {
-            _curvecalculator1498745_8 = new ArrayCalculator_MinPositionZero_Line(arrays[1498745], arrayRates[1498745]);
+            _arraycalculator_5 = new ArrayCalculator_MinPositionZero_Line(arrays["arraycalculator_5"], arrayRates["arraycalculator_5"]);
 
             Reset(time: 0.0);
         }
@@ -43,35 +44,43 @@ namespace GeneratedCSharp
         {
             double frameDuration = _frameDuration;
 
-            double origin_1 = _origin_1;
-            double origin_7 = _origin_7;
+            double channel_a_0 = _channel_a_0;
+            double _e_0 = __e_0;
 
-            var curvecalculator1498745_8 = _curvecalculator1498745_8;
+            var arraycalculator_5 = _arraycalculator_5;
 
-            double time_a_0;
+            double time_g_0;
 
             int valueCount = frameCount * 1;
-            time_a_0 = startTime;
+            time_g_0 = startTime;
 
             for (int i = 0; i < valueCount; i += 1)
             {
-                // Triangle
-                double triangle_2 = (time_a_0 - origin_1) * 8.8E2;
-                double shiftedphase_3 = triangle_2 + 0.25;
-                double relativephase_4 = shiftedphase_3 % 1.0;
-                double triangle_5;
-                if (relativephase_4 < 0.5) triangle_5 = -1.0 + 4.0 * relativephase_4;
-                else triangle_5 = 3.0 - 4.0 * relativephase_4;
 
-                // Curve
-                double phase_6 = time_a_0 - origin_7;
-                double curve_9 = curvecalculator1498745_8.Calculate(phase_6);
 
-                // Multiply
-                double multiply_10 = curve_9 * triangle_5;
+
+
+                // Sample
+                double sample_2 = 0.0;
+                if (ConversionHelper.CanCastToNonNegativeInt32WithMax(channel_a_0, 0.0E0))
+                {
+                    int channel_1 = (int)channel_a_0;
+                    double phase_3 = _e_0 * 1.0E0;
+
+                    switch (channel_1)
+                    {
+                        case 0:
+                            sample_2 = arraycalculator_5.Calculate(phase_3);
+                            break;
+                    }
+                }
+
+
+
+
 
                 // Accumulate
-                double value = multiply_10;
+                double value = sample_2;
 
                 if (double.IsNaN(value))
                 {
@@ -82,11 +91,11 @@ namespace GeneratedCSharp
 
                 PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
 
-                time_a_0 += frameDuration;
+                time_g_0 += frameDuration;
             }
 
-            _origin_1 = origin_1;
-            _origin_7 = origin_7;
+            _channel_a_0 = channel_a_0;
+            __e_0 = _e_0;
         }
 
         // Values
@@ -101,6 +110,17 @@ namespace GeneratedCSharp
         {
             base.SetValue(dimensionEnum, value);
 
+            switch (dimensionEnum)
+            {
+                case DimensionEnum.Channel:
+                    _channel_a_0 = value;
+                    break;
+
+                case DimensionEnum.Undefined:
+                    __e_0 = value;
+                    break;
+
+            }
         }
 
         public override void SetValue(string name, double value)
@@ -109,12 +129,28 @@ namespace GeneratedCSharp
 
             string canonicalName = NameHelper.ToCanonical(name);
 
+            if (String.Equals(canonicalName, "", StringComparison.Ordinal))
+            {
+                __e_0 = value;
+            }
+
         }
 
         public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)
         {
             base.SetValue(dimensionEnum, listIndex, value);
 
+            switch (dimensionEnum)
+            {
+                case DimensionEnum.Channel:
+                    _channel_a_0 = value;
+                    break;
+
+                case DimensionEnum.Undefined:
+                    __e_0 = value;
+                    break;
+
+            }
 
         }
 
@@ -123,6 +159,11 @@ namespace GeneratedCSharp
             base.SetValue(name, listIndex, value);
 
             string canonicalName = NameHelper.ToCanonical(name);
+
+            if (String.Equals(canonicalName, "", StringComparison.Ordinal))
+            {
+                __e_0 = value;
+            }
 
 
         }

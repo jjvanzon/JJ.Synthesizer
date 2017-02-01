@@ -568,7 +568,7 @@ namespace JJ.Business.Synthesizer
                     return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
 
                 case CalculationEngineConfigurationEnum.ExampleGeneratedCode:
-                    return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<int, double[]>(), new Dictionary<int, double>());
+                    return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<string, double[]>(), new Dictionary<string, double>());
 
                 default:
                     throw new ValueNotSupportedException(_calculationEngineConfigurationEnum);
