@@ -918,32 +918,19 @@ namespace JJ.Business.Synthesizer.Roslyn
             string position = GeneratePositionNameCamelCase(dto);
             string rate = GetSampleOperatorRate(dto.Frequency);
 
+            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
+            ICalculatorWithPosition calculator1 = calculators[0];
+            ICalculatorWithPosition calculator2 = calculators[1];
+            string calculatorName1 = GenerateCalculatorVariableNameCamelCaseAndCache(calculator1);
+            string calculatorName2 = GenerateCalculatorVariableNameCamelCaseAndCache(calculator2);
+
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {phase} = {position} * {rate};");
             _sb.AppendLine($"double {output} =");
-
             _sb.Indent();
             {
-                IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-                foreach (ICalculatorWithPosition calculator in calculators)
-                {
-                    string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
-
-                    _sb.AppendTabs();
-                    _sb.Append($"{calculatorName}.Calculate({phase})");
-
-                    bool isLast = calculator != calculators.Last();
-                    if (isLast)
-                    {
-                        _sb.Append(" +");
-                    }
-                    else
-                    {
-                        _sb.Append(";");
-                    }
-
-                    _sb.AppendLine();
-                }
+                _sb.AppendLine($"{calculatorName1}.Calculate({phase}) +");
+                _sb.AppendLine($"{calculatorName2}.Calculate({phase});");
                 _sb.Unindent();
             }
             _sb.AppendLine();
