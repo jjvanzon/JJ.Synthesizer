@@ -450,9 +450,9 @@
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_Stripe.cs" />
-    <Compile Include="Calculation\SampleCalculatorHelper.cs" />
+    <Compile Include="Calculation\SampleReader.cs" />
     <Compile Include="Calculation\InterpretedCurveCalculator.cs" />
-    <Compile Include="Calculation\SampleCalculatorFactory.cs" />
+    <Compile Include="Calculation\SampleArrayCalculatorFactory.cs" />
     <Compile Include="Calculation\SineCalculator.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
@@ -1003,10 +1003,7 @@
     <Content Include="CopiedCode\FromFramework\README.TXT" />
     <Content Include="CopiedCode\FromNAudio\README.TXT" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Calculation\2017-01-31 Backup of Samples\" />
-    <Folder Include="Calculation\Curves\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

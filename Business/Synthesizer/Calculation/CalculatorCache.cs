@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Calculation
                 // ReSharper disable once InvertIf
                 if (!_sample_To_Calculators_Dictionary.TryGetValue(sampleInfo.Sample, out calculators))
                 {
-                    calculators = SampleCalculatorFactory.CreateSampleCalculators(sampleInfo.Sample, sampleInfo.Bytes);
+                    calculators = SampleArrayCalculatorFactory.CreateSampleCalculators(sampleInfo.Sample, sampleInfo.Bytes);
                     _sample_To_Calculators_Dictionary.Add(sampleInfo.Sample, calculators);
                 }
 

@@ -154,7 +154,7 @@ namespace JJ.Business.Synthesizer
         /// <summary> Returns a calculator for each channel. </summary>
         public IList<ICalculatorWithPosition> CreateCalculators(Sample sample, byte[] bytes)
         {
-            return SampleCalculatorFactory.CreateSampleCalculators(sample, bytes);
+            return SampleArrayCalculatorFactory.CreateSampleCalculators(sample, bytes);
         }
 
         // Private Methods

@@ -10,7 +10,7 @@ using JJ.Framework.IO;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-    internal class SampleCalculatorHelper
+    internal class SampleReader
     {
         private const double BYTE_VALUE_DIVIDER = 128.0;
         private const double INT16_VALUE_DIVIDER = -short.MinValue;

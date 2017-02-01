@@ -1,0 +1,101 @@
+using System;
+using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Enums;
+
+namespace GeneratedCSharp
+{
+    public class GeneratedPatchCalculator : PatchCalculatorBase
+    {
+        // Fields
+
+        private double _origin0;
+        private double _origin1;
+
+        // Constructor
+
+        public GeneratedPatchCalculator(int samplingRate, int channelCount, int channelIndex)
+            : base(samplingRate, channelCount, channelIndex)
+        {
+            Reset(time: 0.0);
+        }
+
+        // Calculate
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override void Calculate(float[] buffer, int frameCount, double startTime)
+        {
+            double frameDuration = _frameDuration;
+            int channelCount = _channelCount;
+            int channelIndex = _channelIndex;
+            int valueCount = frameCount * channelCount;
+
+            double origin0 = _origin0;
+            double origin1 = _origin1;
+
+            double pos0 = startTime;
+            double pos1;
+
+            // Writes values in an interleaved way to the buffer.
+            for (int i = channelIndex; i < valueCount; i += channelCount)
+            {
+                // SawUp
+                double sawUp0 = (pos0 - origin0) * 1.0E0;
+                sawUp0 = -1.0 + (2.0 * sawUp0 % 2.0);
+
+                // Add
+                double add0 = 2.0E0 + sawUp0;
+
+                // Shift
+                pos1 = pos0 + add0;
+
+                // Sine
+                double sine0 = (pos1 - origin1) * 4.4E2;
+                sine0 = SineCalculator.Sin(sine0);
+
+                // Accumulate
+                double value = sine0;
+
+                if (double.IsNaN(value)) // winmm will trip over NaN.
+                {
+                    value = 0;
+                }
+
+                float floatValue = (float)value; // TODO: This seems unsafe. What happens if the cast is invalid?
+
+                PatchCalculatorHelper.InterlockedAdd(ref buffer[i], floatValue);
+
+                pos0 += frameDuration;
+            }
+
+            _origin0 = origin0;
+            _origin1 = origin1;
+        }
+
+        // Values
+
+        public override double GetValue(int listIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetValue(int listIndex, double value)
+        {
+            base.SetValue(listIndex, value);
+
+            }
+
+            public override void SetValue(DimensionEnum dimensionEnum, double value)
+            {
+                base.SetValue(dimensionEnum, value);
+
+                }
+
+                // Reset
+
+                public override void Reset(double time)
+                {
+                }
+            }
+        }

@@ -8,12 +8,11 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-
 // ReSharper disable CoVariantArrayConversion
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-    internal static class SampleCalculatorFactory
+    internal static class SampleArrayCalculatorFactory
     {
         /// <param name="bytes">nullable</param>
         public static IList<ICalculatorWithPosition> CreateSampleCalculators(Sample sample, byte[] bytes)
@@ -33,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation
             SpeakerSetupEnum speakerSetupEnum = sample.GetSpeakerSetupEnum();
             double rate = sample.SamplingRate / sample.TimeMultiplier;
 
-            double[][] samples = SampleCalculatorHelper.ReadSamples(sample, bytes);
+            double[][] samples = SampleReader.ReadSamples(sample, bytes);
 
             IList<ICalculatorWithPosition> arrayCalculators = null;
 
