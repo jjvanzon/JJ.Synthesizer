@@ -602,22 +602,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             double phase = position * _rate;
 
-            //double value = _underlyingCalculators[channelIndex].Calculate(phase);
-            //return value;
-            double value;
-            switch (channelIndex)
-            {
-                case 0:
-                    value = _underlyingCalculators[0].Calculate(phase);
-                    return value;
+            double value = _underlyingCalculators[channelIndex].Calculate(phase);
+            return value;
+            //double value;
+            //switch (channelIndex)
+            //{
+            //    case 0:
+            //        value = _underlyingCalculators[0].Calculate(phase);
+            //        return value;
 
-                case 1:
-                    value = _underlyingCalculators[1].Calculate(phase);
-                    return value;
+            //    case 1:
+            //        value = _underlyingCalculators[1].Calculate(phase);
+            //        return value;
 
-                default:
-                    return 0.0;
-            }
+            //    default:
+            //        return 0.0;
+            //}
         }
     }
 
@@ -792,12 +792,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-
             double phase = position * _rate;
 
-            double value0 = _underlyingCalculators[0].Calculate(phase);
-            double value1 = _underlyingCalculators[1].Calculate(phase);
-            return value0 + value1;
+            double value = 
+                _underlyingCalculators[0].Calculate(phase) +
+                _underlyingCalculators[1].Calculate(phase);
+
+            return value;
         }
     }
 }

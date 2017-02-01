@@ -471,7 +471,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string offset = GetOffsetNumberLiteral(dto.OperatorID);
 
             ICalculatorWithPosition calculator = _calculatorCache.GetNoiseUnderlyingArrayCalculator(dto.OperatorID);
-            string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
+            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {output} = {calculatorName}.Calculate({position} + {offset});");
@@ -829,13 +829,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
         {
-            string rate = GetRate(dto);
+            string rate = GetSampleOperatorRate(dto.Frequency);
             string position = GeneratePositionNameCamelCase(dto);
             string phase = GenerateLocalPhaseName();
             string output = GenerateLocalUniqueVariableName(dto);
 
             ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
-            string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
+            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {phase} = {position} * {rate};");
@@ -849,14 +849,14 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
         {
-            string rate = GetRate(dto);
+            string rate = GetSampleOperatorRate(dto.Frequency);
             string position = GeneratePositionNameCamelCase(dto);
             string origin = GenerateLongLivedOriginName();
             string phase = GenerateLocalPhaseName();
             string output = GenerateLocalUniqueVariableName(dto);
 
             ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
-            string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
+            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
@@ -876,7 +876,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string output = GenerateLocalUniqueVariableName(dto);
             string phase = GenerateLocalPhaseName();
             string position = GeneratePositionNameCamelCase(dto);
-            string rate = GetRate(dto);
+            string rate = GetSampleOperatorRate(dto.Frequency);
 
             IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
 
@@ -891,7 +891,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 for (int i = 0; i < calculators.Count; i++)
                 {
                     ICalculatorWithPosition calculator = calculators[i];
-                    string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
+                    string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
                     _sb.AppendLine($"case {i}:");
                     _sb.Indent();
@@ -913,7 +913,42 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
         {
-            throw new NotImplementedException();
+            string output = GenerateLocalUniqueVariableName(dto);
+            string phase = GenerateLocalPhaseName();
+            string position = GeneratePositionNameCamelCase(dto);
+            string rate = GetSampleOperatorRate(dto.Frequency);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {phase} = {position} * {rate};");
+            _sb.AppendLine($"double {output} =");
+
+            _sb.Indent();
+            {
+                IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
+                for (int i = 0; i < calculators.Count; i++)
+                {
+                    ICalculatorWithPosition calculator = calculators[i];
+                    string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+
+                    _sb.Append($"{calculatorName}[{i}].Calculate({phase})");
+
+                    bool isLast = calculator != calculators.Last();
+                    if (isLast)
+                    {
+                        _sb.Append(" +");
+                    }
+                    else
+                    {
+                        _sb.Append(";");
+                    }
+                }
+                _sb.Unindent();
+            }
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
@@ -1897,7 +1932,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string output = GenerateLocalUniqueVariableName(dto);
             string position = GeneratePositionNameCamelCase(dto);
             ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-            string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
+            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {output} = {calculatorName}.Calculate({position});");
@@ -1914,7 +1949,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string output = GenerateLocalUniqueVariableName(dto);
 
             ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-            string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
+            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {phase} = {position} - {origin};");
@@ -2543,7 +2578,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return convertedName;
         }
 
-        private string CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(ICalculatorWithPosition calculator)
+        private string GenerateCalculatorVariableNameCamelCaseAndCache(ICalculatorWithPosition calculator)
         {
             CalculatorVariableInfo variableInfo;
             // ReSharper disable once InvertIf
@@ -2791,9 +2826,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             return offsetNumberLiteral;
         }
 
-        private static string GetRate(OperatorDtoBase_ConstFrequency dto)
+        private static string GetSampleOperatorRate(double frequency)
         {
-            double rateDouble = dto.Frequency / SAMPLE_BASE_FREQUENCY;
+            double rateDouble = frequency / SAMPLE_BASE_FREQUENCY;
             string rate = CompilationHelper.FormatValue(rateDouble);
             return rate;
         }
