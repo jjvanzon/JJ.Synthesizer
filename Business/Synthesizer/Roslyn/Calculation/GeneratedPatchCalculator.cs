@@ -57,17 +57,14 @@ namespace GeneratedCSharp
             for (int i = 0; i < valueCount; i += 1)
             {
                 // Sample
+                int channel_1 = (int)channel_a_0;
+                double phase_3 = _e_0 * 1.0E0;
                 double sample_2 = 0.0;
-                if (ConversionHelper.CanCastToInt32(channel_a_0))
+                switch (channel_1)
                 {
-                    int channel_1 = (int)channel_a_0;
-                    double phase_3 = _e_0 * 1.0E0;
-                    switch (channel_1)
-                    {
-                        case 0:
-                            sample_2 = arraycalculator_5.Calculate(phase_3);
-                            break;
-                    }
+                    case 0:
+                        sample_2 = arraycalculator_5.Calculate(phase_3);
+                        break;
                 }
 
                 // Accumulate

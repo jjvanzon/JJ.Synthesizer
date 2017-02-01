@@ -873,8 +873,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            const string conversionHelper = nameof(ConversionHelper);
-            const string canCastToInt32 = nameof(ConversionHelper.CanCastToInt32);
             const int channnelDimensionStackLevel = 0; // TODO: This information should be in the DTO.
             string channelIndexDouble = GeneratePositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
             string channelIndex = GenerateLocalUniqueVariableName(DimensionEnum.Channel);
@@ -887,34 +885,26 @@ namespace JJ.Business.Synthesizer.Roslyn
             IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"int {channelIndex} = (int){channelIndexDouble};");
+            _sb.AppendLine($"double {phase} = {position} * {rate};");
             _sb.AppendLine($"double {output} = 0.0;");
-            _sb.AppendLine($"if ({conversionHelper}.{canCastToInt32}({channelIndexDouble}))");
+            _sb.AppendLine($"switch ({channelIndex})");
             _sb.AppendLine("{");
             _sb.Indent();
             {
-                _sb.AppendLine($"int {channelIndex} = (int){channelIndexDouble};");
-                _sb.AppendLine($"double {phase} = {position} * {rate};");
-
-                _sb.AppendLine($"switch ({channelIndex})");
-                _sb.AppendLine("{");
-                _sb.Indent();
+                for (int i = 0; i < calculators.Count; i++)
                 {
-                    for (int i = 0; i < calculators.Count; i++)
-                    {
-                        ICalculatorWithPosition calculator = calculators[i];
-                        string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
+                    ICalculatorWithPosition calculator = calculators[i];
+                    string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
 
-                        _sb.AppendLine($"case {i}:");
-                        _sb.Indent();
-                        {
-                            _sb.AppendLine($"{output} = {calculatorName}.Calculate({phase});");
-                            _sb.AppendLine("break;");
-                            _sb.Unindent();
-                        }
+                    _sb.AppendLine($"case {i}:");
+                    _sb.Indent();
+                    {
+                        _sb.AppendLine($"{output} = {calculatorName}.Calculate({phase});");
+                        _sb.AppendLine("break;");
+                        _sb.Unindent();
                     }
-                    _sb.Unindent();
                 }
-                _sb.AppendLine("}");
                 _sb.Unindent();
             }
             _sb.AppendLine("}");
