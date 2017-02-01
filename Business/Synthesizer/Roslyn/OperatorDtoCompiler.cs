@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -42,6 +43,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Line)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPositionZero_Line)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_RotatePosition_Block)}.cs",
+            $"Helpers\\{nameof(ConversionHelper)}.cs",
             $"Calculation\\Patches\\{nameof(PatchCalculatorHelper)}.cs",
             $"CopiedCode\\FromFramework\\{nameof(MathHelper)}.cs");
 

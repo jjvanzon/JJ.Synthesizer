@@ -64,6 +64,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             sb.AppendLine("using " + typeof(NameHelper).Namespace + ";");
             sb.AppendLine("using " + typeof(MathHelper).Namespace + ";");
             sb.AppendLine("using " + typeof(ArrayCalculatorBase).Namespace + ";");
+            sb.AppendLine("using " + typeof(ConversionHelper).Namespace + ";");
             sb.AppendLine();
             sb.AppendLine($"namespace {generatedNameSpace}");
             sb.AppendLine("{");

@@ -602,9 +602,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
             double phase = position * _rate;
 
-            double value = _underlyingCalculators[channelIndex].Calculate(phase);
+            //double value = _underlyingCalculators[channelIndex].Calculate(phase);
+            //return value;
+            double value;
+            switch (channelIndex)
+            {
+                case 0:
+                    value = _underlyingCalculators[0].Calculate(phase);
+                    return value;
 
-            return value;
+                case 1:
+                    value = _underlyingCalculators[1].Calculate(phase);
+                    return value;
+
+                default:
+                    return 0.0;
+            }
         }
     }
 
