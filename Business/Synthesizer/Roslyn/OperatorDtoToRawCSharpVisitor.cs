@@ -51,10 +51,12 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// <summary> {0} = phase </summary>
         private const string SQUARE_FORMULA_FORMAT = "{0} % 1.0 < 0.5 ? 1.0 : -1.0";
 
+        private const double SAMPLE_BASE_FREQUENCY = 440.0;
+
         private readonly int _indentLevel;
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
-        private readonly IOperatorRepository _operatorRepository;
+        private readonly ISampleRepository _sampleRepository;
 
         private Stack<string> _stack;
         private StringBuilderWithIndentation _sb;
@@ -82,23 +84,23 @@ namespace JJ.Business.Synthesizer.Roslyn
         private Dictionary<Tuple<DimensionEnum, string>, string> _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary;
 
         // Information about Satellite Calculators
-        private Dictionary<int, CalculatorVariableInfo> _entityID_To_CalculatorVariableInfo_Dictionary;
+        private Dictionary<ICalculatorWithPosition, CalculatorVariableInfo> _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary;
         private Dictionary<int, string> _noiseOperatorID_To_OffsetNumberLiteral_Dictionary;
 
         public OperatorDtoToRawCSharpVisitor(
             int indentLevel, 
             CalculatorCache calculatorCache, 
             ICurveRepository curveRepository, 
-            IOperatorRepository operatorRepository)
+            ISampleRepository sampleRepository)
         {
             if (calculatorCache == null) throw new NullException(() => calculatorCache);
             if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             _indentLevel = indentLevel;
             _calculatorCache = calculatorCache;
             _curveRepository = curveRepository;
-            _operatorRepository = operatorRepository;
+            _sampleRepository = sampleRepository;
         }
 
         public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto)
@@ -113,7 +115,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<Tuple<DimensionEnum, string>, string>();
             _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
-            _entityID_To_CalculatorVariableInfo_Dictionary = new Dictionary<int, CalculatorVariableInfo>();
+            _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary = new Dictionary<ICalculatorWithPosition, CalculatorVariableInfo>();
             _noiseOperatorID_To_OffsetNumberLiteral_Dictionary = new Dictionary<int, string>();
             _counter = 0;
 
@@ -152,7 +154,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 longLivedDimensionVariableInfos,
                 localDimensionVariableNamesCamelCase,
                 _longLivedMiscVariableNamesCamelCase,
-                _entityID_To_CalculatorVariableInfo_Dictionary.Values.ToArray());
+                _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary.Values.ToArray());
         }
 
         [DebuggerHidden]
@@ -467,12 +469,14 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override OperatorDtoBase Visit_Noise_OperatorDto(Noise_OperatorDto dto)
         {
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
-            string calculatorNameCamelCase = GenerateCalculatorVariableNameCamelCase(dto.OperatorID);
             string position = GeneratePositionNameCamelCase(dto);
             string offset = GetOffsetNumberLiteral(dto.OperatorID);
 
+            ICalculatorWithPosition calculator = _calculatorCache.GetNoiseUnderlyingArrayCalculator(dto.OperatorID);
+            string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
+
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
-            _sb.AppendLine($"double {output} = {calculatorNameCamelCase}.Calculate({position} + {offset});");
+            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({position} + {offset});");
             _sb.AppendLine();
 
             _stack.Push(output);
@@ -823,6 +827,99 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_ZeroOffset(Round_OperatorDto_VarSignal_VarStep_ZeroOffset dto)
         {
             return ProcessRoundZeroOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto);
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
+        {
+            double rateDouble = dto.Frequency / SAMPLE_BASE_FREQUENCY;
+            string rate = CompilationHelper.FormatValue(rateDouble);
+            string position = GeneratePositionNameCamelCase(dto);
+            string phase = GenerateUniqueVariableName(PHASE_MNEMONIC);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+
+            ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
+            string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {phase} = {position} * {rate};");
+            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase};");
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
+        {
+            double rateDouble = dto.Frequency / SAMPLE_BASE_FREQUENCY;
+            string rate = CompilationHelper.FormatValue(rateDouble);
+            string position = GeneratePositionNameCamelCase(dto);
+            string origin = GenerateLongLivedOriginName();
+            string phase = GenerateUniqueVariableName(PHASE_MNEMONIC);
+            string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+
+            ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
+            string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
+
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
+            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
+            _sb.AppendLine();
+
+            _stack.Push(output);
+
+            return dto;
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_NoPhaseTracking(Sample_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(Sample_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        {
+            throw new NotImplementedException();
         }
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -1663,66 +1760,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_NoPhaseTracking(Sample_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(Sample_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
@@ -1824,11 +1861,12 @@ namespace JJ.Business.Synthesizer.Roslyn
         private OperatorDtoBase ProcessCurve_NoOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
         {
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
-            string calculatorNameCamelCase = GenerateCalculatorVariableNameCamelCase(dto.CurveID);
             string position = GeneratePositionNameCamelCase(dto);
+            ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+            string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
-            _sb.AppendLine($"double {output} = {calculatorNameCamelCase}.Calculate({position});");
+            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({position});");
             _sb.AppendLine();
 
             return dto;
@@ -1839,12 +1877,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             string phase = GenerateUniqueVariableName(PHASE_MNEMONIC);
             string position = GeneratePositionNameCamelCase(dto);
             string origin = GenerateLongLivedOriginName();
-            string calculatorNameCamelCase = GenerateCalculatorVariableNameCamelCase(dto.CurveID);
             string output = GenerateUniqueVariableName(dto.OperatorTypeEnum);
+
+            ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+            string calculatorName = CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(calculator);
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {phase} = {position} - {origin};");
-            _sb.AppendLine($"double {output} = {calculatorNameCamelCase}.Calculate({phase});");
+            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase});");
             _sb.AppendLine();
 
             _stack.Push(output);
@@ -2469,47 +2509,27 @@ namespace JJ.Business.Synthesizer.Roslyn
             return convertedName;
         }
 
-        private string GenerateCalculatorVariableNameCamelCase(int entityID)
+        private string CacheCalculatorAndGenerateCalculatorVariableNameCamelCase(ICalculatorWithPosition calculator)
         {
             CalculatorVariableInfo variableInfo;
             // ReSharper disable once InvertIf
-            if (!_entityID_To_CalculatorVariableInfo_Dictionary.TryGetValue(entityID, out variableInfo))
+            if (!_calculatorWithPosition_To_CalculatorVariableInfo_Dictionary.TryGetValue(calculator, out variableInfo))
             {
-                ICalculatorWithPosition calculator = GetCalculator(entityID);
                 string typeName = calculator.GetType().Name;
-                string nameCamelCase = GenerateUniqueVariableName(ARRAY_CALCULATOR_MNEMONIC + entityID);
+                string nameCamelCase = GenerateUniqueVariableName(ARRAY_CALCULATOR_MNEMONIC);
 
                 variableInfo = new CalculatorVariableInfo
                 {
-                    EntityID = entityID,
                     NameCamelCase = nameCamelCase,
                     TypeName = typeName,
                     // DIRTY: Type assumption
                     Calculator = (ArrayCalculatorBase)calculator
                 };
 
-                _entityID_To_CalculatorVariableInfo_Dictionary[entityID] = variableInfo;
+                _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary[calculator] = variableInfo;
             }
 
             return variableInfo.NameCamelCase;
-        }
-
-        private ICalculatorWithPosition GetCalculator(int entityID)
-        {
-            Curve curve = _curveRepository.TryGet(entityID);
-            if (curve != null)
-            {
-                return _calculatorCache.GetCurveCalculator(curve);
-            }
-
-            Operator op = _operatorRepository.TryGet(entityID);
-            OperatorTypeEnum? operatorTypeEnum = op?.GetOperatorTypeEnum();
-            if (operatorTypeEnum == OperatorTypeEnum.Noise)
-            {
-                return _calculatorCache.GetNoiseUnderlyingArrayCalculator(op.ID);
-            }
-
-            throw new Exception($"Calculator type could not be determined for {new { entityID }}.");
         }
 
         private ExtendedVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)

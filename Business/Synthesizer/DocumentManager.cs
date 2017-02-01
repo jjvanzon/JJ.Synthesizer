@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer
         {
             if (document == null) throw new NullException(() => document);
 
-            IValidator validator = new DocumentValidator_Delete(document, _repositories.PatchRepository);
+            IValidator validator = new DocumentValidator_Delete(document);
 
             if (!validator.IsValid)
             {

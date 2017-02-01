@@ -23,24 +23,24 @@ namespace JJ.Business.Synthesizer.Roslyn
         private readonly int _channelIndex;
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
-        private readonly IOperatorRepository _operatorRepository;
+        private readonly ISampleRepository _sampleRepository;
 
         public OperatorDtoToPatchCalculatorCSharpGenerator(
             int channelCount, 
             int channelIndex, 
             CalculatorCache calculatorCache, 
-            ICurveRepository curveRepository, 
-            IOperatorRepository operatorRepository)
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository)
         {
             if (calculatorCache == null) throw new NullException(() => calculatorCache);
             if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             _channelCount = channelCount;
             _channelIndex = channelIndex;
             _calculatorCache = calculatorCache;
             _curveRepository = curveRepository;
-            _operatorRepository = operatorRepository;
+            _sampleRepository = sampleRepository;
         }
 
         public OperatorDtoToPatchCalculatorCSharpGeneratorResult Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName)
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             if (string.IsNullOrEmpty(generatedClassName)) throw new NullOrEmptyException(() => generatedClassName);
 
             // Build up Method Body
-            var visitor = new OperatorDtoToRawCSharpVisitor(RAW_CALCULATION_INDENT_LEVEL, _calculatorCache, _curveRepository, _operatorRepository);
+            var visitor = new OperatorDtoToRawCSharpVisitor(RAW_CALCULATION_INDENT_LEVEL, _calculatorCache, _curveRepository, _sampleRepository);
             OperatorDtoToCSharpVisitorResult visitorResult = visitor.Execute(dto);
 
             // Build up Code File
@@ -158,8 +158,8 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine("int samplingRate,");
                 sb.AppendLine("int channelCount,");
                 sb.AppendLine("int channelIndex,");
-                sb.AppendLine("Dictionary<int, double[]> arrays,");
-                sb.AppendLine("Dictionary<int, double> arrayRates");
+                sb.AppendLine("Dictionary<string, double[]> arrays,");
+                sb.AppendLine("Dictionary<string, double> arrayRates");
                 sb.AppendLine(")");
                 sb.Unindent();
             }
@@ -184,11 +184,10 @@ namespace JJ.Business.Synthesizer.Roslyn
                 {
                     foreach (CalculatorVariableInfo variableInfo in visitorResult.CalculatorVariableInfos)
                     {
-                        var id = variableInfo.EntityID;
                         string type = variableInfo.TypeName;
                         string nameCamelCase = variableInfo.NameCamelCase;
 
-                        sb.AppendLine($"_{nameCamelCase} = new {type}(arrays[{id}], arrayRates[{id}]);");
+                        sb.AppendLine($"_{nameCamelCase} = new {type}(arrays[\"{nameCamelCase}\"], arrayRates[\"{nameCamelCase}\"]);");
                     }
                     sb.AppendLine();
                 }

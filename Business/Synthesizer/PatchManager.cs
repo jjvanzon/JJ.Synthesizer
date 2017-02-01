@@ -521,7 +521,7 @@ namespace JJ.Business.Synthesizer
             {
                 SubstituteSineForUnfilledInSignalPatchInlets();
             }
-            
+
             IPatchCalculator patchCalculator;
             switch (_calculationEngineConfigurationEnum)
             {
@@ -541,14 +541,26 @@ namespace JJ.Business.Synthesizer
                     break;
 
                 case CalculationEngineConfigurationEnum.RoslynRuntimeCompilation:
-                    var entityToDtoVisitor = new OperatorEntityToDtoVisitor(_repositories.CurveRepository, _repositories.PatchRepository, _repositories.SampleRepository, _repositories.SpeakerSetupRepository);
+                    var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
+                        _repositories.CurveRepository,
+                        _repositories.PatchRepository,
+                        _repositories.SampleRepository,
+                        _repositories.SpeakerSetupRepository);
                     OperatorDtoBase dto = entityToDtoVisitor.Execute(outlet);
 
                     var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
                     dto = preProcessingVisitor.Execute(dto);
 
                     var compiler = new OperatorDtoCompiler();
-                    patchCalculator = compiler.CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex, calculatorCache, _repositories.CurveRepository, _repositories.OperatorRepository);
+                    patchCalculator = compiler.CompileToPatchCalculator(
+                        dto,
+                        samplingRate,
+                        channelCount,
+                        channelIndex,
+                        calculatorCache,
+                        _repositories.CurveRepository,
+                        _repositories.OperatorRepository,
+                        _repositories.SampleRepository);
 
                     break;
 

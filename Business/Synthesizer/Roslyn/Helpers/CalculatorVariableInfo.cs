@@ -4,7 +4,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
     internal class CalculatorVariableInfo
     {
-        public int EntityID { get; set; }
         public string NameCamelCase { get; set; }
         public string TypeName { get; set; }
         public ArrayCalculatorBase Calculator { get; set; }

@@ -60,18 +60,19 @@ namespace JJ.Business.Synthesizer.Roslyn
             int channelIndex, 
             CalculatorCache calculatorCache, 
             ICurveRepository curveRepository,
-            IOperatorRepository operatorRepository)
+            IOperatorRepository operatorRepository,
+            ISampleRepository sampleRepository)
         {
             if (dto == null) throw new NullException(() => dto);
 
             var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
             dto = preProcessingVisitor.Execute(dto);
 
-            var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex, calculatorCache, curveRepository, operatorRepository);
+            var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex, calculatorCache, curveRepository, sampleRepository);
             OperatorDtoToPatchCalculatorCSharpGeneratorResult codeGeneratorResult = codeGenerator.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
-            Dictionary<int, double[]> arrays = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.EntityID, x => x.Calculator._array);
-            Dictionary<int, double> arrayRates = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.EntityID, x => x.Calculator._rate);
+            Dictionary<string, double[]> arrays = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._array);
+            Dictionary<string, double> arrayRates = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._rate);
 
             Type type = Compile(codeGeneratorResult.GeneratedCode);
             var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex, arrays, arrayRates);
