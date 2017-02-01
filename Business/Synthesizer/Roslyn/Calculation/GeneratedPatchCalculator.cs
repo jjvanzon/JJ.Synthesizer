@@ -56,17 +56,12 @@ namespace GeneratedCSharp
 
             for (int i = 0; i < valueCount; i += 1)
             {
-
-
-
-
                 // Sample
                 double sample_2 = 0.0;
-                if (ConversionHelper.CanCastToNonNegativeInt32WithMax(channel_a_0, 0.0E0))
+                if (ConversionHelper.CanCastToInt32(channel_a_0))
                 {
                     int channel_1 = (int)channel_a_0;
                     double phase_3 = _e_0 * 1.0E0;
-
                     switch (channel_1)
                     {
                         case 0:
@@ -74,10 +69,6 @@ namespace GeneratedCSharp
                             break;
                     }
                 }
-
-
-
-
 
                 // Accumulate
                 double value = sample_2;

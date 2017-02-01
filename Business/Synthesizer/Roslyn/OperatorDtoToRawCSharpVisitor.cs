@@ -874,7 +874,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             const string conversionHelper = nameof(ConversionHelper);
-            const string canCastToNonNegativeInt32WithMax = nameof(ConversionHelper.CanCastToNonNegativeInt32WithMax);
+            const string canCastToInt32 = nameof(ConversionHelper.CanCastToInt32);
             const int channnelDimensionStackLevel = 0; // TODO: This information should be in the DTO.
             string channelIndexDouble = GeneratePositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
             string channelIndex = GenerateLocalUniqueVariableName(DimensionEnum.Channel);
@@ -888,7 +888,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             _sb.AppendLine($"// {dto.OperatorTypeEnum}");
             _sb.AppendLine($"double {output} = 0.0;");
-            _sb.AppendLine($"if ({conversionHelper}.{canCastToNonNegativeInt32WithMax}({channelIndexDouble}, {maxChannelIndex}))");
+            _sb.AppendLine($"if ({conversionHelper}.{canCastToInt32}({channelIndexDouble}))");
             _sb.AppendLine("{");
             _sb.Indent();
             {
