@@ -925,12 +925,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             _sb.Indent();
             {
                 IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-                for (int i = 0; i < calculators.Count; i++)
+                foreach (ICalculatorWithPosition calculator in calculators)
                 {
-                    ICalculatorWithPosition calculator = calculators[i];
                     string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
-                    _sb.Append($"{calculatorName}[{i}].Calculate({phase})");
+                    _sb.AppendTabs();
+                    _sb.Append($"{calculatorName}.Calculate({phase})");
 
                     bool isLast = calculator != calculators.Last();
                     if (isLast)
@@ -941,6 +941,8 @@ namespace JJ.Business.Synthesizer.Roslyn
                     {
                         _sb.Append(";");
                     }
+
+                    _sb.AppendLine();
                 }
                 _sb.Unindent();
             }
