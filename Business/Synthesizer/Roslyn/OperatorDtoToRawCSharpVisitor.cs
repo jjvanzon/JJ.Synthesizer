@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,11 +6,9 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
@@ -876,7 +873,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             const int channnelDimensionStackLevel = 0; // TODO: This information should be in the DTO.
             string channelIndexDouble = GeneratePositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
             string channelIndex = GenerateLocalUniqueVariableName(DimensionEnum.Channel);
-            string maxChannelIndex = GetMaxChannelCount(dto);
             string output = GenerateLocalUniqueVariableName(dto);
             string phase = GenerateLocalPhaseName();
             string position = GeneratePositionNameCamelCase(dto);
@@ -2778,11 +2774,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             {
                 return CompilationHelper.FormatValue(value.Value);
             }
-        }
-
-        private static string GetMaxChannelCount(ISample_OperatorDto_WithSampleID dto)
-        {
-            return CompilationHelper.FormatValue(dto.ChannelCount - 1);
         }
 
         private string GetOffsetNumberLiteral(int noiseOperatorID)
