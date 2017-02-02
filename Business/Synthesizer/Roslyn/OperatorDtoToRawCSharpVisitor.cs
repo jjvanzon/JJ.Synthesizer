@@ -830,16 +830,17 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
         {
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-
             // Title
             WriteOperatorTitleComment(dto);
+
+            // Rate
+            string frequency = CompilationHelper.FormatValue(dto.Frequency);
+            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
 
             // Phase
             string position = GeneratePositionNameCamelCase(dto);
             string phase = GenerateLocalPhaseName();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
             _sb.AppendLine($"double {phase} = {position} * {rate};");
 
             return GenerateSampleMonoToStereoEnd(dto, phase);
@@ -847,17 +848,18 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
         {
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-
             // Title
             WriteOperatorTitleComment(dto);
+
+            // Rate 
+            string frequency = CompilationHelper.FormatValue(dto.Frequency);
+            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
 
             // Phase
             string position = GeneratePositionNameCamelCase(dto);
             string origin = GenerateLongLivedOriginName();
             string phase = GenerateLocalPhaseName();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
             _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
 
             return GenerateSampleMonoToStereoEnd(dto, phase);
@@ -865,16 +867,17 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-
             // Title
             WriteOperatorTitleComment(dto);
+
+            // Rate
+            string frequency = CompilationHelper.FormatValue(dto.Frequency);
+            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
 
             // Phase
             string phase = GenerateLocalPhaseName();
             string position = GeneratePositionNameCamelCase(dto);
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
             _sb.AppendLine($"double {phase} = {position} * {rate};");
 
             // End
@@ -883,16 +886,17 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
         {
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-
             // Title
             WriteOperatorTitleComment(dto);
+
+            // Rate 
+            string frequency = CompilationHelper.FormatValue(dto.Frequency);
+            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
 
             // Phase
             string phase = GenerateLocalPhaseName();
             string position = GeneratePositionNameCamelCase(dto);
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
             _sb.AppendLine($"double {phase} = {position} * {rate};");
 
             return GenerateSampleStereoToMonoEnd(dto, phase);
@@ -900,17 +904,18 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
         {
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-
             // Title
             WriteOperatorTitleComment(dto);
+
+            // Rate
+            string frequency = CompilationHelper.FormatValue(dto.Frequency);
+            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
 
             // Phase
             string phase = GenerateLocalPhaseName();
             string position = GeneratePositionNameCamelCase(dto);
             string origin = GenerateLongLivedOriginName();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
             _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
 
             return GenerateSampleStereoToMonoEnd(dto, phase);
@@ -918,17 +923,18 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-          
             // Title
             WriteOperatorTitleComment(dto);
+
+            // Rate
+            string frequency = CompilationHelper.FormatValue(dto.Frequency);
+            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
 
             // Phase
             string phase = GenerateLocalPhaseName();
             string position = GeneratePositionNameCamelCase(dto);
             string origin = GenerateLongLivedOriginName();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
             _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
 
             // End
@@ -937,17 +943,18 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            string frequency = _stack.Pop();
-
             // Title
             WriteOperatorTitleComment(dto);
+
+            // Rate
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
+            string frequency = _stack.Pop();
+            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
 
             // Phase
             string position = GeneratePositionNameCamelCase(dto);
             string phase = GenerateLocalPhaseName();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
             _sb.AppendLine($"double {phase} = {position} * {rate};");
 
             return GenerateSampleMonoToStereoEnd(dto, phase);
@@ -958,14 +965,16 @@ namespace JJ.Business.Synthesizer.Roslyn
             // Title
             WriteOperatorTitleComment(dto);
 
-            // Phase
+            // Rate
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
             string frequency = _stack.Pop();
             string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+
+            // Phase
             string position = GeneratePositionNameCamelCase(dto);
             string previousPosition = GenerateLongLivedPreviousPositionName();
             string phase = GenerateLongLivedPhaseName();
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
             _sb.AppendLine($"{phase} = {phase} + ({position} - {previousPosition}) * {rate};");
             _sb.AppendLine($"{previousPosition} = {position};");
 
@@ -977,13 +986,15 @@ namespace JJ.Business.Synthesizer.Roslyn
             // Title
             WriteOperatorTitleComment(dto);
 
-            // Phase
+            // Rate
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
             string frequency = _stack.Pop();
             string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY}");
+
+            // Phase
             string phase = GenerateLocalPhaseName();
             string position = GeneratePositionNameCamelCase(dto);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY}");
             _sb.AppendLine($"double {phase} = {position} * {rate};");
 
             // End
@@ -995,16 +1006,18 @@ namespace JJ.Business.Synthesizer.Roslyn
             // Title
             WriteOperatorTitleComment(dto);
 
-            // Phase
+            // Rate
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            // TODO: You could probably generalize this with the method that looks a lot like this method, except it pre-calculates the rate.
             string frequency = _stack.Pop();
-            string phase = GenerateLocalPhaseName();
             string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            string position = GeneratePositionNameCamelCase(dto);
             _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+
+            // Phase
+            string phase = GenerateLocalPhaseName();
+            string position = GeneratePositionNameCamelCase(dto);
             _sb.AppendLine($"double {phase} = {position} * {rate};");
 
+            // End
             return GenerateSampleStereoToMonoEnd(dto, phase);
         }
 
@@ -1013,17 +1026,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             // Title
             WriteOperatorTitleComment(dto);
 
-            // Phase
+            // Rate
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
             string frequency = _stack.Pop();
-            string phase = GenerateLongLivedPhaseName();
             string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+
+            // Phase
+            string phase = GenerateLongLivedPhaseName();
             string previousPosition = GenerateLongLivedPreviousPositionName();
             string position = GeneratePositionNameCamelCase(dto);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
             _sb.AppendLine($"{phase} = {phase} + ({position} - {previousPosition}) * {rate};");
             _sb.AppendLine($"{previousPosition} = {position}");
 
+            // End
             return GenerateSampleStereoToMonoEnd(dto, phase);
         }
 
@@ -1032,14 +1048,16 @@ namespace JJ.Business.Synthesizer.Roslyn
             // Title
             WriteOperatorTitleComment(dto);
 
-            // Phase
+            // Rate
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
             string frequency = _stack.Pop();
             string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+
+            // Phase
             string position = GeneratePositionNameCamelCase(dto);
             string previousPosition = GenerateLongLivedPreviousPositionName();
             string phase = GenerateLongLivedPhaseName();
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
             _sb.AppendLine($"{phase} = {phase} + ({position} - {previousPosition}) * {rate};");
             _sb.AppendLine($"{previousPosition} = {position};");
 
