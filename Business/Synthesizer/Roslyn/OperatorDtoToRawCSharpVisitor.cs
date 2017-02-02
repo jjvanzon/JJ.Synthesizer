@@ -830,317 +830,134 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            string rate = GenerateConstRateCalculation(dto);
 
-            // Phase
-            string position = GeneratePositionNameCamelCase(dto);
-            string phase = GenerateLocalPhaseName();
-            _sb.AppendLine($"double {phase} = {position} * {rate};");
+            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
             return GenerateSampleMonoToStereoEnd(dto, phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate 
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            string rate = GenerateConstRateCalculation(dto);
 
-            // Phase
-            string position = GeneratePositionNameCamelCase(dto);
-            string origin = GenerateLongLivedOriginName();
-            string phase = GenerateLocalPhaseName();
-            _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
+            string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
             return GenerateSampleMonoToStereoEnd(dto, phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            string rate = GenerateConstRateCalculation(dto);
 
-            // Phase
-            string phase = GenerateLocalPhaseName();
-            string position = GeneratePositionNameCamelCase(dto);
-            _sb.AppendLine($"double {phase} = {position} * {rate};");
+            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
-            // End
             return GenerateSampleChannelSwitchEnd(dto, phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate 
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            string rate = GenerateConstRateCalculation(dto);
 
-            // Phase
-            string phase = GenerateLocalPhaseName();
-            string position = GeneratePositionNameCamelCase(dto);
-            _sb.AppendLine($"double {phase} = {position} * {rate};");
+            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
             return GenerateSampleStereoToMonoEnd(dto, phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            string rate = GenerateConstRateCalculation(dto);
 
-            // Phase
-            string phase = GenerateLocalPhaseName();
-            string position = GeneratePositionNameCamelCase(dto);
-            string origin = GenerateLongLivedOriginName();
-            _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
+            string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
             return GenerateSampleStereoToMonoEnd(dto, phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            string rate = GenerateConstRateCalculation(dto);
 
-            // Phase
-            string phase = GenerateLocalPhaseName();
-            string position = GeneratePositionNameCamelCase(dto);
-            string origin = GenerateLongLivedOriginName();
-            _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
+            string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
-            // End
             return GenerateSampleChannelSwitchEnd(dto, phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            string frequency = _stack.Pop();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            string rate = GenerateVarRateCalculation(dto);
 
-            // Phase
-            string position = GeneratePositionNameCamelCase(dto);
-            string phase = GenerateLocalPhaseName();
-            _sb.AppendLine($"double {phase} = {position} * {rate};");
+            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
             return GenerateSampleMonoToStereoEnd(dto, phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            string frequency = _stack.Pop();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            string rate = GenerateVarRateCalculation(dto);
 
-            // Phase
-            string position = GeneratePositionNameCamelCase(dto);
-            string previousPosition = GenerateLongLivedPreviousPositionName();
-            string phase = GenerateLongLivedPhaseName();
-            _sb.AppendLine($"{phase} = {phase} + ({position} - {previousPosition}) * {rate};");
-            _sb.AppendLine($"{previousPosition} = {position};");
+            string phase = GeneratePhaseTrackingCalculation(dto, rate);
 
             return GenerateSampleMonoToStereoEnd(dto, phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_NoPhaseTracking(Sample_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            string frequency = _stack.Pop();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY}");
+            string rate = GenerateVarRateCalculation(dto);
 
-            // Phase
-            string phase = GenerateLocalPhaseName();
-            string position = GeneratePositionNameCamelCase(dto);
-            _sb.AppendLine($"double {phase} = {position} * {rate};");
+            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
-            // End
             return GenerateSampleChannelSwitchEnd(dto, phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            string frequency = _stack.Pop();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            string rate = GenerateVarRateCalculation(dto);
 
-            // Phase
-            string phase = GenerateLocalPhaseName();
-            string position = GeneratePositionNameCamelCase(dto);
-            _sb.AppendLine($"double {phase} = {position} * {rate};");
+            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
-            // End
             return GenerateSampleStereoToMonoEnd(dto, phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            string frequency = _stack.Pop();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            string rate = GenerateVarRateCalculation(dto);
 
-            // Phase
-            string phase = GenerateLongLivedPhaseName();
-            string previousPosition = GenerateLongLivedPreviousPositionName();
-            string position = GeneratePositionNameCamelCase(dto);
-            _sb.AppendLine($"{phase} = {phase} + ({position} - {previousPosition}) * {rate};");
-            _sb.AppendLine($"{previousPosition} = {position}");
+            string phase = GeneratePhaseTrackingCalculation(dto, rate);
 
-            // End
             return GenerateSampleStereoToMonoEnd(dto, phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(Sample_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            // Title
-            WriteOperatorTitleComment(dto);
+            GenerateLeadingOperatorComment(dto);
 
-            // Rate
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            string frequency = _stack.Pop();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            string rate = GenerateVarRateCalculation(dto);
 
-            // Phase
-            string position = GeneratePositionNameCamelCase(dto);
-            string previousPosition = GenerateLongLivedPreviousPositionName();
-            string phase = GenerateLongLivedPhaseName();
-            _sb.AppendLine($"{phase} = {phase} + ({position} - {previousPosition}) * {rate};");
-            _sb.AppendLine($"{previousPosition} = {position};");
+            string phase = GeneratePhaseTrackingCalculation(dto, rate);
 
-            // End
             return GenerateSampleChannelSwitchEnd(dto, phase);
-        }
-
-        private void WriteOperatorTitleComment(IOperatorDto dto)
-        {
-            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
-        }
-
-        private OperatorDtoBase GenerateSampleMonoToStereoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
-        {
-            // Array
-            string output = GenerateUniqueLocalVariableName(dto);
-            ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
-            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
-            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
-
-            // Wrap-Up
-            _sb.AppendLine();
-            _stack.Push(output);
-            return (OperatorDtoBase)dto;
-        }
-
-        private OperatorDtoBase GenerateSampleStereoToMonoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
-        {
-            // Array
-            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-            string calculatorName1 = GenerateCalculatorVariableNameCamelCaseAndCache(calculators[0]);
-            string calculatorName2 = GenerateCalculatorVariableNameCamelCaseAndCache(calculators[1]);
-            string output = GenerateUniqueLocalVariableName(dto);
-            _sb.AppendLine($"double {output} =");
-            _sb.Indent();
-            {
-                _sb.AppendLine($"{calculatorName1}.Calculate({phase}) +");
-                _sb.AppendLine($"{calculatorName2}.Calculate({phase});");
-                _sb.Unindent();
-            }
-
-            // Wrap-Up
-            _sb.AppendLine();
-            _stack.Push(output);
-            return (OperatorDtoBase)dto;
-        }
-
-        private OperatorDtoBase GenerateSampleChannelSwitchEnd(ISample_OperatorDto_WithSampleID dto, string phase)
-        {
-            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-
-            const int channnelDimensionStackLevel = 0; // TODO: This information should be in the DTO.
-            string channelIndexDouble = GeneratePositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
-            string channelIndex = GenerateUniqueLocalVariableName(DimensionEnum.Channel);
-            string output = GenerateUniqueLocalVariableName(dto);
-
-            _sb.AppendLine($"int {channelIndex} = (int){channelIndexDouble};");
-            _sb.AppendLine($"double {output} = 0.0;");
-            _sb.AppendLine($"switch ({channelIndex})");
-            _sb.AppendLine("{");
-            _sb.Indent();
-            {
-                for (int i = 0; i < calculators.Count; i++)
-                {
-                    ICalculatorWithPosition calculator = calculators[i];
-                    string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
-
-                    _sb.AppendLine($"case {i}:");
-                    _sb.Indent();
-                    {
-                        _sb.AppendLine($"{output} = {calculatorName}.Calculate({phase});");
-                        _sb.AppendLine("break;");
-                        _sb.Unindent();
-                    }
-                }
-                _sb.Unindent();
-            }
-            _sb.AppendLine("}");
-            _sb.AppendLine();
-
-            _stack.Push(output);
-
-            return (OperatorDtoBase)dto;
         }
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -2978,11 +2795,127 @@ namespace JJ.Business.Synthesizer.Roslyn
             return offsetNumberLiteral;
         }
 
-        private static string GetSampleOperatorRate(double frequency)
+        // 2017-02-02: Separated out from the sample calculation, probably more generally reusable too.
+
+        private void GenerateLeadingOperatorComment(IOperatorDto dto)
         {
-            double rateDouble = frequency / SAMPLE_BASE_FREQUENCY;
-            string rate = CompilationHelper.FormatValue(rateDouble);
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+        }
+
+        private string GenerateConstRateCalculation(OperatorDtoBase_ConstFrequency dto)
+        {
+            string rate = CompilationHelper.FormatValue(dto.Frequency / SAMPLE_BASE_FREQUENCY);
             return rate;
         }
+
+        private string GenerateVarRateCalculation(OperatorDtoBase_VarFrequency dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
+            string frequency = _stack.Pop();
+            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            return rate;
+        }
+
+        private string GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto, string rate)
+        {
+            string position = GeneratePositionNameCamelCase(dto);
+            string phase = GenerateLocalPhaseName();
+            _sb.AppendLine($"double {phase} = {position} * {rate};");
+            return phase;
+        }
+
+        private string GeneratePhaseCalculationWithOriginShifting(IOperatorDto_WithDimension dto, string rate)
+        {
+            string position = GeneratePositionNameCamelCase(dto);
+            string origin = GenerateLongLivedOriginName();
+            string phase = GenerateLocalPhaseName();
+            _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
+            return phase;
+        }
+
+        private string GeneratePhaseTrackingCalculation(IOperatorDto_WithDimension dto, string rate)
+        {
+            string position = GeneratePositionNameCamelCase(dto);
+            string previousPosition = GenerateLongLivedPreviousPositionName();
+            string phase = GenerateLongLivedPhaseName();
+            _sb.AppendLine($"{phase} = {phase} + ({position} - {previousPosition}) * {rate};");
+            _sb.AppendLine($"{previousPosition} = {position};");
+            return phase;
+        }
+
+        private OperatorDtoBase GenerateSampleMonoToStereoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        {
+            // Array
+            string output = GenerateUniqueLocalVariableName(dto);
+            ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
+            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
+
+            // Wrap-Up
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase GenerateSampleStereoToMonoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        {
+            // Array
+            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
+            string calculatorName1 = GenerateCalculatorVariableNameCamelCaseAndCache(calculators[0]);
+            string calculatorName2 = GenerateCalculatorVariableNameCamelCaseAndCache(calculators[1]);
+            string output = GenerateUniqueLocalVariableName(dto);
+            _sb.AppendLine($"double {output} =");
+            _sb.Indent();
+            {
+                _sb.AppendLine($"{calculatorName1}.Calculate({phase}) +");
+                _sb.AppendLine($"{calculatorName2}.Calculate({phase});");
+                _sb.Unindent();
+            }
+
+            // Wrap-Up
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase GenerateSampleChannelSwitchEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        {
+            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
+
+            const int channnelDimensionStackLevel = 0; // TODO: This information should be in the DTO.
+            string channelIndexDouble = GeneratePositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
+            string channelIndex = GenerateUniqueLocalVariableName(DimensionEnum.Channel);
+            string output = GenerateUniqueLocalVariableName(dto);
+
+            _sb.AppendLine($"int {channelIndex} = (int){channelIndexDouble};");
+            _sb.AppendLine($"double {output} = 0.0;");
+            _sb.AppendLine($"switch ({channelIndex})");
+            _sb.AppendLine("{");
+            _sb.Indent();
+            {
+                for (int i = 0; i < calculators.Count; i++)
+                {
+                    ICalculatorWithPosition calculator = calculators[i];
+                    string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+
+                    _sb.AppendLine($"case {i}:");
+                    _sb.Indent();
+                    {
+                        _sb.AppendLine($"{output} = {calculatorName}.Calculate({phase});");
+                        _sb.AppendLine("break;");
+                        _sb.Unindent();
+                    }
+                }
+                _sb.Unindent();
+            }
+            _sb.AppendLine("}");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase GenerateOperatorWrapUp(IOperatorDto dto, string output)
+        {
+            _sb.AppendLine();
+            _stack.Push(output);
+            return (OperatorDtoBase)dto;
+        }
+
     }
 }
