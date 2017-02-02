@@ -235,8 +235,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate();
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
-            double positionChange = position - _previousPosition;
-            _phase = _phase + positionChange * rate;
+            _phase = _phase + (position - _previousPosition) * rate;
 
             // Return the single channel for both channels.
             double value = _underlyingCalculator.Calculate(_phase);
@@ -375,8 +374,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate();
 
             double rate = frequency / Sample_OperatorCalculator_Helper.BASE_FREQUENCY;
-            double positionChange = position - _previousPosition;
-            _phase = _phase + positionChange * rate;
+            _phase = _phase + (position - _previousPosition) * rate;
 
             double value0 = _underlyingCalculators[0].Calculate(_phase);
             double value1 = _underlyingCalculators[1].Calculate(_phase);
@@ -518,7 +516,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
 #endif
-
             if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelIndexDouble, _maxChannelIndex))
             {
                 return 0.0;
