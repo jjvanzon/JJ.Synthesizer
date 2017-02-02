@@ -315,6 +315,69 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessComparativeOperator_VarA_VarB(dto, EQUALS_SYMBOL);
         }
 
+        protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio(Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
+            PutNumberOnStack(dto.High);
+            PutNumberOnStack(dto.Low);
+
+            return ProcessExponentOperator(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio(Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio dto)
+        {
+            PutNumberOnStack(dto.Ratio);
+            Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
+            PutNumberOnStack(dto.Low);
+
+            return ProcessExponentOperator(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_VarHigh_VarRatio(Exponent_OperatorDto_ConstLow_VarHigh_VarRatio dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
+            PutNumberOnStack(dto.Low);
+
+            return ProcessExponentOperator(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio(Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio dto)
+        {
+            PutNumberOnStack(dto.Ratio);
+            PutNumberOnStack(dto.High);
+            Visit_OperatorDto_Polymorphic(dto.LowOperatorDto);
+
+            return ProcessExponentOperator(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_ConstHigh_VarRatio(Exponent_OperatorDto_VarLow_ConstHigh_VarRatio dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
+            PutNumberOnStack(dto.High);
+            Visit_OperatorDto_Polymorphic(dto.LowOperatorDto);
+
+            return ProcessExponentOperator(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_VarHigh_ConstRatio(Exponent_OperatorDto_VarLow_VarHigh_ConstRatio dto)
+        {
+            PutNumberOnStack(dto.Ratio);
+            Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.LowOperatorDto);
+
+            return ProcessExponentOperator(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_VarHigh_VarRatio(Exponent_OperatorDto_VarLow_VarHigh_VarRatio dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.LowOperatorDto);
+
+            return ProcessExponentOperator(dto);
+        }
+
         protected override OperatorDtoBase Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
         {
             string position = GeneratePositionNameCamelCase(dto);
@@ -1483,41 +1546,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio(Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio(Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_VarHigh_VarRatio(Exponent_OperatorDto_ConstLow_VarHigh_VarRatio dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio(Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_ConstHigh_VarRatio(Exponent_OperatorDto_VarLow_ConstHigh_VarRatio dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_VarHigh_ConstRatio(Exponent_OperatorDto_VarLow_VarHigh_ConstRatio dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_VarHigh_VarRatio(Exponent_OperatorDto_VarLow_VarHigh_VarRatio dto)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override OperatorDtoBase Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
         {
             throw new NotImplementedException();
@@ -1928,6 +1956,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             _stack.Push(output);
 
             return dto;
+        }
+
+        private OperatorDtoBase ProcessExponentOperator(IOperatorDto dto)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string low = _stack.Pop();
+            string high = _stack.Pop();
+            string ratio = _stack.Pop();
+            string output = GenerateUniqueLocalVariableName(dto);
+
+            _sb.AppendLine($"double {output} = {low} * Math.Pow({high} / {low}, {ratio});");
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         private OperatorDtoBase ProcessDivideZeroOrigin(OperatorDtoBase dto)
@@ -2916,6 +2958,5 @@ namespace JJ.Business.Synthesizer.Roslyn
             _stack.Push(output);
             return (OperatorDtoBase)dto;
         }
-
     }
 }
