@@ -44,8 +44,7 @@ namespace JJ.Business.Synthesizer
 
         public AudioOutput Create()
         {
-            var audioOutput = new AudioOutput();
-            audioOutput.ID = _idRepository.GetID();
+            var audioOutput = new AudioOutput { ID = _idRepository.GetID() };
             _audioOutputRepository.Insert(audioOutput);
 
             new AudioOutput_SideEffect_SetDefaults(audioOutput, _speakerSetupRepository).Execute();

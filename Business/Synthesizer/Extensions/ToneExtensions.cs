@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Extensions
                     {
                         // BaseFrequency * (2 ^ octave) * number
                         AssertBaseFrequency(tone);
+                        // ReSharper disable once PossibleInvalidOperationException
                         double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave) * tone.Number;
                         return frequency;
                     }
@@ -34,6 +35,7 @@ namespace JJ.Business.Synthesizer.Extensions
                     {
                         // BaseFrequency * 2 ^ (octave + number)
                         AssertBaseFrequency(tone);
+                        // ReSharper disable once PossibleInvalidOperationException
                         double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + tone.Number);
                         return frequency;
                     }
@@ -42,6 +44,7 @@ namespace JJ.Business.Synthesizer.Extensions
                     {
                         // BaseFrequency * 2 ^ (octave + 1/12 * tone)
                         AssertBaseFrequency(tone);
+                        // ReSharper disable once PossibleInvalidOperationException
                         double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + 1.0 / 12.0 * (tone.Number - 1));
                         return frequency;
                     }
@@ -50,6 +53,7 @@ namespace JJ.Business.Synthesizer.Extensions
                     {
                         // BaseFrequency * 2 ^ (octave + number / 1200)
                         AssertBaseFrequency(tone);
+                        // ReSharper disable once PossibleInvalidOperationException
                         double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + tone.Number / 1200.0);
                         return frequency;
                     }

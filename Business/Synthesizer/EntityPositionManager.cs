@@ -43,6 +43,7 @@ namespace JJ.Business.Synthesizer
         public EntityPosition TryGetOperatorPosition(int operatorID)
         {
             EntityPosition entityPosition;
+            // ReSharper disable once InvertIf
             if (!_operatorPositionDictionary.TryGetValue(operatorID, out entityPosition))
             {
                 string entityTypeName = typeof(Operator).Name;
@@ -63,6 +64,7 @@ namespace JJ.Business.Synthesizer
         {
             EntityPosition entityPosition = TryGetOperatorPosition(operatorID);
 
+            // ReSharper disable once InvertIf
             if (entityPosition == null)
             {
                 string entityTypeName = typeof(Operator).Name;
@@ -161,6 +163,7 @@ namespace JJ.Business.Synthesizer
         {
             if (entity == null) throw new NullException(() => entity);
 
+            // ReSharper disable once InvertIf
             if (entity.Outlets.Count > 0)
             {
                 bool isOwned = entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number &&

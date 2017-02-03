@@ -64,18 +64,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         }
 
         /// <summary> not nullable </summary>
-        public SampleInfo SampleInfo
+        public SampleInfo SampleInfo => new SampleInfo
         {
-            get
-            {
-                return new SampleInfo
-                {
-                    // ReSharper disable once ArrangeThisQualifier
-                    Sample = this.Sample,
-                    // ReSharper disable once ArrangeThisQualifier
-                    Bytes = this.SampleBytes
-                };
-            }
-        }
+            // ReSharper disable once ArrangeThisQualifier
+            Sample = this.Sample,
+            // ReSharper disable once ArrangeThisQualifier
+            Bytes = this.SampleBytes
+        };
     }
 }

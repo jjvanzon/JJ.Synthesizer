@@ -1,10 +1,13 @@
-﻿namespace JJ.Data.Synthesizer
+﻿using JetBrains.Annotations;
+
+namespace JJ.Data.Synthesizer
 {
     public class Tone
     {
         public virtual int ID { get; set; }
 
-        /// <summary> parent, not nullable <summary>
+        /// <summary> parent, not nullable </summary>
+        [NotNull]
         public virtual Scale Scale { get; set; }
 
         /// <summary>

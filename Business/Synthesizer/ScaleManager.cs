@@ -47,6 +47,7 @@ namespace JJ.Business.Synthesizer
             scale.LinkTo(document);
 
             // NOTE: This side-effect can only be executed if the scale has a document.
+            // ReSharper disable once InvertIf
             if (mustGenerateName)
             {
                 ISideEffect sideEffect = new Scale_SideEffect_GenerateName(scale);
@@ -58,11 +59,11 @@ namespace JJ.Business.Synthesizer
 
         public Scale Create(ScaleTypeEnum scaleTypeEnum, bool mustSetDefaults = false)
         {
-            var scale = new Scale();
-            scale.ID = _repositories.IDRepository.GetID();
+            var scale = new Scale { ID = _repositories.IDRepository.GetID() };
             scale.SetScaleTypeEnum(scaleTypeEnum, _repositories.ScaleTypeRepository);
             _repositories.ScaleRepository.Insert(scale);
 
+            // ReSharper disable once InvertIf
             if (mustSetDefaults)
             {
                 ISideEffect sideEffect = new Scale_SideEffect_SetDefaults(scale, _repositories.ScaleTypeRepository);
@@ -104,6 +105,7 @@ namespace JJ.Business.Synthesizer
                 validators.Add(new ScaleValidator_InDocument(scale));
             }
 
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var result = new VoidResult();
             result.Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical();
             result.Successful = result.Messages.Count == 0;
@@ -136,8 +138,7 @@ namespace JJ.Business.Synthesizer
         {
             if (scale == null) throw new NullException(() => scale);
 
-            var tone = new Tone();
-            tone.ID = _repositories.IDRepository.GetID();
+            var tone = new Tone { ID = _repositories.IDRepository.GetID() };
             tone.LinkTo(scale);
             _repositories.ToneRepository.Insert(tone);
             return tone;

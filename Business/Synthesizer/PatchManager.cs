@@ -21,9 +21,7 @@ using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Validation.Patches;
 using JJ.Framework.Collections;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
-using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Roslyn;
 using JJ.Business.Synthesizer.Roslyn.Calculation;
 
@@ -82,12 +80,12 @@ namespace JJ.Business.Synthesizer
         /// <param name="mustGenerateName">Only possible if you also pass a document.</param>
         public void CreatePatch(Document document = null, bool mustGenerateName = false)
         {
-            Patch = new Patch();
-            Patch.ID = _repositories.IDRepository.GetID();
+            Patch = new Patch { ID = _repositories.IDRepository.GetID() };
             _repositories.PatchRepository.Insert(Patch);
 
             Patch.LinkTo(document);
 
+            // ReSharper disable once InvertIf
             if (mustGenerateName)
             {
                 ISideEffect sideEffect = new Patch_SideEffect_GenerateName(Patch);
@@ -99,8 +97,7 @@ namespace JJ.Business.Synthesizer
         {
             if (op == null) throw new NullException(() => op);
 
-            var inlet = new Inlet();
-            inlet.ID = _repositories.IDRepository.GetID();
+            var inlet = new Inlet { ID = _repositories.IDRepository.GetID() };
             _repositories.InletRepository.Insert(inlet);
 
             inlet.LinkTo(op);
@@ -112,8 +109,7 @@ namespace JJ.Business.Synthesizer
         {
             if (op == null) throw new NullException(() => op);
 
-            var outlet = new Outlet();
-            outlet.ID = _repositories.IDRepository.GetID();
+            var outlet = new Outlet { ID = _repositories.IDRepository.GetID() };
             _repositories.OutletRepository.Insert(outlet);
 
             outlet.LinkTo(op);

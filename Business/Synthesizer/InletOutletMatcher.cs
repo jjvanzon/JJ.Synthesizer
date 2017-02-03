@@ -124,6 +124,7 @@ namespace JJ.Business.Synthesizer
 
             Operator dest_UnderlyingPatch_PatchInlet = TryGetPatchInlet(source_CustomOperator_Inlet, patchRepository);
 
+            // ReSharper disable once InvertIf
             if (dest_UnderlyingPatch_PatchInlet == null)
             {
                 var identifier = new
@@ -216,6 +217,7 @@ namespace JJ.Business.Synthesizer
 
             Operator dest_UnderlyingPatch_PatchOutlet = TryGetPatchOutlet(source_CustomOperator_Outlet, patchRepository);
 
+            // ReSharper disable once InvertIf
             if (dest_UnderlyingPatch_PatchOutlet == null)
             {
                 var identifier = new
@@ -318,9 +320,11 @@ namespace JJ.Business.Synthesizer
 
             // Try match by Dimension (be tollerant towards non-unicity, for more chance to get a match).
             DimensionEnum outletDimensionEnum = outlet.GetDimensionEnum();
+            // ReSharper disable once InvertIf
             if (outletDimensionEnum != DimensionEnum.Undefined)
             {
                 DimensionEnum inletDimensionEnum = inlet.GetDimensionEnum();
+                // ReSharper disable once InvertIf
                 if (inletDimensionEnum != DimensionEnum.Undefined)
                 {
                     if (outletDimensionEnum == inletDimensionEnum)

@@ -308,6 +308,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 return inlet.InputOutlet;
             }
 
+            // ReSharper disable once InvertIf
             if (inlet.DefaultValue.HasValue)
             {
                 Number_OperatorWrapper dummyNumberOperator = CreateDummyNumberOperator(inlet.DefaultValue.Value);
@@ -321,9 +322,11 @@ namespace JJ.Business.Synthesizer.Helpers
 
         private static Number_OperatorWrapper CreateDummyNumberOperator(double number)
         {
-            var operatorType = new OperatorType();
-            operatorType.ID = (int)OperatorTypeEnum.Number;
-            operatorType.Name = OperatorTypeEnum.Number.ToString();
+            var operatorType = new OperatorType
+            {
+                ID = (int)OperatorTypeEnum.Number,
+                Name = OperatorTypeEnum.Number.ToString()
+            };
 
             var op = new Operator();
             op.LinkTo(operatorType);
@@ -331,8 +334,7 @@ namespace JJ.Business.Synthesizer.Helpers
             var outlet = new Outlet();
             outlet.LinkTo(op);
 
-            var wrapper = new Number_OperatorWrapper(op);
-            wrapper.Number = number;
+            var wrapper = new Number_OperatorWrapper(op) { Number = number };
 
             return wrapper;
         }

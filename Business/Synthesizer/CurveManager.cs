@@ -47,8 +47,7 @@ namespace JJ.Business.Synthesizer
 
         private Curve CreateWithoutNodes()
         {
-            var curve = new Curve();
-            curve.ID = _repositories.IDRepository.GetID();
+            var curve = new Curve { ID = _repositories.IDRepository.GetID() };
             _repositories.CurveRepository.Insert(curve);
             return curve;
         }
@@ -107,6 +106,7 @@ namespace JJ.Business.Synthesizer
                 double time = times[i];
                 NodeInfo nodeInfo = nodeInfos[i];
 
+                // ReSharper disable once InvertIf
                 if (nodeInfo != null)
                 {
                     Node node = CreateNode(curve);
@@ -144,6 +144,7 @@ namespace JJ.Business.Synthesizer
                 double? y = yValues[i];
                 double x = times[i];
 
+                // ReSharper disable once InvertIf
                 if (y.HasValue)
                 {
                     Node node = CreateNode(curve);
@@ -160,8 +161,7 @@ namespace JJ.Business.Synthesizer
         {
             if (curve == null) throw new NullException(() => curve);
 
-            var node = new Node();
-            node.ID = _repositories.IDRepository.GetID();
+            var node = new Node { ID = _repositories.IDRepository.GetID() };
             node.LinkTo(curve);
             _repositories.NodeRepository.Insert(node);
 
@@ -357,7 +357,7 @@ namespace JJ.Business.Synthesizer
             if (xSpan <= 0) throw new LessThanOrEqualException(() => xSpan, 0);
             if (pointCount < 2) throw new LessThanException(() => pointCount, 2);
 
-            double[] xValues = new double[pointCount];
+            var xValues = new double[pointCount];
             double x = 0;
             double dx = xSpan / (pointCount - 1);
             for (int i = 0; i < pointCount; i++)

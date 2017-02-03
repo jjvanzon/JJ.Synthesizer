@@ -1,5 +1,6 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
+// ReSharper disable RedundantCast
 
 namespace JJ.Business.Synthesizer.LinkTo
 {

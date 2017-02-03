@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Extensions
         public static double GetFrameDuration(this AudioOutput entity)
         {
             if (entity == null) throw new NullException(() => entity);
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (entity.SamplingRate == 0.0) throw new ZeroException(() => entity.SamplingRate);
 
             // ReSharper disable once RedundantCast

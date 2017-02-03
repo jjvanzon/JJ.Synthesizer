@@ -5,31 +5,31 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class RepositoryWrapper
     {
-        public IDocumentRepository DocumentRepository { get; private set; }
-        public ICurveRepository CurveRepository { get; private set; }
-        public IPatchRepository PatchRepository { get; private set; }
-        public ISampleRepository SampleRepository { get; private set; }
-        public IAudioFileOutputRepository AudioFileOutputRepository { get; private set; }
-        public IAudioOutputRepository AudioOutputRepository { get; private set; }
-        public IDocumentReferenceRepository DocumentReferenceRepository { get; private set; }
-        public INodeRepository NodeRepository { get; private set; }
-        public IOperatorRepository OperatorRepository { get; private set; }
-        public IOperatorTypeRepository OperatorTypeRepository { get; private set; }
-        public IInletRepository InletRepository { get; private set; }
-        public IOutletRepository OutletRepository { get; private set; }
-        public IScaleRepository ScaleRepository { get; private set; }
-        public IToneRepository ToneRepository { get; private set; }
-        public IEntityPositionRepository EntityPositionRepository { get; private set; }
+        public IDocumentRepository DocumentRepository { get; }
+        public ICurveRepository CurveRepository { get; }
+        public IPatchRepository PatchRepository { get; }
+        public ISampleRepository SampleRepository { get; }
+        public IAudioFileOutputRepository AudioFileOutputRepository { get; }
+        public IAudioOutputRepository AudioOutputRepository { get; }
+        public IDocumentReferenceRepository DocumentReferenceRepository { get; }
+        public INodeRepository NodeRepository { get; }
+        public IOperatorRepository OperatorRepository { get; }
+        public IOperatorTypeRepository OperatorTypeRepository { get; }
+        public IInletRepository InletRepository { get; }
+        public IOutletRepository OutletRepository { get; }
+        public IScaleRepository ScaleRepository { get; }
+        public IToneRepository ToneRepository { get; }
+        public IEntityPositionRepository EntityPositionRepository { get; }
 
-        public IAudioFileFormatRepository AudioFileFormatRepository { get; private set; }
-        public IInterpolationTypeRepository InterpolationTypeRepository { get; private set; }
-        public INodeTypeRepository NodeTypeRepository { get; private set; }
-        public ISampleDataTypeRepository SampleDataTypeRepository { get; private set; }
-        public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
-        public IScaleTypeRepository ScaleTypeRepository { get; private set; }
-        public IDimensionRepository DimensionRepository { get; private set; }
+        public IAudioFileFormatRepository AudioFileFormatRepository { get; }
+        public IInterpolationTypeRepository InterpolationTypeRepository { get; }
+        public INodeTypeRepository NodeTypeRepository { get; }
+        public ISampleDataTypeRepository SampleDataTypeRepository { get; }
+        public ISpeakerSetupRepository SpeakerSetupRepository { get; }
+        public IScaleTypeRepository ScaleTypeRepository { get; }
+        public IDimensionRepository DimensionRepository { get; }
 
-        public IIDRepository IDRepository { get; private set; }
+        public IIDRepository IDRepository { get; }
 
         public RepositoryWrapper(
             IDocumentRepository documentRepository,

@@ -30,8 +30,7 @@ namespace JJ.Business.Synthesizer
         /// <summary> Create an AudioFileOutput and initializes it with defaults. </summary>
         public AudioFileOutput Create(Document document = null, bool mustGenerateName = false)
         {
-            var audioFileOutput = new AudioFileOutput();
-            audioFileOutput.ID = _repositories.IDRepository.GetID();
+            var audioFileOutput = new AudioFileOutput { ID = _repositories.IDRepository.GetID() };
             audioFileOutput.LinkTo(document);
             _repositories.AudioFileOutputRepository.Insert(audioFileOutput);
 
@@ -40,6 +39,7 @@ namespace JJ.Business.Synthesizer
                 _repositories.SampleDataTypeRepository, _repositories.SpeakerSetupRepository, _repositories.AudioFileFormatRepository);
             sideEffect1.Execute();
 
+            // ReSharper disable once InvertIf
             if (mustGenerateName)
             {
                 ISideEffect sideEffect = new AudioFileOutput_SideEffect_GenerateName(audioFileOutput);

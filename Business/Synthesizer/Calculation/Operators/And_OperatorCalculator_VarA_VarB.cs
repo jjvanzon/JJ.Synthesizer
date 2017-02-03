@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

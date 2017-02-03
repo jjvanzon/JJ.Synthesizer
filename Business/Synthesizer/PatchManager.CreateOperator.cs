@@ -460,8 +460,7 @@ namespace JJ.Business.Synthesizer
 
         public CustomOperator_OperatorWrapper CustomOperator()
         {
-            var op = new Operator();
-            op.ID = _repositories.IDRepository.GetID();
+            var op = new Operator { ID = _repositories.IDRepository.GetID() };
             op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
 
             _repositories.OperatorRepository.Insert(op);
@@ -911,10 +910,7 @@ namespace JJ.Business.Synthesizer
             dimension = dimension ?? DimensionEnum.Undefined;
 
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.InletsToDimension, operands);
-            if (dimension.HasValue)
-            {
-                op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
-            }
+            op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
             var wrapper = new InletsToDimension_OperatorWrapper(op)
@@ -992,10 +988,7 @@ namespace JJ.Business.Synthesizer
                 new[] { DimensionEnum.Undefined },
                 Enumerable.Repeat(DimensionEnum.Undefined, outletCount.Value).ToArray());
 
-            if (dimension.HasValue)
-            {
-                op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
-            }
+            op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
             var wrapper = new DimensionToOutlets_OperatorWrapper(op)
@@ -2420,8 +2413,7 @@ namespace JJ.Business.Synthesizer
             int inletCount = inletDimensionEnums.Count;
             int outletCount = outletDimensionEnums.Count;
 
-            var op = new Operator();
-            op.ID = _repositories.IDRepository.GetID();
+            var op = new Operator { ID = _repositories.IDRepository.GetID() };
             op.SetOperatorTypeEnum(operatorTypeEnum, _repositories.OperatorTypeRepository);
 
             op.LinkTo(Patch);
@@ -2452,16 +2444,17 @@ namespace JJ.Business.Synthesizer
         {
             if (operands == null) throw new NullException(() => operands);
 
-            var op = new Operator();
-            op.ID = _repositories.IDRepository.GetID();
+            var op = new Operator { ID = _repositories.IDRepository.GetID() };
             op.SetOperatorTypeEnum(operatorTypeEnum, _repositories.OperatorTypeRepository);
             _repositories.OperatorRepository.Insert(op);
 
             for (int i = 0; i < operands.Count; i++)
             {
-                var inlet = new Inlet();
-                inlet.ID = _repositories.IDRepository.GetID();
-                inlet.ListIndex = i;
+                var inlet = new Inlet
+                {
+                    ID = _repositories.IDRepository.GetID(),
+                    ListIndex = i
+                };
                 inlet.LinkTo(op);
                 _repositories.InletRepository.Insert(inlet);
 
@@ -2469,8 +2462,7 @@ namespace JJ.Business.Synthesizer
                 inlet.LinkTo(operand);
             }
 
-            var outlet = new Outlet();
-            outlet.ID = _repositories.IDRepository.GetID();
+            var outlet = new Outlet { ID = _repositories.IDRepository.GetID() };
             outlet.LinkTo(op);
             _repositories.OutletRepository.Insert(outlet);
 

@@ -5,13 +5,13 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class SampleRepositories
     {
-        public IDocumentRepository DocumentRepository { get; private set; }
-        public ISampleRepository SampleRepository { get; private set; }
-        public IAudioFileFormatRepository AudioFileFormatRepository { get; private set; }
-        public ISampleDataTypeRepository SampleDataTypeRepository { get; private set; }
-        public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
-        public IInterpolationTypeRepository InterpolationTypeRepository { get; private set; }
-        public IIDRepository IDRepository { get; private set; }
+        public IDocumentRepository DocumentRepository { get; }
+        public ISampleRepository SampleRepository { get; }
+        public IAudioFileFormatRepository AudioFileFormatRepository { get; }
+        public ISampleDataTypeRepository SampleDataTypeRepository { get; }
+        public ISpeakerSetupRepository SpeakerSetupRepository { get; }
+        public IInterpolationTypeRepository InterpolationTypeRepository { get; }
+        public IIDRepository IDRepository { get; }
 
         public SampleRepositories(RepositoryWrapper repositoryWrapper)
         {

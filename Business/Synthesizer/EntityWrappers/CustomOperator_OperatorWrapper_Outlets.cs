@@ -18,21 +18,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             _operator = op;
         }
 
-        public Outlet this[string name]
-        {
-            get { return OperatorHelper.GetOutlet(_operator, name); }
-        }
+        public Outlet this[string name] => OperatorHelper.GetOutlet(_operator, name);
 
         /// <summary> not fast </summary>
-        public Outlet this[int index]
-        {
-            get { return OperatorHelper.GetOutlet(_operator, index); }
-        }
+        public Outlet this[int index] => OperatorHelper.GetOutlet(_operator, index);
 
-        public Outlet this[DimensionEnum dimensionEnum]
-        {
-            get { return OperatorHelper.GetOutlet(_operator, dimensionEnum); }
-        }
+        public Outlet this[DimensionEnum dimensionEnum] => OperatorHelper.GetOutlet(_operator, dimensionEnum);
 
         public int Count => _operator.Outlets.Count;
 

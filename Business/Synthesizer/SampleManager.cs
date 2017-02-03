@@ -96,8 +96,7 @@ namespace JJ.Business.Synthesizer
         /// <summary> Creates a Sample and sets its defaults. </summary>
         public Sample CreateSample(Document document = null, bool mustGenerateName = false)
         {
-            var sample = new Sample();
-            sample.ID = _repositories.IDRepository.GetID();
+            var sample = new Sample { ID = _repositories.IDRepository.GetID() };
             _repositories.SampleRepository.Insert(sample);
 
             sample.LinkTo(document);
@@ -105,6 +104,7 @@ namespace JJ.Business.Synthesizer
             ISideEffect sideEffect = new Sample_SideEffect_SetDefaults(sample, _repositories);
             sideEffect.Execute();
 
+            // ReSharper disable once InvertIf
             if (mustGenerateName)
             {
                 ISideEffect sideEffect2 = new Sample_SideEffect_GenerateName(sample);
@@ -182,9 +182,8 @@ namespace JJ.Business.Synthesizer
             if (bytes.Length >= WavHeaderConstants.WAV_HEADER_LENGTH)
             {
                 stream.Position = 0;
-                WavHeaderStruct wavHeaderStruct;
                 var reader = new BinaryReader(stream);
-                wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
+                WavHeaderStruct wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
 
                 IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
                 if (validator.IsValid)
@@ -214,9 +213,8 @@ namespace JJ.Business.Synthesizer
 
             // Read header
             stream.Position = 0;
-            WavHeaderStruct wavHeaderStruct;
             var reader = new BinaryReader(stream);
-            wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
+            WavHeaderStruct wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
 
             // Validate header
             IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);

@@ -21,8 +21,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 float currentValue = newCurrentValue;
                 float newValue = currentValue + value;
                 newCurrentValue = Interlocked.CompareExchange(ref location1, newValue, currentValue);
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (newCurrentValue == currentValue)
+                {
                     return newValue;
+                }
             }
         }
 

@@ -72,7 +72,8 @@ namespace JJ.Business.Synthesizer.Calculation
                 NodeType = lastNode.NodeType
             };
 
-            List<Node> sortedNodesIncludingFakeNodes = new List<Node>(curve.Nodes.Count + 4);
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var sortedNodesIncludingFakeNodes = new List<Node>(curve.Nodes.Count + 4);
             sortedNodesIncludingFakeNodes.Add(nodeMinus2);
             sortedNodesIncludingFakeNodes.Add(nodeMinus1);
             sortedNodesIncludingFakeNodes.AddRange(sortedNodes);
@@ -90,6 +91,7 @@ namespace JJ.Business.Synthesizer.Calculation
             {
                 node1 = _sortedNodes[i];
 
+                // ReSharper disable once InvertIf
                 if (node1.X > x)
                 {
                     node1Index = i;

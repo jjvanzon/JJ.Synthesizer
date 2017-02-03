@@ -35,10 +35,12 @@ namespace JJ.Business.Synthesizer.Helpers
                 ConstValue = value
             };
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (value == 0.0)
             {
                 mathPropertiesDto.IsConstZero = true;
             }
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             else if (value == 1.0)
             {
                 mathPropertiesDto.IsConstOne = true;
@@ -48,6 +50,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 mathPropertiesDto.IsConstSpecialValue = true;
             }
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (value != 0.0 && !DoubleHelper.IsSpecialValue(value))
             {
                 mathPropertiesDto.IsConstNonZero = true;

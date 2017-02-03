@@ -5,20 +5,20 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class PatchRepositories
     {
-        public IPatchRepository PatchRepository { get; private set; }
-        public IOperatorRepository OperatorRepository { get; private set; }
-        public IOperatorTypeRepository OperatorTypeRepository { get; private set; }
-        public IInletRepository InletRepository { get; private set; }
-        public IOutletRepository OutletRepository { get; private set; }
-        public ICurveRepository CurveRepository { get; private set; }
-        public ISampleRepository SampleRepository { get; private set; }
-        public IDocumentRepository DocumentRepository { get; private set; }
-        public IDimensionRepository DimensionRepository { get; private set; }
-        public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
+        public IPatchRepository PatchRepository { get; }
+        public IOperatorRepository OperatorRepository { get; }
+        public IOperatorTypeRepository OperatorTypeRepository { get; }
+        public IInletRepository InletRepository { get; }
+        public IOutletRepository OutletRepository { get; }
+        public ICurveRepository CurveRepository { get; }
+        public ISampleRepository SampleRepository { get; }
+        public IDocumentRepository DocumentRepository { get; }
+        public IDimensionRepository DimensionRepository { get; }
+        public ISpeakerSetupRepository SpeakerSetupRepository { get; }
         public IInterpolationTypeRepository InterpolationTypeRepository { get; set; }
 
-        public IEntityPositionRepository EntityPositionRepository { get; private set; }
-        public IIDRepository IDRepository { get; private set; }
+        public IEntityPositionRepository EntityPositionRepository { get; }
+        public IIDRepository IDRepository { get; }
 
         public PatchRepositories(RepositoryWrapper repositoryWrapper)
         {

@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Extensions
             return IsCircular(op, alreadyDone);
         }
 
+        // ReSharper disable once SuggestBaseTypeForParameter
         private static bool IsCircular(this Operator op, HashSet<Operator> alreadyDone)
         {
             // Be null-tollerant, because you might call it in places where the entities are not valid.
@@ -195,6 +196,7 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
+        // ReSharper disable once SuggestBaseTypeForParameter
         private static void AddOperatorsRecursive(HashSet<Operator> hashSet, Operator op)
         {
             if (hashSet.Contains(op))

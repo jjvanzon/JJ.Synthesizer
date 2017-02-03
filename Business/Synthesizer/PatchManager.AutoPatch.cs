@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
+// ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer
 {
@@ -40,6 +41,7 @@ namespace JJ.Business.Synthesizer
                 foreach (Inlet intermediateCustomOperatorInlet in intermediateCustomOperatorWrapper.Inlets)
                 {
                     DimensionEnum intermediateCustomOperatorInletDimensionEnum = intermediateCustomOperatorInlet.GetDimensionEnum();
+                    // ReSharper disable once InvertIf
                     if (intermediateCustomOperatorInletDimensionEnum != DimensionEnum.Undefined)
                     {
                         PatchInlet_OperatorWrapper destPatchInletWrapper = ConvertToPatchInlet(intermediateCustomOperatorInlet);
@@ -52,6 +54,7 @@ namespace JJ.Business.Synthesizer
 
                 Outlet intermediateSignalOutlet = intermediateCustomOperatorWrapper.Outlets.Where(x => x.GetDimensionEnum() == DimensionEnum.Signal)
                                                                                            .SingleOrDefault();
+                // ReSharper disable once InvertIf
                 if (intermediateSignalOutlet != null)
                 {
                     // Add Reset operator in between.
@@ -160,6 +163,7 @@ namespace JJ.Business.Synthesizer
                     {
                         foreach (Inlet intermediateInlet in intermediateCustomOperator2.Inlets)
                         {
+                            // ReSharper disable once InvertIf
                             if (InletOutletMatcher.AreMatch(intermediateOutlet, intermediateInlet))
                             {
                                 intermediateInlet.LinkTo(intermediateOutlet);

@@ -1,4 +1,5 @@
-﻿namespace JJ.Business.Synthesizer.Helpers
+﻿// ReSharper disable InconsistentNaming
+namespace JJ.Business.Synthesizer.Helpers
 {
     /// <summary>
     /// This page describes it pretty well:

@@ -141,6 +141,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
             }
 
+            // ReSharper disable once InvertIf
             if (visitorResult.CalculatorVariableInfos.Any())
             {
                 foreach (CalculatorVariableInfo variableInfo in visitorResult.CalculatorVariableInfos)
@@ -444,8 +445,10 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// <summary> Assumes that the variable dimensionEnum is already declared in the generated code. </summary>
         private void WriteFieldAssignments_ByDimensionEnum(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var groups = variableInfos.GroupBy(x => x.DimensionEnum);
 
+            // ReSharper disable once PossibleMultipleEnumeration
             if (!groups.Any())
             {
                 return;
@@ -455,12 +458,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             sb.AppendLine("{");
             sb.Indent();
             {
+                // ReSharper disable once SuggestVarOrType_Elsewhere
+                // ReSharper disable once PossibleMultipleEnumeration
                 foreach (var group in groups)
                 {
-                    sb.AppendLine($"case {nameof(DimensionEnum)}.{@group.Key}:");
+                    sb.AppendLine($"case {nameof(DimensionEnum)}.{group.Key}:");
                     sb.Indent();
                     {
-                        foreach (ExtendedVariableInfo variableInfo in @group)
+                        foreach (ExtendedVariableInfo variableInfo in group)
                         {
                             sb.AppendLine($"_{variableInfo.VariableNameCamelCase} = value;");
                         }
@@ -480,19 +485,23 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// </summary>
         private void WriteFieldAssignments_ByCanonicalName(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var groups = variableInfos.GroupBy(x => x.CanonicalName);
+            // ReSharper disable once PossibleMultipleEnumeration
             if (!groups.Any())
             {
                 return;
             }
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
+            // ReSharper disable once PossibleMultipleEnumeration
             foreach (var group in groups)
             {
-                sb.AppendLine($"if (String.Equals(canonicalName, \"{@group.Key}\", StringComparison.Ordinal))");
+                sb.AppendLine($"if (String.Equals(canonicalName, \"{group.Key}\", StringComparison.Ordinal))");
                 sb.AppendLine("{");
                 sb.Indent();
                 {
-                    foreach (ExtendedVariableInfo variableInfo in @group)
+                    foreach (ExtendedVariableInfo variableInfo in group)
                     {
                         sb.AppendLine($"_{variableInfo.VariableNameCamelCase} = value;");
                     }
@@ -509,7 +518,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// </summary>
         private void WriteFieldAssignments_ByDimensionEnumAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var groups = variableInfos.GroupBy(x => x.DimensionEnum);
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var group in groups)
             {
                 int i = 0;
@@ -537,7 +548,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         private void WriteFieldAssignments_ByCanonicalNameAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             // Input Variables
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var groups = variableInfos.GroupBy(x => x.CanonicalName);
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var group in groups)
             {
                 int i = 0;

@@ -32,6 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation
             _count = 0;
         }
 
+        // ReSharper disable once ConvertToAutoPropertyWhenPossible
         public int Count
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]

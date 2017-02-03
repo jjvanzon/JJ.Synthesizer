@@ -50,6 +50,7 @@ namespace JJ.Business.Synthesizer.Calculation
         public DimensionStack GetDimensionStack(DimensionEnum standardDimensionEnum)
         {
             DimensionStack dimensionStack;
+            // ReSharper disable once InvertIf
             if (!_standardDimensionEnum_To_DimensionStack_Dictionary.TryGetValue(standardDimensionEnum, out dimensionStack))
             {
                 dimensionStack = CreateDimensionStack(standardDimensionEnum);
@@ -62,6 +63,7 @@ namespace JJ.Business.Synthesizer.Calculation
         public DimensionStack GetDimensionStack(string canonicalCustomDimensionName)
         {
             DimensionStack dimensionStack;
+            // ReSharper disable once InvertIf
             if (!_customDimensionName_To_DimensionStack_Dictionary.TryGetValue(canonicalCustomDimensionName, out dimensionStack))
             {
                 dimensionStack = CreateDimensionStack(canonicalCustomDimensionName);
@@ -73,6 +75,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
         public IList<DimensionStack> GetDimensionStacks()
         {
+            // ReSharper disable once InvokeAsExtensionMethod
             IList<DimensionStack> list = Enumerable.Union(
                 _standardDimensionEnum_To_DimensionStack_Dictionary.Values,
                 _customDimensionName_To_DimensionStack_Dictionary.Values).ToArray();
