@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
@@ -13,7 +14,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Mathematics;
+using NumberingSystems = JJ.Framework.Mathematics.NumberingSystems;
 
 namespace JJ.Business.Synthesizer.Roslyn
 {
@@ -40,7 +41,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string PREVIOUS_POSITION_MNEMONIC = "prevpos";
         private const string ORIGIN_MNEMONIC = "origin";
         private const string RATE_MNEMONIC = "rate";
-        private const string SUM_MNEMONIC = "sum";
 
         /// <summary> {0} = phase </summary>
         private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
@@ -206,11 +206,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
         {
-            dto.Vars.ForEach(x => Visit_OperatorDto_Polymorphic(x));
+            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
             GenerateLeadingOperatorComment(dto);
 
-            string sum = GenerateUniqueLocalVariableName(SUM_MNEMONIC);
+            string sum = GenerateUniqueLocalVariableName(nameof(sum));
             string output = GenerateLocalOutputName(dto);
             int count = dto.Vars.Count;
 
@@ -239,6 +239,73 @@ namespace JJ.Business.Synthesizer.Roslyn
             string countLiteral = CompilationHelper.FormatValue(count);
 
             _sb.AppendLine($"double {output} = {sum} / {countLiteral};");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(ClosestOverInlets_OperatorDto_VarInput_2ConstItems dto)
+        {
+            PutNumberOnStack(dto.Item2);
+            PutNumberOnStack(dto.Item1);
+            Visit_OperatorDto_Polymorphic(dto.InputOperatorDto);
+
+            return Process_ClosestOverInlets(dto, varCount: 2);
+        }
+
+        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
+        {
+            dto.Items.Reverse().ForEach(x => PutNumberOnStack(x));
+            Visit_OperatorDto_Polymorphic(dto.InputOperatorDto);
+
+            return Process_ClosestOverInlets(dto, dto.Items.Count);
+        }
+
+        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
+        {
+            dto.ItemOperatorDtos.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
+            Visit_OperatorDto_Polymorphic(dto.InputOperatorDto);
+
+            return Process_ClosestOverInlets(dto, dto.ItemOperatorDtos.Count);
+        }
+
+        private OperatorDtoBase Process_ClosestOverInlets(IOperatorDto dto, int varCount)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string smallestDistance = GenerateUniqueLocalVariableName(nameof(smallestDistance));
+            string closestItem = GenerateUniqueLocalVariableName(nameof(closestItem));
+            string output = GenerateLocalOutputName(dto);
+            const string geometry = nameof(Geometry);
+            const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
+
+            string input = _stack.Pop();
+            string firstItem = _stack.Pop();
+
+            _sb.AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({input}, {firstItem});");
+            _sb.AppendLine($"double {closestItem} = {firstItem};");
+            _sb.AppendLine();
+
+            for (int i = 1; i < varCount; i++)
+            {
+                string item = _stack.Pop();
+                string distance = GenerateUniqueLocalVariableName(nameof(distance));
+
+                _sb.AppendLine($"double {distance} = {geometry}.{absoluteDistance}({input}, {item});");
+
+                _sb.AppendLine($"if ({smallestDistance} > {distance})");
+                _sb.AppendLine("{");
+                _sb.Indent();
+                {
+
+                    _sb.AppendLine($"{smallestDistance} = {distance};");
+                    _sb.AppendLine($"{closestItem} = {item};");
+                    _sb.Unindent();
+                }
+                _sb.AppendLine("}");
+                _sb.AppendLine();
+            }
+
+            _sb.AppendLine($"double {output} = {closestItem};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1478,21 +1545,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(ClosestOverInlets_OperatorDto_VarInput_2ConstItems dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override OperatorDtoBase Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
         {
             throw new NotImplementedException();
@@ -2122,7 +2174,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessMultiVarOperator_Vars_NoConsts(OperatorDtoBase_Vars dto, string operatorSymbol)
         {
-            dto.Vars.ForEach(x => Visit_OperatorDto_Polymorphic(x));
+            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
             return ProcessMultiVarOperator(dto, dto.Vars.Count, operatorSymbol);
         }
@@ -2130,7 +2182,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private OperatorDtoBase ProcessMultiVarOperator_Vars_1Const(OperatorDtoBase_Vars_1Const dto, string operatorSymbol)
         {
             PutNumberOnStack(dto.ConstValue);
-            dto.Vars.ForEach(x => Visit_OperatorDto_Polymorphic(x));
+            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
             return ProcessMultiVarOperator(dto, dto.Vars.Count + 1, operatorSymbol);
         }

@@ -408,7 +408,9 @@
     <Compile Include="Extensions\OperatorExtensions.cs" />
     <Compile Include="Calculation\BiQuadFilter.cs" />
     <Compile Include="CopiedCode\FromFramework\CollectionHelper.cs" />
-    <Compile Include="CopiedCode\FromFramework\Geometry.cs" />
+    <Compile Include="CopiedCode\FromFramework\Geometry.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="CopiedCode\FromFramework\Interpolator.cs" />
     <Compile Include="CopiedCode\FromFramework\MathHelper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

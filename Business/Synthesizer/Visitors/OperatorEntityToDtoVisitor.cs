@@ -882,7 +882,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             dto.InputOperatorDto = _stack.Pop();
 
-            int count = op.Inlets.Count;
+            int count = op.Inlets.Count - 1;
             var itemOperatorDtos = new OperatorDtoBase[count];
             for (int i = 0; i < count; i++)
             {

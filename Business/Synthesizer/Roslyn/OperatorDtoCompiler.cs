@@ -45,7 +45,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_RotatePosition_Block)}.cs",
             $"Helpers\\{nameof(ConversionHelper)}.cs",
             $"Calculation\\Patches\\{nameof(PatchCalculatorHelper)}.cs",
-            $"CopiedCode\\FromFramework\\{nameof(MathHelper)}.cs");
+            $"CopiedCode\\FromFramework\\{nameof(MathHelper)}.cs",
+            $"CopiedCode\\FromFramework\\{nameof(Geometry)}.cs");
 
         private static readonly IList<MetadataReference> _metaDataReferences = new MetadataReference[]
         {

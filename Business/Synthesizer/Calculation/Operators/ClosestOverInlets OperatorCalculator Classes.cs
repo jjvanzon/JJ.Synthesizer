@@ -41,6 +41,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 double item = itemCalculator.Calculate();
 
                 double distance = Geometry.AbsoluteDistance(input, item);
+                // ReSharper disable once InvertIf
                 if (smallestDistance > distance)
                 {
                     smallestDistance = distance;
