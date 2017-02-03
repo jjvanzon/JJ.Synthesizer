@@ -166,12 +166,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
             string x = _stack.Pop();
 
             string variable = GenerateLocalOutputName(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             _sb.AppendLine($"double {variable} = {x};");
             _sb.AppendLine($"if ({variable} < 0.0) {variable} = -{variable};");
@@ -179,14 +179,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, variable);
         }
 
-        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
-        {
-            return ProcessMultiVarOperator_Vars_NoConsts(dto, PLUS_SYMBOL);
-        }
-
         protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
             return ProcessMultiVarOperator_Vars_1Const(dto, PLUS_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
+        {
+            return ProcessMultiVarOperator_Vars_NoConsts(dto, PLUS_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_AllVars(AllPassFilter_OperatorDto_AllVars dto)
@@ -202,6 +202,21 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override OperatorDtoBase Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto)
         {
             return ProcessLogicalBinaryOperator(dto, AND_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_AverageFollower_OperatorDto_AllVars(AverageFollower_OperatorDto_AllVars dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        {
+            throw new NotImplementedException();
         }
 
         protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
@@ -243,6 +258,101 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
+        protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        {
+            return Process_Filter_OperatorDto_ManyConsts(dto);
+        }
+
+        protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        {
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables));
+        }
+
+        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        {
+            return Process_Filter_OperatorDto_ManyConsts(dto);
+        }
+
+        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        {
+            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables));
+        }
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_CubicInterpolation(Cache_OperatorDto_MultiChannel_CubicInterpolation dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_HermiteInterpolation(Cache_OperatorDto_MultiChannel_HermiteInterpolation dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_LineInterpolation(Cache_OperatorDto_MultiChannel_LineInterpolation dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_StripeInterpolation(Cache_OperatorDto_MultiChannel_StripeInterpolation dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation(Cache_OperatorDto_SingleChannel_BlockInterpolation dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_CubicInterpolation(Cache_OperatorDto_SingleChannel_CubicInterpolation dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_HermiteInterpolation(Cache_OperatorDto_SingleChannel_HermiteInterpolation dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_LineInterpolation(Cache_OperatorDto_SingleChannel_LineInterpolation dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_StripeInterpolation(Cache_OperatorDto_SingleChannel_StripeInterpolation dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(ChangeTrigger_OperatorDto_VarPassThrough_VarReset dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(ClosestOverInlets_OperatorDto_VarInput_2ConstItems dto)
         {
             PutNumberOnStack(dto.Item2);
@@ -268,66 +378,39 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_ClosestOverInlets(dto, dto.ItemOperatorDtos.Count);
         }
 
-        private OperatorDtoBase Process_ClosestOverInlets(IOperatorDto dto, int varCount)
+        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto)
         {
-            GenerateLeadingOperatorComment(dto);
+            PutNumberOnStack(dto.Item2);
+            PutNumberOnStack(dto.Item1);
+            Visit_OperatorDto_Polymorphic(dto.InputOperatorDto);
 
-            string smallestDistance = GenerateUniqueLocalVariableName(nameof(smallestDistance));
-            string closestItem = GenerateUniqueLocalVariableName(nameof(closestItem));
-            string output = GenerateLocalOutputName(dto);
-            const string geometry = nameof(Geometry);
-            const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
-
-            string input = _stack.Pop();
-            string firstItem = _stack.Pop();
-
-            _sb.AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({input}, {firstItem});");
-            _sb.AppendLine($"double {closestItem} = {firstItem};");
-            _sb.AppendLine();
-
-            for (int i = 1; i < varCount; i++)
-            {
-                string item = _stack.Pop();
-                string distance = GenerateUniqueLocalVariableName(nameof(distance));
-
-                _sb.AppendLine($"double {distance} = {geometry}.{absoluteDistance}({input}, {item});");
-
-                _sb.AppendLine($"if ({smallestDistance} > {distance})");
-                _sb.AppendLine("{");
-                _sb.Indent();
-                {
-
-                    _sb.AppendLine($"{smallestDistance} = {distance};");
-                    _sb.AppendLine($"{closestItem} = {item};");
-                    _sb.Unindent();
-                }
-                _sb.AppendLine("}");
-                _sb.AppendLine();
-            }
-
-            _sb.AppendLine($"double {output} = {closestItem};");
-
-            return GenerateOperatorWrapUp(dto, output);
+            return Process_ClosestOverInletsExp(dto, varCount: 2);
         }
 
-        protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
         {
-            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables));
+            dto.Items.Reverse().ForEach(x => PutNumberOnStack(x));
+            Visit_OperatorDto_Polymorphic(dto.InputOperatorDto);
+
+            return Process_ClosestOverInletsExp(dto, dto.Items.Count);
         }
 
-        protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto)
         {
-            return Process_Filter_OperatorDto_ManyConsts(dto);
+            dto.ItemOperatorDtos.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
+            Visit_OperatorDto_Polymorphic(dto.InputOperatorDto);
+
+            return Process_ClosestOverInletsExp(dto, dto.ItemOperatorDtos.Count);
         }
 
-        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_NoOriginShifting(Curve_OperatorDto_MinX_NoOriginShifting dto)
         {
-            return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables));
+            return ProcessCurve_NoOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto)
         {
-            return Process_Filter_OperatorDto_ManyConsts(dto);
+            return ProcessCurve_WithOriginShifting(dto);
         }
 
         protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto)
@@ -340,14 +423,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessCurve_WithOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_NoOriginShifting(Curve_OperatorDto_MinX_NoOriginShifting dto)
+        protected override OperatorDtoBase Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
         {
-            return ProcessCurve_NoOriginShifting(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto)
-        {
-            return ProcessCurve_WithOriginShifting(dto);
+            throw new NotImplementedException();
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
@@ -365,6 +443,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiplyOrDivide_ConstA_VarB_VarOrigin(dto, DIVIDE_SYMBOL);
         }
 
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            PutNumberOnStack(dto.A);
+
+            return ProcessDivideZeroOrigin(dto);
+        }
+
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(Divide_OperatorDto_VarA_ConstB_ConstOrigin dto)
         {
             return ProcessMultiplyOrDivide_VarA_ConstB_ConstOrigin(dto, DIVIDE_SYMBOL);
@@ -375,6 +461,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiplyOrDivide_VarA_ConstB_VarOrigin(dto, DIVIDE_SYMBOL);
         }
 
+        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
+        {
+            PutNumberOnStack(dto.B);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            return ProcessDivideZeroOrigin(dto);
+        }
+
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(Divide_OperatorDto_VarA_VarB_ConstOrigin dto)
         {
             return ProcessMultiplyOrDivide_VarA_VarB_ConstOrigin(dto, DIVIDE_SYMBOL);
@@ -383,22 +477,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(Divide_OperatorDto_VarA_VarB_VarOrigin dto)
         {
             return ProcessMultiplyOrDivide_VarA_VarB_VarOrigin(dto, DIVIDE_SYMBOL);
-        }
-
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            PutNumberOnStack(dto.A);
-
-            return ProcessDivideZeroOrigin(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
-        {
-            PutNumberOnStack(dto.B);
-            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
-
-            return ProcessDivideZeroOrigin(dto);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(Divide_OperatorDto_VarA_VarB_ZeroOrigin dto)
@@ -531,6 +609,106 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
+        protected override OperatorDtoBase Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_VarElse(If_OperatorDto_VarCondition_ConstThen_VarElse dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_VarThen_ConstElse(If_OperatorDto_VarCondition_VarThen_ConstElse dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_VarThen_VarElse(If_OperatorDto_VarCondition_VarThen_VarElse dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicSmoothSlope(InletsToDimension_OperatorDto_CubicSmoothSlope dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Hermite(InletsToDimension_OperatorDto_Hermite dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Stripe(InletsToDimension_OperatorDto_Stripe dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicAbruptSlope(Interpolate_OperatorDto_CubicAbruptSlope dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicEquidistant(Interpolate_OperatorDto_CubicEquidistant dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicSmoothSlope_LagBehind(Interpolate_OperatorDto_CubicSmoothSlope_LagBehind dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override OperatorDtoBase Visit_LessThan_OperatorDto_VarA_ConstB(LessThan_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, LESS_THAN_SYMBOL);
@@ -549,6 +727,36 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto_VarA_VarB(LessThanOrEqual_OperatorDto_VarA_VarB dto)
         {
             return ProcessComparativeOperator_VarA_VarB(dto, LESS_THAN_OR_EQUAL_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Loop_OperatorDto_ManyConstants(Loop_OperatorDto_ManyConstants dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Loop_OperatorDto_NoSkipOrRelease(Loop_OperatorDto_NoSkipOrRelease dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants(Loop_OperatorDto_NoSkipOrRelease_ManyConstants dto)
+        {
+            throw new NotImplementedException();
         }
 
         protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
@@ -571,14 +779,84 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
+        protected override OperatorDtoBase Visit_MaxFollower_OperatorDto_AllVars(MaxFollower_OperatorDto_AllVars dto)
         {
-            return ProcessMultiVarOperator_Vars_NoConsts(dto, MULTIPLY_SYMBOL);
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_1Var_1Const(MaxOverInlets_OperatorDto_1Var_1Const dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_2Vars(MaxOverInlets_OperatorDto_2Vars dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MinFollower_OperatorDto_AllVars(MinFollower_OperatorDto_AllVars dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_1Var_1Const(MinOverInlets_OperatorDto_1Var_1Const dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_2Vars(MinOverInlets_OperatorDto_2Vars dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
+        {
+            throw new NotImplementedException();
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
         {
             return ProcessMultiVarOperator_Vars_1Const(dto, MULTIPLY_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
+        {
+            return ProcessMultiVarOperator_Vars_NoConsts(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin dto)
@@ -618,9 +896,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto)
         {
+            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
+
             GenerateLeadingOperatorComment(dto);
 
-            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
             string x = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
@@ -647,9 +926,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
         {
+            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
+
             GenerateLeadingOperatorComment(dto);
 
-            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
             string x = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
@@ -700,15 +980,21 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
         {
+            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
+
             GenerateLeadingOperatorComment(dto);
 
-            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
             string x = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = 1.0 / {x};");
 
             return GenerateOperatorWrapUp(dto, output);
+        }
+
+        protected override OperatorDtoBase Visit_OperatorDto_Base(OperatorDtoBase dto)
+        {
+            throw new NotImplementedException();
         }
 
         protected override OperatorDtoBase Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
@@ -724,14 +1010,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.ExponentOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
-
-            return Process_Math_Pow(dto);
         }
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
@@ -752,9 +1030,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent2(Power_OperatorDto_VarBase_Exponent2 dto)
         {
+            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
+
             GenerateLeadingOperatorComment(dto);
 
-            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
             string @base = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
@@ -765,9 +1044,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent3(Power_OperatorDto_VarBase_Exponent3 dto)
         {
+            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
+
             GenerateLeadingOperatorComment(dto);
 
-            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
             string @base = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
@@ -778,9 +1058,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent4(Power_OperatorDto_VarBase_Exponent4 dto)
         {
+            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
+
             GenerateLeadingOperatorComment(dto);
 
-            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
             string @base = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
@@ -788,6 +1069,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             _sb.AppendLine($"{output} *= {output};");
 
             return GenerateOperatorWrapUp(dto, output);
+        }
+
+        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.ExponentOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
+
+            return Process_Math_Pow(dto);
         }
 
         protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
@@ -854,6 +1143,81 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_WithPhaseTracking(dto);
         }
 
+        protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(PulseTrigger_OperatorDto_VarPassThrough_VarReset dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicEquidistant(Random_OperatorDto_CubicEquidistant dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicSmoothSlope(Random_OperatorDto_CubicSmoothSlope dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Random_OperatorDto_Hermite(Random_OperatorDto_Hermite dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Random_OperatorDto_Line(Random_OperatorDto_Line dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe(Random_OperatorDto_Stripe dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Reset_OperatorDto(Reset_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_NoOriginShifting(Reverse_OperatorDto_ConstSpeed_NoOriginShifting dto)
         {
             PutNumberOnStack(dto.Speed);
@@ -887,9 +1251,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarSpeed_WithPhaseTracking(Reverse_OperatorDto_VarSpeed_WithPhaseTracking dto)
         {
+            Visit_OperatorDto_Polymorphic(dto.SpeedOperatorDto);
+
             GenerateLeadingOperatorComment(dto);
 
-            Visit_OperatorDto_Polymorphic(dto.SpeedOperatorDto);
             string speed = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
             string previousPosition = GenerateLongLivedPreviousPositionName();
@@ -940,9 +1305,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_StepOne_OffsetZero(Round_OperatorDto_VarSignal_StepOne_OffsetZero dto)
         {
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+
             GenerateLeadingOperatorComment(dto);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
             const string math = nameof(Math);
@@ -970,9 +1336,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateConstRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -981,9 +1347,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateConstRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
@@ -992,9 +1358,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateConstRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -1003,9 +1369,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateConstRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -1014,9 +1380,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateConstRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
@@ -1025,9 +1391,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateConstRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
@@ -1036,9 +1402,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateVarRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -1047,9 +1413,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateVarRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
 
@@ -1058,9 +1424,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_NoPhaseTracking(Sample_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateVarRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -1069,9 +1435,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateVarRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -1080,9 +1446,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateVarRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
 
@@ -1091,9 +1457,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(Sample_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string rate = GenerateVarRateCalculationForSample(dto);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
 
@@ -1214,6 +1580,26 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessPhaseTrackingOperator(dto, x => string.Format(SINE_FORMULA_FORMAT, x));
         }
 
+        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override OperatorDtoBase Visit_Spectrum_OperatorDto_AllVars(Spectrum_OperatorDto_AllVars dto)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             PutNumberOnStack(dto.Frequency);
@@ -1254,6 +1640,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, MULTIPLY_SYMBOL);
         }
 
+        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        {
+            PutNumberOnStack(dto.Factor);
+
+            return Process_StretchOrSquash_WithOriginShifting(dto, MULTIPLY_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        {
+            PutNumberOnStack(dto.Factor);
+
+            return Process_StretchOrSquash_ZeroOrigin(dto, MULTIPLY_SYMBOL);
+        }
+
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
         {
             PutNumberOnStack(dto.Origin);
@@ -1270,11 +1670,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
         {
-            PutNumberOnStack(dto.Factor);
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
-            return Process_StretchOrSquash_ZeroOrigin(dto, MULTIPLY_SYMBOL);
+            return Process_StretchOrSquash_WithPhaseTracking(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
@@ -1282,20 +1682,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
             return Process_StretchOrSquash_ZeroOrigin(dto, MULTIPLY_SYMBOL);
-        }
-
-        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
-        {
-            PutNumberOnStack(dto.Factor);
-
-            return Process_StretchOrSquash_WithOriginShifting(dto, MULTIPLY_SYMBOL);
-        }
-
-        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
-
-            return Process_StretchOrSquash_WithPhaseTracking(dto, MULTIPLY_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
@@ -1314,6 +1700,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, DIVIDE_SYMBOL);
         }
 
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        {
+            PutNumberOnStack(dto.Factor);
+
+            return Process_StretchOrSquash_WithOriginShifting(dto, DIVIDE_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        {
+            PutNumberOnStack(dto.Factor);
+
+            return Process_StretchOrSquash_ZeroOrigin(dto, DIVIDE_SYMBOL);
+        }
+
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
         {
             PutNumberOnStack(dto.Origin);
@@ -1330,11 +1730,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, DIVIDE_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
         {
-            PutNumberOnStack(dto.Factor);
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
-            return Process_StretchOrSquash_ZeroOrigin(dto, DIVIDE_SYMBOL);
+            return Process_StretchOrSquash_WithPhaseTracking(dto, DIVIDE_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
@@ -1342,20 +1742,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
             return Process_StretchOrSquash_ZeroOrigin(dto, DIVIDE_SYMBOL);
-        }
-
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
-        {
-            PutNumberOnStack(dto.Factor);
-
-            return Process_StretchOrSquash_WithOriginShifting(dto, DIVIDE_SYMBOL);
-        }
-
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
-
-            return Process_StretchOrSquash_WithPhaseTracking(dto, DIVIDE_SYMBOL);
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
@@ -1380,474 +1766,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
-        }
-
-        protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-
-            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
-
-            return Generate_TriangleCode_AfterDeterminePhase(dto, phase);
-        }
-
-        protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(Triangle_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string frequency = CompilationHelper.FormatValue(dto.Frequency);
-
-            string phase = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
-
-            return Generate_TriangleCode_AfterDeterminePhase(dto, phase);
-        }
-
-        protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(Triangle_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            string frequency = _stack.Pop();
-
-            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
-
-            return Generate_TriangleCode_AfterDeterminePhase(dto, phase);
-        }
-
-        protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            string frequency = _stack.Pop();
-
-            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
-
-            // TODO: You could prevent the first addition in the code written in the method called here,
-            // by initializing phase with 0.5 for at the beginning of the chunk calculation.
-
-            return Generate_TriangleCode_AfterDeterminePhase(dto, phase);
-        }
-
-        protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
-        {
-            string inputVariable = GetInputName(dto);
-
-            _stack.Push(inputVariable);
-
-            return dto;
-        }
-
-        protected override OperatorDtoBase Visit_AverageFollower_OperatorDto_AllVars(AverageFollower_OperatorDto_AllVars dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_CubicInterpolation(Cache_OperatorDto_MultiChannel_CubicInterpolation dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_HermiteInterpolation(Cache_OperatorDto_MultiChannel_HermiteInterpolation dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_LineInterpolation(Cache_OperatorDto_MultiChannel_LineInterpolation dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_StripeInterpolation(Cache_OperatorDto_MultiChannel_StripeInterpolation dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation(Cache_OperatorDto_SingleChannel_BlockInterpolation dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_CubicInterpolation(Cache_OperatorDto_SingleChannel_CubicInterpolation dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_HermiteInterpolation(Cache_OperatorDto_SingleChannel_HermiteInterpolation dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_LineInterpolation(Cache_OperatorDto_SingleChannel_LineInterpolation dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_StripeInterpolation(Cache_OperatorDto_SingleChannel_StripeInterpolation dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(ChangeTrigger_OperatorDto_VarPassThrough_VarReset dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_VarElse(If_OperatorDto_VarCondition_ConstThen_VarElse dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_VarThen_ConstElse(If_OperatorDto_VarCondition_VarThen_ConstElse dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_VarThen_VarElse(If_OperatorDto_VarCondition_VarThen_VarElse dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicSmoothSlope(InletsToDimension_OperatorDto_CubicSmoothSlope dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Hermite(InletsToDimension_OperatorDto_Hermite dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Stripe(InletsToDimension_OperatorDto_Stripe dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicAbruptSlope(Interpolate_OperatorDto_CubicAbruptSlope dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicEquidistant(Interpolate_OperatorDto_CubicEquidistant dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicSmoothSlope_LagBehind(Interpolate_OperatorDto_CubicSmoothSlope_LagBehind dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_ManyConstants(Loop_OperatorDto_ManyConstants dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_NoSkipOrRelease(Loop_OperatorDto_NoSkipOrRelease dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants(Loop_OperatorDto_NoSkipOrRelease_ManyConstants dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MaxFollower_OperatorDto_AllVars(MaxFollower_OperatorDto_AllVars dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_1Var_1Const(MaxOverInlets_OperatorDto_1Var_1Const dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_2Vars(MaxOverInlets_OperatorDto_2Vars dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MinFollower_OperatorDto_AllVars(MinFollower_OperatorDto_AllVars dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_1Var_1Const(MinOverInlets_OperatorDto_1Var_1Const dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_2Vars(MinOverInlets_OperatorDto_2Vars dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_OperatorDto_Base(OperatorDtoBase dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(PulseTrigger_OperatorDto_VarPassThrough_VarReset dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicEquidistant(Random_OperatorDto_CubicEquidistant dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicSmoothSlope(Random_OperatorDto_CubicSmoothSlope dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Hermite(Random_OperatorDto_Hermite dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Line(Random_OperatorDto_Line dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe(Random_OperatorDto_Stripe dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Reset_OperatorDto(Reset_OperatorDto dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Spectrum_OperatorDto_AllVars(Spectrum_OperatorDto_AllVars dto)
-        {
-            throw new NotImplementedException();
         }
 
         protected override OperatorDtoBase Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto)
@@ -1880,112 +1798,182 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
+        protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        {
+            string frequency = CompilationHelper.FormatValue(dto.Frequency);
+
+            GenerateLeadingOperatorComment(dto);
+
+            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
+
+            return Generate_TriangleCode_AfterDeterminePhase(dto, phase);
+        }
+
+        protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(Triangle_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        {
+            string frequency = CompilationHelper.FormatValue(dto.Frequency);
+
+            GenerateLeadingOperatorComment(dto);
+
+            string phase = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
+
+            return Generate_TriangleCode_AfterDeterminePhase(dto, phase);
+        }
+
+        protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(Triangle_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
+
+            GenerateLeadingOperatorComment(dto);
+
+            string frequency = _stack.Pop();
+
+            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
+
+            return Generate_TriangleCode_AfterDeterminePhase(dto, phase);
+        }
+
+        protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
+
+            GenerateLeadingOperatorComment(dto);
+
+            string frequency = _stack.Pop();
+
+            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
+
+            // TODO: You could prevent the first addition in the code written in the method called here,
+            // by initializing phase with 0.5 for at the beginning of the chunk calculation.
+
+            return Generate_TriangleCode_AfterDeterminePhase(dto, phase);
+        }
+
+        protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
+        {
+            string inputVariable = GetInputName(dto);
+
+            _stack.Push(inputVariable);
+
+            return dto;
+        }
+
         // Generalized Methods
 
-        private OperatorDtoBase ProcessBinaryOperator(IOperatorDto dto, string operatorSymbol)
+        /// <summary> Returns output variable name. </summary>
+        private OperatorDtoBase Generate_TriangleCode_AfterDeterminePhase(IOperatorDto dto, string phase)
         {
-            GenerateLeadingOperatorComment(dto);
-
-            string a = _stack.Pop();
-            string b = _stack.Pop();
+            string shiftedPhase = GenerateUniqueLocalVariableName(nameof(shiftedPhase));
+            string relativePhase = GenerateUniqueLocalVariableName(nameof(relativePhase));
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b};");
+            // Correct the phase shift, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
+            _sb.AppendLine($"double {shiftedPhase} = {phase} + 0.25;");
+            _sb.AppendLine($"double {relativePhase} = {shiftedPhase} % 1.0;");
+            _sb.AppendLine($"double {output};");
+            // Starts going up at a rate of 2 up over 1/2 a cycle.
+            _sb.AppendLine($"if ({relativePhase} < 0.5) {output} = -1.0 + 4.0 * {relativePhase};");
+            // And then going down at phase 1/2.
+            // (Extending the line to x = 0 it ends up at y = 3.)
+            _sb.AppendLine($"else {output} = 3.0 - 4.0 * {relativePhase};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessComparativeOperator_VarA_ConstB(OperatorDtoBase_VarA_ConstB dto, string operatorSymbol)
+        private OperatorDtoBase Process_ClosestOverInlets(IOperatorDto dto, int varCount)
         {
-            PutNumberOnStack(dto.B);
-            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+            string input = _stack.Pop();
+            string firstItem = _stack.Pop();
 
-            return ProcessComparativeOperator(dto, operatorSymbol);
-        }
-
-        private OperatorDtoBase ProcessComparativeOperator_VarA_VarB(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
-        {
-            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
-
-            return ProcessComparativeOperator(dto, operatorSymbol);
-        }
-
-        private OperatorDtoBase ProcessComparativeOperator(IOperatorDto dto, string operatorSymbol)
-        {
             GenerateLeadingOperatorComment(dto);
 
-            string a = _stack.Pop();
-            string b = _stack.Pop();
+            string smallestDistance = GenerateUniqueLocalVariableName(nameof(smallestDistance));
+            string closestItem = GenerateUniqueLocalVariableName(nameof(closestItem));
             string output = GenerateLocalOutputName(dto);
+            const string geometry = nameof(Geometry);
+            const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
 
-            _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b} ? 1.0 : 0.0;");
+            _sb.AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({input}, {firstItem});");
+            _sb.AppendLine($"double {closestItem} = {firstItem};");
+            _sb.AppendLine();
+
+            for (int i = 1; i < varCount; i++)
+            {
+                string item = _stack.Pop();
+                string distance = GenerateUniqueLocalVariableName(nameof(distance));
+
+                _sb.AppendLine($"double {distance} = {geometry}.{absoluteDistance}({input}, {item});");
+
+                _sb.AppendLine($"if ({smallestDistance} > {distance})");
+                _sb.AppendLine("{");
+                _sb.Indent();
+                {
+
+                    _sb.AppendLine($"{smallestDistance} = {distance};");
+                    _sb.AppendLine($"{closestItem} = {item};");
+                    _sb.Unindent();
+                }
+                _sb.AppendLine("}");
+                _sb.AppendLine();
+            }
+
+            _sb.AppendLine($"double {output} = {closestItem};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessCurve_NoOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
+        private OperatorDtoBase Process_ClosestOverInletsExp(IOperatorDto dto, int varCount)
         {
+            string input = _stack.Pop();
+            string firstItem = _stack.Pop();
+
             GenerateLeadingOperatorComment(dto);
 
+            string smallestDistance = GenerateUniqueLocalVariableName(nameof(smallestDistance));
+            string closestItem = GenerateUniqueLocalVariableName(nameof(closestItem));
             string output = GenerateLocalOutputName(dto);
-            string position = GeneratePositionNameCamelCase(dto);
-            ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+            string logInput = GenerateUniqueLocalVariableName(nameof(logInput));
+            const string geometry = nameof(Geometry);
+            const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
 
-            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({position});");
+            _sb.AppendLine($"double {logInput} = Math.Log({input});");
+            _sb.AppendLine();
 
-            return GenerateOperatorWrapUp(dto, output);
-        }
+            _sb.AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({logInput}, Math.Log({firstItem}));");
+            _sb.AppendLine($"double {closestItem} = {firstItem};");
+            _sb.AppendLine();
 
-        private OperatorDtoBase ProcessCurve_WithOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
-        {
-            GenerateLeadingOperatorComment(dto);
+            for (int i = 1; i < varCount; i++)
+            {
+                string item = _stack.Pop();
+                string distance = GenerateUniqueLocalVariableName(nameof(distance));
 
-            // ReSharper disable once ArgumentsStyleStringLiteral
-            string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate: "1.0");
+                _sb.AppendLine($"double {distance} = {geometry}.{absoluteDistance}({logInput}, Math.Log({item}));");
 
-            ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+                _sb.AppendLine($"if ({smallestDistance} > {distance})");
+                _sb.AppendLine("{");
+                _sb.Indent();
+                {
 
-            string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase});");
+                    _sb.AppendLine($"{smallestDistance} = {distance};");
+                    _sb.AppendLine($"{closestItem} = {item};");
+                    _sb.Unindent();
+                }
+                _sb.AppendLine("}");
+                _sb.AppendLine();
+            }
 
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private OperatorDtoBase ProcessExponentOperator(IOperatorDto dto)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string low = _stack.Pop();
-            string high = _stack.Pop();
-            string ratio = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
-
-            _sb.AppendLine($"double {output} = {low} * Math.Pow({high} / {low}, {ratio});");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private OperatorDtoBase ProcessDivideZeroOrigin(IOperatorDto dto)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string a = _stack.Pop();
-            string b = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
-
-            _sb.AppendLine($"double {output} = {a} / {b};");
+            _sb.AppendLine($"double {output} = {closestItem};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
 
         private OperatorDtoBase Process_Filter_OperatorDto_AllVars(OperatorDtoBase_Filter_VarSignal dto, string biQuadFilterSetFilterVariablesMethodName)
         {
+            Visit_OperatorDto_Base(dto);
+
             GenerateLeadingOperatorComment(dto);
 
-            Visit_OperatorDto_Base(dto);
             string signal = _stack.Pop();
             string frequency = _stack.Pop();
             IList<string> additionalFilterParameters = dto.InputOperatorDtos.Skip(2).Select(x => _stack.Pop()).ToArray();
@@ -2035,9 +2023,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase Process_Filter_OperatorDto_ManyConsts(OperatorDtoBase_Filter_ManyConsts dto)
         {
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+
             GenerateLeadingOperatorComment(dto);
 
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
             string x1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
@@ -2066,36 +2055,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessLogicalBinaryOperator(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
-
-            string a = _stack.Pop();
-            string b = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
-
-            _sb.AppendLine($"double {output} = {a} != 0.0 {operatorSymbol} {b} != 0.0 ? 1.0 : 0.0;");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private OperatorDtoBase ProcessMultiplyOrDivideWithOrigin(IOperatorDto dto, string operatorSymbol)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string a = _stack.Pop();
-            string b = _stack.Pop();
-            string origin = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
-
-            _sb.AppendLine($"double {output} = ({a} - {origin}) {operatorSymbol} {b} + {origin};");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
         private OperatorDtoBase Process_Math_Pow(IOperatorDto dto)
         {
             GenerateLeadingOperatorComment(dto);
@@ -2107,6 +2066,240 @@ namespace JJ.Business.Synthesizer.Roslyn
             _sb.AppendLine($"double {variable} = Math.Pow({@base}, {exponent});");
 
             return GenerateOperatorWrapUp(dto, variable);
+        }
+
+        private OperatorDtoBase Process_Pulse_NoPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string frequency = _stack.Pop();
+
+            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
+
+            string width = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+            _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        // ReSharper disable once SuggestBaseTypeForParameter
+        private OperatorDtoBase Process_Pulse_WithOriginShifting(OperatorDtoBase_ConstFrequency dto)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string frequency = _stack.Pop();
+
+            string phase = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
+
+            string width = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+            _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        // ReSharper disable once SuggestBaseTypeForParameter
+        private OperatorDtoBase Process_Pulse_WithPhaseTracking(OperatorDtoBase_VarFrequency dto)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string frequency = _stack.Pop();
+
+            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
+
+            string width = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+            _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase Process_StretchOrSquash_WithOrigin(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string factor = _stack.Pop();
+            string origin = _stack.Pop();
+            string sourcePos = GeneratePositionNameCamelCase(dto);
+            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+
+            _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {divideOrMultiplySymbol} {factor} + {origin};");
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            string signal = _stack.Pop();
+
+            return GenerateOperatorWrapUp(dto, signal);
+        }
+
+        private OperatorDtoBase Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string factor = _stack.Pop();
+            string sourcePos = GeneratePositionNameCamelCase(dto);
+            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string origin = GenerateLongLivedOriginName();
+
+            _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {divideOrMultiplySymbol} {factor} + {origin};");
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            string signal = _stack.Pop();
+
+            return GenerateOperatorWrapUp(dto, signal);
+        }
+
+        private OperatorDtoBase Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string factor = _stack.Pop();
+            string phase = GenerateLongLivedPhaseName();
+            string previousPosition = GenerateLongLivedPreviousPositionName();
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+
+            _sb.AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {divideOrMultiplySymbol} {factor};");
+            _sb.AppendLine($"{previousPosition} = {sourcePosition};");
+            // I need two different variables for destPos and phase, because destPos is reused by different uses of the same stack level,
+            // while phase needs to be uniquely used by the operator instance.
+            _sb.AppendLine($"{phase} = {destPosition};");
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            string signal = _stack.Pop();
+
+            return GenerateOperatorWrapUp(dto, signal);
+        }
+
+        private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string factor = _stack.Pop();
+            string sourcePos = GeneratePositionNameCamelCase(dto);
+            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+
+            _sb.AppendLine($"{destPos} = {sourcePos} {divideOrMultiplySymbol} {factor};");
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            string signal = _stack.Pop();
+
+            return GenerateOperatorWrapUp(dto, signal);
+        }
+
+        private OperatorDtoBase ProcessBinaryOperator(IOperatorDto dto, string operatorSymbol)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string a = _stack.Pop();
+            string b = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+
+            _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b};");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase ProcessComparativeOperator(IOperatorDto dto, string operatorSymbol)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string a = _stack.Pop();
+            string b = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+
+            _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b} ? 1.0 : 0.0;");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase ProcessComparativeOperator_VarA_ConstB(OperatorDtoBase_VarA_ConstB dto, string operatorSymbol)
+        {
+            PutNumberOnStack(dto.B);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            return ProcessComparativeOperator(dto, operatorSymbol);
+        }
+
+        private OperatorDtoBase ProcessComparativeOperator_VarA_VarB(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
+        {
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            return ProcessComparativeOperator(dto, operatorSymbol);
+        }
+
+        private OperatorDtoBase ProcessCurve_NoOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string output = GenerateLocalOutputName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
+            ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+
+            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({position});");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase ProcessCurve_WithOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            // ReSharper disable once ArgumentsStyleStringLiteral
+            string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate: "1.0");
+
+            ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+
+            string output = GenerateLocalOutputName(dto);
+            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase});");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase ProcessDivideZeroOrigin(IOperatorDto dto)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string a = _stack.Pop();
+            string b = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+
+            _sb.AppendLine($"double {output} = {a} / {b};");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase ProcessExponentOperator(IOperatorDto dto)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string low = _stack.Pop();
+            string high = _stack.Pop();
+            string ratio = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+
+            _sb.AppendLine($"double {output} = {low} * Math.Pow({high} / {low}, {ratio});");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase ProcessLogicalBinaryOperator(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
+        {
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            GenerateLeadingOperatorComment(dto);
+
+            string a = _stack.Pop();
+            string b = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+
+            _sb.AppendLine($"double {output} = {a} != 0.0 {operatorSymbol} {b} != 0.0 ? 1.0 : 0.0;");
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         private OperatorDtoBase ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(OperatorDtoBase_ConstA_ConstB_VarOrigin dto, string operatorSymbol)
@@ -2172,19 +2365,18 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessMultiVarOperator_Vars_NoConsts(OperatorDtoBase_Vars dto, string operatorSymbol)
+        private OperatorDtoBase ProcessMultiplyOrDivideWithOrigin(IOperatorDto dto, string operatorSymbol)
         {
-            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
+            GenerateLeadingOperatorComment(dto);
 
-            return ProcessMultiVarOperator(dto, dto.Vars.Count, operatorSymbol);
-        }
+            string a = _stack.Pop();
+            string b = _stack.Pop();
+            string origin = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
 
-        private OperatorDtoBase ProcessMultiVarOperator_Vars_1Const(OperatorDtoBase_Vars_1Const dto, string operatorSymbol)
-        {
-            PutNumberOnStack(dto.ConstValue);
-            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
+            _sb.AppendLine($"double {output} = ({a} - {origin}) {operatorSymbol} {b} + {origin};");
 
-            return ProcessMultiVarOperator(dto, dto.Vars.Count + 1, operatorSymbol);
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         private OperatorDtoBase ProcessMultiVarOperator(IOperatorDto dto, int varCount, string operatorSymbol)
@@ -2219,9 +2411,19 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private void PutNumberOnStack(double value)
+        private OperatorDtoBase ProcessMultiVarOperator_Vars_1Const(OperatorDtoBase_Vars_1Const dto, string operatorSymbol)
         {
-            _stack.Push(CompilationHelper.FormatValue(value));
+            PutNumberOnStack(dto.ConstValue);
+            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
+
+            return ProcessMultiVarOperator(dto, dto.Vars.Count + 1, operatorSymbol);
+        }
+
+        private OperatorDtoBase ProcessMultiVarOperator_Vars_NoConsts(OperatorDtoBase_Vars dto, string operatorSymbol)
+        {
+            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
+
+            return ProcessMultiVarOperator(dto, dto.Vars.Count, operatorSymbol);
         }
 
         private Number_OperatorDto ProcessNumberOperatorDto(Number_OperatorDto dto)
@@ -2233,9 +2435,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessOriginShifter(OperatorDtoBase_ConstFrequency dto, Func<string, string> getRightHandFormulaDelegate)
         {
-            GenerateLeadingOperatorComment(dto);
-
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
+
+            GenerateLeadingOperatorComment(dto);
 
             string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
 
@@ -2249,9 +2451,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessPhaseTrackingOperator(OperatorDtoBase_VarFrequency dto, Func<string, string> getRightHandFormulaDelegate)
         {
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
+
             GenerateLeadingOperatorComment(dto);
 
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
             string frequency = _stack.Pop();
 
             string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
@@ -2260,53 +2463,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             string rightHandFormula = getRightHandFormulaDelegate(phase);
 
             _sb.AppendLine($"double {output} = {rightHandFormula};");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        // ReSharper disable once SuggestBaseTypeForParameter
-        private OperatorDtoBase Process_Pulse_WithPhaseTracking(OperatorDtoBase_VarFrequency dto)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string frequency = _stack.Pop();
-
-            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
-
-            string width = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        // ReSharper disable once SuggestBaseTypeForParameter
-        private OperatorDtoBase Process_Pulse_WithOriginShifting(OperatorDtoBase_ConstFrequency dto)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string frequency = _stack.Pop();
-
-            string phase = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
-
-            string width = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private OperatorDtoBase Process_Pulse_NoPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string frequency = _stack.Pop();
-
-            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
-
-            string width = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2386,7 +2542,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             _sb.AppendLine($"double {output} = {mathHelper}.{scaleLinearly}({signal}, {sourceValueA}, {sourceValueB}, {targetValueA}, {targetValueB});");
 
-            return GenerateOperatorWrapUp(dto, signal);
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         private OperatorDtoBase ProcessSetDimension(IOperatorDto_VarSignal_WithDimension dto, OperatorDtoBase valueOperatorDto = null, double? value = null)
@@ -2424,78 +2580,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
-        private OperatorDtoBase Process_StretchOrSquash_WithOrigin(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string factor = _stack.Pop();
-            string origin = _stack.Pop();
-            string sourcePos = GeneratePositionNameCamelCase(dto);
-            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-
-            _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {divideOrMultiplySymbol} {factor} + {origin};");
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            return GenerateOperatorWrapUp(dto, signal);
-        }
-
-        private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string factor = _stack.Pop();
-            string sourcePos = GeneratePositionNameCamelCase(dto);
-            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-
-            _sb.AppendLine($"{destPos} = {sourcePos} {divideOrMultiplySymbol} {factor};");
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            return GenerateOperatorWrapUp(dto, signal);
-        }
-
-        private OperatorDtoBase Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string factor = _stack.Pop();
-            string sourcePos = GeneratePositionNameCamelCase(dto);
-            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string origin = GenerateLongLivedOriginName();
-
-            _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {divideOrMultiplySymbol} {factor} + {origin};");
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            return GenerateOperatorWrapUp(dto, signal);
-        }
-
-        private OperatorDtoBase Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
-        {
-            GenerateLeadingOperatorComment(dto);
-
-            string factor = _stack.Pop();
-            string phase = GenerateLongLivedPhaseName();
-            string previousPosition = GenerateLongLivedPreviousPositionName();
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-
-            _sb.AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {divideOrMultiplySymbol} {factor};");
-            _sb.AppendLine($"{previousPosition} = {sourcePosition};");
-            // I need two different variables for destPos and phase, because destPos is reused by different uses of the same stack level,
-            // while phase needs to be uniquely used by the operator instance.
-            _sb.AppendLine($"{phase} = {destPosition};");
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            return GenerateOperatorWrapUp(dto, signal);
-        }
-
         private OperatorDtoBase ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto, Func<string, string> getRightHandFormulaDelegate)
         {
             GenerateLeadingOperatorComment(dto);
@@ -2511,24 +2595,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        /// <summary> Returns output variable name. </summary>
-        private OperatorDtoBase Generate_TriangleCode_AfterDeterminePhase(IOperatorDto dto, string phase)
+        private void PutNumberOnStack(double value)
         {
-            string shiftedPhase = GenerateUniqueLocalVariableName(nameof(shiftedPhase));
-            string relativePhase = GenerateUniqueLocalVariableName(nameof(relativePhase));
-            string output = GenerateLocalOutputName(dto);
-
-            // Correct the phase shift, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
-            _sb.AppendLine($"double {shiftedPhase} = {phase} + 0.25;");
-            _sb.AppendLine($"double {relativePhase} = {shiftedPhase} % 1.0;");
-            _sb.AppendLine($"double {output};");
-            // Starts going up at a rate of 2 up over 1/2 a cycle.
-            _sb.AppendLine($"if ({relativePhase} < 0.5) {output} = -1.0 + 4.0 * {relativePhase};");
-            // And then going down at phase 1/2.
-            // (Extending the line to x = 0 it ends up at y = 3.)
-            _sb.AppendLine($"else {output} = 3.0 - 4.0 * {relativePhase};");
-
-            return GenerateOperatorWrapUp(dto, output);
+            _stack.Push(CompilationHelper.FormatValue(value));
         }
 
         // Helpers
