@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
             string x = _stack.Pop();
 
-            string variable = GenerateUniqueLocalVariableName(dto);
+            string variable = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {variable} = {x};");
             _sb.AppendLine($"if ({variable} < 0.0) {variable} = -{variable};");
@@ -516,7 +516,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
             string x = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = -{x};");
 
@@ -527,7 +527,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             GenerateLeadingOperatorComment(dto);
 
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
             string position = GeneratePositionNameCamelCase(dto);
             string offset = GetOffsetNumberLiteral(dto.OperatorID);
 
@@ -545,7 +545,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
             string x = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = {x} == 0.0 ? 1.0 : 0.0;");
 
@@ -598,7 +598,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
             string x = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = 1.0 / {x};");
 
@@ -650,7 +650,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
             string @base = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = {@base} * {@base};");
 
@@ -663,7 +663,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
             string @base = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = {@base} * {@base} * {@base};");
 
@@ -676,7 +676,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
             string @base = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = {@base} * {@base};");
             _sb.AppendLine($"{output} *= {output};");
@@ -838,7 +838,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
             const string math = nameof(Math);
             const string round = nameof(Math.Round);
 
@@ -932,7 +932,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             GenerateLeadingOperatorComment(dto);
 
-            string rate = GenerateVarRateCalculation(dto);
+            string rate = GenerateVarRateCalculationForSample(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -943,7 +943,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             GenerateLeadingOperatorComment(dto);
 
-            string rate = GenerateVarRateCalculation(dto);
+            string rate = GenerateVarRateCalculationForSample(dto);
 
             string phase = GeneratePhaseTrackingCalculation(dto, rate);
 
@@ -954,7 +954,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             GenerateLeadingOperatorComment(dto);
 
-            string rate = GenerateVarRateCalculation(dto);
+            string rate = GenerateVarRateCalculationForSample(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -965,7 +965,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             GenerateLeadingOperatorComment(dto);
 
-            string rate = GenerateVarRateCalculation(dto);
+            string rate = GenerateVarRateCalculationForSample(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -976,7 +976,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             GenerateLeadingOperatorComment(dto);
 
-            string rate = GenerateVarRateCalculation(dto);
+            string rate = GenerateVarRateCalculationForSample(dto);
 
             string phase = GeneratePhaseTrackingCalculation(dto, rate);
 
@@ -987,7 +987,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             GenerateLeadingOperatorComment(dto);
 
-            string rate = GenerateVarRateCalculation(dto);
+            string rate = GenerateVarRateCalculationForSample(dto);
 
             string phase = GeneratePhaseTrackingCalculation(dto, rate);
 
@@ -1015,7 +1015,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return ProcessPhaseTracker(dto, x => string.Format(SAW_DOWN_FORMULA_FORMAT, x));
+            return ProcessPhaseTrackingOperator(dto, x => string.Format(SAW_DOWN_FORMULA_FORMAT, x));
         }
 
         protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -1039,7 +1039,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return ProcessPhaseTracker(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
+            return ProcessPhaseTrackingOperator(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
         }
 
         protected override OperatorDtoBase Visit_Scaler_OperatorDto_AllVars(Scaler_OperatorDto_AllVars dto)
@@ -1071,7 +1071,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_SetDimension_OperatorDto_VarPassThrough_VarValue(SetDimension_OperatorDto_VarPassThrough_VarValue dto)
         {
-            return ProcessSetDimension(dto, valueOperatorDto: dto.ValueOperatorDto);
+            return ProcessSetDimension(dto, dto.ValueOperatorDto);
         }
 
         protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
@@ -1105,7 +1105,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return ProcessPhaseTracker(dto, x => string.Format(SINE_FORMULA_FORMAT, x));
+            return ProcessPhaseTrackingOperator(dto, x => string.Format(SINE_FORMULA_FORMAT, x));
         }
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -1129,7 +1129,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return ProcessPhaseTracker(dto, x => string.Format(SQUARE_FORMULA_FORMAT, x));
+            return ProcessPhaseTrackingOperator(dto, x => string.Format(SQUARE_FORMULA_FORMAT, x));
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
@@ -1796,13 +1796,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         // Generalized Methods
 
-        private OperatorDtoBase ProcessBinaryOperator(OperatorDtoBase dto, string operatorSymbol)
+        private OperatorDtoBase ProcessBinaryOperator(IOperatorDto dto, string operatorSymbol)
         {
             GenerateLeadingOperatorComment(dto);
 
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b};");
 
@@ -1825,13 +1825,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessComparativeOperator(dto, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessComparativeOperator(OperatorDtoBase dto, string operatorSymbol)
+        private OperatorDtoBase ProcessComparativeOperator(IOperatorDto dto, string operatorSymbol)
         {
             GenerateLeadingOperatorComment(dto);
 
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b} ? 1.0 : 0.0;");
 
@@ -1842,7 +1842,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             GenerateLeadingOperatorComment(dto);
 
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
             string position = GeneratePositionNameCamelCase(dto);
             ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
             string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
@@ -1856,16 +1856,13 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             GenerateLeadingOperatorComment(dto);
 
-            string phase = GenerateLocalPhaseName();
-            string position = GeneratePositionNameCamelCase(dto);
-            string origin = GenerateLongLivedOriginName();
-
-            _sb.AppendLine($"double {phase} = {position} - {origin};");
+            // ReSharper disable once ArgumentsStyleStringLiteral
+            string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate: "1.0");
 
             ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
             string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
             _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase});");
 
             return GenerateOperatorWrapUp(dto, output);
@@ -1878,20 +1875,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             string low = _stack.Pop();
             string high = _stack.Pop();
             string ratio = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = {low} * Math.Pow({high} / {low}, {ratio});");
 
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessDivideZeroOrigin(OperatorDtoBase dto)
+        private OperatorDtoBase ProcessDivideZeroOrigin(IOperatorDto dto)
         {
             GenerateLeadingOperatorComment(dto);
 
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = {a} / {b};");
 
@@ -1906,7 +1903,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string signal = _stack.Pop();
             string frequency = _stack.Pop();
             IList<string> additionalFilterParameters = dto.InputOperatorDtos.Skip(2).Select(x => _stack.Pop()).ToArray();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             string x1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
             string x2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
@@ -1961,7 +1958,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string x2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
             string y1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
             string y2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             string a0 = CompilationHelper.FormatValue(dto.A0);
             string a1 = CompilationHelper.FormatValue(dto.A1);
@@ -1992,34 +1989,34 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = {a} != 0.0 {operatorSymbol} {b} != 0.0 ? 1.0 : 0.0;");
 
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessMultiplyOrDivideWithOrigin(OperatorDtoBase dto, string operatorSymbol)
+        private OperatorDtoBase ProcessMultiplyOrDivideWithOrigin(IOperatorDto dto, string operatorSymbol)
         {
             GenerateLeadingOperatorComment(dto);
 
             string a = _stack.Pop();
             string b = _stack.Pop();
             string origin = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = ({a} - {origin}) {operatorSymbol} {b} + {origin};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase Process_Math_Pow(OperatorDtoBase dto)
+        private OperatorDtoBase Process_Math_Pow(IOperatorDto dto)
         {
             GenerateLeadingOperatorComment(dto);
 
             string @base = _stack.Pop();
             string exponent = _stack.Pop();
-            string variable = GenerateUniqueLocalVariableName(dto);
+            string variable = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {variable} = Math.Pow({@base}, {exponent});");
 
@@ -2104,11 +2101,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiVarOperator(dto, dto.Vars.Count + 1, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessMultiVarOperator(OperatorDtoBase dto, int varCount, string operatorSymbol)
+        private OperatorDtoBase ProcessMultiVarOperator(IOperatorDto dto, int varCount, string operatorSymbol)
         {
             GenerateLeadingOperatorComment(dto);
 
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
 
             _sb.AppendTabs();
             _sb.Append($"double {output} =");
@@ -2153,31 +2150,29 @@ namespace JJ.Business.Synthesizer.Roslyn
             GenerateLeadingOperatorComment(dto);
 
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
-            string position = GeneratePositionNameCamelCase(dto);
-            string origin = GenerateLongLivedOriginName();
-            string variable = GenerateUniqueLocalVariableName(dto);
-            string rightHandFormula = getRightHandFormulaDelegate(variable);
 
-            _sb.AppendLine($"double {variable} = ({position} - {origin}) * {frequency};");
-            _sb.AppendLine($"{variable} = {rightHandFormula};");
+            string phase = GeneratePhaseTrackingCalculation(dto, frequency);
 
-            return GenerateOperatorWrapUp(dto, variable);
+            string output = GenerateLocalOutputName(dto);
+            string rightHandFormula = getRightHandFormulaDelegate(phase);
+
+            _sb.AppendLine($"double {output} = {rightHandFormula};");
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessPhaseTracker(OperatorDtoBase_VarFrequency dto, Func<string, string> getRightHandFormulaDelegate)
+        private OperatorDtoBase ProcessPhaseTrackingOperator(OperatorDtoBase_VarFrequency dto, Func<string, string> getRightHandFormulaDelegate)
         {
             GenerateLeadingOperatorComment(dto);
 
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
             string frequency = _stack.Pop();
-            string phase = GenerateLongLivedPhaseName();
-            string position = GeneratePositionNameCamelCase(dto);
-            string previousPosition = GenerateLongLivedPreviousPositionName();
-            string output = GenerateUniqueLocalVariableName(dto);
+
+            string phase = GeneratePhaseTrackingCalculation(dto, frequency);
+
+            string output = GenerateLocalOutputName(dto);
             string rightHandFormula = getRightHandFormulaDelegate(phase);
 
-            _sb.AppendLine($"{phase} += ({position} - {previousPosition}) * {frequency};");
-            _sb.AppendLine($"{previousPosition} = {position};");
             _sb.AppendLine($"double {output} = {rightHandFormula};");
 
             return GenerateOperatorWrapUp(dto, output);
@@ -2189,14 +2184,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             GenerateLeadingOperatorComment(dto);
 
             string frequency = _stack.Pop();
-            string width = _stack.Pop();
-            string phase = GenerateLongLivedPhaseName();
-            string position = GeneratePositionNameCamelCase(dto);
-            string previousPosition = GenerateLongLivedPreviousPositionName();
-            string output = GenerateUniqueLocalVariableName(dto);
 
-            _sb.AppendLine($"{phase} += ({position} - {previousPosition}) * {frequency};");
-            _sb.AppendLine($"{previousPosition} = {position};");
+            string phase = GeneratePhaseTrackingCalculation(dto, frequency);
+
+            string width = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
             _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
 
             return GenerateOperatorWrapUp(dto, output);
@@ -2208,15 +2200,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             GenerateLeadingOperatorComment(dto);
 
             string frequency = _stack.Pop();
+
+            string phase = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
+
             string width = _stack.Pop();
-            string position = GeneratePositionNameCamelCase(dto);
-            string origin = GenerateLongLivedOriginName();
-            string variable = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
+            _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
 
-            _sb.AppendLine($"double {variable} = ({position} - {origin}) * {frequency};");
-            _sb.AppendLine($"{variable} = {variable} % 1.0 < {width} ? 1.0 : -1.0;");
-
-            return GenerateOperatorWrapUp(dto, variable);
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         private OperatorDtoBase Process_Pulse_NoPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto)
@@ -2224,14 +2215,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             GenerateLeadingOperatorComment(dto);
 
             string frequency = _stack.Pop();
+
+            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
+
             string width = _stack.Pop();
-            string position = GeneratePositionNameCamelCase(dto);
-            string variable = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
+            _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
 
-            _sb.AppendLine($"double {variable} = {position} * {frequency};");
-            _sb.AppendLine($"{variable} = {variable} % 1.0 < {width} ? 1.0 : -1.0;");
-
-            return GenerateOperatorWrapUp(dto, variable);
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         private OperatorDtoBase ProcessReverse_NoPhaseTrackingOrOriginShifting(IOperatorDto_VarSignal_WithDimension dto)
@@ -2264,7 +2255,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string signal = GetLiteralFromOperatorDtoOrValue(signalOperatorDto, signalValue);
             string step = GetLiteralFromOperatorDtoOrValue(stepOperatorDto, stepValue);
             string offset = GetLiteralFromOperatorDtoOrValue(offsetOperatorDto, offsetValue);
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
@@ -2274,7 +2265,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         private OperatorDtoBase ProcessRoundZeroOffset(
-            OperatorDtoBase dto,
+            IOperatorDto dto,
             OperatorDtoBase signalOperatorDto = null,
             double? signalValue = null,
             OperatorDtoBase stepOperatorDto = null,
@@ -2284,7 +2275,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string signal = GetLiteralFromOperatorDtoOrValue(signalOperatorDto, signalValue);
             string step = GetLiteralFromOperatorDtoOrValue(stepOperatorDto, stepValue);
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
@@ -2294,7 +2285,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         /// <summary> Assumes all inlets literals are have been put on the _stack. </summary>
-        private OperatorDtoBase ProcessScaler(OperatorDtoBase dto)
+        private OperatorDtoBase ProcessScaler(IOperatorDto dto)
         {
             GenerateLeadingOperatorComment(dto);
 
@@ -2303,9 +2294,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             string sourceValueB = _stack.Pop();
             string targetValueA = _stack.Pop();
             string targetValueB = _stack.Pop();
-            string output = GenerateUniqueLocalVariableName(dto);
+            string output = GenerateLocalOutputName(dto);
+            const string mathHelper = nameof(MathHelper);
+            const string scaleLinearly = nameof(MathHelper.ScaleLinearly);
 
-            _sb.AppendLine($"double {output} = MathHelper.ScaleLinearly({signal}, {sourceValueA}, {sourceValueB}, {targetValueA}, {targetValueB});");
+            _sb.AppendLine($"double {output} = {mathHelper}.{scaleLinearly}({signal}, {sourceValueA}, {sourceValueB}, {targetValueA}, {targetValueB});");
 
             return GenerateOperatorWrapUp(dto, signal);
         }
@@ -2422,22 +2415,22 @@ namespace JJ.Business.Synthesizer.Roslyn
             GenerateLeadingOperatorComment(dto);
 
             string frequency = _stack.Pop();
-            string position = GeneratePositionNameCamelCase(dto);
-            string output = GenerateUniqueLocalVariableName(dto);
-            string rightHandFormula = getRightHandFormulaDelegate(output);
 
-            _sb.AppendLine($"double {output} = {position} * {frequency};");
-            _sb.AppendLine($"{output} = {rightHandFormula};");
+            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
+
+            string rightHandFormula = getRightHandFormulaDelegate(phase);
+            string output = GenerateLocalOutputName(dto);
+            _sb.AppendLine($"double {output} = {rightHandFormula};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
 
         /// <summary> Returns output variable name. </summary>
-        private OperatorDtoBase Generate_TriangleCode_AfterDeterminePhase(OperatorDtoBase dto, string phase)
+        private OperatorDtoBase Generate_TriangleCode_AfterDeterminePhase(IOperatorDto dto, string phase)
         {
             string shiftedPhase = GenerateUniqueLocalVariableName(nameof(shiftedPhase));
             string relativePhase = GenerateUniqueLocalVariableName(nameof(relativePhase));
-            string output = GenerateUniqueLocalVariableName(OperatorTypeEnum.Triangle);
+            string output = GenerateLocalOutputName(dto);
 
             // Correct the phase shift, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
             _sb.AppendLine($"double {shiftedPhase} = {phase} + 0.25;");
@@ -2448,11 +2441,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             // And then going down at phase 1/2.
             // (Extending the line to x = 0 it ends up at y = 3.)
             _sb.AppendLine($"else {output} = 3.0 - 4.0 * {relativePhase};");
-            _sb.AppendLine();
 
-            _stack.Push(output);
-
-            return dto;
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         // Helpers
@@ -2486,6 +2476,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             return variableInfo.NameCamelCase;
         }
 
+        /// <summary> Returns the rate literal. </summary>
+        private string GenerateConstRateCalculationForSample(OperatorDtoBase_ConstFrequency dto)
+        {
+            string rate = CompilationHelper.FormatValue(dto.Frequency / SAMPLE_BASE_FREQUENCY);
+            return rate;
+        }
+
         private ExtendedVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
         {
             object mnemonic;
@@ -2511,6 +2508,22 @@ namespace JJ.Business.Synthesizer.Roslyn
             return valueInfo;
         }
 
+        private void GenerateLeadingOperatorComment(IOperatorDto dto)
+        {
+            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+        }
+
+        private string GenerateLocalOutputName(IOperatorDto dto)
+        {
+            return GenerateUniqueLocalVariableName(dto.OperatorTypeEnum);
+        }
+
+        private string GenerateLocalPhaseName()
+        {
+            string variableName = GenerateUniqueLocalVariableName(PHASE_MNEMONIC);
+            return variableName;
+        }
+
         private string GenerateLongLivedOriginName()
         {
             string variableName = GenerateUniqueLocalVariableName(ORIGIN_MNEMONIC);
@@ -2529,12 +2542,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return variableName;
         }
 
-        private string GenerateLocalPhaseName()
-        {
-            string variableName = GenerateUniqueLocalVariableName(PHASE_MNEMONIC);
-            return variableName;
-        }
-
         private string GenerateLongLivedPreviousPositionName()
         {
             string variableName = GenerateUniqueLocalVariableName(PREVIOUS_POSITION_MNEMONIC);
@@ -2542,6 +2549,48 @@ namespace JJ.Business.Synthesizer.Roslyn
             _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
 
             return variableName;
+        }
+
+        private OperatorDtoBase GenerateOperatorWrapUp(IOperatorDto dto, string output)
+        {
+            _sb.AppendLine();
+            _stack.Push(output);
+            return (OperatorDtoBase)dto;
+        }
+
+        /// <summary> Returns the phase literal. </summary>
+        private string GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto, string rate)
+        {
+            string position = GeneratePositionNameCamelCase(dto);
+            string phase = GenerateLocalPhaseName();
+
+            _sb.AppendLine($"double {phase} = {position} * {rate};");
+
+            return phase;
+        }
+
+        /// <summary> Returns the phase literal. </summary>
+        private string GeneratePhaseCalculationWithOriginShifting(IOperatorDto_WithDimension dto, string rate)
+        {
+            string position = GeneratePositionNameCamelCase(dto);
+            string origin = GenerateLongLivedOriginName();
+            string phase = GenerateLocalPhaseName();
+
+            _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
+
+            return phase;
+        }
+
+        private string GeneratePhaseTrackingCalculation(IOperatorDto_WithDimension dto, string rate)
+        {
+            string position = GeneratePositionNameCamelCase(dto);
+            string previousPosition = GenerateLongLivedPreviousPositionName();
+            string phase = GenerateLongLivedPhaseName();
+
+            _sb.AppendLine($"{phase} += ({position} - {previousPosition}) * {rate};");
+            _sb.AppendLine($"{previousPosition} = {position};");
+
+            return phase;
         }
 
         /// <summary>
@@ -2585,6 +2634,74 @@ namespace JJ.Business.Synthesizer.Roslyn
             return positionVariableName;
         }
 
+        private OperatorDtoBase GenerateSampleChannelSwitchEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        {
+            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
+
+            const int channnelDimensionStackLevel = 0; // TODO: This information should be in the DTO.
+            string channelIndexDouble = GeneratePositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
+            string channelIndex = GenerateUniqueLocalVariableName(DimensionEnum.Channel);
+            string output = GenerateLocalOutputName(dto);
+
+            _sb.AppendLine($"int {channelIndex} = (int){channelIndexDouble};");
+            _sb.AppendLine($"double {output} = 0.0;");
+            _sb.AppendLine($"switch ({channelIndex})");
+            _sb.AppendLine("{");
+            _sb.Indent();
+            {
+                for (int i = 0; i < calculators.Count; i++)
+                {
+                    ICalculatorWithPosition calculator = calculators[i];
+                    string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+
+                    _sb.AppendLine($"case {i}:");
+                    _sb.Indent();
+                    {
+                        _sb.AppendLine($"{output} = {calculatorName}.Calculate({phase});");
+                        _sb.AppendLine("break;");
+                        _sb.Unindent();
+                    }
+                }
+                _sb.Unindent();
+            }
+            _sb.AppendLine("}");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase GenerateSampleMonoToStereoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        {
+            // Array
+            ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
+            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+
+            string output = GenerateLocalOutputName(dto);
+            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
+
+            // Wrap-Up
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase GenerateSampleStereoToMonoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        {
+            // Array
+            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
+            string calculatorName1 = GenerateCalculatorVariableNameCamelCaseAndCache(calculators[0]);
+            string calculatorName2 = GenerateCalculatorVariableNameCamelCaseAndCache(calculators[1]);
+
+            string output = GenerateLocalOutputName(dto);
+            _sb.AppendLine($"double {output} =");
+            _sb.Indent();
+            {
+                _sb.AppendLine($"{calculatorName1}.Calculate({phase}) +");
+                _sb.AppendLine($"{calculatorName2}.Calculate({phase});");
+                _sb.Unindent();
+            }
+
+            // Wrap-Up
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
         private string GenerateUniqueDimensionAlias(object mnemonic)
         {
             string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
@@ -2597,20 +2714,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         private string GenerateUniqueLetterSequence()
         {
             return NumberingSystems.ToLetterSequence(_counter++, firstChar: 'a', lastChar: 'z');
-        }
-
-        private string GenerateUniqueLongLivedVariableName(object mnemonic)
-        {
-            string variableName = GenerateUniqueLocalVariableName(mnemonic);
-
-            _longLivedMiscVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
-
-        private int GenerateUniqueNumber()
-        {
-            return _counter++;
         }
 
         /// <param name="mnemonic">
@@ -2627,9 +2730,30 @@ namespace JJ.Business.Synthesizer.Roslyn
             return variableName;
         }
 
-        private string GenerateUniqueLocalVariableName(IOperatorDto dto)
+        private string GenerateUniqueLongLivedVariableName(object mnemonic)
         {
-            return GenerateUniqueLocalVariableName(dto.OperatorTypeEnum);
+            string variableName = GenerateUniqueLocalVariableName(mnemonic);
+
+            _longLivedMiscVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
+        }
+
+        private int GenerateUniqueNumber()
+        {
+            return _counter++;
+        }
+
+        /// <summary> Returns the rate literal. </summary>
+        private string GenerateVarRateCalculationForSample(OperatorDtoBase_VarFrequency dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
+            string frequency = _stack.Pop();
+            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+
+            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+
+            return rate;
         }
 
         /// <summary>
@@ -2709,142 +2833,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             }
 
             return offsetNumberLiteral;
-        }
-
-        // 2017-02-02: Separated out from the sample calculation, probably more generally reusable too.
-
-        private void GenerateLeadingOperatorComment(IOperatorDto dto)
-        {
-            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
-        }
-
-        /// <summary> Returns the rate literal. </summary>
-        private string GenerateConstRateCalculationForSample(OperatorDtoBase_ConstFrequency dto)
-        {
-            string rate = CompilationHelper.FormatValue(dto.Frequency / SAMPLE_BASE_FREQUENCY);
-            return rate;
-        }
-
-        /// <summary> Returns the rate literal. </summary>
-        private string GenerateVarRateCalculation(OperatorDtoBase_VarFrequency dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            string frequency = _stack.Pop();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
-
-            return rate;
-        }
-
-        /// <summary> Returns the phase literal. </summary>
-        private string GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto, string rate)
-        {
-            string position = GeneratePositionNameCamelCase(dto);
-            string phase = GenerateLocalPhaseName();
-
-            _sb.AppendLine($"double {phase} = {position} * {rate};");
-
-            return phase;
-        }
-
-        /// <summary> Returns the phase literal. </summary>
-        private string GeneratePhaseCalculationWithOriginShifting(IOperatorDto_WithDimension dto, string rate)
-        {
-            string position = GeneratePositionNameCamelCase(dto);
-            string origin = GenerateLongLivedOriginName();
-            string phase = GenerateLocalPhaseName();
-
-            _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
-
-            return phase;
-        }
-
-        private string GeneratePhaseTrackingCalculation(IOperatorDto_WithDimension dto, string rate)
-        {
-            string position = GeneratePositionNameCamelCase(dto);
-            string previousPosition = GenerateLongLivedPreviousPositionName();
-            string phase = GenerateLongLivedPhaseName();
-
-            _sb.AppendLine($"{phase} = {phase} + ({position} - {previousPosition}) * {rate};");
-            _sb.AppendLine($"{previousPosition} = {position};");
-
-            return phase;
-        }
-
-        private OperatorDtoBase GenerateSampleMonoToStereoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
-        {
-            // Array
-            ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
-            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
-
-            string output = GenerateUniqueLocalVariableName(dto);
-            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
-
-            // Wrap-Up
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private OperatorDtoBase GenerateSampleStereoToMonoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
-        {
-            // Array
-            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-            string calculatorName1 = GenerateCalculatorVariableNameCamelCaseAndCache(calculators[0]);
-            string calculatorName2 = GenerateCalculatorVariableNameCamelCaseAndCache(calculators[1]);
-
-            string output = GenerateUniqueLocalVariableName(dto);
-            _sb.AppendLine($"double {output} =");
-            _sb.Indent();
-            {
-                _sb.AppendLine($"{calculatorName1}.Calculate({phase}) +");
-                _sb.AppendLine($"{calculatorName2}.Calculate({phase});");
-                _sb.Unindent();
-            }
-
-            // Wrap-Up
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private OperatorDtoBase GenerateSampleChannelSwitchEnd(ISample_OperatorDto_WithSampleID dto, string phase)
-        {
-            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-
-            const int channnelDimensionStackLevel = 0; // TODO: This information should be in the DTO.
-            string channelIndexDouble = GeneratePositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
-            string channelIndex = GenerateUniqueLocalVariableName(DimensionEnum.Channel);
-            string output = GenerateUniqueLocalVariableName(dto);
-
-            _sb.AppendLine($"int {channelIndex} = (int){channelIndexDouble};");
-            _sb.AppendLine($"double {output} = 0.0;");
-            _sb.AppendLine($"switch ({channelIndex})");
-            _sb.AppendLine("{");
-            _sb.Indent();
-            {
-                for (int i = 0; i < calculators.Count; i++)
-                {
-                    ICalculatorWithPosition calculator = calculators[i];
-                    string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
-
-                    _sb.AppendLine($"case {i}:");
-                    _sb.Indent();
-                    {
-                        _sb.AppendLine($"{output} = {calculatorName}.Calculate({phase});");
-                        _sb.AppendLine("break;");
-                        _sb.Unindent();
-                    }
-                }
-                _sb.Unindent();
-            }
-            _sb.AppendLine("}");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private OperatorDtoBase GenerateOperatorWrapUp(IOperatorDto dto, string output)
-        {
-            _sb.AppendLine();
-            _stack.Push(output);
-            return (OperatorDtoBase)dto;
         }
     }
 }
