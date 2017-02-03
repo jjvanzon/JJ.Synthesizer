@@ -40,6 +40,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string PREVIOUS_POSITION_MNEMONIC = "prevpos";
         private const string ORIGIN_MNEMONIC = "origin";
         private const string RATE_MNEMONIC = "rate";
+        private const string SUM_MNEMONIC = "sum";
 
         /// <summary> {0} = phase </summary>
         private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
@@ -51,7 +52,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string SQUARE_FORMULA_FORMAT = "{0} % 1.0 < 0.5 ? 1.0 : -1.0";
 
         private const double SAMPLE_BASE_FREQUENCY = 440.0;
-
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
@@ -202,6 +202,45 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override OperatorDtoBase Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto)
         {
             return ProcessLogicalBinaryOperator(dto, AND_SYMBOL);
+        }
+
+        protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
+        {
+            dto.Vars.ForEach(x => Visit_OperatorDto_Polymorphic(x));
+
+            GenerateLeadingOperatorComment(dto);
+
+            string sum = GenerateUniqueLocalVariableName(SUM_MNEMONIC);
+            string output = GenerateLocalOutputName(dto);
+            int count = dto.Vars.Count;
+
+            _sb.AppendTabs();
+            _sb.Append($"double {sum} =");
+
+            for (int i = 0; i < count; i++)
+            {
+                string value = _stack.Pop();
+
+                _sb.Append(' ');
+                _sb.Append(value);
+
+                bool isLast = i == count - 1;
+                if (isLast)
+                {
+                    break;
+                }
+
+                _sb.Append(" +");
+            }
+
+            _sb.Append(';');
+            _sb.Append(Environment.NewLine);
+
+            string countLiteral = CompilationHelper.FormatValue(count);
+
+            _sb.AppendLine($"double {output} = {sum} / {countLiteral};");
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
@@ -765,7 +804,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string origin = GenerateLongLivedOriginName();
 
             _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) * -{speed} + {origin};");
-            
+
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
@@ -849,17 +888,17 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_ConstOffset(Round_OperatorDto_VarSignal_VarStep_ConstOffset dto)
         {
-            return ProcessRoundWithOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto, offsetValue: dto.Offset);
+            return ProcessRoundWithOffset(dto, dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto, offsetValue: dto.Offset);
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_VarOffset(Round_OperatorDto_VarSignal_VarStep_VarOffset dto)
         {
-            return ProcessRoundWithOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto, offsetOperatorDto: dto.OffsetOperatorDto);
+            return ProcessRoundWithOffset(dto, dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto, offsetOperatorDto: dto.OffsetOperatorDto);
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_ZeroOffset(Round_OperatorDto_VarSignal_VarStep_ZeroOffset dto)
         {
-            return ProcessRoundZeroOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto);
+            return ProcessRoundZeroOffset(dto, dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
@@ -945,7 +984,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string rate = GenerateVarRateCalculationForSample(dto);
 
-            string phase = GeneratePhaseTrackingCalculation(dto, rate);
+            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
 
             return GenerateSampleMonoToStereoEnd(dto, phase);
         }
@@ -978,7 +1017,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string rate = GenerateVarRateCalculationForSample(dto);
 
-            string phase = GeneratePhaseTrackingCalculation(dto, rate);
+            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
 
             return GenerateSampleStereoToMonoEnd(dto, phase);
         }
@@ -989,7 +1028,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string rate = GenerateVarRateCalculationForSample(dto);
 
-            string phase = GeneratePhaseTrackingCalculation(dto, rate);
+            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
 
             return GenerateSampleChannelSwitchEnd(dto, phase);
         }
@@ -1317,7 +1356,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
             string frequency = _stack.Pop();
 
-            string phase = GeneratePhaseTrackingCalculation(dto, frequency);
+            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
 
             // TODO: You could prevent the first addition in the code written in the method called here,
             // by initializing phase with 0.5 for at the beginning of the chunk calculation.
@@ -1345,11 +1384,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
         {
             throw new NotImplementedException();
         }
@@ -2151,7 +2185,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
 
-            string phase = GeneratePhaseTrackingCalculation(dto, frequency);
+            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
 
             string output = GenerateLocalOutputName(dto);
             string rightHandFormula = getRightHandFormulaDelegate(phase);
@@ -2168,7 +2202,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
             string frequency = _stack.Pop();
 
-            string phase = GeneratePhaseTrackingCalculation(dto, frequency);
+            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
 
             string output = GenerateLocalOutputName(dto);
             string rightHandFormula = getRightHandFormulaDelegate(phase);
@@ -2185,7 +2219,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string frequency = _stack.Pop();
 
-            string phase = GeneratePhaseTrackingCalculation(dto, frequency);
+            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
 
             string width = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
@@ -2581,7 +2615,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return phase;
         }
 
-        private string GeneratePhaseTrackingCalculation(IOperatorDto_WithDimension dto, string rate)
+        private string GeneratePhaseCalculationWithPhaseTracking(IOperatorDto_WithDimension dto, string rate)
         {
             string position = GeneratePositionNameCamelCase(dto);
             string previousPosition = GenerateLongLivedPreviousPositionName();
