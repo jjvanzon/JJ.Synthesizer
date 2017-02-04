@@ -8,8 +8,8 @@ namespace JJ.Business.Synthesizer.Validation
     internal class NameValidator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
         private const bool DEFAULT_REQUIRED = true;
-        private readonly static string _defaultPropertyDisplayName = CommonTitles.Name;
-        private readonly static int? _nameMaxLength = GetNameMaxLength();
+        private static readonly string _defaultPropertyDisplayName = CommonTitles.Name;
+        private static readonly int? _nameMaxLength = GetNameMaxLength();
 
         private readonly bool _required;
         private readonly string _propertyDisplayName;
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Validation
             Execute();
         }
 
-        protected override void Execute()
+        protected sealed override void Execute()
         {
             string name = Object;
 

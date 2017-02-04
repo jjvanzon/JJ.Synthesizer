@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class Loop_OperatorWarningValidator : OperatorWarningValidator_Base
     {
-        private static readonly int[] indexesToCheck = new[]
+        private static readonly int[] _indexesToCheck =
         {
             OperatorConstants.LOOP_SIGNAL_INDEX,
             OperatorConstants.LOOP_LOOP_START_MARKER_INDEX,
@@ -24,13 +24,15 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             IList<Inlet> sortedInlets = Object.Inlets.OrderBy(x => x.ListIndex).ToArray();
 
-            foreach (int indexToCheck in indexesToCheck)
+            foreach (int indexToCheck in _indexesToCheck)
             {
                 bool isValidIndex = sortedInlets.Count > indexToCheck;
+                // ReSharper disable once InvertIf
                 if (isValidIndex)
                 {
                     Inlet inlet = sortedInlets[indexToCheck];
 
+                    // ReSharper disable once InvertIf
                     if (inlet.InputOutlet == null)
                     {
                         string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(Object);

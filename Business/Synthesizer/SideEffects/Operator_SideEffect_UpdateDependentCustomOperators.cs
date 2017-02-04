@@ -23,6 +23,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public void Execute()
         {
+            // ReSharper disable once InvertIf
             if (MustExecute())
             {
                 ISideEffect sideEffect2 = new Patch_SideEffect_UpdateDependentCustomOperators(_entity.Patch, _repositories);

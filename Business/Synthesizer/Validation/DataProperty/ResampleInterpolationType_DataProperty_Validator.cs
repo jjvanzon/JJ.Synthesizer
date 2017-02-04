@@ -15,6 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
         {
             string data = Object;
 
+            // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
                 string interpolationType = DataPropertyParser.TryGetString(Object, PropertyNames.InterpolationType);

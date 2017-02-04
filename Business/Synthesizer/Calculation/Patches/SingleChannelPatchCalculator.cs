@@ -91,8 +91,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _dimensionStackCollection = result.DimensionStackCollection;
             _outputOperatorCalculator = result.Output_OperatorCalculator;
             _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
-            _listIndex_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.Where(x => x.ListIndex.HasValue).ToNonUniqueDictionary(x => x.ListIndex.Value, x => x.OperatorCalculator);
-            _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples.ToNonUniqueDictionary(x => NameHelper.ToCanonical(x.Name), x => x.OperatorCalculator);
+            _listIndex_To_ResettableOperatorCalculators_Dictionary = 
+                result.ResettableOperatorTuples.Where(x => x.ListIndex.HasValue)
+                                                // ReSharper disable once PossibleInvalidOperationException
+                                               .ToNonUniqueDictionary(x => x.ListIndex.Value, x => x.OperatorCalculator);
+            _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples
+                                                                      .ToNonUniqueDictionary(x => NameHelper.ToCanonical(x.Name), x => x.OperatorCalculator);
 
             foreach (VariableInput_OperatorCalculator inputOperatorCalculator in _inputOperatorCalculators)
             {
@@ -231,6 +235,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             int listIndex2 = 0;
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
             {
+                // ReSharper disable once InvertIf
                 if (inputCalculator.DimensionEnum == dimensionEnum)
                 {
                     if (listIndex2 == listIndex)
@@ -256,6 +261,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             int listIndex2 = 0;
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
             {
+                // ReSharper disable once InvertIf
                 if (string.Equals(inputCalculator.CanonicalName, canonicalName))
                 {
                     if (listIndex2 == listIndex)
@@ -322,6 +328,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //}
 
             IList<OperatorCalculatorBase> calculators;
+            // ReSharper disable once InvertIf
             if (_name_To_ResettableOperatorCalculators_Dictionary.TryGetValue(canonicalName, out calculators))
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
@@ -351,6 +358,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //}
 
             IList<OperatorCalculatorBase> calculators;
+            // ReSharper disable once InvertIf
             if (_listIndex_To_ResettableOperatorCalculators_Dictionary.TryGetValue(listIndex, out calculators))
             {
                 foreach (OperatorCalculatorBase calculator in calculators)

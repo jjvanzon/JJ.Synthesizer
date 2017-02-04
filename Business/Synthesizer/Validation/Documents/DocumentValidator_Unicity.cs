@@ -24,6 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
         {
             IList<string> duplicateNames = ValidationHelper.GetDuplicateAudioFileOutputNames(Object);
 
+            // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
                 string message = MessageFormatter.NamesNotUnique_WithEntityTypeNameAndNames(PropertyDisplayNames.AudioFileOutput, duplicateNames);
@@ -35,6 +36,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
         {
             IList<string> duplicateNames = ValidationHelper.GetDuplicatePatchNames(Object);
 
+            // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
                 string message = MessageFormatter.NamesNotUnique_WithEntityTypeNameAndNames(PropertyDisplayNames.Patch, duplicateNames);
@@ -46,6 +48,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
         {
             IList<string> duplicateNames = ValidationHelper.GetDuplicateSampleNames(Object);
 
+            // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
                 string message = MessageFormatter.NamesNotUnique_WithEntityTypeNameAndNames(PropertyDisplayNames.Sample, duplicateNames);
@@ -57,6 +60,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
         {
             IList<string> duplicateNames = ValidationHelper.GetDuplicateScaleNames(Object);
 
+            // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
                 string message = MessageFormatter.NamesNotUnique_WithEntityTypeNameAndNames(PropertyDisplayNames.Scale, duplicateNames);

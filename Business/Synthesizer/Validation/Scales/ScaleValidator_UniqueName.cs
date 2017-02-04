@@ -27,6 +27,7 @@ namespace JJ.Business.Synthesizer.Validation.Scales
             }
 
             bool isUnique = ValidationHelper.ScaleNameIsUnique(Object);
+            // ReSharper disable once InvertIf
             if (!isUnique)
             {
                 string message = MessageFormatter.NotUnique_WithPropertyName_AndValue(CommonTitles.Name, Object.Name);

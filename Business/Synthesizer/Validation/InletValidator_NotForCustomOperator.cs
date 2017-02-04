@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation
             Execute();
         }
 
-        protected override void Execute()
+        protected sealed override void Execute()
         {
             For(() => Object.Name, CommonTitles.Name).IsNullOrEmpty();
 

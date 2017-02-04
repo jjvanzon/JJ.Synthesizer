@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Execute();
         }
 
-        protected override void Execute()
+        protected sealed override void Execute()
         {
             Operator op = Object;
 

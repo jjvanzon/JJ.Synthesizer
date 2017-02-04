@@ -23,6 +23,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             _sampleRepository = sampleRepository;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
         }
 

@@ -120,18 +120,17 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use Underlying Entity Name
+            // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(entity))
             {
                 int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, PropertyNames.CurveID);
+                // ReSharper disable once InvertIf
                 if (underlyingEntityID.HasValue)
                 {
                     Curve underlyingEntity = curveRepository.TryGet(underlyingEntityID.Value);
-                    if (underlyingEntity != null)
+                    if (!string.IsNullOrEmpty(underlyingEntity?.Name))
                     {
-                        if (!string.IsNullOrEmpty(underlyingEntity.Name))
-                        {
-                            return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
-                        }
+                        return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
                     }
                 }
             }
@@ -153,18 +152,17 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use Underlying Entity Name
+            // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(entity))
             {
                 int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, PropertyNames.UnderlyingPatchID);
+                // ReSharper disable once InvertIf
                 if (underlyingEntityID.HasValue)
                 {
                     Patch underlyingEntity = patchRepository.TryGet(underlyingEntityID.Value);
-                    if (underlyingEntity != null)
+                    if (!string.IsNullOrEmpty(underlyingEntity?.Name))
                     {
-                        if (!string.IsNullOrEmpty(underlyingEntity.Name))
-                        {
-                            return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
-                        }
+                        return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
                     }
                 }
             }
@@ -184,9 +182,11 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use Number
+            // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(entity.Data))
             {
                 double? number = DataPropertyParser.TryParseDouble(entity.Data, PropertyNames.Number);
+                // ReSharper disable once InvertIf
                 if (number.HasValue)
                 {
                     string messagePrefix = $"{operatorTypeDisplayName} '{number.Value:0.######}': ";
@@ -210,10 +210,12 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use Dimension
+            // ReSharper disable once InvertIf
             if (entity.Inlets.Count == 1)
             {
                 Inlet inlet = entity.Inlets[0];
                 DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
+                // ReSharper disable once InvertIf
                 if (dimensionEnum != DimensionEnum.Undefined)
                 {
                     string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
@@ -238,10 +240,12 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use Dimension
+            // ReSharper disable once InvertIf
             if (entity.Outlets.Count == 1)
             {
                 Outlet outlet = entity.Outlets[0];
                 DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
+                // ReSharper disable once InvertIf
                 if (dimensionEnum != DimensionEnum.Undefined)
                 {
                     string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
@@ -267,18 +271,17 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use Underlying Entity Name
+            // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(entity))
             {
                 int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, PropertyNames.SampleID);
+                // ReSharper disable once InvertIf
                 if (underlyingEntityID.HasValue)
                 {
                     Sample underlyingEntity = sampleRepository.TryGet(underlyingEntityID.Value);
-                    if (underlyingEntity != null)
+                    if (!string.IsNullOrEmpty(underlyingEntity?.Name))
                     {
-                        if (!string.IsNullOrEmpty(underlyingEntity.Name))
-                        {
-                            return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
-                        }
+                        return GetMessagePrefix(operatorTypeDisplayName, underlyingEntity.Name);
                     }
                 }
             }

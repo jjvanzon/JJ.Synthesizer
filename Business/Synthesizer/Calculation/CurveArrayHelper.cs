@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation
             double samplingRate = (sampleCount - 1) / totalLengthX; // - 1 because 3 samples make 2 sample durations.
 
             // Calculate the array.
-            double[] samples = new double[sampleCount];
+            var samples = new double[sampleCount];
             ICalculatorWithPosition interpretedCurveCalculator = new InterpretedCurveCalculator(curve);
             double x = minX;
             for (int i = 0; i < sampleCount; i++)

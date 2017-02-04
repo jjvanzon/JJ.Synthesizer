@@ -24,30 +24,36 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             Operator op = Object;
 
-            if (DataPropertyParser.DataIsWellFormed(op))
+            if (!DataPropertyParser.DataIsWellFormed(op))
             {
-                string sampleIDString = DataPropertyParser.TryGetString(op, PropertyNames.SampleID);
+                return;
+            }
 
-                For(() => sampleIDString, PropertyDisplayNames.SampleID).IsInteger();
+            string sampleIDString = DataPropertyParser.TryGetString(op, PropertyNames.SampleID);
 
-                int sampleID;
-                if (int.TryParse(sampleIDString, out sampleID))
-                {
-                    // Check reference constraint of the Sample.
-                    // (We are quite tollerant here: we omit the check if it is not in a patch or document.)
-                    bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
-                    if (mustCheckReference)
-                    {
-                        IEnumerable<Sample> samples = op.Patch.Document.Samples;
+            For(() => sampleIDString, PropertyDisplayNames.SampleID).IsInteger();
 
-                        bool isInList = samples.Any(x => x.ID == sampleID);
+            int sampleID;
+            if (!int.TryParse(sampleIDString, out sampleID))
+            {
+                return;
+            }
 
-                        if (!isInList)
-                        {
-                            ValidationMessages.AddNotInListMessage(PropertyNames.Sample, PropertyDisplayNames.Sample, sampleID);
-                        }
-                    }
-                }
+            // Check reference constraint of the Sample.
+            // (We are quite tollerant here: we omit the check if it is not in a patch or document.)
+            bool mustCheckReference = op.Patch?.Document != null;
+            if (!mustCheckReference)
+            {
+                return;
+            }
+
+            IEnumerable<Sample> samples = op.Patch.Document.Samples;
+
+            bool isInList = samples.Any(x => x.ID == sampleID);
+
+            if (!isInList)
+            {
+                ValidationMessages.AddNotInListMessage(PropertyNames.Sample, PropertyDisplayNames.Sample, sampleID);
             }
         }
     }

@@ -44,8 +44,10 @@ namespace JJ.Business.Synthesizer.SideEffects
                 listIndexExists = listIndexes.Contains(suggestedListIndex);
             }
 
-            var wrapper = new PatchOutlet_OperatorWrapper(_entity);
-            wrapper.ListIndex = suggestedListIndex;
+            new PatchOutlet_OperatorWrapper(_entity)
+            {
+                ListIndex = suggestedListIndex 
+            };
         }
     }
 }

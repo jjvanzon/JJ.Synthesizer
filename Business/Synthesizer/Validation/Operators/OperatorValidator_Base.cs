@@ -46,6 +46,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             _expectedInletCount = _expectedInletDimensionEnums.Count;
             _expectedOutletCount = _expectedOutletDimensionEnums.Count;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
         }
 
@@ -77,6 +78,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             // Outlets
             For(() => op.Outlets.Count, GetPropertyDisplayName_ForOutletCount()).Is(_expectedOutletCount);
 
+            // ReSharper disable once InvertIf
             if (op.Outlets.Count == _expectedOutletCount)
             {
                 IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();

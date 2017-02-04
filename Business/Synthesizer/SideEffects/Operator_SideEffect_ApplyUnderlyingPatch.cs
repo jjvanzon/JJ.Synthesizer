@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.SideEffects
         public void Execute()
         {
             bool mustExecute = MustExecute();
+            // ReSharper disable once InvertIf
             if (mustExecute)
             {
                 var wrapper = new CustomOperator_OperatorWrapper(_entity, _repositories.PatchRepository);

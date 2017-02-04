@@ -29,14 +29,16 @@ namespace JJ.Business.Synthesizer.Extensions
                 return false;
             }
 
-            if (alreadyDone.Contains(op))
+            bool wasAlreadyAdded = !alreadyDone.Add(op);
+            if (wasAlreadyAdded)
             {
                 return true;
             }
-            alreadyDone.Add(op);
 
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (Inlet inlet in op.Inlets)
             {
+                // ReSharper disable once InvertIf
                 if (inlet.InputOutlet != null)
                 {
                     if (IsCircular(inlet.InputOutlet.Operator, alreadyDone))
@@ -75,11 +77,11 @@ namespace JJ.Business.Synthesizer.Extensions
 
         private static bool HasCircularUnderlyingPatch(this Patch patch, IPatchRepository patchRepository, HashSet<object> alreadyDone)
         {
-            if (alreadyDone.Contains(patch))
+            bool wasAlreadyAdded = !alreadyDone.Add(patch);
+            if (wasAlreadyAdded)
             {
                 return true;
             }
-            alreadyDone.Add(patch);
 
             IList<Operator> customOperators = patch.GetOperatorsOfType(OperatorTypeEnum.CustomOperator);
             foreach (Operator customOperator in customOperators)
@@ -97,11 +99,11 @@ namespace JJ.Business.Synthesizer.Extensions
 
         private static bool HasCircularUnderlyingPatch(this Operator op, IPatchRepository patchRepository, HashSet<object> alreadyDone)
         {
-            if (alreadyDone.Contains(op))
+            bool wasAlreadyAdded = !alreadyDone.Add(op);
+            if (wasAlreadyAdded)
             {
                 return true;
             }
-            alreadyDone.Add(op);
 
             var wrapper = new CustomOperator_OperatorWrapper(op, patchRepository);
             Patch underlyingPatch = wrapper.UnderlyingPatch;
@@ -122,11 +124,11 @@ namespace JJ.Business.Synthesizer.Extensions
 
         private static bool HasCircularUnderlyingPatch(this Document document, IPatchRepository patchRepository, HashSet<object> alreadyDone)
         {
-            if (alreadyDone.Contains(document))
+            bool wasAlreadyAdded = !alreadyDone.Add(document);
+            if (wasAlreadyAdded)
             {
                 return true;
             }
-            alreadyDone.Add(document);
 
             foreach (Patch patch in document.Patches)
             {
@@ -199,12 +201,11 @@ namespace JJ.Business.Synthesizer.Extensions
         // ReSharper disable once SuggestBaseTypeForParameter
         private static void AddOperatorsRecursive(HashSet<Operator> hashSet, Operator op)
         {
-            if (hashSet.Contains(op))
+            bool wasAlreadyAdded = !hashSet.Contains(op);
+            if (wasAlreadyAdded)
             {
                 return;
             }
-
-            hashSet.Add(op);
 
             foreach (Inlet inlet in op.Inlets)
             {

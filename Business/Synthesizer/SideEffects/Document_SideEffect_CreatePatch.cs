@@ -21,7 +21,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public void Execute()
         {
-            if (_entity.Patches.Count == 0)
+            bool mustCreatePatch = _entity.Patches.Count == 0;
+            // ReSharper disable once InvertIf
+            if (mustCreatePatch)
             {
                 var patchManager = new PatchManager(_repositories);
                 patchManager.CreatePatch(_entity, mustGenerateName: true);

@@ -549,10 +549,12 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Equal_OperatorDto_ConstA_ConstB(dto);
 
             // Pre-calculate
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (dto.A == dto.B)
             {
                 return new Number_OperatorDto_One();
             }
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return new Number_OperatorDto_Zero();
@@ -753,6 +755,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_If_OperatorDto_ConstCondition_ConstThen_ConstElse(dto);
 
             // Pre-calculate
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             bool isTrue = dto.Condition != 0.0;
             if (isTrue)
             {
@@ -769,6 +772,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_If_OperatorDto_ConstCondition_ConstThen_VarElse(dto);
 
             // Pre-calculate
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             bool isTrue = dto.Condition != 0.0;
             if (isTrue)
             {
@@ -785,6 +789,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_If_OperatorDto_ConstCondition_VarThen_ConstElse(dto);
 
             // Pre-calculate
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             bool isTrue = dto.Condition != 0.0;
             if (isTrue)
             {
@@ -801,6 +806,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_If_OperatorDto_ConstCondition_VarThen_VarElse(dto);
 
             // Pre-calculate
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             bool isTrue = dto.Condition != 0.0;
             if (isTrue)
             {
@@ -816,6 +822,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(dto);
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (dto.Then == dto.Else)
             {
                 // Identity
@@ -1390,6 +1397,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_NotEqual_OperatorDto_ConstA_ConstB(dto);
 
             // Pre-calculate
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (dto.A != dto.B)
             {
                 return new Number_OperatorDto_One();
@@ -1425,6 +1433,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Not_OperatorDto_ConstX(dto);
 
             // Pre-calculate
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             bool isFalse = dto.X == 0.0;
             if (isFalse)
             {

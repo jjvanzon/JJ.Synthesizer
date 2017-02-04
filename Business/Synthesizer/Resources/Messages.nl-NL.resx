@@ -199,10 +199,6 @@
     <value>Kan het aantal ingangen niet aanpassen, omdat ingang {0} nog ingevuld is.</value>
     <comment>{0} = number</comment>
   </data>
-  <data name="OperatorTypeMustBeOneOutOf" xml:space="preserve">
-    <value>Operator soort moet één van de deze zijn: {0}</value>
-    <comment>{0} = operator type name</comment>
-  </data>
   <data name="CannotChangeOutletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Kan het aantal uitgangen niet aanpassen, omdat uitgang {0} in gebruik is.</value>
     <comment>{0} = number</comment>
@@ -216,14 +212,14 @@
     <comment>{0} = property, {1} = value</comment>
   </data>
   <data name="InletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
-    <value>{0} van ingang wijkt af van de onderliggende schakeling. Ingang naam: '{1}', ingang soort: '{2}', ingang nummer: '{3}'.</value>
+    <value>{0} van ingang wijkt af van de onderliggende schakeling.</value>
     <comment>{0} = property display name</comment>
   </data>
   <data name="NameOrDimensionMustBeFilledIn" xml:space="preserve">
     <value>Er moet of een naam of een dimensie worden ingevuld.</value>
   </data>
   <data name="OutletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
-    <value>{0} van uitgang wijkt af van de onderliggende schakeling. Uitgang naam: '{1}', uitgang soort: '{2}', uitgang nummer: '{3}'.</value>
+    <value>{0} van uitgang wijkt af van de onderliggende schakeling.</value>
     <comment>{0} = property display name</comment>
   </data>
   <data name="MustBePowerOf2" xml:space="preserve">
@@ -232,5 +228,9 @@
   </data>
   <data name="OperatorIsInGraphButNotInList" xml:space="preserve">
     <value>Operator '{0}' is aanwezig in de graaf, but niet in de platte lijst.</value>
+  </data>
+  <data name="OperatorHasNoItemsFilledIn_WithOperatorName" xml:space="preserve">
+    <value>Operator '{0}' heeft geen ingevulde items.</value>
+    <comment>{0} = name or type of object</comment>
   </data>
 </root>

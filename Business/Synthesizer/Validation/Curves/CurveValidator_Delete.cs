@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
             Execute();
         }
 
-        protected override void Execute()
+        protected sealed override void Execute()
         {
             Curve curve = Object;
 

@@ -999,6 +999,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(dto, (dimensionStack, underlyingCalculator) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_NoOriginShifting(dto.Frequency, underlyingCalculator, dimensionStack);
             });
         }
@@ -1007,6 +1008,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(dto, (dimensionStack, underlyingCalculator) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_WithOriginShifting(dto.Frequency, underlyingCalculator, dimensionStack);
             });
         }
@@ -1015,6 +1017,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, underlyingCalculators) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, underlyingCalculators, dimensionStack, channelDimensionStack);
             });
         }
@@ -1023,6 +1026,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(dto, (dimensionStack, underlyingCalculators) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_ConstFrequency_StereoToMono_NoOriginShifting(dto.Frequency, underlyingCalculators, dimensionStack);
             });
         }
@@ -1031,6 +1035,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(dto, (dimensionStack, underlyingCalculators) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_ConstFrequency_StereoToMono_WithOriginShifting(dto.Frequency, underlyingCalculators, dimensionStack);
             });
         }
@@ -1039,6 +1044,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, underlyingCalculators) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency, underlyingCalculators, dimensionStack, channelDimensionStack);
             });
         }
@@ -1047,6 +1053,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(dto, (dimensionStack, underlyingCalculator) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_VarFrequency_MonoToStereo_NoPhaseTracking(_stack.Pop(), underlyingCalculator, dimensionStack);
             });
         }
@@ -1055,6 +1062,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(dto, (dimensionStack, underlyingCalculator) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_VarFrequency_MonoToStereo_WithPhaseTracking(_stack.Pop(), underlyingCalculator, dimensionStack);
             });
         }
@@ -1063,6 +1071,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, underlyingCalculators) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), underlyingCalculators, dimensionStack, channelDimensionStack);
             });
         }
@@ -1071,6 +1080,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(dto, (dimensionStack, underlyingCalculators) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_VarFrequency_StereoToMono_NoPhaseTracking(_stack.Pop(), underlyingCalculators, dimensionStack);
             });
         }
@@ -1079,6 +1089,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(dto, (dimensionStack, underlyingCalculators) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_VarFrequency_StereoToMono_WithPhaseTracking(_stack.Pop(), underlyingCalculators, dimensionStack);
             });
         }
@@ -1087,6 +1098,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, underlyingCalculators) =>
             {
+                // ReSharper disable once ConvertToLambdaExpression
                 return new Sample_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), underlyingCalculators, dimensionStack, channelDimensionStack);
             });
         }

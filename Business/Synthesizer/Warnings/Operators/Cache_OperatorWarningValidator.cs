@@ -60,6 +60,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 .IsInteger()
                 .GreaterThan(0.0);
 
+            // ReSharper disable once InvertIf
             if (start.HasValue && end.HasValue)
             {
                 if (end.Value < start.Value)

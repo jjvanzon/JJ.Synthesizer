@@ -17,6 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
                 return op.Name;
             }
 
+            // ReSharper disable once InvertIf
             if (op.OperatorType != null)
             {
                 string operatorTypeDisplayName = ResourceHelper.GetDisplayName(op.OperatorType);

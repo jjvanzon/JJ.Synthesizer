@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private int GetCurrentStackLevel(DimensionEnum standardDimensionEnum, string canonicalCustomDimensionName)
         {
-            Tuple<DimensionEnum, string> key = new Tuple<DimensionEnum, string>(standardDimensionEnum, canonicalCustomDimensionName);
+            var key = new Tuple<DimensionEnum, string>(standardDimensionEnum, canonicalCustomDimensionName);
 
             int stackLevel;
             if (!_dimensionToCurrentStackLevelDictionary.TryGetValue(key, out stackLevel))
@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private void SetCurrentStackLevel(DimensionEnum standardDimensionEnum, string canonicalCustomDimensionName, int value)
         {
-            Tuple<DimensionEnum, string> key = new Tuple<DimensionEnum, string>(standardDimensionEnum, canonicalCustomDimensionName);
+            var key = new Tuple<DimensionEnum, string>(standardDimensionEnum, canonicalCustomDimensionName);
 
             _dimensionToCurrentStackLevelDictionary[key] = value;
         }

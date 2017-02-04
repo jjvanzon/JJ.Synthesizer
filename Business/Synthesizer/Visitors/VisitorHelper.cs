@@ -61,6 +61,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             foreach (DimensionStack dimensionStack in dimensionStackCollection.GetDimensionStacks())
             {
+                // ReSharper disable once InvertIf
                 if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
                 {
                     var dimensionIdentifier = new { dimensionStack.CanonicalCustomDimensionName, dimensionStack.StandardDimensionEnum };

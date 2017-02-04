@@ -312,7 +312,7 @@ namespace JJ.Business.Synthesizer.Calculation
 #else
                 channelDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
 #endif
-                double[] samples = new double[tickCount];
+                var samples = new double[tickCount];
 
                 double position = start;
 

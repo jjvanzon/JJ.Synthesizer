@@ -35,20 +35,24 @@ namespace JJ.Business.Synthesizer.SideEffects
         public void Execute()
         {
             {
-                var node = new Node();
-                node.ID = _idRepository.GetID();
-                node.X = 0;
-                node.Y = 1;
+                var node = new Node
+                {
+                    ID = _idRepository.GetID(),
+                    X = 0,
+                    Y = 1
+                };
                 node.SetNodeTypeEnum(NodeTypeEnum.Curve, _nodeTypeRepository);
                 node.LinkTo(_curve);
                 _nodeRepository.Insert(node);
             }
 
             {
-                var node = new Node();
-                node.ID = _idRepository.GetID();
-                node.X = 1;
-                node.Y = 0;
+                var node = new Node
+                {
+                    ID = _idRepository.GetID(),
+                    X = 1,
+                    Y = 0
+                };
                 node.LinkTo(_curve);
                 node.SetNodeTypeEnum(NodeTypeEnum.Curve, _nodeTypeRepository);
                 _nodeRepository.Insert(node);

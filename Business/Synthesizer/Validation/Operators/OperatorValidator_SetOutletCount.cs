@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Execute();
         }
 
-        protected override void Execute()
+        protected sealed override void Execute()
         {
             Operator op = Object;
 
@@ -47,6 +47,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             {
                 Outlet outlet = sortedOutlets[i];
 
+                // ReSharper disable once InvertIf
                 if (outlet.ConnectedInlets.Count > 0)
                 {
                     string message = MessageFormatter.CannotChangeOutletsBecauseOneIsStillFilledIn(i + 1);

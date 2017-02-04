@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
+// ReSharper disable InvertIf
 
 namespace JJ.Business.Synthesizer.LinkTo
 {

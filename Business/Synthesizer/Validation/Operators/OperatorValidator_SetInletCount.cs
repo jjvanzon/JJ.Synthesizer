@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Execute();
         }
 
-        protected override void Execute()
+        protected sealed override void Execute()
         {
             Operator op = Object;
 
@@ -57,6 +57,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             {
                 Inlet inlet = sortedInlets[i];
 
+                // ReSharper disable once InvertIf
                 if (inlet.InputOutlet != null)
                 {
                     string message = MessageFormatter.CannotChangeInletsBecauseOneIsStillFilledIn(i + 1);

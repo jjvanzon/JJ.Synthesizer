@@ -59,6 +59,7 @@ namespace JJ.Business.Synthesizer
             Curve curve = Create();
             curve.LinkTo(document);
 
+            // ReSharper disable once InvertIf
             if (mustGenerateName)
             {
                 ISideEffect sideEffect2 = new Curve_SideEffect_GenerateName(curve);

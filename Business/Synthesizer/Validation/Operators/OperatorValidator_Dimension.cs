@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            if (op.OperatorType.HasDimension == true)
+            if (op.OperatorType.HasDimension)
             {
                 bool dimensionIsFilledIn = op.GetStandardDimensionEnum() != DimensionEnum.Undefined;
                 bool customDimensionNameIsFilledIn = NameHelper.IsFilledIn(op.CustomDimensionName);

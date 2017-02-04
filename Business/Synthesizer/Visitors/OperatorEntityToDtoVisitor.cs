@@ -685,6 +685,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
             Sample sample = wrapper.Sample;
 
+            // ReSharper disable once InvertIf
             if (sample != null)
             {
                 dto.SampleID = sample.ID;
@@ -876,7 +877,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Process_ClosestOverInlets_OperatorDto(Operator op, ClosestOverInlets_OperatorDto dto)
+        private void Process_ClosestOverInlets_OperatorDto(Operator op, ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
         {
             VisitOperatorBase(op);
 
@@ -934,7 +935,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Process_StretchOrSquash_OperatorDto(Operator op, StretchOrSquash_OperatorDto dto)
+        private void Process_StretchOrSquash_OperatorDto(Operator op, StretchOrSquash_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
         {
             VisitOperatorBase(op);
 

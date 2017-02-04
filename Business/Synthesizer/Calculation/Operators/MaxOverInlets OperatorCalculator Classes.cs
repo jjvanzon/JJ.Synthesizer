@@ -95,14 +95,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double varValue = _varCalculator.Calculate();
 
-            if (_constValue > varValue)
-            {
-                return _constValue;
-            }
-            else
-            {
-                return varValue;
-            }
+            return _constValue > varValue ? _constValue : varValue;
         }
     }
 
@@ -129,14 +122,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double a = _aCalculator.Calculate();
             double b = _bCalculator.Calculate();
 
-            if (a > b)
-            {
-                return a;
-            }
-            else
-            {
-                return b;
-            }
+            return a > b ? a : b;
         }
     }
 }

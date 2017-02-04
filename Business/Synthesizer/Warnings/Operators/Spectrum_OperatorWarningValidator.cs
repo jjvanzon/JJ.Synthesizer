@@ -69,8 +69,10 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 }   
             }
 
+            // ReSharper disable once InvertIf
             if (frequencyCount.HasValue)
             {
+                // ReSharper disable once InvertIf
                 if (!MathHelper.IsPowerOf2((int)frequencyCount.Value))
                 {
                     string message = MessageFormatter.MustBePowerOf2(PropertyDisplayNames.FrequencyCount);

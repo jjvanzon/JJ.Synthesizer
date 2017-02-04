@@ -13,11 +13,12 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
     /// <summary> Validates the inlet and outlet ListIndexes and that the inlet names are NOT filled in. </summary>
     internal class DataPropertyValidator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
-        private readonly static int? _dataMaxLength = GetDataMaxLength();
+        private static readonly int? _dataMaxLength = GetDataMaxLength();
 
         /// <summary> HashSet for unicity and value comparisons. </summary>
         private readonly HashSet<string> _expectedDataKeysHashSet;
 
+        // ReSharper disable once SuggestBaseTypeForParameter
         public DataPropertyValidator(string data, IList<string> expectedDataKeys)
             : base(data, postponeExecute: true)
         {
@@ -34,7 +35,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             Execute();
         }
 
-        protected override void Execute()
+        protected sealed override void Execute()
         {
             string data = Object;
 

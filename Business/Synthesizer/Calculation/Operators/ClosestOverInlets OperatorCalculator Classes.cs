@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public ClosestOverInlets_OperatorCalculator_VarInput_VarItems(
             OperatorCalculatorBase inputCalculator,
+            // ReSharper disable once SuggestBaseTypeForParameter
             IList<OperatorCalculatorBase> itemCalculators)
             : base(new List<OperatorCalculatorBase>(itemCalculators) { inputCalculator })
         {

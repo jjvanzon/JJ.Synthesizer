@@ -46,6 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private static double ReadInt16Value(BinaryReader binaryReader)
         {
             short shrt = binaryReader.ReadInt16();
+            // ReSharper disable once RedundantCast
             double value = (double)shrt / INT16_VALUE_DIVIDER;
             return value;
         }
@@ -134,6 +135,7 @@ namespace JJ.Business.Synthesizer.Calculation
                 // Then split the doubles into channels.
                 int frameCount = doubles.Length / channelCount;
 
+                // ReSharper disable once SuggestVarOrType_Elsewhere
                 double[][] samples = new double[channelCount][];
                 for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
                 {

@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             _sampleRepository = sampleRepository;
             _alreadyDone = alreadyDone ?? new HashSet<object>();
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
         }
 

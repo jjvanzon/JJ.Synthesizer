@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Execute();
         }
 
-        protected override void Execute()
+        protected sealed override void Execute()
         {
             Operator op = Object;
 
@@ -34,6 +34,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             // TODO: Enable the UnderlyingPatchIsCircular check again, when it is corrected, so it works.
             return;
 
+            // ReSharper disable once HeuristicUnreachableCode
+            // ReSharper disable once InvertIf
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
             {
                 if (op.HasCircularUnderlyingPatch(_patchRepository))

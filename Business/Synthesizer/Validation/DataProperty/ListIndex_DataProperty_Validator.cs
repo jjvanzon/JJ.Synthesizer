@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
         {
             string data = Object;
 
+            // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
                 string listIndexString = DataPropertyParser.TryGetString(Object, PropertyNames.ListIndex);

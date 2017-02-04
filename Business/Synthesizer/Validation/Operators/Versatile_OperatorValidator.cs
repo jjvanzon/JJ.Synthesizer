@@ -102,6 +102,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             _patchRepository = patchRepository;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
         }
 

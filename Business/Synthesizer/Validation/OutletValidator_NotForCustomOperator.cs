@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Validation
             _expectedListIndex = expectedListIndex;
             _expectedDimensionEnum = expectedDimensionEnum;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
         }
 

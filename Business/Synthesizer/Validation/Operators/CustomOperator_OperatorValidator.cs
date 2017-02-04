@@ -4,7 +4,6 @@ using JJ.Framework.Validation;
 using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
@@ -30,7 +29,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Execute();
         }
 
-        protected override void Execute()
+        protected sealed override void Execute()
         {
             Operator op = Object;
 
@@ -39,27 +38,31 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             ExecuteValidator(new DataPropertyValidator(op.Data, _allowedDataKeys));
 
-            if (DataPropertyParser.DataIsWellFormed(op))
+            if (!DataPropertyParser.DataIsWellFormed(op))
             {
-                string underlyingPatchIDString = DataPropertyParser.TryGetString(op, PropertyNames.UnderlyingPatchID);
+                return;
+            }
 
-                For(() => underlyingPatchIDString, PropertyDisplayNames.UnderlyingPatchID).IsInteger();
+            string underlyingPatchIDString = DataPropertyParser.TryGetString(op, PropertyNames.UnderlyingPatchID);
 
-                int underlyingPatchID;
-                if (int.TryParse(underlyingPatchIDString, out underlyingPatchID))
-                {
-                    Patch underlyingPatch = _patchRepository.TryGet(underlyingPatchID);
-                    if (underlyingPatch == null)
-                    {
-                        ValidationMessages.Add(() => underlyingPatch, CommonMessageFormatter.ObjectNotFoundWithID(PropertyDisplayNames.UnderlyingPatch, underlyingPatchID));
-                    }
-                    else
-                    {
-                        ValidateUnderlyingPatchReferenceConstraint(underlyingPatch);
-                        ValidateInletsAgainstUnderlyingPatch(underlyingPatch);
-                        ValidateOutletsAgainstUnderlyingPatch(underlyingPatch);
-                    }
-                }
+            For(() => underlyingPatchIDString, PropertyDisplayNames.UnderlyingPatchID).IsInteger();
+
+            int underlyingPatchID;
+            if (!int.TryParse(underlyingPatchIDString, out underlyingPatchID))
+            {
+                return;
+            }
+
+            Patch underlyingPatch = _patchRepository.TryGet(underlyingPatchID);
+            if (underlyingPatch == null)
+            {
+                ValidationMessages.Add(() => underlyingPatch, CommonMessageFormatter.ObjectNotFoundWithID(PropertyDisplayNames.UnderlyingPatch, underlyingPatchID));
+            }
+            else
+            {
+                ValidateUnderlyingPatchReferenceConstraint(underlyingPatch);
+                ValidateInletsAgainstUnderlyingPatch();
+                ValidateOutletsAgainstUnderlyingPatch();
             }
         }
 
@@ -94,25 +97,22 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Operator op = Object;
 
             // We are quite tollerant here: we omit the check if it is not in a patch or document.
-            bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
-            if (mustCheckReference)
+            bool mustCheckReference = op.Patch?.Document != null;
+            if (!mustCheckReference)
             {
-                bool isInList = op.Patch.Document.Patches.Any(x => x.ID == underlyingPatch.ID);
-                if (!isInList)
-                {
-                    ValidationMessages.AddNotInListMessage(PropertyNames.UnderlyingPatch, PropertyDisplayNames.UnderlyingPatch, underlyingPatch.ID);
-                }
+                return;
+            }
+
+            bool isInList = op.Patch.Document.Patches.Any(x => x.ID == underlyingPatch.ID);
+            if (!isInList)
+            {
+                ValidationMessages.AddNotInListMessage(PropertyNames.UnderlyingPatch, PropertyDisplayNames.UnderlyingPatch, underlyingPatch.ID);
             }
         }
 
-        private void ValidateInletsAgainstUnderlyingPatch(Patch underlyingPatch)
+        private void ValidateInletsAgainstUnderlyingPatch()
         {
             Operator customOperator = Object;
-
-            // TODO:
-            // Warning CA1804  'CustomOperator_OperatorValidator.ValidateInletsAgainstUnderlyingPatch(Patch)' declares a variable, 'underlyingPatchInletOperators', of type 'IList<Operator>', which is never used or is only assigned to. Use this variable or remove it.
-            // You could make things faster by using this collection with InletOutletMatcher.TryGetPatchInlet.
-            IList<Operator> underlyingPatchInletOperators = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
 
             foreach (Inlet customOperatorInlet in customOperator.Inlets)
             {
@@ -151,6 +151,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 }
 
                 Inlet underlyingPatchInlet_Inlet = TryGetInlet(underlyingPatchInletOperator);
+                // ReSharper disable once InvertIf
                 if (underlyingPatchInlet_Inlet != null)
                 {
                     if (customOperatorInlet.GetDimensionEnum() != underlyingPatchInlet_Inlet.GetDimensionEnum())
@@ -164,6 +165,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         ValidationMessages.Add(PropertyNames.Inlet, message);
                     }
 
+                    // ReSharper disable once CompareOfFloatsByEqualityOperator
+                    // ReSharper disable once InvertIf
                     if (customOperatorInlet.DefaultValue != underlyingPatchInlet_Inlet.DefaultValue)
                     {
                         string message = GetInletPropertyDoesNotMatchMessage(
@@ -185,6 +188,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (underlyingPatchInletOperator == null)
             {
+                // ReSharper disable once InvertIf
                 if (!customOperatorInlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
@@ -194,6 +198,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
             else
             {
+                // ReSharper disable once InvertIf
                 if (customOperatorInlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
@@ -203,14 +208,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
         }
 
-        private void ValidateOutletsAgainstUnderlyingPatch(Patch underlyingPatch)
+        private void ValidateOutletsAgainstUnderlyingPatch()
         {
             Operator customOperator = Object;
-
-            // TODO:
-            // Warning CA1804  'CustomOperator_OperatorValidator.ValidateOutletsAgainstUnderlyingPatch(Patch)' declares a variable, 'underlyingPatchOutletOperators', of type 'IList<Operator>', which is never used or is only assigned to. Use this variable or remove it.
-            // You could make things faster by using this collection with InletOutletMatcher.TryGetPatchInlet.
-            IList<Operator> underlyingPatchOutletOperators = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
 
             foreach (Outlet customOperatorOutlet in customOperator.Outlets)
             {
@@ -249,8 +249,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 }
 
                 Outlet underlyingPatchOutlet_Outlet = TryGetOutlet(underlyingPatchOutlet);
+                // ReSharper disable once InvertIf
                 if (underlyingPatchOutlet_Outlet != null)
                 {
+                    // ReSharper disable once InvertIf
                     if (customOperatorOutlet.GetDimensionEnum() != underlyingPatchOutlet_Outlet.GetDimensionEnum())
                     {
                         string message = GetOutletPropertyDoesNotMatchMessage(
@@ -272,6 +274,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (underlyingPatchOutlet == null)
             {
+                // ReSharper disable once InvertIf
                 if (!customOperatorOutlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
@@ -281,6 +284,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
             else
             {
+                // ReSharper disable once InvertIf
                 if (customOperatorOutlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
@@ -294,6 +298,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private static int? TryGetListIndex(Operator patchInletOrPatchOutletOperator)
         {
+            // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(patchInletOrPatchOutletOperator))
             {
                 int? listIndex = DataPropertyParser.TryParseInt32(patchInletOrPatchOutletOperator, PropertyNames.ListIndex);

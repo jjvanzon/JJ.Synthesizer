@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -18,6 +18,7 @@ using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -28,7 +29,7 @@ namespace JJ.Business.Synthesizer.Visitors
     /// which can then pop its operands from this stack, 
     /// and decide which Calculator to push onto the stack again.
     /// </summary>
-    internal partial class OperatorEntityToCalculatorDirectlyVisitor : OperatorEntityVisitorBase_WithInletCoalescing
+    internal class OperatorEntityToCalculatorDirectlyVisitor : OperatorEntityVisitorBase_WithInletCoalescing
     {
         private const double DEFAULT_DIMENSION_VALUE = 0.0;
         
@@ -136,12 +137,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
                 calculator = new Number_OperatorCalculator(value);
             }
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             else if (!xIsConst)
             {
                 calculator = new Absolute_OperatorCalculator_VarX(calculatorX);
             }
             else
+            // ReSharper disable once HeuristicUnreachableCode
             {
+                // ReSharper disable once HeuristicUnreachableCode
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
@@ -1049,6 +1053,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitDivide(Operator op)
         {
             base.VisitDivide(op);
@@ -1066,7 +1071,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 return;
             }
 
+            // ReSharper disable once PossibleNullReferenceException
             double a = aCalculator.Calculate();
+            // ReSharper disable once PossibleNullReferenceException
             double b = bCalculator.Calculate();
             double origin = originCalculator.Calculate();
             bool aIsConst = aCalculator is Number_OperatorCalculator;
@@ -1143,6 +1150,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitEqual(Operator op)
         {
             base.VisitEqual(op);
@@ -1180,13 +1188,16 @@ namespace JJ.Business.Synthesizer.Visitors
                 calculator = new Equal_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
+            // ReSharper disable once HeuristicUnreachableCode
             {
+                // ReSharper disable once HeuristicUnreachableCode
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitExponent(Operator op)
         {
             base.VisitExponent(op);
@@ -1270,6 +1281,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitGreaterThan(Operator op)
         {
             base.VisitGreaterThan(op);
@@ -1307,13 +1319,16 @@ namespace JJ.Business.Synthesizer.Visitors
                 calculator = new GreaterThan_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
+            // ReSharper disable once HeuristicUnreachableCode
             {
+                // ReSharper disable once HeuristicUnreachableCode
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitGreaterThanOrEqual(Operator op)
         {
             base.VisitGreaterThanOrEqual(op);
@@ -1351,7 +1366,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 calculator = new GreaterThanOrEqual_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
+            // ReSharper disable once HeuristicUnreachableCode
             {
+                // ReSharper disable once HeuristicUnreachableCode
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
@@ -1500,6 +1517,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitIf(Operator op)
         {
             base.VisitIf(op);
@@ -1547,13 +1565,16 @@ namespace JJ.Business.Synthesizer.Visitors
                 calculator = new If_OperatorCalculator_VarCondition_VarThen_VarElse(conditionCalculator, thenCalculator, elseCalculator);
             }
             else
+            // ReSharper disable once HeuristicUnreachableCode
             {
+                // ReSharper disable once HeuristicUnreachableCode
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitLessThan(Operator op)
         {
             base.VisitLessThan(op);
@@ -1591,13 +1612,16 @@ namespace JJ.Business.Synthesizer.Visitors
                 calculator = new LessThan_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
+            // ReSharper disable once HeuristicUnreachableCode
             {
+                // ReSharper disable once HeuristicUnreachableCode
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitLessThanOrEqual(Operator op)
         {
             base.VisitLessThanOrEqual(op);
@@ -1635,7 +1659,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 calculator = new LessThanOrEqual_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
+            // ReSharper disable once HeuristicUnreachableCode
             {
+                // ReSharper disable once HeuristicUnreachableCode
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
@@ -1665,6 +1691,7 @@ namespace JJ.Business.Synthesizer.Visitors
             bool releaseEndMarkerIsConst = releaseEndMarkerCalculator is Number_OperatorCalculator;
             bool noteDurationIsConst = noteDurationCalculator is Number_OperatorCalculator;
 
+            // ReSharper disable once UnusedVariable
             double signal = signalCalculator.Calculate();
             double skip = skipCalculator.Calculate();
             double loopStartMarker = loopStartMarkerCalculator.Calculate();
@@ -2319,6 +2346,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitMultiplyWithOrigin(Operator op)
         {
             base.VisitMultiplyWithOrigin(op);
@@ -2465,12 +2493,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
                 calculator = new Number_OperatorCalculator(value);
             }
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             else if (!xIsConst)
             {
                 calculator = new Not_OperatorCalculator(xCalculator);
             }
             else
+            // ReSharper disable once HeuristicUnreachableCode
             {
+                // ReSharper disable once HeuristicUnreachableCode
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
@@ -2532,6 +2563,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitNotEqual(Operator op)
         {
             base.VisitNotEqual(op);
@@ -2569,7 +2601,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 calculator = new NotEqual_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
+            // ReSharper disable once HeuristicUnreachableCode
             {
+                // ReSharper disable once HeuristicUnreachableCode
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }
 
@@ -2720,18 +2754,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 // No filtering
                 calculator = signalCalculator;
             }
-
-
-
-
-
-
-
-            if (signalIsConst)
-            {
-                // There are no frequencies. So you a filter should do nothing.
-                calculator = signalCalculator;
-            }
             else if (centerFrequencyIsConst && bandWidthIsConst && dbGainIsConst)
             {
                 calculator = new PeakingEQFilter_OperatorCalculator_ManyConsts(
@@ -2755,6 +2777,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitPower(Operator op)
         {
             base.VisitPower(op);
@@ -2771,7 +2794,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 return;
             }
 
+            // ReSharper disable once PossibleNullReferenceException
             double @base = baseCalculator.Calculate();
+            // ReSharper disable once PossibleNullReferenceException
             double exponent = exponentCalculator.Calculate();
             bool baseIsConst = baseCalculator is Number_OperatorCalculator;
             bool exponentIsConst = exponentCalculator is Number_OperatorCalculator;
@@ -3062,7 +3087,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Would eventually lead to divide by zero and an infinite amount of index positions.
                 operatorCalculator = new Number_OperatorCalculator(double.NaN);
             }
-            if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
+            else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
                 operatorCalculator = new Number_OperatorCalculator(double.NaN);
             }
@@ -3090,7 +3115,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitRangeOverOutletsOutlet(outlet);
 
-            OperatorCalculatorBase calculator = null;
+            OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase fromCalculator = _stack.Pop();
             OperatorCalculatorBase stepCalculator = _stack.Pop();
@@ -3259,6 +3284,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitRound(Operator op)
         {
             base.VisitRound(op);
@@ -3324,7 +3350,9 @@ namespace JJ.Business.Synthesizer.Visitors
                     calculator = new Round_OperatorCalculator_VarSignal_VarStep_VarOffset(signalCalculator, stepCalculator, offsetCalculator);
                 }
                 else
+                // ReSharper disable once HeuristicUnreachableCode
                 {
+                    // ReSharper disable once HeuristicUnreachableCode
                     throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
                 }
             }
@@ -3626,7 +3654,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            if (frequencyIsConstZero)
+            else if (frequencyIsConstZero)
             {
                 // Special value
                 // Frequency 0 means time stands still.
@@ -3738,6 +3766,7 @@ namespace JJ.Business.Synthesizer.Visitors
             //DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
             throw new NotImplementedException();
 
+            // ReSharper disable once HeuristicUnreachableCode
             base.VisitSortOverInletsOutlet(outlet);
 
             OperatorCalculatorBase calculator;
@@ -3846,7 +3875,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            if (frequencyIsConstZero)
+            else if (frequencyIsConstZero)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator_Zero();
@@ -3875,6 +3904,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitSquash(Operator op)
         {
             DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
@@ -3979,6 +4009,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitStretch(Operator op)
         {
             DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
@@ -4250,7 +4281,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop(); ;
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase exponentCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
 
@@ -4339,7 +4370,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            if (frequencyIsConstZero)
+            else if (frequencyIsConstZero)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator_Zero();

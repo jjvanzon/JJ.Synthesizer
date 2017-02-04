@@ -27,6 +27,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             }
 
             bool isUnique = ValidationHelper.PatchNameIsUnique(Object);
+            // ReSharper disable once InvertIf
             if (!isUnique)
             {
                 string message = MessageFormatter.NotUnique_WithPropertyName_AndValue(CommonTitles.Name, Object.Name);

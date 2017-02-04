@@ -15,8 +15,10 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             Operator op = Object;
 
+            // ReSharper disable once InvertIf
             if (op.Inlets.Count >= 1)
             {
+                // ReSharper disable once InvertIf
                 if (op.Inlets[0].InputOutlet == null)
                 {
                     string operatorIdentifier = ValidationHelper.GetIdentifier(op);

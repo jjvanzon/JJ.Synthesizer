@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Warnings
             _alreadyDone = alreadyDone;
             _bytes = bytes;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
         }
 

@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
             _inletCount = inletCount;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
         }
 
@@ -28,6 +29,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (inlet.InputOutlet == null && !inlet.DefaultValue.HasValue)
                 {
+                    // ReSharper disable once AccessToModifiedClosure
                     ValidationMessages.Add(() => Object.Inlets[i].InputOutlet, MessageFormatter.InletNotSet(Object.GetOperatorTypeEnum(), Object.Name, inlet.Name));
                 }
                 i++;

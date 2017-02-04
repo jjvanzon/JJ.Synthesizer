@@ -61,8 +61,10 @@ namespace JJ.Business.Synthesizer.Converters
             ConvertInlets(sourcePatchInlets, destCustomOperator);
             ConvertOutlets(sourcePatchOutlets, destCustomOperator);
 
-            var destOperatorWrapper = new CustomOperator_OperatorWrapper(destCustomOperator, _repositories.PatchRepository);
-            destOperatorWrapper.UnderlyingPatch = sourceUnderlyingPatch;
+            new CustomOperator_OperatorWrapper(destCustomOperator, _repositories.PatchRepository)
+            {
+                UnderlyingPatch = sourceUnderlyingPatch
+            };
 
             destCustomOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
         }
@@ -104,8 +106,7 @@ namespace JJ.Business.Synthesizer.Converters
             Inlet destCustomOperatorInlet = InletOutletMatcher.TryGetCustomOperatorInlet(sourcePatchInlet, destCustomOperator.Inlets);
             if (destCustomOperatorInlet == null)
             {
-                destCustomOperatorInlet = new Inlet();
-                destCustomOperatorInlet.ID = _repositories.IDRepository.GetID();
+                destCustomOperatorInlet = new Inlet { ID = _repositories.IDRepository.GetID() };
                 _repositories.InletRepository.Insert(destCustomOperatorInlet);
                 destCustomOperatorInlet.LinkTo(destCustomOperator);
             }
@@ -161,8 +162,7 @@ namespace JJ.Business.Synthesizer.Converters
             Outlet destCustomOperatorOutlet = InletOutletMatcher.TryGetCustomOperatorOutlet(sourcePatchOutlet, destCustomOperator.Outlets);
             if (destCustomOperatorOutlet == null)
             {
-                destCustomOperatorOutlet = new Outlet();
-                destCustomOperatorOutlet.ID = _repositories.IDRepository.GetID();
+                destCustomOperatorOutlet = new Outlet { ID = _repositories.IDRepository.GetID() };
                 destCustomOperatorOutlet.LinkTo(destCustomOperator);
                 _repositories.OutletRepository.Insert(destCustomOperatorOutlet);
             }

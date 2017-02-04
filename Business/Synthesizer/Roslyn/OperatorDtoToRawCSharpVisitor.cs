@@ -796,22 +796,33 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_1Var_1Const(MaxOverInlets_OperatorDto_1Var_1Const dto)
         {
-            throw new NotImplementedException();
+            PutNumberOnStack(dto.B);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            return Process_MaxOverInlets_With2Inlets(dto);
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_2Vars(MaxOverInlets_OperatorDto_2Vars dto)
         {
-            throw new NotImplementedException();
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            return Process_MaxOverInlets_With2Inlets(dto);
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
         {
-            throw new NotImplementedException();
+            PutNumberOnStack(dto.ConstValue);
+            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
+
+            return Process_MaxOverInlets_MoreThan2Inlets(dto, dto.Vars.Count + 1);
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
         {
-            throw new NotImplementedException();
+            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
+
+            return Process_MaxOverInlets_MoreThan2Inlets(dto, dto.Vars.Count);
         }
 
         protected override OperatorDtoBase Visit_MinFollower_OperatorDto_AllVars(MinFollower_OperatorDto_AllVars dto)
@@ -1882,11 +1893,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase Process_ClosestOverInlets(IOperatorDto dto, int varCount)
         {
-            string input = _stack.Pop();
-            string firstItem = _stack.Pop();
-
             GenerateLeadingOperatorComment(dto);
 
+            string input = _stack.Pop();
+            string firstItem = _stack.Pop();
             string smallestDistance = GenerateUniqueLocalVariableName(nameof(smallestDistance));
             string closestItem = GenerateUniqueLocalVariableName(nameof(closestItem));
             string output = GenerateLocalOutputName(dto);
@@ -1897,7 +1907,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             _sb.AppendLine($"double {closestItem} = {firstItem};");
             _sb.AppendLine();
 
-            for (int i = 1; i < varCount; i++)
+            // NOTE: i = 1.
+            for (int i = 1; i < varCount; i++) 
             {
                 string item = _stack.Pop();
                 string distance = GenerateUniqueLocalVariableName(nameof(distance));
@@ -2298,6 +2309,39 @@ namespace JJ.Business.Synthesizer.Roslyn
             string output = GenerateLocalOutputName(dto);
 
             _sb.AppendLine($"double {output} = {a} != 0.0 {operatorSymbol} {b} != 0.0 ? 1.0 : 0.0;");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase Process_MaxOverInlets_MoreThan2Inlets(IOperatorDto dto, int varCount)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string firstItem = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+
+            _sb.AppendLine($"double {output} = {firstItem};");
+
+            // NOTE: i = 1.
+            for (int i = 1; i < varCount; i++)
+            {
+                string item = _stack.Pop();
+
+                _sb.AppendLine($"if ({output} < {item}) {output} = {item};");
+            }
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase Process_MaxOverInlets_With2Inlets(IOperatorDto dto)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string a = _stack.Pop();
+            string b = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+
+            _sb.AppendLine($"double {output} = {a} > {b} ? {a} : {b};");
 
             return GenerateOperatorWrapUp(dto, output);
         }

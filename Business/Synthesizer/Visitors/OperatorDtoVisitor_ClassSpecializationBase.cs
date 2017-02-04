@@ -436,6 +436,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 return new Curve_OperatorDto_NoCurve();
             }
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             bool hasMinX = dto.MinX != 0.0;
 
             OperatorDtoBase dto2;
@@ -932,6 +933,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto releaseEndMarkerMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.ReleaseEndMarkerOperatorDto);
             MathPropertiesDto noteDurationMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.NoteDurationOperatorDto);
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             bool skipEqualsLoopStartMarker = skipMathPropertiesDto.IsConst && loopStartMarkerMathPropertiesDto.IsConst && skipMathPropertiesDto.ConstValue == loopStartMarkerMathPropertiesDto.ConstValue;
             bool noNoteDuration = noteDurationMathPropertiesDto.IsConst && noteDurationMathPropertiesDto.ConstValue >= CalculationHelper.VERY_HIGH_VALUE;
             bool noReleaseEndMarker = releaseEndMarkerMathPropertiesDto.IsConst && releaseEndMarkerMathPropertiesDto.ConstValue >= CalculationHelper.VERY_HIGH_VALUE;
@@ -1510,6 +1512,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
             MathPropertiesDto widthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.WidthOperatorDto);
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             bool isHalfWidth = widthMathPropertiesDto.IsConst && widthMathPropertiesDto.ConstValue == 0.5;
 
             OperatorDtoBase dto2;
@@ -1542,7 +1545,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto2 = new Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto, WidthOperatorDto = dto.WidthOperatorDto };
             }
-            if (frequencyMathPropertiesDto.IsConst && isHalfWidth && dto.StandardDimensionEnum != DimensionEnum.Time)
+            else if (frequencyMathPropertiesDto.IsConst && isHalfWidth && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
                 dto2 = new Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting { Frequency = frequencyMathPropertiesDto.ConstValue };
             }
@@ -2461,7 +2464,6 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_SumFollower_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
-            MathPropertiesDto sliceLengthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SliceLengthOperatorDto);
             MathPropertiesDto sampleCountMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SampleCountOperatorDto);
 
             OperatorDtoBase dto2;

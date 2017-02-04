@@ -133,26 +133,31 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 throw new InvalidTypeException<PatchCalculatorBase>(() => sourcePatchCalculator);
             }
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var entry in castedSource._listIndex_To_Value_Dictionary)
             {
                 SetValue(entry.Key, entry.Value);
             }
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var entry in castedSource._dimensionEnum_To_Value_Dictionary)
             {
                 SetValue(entry.Key, entry.Value);
             }
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var entry in castedSource._name_To_Value_Dictionary)
             {
                 SetValue(entry.Key, entry.Value);
             }
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var entry in castedSource._dimensionEnumAndListIndex_To_Value_Dictionary)
             {
                 SetValue(entry.Key.Item1, entry.Key.Item2, entry.Value);
             }
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var entry in castedSource._nameAndListIndex_To_Value_Dictionary)
             {
                 SetValue(entry.Key.Item1, entry.Key.Item2, entry.Value);

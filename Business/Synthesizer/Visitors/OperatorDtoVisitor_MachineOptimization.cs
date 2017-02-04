@@ -94,11 +94,14 @@ namespace JJ.Business.Synthesizer.Visitors
                 return new Number_OperatorDto_NaN();
             }
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (value == 1.0)
             {
                 return new Number_OperatorDto_One();
             }
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (value == 0.0)
             {
                 return new Number_OperatorDto_Zero();
@@ -111,14 +114,19 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Power_OperatorDto_VarBase_ConstExponent(dto);
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (dto.Exponent == 2.0)
             {
                 return new Power_OperatorDto_VarBase_Exponent2 { BaseOperatorDto = dto.BaseOperatorDto };
             }
+            // ReSharper disable once RedundantIfElseBlock
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             else if (dto.Exponent == 3.0)
             {
                 return new Power_OperatorDto_VarBase_Exponent3 { BaseOperatorDto = dto.BaseOperatorDto };
             }
+            // ReSharper disable once RedundantIfElseBlock
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             else if (dto.Exponent == 4.0)
             {
                 return new Power_OperatorDto_VarBase_Exponent4 { BaseOperatorDto = dto.BaseOperatorDto };
@@ -133,6 +141,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             MathPropertiesDto stepMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.Step);
 
+            // ReSharper disable once InvertIf
             if (stepMathPropertiesDto.IsConstOne)
             {
                 var dto2 = new RangeOverDimension_OperatorDto_WithConsts_AndStepOne { From = dto.From, Till = dto.Till };

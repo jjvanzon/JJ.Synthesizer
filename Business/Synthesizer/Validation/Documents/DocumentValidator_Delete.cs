@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             Execute();
         }
 
-        protected override void Execute()
+        protected sealed override void Execute()
         {
             Document document = Object;
 

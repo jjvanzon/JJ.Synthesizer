@@ -12,15 +12,14 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         protected override void Execute()
         {
+            // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(Object))
             {
                 double? number = DataPropertyParser.TryParseDouble(Object, PropertyNames.Number);
-                if (number.HasValue)
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                if (number == 0.0)
                 {
-                    if (number.Value == 0.0)
-                    {
-                        ValidationMessages.Add(() => Object.Data, MessageFormatter.NumberIs0WithName(Object.Name));
-                    }
+                    ValidationMessages.Add(() => Object.Data, MessageFormatter.NumberIs0WithName(Object.Name));
                 }
             }
         }

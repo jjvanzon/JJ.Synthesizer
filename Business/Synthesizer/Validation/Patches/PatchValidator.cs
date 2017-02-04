@@ -34,6 +34,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             _patchRepository = patchRepository;
             _alreadyDone = alreadyDone;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
         }
 

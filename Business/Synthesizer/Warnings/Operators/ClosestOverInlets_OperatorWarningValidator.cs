@@ -16,6 +16,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             Operator op = Object;
 
             bool anyItemsFilledIn = op.Inlets.Skip(1).Where(x => x.InputOutlet != null).Any();
+            // ReSharper disable once InvertIf
             if (!anyItemsFilledIn)
             {
                 string operatorIdentifier = ValidationHelper.GetIdentifier(op);
