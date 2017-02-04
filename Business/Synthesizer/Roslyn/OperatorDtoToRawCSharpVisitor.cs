@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
@@ -20,6 +21,14 @@ namespace JJ.Business.Synthesizer.Roslyn
 {
     internal class OperatorDtoToRawCSharpVisitor : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
+        [SuppressMessage("ReSharper", "UnusedMember.Local")]
+        private enum MinOrMaxEnum
+        {
+            Undefined,
+            Min,
+            Max
+        }
+
         private const string TAB_STRING = "    ";
 
         private const string AND_SYMBOL = "&&";
@@ -799,7 +808,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
-            return Process_MaxOverInlets_With2Inlets(dto);
+            return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Max);
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_2Vars(MaxOverInlets_OperatorDto_2Vars dto)
@@ -807,7 +816,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
-            return Process_MaxOverInlets_With2Inlets(dto);
+            return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Max);
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
@@ -815,14 +824,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             PutNumberOnStack(dto.ConstValue);
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
-            return Process_MaxOverInlets_MoreThan2Inlets(dto, dto.Vars.Count + 1);
+            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Max, dto.Vars.Count + 1);
         }
 
         protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
         {
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
-            return Process_MaxOverInlets_MoreThan2Inlets(dto, dto.Vars.Count);
+            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Max, dto.Vars.Count);
         }
 
         protected override OperatorDtoBase Visit_MinFollower_OperatorDto_AllVars(MinFollower_OperatorDto_AllVars dto)
@@ -842,22 +851,33 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_1Var_1Const(MinOverInlets_OperatorDto_1Var_1Const dto)
         {
-            throw new NotImplementedException();
+            PutNumberOnStack(dto.B);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
         }
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_2Vars(MinOverInlets_OperatorDto_2Vars dto)
         {
-            throw new NotImplementedException();
+            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
+
+            return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
         }
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto)
         {
-            throw new NotImplementedException();
+            PutNumberOnStack(dto.ConstValue);
+            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
+
+            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min, dto.Vars.Count + 1);
         }
 
         protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
         {
-            throw new NotImplementedException();
+            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
+
+            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min, dto.Vars.Count);
         }
 
         protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
@@ -1919,7 +1939,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                 _sb.AppendLine("{");
                 _sb.Indent();
                 {
-
                     _sb.AppendLine($"{smallestDistance} = {distance};");
                     _sb.AppendLine($"{closestItem} = {item};");
                     _sb.Unindent();
@@ -2126,6 +2145,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
+        /// <param name="divideOrMultiplySymbol">'*' for squash, '/' for stretch</param>
         private OperatorDtoBase Process_StretchOrSquash_WithOrigin(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
         {
             GenerateLeadingOperatorComment(dto);
@@ -2143,6 +2163,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
+        /// <param name="divideOrMultiplySymbol">'*' for squash, '/' for stretch</param>
         private OperatorDtoBase Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
         {
             GenerateLeadingOperatorComment(dto);
@@ -2160,6 +2181,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
+        /// <param name="divideOrMultiplySymbol">'*' for squash, '/' for stretch</param>
         private OperatorDtoBase Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
         {
             GenerateLeadingOperatorComment(dto);
@@ -2182,6 +2204,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
+        /// <param name="divideOrMultiplySymbol">'*' for squash, '/' for stretch</param>
         private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
         {
             GenerateLeadingOperatorComment(dto);
@@ -2313,37 +2336,54 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase Process_MaxOverInlets_MoreThan2Inlets(IOperatorDto dto, int varCount)
+        private OperatorDtoBase Process_MinOrMaxOverInlets_MoreThan2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum, int varCount)
         {
             GenerateLeadingOperatorComment(dto);
 
-            string firstItem = _stack.Pop();
+            string firstValue = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
+            string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
 
-            _sb.AppendLine($"double {output} = {firstItem};");
+            _sb.AppendLine($"double {output} = {firstValue};");
 
             // NOTE: i = 1.
             for (int i = 1; i < varCount; i++)
             {
                 string item = _stack.Pop();
 
-                _sb.AppendLine($"if ({output} < {item}) {output} = {item};");
+                _sb.AppendLine($"if ({output} {operatorSymbol} {item}) {output} = {item};");
             }
 
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase Process_MaxOverInlets_With2Inlets(IOperatorDto dto)
+        private OperatorDtoBase Process_MinOrMaxOverInlets_With2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum)
         {
             GenerateLeadingOperatorComment(dto);
 
             string a = _stack.Pop();
             string b = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
+            string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
 
-            _sb.AppendLine($"double {output} = {a} > {b} ? {a} : {b};");
+            _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b} ? {a} : {b};");
 
             return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private static string GetOperatorSymbol(MinOrMaxEnum minOrMaxEnum)
+        {
+            switch (minOrMaxEnum)
+            {
+                case MinOrMaxEnum.Min:
+                    return GREATER_THAN_SYMBOL;
+
+                case MinOrMaxEnum.Max:
+                    return LESS_THAN_SYMBOL;
+
+                default:
+                    throw new ValueNotSupportedException(minOrMaxEnum);
+            }
         }
 
         private OperatorDtoBase ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(OperatorDtoBase_ConstA_ConstB_VarOrigin dto, string operatorSymbol)
