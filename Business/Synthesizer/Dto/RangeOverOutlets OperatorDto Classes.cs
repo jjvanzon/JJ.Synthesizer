@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep : OperatorDtoBase
+    internal class RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep : OperatorDtoBase, IRangeOverOutlets_OperatorDto_WithOutletListIndex
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep : OperatorDtoBase
+    internal class RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep : OperatorDtoBase, IRangeOverOutlets_OperatorDto_WithOutletListIndex
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep : OperatorDtoBase
+    internal class RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep : OperatorDtoBase, IRangeOverOutlets_OperatorDto_WithOutletListIndex
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
@@ -64,12 +64,17 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep : OperatorDtoBase_WithoutInputOperatorDtos, IRangeOverOutlets_OperatorDto_WithOutletListIndex
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
         public double From { get; set; }
         public double Step { get; set; }
         public int OutletListIndex { get; set; }
+    }
+
+    internal interface IRangeOverOutlets_OperatorDto_WithOutletListIndex : IOperatorDto
+    {
+        int OutletListIndex { get; set; }
     }
 }

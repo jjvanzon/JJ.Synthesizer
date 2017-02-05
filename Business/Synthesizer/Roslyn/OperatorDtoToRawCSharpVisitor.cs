@@ -29,6 +29,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             Max
         }
 
+        [SuppressMessage("ReSharper", "UnusedMember.Local")]
+        private enum StretchOrSquashEnum
+        {
+            Undefined,
+            Stretch,
+            Squash
+        }
+
         private const string TAB_STRING = "    ";
 
         private const string AND_SYMBOL = "&&";
@@ -1231,17 +1239,18 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto)
         {
-            throw new NotImplementedException();
-        }
+            Visit_OperatorDto_Polymorphic(dto.StepOperatorDto);
+            PutNumberOnStack(dto.From);
 
-        protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep dto)
-        {
-            throw new NotImplementedException();
+            return ProcessRangeOverOutlets(dto);
         }
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep dto)
         {
-            throw new NotImplementedException();
+            Visit_OperatorDto_Polymorphic(dto.StepOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.FromOperatorDto);
+
+            return ProcessRangeOverOutlets(dto);
         }
 
         protected override OperatorDtoBase Visit_Reset_OperatorDto(Reset_OperatorDto dto)
@@ -1660,7 +1669,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             PutNumberOnStack(dto.Origin);
             PutNumberOnStack(dto.Factor);
 
-            return Process_StretchOrSquash_WithOrigin(dto, MULTIPLY_SYMBOL);
+            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
@@ -1668,21 +1677,21 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             PutNumberOnStack(dto.Factor);
 
-            return Process_StretchOrSquash_WithOrigin(dto, MULTIPLY_SYMBOL);
+            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
         {
             PutNumberOnStack(dto.Factor);
 
-            return Process_StretchOrSquash_WithOriginShifting(dto, MULTIPLY_SYMBOL);
+            return Process_StretchOrSquash_WithOriginShifting(dto, StretchOrSquashEnum.Squash);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
         {
             PutNumberOnStack(dto.Factor);
 
-            return Process_StretchOrSquash_ZeroOrigin(dto, MULTIPLY_SYMBOL);
+            return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
@@ -1690,7 +1699,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             PutNumberOnStack(dto.Origin);
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
-            return Process_StretchOrSquash_WithOrigin(dto, MULTIPLY_SYMBOL);
+            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_VarOrigin(Squash_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
@@ -1698,21 +1707,21 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
-            return Process_StretchOrSquash_WithOrigin(dto, MULTIPLY_SYMBOL);
+            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
-            return Process_StretchOrSquash_WithPhaseTracking(dto, MULTIPLY_SYMBOL);
+            return Process_StretchOrSquash_WithPhaseTracking(dto, StretchOrSquashEnum.Squash);
         }
 
         protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
-            return Process_StretchOrSquash_ZeroOrigin(dto, MULTIPLY_SYMBOL);
+            return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
@@ -1720,7 +1729,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             PutNumberOnStack(dto.Origin);
             PutNumberOnStack(dto.Factor);
 
-            return Process_StretchOrSquash_WithOrigin(dto, DIVIDE_SYMBOL);
+            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
@@ -1728,21 +1737,21 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             PutNumberOnStack(dto.Factor);
 
-            return Process_StretchOrSquash_WithOrigin(dto, DIVIDE_SYMBOL);
+            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
         {
             PutNumberOnStack(dto.Factor);
 
-            return Process_StretchOrSquash_WithOriginShifting(dto, DIVIDE_SYMBOL);
+            return Process_StretchOrSquash_WithOriginShifting(dto, StretchOrSquashEnum.Stretch);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
         {
             PutNumberOnStack(dto.Factor);
 
-            return Process_StretchOrSquash_ZeroOrigin(dto, DIVIDE_SYMBOL);
+            return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
@@ -1750,7 +1759,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             PutNumberOnStack(dto.Origin);
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
-            return Process_StretchOrSquash_WithOrigin(dto, DIVIDE_SYMBOL);
+            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
@@ -1758,21 +1767,21 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
-            return Process_StretchOrSquash_WithOrigin(dto, DIVIDE_SYMBOL);
+            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
-            return Process_StretchOrSquash_WithPhaseTracking(dto, DIVIDE_SYMBOL);
+            return Process_StretchOrSquash_WithPhaseTracking(dto, StretchOrSquashEnum.Stretch);
         }
 
         protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
-            return Process_StretchOrSquash_ZeroOrigin(dto, DIVIDE_SYMBOL);
+            return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
@@ -2145,8 +2154,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        /// <param name="divideOrMultiplySymbol">'*' for squash, '/' for stretch</param>
-        private OperatorDtoBase Process_StretchOrSquash_WithOrigin(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
+        private OperatorDtoBase Process_StretchOrSquash_WithOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
             GenerateLeadingOperatorComment(dto);
 
@@ -2154,8 +2162,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             string origin = _stack.Pop();
             string sourcePos = GeneratePositionNameCamelCase(dto);
             string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {divideOrMultiplySymbol} {factor} + {origin};");
+            _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {operatorSymbol} {factor} + {origin};");
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2163,8 +2172,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
-        /// <param name="divideOrMultiplySymbol">'*' for squash, '/' for stretch</param>
-        private OperatorDtoBase Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
+        private OperatorDtoBase Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
             GenerateLeadingOperatorComment(dto);
 
@@ -2172,8 +2180,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             string sourcePos = GeneratePositionNameCamelCase(dto);
             string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string origin = GenerateLongLivedOriginName();
+            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {divideOrMultiplySymbol} {factor} + {origin};");
+            _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {operatorSymbol} {factor} + {origin};");
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2181,8 +2190,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
-        /// <param name="divideOrMultiplySymbol">'*' for squash, '/' for stretch</param>
-        private OperatorDtoBase Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
+        private OperatorDtoBase Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
             GenerateLeadingOperatorComment(dto);
 
@@ -2191,8 +2199,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             string previousPosition = GenerateLongLivedPreviousPositionName();
             string sourcePosition = GeneratePositionNameCamelCase(dto);
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            _sb.AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {divideOrMultiplySymbol} {factor};");
+            _sb.AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};");
             _sb.AppendLine($"{previousPosition} = {sourcePosition};");
             // I need two different variables for destPos and phase, because destPos is reused by different uses of the same stack level,
             // while phase needs to be uniquely used by the operator instance.
@@ -2204,16 +2213,16 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
-        /// <param name="divideOrMultiplySymbol">'*' for squash, '/' for stretch</param>
-        private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, string divideOrMultiplySymbol)
+        private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
             GenerateLeadingOperatorComment(dto);
 
             string factor = _stack.Pop();
             string sourcePos = GeneratePositionNameCamelCase(dto);
             string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            _sb.AppendLine($"{destPos} = {sourcePos} {divideOrMultiplySymbol} {factor};");
+            _sb.AppendLine($"{destPos} = {sourcePos} {operatorSymbol} {factor};");
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2369,21 +2378,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b} ? {a} : {b};");
 
             return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private static string GetOperatorSymbol(MinOrMaxEnum minOrMaxEnum)
-        {
-            switch (minOrMaxEnum)
-            {
-                case MinOrMaxEnum.Min:
-                    return GREATER_THAN_SYMBOL;
-
-                case MinOrMaxEnum.Max:
-                    return LESS_THAN_SYMBOL;
-
-                default:
-                    throw new ValueNotSupportedException(minOrMaxEnum);
-            }
         }
 
         private OperatorDtoBase ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(OperatorDtoBase_ConstA_ConstB_VarOrigin dto, string operatorSymbol)
@@ -2547,6 +2541,19 @@ namespace JJ.Business.Synthesizer.Roslyn
             string rightHandFormula = getRightHandFormulaDelegate(phase);
 
             _sb.AppendLine($"double {output} = {rightHandFormula};");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase ProcessRangeOverOutlets(IRangeOverOutlets_OperatorDto_WithOutletListIndex dto)
+        {
+            GenerateLeadingOperatorComment(dto);
+
+            string from = _stack.Pop();
+            string step = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+
+            _sb.AppendLine($"double {output} = {from} + {step} * {dto.OutletListIndex};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -3072,6 +3079,38 @@ namespace JJ.Business.Synthesizer.Roslyn
             }
 
             return offsetNumberLiteral;
+        }
+
+        /// <summary> '&gt;' for Min, '&lt;' for Max </summary>
+        private static string GetOperatorSymbol(MinOrMaxEnum minOrMaxEnum)
+        {
+            switch (minOrMaxEnum)
+            {
+                case MinOrMaxEnum.Min:
+                    return GREATER_THAN_SYMBOL;
+
+                case MinOrMaxEnum.Max:
+                    return LESS_THAN_SYMBOL;
+
+                default:
+                    throw new ValueNotSupportedException(minOrMaxEnum);
+            }
+        }
+
+        /// <summary>'/' for Stretch, '*' for Squash</summary>
+        private string GetOperatorSymbol(StretchOrSquashEnum stretchOrSquashEnum)
+        {
+            switch (stretchOrSquashEnum)
+            {
+                case StretchOrSquashEnum.Stretch:
+                    return DIVIDE_SYMBOL;
+
+                case StretchOrSquashEnum.Squash:
+                    return MULTIPLY_SYMBOL;
+
+                default:
+                    throw new ValueNotSupportedException(stretchOrSquashEnum);
+            }
         }
     }
 }

@@ -1798,6 +1798,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep dto)
         {
+            base.Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep(dto);
+
             // Pre-Calculate
             double result = dto.From + dto.Step * dto.OutletListIndex;
             return new Number_OperatorDto { Number = result };
@@ -1810,7 +1812,16 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep dto)
         {
-            return Process_Nothing(dto);
+            base.Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep(dto);
+
+            // Simplify
+            double stepTimesPosition = dto.Step * dto.OutletListIndex;
+            var dto2 = new Add_OperatorDto_Vars_1Const
+            {
+                ConstValue = stepTimesPosition,
+                Vars = new[] { dto.FromOperatorDto }
+            };
+            return dto2;
         }
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep dto)

@@ -420,6 +420,11 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
+        protected sealed override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep dto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSignal(Reverse_OperatorDto_ConstSignal dto)
         {
             throw new NotSupportedException();
