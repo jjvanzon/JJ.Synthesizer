@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
+// ReSharper disable RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -1695,21 +1696,21 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new RangeOverOutlets_Outlet_OperatorDto_ZeroStep { FromOperatorDto = dto.FromOperatorDto };
             }
-            if (fromMathPropertiesDto.IsConst && stepMathPropertiesDto.IsConst)
+            else if (fromMathPropertiesDto.IsConst && stepMathPropertiesDto.IsConst)
             {
-                return new RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep { From = fromMathPropertiesDto.ConstValue, Step = stepMathPropertiesDto.ConstValue };
+                return new RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep { From = fromMathPropertiesDto.ConstValue, Step = stepMathPropertiesDto.ConstValue, OutletListIndex = dto.OutletListIndex };
             }
             else if (fromMathPropertiesDto.IsVar && stepMathPropertiesDto.IsConst)
             {
-                return new RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep { FromOperatorDto = dto.FromOperatorDto, Step = stepMathPropertiesDto.ConstValue };
+                return new RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep { FromOperatorDto = dto.FromOperatorDto, Step = stepMathPropertiesDto.ConstValue, OutletListIndex = dto.OutletListIndex };
             }
             else if (fromMathPropertiesDto.IsConst && stepMathPropertiesDto.IsVar)
             {
-                return new RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep { From = fromMathPropertiesDto.ConstValue, StepOperatorDto = dto.StepOperatorDto };
+                return new RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep { From = fromMathPropertiesDto.ConstValue, StepOperatorDto = dto.StepOperatorDto, OutletListIndex = dto.OutletListIndex };
             }
             else if (fromMathPropertiesDto.IsVar && stepMathPropertiesDto.IsVar)
             {
-                return new RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep { FromOperatorDto = dto.FromOperatorDto, StepOperatorDto = dto.StepOperatorDto };
+                return new RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep { FromOperatorDto = dto.FromOperatorDto, StepOperatorDto = dto.StepOperatorDto, OutletListIndex = dto.OutletListIndex };
             }
 
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());

@@ -120,6 +120,10 @@ namespace JJ.Business.Synthesizer.Visitors
             };
         }
 
+        protected bool HasOutletVisitation(Outlet outlet) => HasOutletVisitation(outlet.Operator);
+        protected bool HasOutletVisitation(Operator op) => HasOutletVisitation(op.GetOperatorTypeEnum());
+        protected bool HasOutletVisitation(OperatorTypeEnum operatorTypeEnum) => _visitOutletDelegateDictionary.ContainsKey(operatorTypeEnum);
+
         // General
 
         //[DebuggerHidden]

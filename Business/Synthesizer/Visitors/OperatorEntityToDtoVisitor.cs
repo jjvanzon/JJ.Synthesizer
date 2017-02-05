@@ -13,14 +13,6 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorEntityToDtoVisitor : OperatorEntityVisitorBase_WithInletCoalescing
     {
-        private static readonly HashSet<OperatorTypeEnum> _operatorTypeEnums_WithOutletVisitation = new HashSet<OperatorTypeEnum>
-        {
-            OperatorTypeEnum.CustomOperator,
-            OperatorTypeEnum.DimensionToOutlets,
-            OperatorTypeEnum.RangeOverOutlets,
-            OperatorTypeEnum.SortOverInlets
-        };
-
         private readonly ICurveRepository _curveRepository;
         private readonly IPatchRepository _patchRepository;
         private readonly ISampleRepository _sampleRepository;
@@ -74,9 +66,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitOperatorPolymorphic(Operator op)
         {
-            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-            bool hasOutletVisitation = _operatorTypeEnums_WithOutletVisitation.Contains(operatorTypeEnum);
-
+            bool hasOutletVisitation = HasOutletVisitation(op);
             if (hasOutletVisitation)
             {
                 base.VisitOperatorPolymorphic(op);
@@ -89,9 +79,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitOutletPolymorphic(Outlet outlet)
         {
-            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
-            bool hasOutletVisitation = _operatorTypeEnums_WithOutletVisitation.Contains(operatorTypeEnum);
-
+            bool hasOutletVisitation = HasOutletVisitation(outlet);
             if (hasOutletVisitation)
             {
                 VisitorHelper.WithStackCheck(_stack, () => base.VisitOutletPolymorphic(outlet));

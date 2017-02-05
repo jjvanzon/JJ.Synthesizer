@@ -86,6 +86,7 @@ namespace JJ.Business.Synthesizer.Visitors
             IValidator validator = new Recursive_OperatorValidator(
                 _topLevelOutlet.Operator,
                 _curveRepository, _sampleRepository, _patchRepository,
+                // ReSharper disable once ArgumentsStyleOther
                 alreadyDone: new HashSet<object>());
             validator.Assert();
 
@@ -109,7 +110,28 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitOperatorPolymorphic(Operator op)
         {
-            VisitorHelper.WithStackCheck(_stack, () => base.VisitOperatorPolymorphic(op));
+            bool hasOutletVisitation = HasOutletVisitation(op);
+            if (hasOutletVisitation)
+            {
+                base.VisitOperatorPolymorphic(op);
+            }
+            else
+            {
+                VisitorHelper.WithStackCheck(_stack, () => base.VisitOperatorPolymorphic(op));
+            }
+        }
+
+        protected override void VisitOutletPolymorphic(Outlet outlet)
+        {
+            bool hasOutletVisitation = HasOutletVisitation(outlet);
+            if (hasOutletVisitation)
+            {
+                VisitorHelper.WithStackCheck(_stack, () => base.VisitOutletPolymorphic(outlet));
+            }
+            else
+            {
+                base.VisitOutletPolymorphic(outlet);
+            }
         }
 
         protected override void VisitAbsolute(Operator op)

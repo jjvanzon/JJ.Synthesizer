@@ -1242,7 +1242,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.StepOperatorDto);
             PutNumberOnStack(dto.From);
 
-            return ProcessRangeOverOutlets(dto);
+            return Process_RangeOverOutlets_Outlet(dto);
         }
 
         protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep dto)
@@ -1250,7 +1250,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.StepOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.FromOperatorDto);
 
-            return ProcessRangeOverOutlets(dto);
+            return Process_RangeOverOutlets_Outlet(dto);
         }
 
         protected override OperatorDtoBase Visit_Reset_OperatorDto(Reset_OperatorDto dto)
@@ -2545,7 +2545,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessRangeOverOutlets(IRangeOverOutlets_OperatorDto_WithOutletListIndex dto)
+        private OperatorDtoBase Process_RangeOverOutlets_Outlet(IRangeOverOutlets_Outlet_OperatorDto_WithOutletListIndex dto)
         {
             GenerateLeadingOperatorComment(dto);
 
