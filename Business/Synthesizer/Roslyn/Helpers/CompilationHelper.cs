@@ -4,6 +4,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
     internal static class CompilationHelper
     {
+        private const double MAXIMUM_VALUE_WITHOUT_SCIENTIFIC_NOTATION = 50000;
         private static readonly CultureInfo _formattingCulture = new CultureInfo("en-US");
 
         public static string FormatValue(double value)
@@ -22,9 +23,17 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             }
             else
             {
-                // TODO: Low priority: format smaller numbers without exponential notation.
-                string formattedValue = value.ToString("0.0###############E0", _formattingCulture);
-                return formattedValue;
+                if (value <= MAXIMUM_VALUE_WITHOUT_SCIENTIFIC_NOTATION)
+                {
+                    string formattedValue = value.ToString("0.0###############", _formattingCulture);
+                    return formattedValue;
+                }
+                else
+                {
+
+                    string formattedValue = value.ToString("0.0###############E0", _formattingCulture);
+                    return formattedValue;
+                }
             }
         }
     }

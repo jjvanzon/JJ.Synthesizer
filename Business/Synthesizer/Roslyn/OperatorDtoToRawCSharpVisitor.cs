@@ -442,7 +442,21 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            string position = GeneratePositionNameCamelCase(dto);
+            string fixedPosition = CompilationHelper.FormatValue(dto.OutletListIndex);
+            string output = GenerateLocalOutputName(dto);
+
+            GenerateOperatorTitleComment(dto);
+
+            _sb.AppendLine($"{position} = {fixedPosition};");
+            _sb.AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.OperandOperatorDto);
+            string operand = _stack.Pop();
+
+            _sb.AppendLine($"double {output} = {operand};");
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
