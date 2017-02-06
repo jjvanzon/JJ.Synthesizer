@@ -64,7 +64,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class RangeOverDimension_OperatorCalculator_OnlyConsts : OperatorCalculatorBase
     {
         private readonly double _from;
-        private readonly double _till;
         private readonly double _step;
         private readonly double _tillPlusStep;
         private readonly double _stepDividedBy2;
@@ -80,12 +79,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _from = from;
-            _till = till;
             _step = step;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
-            _tillPlusStep = _till + _step;
+            _tillPlusStep = till + _step;
             _stepDividedBy2 = _step / 2.0;
         }
 
@@ -122,7 +120,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne : OperatorCalculatorBase
     {
         private readonly double _from;
-        private readonly double _till;
         private readonly double _tillPlusOne;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
@@ -135,11 +132,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _from = from;
-            _till = till;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
-            _tillPlusOne = _till + 1.0;
+            _tillPlusOne = till + 1.0;
         }
 
         public override double Calculate()

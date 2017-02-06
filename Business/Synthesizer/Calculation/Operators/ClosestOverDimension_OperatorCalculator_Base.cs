@@ -30,6 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _childOperatorCalculators = _childOperatorCalculators.Union(inputCalculator).ToArray();
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             ResetNonRecursive();
         }
 
@@ -53,14 +54,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double distanceBefore = Geometry.AbsoluteDistance(input, valueBefore);
             double distanceAfter = Geometry.AbsoluteDistance(input, valueAfter);
 
-            if (distanceBefore <= distanceAfter)
-            {
-                return valueBefore;
-            }
-            else
-            {
-                return valueAfter;
-            }
+            return distanceBefore <= distanceAfter ? valueBefore : valueAfter;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

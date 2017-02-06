@@ -38,6 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             ResetNonRecursive();
         }
 
@@ -99,6 +100,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ProcessFirstSample(sample);
 
             // Prevent infinite loop.
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (_step == 0.0)
             {
                 return;
