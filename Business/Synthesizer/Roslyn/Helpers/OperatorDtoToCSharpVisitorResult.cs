@@ -5,6 +5,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
     internal class OperatorDtoToCSharpVisitorResult
     {
         public string RawCalculationCode { get; }
+        public string RawResetCode { get; }
         public string ReturnValueLiteral { get; }
         public string FirstTimeVariableNameCamelCase { get; }
         public IList<ExtendedVariableInfo> InputVariableInfos { get; }
@@ -19,6 +20,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
 
         public OperatorDtoToCSharpVisitorResult(
             string rawCalculationCode,
+            string rawResetCode,
             string returnValueLiteral,
             string firstTimeVariableNameCamelCase,
             IList<ExtendedVariableInfo> inputVariableInfos,
@@ -32,6 +34,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             IList<CalculatorVariableInfo> calculatorVariableInfos)
         {
             RawCalculationCode = rawCalculationCode;
+            RawResetCode = rawResetCode;
             ReturnValueLiteral = returnValueLiteral;
             InputVariableInfos = inputVariableInfos;
             FirstTimeVariableNameCamelCase = firstTimeVariableNameCamelCase;

@@ -17,7 +17,8 @@ namespace JJ.Business.Synthesizer.Roslyn
     internal class OperatorDtoToPatchCalculatorCSharpGenerator
     {
         private const string TAB_STRING = "    ";
-        private const int RAW_CALCULATION_INDENT_LEVEL = 4;
+        private const int RAW_CALCULATION_CODE_INDENT_LEVEL = 4;
+        private const int RAW_RESET_CODE_INDENT_LEVEL = 3;
 
         private readonly int _channelCount;
         private readonly int _channelIndex;
@@ -48,8 +49,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             if (string.IsNullOrEmpty(generatedNameSpace)) throw new NullOrEmptyException(() => generatedNameSpace);
             if (string.IsNullOrEmpty(generatedClassName)) throw new NullOrEmptyException(() => generatedClassName);
 
-            // Build up Method Body
-            var visitor = new OperatorDtoToRawCSharpVisitor(RAW_CALCULATION_INDENT_LEVEL, _calculatorCache, _curveRepository, _sampleRepository);
+            // Build up Method Bodies
+            var visitor = new OperatorDtoToRawCSharpVisitor(
+                RAW_CALCULATION_CODE_INDENT_LEVEL,
+                RAW_RESET_CODE_INDENT_LEVEL,
+                _calculatorCache,
+                _curveRepository,
+                _sampleRepository);
             OperatorDtoToCSharpVisitorResult visitorResult = visitor.Execute(dto);
 
             // Build up Code File
@@ -92,6 +98,12 @@ namespace JJ.Business.Synthesizer.Roslyn
                     WriteCalculateMethod(sb, visitorResult);
                     sb.AppendLine();
 
+                    // Reset Method
+                    sb.AppendLine("// Reset");
+                    sb.AppendLine();
+                    WriteResetMethod(sb, visitorResult);
+                    sb.AppendLine();
+
                     // Values
                     sb.AppendLine("// Values");
                     sb.AppendLine();
@@ -104,12 +116,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                     WriteSetValue_ByDimensionEnumAndListIndex(sb, visitorResult);
                     sb.AppendLine();
                     WriteSetValue_ByNameAndListIndex(sb, visitorResult);
-                    sb.AppendLine();
-
-                    // Reset
-                    sb.AppendLine("// Reset");
-                    sb.AppendLine();
-                    WriteResetMethod(sb, visitorResult);
                     sb.Unindent();
                 }
                 sb.AppendLine("}");
@@ -232,11 +238,14 @@ namespace JJ.Business.Synthesizer.Roslyn
                 }
 
                 // Declare Locally Reused Variables
-                foreach (string positionVariableName in visitorResult.LocalDimensionVariableNamesCamelCase)
+                if (visitorResult.LocalDimensionVariableNamesCamelCase.Any())
                 {
-                    sb.AppendLine($"double {positionVariableName};"); 
+                    foreach (string positionVariableName in visitorResult.LocalDimensionVariableNamesCamelCase)
+                    {
+                        sb.AppendLine($"double {positionVariableName};");
+                    }
+                    sb.AppendLine();
                 }
-                sb.AppendLine();
 
                 // Initialize ValueCount variable
                 sb.AppendLine($"int valueCount = frameCount * {_channelCount};");
@@ -283,6 +292,80 @@ namespace JJ.Business.Synthesizer.Roslyn
                 {
                     sb.AppendLine($"_{variableName} = {variableName};");
                 }
+
+                sb.Unindent();
+            }
+            sb.AppendLine("}");
+        }
+
+        private void WriteResetMethod(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
+        {
+            IList<string> instanceVariableNamesCamelCase = GetInstanceVariableNamesCamelCase(visitorResult);
+
+            sb.AppendLine("public override void Reset(double time)");
+            sb.AppendLine("{");
+            sb.Indent();
+            {
+                // Copy Fields to Local
+                if (instanceVariableNamesCamelCase.Any())
+                {
+                    foreach (string variableName in instanceVariableNamesCamelCase)
+                    {
+                        sb.AppendLine($"double {variableName} = _{variableName};");
+                    }
+                    sb.AppendLine();
+                }
+
+                if (visitorResult.CalculatorVariableInfos.Any())
+                {
+                    foreach (CalculatorVariableInfo variableInfo in visitorResult.CalculatorVariableInfos)
+                    {
+                        sb.AppendLine($"var {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
+                    }
+                    sb.AppendLine();
+                }
+
+                // Declare Locally Reused Variables
+                if (visitorResult.LocalDimensionVariableNamesCamelCase.Any())
+                {
+                    foreach (string positionVariableName in visitorResult.LocalDimensionVariableNamesCamelCase)
+                    {
+                        sb.AppendLine($"double {positionVariableName};");
+                    }
+                    sb.AppendLine();
+                }
+
+                // Initialize First Time Variable
+                sb.AppendLine($"{visitorResult.FirstTimeVariableNameCamelCase} = time;");
+                sb.AppendLine();
+
+                // Raw Reset Code
+                //sb.Append(visitorResult.RawResetCode);
+
+                // Copy Local to Fields
+                foreach (string variableName in instanceVariableNamesCamelCase)
+                {
+                    sb.AppendLine($"_{variableName} = {variableName};");
+                }
+
+                // OLD:
+
+                //foreach (string variableName in visitorResult.LongLivedPhaseVariableNamesCamelCase)
+                //{
+                //    sb.AppendLine($"_{variableName} = 0.0;");
+                //}
+
+                //foreach (string variableName in visitorResult.LongLivedPreviousPositionVariableNamesCamelCase)
+                //{
+                //    // DIRTY: Phase of a partial does not have to be related to the time-dimension!
+                //    sb.AppendLine($"_{variableName} = time;");
+                //}
+
+                //foreach (string variableName in visitorResult.LongLivedOriginVariableNamesCamelCase)
+                //{
+                //    // DIRTY: Phase of a partial does not have to be related to the time-dimension!
+                //    sb.AppendLine($"_{variableName} = time;");
+                //}
 
                 sb.Unindent();
             }
@@ -569,34 +652,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                     i++;
                 }
             }
-        }
-
-        private void WriteResetMethod(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
-        {
-            sb.AppendLine("public override void Reset(double time)");
-            sb.AppendLine("{");
-            sb.Indent();
-            {
-                foreach (string variableName in visitorResult.LongLivedPhaseVariableNamesCamelCase)
-                {
-                    sb.AppendLine($"_{variableName} = 0.0;");
-                }
-
-                foreach (string variableName in visitorResult.LongLivedPreviousPositionVariableNamesCamelCase)
-                {
-                    // DIRTY: Phase of a partial does not have to be related to the time-dimension!
-                    sb.AppendLine($"_{variableName} = time;");
-                }
-
-                foreach (string variableName in visitorResult.LongLivedOriginVariableNamesCamelCase)
-                {
-                    // DIRTY: Phase of a partial does not have to be related to the time-dimension!
-                    sb.AppendLine($"_{variableName} = time;");
-                }
-
-                sb.Unindent();
-            }
-            sb.AppendLine("}");
         }
 
         private IList<string> GetInstanceVariableNamesCamelCase(OperatorDtoToCSharpVisitorResult visitorResult)

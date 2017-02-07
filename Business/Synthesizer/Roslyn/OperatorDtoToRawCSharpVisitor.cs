@@ -37,6 +37,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             Squash
         }
 
+        private class OriginShiftingInfo
+        {
+            public string Phase { get; set; }
+            public string Origin { get; set; }
+            public string Position { get; set; }
+        }
+
         private const string TAB_STRING = "    ";
 
         private const string AND_SYMBOL = "&&";
@@ -73,10 +80,12 @@ namespace JJ.Business.Synthesizer.Roslyn
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
 
-        private readonly int _indentLevel;
+        private readonly int _calculationIndentLevel;
+        private readonly int _resetIndentLevel;
 
         private Stack<string> _stack;
         private StringBuilderWithIndentation _sb;
+        private StringBuilderWithIndentation _sbReset;
         private int _counter;
 
         // Simple Sets of Variable Names
@@ -102,9 +111,10 @@ namespace JJ.Business.Synthesizer.Roslyn
         // Information about Satellite Calculators
         private Dictionary<ICalculatorWithPosition, CalculatorVariableInfo> _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary;
         private Dictionary<int, string> _noiseOperatorID_To_OffsetNumberLiteral_Dictionary;
-
+        
         public OperatorDtoToRawCSharpVisitor(
-            int indentLevel, 
+            int calculationIndentLevel, 
+            int resetIndentLevel,
             CalculatorCache calculatorCache, 
             ICurveRepository curveRepository, 
             ISampleRepository sampleRepository)
@@ -113,7 +123,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
-            _indentLevel = indentLevel;
+            _calculationIndentLevel = calculationIndentLevel;
+            _resetIndentLevel = resetIndentLevel;
             _calculatorCache = calculatorCache;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
@@ -137,12 +148,18 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             _sb = new StringBuilderWithIndentation(TAB_STRING)
             {
-                IndentLevel = _indentLevel
+                IndentLevel = _calculationIndentLevel
+            };
+
+            _sbReset = new StringBuilderWithIndentation(TAB_STRING)
+            {
+                IndentLevel = _resetIndentLevel
             };
 
             Visit_OperatorDto_Polymorphic(dto);
 
-            string generatedCode = _sb.ToString();
+            string rawCalculationCode = _sb.ToString();
+            string rawResetCode = _sbReset.ToString();
             string returnValue = _stack.Pop();
 
             // Get some more variable info
@@ -159,7 +176,8 @@ namespace JJ.Business.Synthesizer.Roslyn
                                                                                                   .Select(x => x.VariableNameCamelCase)
                                                                                                   .ToArray();
             return new OperatorDtoToCSharpVisitorResult(
-                generatedCode, 
+                rawCalculationCode, 
+                rawResetCode,
                 returnValue,
                 firstTimeVariableNameCamelCase,
                 _variableName_To_InputVariableInfo_Dictionary.Values.ToArray(),
@@ -1447,11 +1465,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             GenerateOperatorTitleComment(dto);
 
             string speed = CompilationHelper.FormatValue(dto.Speed);
-            string sourcePos = GeneratePositionNameCamelCase(dto);
-            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string origin = GenerateLongLivedOriginName();
 
-            _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) * -{speed} + {origin};");
+            _sb.AppendLine($"{destPosition} = ({sourcePosition} - {origin}) * -{speed} + {origin};");
             _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
@@ -1482,7 +1500,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             _sb.AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) * -{speed};");
             _sb.AppendLine($"{previousPosition} = {sourcePosition};");
-            // I need two different variables for destPos and phase, because destPos is reused by different uses of the same stack level,
+            // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level,
             // while phase needs to be uniquely used by the operator instance.
             _sb.AppendLine($"{phase} = {destPosition};");
             _sb.AppendLine();
@@ -1573,9 +1591,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             GenerateOperatorTitleComment(dto);
 
-            string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate);
+            OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
-            return GenerateSampleMonoToStereoEnd(dto, phase);
+            return GenerateSampleMonoToStereoEnd(dto, info.Phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -1606,9 +1624,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             GenerateOperatorTitleComment(dto);
 
-            string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate);
+            OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
-            return GenerateSampleStereoToMonoEnd(dto, phase);
+            return GenerateSampleStereoToMonoEnd(dto, info.Phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
@@ -1617,9 +1635,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             GenerateOperatorTitleComment(dto);
 
-            string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate);
+            OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
-            return GenerateSampleChannelSwitchEnd(dto, phase);
+            return GenerateSampleChannelSwitchEnd(dto, info.Phase);
         }
 
         protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
@@ -2037,9 +2055,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             GenerateOperatorTitleComment(dto);
 
-            string phase = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
+            OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
 
-            return Generate_TriangleCode_AfterDeterminePhase(dto, phase);
+            return Generate_TriangleCode_AfterDeterminePhase(dto, info.Phase);
         }
 
         protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(Triangle_OperatorDto_VarFrequency_NoPhaseTracking dto)
@@ -2311,11 +2329,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string frequency = _stack.Pop();
 
-            string phase = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
+            OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
 
             string width = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
+            _sb.AppendLine($"double {output} = {info.Phase} % 1.0 < {width} ? 1.0 : -1.0;");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2336,18 +2354,27 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
+        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
         private OperatorDtoBase Process_StretchOrSquash_WithOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
-            GenerateOperatorTitleComment(dto);
-
             string factor = _stack.Pop();
             string origin = _stack.Pop();
-            string sourcePos = GeneratePositionNameCamelCase(dto);
-            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {operatorSymbol} {factor} + {origin};");
+            string operatorTitleComment = GetOperatorTitleComment(dto);
+            string positionTranformationLine = $"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};";
+            
+            // Calculate
+            _sb.AppendLine(operatorTitleComment);
+            _sb.AppendLine(positionTranformationLine);
             _sb.AppendLine();
+
+            // Reset
+            _sbReset.AppendLine(operatorTitleComment);
+            _sbReset.AppendLine(positionTranformationLine);
+            _sbReset.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2356,18 +2383,28 @@ namespace JJ.Business.Synthesizer.Roslyn
             return (OperatorDtoBase)dto;
         }
 
+        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
         private OperatorDtoBase Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
-            GenerateOperatorTitleComment(dto);
-
             string factor = _stack.Pop();
-            string sourcePos = GeneratePositionNameCamelCase(dto);
-            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string origin = GenerateLongLivedOriginName();
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {operatorSymbol} {factor} + {origin};");
+            string operatorTitleComment = GetOperatorTitleComment(dto);
+            string positionTransformationLine = $"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};";
+
+            // Calculate
+            _sb.AppendLine(operatorTitleComment);
+            _sb.AppendLine(positionTransformationLine);
             _sb.AppendLine();
+
+            // Reset
+            _sbReset.AppendLine(operatorTitleComment);
+            _sbReset.AppendLine(positionTransformationLine);
+            _sbReset.AppendLine($"{origin} = {sourcePosition};");
+            _sbReset.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2376,10 +2413,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             return (OperatorDtoBase)dto;
         }
 
+        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
         private OperatorDtoBase Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
-            GenerateOperatorTitleComment(dto);
-
             string factor = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
             string previousPosition = GenerateLongLivedPreviousPositionName();
@@ -2387,12 +2423,25 @@ namespace JJ.Business.Synthesizer.Roslyn
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            _sb.AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};");
-            _sb.AppendLine($"{previousPosition} = {sourcePosition};");
-            // I need two different variables for destPos and phase, because destPos is reused by different uses of the same stack level,
+            string operatorTitleComment = GetOperatorTitleComment(dto);
+            string positionTransformationLine = $"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};";
+            string previousPositionAssignmentLine = $"{previousPosition} = {sourcePosition};";
+
+            // Calculate
+            _sb.AppendLine(operatorTitleComment);
+            _sb.AppendLine(positionTransformationLine);
+            _sb.AppendLine(previousPositionAssignmentLine);
+            // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level,
             // while phase needs to be uniquely used by the operator instance.
             _sb.AppendLine($"{phase} = {destPosition};");
             _sb.AppendLine();
+
+            // Reset
+            _sbReset.AppendLine(operatorTitleComment);
+            _sbReset.AppendLine(positionTransformationLine);
+            _sbReset.AppendLine(previousPositionAssignmentLine);
+            _sbReset.AppendLine($"{phase} = 0.0;");
+            _sbReset.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2401,17 +2450,25 @@ namespace JJ.Business.Synthesizer.Roslyn
             return (OperatorDtoBase)dto;
         }
 
+        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
         private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
-            GenerateOperatorTitleComment(dto);
 
             string factor = _stack.Pop();
-            string sourcePos = GeneratePositionNameCamelCase(dto);
-            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            _sb.AppendLine($"{destPos} = {sourcePos} {operatorSymbol} {factor};");
+            string operatorTitleComment = GetOperatorTitleComment(dto);
+            string positionTransformationLine = $"{destPosition} = {sourcePosition} {operatorSymbol} {factor};";
+
+            _sb.AppendLine(operatorTitleComment);
+            _sb.AppendLine(positionTransformationLine);
             _sb.AppendLine();
+
+            _sbReset.AppendLine(operatorTitleComment);
+            _sbReset.AppendLine(positionTransformationLine);
+            _sbReset.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2478,16 +2535,21 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessCurve_WithOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
         {
-            GenerateOperatorTitleComment(dto);
-
-            // ReSharper disable once ArgumentsStyleStringLiteral
-            string phase = GeneratePhaseCalculationWithOriginShifting(dto, rate: "1.0");
-
             ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
             string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
-
             string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase});");
+            string defaultRate = CompilationHelper.FormatValue(1.0);
+
+            string operatorTitleComment = GetOperatorTitleComment(dto);
+
+            OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, defaultRate);
+
+            _sb.AppendLine(operatorTitleComment);
+            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({info.Phase});");
+
+            _sbReset.AppendLine(operatorTitleComment);
+            _sbReset.AppendLine($"{info.Origin} = {info.Position};");
+            _sbReset.AppendLine();
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2753,10 +2815,10 @@ namespace JJ.Business.Synthesizer.Roslyn
             GenerateOperatorTitleComment(dto);
 
             string speed = _stack.Pop();
-            string sourcePos = GeneratePositionNameCamelCase(dto);
-            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
-            _sb.AppendLine($"{destPos} = {sourcePos} * -{speed};");
+            _sb.AppendLine($"{destPosition} = {sourcePosition} * -{speed};");
             _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
@@ -2830,8 +2892,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessSetDimension(IOperatorDto_VarSignal_WithDimension dto, OperatorDtoBase valueOperatorDto = null, double? value = null)
         {
-            // Do not call base: Base will visit the inlets in one blow. We need to visit the inlets one by one.
-
             string valueLiteral = GetLiteralFromOperatorDtoOrValue(valueOperatorDto, value);
             string position = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
@@ -2849,15 +2909,21 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessShift(IOperatorDto_VarSignal_WithDimension dto, OperatorDtoBase distanceOperatorDto = null, double? distance = null)
         {
-            // Do not call base: Base will visit the inlets in one blow. We need to visit the inlets one by one.
-
-            GenerateOperatorTitleComment(dto);
-
             string distanceLiteral = GetLiteralFromOperatorDtoOrValue(distanceOperatorDto, distance);
-            string sourcePos = GeneratePositionNameCamelCase(dto);
-            string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
-            _sb.AppendLine($"{destPos} = {sourcePos} {PLUS_SYMBOL} {distanceLiteral};");
+            string operatorTitleComment = GetOperatorTitleComment(dto);
+            string positionTransformationLine = $"{destPosition} = {sourcePosition} {PLUS_SYMBOL} {distanceLiteral};";
+
+            // Calculate
+            _sb.AppendLine(operatorTitleComment);
+            _sb.AppendLine(positionTransformationLine);
+            _sb.AppendLine();
+
+            // Reset
+            _sbReset.Append(operatorTitleComment);
+            _sbReset.AppendLine(positionTransformationLine);
             _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
@@ -2952,8 +3018,14 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void GenerateOperatorTitleComment(IOperatorDto dto)
         {
-            _sb.AppendLine($"// {dto.OperatorTypeEnum}");
+            _sb.AppendLine(GetOperatorTitleComment(dto));
         }
+
+        // TODO: Remove outcommented code.
+        //private void GenerateOperatorTitleCommentForReset(IOperatorDto dto)
+        //{
+        //    _resetStringBuilder.AppendLine(GetOperatorTitleComment(dto));
+        //}
 
         private string GenerateLocalOutputName(IOperatorDto dto)
         {
@@ -3012,7 +3084,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         /// <summary> Returns the phase literal. </summary>
-        private string GeneratePhaseCalculationWithOriginShifting(IOperatorDto_WithDimension dto, string rate)
+        private OriginShiftingInfo GeneratePhaseCalculationWithOriginShifting(IOperatorDto_WithDimension dto, string rate)
         {
             string position = GeneratePositionNameCamelCase(dto);
             string origin = GenerateLongLivedOriginName();
@@ -3020,7 +3092,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
 
-            return phase;
+            return new OriginShiftingInfo { Phase = phase, Origin = origin, Position = position };
         }
 
         private string GeneratePhaseCalculationWithPhaseTracking(IOperatorDto_WithDimension dto, string rate)
@@ -3308,6 +3380,11 @@ namespace JJ.Business.Synthesizer.Roslyn
                 default:
                     throw new ValueNotSupportedException(stretchOrSquashEnum);
             }
+        }
+
+        private string GetOperatorTitleComment(IOperatorDto dto)
+        {
+            return $"// {dto.OperatorTypeEnum}";
         }
     }
 }
