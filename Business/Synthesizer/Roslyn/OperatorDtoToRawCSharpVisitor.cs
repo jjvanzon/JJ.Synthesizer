@@ -642,7 +642,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
+            return base.Visit_Hold_OperatorDto_VarSignal(dto);
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
@@ -1044,12 +1045,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             return GenerateOperatorWrapUp(dto, output);
         }
-
-        protected override OperatorDtoBase Visit_OperatorDto_Base(OperatorDtoBase dto)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         protected override OperatorDtoBase Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
         {
             return ProcessLogicalBinaryOperator(dto, OR_SYMBOL);
@@ -1456,11 +1452,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             string origin = GenerateLongLivedOriginName();
 
             _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) * -{speed} + {origin};");
+            _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
-            return GenerateOperatorWrapUp(dto, signal);
+            _stack.Push(signal);
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarSpeed_NoPhaseTracking(Reverse_OperatorDto_VarSpeed_NoPhaseTracking dto)
@@ -1487,11 +1485,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             // I need two different variables for destPos and phase, because destPos is reused by different uses of the same stack level,
             // while phase needs to be uniquely used by the operator instance.
             _sb.AppendLine($"{phase} = {destPosition};");
+            _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
-            return GenerateOperatorWrapUp(dto, signal);
+            _stack.Push(signal);
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto)
@@ -1503,6 +1503,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             {
                 return ProcessRoundZeroOffset(dto, signalValue: dto.Signal, stepOperatorDto: dto.StepOperatorDto);
             }
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return ProcessRoundWithOffset(dto, signalValue: dto.Signal, stepOperatorDto: dto.StepOperatorDto, offsetOperatorDto: dto.OffsetOperatorDto);
@@ -2346,11 +2347,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
             _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {operatorSymbol} {factor} + {origin};");
+            _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
-            return GenerateOperatorWrapUp(dto, signal);
+            _stack.Push(signal);
+            return (OperatorDtoBase)dto;
         }
 
         private OperatorDtoBase Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
@@ -2364,11 +2367,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
             _sb.AppendLine($"{destPos} = ({sourcePos} - {origin}) {operatorSymbol} {factor} + {origin};");
+            _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
-            return GenerateOperatorWrapUp(dto, signal);
+            _stack.Push(signal);
+            return (OperatorDtoBase)dto;
         }
 
         private OperatorDtoBase Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
@@ -2387,11 +2392,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             // I need two different variables for destPos and phase, because destPos is reused by different uses of the same stack level,
             // while phase needs to be uniquely used by the operator instance.
             _sb.AppendLine($"{phase} = {destPosition};");
+            _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
-            return GenerateOperatorWrapUp(dto, signal);
+            _stack.Push(signal);
+            return (OperatorDtoBase)dto;
         }
 
         private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
@@ -2404,11 +2411,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
             _sb.AppendLine($"{destPos} = {sourcePos} {operatorSymbol} {factor};");
+            _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
-            return GenerateOperatorWrapUp(dto, signal);
+            _stack.Push(signal);
+            return (OperatorDtoBase)dto;
         }
 
         private OperatorDtoBase ProcessBinaryOperator(IOperatorDto dto, string operatorSymbol)
@@ -2748,11 +2757,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             _sb.AppendLine($"{destPos} = {sourcePos} * -{speed};");
+            _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
-            return GenerateOperatorWrapUp(dto, signal);
+            _stack.Push(signal);
+            return (OperatorDtoBase)dto;
         }
 
         private OperatorDtoBase ProcessRoundWithOffset(
@@ -2821,17 +2832,19 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             // Do not call base: Base will visit the inlets in one blow. We need to visit the inlets one by one.
 
-            GenerateOperatorTitleComment(dto);
-
             string valueLiteral = GetLiteralFromOperatorDtoOrValue(valueOperatorDto, value);
             string position = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
+            GenerateOperatorTitleComment(dto);
+
             _sb.AppendLine($"{position} = {valueLiteral};");
+            _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
-            return GenerateOperatorWrapUp(dto, signal);
+            _stack.Push(signal);
+            return (OperatorDtoBase)dto;
         }
 
         private OperatorDtoBase ProcessShift(IOperatorDto_VarSignal_WithDimension dto, OperatorDtoBase distanceOperatorDto = null, double? distance = null)
@@ -2845,11 +2858,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             string destPos = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             _sb.AppendLine($"{destPos} = {sourcePos} {PLUS_SYMBOL} {distanceLiteral};");
+            _sb.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
 
-            return GenerateOperatorWrapUp(dto, signal);
+            _stack.Push(signal);
+            return (OperatorDtoBase)dto;
         }
 
         private OperatorDtoBase ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto, Func<string, string> getRightHandFormulaDelegate)
@@ -3241,6 +3256,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 string literal = _stack.Pop();
                 return literal;
             }
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return CompilationHelper.FormatValue(value.Value);

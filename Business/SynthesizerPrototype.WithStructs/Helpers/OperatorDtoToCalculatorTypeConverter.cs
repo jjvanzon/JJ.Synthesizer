@@ -32,15 +32,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
 
             Type calculatorType_OpenGeneric = Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(operatorDto);
 
-            IList<Type> calculatorType_OpenGenericTypeArguments = calculatorType_OpenGeneric.GetGenericArguments();
             IList<OperatorDtoBase> inputOperatorDtos = operatorDto.InputOperatorDtos;
-
-            if (calculatorType_OpenGenericTypeArguments.Count != inputOperatorDtos.Count)
-            {
-                throw new NotEqualException(
-                    () => calculatorType_OpenGenericTypeArguments.Count,
-                    () => inputOperatorDtos.Count);
-            }
 
             int count = inputOperatorDtos.Count;
 
@@ -53,7 +45,6 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
             Type[] calculatorType_ClosedGenericTypeArguments = new Type[count];
             for (int i = 0; i < count; i++)
             {
-                Type calculatorType_OpenGenericTypeArgument = calculatorType_OpenGenericTypeArguments[i];
                 OperatorDtoBase inputOperatorDto = inputOperatorDtos[i];
 
                 Type calculatorType_ClosedGenericTypeArgument = ConvertToClosedGenericType(inputOperatorDto);

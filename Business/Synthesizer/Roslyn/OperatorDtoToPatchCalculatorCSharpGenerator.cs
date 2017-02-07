@@ -588,6 +588,12 @@ namespace JJ.Business.Synthesizer.Roslyn
                     sb.AppendLine($"_{variableName} = time;");
                 }
 
+                foreach (string variableName in visitorResult.LongLivedOriginVariableNamesCamelCase)
+                {
+                    // DIRTY: Phase of a partial does not have to be related to the time-dimension!
+                    sb.AppendLine($"_{variableName} = time;");
+                }
+
                 sb.Unindent();
             }
             sb.AppendLine("}");
