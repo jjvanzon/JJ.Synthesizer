@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             var result = new OperatorDtoToPatchCalculatorCSharpGeneratorResult
             {
                 GeneratedCode = generatedCode,
-                CurveCalculatorVariableInfos = visitorResult.CalculatorVariableInfos
+                CalculatorVariableInfos = visitorResult.CalculatorVariableInfos
             };
 
             return result;

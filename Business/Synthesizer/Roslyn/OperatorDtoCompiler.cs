@@ -56,12 +56,38 @@ namespace JJ.Business.Synthesizer.Roslyn
             MetadataReference.CreateFromFile(typeof(Expression).Assembly.Location)
         };
 
+        [Obsolete("Consider using CompileToPatchCalculatorActivationInfo instead, to compile once and instantiate multiple times.")]
         public IPatchCalculator CompileToPatchCalculator(
             OperatorDtoBase dto, 
             int samplingRate, 
             int channelCount, 
             int channelIndex, 
             CalculatorCache calculatorCache, 
+            ICurveRepository curveRepository,
+            IOperatorRepository operatorRepository,
+            ISampleRepository sampleRepository)
+        {
+            ActivationInfo activationInfo = CompileToPatchCalculatorActivationInfo(
+                dto,
+                samplingRate,
+                channelCount,
+                channelIndex,
+                calculatorCache,
+                curveRepository,
+                operatorRepository,
+                sampleRepository);
+
+            var calculator = (IPatchCalculator)Activator.CreateInstance(activationInfo.Type, activationInfo.Args);
+
+            return calculator;
+        }
+
+        public ActivationInfo CompileToPatchCalculatorActivationInfo(
+            OperatorDtoBase dto,
+            int samplingRate,
+            int channelCount,
+            int channelIndex,
+            CalculatorCache calculatorCache,
             ICurveRepository curveRepository,
             IOperatorRepository operatorRepository,
             ISampleRepository sampleRepository)
@@ -74,14 +100,16 @@ namespace JJ.Business.Synthesizer.Roslyn
             var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex, calculatorCache, curveRepository, sampleRepository);
             OperatorDtoToPatchCalculatorCSharpGeneratorResult codeGeneratorResult = codeGenerator.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
-            Dictionary<string, double[]> arrays = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.UnderlyingArray);
-            Dictionary<string, double> arrayRates = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.Rate);
-            Dictionary<string, double> arrayValuesBefore = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueBefore);
-            Dictionary<string, double> arrayValuesAfter = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueAfter);
-
             Type type = Compile(codeGeneratorResult.GeneratedCode);
-            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex, arrays, arrayRates, arrayValuesBefore, arrayValuesAfter);
-            return calculator;
+
+            Dictionary<string, double[]> arrays = codeGeneratorResult.CalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.UnderlyingArray);
+            Dictionary<string, double> arrayRates = codeGeneratorResult.CalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.Rate);
+            Dictionary<string, double> arrayValuesBefore = codeGeneratorResult.CalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueBefore);
+            Dictionary<string, double> arrayValuesAfter = codeGeneratorResult.CalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueAfter);
+
+            var args = new object[] { samplingRate, channelCount, channelIndex, arrays, arrayRates, arrayValuesBefore, arrayValuesAfter };
+
+            return new ActivationInfo(type, args);
         }
 
         private Type Compile(string generatedCode)

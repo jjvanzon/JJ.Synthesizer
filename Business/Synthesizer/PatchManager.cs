@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GeneratedCSharp;
 using JJ.Framework.Exceptions;
@@ -503,6 +504,68 @@ namespace JJ.Business.Synthesizer
             {
                 Successful = true
             };
+        }
+
+        /// <summary>
+        /// Does work shared for creating multiple calculators only once.
+        /// In particular in compiled mode, this means it compiles the calculation only once.
+        /// Note that you are still going to have to call it once for each channel, unfortunately,
+        /// due to the inherent behavior of sample mixing inside the PatchCalculators.
+        /// </summary>
+        public IList<IPatchCalculator> CreateCalculators(
+            int calculatorCount,
+            Outlet outlet,
+            int samplingRate,
+            int channelCount,
+            int channelIndex,
+            CalculatorCache calculatorCache,
+            bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
+        {
+            if (_calculationEngineConfigurationEnum != CalculationEngineConfigurationEnum.RoslynRuntimeCompilation)
+            {
+                IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
+                    calculatorCount,
+                    () => CreateCalculator(
+                        outlet,
+                        samplingRate,
+                        channelCount,
+                        channelIndex,
+                        calculatorCache,
+                        mustSubstituteSineForUnfilledInSignalPatchInlets))
+                    .ToArray();
+
+                return patchCalculators;
+            }
+            else
+            {
+                var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
+                    _repositories.CurveRepository,
+                    _repositories.PatchRepository,
+                    _repositories.SampleRepository,
+                    _repositories.SpeakerSetupRepository);
+                OperatorDtoBase dto = entityToDtoVisitor.Execute(outlet);
+
+                var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
+                dto = preProcessingVisitor.Execute(dto);
+
+                var compiler = new OperatorDtoCompiler();
+                ActivationInfo activationInfo = compiler.CompileToPatchCalculatorActivationInfo(
+                    dto,
+                    samplingRate,
+                    channelCount,
+                    channelIndex,
+                    calculatorCache,
+                    _repositories.CurveRepository,
+                    _repositories.OperatorRepository,
+                    _repositories.SampleRepository);
+
+                IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
+                    calculatorCount,
+                    () => (IPatchCalculator)Activator.CreateInstance(activationInfo.Type, activationInfo.Args))
+                    .ToArray();
+
+                return patchCalculators;
+            }
         }
 
         public IPatchCalculator CreateCalculator(
