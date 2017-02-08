@@ -2406,15 +2406,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            AppendOperatorTitleComment(dto);
+            string operatorTitleCommentLine = GetOperatorTitleComment(dto);
+            string positionTranformationLine = $"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};";
+
+            _sbCalculate.AppendLine(operatorTitleCommentLine);
+            _sbCalculate.AppendLine(positionTranformationLine);
+            _sbCalculate.AppendLine($"{previousPosition} = {sourcePosition};");
+            _sbCalculate.AppendLine($"{phase} = {destPosition};"); // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level, while phase needs to be uniquely used by the operator instance.
+            _sbCalculate.AppendLine();
+
+            _sbReset.AppendLine(operatorTitleCommentLine);
             _sbReset.AppendLine($"{phase} = 0.0;");
             _sbReset.AppendLine($"{previousPosition} = {sourcePosition};");
-            AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};");
-            _sbCalculate.AppendLine($"{previousPosition} = {sourcePosition};");
-            // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level,
-            // while phase needs to be uniquely used by the operator instance.
-            _sbCalculate.AppendLine($"{phase} = {destPosition};");
-            AppendLine();
+            _sbReset.AppendLine(positionTranformationLine);
+            _sbReset.AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
