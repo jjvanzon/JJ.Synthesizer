@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private readonly int _resetIndentLevel;
 
         private Stack<string> _stack;
-        private StringBuilderWithIndentation _sb;
+        private StringBuilderWithIndentation _sbCalculate;
         private StringBuilderWithIndentation _sbReset;
         private int _counter;
 
@@ -146,7 +146,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             _noiseOperatorID_To_OffsetNumberLiteral_Dictionary = new Dictionary<int, string>();
             _counter = 0;
 
-            _sb = new StringBuilderWithIndentation(TAB_STRING)
+            _sbCalculate = new StringBuilderWithIndentation(TAB_STRING)
             {
                 IndentLevel = _calculationIndentLevel
             };
@@ -158,7 +158,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Visit_OperatorDto_Polymorphic(dto);
 
-            string rawCalculationCode = _sb.ToString();
+            string rawCalculationCode = _sbCalculate.ToString();
             string rawResetCode = _sbReset.ToString();
             string returnValue = _stack.Pop();
 
@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string variable = GenerateLocalOutputName(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             AppendLine($"double {variable} = {x};");
             AppendLine($"if ({variable} < 0.0) {variable} = -{variable};");
@@ -258,7 +258,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string sum = GenerateUniqueLocalVariableName(nameof(sum));
             string output = GenerateLocalOutputName(dto);
@@ -464,7 +464,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string fixedPosition = CompilationHelper.FormatValue(dto.OutletListIndex);
             string output = GenerateLocalOutputName(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             AppendLine($"{position} = {fixedPosition};");
             AppendLine();
@@ -970,7 +970,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string x = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
@@ -982,7 +982,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Noise_OperatorDto(Noise_OperatorDto dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string output = GenerateLocalOutputName(dto);
             string position = GeneratePositionNameCamelCase(dto);
@@ -1000,7 +1000,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string x = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
@@ -1054,7 +1054,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string x = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
@@ -1099,7 +1099,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string @base = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
@@ -1113,7 +1113,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string @base = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
@@ -1127,7 +1127,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string @base = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
@@ -1266,7 +1266,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             AppendLine($"const double {tillPlusStep} = {till} + {step};");
             AppendLine($"const double {stepDividedBy2} = {step} / 2.0;");
@@ -1329,7 +1329,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             AppendLine($"double {output};");
             AppendLine($"if ({position} < 0.0)");
@@ -1388,7 +1388,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             const string midpointRounding = nameof(MidpointRounding);
             const string awayFromZero = nameof(MidpointRounding.AwayFromZero);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             AppendLine($"const double {tillPlusOne} = {till} + 1.0;");
             AppendLine($"double {output};");
@@ -1462,7 +1462,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_WithOriginShifting(Reverse_OperatorDto_ConstSpeed_WithOriginShifting dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string speed = CompilationHelper.FormatValue(dto.Speed);
             string sourcePosition = GeneratePositionNameCamelCase(dto);
@@ -1490,7 +1490,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.SpeedOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string speed = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
@@ -1547,7 +1547,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string signal = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
@@ -1578,7 +1578,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -1589,7 +1589,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
@@ -1600,7 +1600,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -1611,7 +1611,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -1622,7 +1622,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
@@ -1633,7 +1633,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, rate);
 
@@ -1644,7 +1644,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -1655,7 +1655,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string phase = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
 
@@ -1666,7 +1666,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -1677,7 +1677,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, rate);
 
@@ -1688,7 +1688,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string phase = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
 
@@ -1699,7 +1699,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string phase = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
 
@@ -2042,7 +2042,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
 
@@ -2053,7 +2053,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
 
@@ -2064,7 +2064,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string frequency = _stack.Pop();
 
@@ -2077,7 +2077,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string frequency = _stack.Pop();
 
@@ -2122,7 +2122,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase Process_ClosestOverInlets(IOperatorDto dto, int varCount)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string input = _stack.Pop();
             string firstItem = _stack.Pop();
@@ -2166,7 +2166,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string input = _stack.Pop();
             string firstItem = _stack.Pop();
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string smallestDistance = GenerateUniqueLocalVariableName(nameof(smallestDistance));
             string closestItem = GenerateUniqueLocalVariableName(nameof(closestItem));
@@ -2211,7 +2211,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Base(dto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string signal = _stack.Pop();
             string frequency = _stack.Pop();
@@ -2264,7 +2264,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string signal = _stack.Pop();
 
@@ -2296,7 +2296,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase Process_Math_Pow(IOperatorDto dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string @base = _stack.Pop();
             string exponent = _stack.Pop();
@@ -2309,7 +2309,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase Process_Pulse_NoPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string frequency = _stack.Pop();
 
@@ -2325,7 +2325,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         // ReSharper disable once SuggestBaseTypeForParameter
         private OperatorDtoBase Process_Pulse_WithOriginShifting(OperatorDtoBase_ConstFrequency dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string frequency = _stack.Pop();
 
@@ -2341,7 +2341,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         // ReSharper disable once SuggestBaseTypeForParameter
         private OperatorDtoBase Process_Pulse_WithPhaseTracking(OperatorDtoBase_VarFrequency dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string frequency = _stack.Pop();
 
@@ -2363,12 +2363,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            string operatorTitleComment = GetOperatorTitleComment(dto);
-            string positionTranformationLine = $"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};";
-            
             // Calculate
-            AppendLine(operatorTitleComment);
-            AppendLine(positionTranformationLine);
+            AppendOperatorTitleComment(dto);
+            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};");
             AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
@@ -2387,12 +2384,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             string origin = GenerateLongLivedOriginName();
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            string operatorTitleComment = GetOperatorTitleComment(dto);
-            string positionTransformationLine = $"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};";
-
-            AppendLine(operatorTitleComment);
-            AppendLine(positionTransformationLine);
+            AppendOperatorTitleComment(dto);
             _sbReset.AppendLine($"{origin} = {sourcePosition};");
+            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};");
             AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
@@ -2412,17 +2406,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            string operatorTitleComment = GetOperatorTitleComment(dto);
-            string positionTransformationLine = $"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};";
-            string previousPositionAssignmentLine = $"{previousPosition} = {sourcePosition};";
-
-            AppendLine(operatorTitleComment);
-            AppendLine(positionTransformationLine);
-            AppendLine(previousPositionAssignmentLine);
+            AppendOperatorTitleComment(dto);
+            _sbReset.AppendLine($"{phase} = 0.0;");
+            AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};");
+            AppendLine($"{previousPosition} = {sourcePosition};");
             // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level,
             // while phase needs to be uniquely used by the operator instance.
-            AppendLine($"{phase} = {destPosition};");
-            _sbReset.AppendLine($"{phase} = 0.0;");
+            _sbCalculate.AppendLine($"{phase} = {destPosition};");
             AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
@@ -2440,11 +2430,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            string operatorTitleComment = GetOperatorTitleComment(dto);
-            string positionTransformationLine = $"{destPosition} = {sourcePosition} {operatorSymbol} {factor};";
-
-            AppendLine(operatorTitleComment);
-            AppendLine(positionTransformationLine);
+            AppendOperatorTitleComment(dto);
+            AppendLine($"{destPosition} = {sourcePosition} {operatorSymbol} {factor};");
             AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
@@ -2456,7 +2443,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessBinaryOperator(IOperatorDto dto, string operatorSymbol)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string a = _stack.Pop();
             string b = _stack.Pop();
@@ -2469,7 +2456,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessComparativeOperator(IOperatorDto dto, string operatorSymbol)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string a = _stack.Pop();
             string b = _stack.Pop();
@@ -2498,7 +2485,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessCurve_NoOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string output = GenerateLocalOutputName(dto);
             string position = GeneratePositionNameCamelCase(dto);
@@ -2522,16 +2509,15 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine(operatorTitleComment);
 
             OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, defaultRate);
-
-            AppendLine($"double {output} = {calculatorName}.Calculate({info.Phase});");
             _sbReset.AppendLine($"{info.Origin} = {info.Position};");
+            AppendLine($"double {output} = {calculatorName}.Calculate({info.Phase});");
 
             return GenerateOperatorWrapUp(dto, output);
         }
 
         private OperatorDtoBase ProcessDivideZeroOrigin(IOperatorDto dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string a = _stack.Pop();
             string b = _stack.Pop();
@@ -2544,7 +2530,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessExponentOperator(IOperatorDto dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string low = _stack.Pop();
             string high = _stack.Pop();
@@ -2561,7 +2547,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string a = _stack.Pop();
             string b = _stack.Pop();
@@ -2574,7 +2560,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase Process_MinOrMaxOverInlets_MoreThan2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum, int varCount)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string firstValue = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
@@ -2595,7 +2581,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase Process_MinOrMaxOverInlets_With2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string a = _stack.Pop();
             string b = _stack.Pop();
@@ -2672,7 +2658,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessMultiplyOrDivideWithOrigin(IOperatorDto dto, string operatorSymbol)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string a = _stack.Pop();
             string b = _stack.Pop();
@@ -2686,7 +2672,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessMultiVarOperator(IOperatorDto dto, int varCount, string operatorSymbol)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string output = GenerateLocalOutputName(dto);
 
@@ -2742,7 +2728,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
 
@@ -2758,7 +2744,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string frequency = _stack.Pop();
 
@@ -2774,7 +2760,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase Process_RangeOverOutlets_Outlet(IRangeOverOutlets_Outlet_OperatorDto_WithOutletListIndex dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string from = _stack.Pop();
             string step = _stack.Pop();
@@ -2787,7 +2773,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessReverse_NoPhaseTrackingOrOriginShifting(IOperatorDto_VarSignal_WithDimension dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string speed = _stack.Pop();
             string sourcePosition = GeneratePositionNameCamelCase(dto);
@@ -2812,7 +2798,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             OperatorDtoBase offsetOperatorDto = null,
             double? offsetValue = null)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string signal = GetLiteralFromOperatorDtoOrValue(signalOperatorDto, signalValue);
             string step = GetLiteralFromOperatorDtoOrValue(stepOperatorDto, stepValue);
@@ -2833,7 +2819,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             OperatorDtoBase stepOperatorDto = null,
             double? stepValue = null)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string signal = GetLiteralFromOperatorDtoOrValue(signalOperatorDto, signalValue);
             string step = GetLiteralFromOperatorDtoOrValue(stepOperatorDto, stepValue);
@@ -2849,7 +2835,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// <summary> Assumes all inlets literals are have been put on the _stack. </summary>
         private OperatorDtoBase ProcessScaler(IOperatorDto dto)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string signal = _stack.Pop();
             string sourceValueA = _stack.Pop();
@@ -2870,7 +2856,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string valueLiteral = GetLiteralFromOperatorDtoOrValue(valueOperatorDto, value);
             string position = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             AppendLine($"{position} = {valueLiteral};");
             AppendLine();
@@ -2888,11 +2874,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             string sourcePosition = GeneratePositionNameCamelCase(dto);
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
-            string operatorTitleComment = GetOperatorTitleComment(dto);
-            string positionTransformationLine = $"{destPosition} = {sourcePosition} {PLUS_SYMBOL} {distanceLiteral};";
-
-            AppendLine(operatorTitleComment);
-            AppendLine(positionTransformationLine);
+            AppendOperatorTitleComment(dto);
+            // IMPORTANT: To shift to the right in the output, you have shift to the left in the input.
+            AppendLine($"{destPosition} = {sourcePosition} {SUBTRACT_SYMBOL} {distanceLiteral};");
             AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
@@ -2904,7 +2888,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto, Func<string, string> getRightHandFormulaDelegate)
         {
-            GenerateOperatorTitleComment(dto);
+            AppendOperatorTitleComment(dto);
 
             string frequency = _stack.Pop();
 
@@ -2926,37 +2910,37 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendLine(string line = null)
         {
-            _sb.AppendLine(line);
+            _sbCalculate.AppendLine(line);
             _sbReset.AppendLine(line);
         }
 
         private void Indent()
         {
-            _sb.Indent();
+            _sbCalculate.Indent();
             _sbReset.Indent();
         }
 
         private void Unindent()
         {
-            _sb.Unindent();
+            _sbCalculate.Unindent();
             _sbReset.Unindent();
         }
 
         private void Append(char chr)
         {
-            _sb.Append(chr);
+            _sbCalculate.Append(chr);
             _sbReset.Append(chr);
         }
 
         private void Append(string text)
         {
-            _sb.Append(text);
+            _sbCalculate.Append(text);
             _sbReset.Append(text);
         }
 
         private void AppendTabs()
         {
-            _sb.AppendTabs();
+            _sbCalculate.AppendTabs();
             _sbReset.AppendTabs();
         }
 
@@ -3021,7 +3005,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return valueInfo;
         }
 
-        private void GenerateOperatorTitleComment(IOperatorDto dto)
+        private void AppendOperatorTitleComment(IOperatorDto dto)
         {
             AppendLine(GetOperatorTitleComment(dto));
         }
