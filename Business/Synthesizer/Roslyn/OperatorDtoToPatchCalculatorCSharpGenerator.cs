@@ -340,7 +340,8 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
 
                 // Raw Reset Code
-                //sb.Append(visitorResult.RawResetCode);
+                // TODO: Reenable code line when RawResetCode is correct.
+                sb.Append(visitorResult.RawResetCode);
 
                 // Copy Local to Fields
                 foreach (string variableName in instanceVariableNamesCamelCase)

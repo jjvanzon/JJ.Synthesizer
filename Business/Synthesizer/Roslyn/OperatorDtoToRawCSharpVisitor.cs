@@ -208,8 +208,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             GenerateOperatorTitleComment(dto);
 
-            _sb.AppendLine($"double {variable} = {x};");
-            _sb.AppendLine($"if ({variable} < 0.0) {variable} = -{variable};");
+            AppendLine($"double {variable} = {x};");
+            AppendLine($"if ({variable} < 0.0) {variable} = -{variable};");
 
             return GenerateOperatorWrapUp(dto, variable);
         }
@@ -264,15 +264,15 @@ namespace JJ.Business.Synthesizer.Roslyn
             string output = GenerateLocalOutputName(dto);
             int count = dto.Vars.Count;
 
-            _sb.AppendTabs();
-            _sb.Append($"double {sum} =");
+            AppendTabs();
+            Append($"double {sum} =");
 
             for (int i = 0; i < count; i++)
             {
                 string value = _stack.Pop();
 
-                _sb.Append(' ');
-                _sb.Append(value);
+                Append(' ');
+                Append(value);
 
                 bool isLast = i == count - 1;
                 if (isLast)
@@ -280,15 +280,15 @@ namespace JJ.Business.Synthesizer.Roslyn
                     break;
                 }
 
-                _sb.Append(" +");
+                Append(" +");
             }
 
-            _sb.Append(';');
-            _sb.Append(Environment.NewLine);
+            Append(';');
+            Append(Environment.NewLine);
 
             string countLiteral = CompilationHelper.FormatValue(count);
 
-            _sb.AppendLine($"double {output} = {sum} / {countLiteral};");
+            AppendLine($"double {output} = {sum} / {countLiteral};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -466,13 +466,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             GenerateOperatorTitleComment(dto);
 
-            _sb.AppendLine($"{position} = {fixedPosition};");
-            _sb.AppendLine();
+            AppendLine($"{position} = {fixedPosition};");
+            AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.OperandOperatorDto);
             string operand = _stack.Pop();
 
-            _sb.AppendLine($"double {output} = {operand};");
+            AppendLine($"double {output} = {operand};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -975,7 +975,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string x = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = -{x};");
+            AppendLine($"double {output} = -{x};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -991,7 +991,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             ICalculatorWithPosition calculator = _calculatorCache.GetNoiseUnderlyingArrayCalculator(dto.OperatorID);
             string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
-            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({position} + {offset});");
+            AppendLine($"double {output} = {calculatorName}.Calculate({position} + {offset});");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1005,7 +1005,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string x = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = {x} == 0.0 ? 1.0 : 0.0;");
+            AppendLine($"double {output} = {x} == 0.0 ? 1.0 : 0.0;");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1059,7 +1059,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string x = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = 1.0 / {x};");
+            AppendLine($"double {output} = 1.0 / {x};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1104,7 +1104,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string @base = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = {@base} * {@base};");
+            AppendLine($"double {output} = {@base} * {@base};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1118,7 +1118,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string @base = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = {@base} * {@base} * {@base};");
+            AppendLine($"double {output} = {@base} * {@base} * {@base};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1132,8 +1132,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             string @base = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = {@base} * {@base};");
-            _sb.AppendLine($"{output} *= {output};");
+            AppendLine($"double {output} = {@base} * {@base};");
+            AppendLine($"{output} *= {output};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1268,45 +1268,45 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             GenerateOperatorTitleComment(dto);
 
-            _sb.AppendLine($"const double {tillPlusStep} = {till} + {step};");
-            _sb.AppendLine($"const double {stepDividedBy2} = {step} / 2.0;");
-            _sb.AppendLine($"double {output};");
-            _sb.AppendLine($"if ({position} < 0.0)");
-            _sb.AppendLine("{");
-            _sb.Indent();
+            AppendLine($"const double {tillPlusStep} = {till} + {step};");
+            AppendLine($"const double {stepDividedBy2} = {step} / 2.0;");
+            AppendLine($"double {output};");
+            AppendLine($"if ({position} < 0.0)");
+            AppendLine("{");
+            Indent();
             {
-                _sb.AppendLine($"{output} = 0.0;");
-                _sb.Unindent();
+                AppendLine($"{output} = 0.0;");
+                Unindent();
             }
-            _sb.AppendLine("}");
-            _sb.AppendLine("else");
-            _sb.AppendLine("{");
-            _sb.Indent();
+            AppendLine("}");
+            AppendLine("else");
+            AppendLine("{");
+            Indent();
             {
-                _sb.AppendLine($"double {valueNonRounded} = {from} + {position} * {step};");
-                _sb.AppendLine($"double {upperBound} = {tillPlusStep};"); // Sustain last value for the length a of step.
-                _sb.AppendLine($"if ({valueNonRounded} > {upperBound})");
-                _sb.AppendLine("{");
-                _sb.Indent();
+                AppendLine($"double {valueNonRounded} = {from} + {position} * {step};");
+                AppendLine($"double {upperBound} = {tillPlusStep};"); // Sustain last value for the length a of step.
+                AppendLine($"if ({valueNonRounded} > {upperBound})");
+                AppendLine("{");
+                Indent();
                 {
-                    _sb.AppendLine($"{output} = 0.0;");
-                    _sb.Unindent();
+                    AppendLine($"{output} = 0.0;");
+                    Unindent();
                 }
-                _sb.AppendLine("}");
-                _sb.AppendLine("else");
-                _sb.AppendLine("{");
-                _sb.Indent();
+                AppendLine("}");
+                AppendLine("else");
+                AppendLine("{");
+                Indent();
                 {
                     // Correct so that we round down and never up.
-                    _sb.AppendLine($"double {valueNonRoundedCorrected} = {valueNonRounded} - {stepDividedBy2};");
-                    _sb.AppendLine($"double {valueRounded} = {mathHelper}.{roundWithStep}({valueNonRoundedCorrected}, {step});");
-                    _sb.AppendLine($"{output} = {valueRounded};");
-                    _sb.Unindent();
+                    AppendLine($"double {valueNonRoundedCorrected} = {valueNonRounded} - {stepDividedBy2};");
+                    AppendLine($"double {valueRounded} = {mathHelper}.{roundWithStep}({valueNonRoundedCorrected}, {step});");
+                    AppendLine($"{output} = {valueRounded};");
+                    Unindent();
                 }
-                _sb.AppendLine("}");
-                _sb.Unindent();
+                AppendLine("}");
+                Unindent();
             }
-            _sb.AppendLine("}");
+            AppendLine("}");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1331,43 +1331,43 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             GenerateOperatorTitleComment(dto);
 
-            _sb.AppendLine($"double {output};");
-            _sb.AppendLine($"if ({position} < 0.0)");
-            _sb.AppendLine("{");
-            _sb.Indent();
+            AppendLine($"double {output};");
+            AppendLine($"if ({position} < 0.0)");
+            AppendLine("{");
+            Indent();
             {
-                _sb.AppendLine($"{output} = 0.0;");
-                _sb.Unindent();
+                AppendLine($"{output} = 0.0;");
+                Unindent();
             }
-            _sb.AppendLine("}");
-            _sb.AppendLine("else");
-            _sb.AppendLine("{");
-            _sb.Indent();
+            AppendLine("}");
+            AppendLine("else");
+            AppendLine("{");
+            Indent();
             {
-                _sb.AppendLine($"double {valueNonRounded} = {from} + {position} * {step};");
-                _sb.AppendLine($"double {upperBound} = {till} + {step};"); // Sustain last value for the length a of step.
-                _sb.AppendLine($"if ({valueNonRounded} > {upperBound})");
-                _sb.AppendLine("{");
-                _sb.Indent();
+                AppendLine($"double {valueNonRounded} = {from} + {position} * {step};");
+                AppendLine($"double {upperBound} = {till} + {step};"); // Sustain last value for the length a of step.
+                AppendLine($"if ({valueNonRounded} > {upperBound})");
+                AppendLine("{");
+                Indent();
                 {
-                    _sb.AppendLine($"{output} = 0.0;");
-                    _sb.Unindent();
+                    AppendLine($"{output} = 0.0;");
+                    Unindent();
                 }
-                _sb.AppendLine("}");
-                _sb.AppendLine("else");
-                _sb.AppendLine("{");
-                _sb.Indent();
+                AppendLine("}");
+                AppendLine("else");
+                AppendLine("{");
+                Indent();
                 {
                     // Correct so that we round down and never up.
-                    _sb.AppendLine($"double {valueNonRoundedCorrected} = {valueNonRounded} - {step} / 2.0;");
-                    _sb.AppendLine($"double {valueRounded} = {mathHelper}.{roundWithStep}({valueNonRoundedCorrected}, {step});");
-                    _sb.AppendLine($"{output} = {valueRounded};");
-                    _sb.Unindent();
+                    AppendLine($"double {valueNonRoundedCorrected} = {valueNonRounded} - {step} / 2.0;");
+                    AppendLine($"double {valueRounded} = {mathHelper}.{roundWithStep}({valueNonRoundedCorrected}, {step});");
+                    AppendLine($"{output} = {valueRounded};");
+                    Unindent();
                 }
-                _sb.AppendLine("}");
-                _sb.Unindent();
+                AppendLine("}");
+                Unindent();
             }
-            _sb.AppendLine("}");
+            AppendLine("}");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1390,44 +1390,44 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             GenerateOperatorTitleComment(dto);
 
-            _sb.AppendLine($"const double {tillPlusOne} = {till} + 1.0;");
-            _sb.AppendLine($"double {output};");
-            _sb.AppendLine($"if ({position} < 0.0)");
-            _sb.AppendLine("{");
-            _sb.Indent();
+            AppendLine($"const double {tillPlusOne} = {till} + 1.0;");
+            AppendLine($"double {output};");
+            AppendLine($"if ({position} < 0.0)");
+            AppendLine("{");
+            Indent();
             {
-                _sb.AppendLine($"{output} = 0.0;");
-                _sb.Unindent();
+                AppendLine($"{output} = 0.0;");
+                Unindent();
             }
-            _sb.AppendLine("}");
-            _sb.AppendLine("else");
-            _sb.AppendLine("{");
-            _sb.Indent();
+            AppendLine("}");
+            AppendLine("else");
+            AppendLine("{");
+            Indent();
             {
-                _sb.AppendLine($"double {valueNonRounded} = {from} + {position};");
-                _sb.AppendLine($"double {upperBound} = {tillPlusOne};"); // Sustain last value for the length a of step.
-                _sb.AppendLine($"if ({valueNonRounded} > {upperBound})");
-                _sb.AppendLine("{");
-                _sb.Indent();
+                AppendLine($"double {valueNonRounded} = {from} + {position};");
+                AppendLine($"double {upperBound} = {tillPlusOne};"); // Sustain last value for the length a of step.
+                AppendLine($"if ({valueNonRounded} > {upperBound})");
+                AppendLine("{");
+                Indent();
                 {
-                    _sb.AppendLine($"{output} = 0.0;");
-                    _sb.Unindent();
+                    AppendLine($"{output} = 0.0;");
+                    Unindent();
                 }
-                _sb.AppendLine("}");
-                _sb.AppendLine("else");
-                _sb.AppendLine("{");
-                _sb.Indent();
+                AppendLine("}");
+                AppendLine("else");
+                AppendLine("{");
+                Indent();
                 {
                     // Correct so that we round down and never up.
-                    _sb.AppendLine($"double {valueNonRoundedCorrected} = {valueNonRounded} - 0.5;");
-                    _sb.AppendLine($"double {valueRounded} = {math}.{round}({valueNonRoundedCorrected}, {midpointRounding}.{awayFromZero});");
-                    _sb.AppendLine($"{output} = {valueRounded};");
-                    _sb.Unindent();
+                    AppendLine($"double {valueNonRoundedCorrected} = {valueNonRounded} - 0.5;");
+                    AppendLine($"double {valueRounded} = {math}.{round}({valueNonRoundedCorrected}, {midpointRounding}.{awayFromZero});");
+                    AppendLine($"{output} = {valueRounded};");
+                    Unindent();
                 }
-                _sb.AppendLine("}");
-                _sb.Unindent();
+                AppendLine("}");
+                Unindent();
             }
-            _sb.AppendLine("}");
+            AppendLine("}");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1469,8 +1469,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string origin = GenerateLongLivedOriginName();
 
-            _sb.AppendLine($"{destPosition} = ({sourcePosition} - {origin}) * -{speed} + {origin};");
-            _sb.AppendLine();
+            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) * -{speed} + {origin};");
+            AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -1498,12 +1498,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             string sourcePosition = GeneratePositionNameCamelCase(dto);
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
-            _sb.AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) * -{speed};");
-            _sb.AppendLine($"{previousPosition} = {sourcePosition};");
+            AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) * -{speed};");
+            AppendLine($"{previousPosition} = {sourcePosition};");
             // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level,
             // while phase needs to be uniquely used by the operator instance.
-            _sb.AppendLine($"{phase} = {destPosition};");
-            _sb.AppendLine();
+            AppendLine($"{phase} = {destPosition};");
+            AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -1554,7 +1554,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             const string math = nameof(Math);
             const string round = nameof(Math.Round);
 
-            _sb.AppendLine($"double {output} = {math}.{round}({signal}, MidpointRounding.AwayFromZero);");
+            AppendLine($"double {output} = {math}.{round}({signal}, MidpointRounding.AwayFromZero);");
 
             return GenerateOperatorWrapUp(dto, signal);
         }
@@ -2108,14 +2108,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             string output = GenerateLocalOutputName(dto);
 
             // Correct the phase shift, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
-            _sb.AppendLine($"double {shiftedPhase} = {phase} + 0.25;");
-            _sb.AppendLine($"double {relativePhase} = {shiftedPhase} % 1.0;");
-            _sb.AppendLine($"double {output};");
+            AppendLine($"double {shiftedPhase} = {phase} + 0.25;");
+            AppendLine($"double {relativePhase} = {shiftedPhase} % 1.0;");
+            AppendLine($"double {output};");
             // Starts going up at a rate of 2 up over 1/2 a cycle.
-            _sb.AppendLine($"if ({relativePhase} < 0.5) {output} = -1.0 + 4.0 * {relativePhase};");
+            AppendLine($"if ({relativePhase} < 0.5) {output} = -1.0 + 4.0 * {relativePhase};");
             // And then going down at phase 1/2.
             // (Extending the line to x = 0 it ends up at y = 3.)
-            _sb.AppendLine($"else {output} = 3.0 - 4.0 * {relativePhase};");
+            AppendLine($"else {output} = 3.0 - 4.0 * {relativePhase};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2132,9 +2132,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             const string geometry = nameof(Geometry);
             const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
 
-            _sb.AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({input}, {firstItem});");
-            _sb.AppendLine($"double {closestItem} = {firstItem};");
-            _sb.AppendLine();
+            AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({input}, {firstItem});");
+            AppendLine($"double {closestItem} = {firstItem};");
+            AppendLine();
 
             // NOTE: i = 1.
             for (int i = 1; i < varCount; i++) 
@@ -2142,21 +2142,21 @@ namespace JJ.Business.Synthesizer.Roslyn
                 string item = _stack.Pop();
                 string distance = GenerateUniqueLocalVariableName(nameof(distance));
 
-                _sb.AppendLine($"double {distance} = {geometry}.{absoluteDistance}({input}, {item});");
+                AppendLine($"double {distance} = {geometry}.{absoluteDistance}({input}, {item});");
 
-                _sb.AppendLine($"if ({smallestDistance} > {distance})");
-                _sb.AppendLine("{");
-                _sb.Indent();
+                AppendLine($"if ({smallestDistance} > {distance})");
+                AppendLine("{");
+                Indent();
                 {
-                    _sb.AppendLine($"{smallestDistance} = {distance};");
-                    _sb.AppendLine($"{closestItem} = {item};");
-                    _sb.Unindent();
+                    AppendLine($"{smallestDistance} = {distance};");
+                    AppendLine($"{closestItem} = {item};");
+                    Unindent();
                 }
-                _sb.AppendLine("}");
-                _sb.AppendLine();
+                AppendLine("}");
+                AppendLine();
             }
 
-            _sb.AppendLine($"double {output} = {closestItem};");
+            AppendLine($"double {output} = {closestItem};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2175,34 +2175,34 @@ namespace JJ.Business.Synthesizer.Roslyn
             const string geometry = nameof(Geometry);
             const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
 
-            _sb.AppendLine($"double {logInput} = Math.Log({input});");
-            _sb.AppendLine();
+            AppendLine($"double {logInput} = Math.Log({input});");
+            AppendLine();
 
-            _sb.AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({logInput}, Math.Log({firstItem}));");
-            _sb.AppendLine($"double {closestItem} = {firstItem};");
-            _sb.AppendLine();
+            AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({logInput}, Math.Log({firstItem}));");
+            AppendLine($"double {closestItem} = {firstItem};");
+            AppendLine();
 
             for (int i = 1; i < varCount; i++)
             {
                 string item = _stack.Pop();
                 string distance = GenerateUniqueLocalVariableName(nameof(distance));
 
-                _sb.AppendLine($"double {distance} = {geometry}.{absoluteDistance}({logInput}, Math.Log({item}));");
+                AppendLine($"double {distance} = {geometry}.{absoluteDistance}({logInput}, Math.Log({item}));");
 
-                _sb.AppendLine($"if ({smallestDistance} > {distance})");
-                _sb.AppendLine("{");
-                _sb.Indent();
+                AppendLine($"if ({smallestDistance} > {distance})");
+                AppendLine("{");
+                Indent();
                 {
 
-                    _sb.AppendLine($"{smallestDistance} = {distance};");
-                    _sb.AppendLine($"{closestItem} = {item};");
-                    _sb.Unindent();
+                    AppendLine($"{smallestDistance} = {distance};");
+                    AppendLine($"{closestItem} = {item};");
+                    Unindent();
                 }
-                _sb.AppendLine("}");
-                _sb.AppendLine();
+                AppendLine("}");
+                AppendLine();
             }
 
-            _sb.AppendLine($"double {output} = {closestItem};");
+            AppendLine($"double {output} = {closestItem};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2236,25 +2236,25 @@ namespace JJ.Business.Synthesizer.Roslyn
             const string transformMethodName = nameof(BiQuadFilterWithoutFields.Transform);
             string concatinatedAdditionalFilterParameters = string.Join(", ", additionalFilterParameters);
 
-            _sb.AppendLine($"double {limitedFrequency} = {frequency};");
-            _sb.AppendLine($"if ({limitedFrequency} > {nyquistFrequency}) {limitedFrequency} = {nyquistFrequency};");
-            _sb.AppendLine();
-            _sb.AppendLine($"double {a0}, {a1}, {a2}, {a3}, {a4};");
-            _sb.AppendLine();
-            _sb.AppendLine($"{biQuadFilterClassName}.{setFilterVariablesMethodName}(");
-            _sb.Indent();
+            AppendLine($"double {limitedFrequency} = {frequency};");
+            AppendLine($"if ({limitedFrequency} > {nyquistFrequency}) {limitedFrequency} = {nyquistFrequency};");
+            AppendLine();
+            AppendLine($"double {a0}, {a1}, {a2}, {a3}, {a4};");
+            AppendLine();
+            AppendLine($"{biQuadFilterClassName}.{setFilterVariablesMethodName}(");
+            Indent();
             {
-                _sb.AppendLine($"{samplingRate}, {limitedFrequency}, {concatinatedAdditionalFilterParameters}, ");
-                _sb.AppendLine($"out {a0}, out {a1}, out {a2}, out {a3}, out {a4});");
-                _sb.Unindent();
+                AppendLine($"{samplingRate}, {limitedFrequency}, {concatinatedAdditionalFilterParameters}, ");
+                AppendLine($"out {a0}, out {a1}, out {a2}, out {a3}, out {a4});");
+                Unindent();
             }
-            _sb.AppendLine();
-            _sb.AppendLine($"double {output} = {biQuadFilterClassName}.{transformMethodName}(");
+            AppendLine();
+            AppendLine($"double {output} = {biQuadFilterClassName}.{transformMethodName}(");
             {
-                _sb.Indent();
-                _sb.AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4},");
-                _sb.AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
-                _sb.Unindent();
+                Indent();
+                AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4},");
+                AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
+                Unindent();
             }
 
             return GenerateOperatorWrapUp(dto, output);
@@ -2283,12 +2283,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             const string biQuadFilterClassName = nameof(BiQuadFilterWithoutFields);
             const string transformMethodName = nameof(BiQuadFilterWithoutFields.Transform);
 
-            _sb.AppendLine($"double {output} = {biQuadFilterClassName}.{transformMethodName}(");
+            AppendLine($"double {output} = {biQuadFilterClassName}.{transformMethodName}(");
             {
-                _sb.Indent();
-                _sb.AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4},");
-                _sb.AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
-                _sb.Unindent();
+                Indent();
+                AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4},");
+                AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
+                Unindent();
             }
 
             return GenerateOperatorWrapUp(dto, output);
@@ -2302,7 +2302,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string exponent = _stack.Pop();
             string variable = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {variable} = Math.Pow({@base}, {exponent});");
+            AppendLine($"double {variable} = Math.Pow({@base}, {exponent});");
 
             return GenerateOperatorWrapUp(dto, variable);
         }
@@ -2317,7 +2317,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string width = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
+            AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2333,7 +2333,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string width = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} = {info.Phase} % 1.0 < {width} ? 1.0 : -1.0;");
+            AppendLine($"double {output} = {info.Phase} % 1.0 < {width} ? 1.0 : -1.0;");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2349,7 +2349,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string width = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
+            AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2367,14 +2367,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             string positionTranformationLine = $"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};";
             
             // Calculate
-            _sb.AppendLine(operatorTitleComment);
-            _sb.AppendLine(positionTranformationLine);
-            _sb.AppendLine();
-
-            // Reset
-            _sbReset.AppendLine(operatorTitleComment);
-            _sbReset.AppendLine(positionTranformationLine);
-            _sbReset.AppendLine();
+            AppendLine(operatorTitleComment);
+            AppendLine(positionTranformationLine);
+            AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2395,16 +2390,10 @@ namespace JJ.Business.Synthesizer.Roslyn
             string operatorTitleComment = GetOperatorTitleComment(dto);
             string positionTransformationLine = $"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};";
 
-            // Calculate
-            _sb.AppendLine(operatorTitleComment);
-            _sb.AppendLine(positionTransformationLine);
-            _sb.AppendLine();
-
-            // Reset
-            _sbReset.AppendLine(operatorTitleComment);
-            _sbReset.AppendLine(positionTransformationLine);
+            AppendLine(operatorTitleComment);
+            AppendLine(positionTransformationLine);
             _sbReset.AppendLine($"{origin} = {sourcePosition};");
-            _sbReset.AppendLine();
+            AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2427,21 +2416,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             string positionTransformationLine = $"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};";
             string previousPositionAssignmentLine = $"{previousPosition} = {sourcePosition};";
 
-            // Calculate
-            _sb.AppendLine(operatorTitleComment);
-            _sb.AppendLine(positionTransformationLine);
-            _sb.AppendLine(previousPositionAssignmentLine);
+            AppendLine(operatorTitleComment);
+            AppendLine(positionTransformationLine);
+            AppendLine(previousPositionAssignmentLine);
             // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level,
             // while phase needs to be uniquely used by the operator instance.
-            _sb.AppendLine($"{phase} = {destPosition};");
-            _sb.AppendLine();
-
-            // Reset
-            _sbReset.AppendLine(operatorTitleComment);
-            _sbReset.AppendLine(positionTransformationLine);
-            _sbReset.AppendLine(previousPositionAssignmentLine);
+            AppendLine($"{phase} = {destPosition};");
             _sbReset.AppendLine($"{phase} = 0.0;");
-            _sbReset.AppendLine();
+            AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2453,7 +2435,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
         private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
-
             string factor = _stack.Pop();
             string sourcePosition = GeneratePositionNameCamelCase(dto);
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
@@ -2462,13 +2443,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             string operatorTitleComment = GetOperatorTitleComment(dto);
             string positionTransformationLine = $"{destPosition} = {sourcePosition} {operatorSymbol} {factor};";
 
-            _sb.AppendLine(operatorTitleComment);
-            _sb.AppendLine(positionTransformationLine);
-            _sb.AppendLine();
-
-            _sbReset.AppendLine(operatorTitleComment);
-            _sbReset.AppendLine(positionTransformationLine);
-            _sbReset.AppendLine();
+            AppendLine(operatorTitleComment);
+            AppendLine(positionTransformationLine);
+            AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2485,7 +2462,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string b = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b};");
+            AppendLine($"double {output} = {a} {operatorSymbol} {b};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2498,7 +2475,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string b = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b} ? 1.0 : 0.0;");
+            AppendLine($"double {output} = {a} {operatorSymbol} {b} ? 1.0 : 0.0;");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2528,7 +2505,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
             string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
-            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({position});");
+            AppendLine($"double {output} = {calculatorName}.Calculate({position});");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2542,14 +2519,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string operatorTitleComment = GetOperatorTitleComment(dto);
 
+            AppendLine(operatorTitleComment);
+
             OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, defaultRate);
 
-            _sb.AppendLine(operatorTitleComment);
-            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({info.Phase});");
-
-            _sbReset.AppendLine(operatorTitleComment);
+            AppendLine($"double {output} = {calculatorName}.Calculate({info.Phase});");
             _sbReset.AppendLine($"{info.Origin} = {info.Position};");
-            _sbReset.AppendLine();
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2562,7 +2537,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string b = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = {a} / {b};");
+            AppendLine($"double {output} = {a} / {b};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2576,7 +2551,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string ratio = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = {low} * Math.Pow({high} / {low}, {ratio});");
+            AppendLine($"double {output} = {low} * Math.Pow({high} / {low}, {ratio});");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2592,7 +2567,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string b = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = {a} != 0.0 {operatorSymbol} {b} != 0.0 ? 1.0 : 0.0;");
+            AppendLine($"double {output} = {a} != 0.0 {operatorSymbol} {b} != 0.0 ? 1.0 : 0.0;");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2605,14 +2580,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             string output = GenerateLocalOutputName(dto);
             string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
 
-            _sb.AppendLine($"double {output} = {firstValue};");
+            AppendLine($"double {output} = {firstValue};");
 
             // NOTE: i = 1.
             for (int i = 1; i < varCount; i++)
             {
                 string item = _stack.Pop();
 
-                _sb.AppendLine($"if ({output} {operatorSymbol} {item}) {output} = {item};");
+                AppendLine($"if ({output} {operatorSymbol} {item}) {output} = {item};");
             }
 
             return GenerateOperatorWrapUp(dto, output);
@@ -2627,7 +2602,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string output = GenerateLocalOutputName(dto);
             string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
 
-            _sb.AppendLine($"double {output} = {a} {operatorSymbol} {b} ? {a} : {b};");
+            AppendLine($"double {output} = {a} {operatorSymbol} {b} ? {a} : {b};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2704,7 +2679,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string origin = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = ({a} - {origin}) {operatorSymbol} {b} + {origin};");
+            AppendLine($"double {output} = ({a} - {origin}) {operatorSymbol} {b} + {origin};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2715,15 +2690,15 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendTabs();
-            _sb.Append($"double {output} =");
+            AppendTabs();
+            Append($"double {output} =");
 
             for (int i = 0; i < varCount; i++)
             {
                 string value = _stack.Pop();
 
-                _sb.Append(' ');
-                _sb.Append(value);
+                Append(' ');
+                Append(value);
 
                 bool isLast = i == varCount - 1;
                 if (isLast)
@@ -2731,12 +2706,12 @@ namespace JJ.Business.Synthesizer.Roslyn
                     break;
                 }
 
-                _sb.Append(' ');
-                _sb.Append(operatorSymbol);
+                Append(' ');
+                Append(operatorSymbol);
             }
 
-            _sb.Append(';');
-            _sb.Append(Environment.NewLine);
+            Append(';');
+            Append(Environment.NewLine);
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2774,7 +2749,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string output = GenerateLocalOutputName(dto);
             string rightHandFormula = getRightHandFormulaDelegate(phase);
 
-            _sb.AppendLine($"double {output} = {rightHandFormula};");
+            AppendLine($"double {output} = {rightHandFormula};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2792,7 +2767,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string output = GenerateLocalOutputName(dto);
             string rightHandFormula = getRightHandFormulaDelegate(phase);
 
-            _sb.AppendLine($"double {output} = {rightHandFormula};");
+            AppendLine($"double {output} = {rightHandFormula};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2805,7 +2780,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string step = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"double {output} = {from} + {step} * {dto.OutletListIndex};");
+            AppendLine($"double {output} = {from} + {step} * {dto.OutletListIndex};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2818,8 +2793,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             string sourcePosition = GeneratePositionNameCamelCase(dto);
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
-            _sb.AppendLine($"{destPosition} = {sourcePosition} * -{speed};");
-            _sb.AppendLine();
+            AppendLine($"{destPosition} = {sourcePosition} * -{speed};");
+            AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2846,7 +2821,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
-            _sb.AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step}, {offset});");
+            AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step}, {offset});");
 
             return GenerateOperatorWrapUp(dto, signal);
         }
@@ -2866,7 +2841,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
-            _sb.AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step});");
+            AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step});");
 
             return GenerateOperatorWrapUp(dto, signal);
         }
@@ -2885,7 +2860,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             const string mathHelper = nameof(MathHelper);
             const string scaleLinearly = nameof(MathHelper.ScaleLinearly);
 
-            _sb.AppendLine($"double {output} = {mathHelper}.{scaleLinearly}({signal}, {sourceValueA}, {sourceValueB}, {targetValueA}, {targetValueB});");
+            AppendLine($"double {output} = {mathHelper}.{scaleLinearly}({signal}, {sourceValueA}, {sourceValueB}, {targetValueA}, {targetValueB});");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2897,8 +2872,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             GenerateOperatorTitleComment(dto);
 
-            _sb.AppendLine($"{position} = {valueLiteral};");
-            _sb.AppendLine();
+            AppendLine($"{position} = {valueLiteral};");
+            AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2916,15 +2891,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             string operatorTitleComment = GetOperatorTitleComment(dto);
             string positionTransformationLine = $"{destPosition} = {sourcePosition} {PLUS_SYMBOL} {distanceLiteral};";
 
-            // Calculate
-            _sb.AppendLine(operatorTitleComment);
-            _sb.AppendLine(positionTransformationLine);
-            _sb.AppendLine();
-
-            // Reset
-            _sbReset.Append(operatorTitleComment);
-            _sbReset.AppendLine(positionTransformationLine);
-            _sb.AppendLine();
+            AppendLine(operatorTitleComment);
+            AppendLine(positionTransformationLine);
+            AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2943,7 +2912,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string rightHandFormula = getRightHandFormulaDelegate(phase);
             string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} = {rightHandFormula};");
+            AppendLine($"double {output} = {rightHandFormula};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2954,6 +2923,42 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         // Helpers
+
+        private void AppendLine(string line = null)
+        {
+            _sb.AppendLine(line);
+            _sbReset.AppendLine(line);
+        }
+
+        private void Indent()
+        {
+            _sb.Indent();
+            _sbReset.Indent();
+        }
+
+        private void Unindent()
+        {
+            _sb.Unindent();
+            _sbReset.Unindent();
+        }
+
+        private void Append(char chr)
+        {
+            _sb.Append(chr);
+            _sbReset.Append(chr);
+        }
+
+        private void Append(string text)
+        {
+            _sb.Append(text);
+            _sbReset.Append(text);
+        }
+
+        private void AppendTabs()
+        {
+            _sb.AppendTabs();
+            _sbReset.AppendTabs();
+        }
 
         private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
         {
@@ -3018,7 +3023,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void GenerateOperatorTitleComment(IOperatorDto dto)
         {
-            _sb.AppendLine(GetOperatorTitleComment(dto));
+            AppendLine(GetOperatorTitleComment(dto));
         }
 
         // TODO: Remove outcommented code.
@@ -3067,7 +3072,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private OperatorDtoBase GenerateOperatorWrapUp(IOperatorDto dto, string output)
         {
-            _sb.AppendLine();
+            AppendLine();
             _stack.Push(output);
             return (OperatorDtoBase)dto;
         }
@@ -3078,7 +3083,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string position = GeneratePositionNameCamelCase(dto);
             string phase = GenerateLocalPhaseName();
 
-            _sb.AppendLine($"double {phase} = {position} * {rate};");
+            AppendLine($"double {phase} = {position} * {rate};");
 
             return phase;
         }
@@ -3090,7 +3095,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string origin = GenerateLongLivedOriginName();
             string phase = GenerateLocalPhaseName();
 
-            _sb.AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
+            AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
 
             return new OriginShiftingInfo { Phase = phase, Origin = origin, Position = position };
         }
@@ -3101,8 +3106,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             string previousPosition = GenerateLongLivedPreviousPositionName();
             string phase = GenerateLongLivedPhaseName();
 
-            _sb.AppendLine($"{phase} += ({position} - {previousPosition}) * {rate};");
-            _sb.AppendLine($"{previousPosition} = {position};");
+            AppendLine($"{phase} += ({position} - {previousPosition}) * {rate};");
+            AppendLine($"{previousPosition} = {position};");
 
             return phase;
         }
@@ -3157,28 +3162,28 @@ namespace JJ.Business.Synthesizer.Roslyn
             string channelIndex = GenerateUniqueLocalVariableName(DimensionEnum.Channel);
             string output = GenerateLocalOutputName(dto);
 
-            _sb.AppendLine($"int {channelIndex} = (int){channelIndexDouble};");
-            _sb.AppendLine($"double {output} = 0.0;");
-            _sb.AppendLine($"switch ({channelIndex})");
-            _sb.AppendLine("{");
-            _sb.Indent();
+            AppendLine($"int {channelIndex} = (int){channelIndexDouble};");
+            AppendLine($"double {output} = 0.0;");
+            AppendLine($"switch ({channelIndex})");
+            AppendLine("{");
+            Indent();
             {
                 for (int i = 0; i < calculators.Count; i++)
                 {
                     ICalculatorWithPosition calculator = calculators[i];
                     string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
-                    _sb.AppendLine($"case {i}:");
-                    _sb.Indent();
+                    AppendLine($"case {i}:");
+                    Indent();
                     {
-                        _sb.AppendLine($"{output} = {calculatorName}.Calculate({phase});");
-                        _sb.AppendLine("break;");
-                        _sb.Unindent();
+                        AppendLine($"{output} = {calculatorName}.Calculate({phase});");
+                        AppendLine("break;");
+                        Unindent();
                     }
                 }
-                _sb.Unindent();
+                Unindent();
             }
-            _sb.AppendLine("}");
+            AppendLine("}");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -3190,7 +3195,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
 
             string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
+            AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
 
             // Wrap-Up
             return GenerateOperatorWrapUp(dto, output);
@@ -3204,12 +3209,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             string calculatorName2 = GenerateCalculatorVariableNameCamelCaseAndCache(calculators[1]);
 
             string output = GenerateLocalOutputName(dto);
-            _sb.AppendLine($"double {output} =");
-            _sb.Indent();
+            AppendLine($"double {output} =");
+            Indent();
             {
-                _sb.AppendLine($"{calculatorName1}.Calculate({phase}) +");
-                _sb.AppendLine($"{calculatorName2}.Calculate({phase});");
-                _sb.Unindent();
+                AppendLine($"{calculatorName1}.Calculate({phase}) +");
+                AppendLine($"{calculatorName2}.Calculate({phase});");
+                Unindent();
             }
 
             // Wrap-Up
@@ -3265,7 +3270,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string frequency = _stack.Pop();
             string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
 
-            _sb.AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+            AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
 
             return rate;
         }
@@ -3384,7 +3389,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private string GetOperatorTitleComment(IOperatorDto dto)
         {
-            return $"// {dto.OperatorTypeEnum}";
+            return $"// {dto.OperatorTypeEnum} ({dto.GetType().Name})";
         }
     }
 }
