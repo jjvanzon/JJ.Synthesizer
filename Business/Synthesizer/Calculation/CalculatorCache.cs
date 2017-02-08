@@ -15,6 +15,9 @@ namespace JJ.Business.Synthesizer.Calculation
     /// <summary> Caches several calculators for shared use between PatchCalculators, to save memory. </summary>
     public class CalculatorCache
     {
+        private const double DEFAULT_VALUE_BEFORE = 0.0;
+        private const double DEFAULT_VALUE_AFTER = 0.0;
+        
         /// <summary>
         /// This dictionary is about reusing the same CurveCalculator in multiple OperatorCalculator_Curve's
         /// in case they uses the same Curve, more than optimizing things by using a dictionary.
@@ -339,6 +342,8 @@ namespace JJ.Business.Synthesizer.Calculation
                     samples, 
                     rate, 
                     start, 
+                    DEFAULT_VALUE_BEFORE,
+                    DEFAULT_VALUE_AFTER,
                     interpolationTypeEnum);
 
                 arrayCalculators[channelIndex] = arrayCalculator;

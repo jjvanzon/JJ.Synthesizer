@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             Dictionary<string, double> curveRates)
             : base(samplingRate, channelCount, channelIndex)
         {
-            _curveCalculator32415_1 = new ArrayCalculator_MinPositionZero_Line(curveArrays["curveCalculator32415_1"], curveRates["curveCalculator32415_1"]);
+            _curveCalculator32415_1 = new ArrayCalculator_MinPositionZero_Line(curveArrays["curveCalculator32415_1"], curveRates["curveCalculator32415_1"], valueBefore: 0.0, valueAfter: 0.0);
 
             Reset(time: 0.0);
 

@@ -2408,8 +2408,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendOperatorTitleComment(dto);
             _sbReset.AppendLine($"{phase} = 0.0;");
+            _sbReset.AppendLine($"{previousPosition} = {sourcePosition};");
             AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};");
-            AppendLine($"{previousPosition} = {sourcePosition};");
+            _sbCalculate.AppendLine($"{previousPosition} = {sourcePosition};");
             // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level,
             // while phase needs to be uniquely used by the operator instance.
             _sbCalculate.AppendLine($"{phase} = {destPosition};");

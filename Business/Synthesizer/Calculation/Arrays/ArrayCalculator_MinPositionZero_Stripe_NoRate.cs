@@ -8,11 +8,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         private const double RATE = 1.0;
 
         public ArrayCalculator_MinPositionZero_Stripe_NoRate(
-            double[] array) 
-            : base(array, RATE, MIN_POSITION)
-        { }
-
-        public ArrayCalculator_MinPositionZero_Stripe_NoRate(
             double[] array, double valueBefore, double valueAfter)
             : base(array, RATE, MIN_POSITION, valueBefore, valueAfter)
         { }

@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 
         public ArrayCalculator_RotatePosition_Block(
             double[] array, double rate) 
-            : base(array, rate, DEFAULT_MIN_POSITION)
+            : base(array, rate, DEFAULT_MIN_POSITION, valueBefore: 0.0, valueAfter: 0.0)
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -8,10 +8,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         private const int EXTRA_TICKS_BEFORE = 1;
         private const int EXTRA_TICKS_AFTER = 2;
 
-        public ArrayCalculatorBase_Cubic(double[] array, double rate, double minPosition)
-            : base(array, rate, minPosition, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER)
-        { }
-
         public ArrayCalculatorBase_Cubic(
             double[] array, double rate, double minPosition, double valueBefore, double valueAfter)
             : base(array, rate, minPosition, EXTRA_TICKS_BEFORE, EXTRA_TICKS_AFTER, valueBefore, valueAfter)

@@ -167,8 +167,9 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine("int channelCount,");
                 sb.AppendLine("int channelIndex,");
                 sb.AppendLine("Dictionary<string, double[]> arrays,");
-                sb.AppendLine("Dictionary<string, double> arrayRates");
-                sb.AppendLine(")");
+                sb.AppendLine("Dictionary<string, double> arrayRates,");
+                sb.AppendLine("Dictionary<string, double> arrayValuesBefore,");
+                sb.AppendLine("Dictionary<string, double> arrayValuesAfter)");
                 sb.Unindent();
             }
             sb.Indent();
@@ -195,7 +196,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                         string type = variableInfo.TypeName;
                         string nameCamelCase = variableInfo.NameCamelCase;
 
-                        sb.AppendLine($"_{nameCamelCase} = new {type}(arrays[\"{nameCamelCase}\"], arrayRates[\"{nameCamelCase}\"]);");
+                        sb.AppendLine(string.Format(@"_{1} = new {0}(arrays[""{1}""], arrayRates[""{1}""], arrayValuesBefore[""{1}""], arrayValuesAfter[""{1}""]);", type, nameCamelCase));
                     }
                     sb.AppendLine();
                 }

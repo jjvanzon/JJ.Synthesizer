@@ -32,7 +32,7 @@ namespace GeneratedCSharp
             )
             : base(samplingRate, channelCount, channelIndex)
         {
-            _arraycalculator_5 = new ArrayCalculator_MinPositionZero_Line(arrays["arraycalculator_5"], arrayRates["arraycalculator_5"]);
+            _arraycalculator_5 = new ArrayCalculator_MinPositionZero_Line(arrays["arraycalculator_5"], arrayRates["arraycalculator_5"], valueBefore: 0.0, valueAfter: 0.0);
 
             Reset(time: 0.0);
         }

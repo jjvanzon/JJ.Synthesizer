@@ -10,15 +10,22 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         public readonly double _valueBefore;
         public readonly double _valueAfter;
 
-        public readonly double _minPosition;
-        public readonly double _maxPosition;
-        public readonly double _length;
+        protected readonly double _minPosition;
+        protected readonly double _maxPosition;
+        protected readonly double _length;
         public readonly double _rate;
-        public readonly double _tickCount;
+        protected readonly double _tickCount;
 
         /// <param name="extraTicksBefore">You can let this base class add extra ticks _array for interpolation purposes.</param>
         public ArrayCalculatorBase(
-            double[] array, double rate, double minPosition, int extraTicksBefore, int extraTicksAfter)
+            double[] array,
+            double rate,
+            double minPosition,
+            int extraTicksBefore,
+            int extraTicksAfter,
+            double valueBefore,
+            double valueAfter
+        )
         {
             if (array == null) throw new NullException(() => array);
             if (extraTicksBefore < 0) throw new LessThanException(() => extraTicksBefore, 0);
@@ -61,18 +68,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 
                 _array = array2;
             }
-        }
 
-        public ArrayCalculatorBase(
-            double[] array,
-            double rate,
-            double minPosition,
-            int extraTicksBefore,
-            int extraTicksAfter,
-            double valueBefore,
-            double valueAfter)
-            : this(array, rate, minPosition, extraTicksBefore, extraTicksAfter)
-        {
             _valueBefore = valueBefore;
             _valueAfter = valueAfter;
         }

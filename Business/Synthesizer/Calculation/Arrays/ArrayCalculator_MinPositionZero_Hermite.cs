@@ -7,11 +7,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         private const double MIN_POSITION = 0.0;
 
         public ArrayCalculator_MinPositionZero_Hermite(
-            double[] array, double rate)
-            : base(array, rate, MIN_POSITION)
-        { }
-
-        public ArrayCalculator_MinPositionZero_Hermite(
             double[] array, double rate, double valueBefore, double valueAfter)
             : base(array, rate, MIN_POSITION, valueBefore, valueAfter)
         { }

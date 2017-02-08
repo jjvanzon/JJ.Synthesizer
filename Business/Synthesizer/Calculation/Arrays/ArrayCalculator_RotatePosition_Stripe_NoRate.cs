@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         private const double DEFAULT_MIN_POSITION = 0.0;
 
         public ArrayCalculator_RotatePosition_Stripe_NoRate(double[] array)
-            : base(array, DEFAULT_RATE, DEFAULT_MIN_POSITION)
+            : base(array, DEFAULT_RATE, DEFAULT_MIN_POSITION, valueBefore: 0.0, valueAfter: 0.0)
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

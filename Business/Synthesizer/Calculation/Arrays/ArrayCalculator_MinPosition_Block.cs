@@ -5,11 +5,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
     internal class ArrayCalculator_MinPosition_Block : ArrayCalculatorBase_Block, ICalculatorWithPosition
     {
         public ArrayCalculator_MinPosition_Block(
-            double[] array, double rate, double minPosition) 
-            : base(array, rate, minPosition)
-        { }
-
-        public ArrayCalculator_MinPosition_Block(
             double[] array, double rate, double minPosition, double valueBefore, double valueAfter)
             : base(array, rate, minPosition, valueBefore, valueAfter)
         { }

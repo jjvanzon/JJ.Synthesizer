@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation
             if (bytes == null || bytes.Length == 0 || !sample.IsActive)
             {
                 // HACK: Optimize to a literal 0 instead.
-                return new ICalculatorWithPosition[] { new ArrayCalculator_MinPositionZero_Block(new double[0], 0) };
+                return new ICalculatorWithPosition[] { new ArrayCalculator_MinPositionZero_Block(new double[0], 0, valueBefore: 0.0, valueAfter: 0.0) };
             }
 
             InterpolationTypeEnum interpolationTypeEnum = sample.GetInterpolationTypeEnum();
@@ -42,11 +42,11 @@ namespace JJ.Business.Synthesizer.Calculation
                     switch (speakerSetupEnum)
                     {
                         case SpeakerSetupEnum.Mono:
-                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Block(x, rate)).ToArray();
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Block(x, rate, valueBefore: 0.0, valueAfter: 0.0)).ToArray();
                             break;
 
                         case SpeakerSetupEnum.Stereo:
-                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Block(x, rate)).ToArray();
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Block(x, rate, valueBefore: 0.0, valueAfter: 0.0)).ToArray();
                             break;
                     }
                     break;
@@ -55,11 +55,11 @@ namespace JJ.Business.Synthesizer.Calculation
                     switch (speakerSetupEnum)
                     {
                         case SpeakerSetupEnum.Mono:
-                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Stripe(x, rate)).ToArray();
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Stripe(x, rate, valueBefore: 0.0, valueAfter: 0.0)).ToArray();
                             break;
 
                         case SpeakerSetupEnum.Stereo:
-                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Stripe(x, rate)).ToArray();
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Stripe(x, rate, valueBefore: 0.0, valueAfter: 0.0)).ToArray();
                             break;
                     }
                     break;
@@ -68,11 +68,11 @@ namespace JJ.Business.Synthesizer.Calculation
                     switch (speakerSetupEnum)
                     {
                         case SpeakerSetupEnum.Mono:
-                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Line(x, rate)).ToArray();
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Line(x, rate, valueBefore: 0.0, valueAfter: 0.0)).ToArray();
                             break;
 
                         case SpeakerSetupEnum.Stereo:
-                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Line(x, rate)).ToArray();
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Line(x, rate, valueBefore: 0.0, valueAfter: 0.0)).ToArray();
                             break;
                     }
                     break;
@@ -81,11 +81,11 @@ namespace JJ.Business.Synthesizer.Calculation
                     switch (speakerSetupEnum)
                     {
                         case SpeakerSetupEnum.Mono:
-                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Cubic(x, rate)).ToArray();
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Cubic(x, rate, valueBefore: 0.0, valueAfter: 0.0)).ToArray();
                             break;
 
                         case SpeakerSetupEnum.Stereo:
-                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Cubic(x, rate)).ToArray();
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Cubic(x, rate, valueBefore: 0.0, valueAfter: 0.0)).ToArray();
                             break;
                     }
                     break;
@@ -94,11 +94,11 @@ namespace JJ.Business.Synthesizer.Calculation
                     switch (speakerSetupEnum)
                     {
                         case SpeakerSetupEnum.Mono:
-                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Hermite(x, rate)).ToArray();
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Hermite(x, rate, valueBefore: 0.0, valueAfter: 0.0)).ToArray();
                             break;
 
                         case SpeakerSetupEnum.Stereo:
-                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Hermite(x, rate)).ToArray();
+                            arrayCalculators = samples.Select(x => new ArrayCalculator_MinPositionZero_Hermite(x, rate, valueBefore: 0.0, valueAfter: 0.0)).ToArray();
                             break;
                     }
                     break;

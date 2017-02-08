@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             RecalculateCollection();
 
-            _arrayCalculator = new ArrayCalculator_MinPositionZero_Stripe_NoRate(_samples);
+            _arrayCalculator = new ArrayCalculator_MinPositionZero_Stripe_NoRate(_samples, valueBefore: 0, valueAfter: 0);
         }
     }
 }

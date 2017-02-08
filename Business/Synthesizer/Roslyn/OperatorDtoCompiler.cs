@@ -76,9 +76,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Dictionary<string, double[]> arrays = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._array);
             Dictionary<string, double> arrayRates = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._rate);
+            Dictionary<string, double> arrayValuesBefore = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._valueBefore);
+            Dictionary<string, double> arrayValuesAfter = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._valueAfter);
 
             Type type = Compile(codeGeneratorResult.GeneratedCode);
-            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex, arrays, arrayRates);
+            var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex, arrays, arrayRates, arrayValuesBefore, arrayValuesAfter);
             return calculator;
         }
 
