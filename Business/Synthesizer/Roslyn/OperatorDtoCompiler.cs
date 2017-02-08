@@ -74,10 +74,10 @@ namespace JJ.Business.Synthesizer.Roslyn
             var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex, calculatorCache, curveRepository, sampleRepository);
             OperatorDtoToPatchCalculatorCSharpGeneratorResult codeGeneratorResult = codeGenerator.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
-            Dictionary<string, double[]> arrays = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._array);
-            Dictionary<string, double> arrayRates = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._rate);
-            Dictionary<string, double> arrayValuesBefore = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._valueBefore);
-            Dictionary<string, double> arrayValuesAfter = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator._valueAfter);
+            Dictionary<string, double[]> arrays = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.UnderlyingArray);
+            Dictionary<string, double> arrayRates = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.Rate);
+            Dictionary<string, double> arrayValuesBefore = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueBefore);
+            Dictionary<string, double> arrayValuesAfter = codeGeneratorResult.CurveCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueAfter);
 
             Type type = Compile(codeGeneratorResult.GeneratedCode);
             var calculator = (IPatchCalculator)Activator.CreateInstance(type, samplingRate, channelCount, channelIndex, arrays, arrayRates, arrayValuesBefore, arrayValuesAfter);
