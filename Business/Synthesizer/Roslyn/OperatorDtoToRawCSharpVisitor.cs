@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
@@ -95,7 +96,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private StringBuilderWithIndentation _resetStringBuilder;
         private int _counter;
 
-        private Stack<bool> _mustWriteResetStack;
+        private Stack<bool> _holdOperatorIsActiveStack;
 
         // Simple Sets of Variable Names
 
@@ -154,8 +155,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary = new Dictionary<ICalculatorWithPosition, CalculatorVariableInfo>();
             _noiseOperatorID_To_OffsetNumberLiteral_Dictionary = new Dictionary<int, string>();
             _counter = 0;
-            _mustWriteResetStack = new Stack<bool>();
-            _mustWriteResetStack.Push(true);
+            _holdOperatorIsActiveStack = new Stack<bool>();
+            _holdOperatorIsActiveStack.Push(false);
 
             _calculateStringBuilder = new StringBuilderWithIndentation(TAB_STRING)
             {
@@ -671,27 +672,19 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
         {
-            // Stop writing reset code,
-            // because the Hold operator is special,
-            // in that it does not reset the calculation,
-            // but gets a value from it upon reset.
-
             // The calculate procedure should only use the held variable. 
             // The Reset procedure should do a calculation of that held variable. 
             // But that Reset procedure should not execute the reset lines.
             // So the Calculate procedure should not write at all, 
             // and the Reset procedure should not write the reset lines, but does have to write the calculate lines.
-            // With a serious hack you could switch the variables _sbReset and _sbCalculate.
+            // In the methods that delegate to StringBuilders, the _holdOperatorIsActiveStack is inspected to see to which StringBuilder to write.
 
-            _mustWriteResetStack.Push(false);
-            var originalCalculateStringBuilder = _calculateStringBuilder;
-            _calculateStringBuilder = _resetStringBuilder;
+            _holdOperatorIsActiveStack.Push(true);
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
 
-            _mustWriteResetStack.Pop();
-            _mustWriteResetStack.Push(true);
-            _calculateStringBuilder = originalCalculateStringBuilder;
+            _holdOperatorIsActiveStack.Pop();
+            _holdOperatorIsActiveStack.Push(false);
 
             string signal = _stack.Pop();
             string output = GenerateUniqueLongLivedVariableName(dto.OperatorTypeEnum);
@@ -2947,7 +2940,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             _stack.Push(CompilationHelper.FormatValue(value));
         }
 
-        // Helpers
+        // StringBuilders
 
         private void AppendLine(string line = null)
         {
@@ -2955,11 +2948,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLineToReset(line);
         }
 
-        private void AppendLineToCalculate(string line = null) => _calculateStringBuilder.AppendLine(line);
-        private void AppendLineToReset(string line = null)
-        {
-            if (_mustWriteResetStack.Peek()) _resetStringBuilder.AppendLine(line);
-        }
+        private void AppendLineToCalculate(string line = null) => GetStringBuilderForWritingCalculation().AppendLine(line);
+        private void AppendLineToReset(string line = null) => TryGetStringBuilderForWritingReset()?.AppendLine(line);
 
         private void Indent()
         {
@@ -2967,11 +2957,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             IndentReset();
         }
 
-        private void IndentCalculate() =>_calculateStringBuilder.Indent();
-        private void IndentReset()
-        {
-            if (_mustWriteResetStack.Peek()) _resetStringBuilder.Indent();
-        }
+        private void IndentCalculate() => GetStringBuilderForWritingCalculation().Indent();
+        private void IndentReset() => TryGetStringBuilderForWritingReset()?.Indent();
 
         private void Unindent()
         {
@@ -2979,11 +2966,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             UnindentReset();
         }
 
-        private void UnindentCalculate() => _calculateStringBuilder.Unindent();
-        private void UnindentReset()
-        {
-            if (_mustWriteResetStack.Peek()) _resetStringBuilder.Unindent();
-        }
+        private void UnindentCalculate() => GetStringBuilderForWritingCalculation().Unindent();
+        private void UnindentReset() => TryGetStringBuilderForWritingReset()?.Unindent();
 
         private void Append(char chr)
         {
@@ -2991,11 +2975,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendReset(chr);
         }
 
-        private void AppendCalculate(char chr) => _calculateStringBuilder.Append(chr);
-        private void AppendReset(char chr)
-        {
-            if (_mustWriteResetStack.Peek()) _resetStringBuilder.Append(chr);
-        }
+        private void AppendCalculate(char chr) => GetStringBuilderForWritingCalculation().Append(chr);
+        private void AppendReset(char chr) => TryGetStringBuilderForWritingReset()?.Append(chr);
 
         private void Append(string text)
         {
@@ -3003,11 +2984,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendReset(text);
         }
 
-        private void AppendCalculate(string text) => _calculateStringBuilder.Append(text);
-        private void AppendReset(string text)
-        {
-            if (_mustWriteResetStack.Peek()) _resetStringBuilder.Append(text);
-        }
+        private void AppendCalculate(string text) => GetStringBuilderForWritingCalculation().Append(text);
+        private void AppendReset(string text) =>  TryGetStringBuilderForWritingReset()?.Append(text);
 
         private void AppendTabs()
         {
@@ -3015,11 +2993,24 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendTabsReset();
         }
 
-        private void AppendTabsCalculate() => _calculateStringBuilder.AppendTabs();
-        private void AppendTabsReset()
+        private void AppendTabsCalculate() => GetStringBuilderForWritingCalculation().AppendTabs();
+        private void AppendTabsReset() => TryGetStringBuilderForWritingReset()?.AppendTabs();
+
+        [NotNull]
+        private StringBuilderWithIndentation GetStringBuilderForWritingCalculation()
         {
-            if (_mustWriteResetStack.Peek()) _resetStringBuilder.AppendTabs();
+            bool holdOperatorIsActive = _holdOperatorIsActiveStack.Peek();
+            return holdOperatorIsActive ? _resetStringBuilder : _calculateStringBuilder;
         }
+
+        [CanBeNull]
+        private StringBuilderWithIndentation TryGetStringBuilderForWritingReset()
+        {
+            bool holdOperatorIsActive = _holdOperatorIsActiveStack.Peek();
+            return holdOperatorIsActive ? null : _resetStringBuilder;
+        }
+
+        // Helpers
 
         private void AppendFilterReset(string x1, string x2, string y1, string y2)
         {
