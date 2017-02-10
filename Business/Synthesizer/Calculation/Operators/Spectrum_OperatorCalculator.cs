@@ -124,10 +124,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             int frequencyCount = (int)frequencyCountDouble;
             int frequencyCountTimesTwo = frequencyCount * 2;
-            double[] harmonicVolumes = new double[frequencyCount];
+            var harmonicVolumes = new double[frequencyCount];
 
             // FFT requires an array size twice as large as the number of frequencies I want.
-            double[] data = new double[frequencyCountTimesTwo];
+            var data = new double[frequencyCountTimesTwo];
             double dt = (end - start) / frequencyCountTimesTwo;
 
             double t = start;

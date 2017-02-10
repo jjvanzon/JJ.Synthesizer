@@ -91,9 +91,11 @@ namespace JJ.Business.Synthesizer.Roslyn
         private readonly int _resetIndentLevel;
 
         private Stack<string> _stack;
-        private StringBuilderWithIndentation _sbCalculate;
-        private StringBuilderWithIndentation _sbReset;
+        private StringBuilderWithIndentation _calculateStringBuilder;
+        private StringBuilderWithIndentation _resetStringBuilder;
         private int _counter;
+
+        private Stack<bool> _mustWriteResetStack;
 
         // Simple Sets of Variable Names
 
@@ -152,21 +154,23 @@ namespace JJ.Business.Synthesizer.Roslyn
             _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary = new Dictionary<ICalculatorWithPosition, CalculatorVariableInfo>();
             _noiseOperatorID_To_OffsetNumberLiteral_Dictionary = new Dictionary<int, string>();
             _counter = 0;
+            _mustWriteResetStack = new Stack<bool>();
+            _mustWriteResetStack.Push(true);
 
-            _sbCalculate = new StringBuilderWithIndentation(TAB_STRING)
+            _calculateStringBuilder = new StringBuilderWithIndentation(TAB_STRING)
             {
                 IndentLevel = _calculationIndentLevel
             };
 
-            _sbReset = new StringBuilderWithIndentation(TAB_STRING)
+            _resetStringBuilder = new StringBuilderWithIndentation(TAB_STRING)
             {
                 IndentLevel = _resetIndentLevel
             };
 
             Visit_OperatorDto_Polymorphic(dto);
 
-            string rawCalculationCode = _sbCalculate.ToString();
-            string rawResetCode = _sbReset.ToString();
+            string rawCalculationCode = _calculateStringBuilder.ToString();
+            string rawResetCode = _resetStringBuilder.ToString();
             string returnValue = _stack.Pop();
 
             // Get some more variable info
@@ -667,8 +671,36 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
         {
-            // throw new NotImplementedException();
-            return base.Visit_Hold_OperatorDto_VarSignal(dto);
+            // Stop writing reset code,
+            // because the Hold operator is special,
+            // in that it does not reset the calculation,
+            // but gets a value from it upon reset.
+
+            // The calculate procedure should only use the held variable. 
+            // The Reset procedure should do a calculation of that held variable. 
+            // But that Reset procedure should not execute the reset lines.
+            // So the Calculate procedure should not write at all, 
+            // and the Reset procedure should not write the reset lines, but does have to write the calculate lines.
+            // With a serious hack you could switch the variables _sbReset and _sbCalculate.
+
+            _mustWriteResetStack.Push(false);
+            var originalCalculateStringBuilder = _calculateStringBuilder;
+            _calculateStringBuilder = _resetStringBuilder;
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+
+            _mustWriteResetStack.Pop();
+            _mustWriteResetStack.Push(true);
+            _calculateStringBuilder = originalCalculateStringBuilder;
+
+            string signal = _stack.Pop();
+            string output = GenerateUniqueLongLivedVariableName(dto.OperatorTypeEnum);
+
+            AppendLineToReset(GetOperatorTitleComment(dto));
+            AppendLineToReset($"{output} = {signal};");
+            AppendLineToReset();
+            _stack.Push(output);
+            return dto;
         }
 
         protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
@@ -2396,7 +2428,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
             AppendOperatorTitleComment(dto);
-            _sbReset.AppendLine($"{origin} = {sourcePosition};");
+            AppendLineToReset($"{origin} = {sourcePosition};");
             AppendLine($"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};");
             AppendLine();
 
@@ -2420,15 +2452,15 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendOperatorTitleComment(dto);
             string positionTranformationLine = $"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};";
 
-            _sbCalculate.AppendLine(positionTranformationLine);
-            _sbCalculate.AppendLine($"{previousPosition} = {sourcePosition};");
-            _sbCalculate.AppendLine($"{phase} = {destPosition};"); // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level, while phase needs to be uniquely used by the operator instance.
-            _sbCalculate.AppendLine();
+            AppendLineToCalculate(positionTranformationLine);
+            AppendLineToCalculate($"{previousPosition} = {sourcePosition};");
+            AppendLineToCalculate($"{phase} = {destPosition};"); // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level, while phase needs to be uniquely used by the operator instance.
+            AppendLineToCalculate();
 
-            _sbReset.AppendLine($"{phase} = 0.0;");
-            _sbReset.AppendLine($"{previousPosition} = {sourcePosition};");
-            _sbReset.AppendLine(positionTranformationLine);
-            _sbReset.AppendLine();
+            AppendLineToReset($"{phase} = 0.0;");
+            AppendLineToReset($"{previousPosition} = {sourcePosition};");
+            AppendLineToReset(positionTranformationLine);
+            AppendLineToReset();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
             string signal = _stack.Pop();
@@ -2919,53 +2951,96 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendLine(string line = null)
         {
-            _sbCalculate.AppendLine(line);
-            _sbReset.AppendLine(line);
+            AppendLineToCalculate(line);
+            AppendLineToReset(line);
+        }
+
+        private void AppendLineToCalculate(string line = null) => _calculateStringBuilder.AppendLine(line);
+        private void AppendLineToReset(string line = null)
+        {
+            if (_mustWriteResetStack.Peek()) _resetStringBuilder.AppendLine(line);
         }
 
         private void Indent()
         {
-            _sbCalculate.Indent();
-            _sbReset.Indent();
+            IndentCalculate();
+            IndentReset();
+        }
+
+        private void IndentCalculate() =>_calculateStringBuilder.Indent();
+        private void IndentReset()
+        {
+            if (_mustWriteResetStack.Peek()) _resetStringBuilder.Indent();
         }
 
         private void Unindent()
         {
-            _sbCalculate.Unindent();
-            _sbReset.Unindent();
+            UnindentCalculate();
+            UnindentReset();
+        }
+
+        private void UnindentCalculate() => _calculateStringBuilder.Unindent();
+        private void UnindentReset()
+        {
+            if (_mustWriteResetStack.Peek()) _resetStringBuilder.Unindent();
         }
 
         private void Append(char chr)
         {
-            _sbCalculate.Append(chr);
-            _sbReset.Append(chr);
+            AppendCalculate(chr);
+            AppendReset(chr);
+        }
+
+        private void AppendCalculate(char chr) => _calculateStringBuilder.Append(chr);
+        private void AppendReset(char chr)
+        {
+            if (_mustWriteResetStack.Peek()) _resetStringBuilder.Append(chr);
         }
 
         private void Append(string text)
         {
-            _sbCalculate.Append(text);
-            _sbReset.Append(text);
+            AppendCalculate(text);
+            AppendReset(text);
+        }
+
+        private void AppendCalculate(string text) => _calculateStringBuilder.Append(text);
+        private void AppendReset(string text)
+        {
+            if (_mustWriteResetStack.Peek()) _resetStringBuilder.Append(text);
         }
 
         private void AppendTabs()
         {
-            _sbCalculate.AppendTabs();
-            _sbReset.AppendTabs();
+            AppendTabsCalculate();
+            AppendTabsReset();
+        }
+
+        private void AppendTabsCalculate() => _calculateStringBuilder.AppendTabs();
+        private void AppendTabsReset()
+        {
+            if (_mustWriteResetStack.Peek()) _resetStringBuilder.AppendTabs();
         }
 
         private void AppendFilterReset(string x1, string x2, string y1, string y2)
         {
-            _sbReset.AppendLine($"{x1} = 0;");
-            _sbReset.AppendLine($"{x2} = 0;");
-            _sbReset.AppendLine($"{y1} = 0;");
-            _sbReset.AppendLine($"{y2} = 0;");
+            AppendLineToReset($"{x1} = 0;");
+            AppendLineToReset($"{x2} = 0;");
+            AppendLineToReset($"{y1} = 0;");
+            AppendLineToReset($"{y2} = 0;");
         }
 
         private void AppendOperatorTitleComment(IOperatorDto dto)
         {
+            string line = GetOperatorTitleComment(dto);
+            AppendLine(line);
+        }
+
+        private string GetOperatorTitleComment(IOperatorDto dto)
+        {
             string generalIdentifier = dto.OperatorTypeEnum.ToString();
             string variationIdentifier = dto.GetType().Name.Replace("_OperatorDto", "").Replace($"{generalIdentifier}_", "");
-            AppendLine($"// {generalIdentifier} ({variationIdentifier})");
+            string line = $"// {generalIdentifier} ({variationIdentifier})";
+            return line;
         }
 
         private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
@@ -3068,6 +3143,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return variableName;
         }
 
+        /// <summary> Appends an empty line, pushes the output and returns dto casted to OperatorDtoBase. </summary>
         private OperatorDtoBase GenerateOperatorWrapUp(IOperatorDto dto, string output)
         {
             AppendLine();
@@ -3093,7 +3169,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string origin = GenerateLongLivedOriginName();
             string phase = GenerateLocalPhaseName();
 
-            _sbReset.AppendLine($"{origin} = {position};");
+            AppendLineToReset($"{origin} = {position};");
 
             AppendLine($"double {phase} = ({position} - {origin}) * {rate};");
 
@@ -3106,11 +3182,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             string previousPosition = GenerateLongLivedPreviousPositionName();
             string phase = GenerateLongLivedPhaseName();
 
-            _sbReset.AppendLine($"{previousPosition} = {position};");
-            _sbReset.AppendLine($"{phase} = 0.0;");
+            AppendLineToReset($"{previousPosition} = {position};");
+            AppendLineToReset($"{phase} = 0.0;");
 
-            _sbCalculate.AppendLine($"{phase} += ({position} - {previousPosition}) * {rate};");
-            _sbCalculate.AppendLine($"{previousPosition} = {position};");
+            AppendLineToCalculate($"{phase} += ({position} - {previousPosition}) * {rate};");
+            AppendLineToCalculate($"{previousPosition} = {position};");
 
             return new PhaseTrackingInfo { Phase = phase, Position = position, PreviousPosition = previousPosition };
         }
