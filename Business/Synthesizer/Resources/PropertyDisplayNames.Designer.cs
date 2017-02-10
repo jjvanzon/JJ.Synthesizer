@@ -1879,15 +1879,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Speed.
-        /// </summary>
-        public static string Speed {
-            get {
-                return ResourceManager.GetString("Speed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Square.
         /// </summary>
         public static string Square {

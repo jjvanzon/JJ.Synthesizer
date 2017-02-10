@@ -677,9 +677,6 @@
   <data name="Rate" xml:space="preserve">
     <value>Rate</value>
   </data>
-  <data name="Speed" xml:space="preserve">
-    <value>Speed</value>
-  </data>
   <data name="Step" xml:space="preserve">
     <value>Step</value>
   </data>

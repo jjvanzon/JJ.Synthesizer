@@ -451,10 +451,10 @@ namespace JJ.Business.Synthesizer.Api
 
         public Reverse_OperatorWrapper Reverse(
             Outlet signal = null, 
-            Outlet speed = null,
+            Outlet factor = null,
             DimensionEnum standardDimension = DimensionEnum.Time,
             string customDimension = null)
-            => _patchManager.Reverse(signal, speed, standardDimension, customDimension);
+            => _patchManager.Reverse(signal, factor, standardDimension, customDimension);
 
         public Round_OperatorWrapper Round(Outlet signal = null, Outlet step = null, Outlet offset = null)
             => _patchManager.Round(signal, step, offset);

@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     public class Reverse_OperatorWrapper : OperatorWrapperBase_WithResult
     {
         private const int SIGNAL_INDEX = 0;
-        private const int SPEED_INDEX = 1;
+        private const int FACTOR_INDEX = 1;
 
         public Reverse_OperatorWrapper(Operator op)
             : base(op)
@@ -23,13 +23,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
-        public Outlet Speed
+        public Outlet Factor
         {
-            get { return SpeedInlet.InputOutlet; }
-            set { SpeedInlet.LinkTo(value); }
+            get { return FactorInlet.InputOutlet; }
+            set { FactorInlet.LinkTo(value); }
         }
 
-        public Inlet SpeedInlet => OperatorHelper.GetInlet(WrappedOperator, SPEED_INDEX);
+        public Inlet FactorInlet => OperatorHelper.GetInlet(WrappedOperator, FACTOR_INDEX);
 
         public override string GetInletDisplayName(int listIndex)
         {
@@ -41,9 +41,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         return name;
                     }
 
-                case SPEED_INDEX:
+                case FACTOR_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Speed);
+                        string name = ResourceHelper.GetPropertyDisplayName(() => Factor);
                         return name;
                     }
 

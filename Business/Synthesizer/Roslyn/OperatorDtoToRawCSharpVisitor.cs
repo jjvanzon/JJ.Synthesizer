@@ -1485,23 +1485,23 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_NoOriginShifting(Reverse_OperatorDto_ConstSpeed_NoOriginShifting dto)
+        protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstFactor_NoOriginShifting(Reverse_OperatorDto_ConstFactor_NoOriginShifting dto)
         {
-            PutNumberOnStack(dto.Speed);
+            PutNumberOnStack(dto.Factor);
 
             return ProcessReverse_NoPhaseTrackingOrOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstSpeed_WithOriginShifting(Reverse_OperatorDto_ConstSpeed_WithOriginShifting dto)
+        protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstFactor_WithOriginShifting(Reverse_OperatorDto_ConstFactor_WithOriginShifting dto)
         {
             AppendOperatorTitleComment(dto);
 
-            string speed = CompilationHelper.FormatValue(dto.Speed);
+            string factor = CompilationHelper.FormatValue(dto.Factor);
             string sourcePosition = GeneratePositionNameCamelCase(dto);
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string origin = GenerateLongLivedOriginName();
 
-            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) * -{speed} + {origin};");
+            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) * -{factor} + {origin};");
             AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
@@ -1511,26 +1511,26 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarSpeed_NoPhaseTracking(Reverse_OperatorDto_VarSpeed_NoPhaseTracking dto)
+        protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarFactor_NoPhaseTracking(Reverse_OperatorDto_VarFactor_NoPhaseTracking dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.SpeedOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
             return ProcessReverse_NoPhaseTrackingOrOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarSpeed_WithPhaseTracking(Reverse_OperatorDto_VarSpeed_WithPhaseTracking dto)
+        protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarFactor_WithPhaseTracking(Reverse_OperatorDto_VarFactor_WithPhaseTracking dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.SpeedOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
             AppendOperatorTitleComment(dto);
 
-            string speed = _stack.Pop();
+            string factor = _stack.Pop();
             string phase = GenerateLongLivedPhaseName();
             string previousPosition = GenerateLongLivedPreviousPositionName();
             string sourcePosition = GeneratePositionNameCamelCase(dto);
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
-            AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) * -{speed};");
+            AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) * -{factor};");
             AppendLine($"{previousPosition} = {sourcePosition};");
             // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level,
             // while phase needs to be uniquely used by the operator instance.
@@ -2809,11 +2809,11 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             AppendOperatorTitleComment(dto);
 
-            string speed = _stack.Pop();
+            string factor = _stack.Pop();
             string sourcePosition = GeneratePositionNameCamelCase(dto);
             string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
-            AppendLine($"{destPosition} = {sourcePosition} * -{speed};");
+            AppendLine($"{destPosition} = {sourcePosition} * -{factor};");
             AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);

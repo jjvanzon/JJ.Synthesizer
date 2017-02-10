@@ -3247,22 +3247,22 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase speedCalculator = _stack.Pop();
+            OperatorCalculatorBase factorCalculator = _stack.Pop();
 
             double signal = signalCalculator.Calculate();
-            double speed = speedCalculator.Calculate();
+            double factor = factorCalculator.Calculate();
 
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool speedIsConst = speedCalculator is Number_OperatorCalculator;
+            bool factorIsConst = factorCalculator is Number_OperatorCalculator;
 
-            bool speedIsConstZero = speedIsConst && speed == 0;
+            bool factorIsConstZero = factorIsConst && factor == 0;
 
             bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
-            bool speedIsConstSpecialValue = speedIsConst && DoubleHelper.IsSpecialValue(speed);
+            bool factorIsConstSpecialValue = factorIsConst && DoubleHelper.IsSpecialValue(factor);
 
             dimensionStack.Pop();
 
-            if (speedIsConstSpecialValue)
+            if (factorIsConstSpecialValue)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
@@ -3272,7 +3272,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Special Value
                 calculator = new Number_OperatorCalculator(signal);
             }
-            else if (speedIsConstZero)
+            else if (factorIsConstZero)
             {
                 // Special Value
                 // Speed-up of 0 means time stands still.
@@ -3282,21 +3282,21 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 calculator = signalCalculator;
             }
-            else if (speedIsConst && standardDimensionEnum == DimensionEnum.Time)
+            else if (factorIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Reverse_OperatorCalculator_ConstSpeed_WithOriginShifting(signalCalculator, speed, dimensionStack);
+                calculator = new Reverse_OperatorCalculator_ConstFactor_WithOriginShifting(signalCalculator, factor, dimensionStack);
             }
-            else if (speedIsConst && standardDimensionEnum != DimensionEnum.Time)
+            else if (factorIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Reverse_OperatorCalculator_ConstSpeed_NoOriginShifting(signalCalculator, speed, dimensionStack);
+                calculator = new Reverse_OperatorCalculator_ConstFactor_NoOriginShifting(signalCalculator, factor, dimensionStack);
             }
-            else if (!speedIsConst && standardDimensionEnum == DimensionEnum.Time)
+            else if (!factorIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
-                calculator = new Reverse_OperatorCalculator_VarSpeed_WithPhaseTracking(signalCalculator, speedCalculator, dimensionStack);
+                calculator = new Reverse_OperatorCalculator_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
             }
-            else if (!speedIsConst && standardDimensionEnum != DimensionEnum.Time)
+            else if (!factorIsConst && standardDimensionEnum != DimensionEnum.Time)
             {
-                calculator = new Reverse_OperatorCalculator_VarSpeed_NoPhaseTracking(signalCalculator, speedCalculator, dimensionStack);
+                calculator = new Reverse_OperatorCalculator_VarFactor_NoPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
             }
             else
             {

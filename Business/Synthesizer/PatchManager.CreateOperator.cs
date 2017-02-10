@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_RANDOM_RATE = 16.0;
         private const double DEFAULT_RANGE_FROM = 1.0;
         private const double DEFAULT_RANGE_TILL = 16.0;
-        private const double DEFAULT_REVERSE_SPEED = 1.0;
+        private const double DEFAULT_REVERSE_FACTOR = 1.0;
         private const double DEFAULT_SAMPLE_COUNT = 100.0;
         private const double DEFAULT_SAMPLING_RATE = 44100.0;
         private const double DEFAULT_SCALE_SOURCE_VALUE_A = -1.0;
@@ -1724,7 +1724,7 @@ namespace JJ.Business.Synthesizer
 
         public Reverse_OperatorWrapper Reverse(
             Outlet signal = null, 
-            Outlet speed = null,
+            Outlet factor = null,
             DimensionEnum standardDimension = DimensionEnum.Time,
             string customDimension = null)
         {
@@ -1739,10 +1739,10 @@ namespace JJ.Business.Synthesizer
             var wrapper = new Reverse_OperatorWrapper(op)
             {
                 Signal = signal,
-                Speed = speed
+                Factor = factor
             };
 
-            wrapper.SpeedInlet.DefaultValue = DEFAULT_REVERSE_SPEED;
+            wrapper.FactorInlet.DefaultValue = DEFAULT_REVERSE_FACTOR;
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);

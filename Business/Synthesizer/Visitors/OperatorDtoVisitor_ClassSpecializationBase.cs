@@ -1721,7 +1721,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Reverse_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
-            MathPropertiesDto speedMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SpeedOperatorDto);
+            MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FactorOperatorDto);
 
             OperatorDtoBase dto2;
 
@@ -1729,21 +1729,21 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto2 = new Reverse_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
             }
-            else if (speedMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            else if (factorMathPropertiesDto.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new Reverse_OperatorDto_VarSpeed_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, SpeedOperatorDto = dto.SpeedOperatorDto };
+                dto2 = new Reverse_OperatorDto_VarFactor_WithPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto };
             }
-            else if (speedMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
+            else if (factorMathPropertiesDto.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new Reverse_OperatorDto_VarSpeed_NoPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, SpeedOperatorDto = dto.SpeedOperatorDto };
+                dto2 = new Reverse_OperatorDto_VarFactor_NoPhaseTracking { SignalOperatorDto = dto.SignalOperatorDto, FactorOperatorDto = dto.FactorOperatorDto };
             }
-            else if (speedMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            else if (factorMathPropertiesDto.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new Reverse_OperatorDto_ConstSpeed_WithOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Speed = speedMathPropertiesDto.ConstValue };
+                dto2 = new Reverse_OperatorDto_ConstFactor_WithOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
             }
-            else if (speedMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            else if (factorMathPropertiesDto.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new Reverse_OperatorDto_ConstSpeed_NoOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Speed = speedMathPropertiesDto.ConstValue };
+                dto2 = new Reverse_OperatorDto_ConstFactor_NoOriginShifting { SignalOperatorDto = dto.SignalOperatorDto, Factor = factorMathPropertiesDto.ConstValue };
             }
             else
             {

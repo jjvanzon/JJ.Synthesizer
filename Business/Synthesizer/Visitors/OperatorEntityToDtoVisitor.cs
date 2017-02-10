@@ -678,7 +678,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new Reverse_OperatorDto
             {
                 SignalOperatorDto = _stack.Pop(),
-                SpeedOperatorDto = _stack.Pop(),
+                FactorOperatorDto = _stack.Pop(),
             };
 
             SetDimensionProperties(op, dto);

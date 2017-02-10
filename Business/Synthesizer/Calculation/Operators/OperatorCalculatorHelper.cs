@@ -85,11 +85,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (double.IsInfinity(factor)) throw new InfinityException(() => factor);
         }
 
-        public static void AssertReverseSpeed(double speed)
+        public static void AssertReverseFactor(double factor)
         {
-            if (speed == 0.0) throw new ZeroException(() => speed);
-            if (double.IsNaN(speed)) throw new NaNException(() => speed);
-            if (double.IsInfinity(speed)) throw new InfinityException(() => speed);
+            if (factor == 0.0) throw new ZeroException(() => factor);
+            if (double.IsNaN(factor)) throw new NaNException(() => factor);
+            if (double.IsInfinity(factor)) throw new InfinityException(() => factor);
         }
 
         /// <summary> Asserts that the calculator is not null and not a Number_OperatorCalculator.</summary>

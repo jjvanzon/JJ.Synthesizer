@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Reverse_OperatorDto : Reverse_OperatorDtoBase_VarSpeed
+    internal class Reverse_OperatorDto : Reverse_OperatorDtoBase_VarFactor
     { }
 
     internal class Reverse_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
@@ -11,38 +11,38 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reverse;
     }
 
-    internal class Reverse_OperatorDto_VarSpeed_WithPhaseTracking : Reverse_OperatorDtoBase_VarSpeed
+    internal class Reverse_OperatorDto_VarFactor_WithPhaseTracking : Reverse_OperatorDtoBase_VarFactor
     { }
 
-    internal class Reverse_OperatorDto_VarSpeed_NoPhaseTracking : Reverse_OperatorDtoBase_VarSpeed
+    internal class Reverse_OperatorDto_VarFactor_NoPhaseTracking : Reverse_OperatorDtoBase_VarFactor
     { }
 
-    internal abstract class Reverse_OperatorDtoBase_VarSpeed : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
+    internal abstract class Reverse_OperatorDtoBase_VarFactor : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reverse;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase SpeedOperatorDto { get; set; }
+        public OperatorDtoBase FactorOperatorDto { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
-            get { return new[] { SignalOperatorDto, SpeedOperatorDto }; }
-            set { SignalOperatorDto = value[0]; SpeedOperatorDto = value[1]; }
+            get { return new[] { SignalOperatorDto, FactorOperatorDto }; }
+            set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
         }
     }
 
-    internal class Reverse_OperatorDto_ConstSpeed_WithOriginShifting : Reverse_OperatorDtoBase_ConstSpeed
+    internal class Reverse_OperatorDto_ConstFactor_WithOriginShifting : Reverse_OperatorDtoBase_ConstFactor
     { }
 
-    internal class Reverse_OperatorDto_ConstSpeed_NoOriginShifting : Reverse_OperatorDtoBase_ConstSpeed
+    internal class Reverse_OperatorDto_ConstFactor_NoOriginShifting : Reverse_OperatorDtoBase_ConstFactor
     { }
 
-    internal abstract class Reverse_OperatorDtoBase_ConstSpeed : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
+    internal abstract class Reverse_OperatorDtoBase_ConstFactor : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reverse;
 
         public OperatorDtoBase SignalOperatorDto { get; set; }
-        public double Speed { get; set; }
+        public double Factor { get; set; }
 
         public override IList<OperatorDtoBase> InputOperatorDtos
         {
