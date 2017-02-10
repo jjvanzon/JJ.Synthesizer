@@ -20,7 +20,7 @@ using NumberingSystems = JJ.Framework.Mathematics.NumberingSystems;
 
 namespace JJ.Business.Synthesizer.Roslyn
 {
-    internal class OperatorDtoToRawCSharpVisitor : OperatorDtoVisitorBase_AfterProgrammerLaziness
+    internal class OperatorDtoToRawCSharpVisitor : OperatorDtoVisitorBase_AfterCodeGenerationSimplification
     {
         [SuppressMessage("ReSharper", "UnusedMember.Local")]
         private enum MinOrMaxEnum
@@ -1483,65 +1483,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override OperatorDtoBase Visit_Reset_OperatorDto(Reset_OperatorDto dto)
         {
             throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstFactor_NoOriginShifting(Reverse_OperatorDto_ConstFactor_NoOriginShifting dto)
-        {
-            PutNumberOnStack(dto.Factor);
-
-            return ProcessReverse_NoPhaseTrackingOrOriginShifting(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstFactor_WithOriginShifting(Reverse_OperatorDto_ConstFactor_WithOriginShifting dto)
-        {
-            AppendOperatorTitleComment(dto);
-
-            string factor = CompilationHelper.FormatValue(dto.Factor);
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string origin = GenerateLongLivedOriginName();
-
-            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) * -{factor} + {origin};");
-            AppendLine();
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            _stack.Push(signal);
-            return dto;
-        }
-
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarFactor_NoPhaseTracking(Reverse_OperatorDto_VarFactor_NoPhaseTracking dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
-
-            return ProcessReverse_NoPhaseTrackingOrOriginShifting(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarFactor_WithPhaseTracking(Reverse_OperatorDto_VarFactor_WithPhaseTracking dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
-
-            AppendOperatorTitleComment(dto);
-
-            string factor = _stack.Pop();
-            string phase = GenerateLongLivedPhaseName();
-            string previousPosition = GenerateLongLivedPreviousPositionName();
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-
-            AppendLine($"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) * -{factor};");
-            AppendLine($"{previousPosition} = {sourcePosition};");
-            // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level,
-            // while phase needs to be uniquely used by the operator instance.
-            AppendLine($"{phase} = {destPosition};");
-            AppendLine();
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            _stack.Push(signal);
-            return dto;
         }
 
         protected override OperatorDtoBase Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto)
