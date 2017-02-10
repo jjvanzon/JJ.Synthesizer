@@ -88,14 +88,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetPrivate()
         {
-#if !USE_INVAR_INDICES
-            double time = _dimensionStack.Get();
-#else
-            double time = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
             _harmonicVolumes = CreateHarmonicVolumes();
             _maxPosition = _harmonicVolumes.Length - 1;
         }
@@ -141,8 +133,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-
                 double value = _signalCalculator.Calculate();
+
 #if !USE_INVAR_INDICES
                 _dimensionStack.Pop();
 #endif
