@@ -578,6 +578,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 WidthOperatorDto = _stack.Pop()
             };
 
+            SetDimensionProperties(op, dto);
+
             _stack.Push(dto);
         }
         

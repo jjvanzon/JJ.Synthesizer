@@ -72,8 +72,10 @@ namespace JJ.Business.Synthesizer.Calculation
         public void ResetSamples()
         {
             // zero initial samples
-            _x1 = _x2 = 0;
-            _y1 = _y2 = 0;
+            _x1 = 0;
+            _x2 = 0;
+            _y1 = 0;
+            _y2 = 0;
         }
 
         /// <summary> Passes a single sample through the filter. </summary>

@@ -27,7 +27,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double newTriggerValue = _resetCalculator.Calculate();
 
-            bool newValueIsZero = newTriggerValue == 0;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            bool newValueIsZero = newTriggerValue == 0.0;
 
             if (_previousZero == 0 && !newValueIsZero)
             {
