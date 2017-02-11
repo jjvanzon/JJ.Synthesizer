@@ -2746,24 +2746,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessReverse_NoPhaseTrackingOrOriginShifting(IOperatorDto_VarSignal_WithDimension dto)
-        {
-            AppendOperatorTitleComment(dto);
-
-            string factor = _stack.Pop();
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-
-            AppendLine($"{destPosition} = {sourcePosition} * -{factor};");
-            AppendLine();
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            _stack.Push(signal);
-            return (OperatorDtoBase)dto;
-        }
-
         private OperatorDtoBase ProcessRoundWithOffset(
             IOperatorDto dto,
             OperatorDtoBase signalOperatorDto = null,
