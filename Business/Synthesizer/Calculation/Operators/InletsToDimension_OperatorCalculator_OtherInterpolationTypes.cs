@@ -22,11 +22,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // and to reuse the Interpolate_OperatorCalculator's capability of
             // handling many types of interpolation.
 
-            var bundleCalculator = new InletsToDimension_OperatorCalculator_StripeInterpolation(operandCalculators, dimensionStack);
+            var inletsToDimensionCalculator = new InletsToDimension_OperatorCalculator_StripeInterpolation(operandCalculators, dimensionStack);
 
             _interpolateOperator = OperatorCalculatorFactory.Create_Interpolate_OperatorCalculator(
                 resampleInterpolationTypeEnum,
-                bundleCalculator,
+                inletsToDimensionCalculator,
                 new Number_OperatorCalculator_One(),
                 dimensionStack);
         }

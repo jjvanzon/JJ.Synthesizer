@@ -85,6 +85,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string SQUARE_FORMULA_FORMAT = "{0} % 1.0 < 0.5 ? 1.0 : -1.0";
 
         private const double SAMPLE_BASE_FREQUENCY = 440.0;
+
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
@@ -1252,32 +1253,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicEquidistant(Random_OperatorDto_CubicEquidistant dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicSmoothSlope(Random_OperatorDto_CubicSmoothSlope dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Hermite(Random_OperatorDto_Hermite dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Line(Random_OperatorDto_Line dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe(Random_OperatorDto_Stripe dto)
+        protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto)
         {
             throw new NotImplementedException();
         }

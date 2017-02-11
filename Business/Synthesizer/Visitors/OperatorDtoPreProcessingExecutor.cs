@@ -25,6 +25,7 @@ namespace JJ.Business.Synthesizer.Visitors
             new OperatorDtoVisitor_InfrastructureVariables(_samplingRate).Execute(dto);
             dto = new OperatorDtoVisitor_MathSimplification(_targetChannelCount).Execute(dto);
             dto = new OperatorDtoVisitor_MachineOptimization().Execute(dto);
+            dto = new OperatorDtoVisitor_Rewiring().Execute(dto);
             dto = new OperatorDtoVisitor_ProgrammerLaziness().Execute(dto);
             new OperatorDtoVisitor_DimensionStackLevels().Execute(dto);
 

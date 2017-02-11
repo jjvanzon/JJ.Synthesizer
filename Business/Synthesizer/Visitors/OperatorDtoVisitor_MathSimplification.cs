@@ -1756,22 +1756,27 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicSmoothSlope(Random_OperatorDto_CubicSmoothSlope dto)
+        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicSmoothSlope_LagBehind(Random_OperatorDto_CubicSmoothSlope_LagBehind dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Hermite(Random_OperatorDto_Hermite dto)
+        protected override OperatorDtoBase Visit_Random_OperatorDto_Hermite_LagBehind(Random_OperatorDto_Hermite_LagBehind dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Line(Random_OperatorDto_Line dto)
+        protected override OperatorDtoBase Visit_Random_OperatorDto_Line_LagBehind_ConstRate(Random_OperatorDto_Line_LagBehind_ConstRate dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe(Random_OperatorDto_Stripe dto)
+        protected override OperatorDtoBase Visit_Random_OperatorDto_Line_LagBehind_VarRate(Random_OperatorDto_Line_LagBehind_VarRate dto)
+        {
+            return Process_Nothing(dto);
+        }
+
+        protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto)
         {
             return Process_Nothing(dto);
         }

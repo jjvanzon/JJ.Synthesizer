@@ -1613,42 +1613,48 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Random_OperatorDto(dto);
 
-            Random_OperatorDto dto2;
+            MathPropertiesDto rateMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.RateOperatorDto);
+
+            OperatorDtoBase dto2;
 
             if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Block)
             {
-                dto2 = new Random_OperatorDto_Block();
+                dto2 = new Random_OperatorDto_Block { RateOperatorDto = dto.RateOperatorDto };
             }
             else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Stripe)
             {
-                dto2 = new Random_OperatorDto_Stripe();
+                dto2 = new Random_OperatorDto_Stripe_LagBehind { RateOperatorDto = dto.RateOperatorDto };
             }
-            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Line)
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Line && rateMathPropertiesDto.IsConst)
             {
-                dto2 = new Random_OperatorDto_Line();
+                dto2 = new Random_OperatorDto_Line_LagBehind_ConstRate { Rate = rateMathPropertiesDto.ConstValue };
+            }
+            else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Line && rateMathPropertiesDto.IsVar)
+            {
+                dto2 = new Random_OperatorDto_Line_LagBehind_VarRate { RateOperatorDto = dto.RateOperatorDto };
             }
             else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicEquidistant)
             {
-                dto2 = new Random_OperatorDto_CubicEquidistant();
+                dto2 = new Random_OperatorDto_CubicEquidistant { RateOperatorDto = dto.RateOperatorDto };
             }
             else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicAbruptSlope)
             {
-                dto2 = new Random_OperatorDto_CubicAbruptSlope();
+                dto2 = new Random_OperatorDto_CubicAbruptSlope { RateOperatorDto = dto.RateOperatorDto };
             }
             else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicSmoothSlope)
             {
-                dto2 = new Random_OperatorDto_CubicSmoothSlope();
+                dto2 = new Random_OperatorDto_CubicSmoothSlope_LagBehind { RateOperatorDto = dto.RateOperatorDto };
             }
             else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Hermite)
             {
-                dto2 = new Random_OperatorDto_Hermite();
+                dto2 = new Random_OperatorDto_Hermite_LagBehind { RateOperatorDto = dto.RateOperatorDto };
             }
             else
             {
                 throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
-            DtoCloner.Clone_RandomOperatorProperties(dto, dto2);
+            DtoCloner.TryClone_RandomOperatorProperties(dto, dto2);
 
             return dto2;
         }

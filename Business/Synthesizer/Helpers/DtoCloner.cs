@@ -164,13 +164,21 @@ namespace JJ.Business.Synthesizer.Helpers
             }
         }
 
-        public static void Clone_RandomOperatorProperties(Random_OperatorDto source, Random_OperatorDto dest)
+        public static void Clone_RandomOperatorProperties(IRandom_OperatorDto source, IRandom_OperatorDto dest)
         {
-            dest.RateOperatorDto = source.RateOperatorDto;
             dest.ResampleInterpolationTypeEnum = source.ResampleInterpolationTypeEnum;
             dest.OperatorID = source.OperatorID;
 
             Clone_DimensionProperties(source, dest);
+        }
+
+        public static void TryClone_RandomOperatorProperties(IRandom_OperatorDto source, OperatorDtoBase dest)
+        {
+            var asIRandom_OperatorDto = dest as IRandom_OperatorDto;
+            if (asIRandom_OperatorDto != null)
+            {
+                Clone_RandomOperatorProperties(source, asIRandom_OperatorDto);
+            }
         }
 
         public static void Clone_SampleProperties(Sample_OperatorDto source, ISample_OperatorDto_WithSampleID dest)

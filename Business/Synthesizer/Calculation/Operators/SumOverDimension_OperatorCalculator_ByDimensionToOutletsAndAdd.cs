@@ -25,16 +25,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
             int tillInt = (int)till;
 
-            // HACK in a piece of patch to unbundle and add.
+            // HACK in a piece of patch to dimensionToOutlets and add.
 
-            var unbundleCalculators = new List<OperatorCalculatorBase>(tillInt);
+            var dimensionToOutletsCalculators = new List<OperatorCalculatorBase>(tillInt);
             for (int i = 0; i <= tillInt; i++)
             {
-                var unbundleCalculator = new DimensionToOutlets_OperatorCalculator(signalCalculator, i, dimensionStack);
-                unbundleCalculators.Add(unbundleCalculator);
+                var dimensionToOutletsCalculator = new DimensionToOutlets_OperatorCalculator(signalCalculator, i, dimensionStack);
+                dimensionToOutletsCalculators.Add(dimensionToOutletsCalculator);
             }
 
-            _addCalculator = OperatorCalculatorFactory.CreateAddCalculator_Vars(unbundleCalculators);
+            _addCalculator = OperatorCalculatorFactory.CreateAddCalculator_Vars(dimensionToOutletsCalculators);
         }
 
         public override double Calculate()

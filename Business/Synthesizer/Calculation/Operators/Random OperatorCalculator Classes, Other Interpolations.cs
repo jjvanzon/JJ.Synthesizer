@@ -1,5 +1,6 @@
 ﻿// MIND THE HACKS IN THIS FILE! IT MAY BE THE CAUSE OF YOUR PROBLEMS!
 
+using System;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Enums;
@@ -7,6 +8,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
+    [Obsolete("Used only in deprecated OperatorEntityToCalculatorDirectlyVisitor.")]
     internal class Random_OperatorCalculator_OtherInterpolationTypes : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _interpolateOperator;

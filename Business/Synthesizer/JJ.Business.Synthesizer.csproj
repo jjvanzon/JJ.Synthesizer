@@ -283,8 +283,10 @@
     <Compile Include="Roslyn\OperatorDtoVisitorBase_AfterCodeGenerationSimplification.cs" />
     <Compile Include="Roslyn\OperatorDtoVisitor_CodeGenerationSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewiring.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevels.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_Rewiring.cs" />
     <Compile Include="Visitors\OperatorEntityThruDtoToCalculatorExecutor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase_WithInletCoalescing.cs" />
     <Compile Include="Visitors\ToCalculatorResult.cs" />

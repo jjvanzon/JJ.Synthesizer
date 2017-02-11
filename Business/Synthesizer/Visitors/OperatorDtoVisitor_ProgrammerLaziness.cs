@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorDtoVisitor_ProgrammerLaziness : OperatorDtoVisitorBase_AfterMathSimplification
+    internal class OperatorDtoVisitor_ProgrammerLaziness : OperatorDtoVisitorBase_AfterRewiring
     {
         public OperatorDtoBase Execute(OperatorDtoBase dto)
         {

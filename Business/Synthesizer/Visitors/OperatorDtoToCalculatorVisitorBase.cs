@@ -706,7 +706,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
             // Cast to concrete calculator type for performance.
-            var noiseCalculator = (NoiseCalculator)_calculatorCache.GetNoiseCalculator(dto.OperatorID);
+            NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(dto.OperatorID);
 
             var calculator = new Noise_OperatorCalculator(noiseCalculator, dimensionStack);
             _stack.Push(calculator);
@@ -867,32 +867,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto)
-        {
-            return Process_Random_OperatorDto_OtherInterpolationTypes(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicEquidistant(Random_OperatorDto_CubicEquidistant dto)
-        {
-            return Process_Random_OperatorDto_OtherInterpolationTypes(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_CubicSmoothSlope(Random_OperatorDto_CubicSmoothSlope dto)
-        {
-            return Process_Random_OperatorDto_OtherInterpolationTypes(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Hermite(Random_OperatorDto_Hermite dto)
-        {
-            return Process_Random_OperatorDto_OtherInterpolationTypes(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Line(Random_OperatorDto_Line dto)
-        {
-            return Process_Random_OperatorDto_OtherInterpolationTypes(dto);
-        }
-
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe(Random_OperatorDto_Stripe dto)
+        protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto)
         {
             base.Visit_OperatorDto_Base(dto);
 
@@ -1434,19 +1409,6 @@ namespace JJ.Business.Synthesizer.Visitors
         private OperatorDtoBase Process_InletsToDimension_OtherInterpolationTypes(InletsToDimension_OperatorDto dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_OtherInterpolationTypes(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ResampleInterpolationTypeEnum, dimensionStack));
-        }
-
-        private OperatorDtoBase Process_Random_OperatorDto_OtherInterpolationTypes(Random_OperatorDto dto)
-        {
-            base.Visit_OperatorDto_Base(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            RandomCalculator_Stripe randomCalculator = _calculatorCache.GetRandomCalculator_Stripe(dto.OperatorID);
-
-            var calculator = new Random_OperatorCalculator_OtherInterpolationTypes(randomCalculator, _stack.Pop(), dto.ResampleInterpolationTypeEnum, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
         }
 
         private OperatorDtoBase Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(
