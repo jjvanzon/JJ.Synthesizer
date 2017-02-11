@@ -111,8 +111,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Calculation\ICalculatorWithPosition.cs" />
-    <Compile Include="Calculation\NoiseCalculationHelper.cs" />
-    <Compile Include="Calculation\NoiseArrayInfo.cs" />
+    <Compile Include="Calculation\2017-02-11 Backup of NoiseCalculationHelper.cs" />
+    <Compile Include="Calculation\2017-02-11 Backup of NoiseArrayInfo.cs" />
     <Compile Include="Calculation\Operators\IPositionTransformer.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_StripeInterpolation.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorBase.cs" />
@@ -271,9 +271,10 @@
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator.cs" />
     <Compile Include="Roslyn\Calculation\HardCodedPatchCalculator.cs" />
     <Compile Include="Roslyn\ActivationInfo.cs" />
+    <Compile Include="Roslyn\Helpers\2017-02-11 Backup of NoiseCalculatorVariableInfo.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoToPatchCalculatorCSharpGeneratorResult.cs" />
     <Compile Include="Roslyn\Helpers\CompilationHelper.cs" />
-    <Compile Include="Roslyn\Helpers\CalculatorVariableInfo.cs" />
+    <Compile Include="Roslyn\Helpers\ArrayCalculatorVariableInfo.cs" />
     <Compile Include="Roslyn\OperatorDtoCompiler.cs" />
     <Compile Include="Roslyn\OperatorDtoToRawCSharpVisitor.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoToCSharpVisitorResult.cs" />
@@ -466,7 +467,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Calculation\Random\RandomCalculator_Block.cs" />
-    <Compile Include="Calculation\NoiseCalculator.cs" />
+    <Compile Include="Calculation\NoiseCalculator.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />

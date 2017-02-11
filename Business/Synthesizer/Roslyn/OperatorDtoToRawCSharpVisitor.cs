@@ -69,6 +69,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private const string ARRAY_CALCULATOR_MNEMONIC = "arraycalculator";
         private const string DEFAULT_INPUT_MNEMONIC = "input";
+        private const string NOISE_CALCULATOR_MNEMONIC = "noisecalculator";
         private const string PHASE_MNEMONIC = "phase";
         private const string PREVIOUS_POSITION_MNEMONIC = "prevpos";
         private const string ORIGIN_MNEMONIC = "origin";
@@ -119,9 +120,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         private Dictionary<Tuple<DimensionEnum, string>, string> _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary;
 
         // Information about Satellite Calculators
-        private Dictionary<ICalculatorWithPosition, CalculatorVariableInfo> _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary;
-        private Dictionary<int, string> _noiseOperatorID_To_OffsetNumberLiteral_Dictionary;
-        
+        private Dictionary<ICalculatorWithPosition, ArrayCalculatorVariableInfo> _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary;
+        private Dictionary<int, string> _noiseOperatorID_To_VariableNameCamelCase_Dictionary;
+
         public OperatorDtoToRawCSharpVisitor(
             int calculationIndentLevel, 
             int resetIndentLevel,
@@ -152,8 +153,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<Tuple<DimensionEnum, string>, string>();
             _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
-            _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary = new Dictionary<ICalculatorWithPosition, CalculatorVariableInfo>();
-            _noiseOperatorID_To_OffsetNumberLiteral_Dictionary = new Dictionary<int, string>();
+            _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary = new Dictionary<ICalculatorWithPosition, ArrayCalculatorVariableInfo>();
+            _noiseOperatorID_To_VariableNameCamelCase_Dictionary = new Dictionary<int, string>();
             _counter = 0;
             _holdOperatorIsActiveStack = new Stack<bool>();
             _holdOperatorIsActiveStack.Push(false);
@@ -200,7 +201,8 @@ namespace JJ.Business.Synthesizer.Roslyn
                 longLivedDimensionVariableInfos,
                 localDimensionVariableNamesCamelCase,
                 _longLivedMiscVariableNamesCamelCase,
-                _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary.Values.ToArray());
+                _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary.Values.ToArray(),
+                _noiseOperatorID_To_VariableNameCamelCase_Dictionary.Values.ToArray());
         }
 
         [DebuggerHidden]
@@ -1018,12 +1020,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string output = GenerateLocalOutputName(dto);
             string position = GeneratePositionNameCamelCase(dto);
-            string offset = GetOffsetNumberLiteral(dto.OperatorID);
 
-            ICalculatorWithPosition calculator = _calculatorCache.GetNoiseUnderlyingArrayCalculator(dto.OperatorID);
-            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+            string calculatorName = GenerateNoiseCalculatorVariableNameCamelCase(dto.OperatorID);
 
-            AppendLine($"double {output} = {calculatorName}.Calculate({position} + {offset});");
+            AppendLine($"double {output} = {calculatorName}.Calculate({position});");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2471,7 +2471,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string output = GenerateLocalOutputName(dto);
             string position = GeneratePositionNameCamelCase(dto);
             ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+            string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
 
             AppendLine($"double {output} = {calculatorName}.Calculate({position});");
 
@@ -2481,7 +2481,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private OperatorDtoBase ProcessCurve_WithOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
         {
             ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+            string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
             string output = GenerateLocalOutputName(dto);
             string defaultRate = CompilationHelper.FormatValue(1.0);
 
@@ -2981,16 +2981,16 @@ namespace JJ.Business.Synthesizer.Roslyn
             return convertedName;
         }
 
-        private string GenerateCalculatorVariableNameCamelCaseAndCache(ICalculatorWithPosition calculator)
+        private string GenerateArrayCalculatorVariableNameCamelCaseAndCache(ICalculatorWithPosition calculator)
         {
-            CalculatorVariableInfo variableInfo;
+            ArrayCalculatorVariableInfo variableInfo;
             // ReSharper disable once InvertIf
             if (!_calculatorWithPosition_To_CalculatorVariableInfo_Dictionary.TryGetValue(calculator, out variableInfo))
             {
                 string typeName = calculator.GetType().Name;
                 string nameCamelCase = GenerateUniqueLocalVariableName(ARRAY_CALCULATOR_MNEMONIC);
 
-                variableInfo = new CalculatorVariableInfo
+                variableInfo = new ArrayCalculatorVariableInfo
                 {
                     NameCamelCase = nameCamelCase,
                     TypeName = typeName,
@@ -3002,6 +3002,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             }
 
             return variableInfo.NameCamelCase;
+        }
+
+        private string GenerateNoiseCalculatorVariableNameCamelCase(int operatorID)
+        {
+            string variableNameCamelCase;
+            // ReSharper disable once InvertIf
+            if (!_noiseOperatorID_To_VariableNameCamelCase_Dictionary.TryGetValue(operatorID, out variableNameCamelCase))
+            {
+                variableNameCamelCase = GenerateUniqueLocalVariableName(NOISE_CALCULATOR_MNEMONIC);
+
+                _noiseOperatorID_To_VariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
+            }
+
+            return variableNameCamelCase;
         }
 
         /// <summary> Returns the rate literal. </summary>
@@ -3182,7 +3196,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 for (int i = 0; i < calculators.Count; i++)
                 {
                     ICalculatorWithPosition calculator = calculators[i];
-                    string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+                    string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
 
                     AppendLine($"case {i}:");
                     Indent();
@@ -3203,7 +3217,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             // Array
             ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
-            string calculatorName = GenerateCalculatorVariableNameCamelCaseAndCache(calculator);
+            string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
 
             string output = GenerateLocalOutputName(dto);
             AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
@@ -3216,8 +3230,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             // Array
             IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-            string calculatorName1 = GenerateCalculatorVariableNameCamelCaseAndCache(calculators[0]);
-            string calculatorName2 = GenerateCalculatorVariableNameCamelCaseAndCache(calculators[1]);
+            string calculatorName1 = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculators[0]);
+            string calculatorName2 = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculators[1]);
 
             string output = GenerateLocalOutputName(dto);
             AppendLine($"double {output} =");
@@ -3349,21 +3363,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             {
                 return CompilationHelper.FormatValue(value.Value);
             }
-        }
-
-        private string GetOffsetNumberLiteral(int noiseOperatorID)
-        {
-            string offsetNumberLiteral;
-            // ReSharper disable once InvertIf
-            if (!_noiseOperatorID_To_OffsetNumberLiteral_Dictionary.TryGetValue(noiseOperatorID, out offsetNumberLiteral))
-            {
-                double offset = NoiseCalculationHelper.GetOffset();
-                offsetNumberLiteral = CompilationHelper.FormatValue(offset);
-
-                _noiseOperatorID_To_OffsetNumberLiteral_Dictionary[noiseOperatorID] = offsetNumberLiteral;
-            }
-
-            return offsetNumberLiteral;
         }
 
         /// <summary> '&gt;' for Min, '&lt;' for Max </summary>

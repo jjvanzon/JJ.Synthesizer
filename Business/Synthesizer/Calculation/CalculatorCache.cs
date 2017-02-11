@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<Sample, IList<ICalculatorWithPosition>> _sample_To_Calculators_Dictionary = new Dictionary<Sample, IList<ICalculatorWithPosition>>();
         private readonly object _sampleLock = new object();
 
-        private readonly Dictionary<int, ICalculatorWithPosition> _operatorID_To_NoiseCalculator_Dictionary = new Dictionary<int, ICalculatorWithPosition>();
+        private readonly Dictionary<int, NoiseCalculator> _operatorID_To_NoiseCalculator_Dictionary = new Dictionary<int, NoiseCalculator>();
         private readonly object _operatorID_To_NoiseCalculator_Dictionary_Lock = new object();
 
         private readonly Dictionary<int, RandomCalculator_Block> _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary = new Dictionary<int, RandomCalculator_Block>();
@@ -108,13 +108,13 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
-        internal ICalculatorWithPosition GetNoiseCalculator(int operatorID)
+        internal NoiseCalculator GetNoiseCalculator(int operatorID)
         {
             if (operatorID == 0) throw new ZeroException(() => operatorID);
 
             lock (_operatorID_To_NoiseCalculator_Dictionary_Lock)
             {
-                ICalculatorWithPosition noiseCalculator;
+                NoiseCalculator noiseCalculator;
                 // ReSharper disable once InvertIf
                 if (!_operatorID_To_NoiseCalculator_Dictionary.TryGetValue(operatorID, out noiseCalculator))
                 {
@@ -124,13 +124,6 @@ namespace JJ.Business.Synthesizer.Calculation
 
                 return noiseCalculator;
             }
-        }
-
-        internal ICalculatorWithPosition GetNoiseUnderlyingArrayCalculator(int operatorID)
-        {
-            // DIRTY: Type assumption
-            var noiseCalculator = (NoiseCalculator)GetNoiseCalculator(operatorID);
-            return noiseCalculator.ArrayCalculator;
         }
 
         internal RandomCalculatorBase GetRandomCalculator(Operator op)

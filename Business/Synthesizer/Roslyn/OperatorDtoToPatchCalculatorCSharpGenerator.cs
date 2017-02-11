@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             var result = new OperatorDtoToPatchCalculatorCSharpGeneratorResult
             {
                 GeneratedCode = generatedCode,
-                CalculatorVariableInfos = visitorResult.CalculatorVariableInfos
+                ArrayCalculatorVariableInfos = visitorResult.ArrayCalculatorVariableInfos
             };
 
             return result;
@@ -147,12 +147,21 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
             }
 
-            // ReSharper disable once InvertIf
-            if (visitorResult.CalculatorVariableInfos.Any())
+            if (visitorResult.ArrayCalculatorVariableInfos.Any())
             {
-                foreach (CalculatorVariableInfo variableInfo in visitorResult.CalculatorVariableInfos)
+                foreach (ArrayCalculatorVariableInfo variableInfo in visitorResult.ArrayCalculatorVariableInfos)
                 {
                     sb.AppendLine($"private readonly {variableInfo.TypeName} _{variableInfo.NameCamelCase};");
+                }
+                sb.AppendLine();
+            }
+
+            // ReSharper disable once InvertIf
+            if (visitorResult.NoiseCalculatorVariableNamesCamelCase.Any())
+            {
+                foreach (string variableName in visitorResult.NoiseCalculatorVariableNamesCamelCase)
+                {
+                    sb.AppendLine($"private readonly {nameof(NoiseCalculator)} _{variableName};");
                 }
                 sb.AppendLine();
             }
@@ -166,10 +175,10 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine("int samplingRate,");
                 sb.AppendLine("int channelCount,");
                 sb.AppendLine("int channelIndex,");
-                sb.AppendLine("Dictionary<string, double[]> arrays,");
-                sb.AppendLine("Dictionary<string, double> arrayRates,");
-                sb.AppendLine("Dictionary<string, double> arrayValuesBefore,");
-                sb.AppendLine("Dictionary<string, double> arrayValuesAfter)");
+                sb.AppendLine("Dictionary<string, double[]> arrayDictionary,");
+                sb.AppendLine("Dictionary<string, double> arrayRateDictionary,");
+                sb.AppendLine("Dictionary<string, double> arrayValueBeforeDictionary,");
+                sb.AppendLine("Dictionary<string, double> arrayValueAfterDictionary)");
                 sb.Unindent();
             }
             sb.Indent();
@@ -189,14 +198,23 @@ namespace JJ.Business.Synthesizer.Roslyn
                     sb.AppendLine();
                 }
 
-                if (visitorResult.CalculatorVariableInfos.Any())
+                if (visitorResult.ArrayCalculatorVariableInfos.Any())
                 {
-                    foreach (CalculatorVariableInfo variableInfo in visitorResult.CalculatorVariableInfos)
+                    foreach (ArrayCalculatorVariableInfo variableInfo in visitorResult.ArrayCalculatorVariableInfos)
                     {
                         string type = variableInfo.TypeName;
                         string nameCamelCase = variableInfo.NameCamelCase;
 
-                        sb.AppendLine(string.Format(@"_{1} = new {0}(arrays[""{1}""], arrayRates[""{1}""], arrayValuesBefore[""{1}""], arrayValuesAfter[""{1}""]);", type, nameCamelCase));
+                        sb.AppendLine(string.Format(@"_{1} = new {0}(arrayDictionary[""{1}""], arrayRateDictionary[""{1}""], arrayValueBeforeDictionary[""{1}""], arrayValueAfterDictionary[""{1}""]);", type, nameCamelCase));
+                    }
+                    sb.AppendLine();
+                }
+
+                if (visitorResult.NoiseCalculatorVariableNamesCamelCase.Any())
+                {
+                    foreach (string variableName in visitorResult.NoiseCalculatorVariableNamesCamelCase)
+                    {
+                        sb.AppendLine($"_{variableName} = new {nameof(NoiseCalculator)}();");
                     }
                     sb.AppendLine();
                 }
@@ -229,11 +247,20 @@ namespace JJ.Business.Synthesizer.Roslyn
                     sb.AppendLine();
                 }
 
-                if (visitorResult.CalculatorVariableInfos.Any())
+                if (visitorResult.ArrayCalculatorVariableInfos.Any())
                 {
-                    foreach (CalculatorVariableInfo variableInfo in visitorResult.CalculatorVariableInfos)
+                    foreach (ArrayCalculatorVariableInfo variableInfo in visitorResult.ArrayCalculatorVariableInfos)
                     {
                         sb.AppendLine($"var {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
+                    }
+                    sb.AppendLine();
+                }
+
+                if (visitorResult.NoiseCalculatorVariableNamesCamelCase.Any())
+                {
+                    foreach (string variableName in visitorResult.NoiseCalculatorVariableNamesCamelCase)
+                    {
+                        sb.AppendLine($"{nameof(NoiseCalculator)} {variableName} = _{variableName};");
                     }
                     sb.AppendLine();
                 }
@@ -317,11 +344,20 @@ namespace JJ.Business.Synthesizer.Roslyn
                     sb.AppendLine();
                 }
 
-                if (visitorResult.CalculatorVariableInfos.Any())
+                if (visitorResult.ArrayCalculatorVariableInfos.Any())
                 {
-                    foreach (CalculatorVariableInfo variableInfo in visitorResult.CalculatorVariableInfos)
+                    foreach (ArrayCalculatorVariableInfo variableInfo in visitorResult.ArrayCalculatorVariableInfos)
                     {
                         sb.AppendLine($"var {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
+                    }
+                    sb.AppendLine();
+                }
+
+                if (visitorResult.NoiseCalculatorVariableNamesCamelCase.Any())
+                {
+                    foreach (string variableName in visitorResult.NoiseCalculatorVariableNamesCamelCase)
+                    {
+                        sb.AppendLine($"{nameof(NoiseCalculator)} {variableName} = _{variableName};");
                     }
                     sb.AppendLine();
                 }

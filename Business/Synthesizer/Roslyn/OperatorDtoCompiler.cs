@@ -36,6 +36,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private static readonly SyntaxTree[] _includedSyntaxTrees = CreateIncludedSyntaxTrees(
             $"Calculation\\{nameof(SineCalculator)}.cs",
+            $"Calculation\\{nameof(NoiseCalculator)}.cs",
             $"Calculation\\{nameof(BiQuadFilterWithoutFields)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase_Block)}.cs",
@@ -43,17 +44,22 @@ namespace JJ.Business.Synthesizer.Roslyn
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Line)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPositionZero_Line)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_RotatePosition_Block)}.cs",
-            $"Helpers\\{nameof(ConversionHelper)}.cs",
             $"Calculation\\Patches\\{nameof(PatchCalculatorHelper)}.cs",
             $"CopiedCode\\FromFramework\\{nameof(MathHelper)}.cs",
-            $"CopiedCode\\FromFramework\\{nameof(Geometry)}.cs");
+            $"CopiedCode\\FromFramework\\{nameof(Geometry)}.cs",
+            $"Helpers\\{nameof(ConversionHelper)}.cs");
 
         private static readonly IList<MetadataReference> _metaDataReferences = new MetadataReference[]
         {
             MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(IPatchCalculator).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(LessThanException).Assembly.Location),
-            MetadataReference.CreateFromFile(typeof(Expression).Assembly.Location)
+            MetadataReference.CreateFromFile(typeof(Expression).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(ConfigurationHelper).Assembly.Location),
+            // NOTE: Referencing JJ.Framework.Mathematics is a little 'dangerous', since then you could more easily fall into the trap
+            // of not using the classes copied from JJ.Framework.Mathematics to JJ.Business.Synthesizer, copied to promote inlining.
+            // Inlining is a big deal in this calculation engine.
+            MetadataReference.CreateFromFile(typeof(Framework.Mathematics.Randomizer).Assembly.Location)
         };
 
         [Obsolete("Consider using CompileToPatchCalculatorActivationInfo instead, to compile once and instantiate multiple times.")]
@@ -105,10 +111,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Type type = Compile(codeGeneratorResult.GeneratedCode);
 
-            Dictionary<string, double[]> arrays = codeGeneratorResult.CalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.UnderlyingArray);
-            Dictionary<string, double> arrayRates = codeGeneratorResult.CalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.Rate);
-            Dictionary<string, double> arrayValuesBefore = codeGeneratorResult.CalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueBefore);
-            Dictionary<string, double> arrayValuesAfter = codeGeneratorResult.CalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueAfter);
+            Dictionary<string, double[]> arrays = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.UnderlyingArray);
+            Dictionary<string, double> arrayRates = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.Rate);
+            Dictionary<string, double> arrayValuesBefore = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueBefore);
+            Dictionary<string, double> arrayValuesAfter = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueAfter);
 
             var args = new object[] { samplingRate, channelCount, channelIndex, arrays, arrayRates, arrayValuesBefore, arrayValuesAfter };
 
