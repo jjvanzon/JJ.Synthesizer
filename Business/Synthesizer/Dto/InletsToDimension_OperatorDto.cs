@@ -14,21 +14,21 @@ namespace JJ.Business.Synthesizer.Dto
     internal class InletsToDimension_OperatorDto_Block : InletsToDimension_OperatorDto
     { }
 
-    internal class InletsToDimension_OperatorDto_Stripe : InletsToDimension_OperatorDto
-    { }
-
-    internal class InletsToDimension_OperatorDto_Line : InletsToDimension_OperatorDto
+    internal class InletsToDimension_OperatorDto_CubicAbruptSlope : InletsToDimension_OperatorDto
     { }
 
     internal class InletsToDimension_OperatorDto_CubicEquidistant : InletsToDimension_OperatorDto
     { }
 
-    internal class InletsToDimension_OperatorDto_CubicAbruptSlope : InletsToDimension_OperatorDto
+    internal class InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind : InletsToDimension_OperatorDto
     { }
 
-    internal class InletsToDimension_OperatorDto_CubicSmoothSlope : InletsToDimension_OperatorDto
+    internal class InletsToDimension_OperatorDto_Hermite_LagBehind : InletsToDimension_OperatorDto
     { }
 
-    internal class InletsToDimension_OperatorDto_Hermite : InletsToDimension_OperatorDto
+    internal class InletsToDimension_OperatorDto_Line : InletsToDimension_OperatorDto
+    { }
+
+    internal class InletsToDimension_OperatorDto_Stripe_LagBehind : InletsToDimension_OperatorDto
     { }
 }

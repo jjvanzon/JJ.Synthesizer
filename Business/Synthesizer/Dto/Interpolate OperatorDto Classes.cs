@@ -18,15 +18,15 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
+    /// <summary> 
+    /// Mostly used for cloning shared properties. 
+    /// Interpolate_OperatorDto will not do, because the ConstSamplingRate
+    /// variation does not derive from it.
+    /// </summary>
     internal interface IInterpolate_OperatorDto_VarSignal : IOperatorDto_WithDimension
     {
         OperatorDtoBase SignalOperatorDto { get; set; }
         ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
-    }
-
-    internal class Interpolate_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
     }
 
     internal class Interpolate_OperatorDto_Block : Interpolate_OperatorDto
@@ -59,4 +59,14 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Interpolate_OperatorDto_Stripe_LagBehind : Interpolate_OperatorDto
     { }
+
+    /// <summary>
+    /// The existence of this DTO class is asymmetric to
+    /// the Random, InletsToDimension and SumOverDimension DTO's
+    /// because Interpolate has a Signal inlet.
+    /// </summary>
+    internal class Interpolate_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    {
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
+    }
 }

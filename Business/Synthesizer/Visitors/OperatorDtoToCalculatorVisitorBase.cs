@@ -440,34 +440,9 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_BlockInterpolation(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
         }
 
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Stripe(InletsToDimension_OperatorDto_Stripe dto)
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_StripeInterpolation(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line dto)
-        {
-            return Process_InletsToDimension_OtherInterpolationTypes(dto);
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto)
-        {
-            return Process_InletsToDimension_OtherInterpolationTypes(dto);
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto)
-        {
-            return Process_InletsToDimension_OtherInterpolationTypes(dto);
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicSmoothSlope(InletsToDimension_OperatorDto_CubicSmoothSlope dto)
-        {
-            return Process_InletsToDimension_OtherInterpolationTypes(dto);
-        }
-
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Hermite(InletsToDimension_OperatorDto_Hermite dto)
-        {
-            return Process_InletsToDimension_OtherInterpolationTypes(dto);
         }
 
         protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
@@ -1404,11 +1379,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
 
             return dto;
-        }
-
-        private OperatorDtoBase Process_InletsToDimension_OtherInterpolationTypes(InletsToDimension_OperatorDto dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_OtherInterpolationTypes(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ResampleInterpolationTypeEnum, dimensionStack));
         }
 
         private OperatorDtoBase Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(

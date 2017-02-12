@@ -5,10 +5,73 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitor_Rewiring : OperatorDtoVisitorBase_AfterMathSimplification
     {
+        // Execute
+
         public OperatorDtoBase Execute(OperatorDtoBase dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
         }
+
+        // InletsToDimension
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto)
+        {
+            return Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_CubicAbruptSlope());
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto)
+        {
+            return Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_CubicEquidistant());
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind(InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind dto)
+        {
+            return Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_CubicSmoothSlope_LagBehind());
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Hermite_LagBehind(InletsToDimension_OperatorDto_Hermite_LagBehind dto)
+        {
+            return Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_Hermite_LagBehind());
+        }
+
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line sourceInletsToDimensionOperatorDto)
+        {
+            var destInletsToDimensionOperatorDto = new InletsToDimension_OperatorDto_Stripe_LagBehind
+            {
+                ResampleInterpolationTypeEnum = sourceInletsToDimensionOperatorDto.ResampleInterpolationTypeEnum,
+                Vars = sourceInletsToDimensionOperatorDto.Vars
+            };
+            DtoCloner.Clone_DimensionProperties(sourceInletsToDimensionOperatorDto, destInletsToDimensionOperatorDto);
+
+            var destInterpolateOperatorDto = new Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate
+            {
+                SignalOperatorDto = destInletsToDimensionOperatorDto,
+                SamplingRate = 1.0,
+                ResampleInterpolationTypeEnum = sourceInletsToDimensionOperatorDto.ResampleInterpolationTypeEnum
+            };
+            DtoCloner.Clone_DimensionProperties(sourceInletsToDimensionOperatorDto, destInterpolateOperatorDto);
+
+            return destInterpolateOperatorDto;
+        }
+
+        private static OperatorDtoBase Process_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto sourceInletsToDimensionOperatorDto, Interpolate_OperatorDto destInterpolateOperatorDto)
+        {
+            var destInletsToDimensionOperatorDto = new InletsToDimension_OperatorDto_Stripe_LagBehind
+            {
+                ResampleInterpolationTypeEnum = sourceInletsToDimensionOperatorDto.ResampleInterpolationTypeEnum,
+                Vars = sourceInletsToDimensionOperatorDto.Vars
+            };
+            DtoCloner.Clone_DimensionProperties(sourceInletsToDimensionOperatorDto, destInletsToDimensionOperatorDto);
+
+            destInterpolateOperatorDto.SignalOperatorDto = destInletsToDimensionOperatorDto;
+            destInterpolateOperatorDto.SamplingRateOperatorDto = new Number_OperatorDto_One();
+            destInterpolateOperatorDto.ResampleInterpolationTypeEnum = sourceInletsToDimensionOperatorDto.ResampleInterpolationTypeEnum;
+            DtoCloner.Clone_DimensionProperties(sourceInletsToDimensionOperatorDto, destInterpolateOperatorDto);
+
+            return destInterpolateOperatorDto;
+        }
+
+        // Random
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto)
         {

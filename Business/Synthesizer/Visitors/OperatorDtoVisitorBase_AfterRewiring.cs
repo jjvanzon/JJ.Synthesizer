@@ -5,6 +5,31 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorDtoVisitorBase_AfterRewiring : OperatorDtoVisitorBase_AfterMathSimplification
     {
+        protected sealed override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected sealed override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected sealed override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind(InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind dto)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected sealed override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Hermite_LagBehind(InletsToDimension_OperatorDto_Hermite_LagBehind dto)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected sealed override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line sourceInletsToDimensionOperatorDto)
+        {
+            throw new NotSupportedException();
+        }
+
         protected sealed override OperatorDtoBase Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto)
         {
             throw new NotSupportedException();

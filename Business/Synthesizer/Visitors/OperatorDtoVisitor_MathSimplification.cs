@@ -866,12 +866,12 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicSmoothSlope(InletsToDimension_OperatorDto_CubicSmoothSlope dto)
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind(InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Hermite(InletsToDimension_OperatorDto_Hermite dto)
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Hermite_LagBehind(InletsToDimension_OperatorDto_Hermite_LagBehind dto)
         {
             return Process_Nothing(dto);
         }
@@ -881,7 +881,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Stripe(InletsToDimension_OperatorDto_Stripe dto)
+        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto)
         {
             return Process_Nothing(dto);
         }

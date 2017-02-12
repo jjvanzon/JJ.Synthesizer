@@ -782,7 +782,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Stripe)
             {
-                dto2 = new InletsToDimension_OperatorDto_Stripe { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+                dto2 = new InletsToDimension_OperatorDto_Stripe_LagBehind { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
             }
             else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Line)
             {
@@ -798,11 +798,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicSmoothSlope)
             {
-                dto2 = new InletsToDimension_OperatorDto_CubicSmoothSlope { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+                dto2 = new InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
             }
             else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Hermite)
             {
-                dto2 = new InletsToDimension_OperatorDto_Hermite { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+                dto2 = new InletsToDimension_OperatorDto_Hermite_LagBehind { Vars = dto.Vars, ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
             }
             else
             {

@@ -62,6 +62,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 _x0 = _x1;
                 _y0 = _y1;
+
 #if !USE_INVAR_INDICES
                 _dimensionStack.Push(_x1);
 #else
