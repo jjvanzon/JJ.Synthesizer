@@ -3,6 +3,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
@@ -71,6 +72,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             sb.AppendLine("using " + typeof(MathHelper).Namespace + ";");
             sb.AppendLine("using " + typeof(ArrayCalculatorBase).Namespace + ";");
             sb.AppendLine("using " + typeof(ConversionHelper).Namespace + ";");
+            sb.AppendLine("using " + typeof(RandomCalculatorHelper).Namespace + ";");
             sb.AppendLine();
             sb.AppendLine($"namespace {generatedNameSpace}");
             sb.AppendLine("{");

@@ -6,6 +6,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
@@ -74,6 +75,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string PREVIOUS_POSITION_MNEMONIC = "prevpos";
         private const string ORIGIN_MNEMONIC = "origin";
         private const string RATE_MNEMONIC = "rate";
+        private const string RANDOM_OPERATOR_OFFSET_MNEMONIC = "randomoffset";
 
         /// <summary> {0} = phase </summary>
         private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
@@ -121,8 +123,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         private Dictionary<Tuple<DimensionEnum, string>, string> _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary;
 
         // Information about Satellite Calculators
-        private Dictionary<ICalculatorWithPosition, ArrayCalculatorVariableInfo> _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary;
-        private Dictionary<int, string> _noiseOperatorID_To_VariableNameCamelCase_Dictionary;
+        private Dictionary<ICalculatorWithPosition, ArrayCalculatorVariableInfo> _calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary;
+        private Dictionary<int, string> _noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary;
+        private Dictionary<int, string> _randomOperatorID_To_OffsetVariableNameCamelCase_Dictionary;
 
         public OperatorDtoToRawCSharpVisitor(
             int calculationIndentLevel, 
@@ -154,8 +157,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<Tuple<DimensionEnum, string>, string>();
             _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
-            _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary = new Dictionary<ICalculatorWithPosition, ArrayCalculatorVariableInfo>();
-            _noiseOperatorID_To_VariableNameCamelCase_Dictionary = new Dictionary<int, string>();
+            _calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary = new Dictionary<ICalculatorWithPosition, ArrayCalculatorVariableInfo>();
+            _noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary = new Dictionary<int, string>();
+            _randomOperatorID_To_OffsetVariableNameCamelCase_Dictionary = new Dictionary<int, string>();
             _counter = 0;
             _holdOperatorIsActiveStack = new Stack<bool>();
             _holdOperatorIsActiveStack.Push(false);
@@ -202,8 +206,8 @@ namespace JJ.Business.Synthesizer.Roslyn
                 longLivedDimensionVariableInfos,
                 localDimensionVariableNamesCamelCase,
                 _longLivedMiscVariableNamesCamelCase,
-                _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary.Values.ToArray(),
-                _noiseOperatorID_To_VariableNameCamelCase_Dictionary.Values.ToArray());
+                _calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary.Values.ToArray(),
+                _noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary.Values.ToArray());
         }
 
         [DebuggerHidden]
@@ -996,7 +1000,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string output = GenerateLocalOutputName(dto);
             string position = GeneratePositionNameCamelCase(dto);
-
             string calculatorName = GenerateNoiseCalculatorVariableNameCamelCase(dto.OperatorID);
 
             AppendLine($"double {output} = {calculatorName}.Calculate({position});");
@@ -1225,12 +1228,67 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
         {
-            throw new NotImplementedException();
+            return Process_Random_OperatorDto(dto);
         }
 
         protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto)
         {
-            throw new NotImplementedException();
+            return Process_Random_OperatorDto(dto);
+        }
+
+        private OperatorDtoBase Process_Random_OperatorDto(Random_OperatorDto dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.RateOperatorDto);
+
+            string rate = _stack.Pop();
+            string output = GenerateLocalOutputName(dto);
+            string position = GeneratePositionNameCamelCase(dto);
+            string offset = GenerateRandomOperatorOffsetVariableNameCamelCase(dto.OperatorID);
+            string arrayCalculator = GenerateRandomArrayCalculatorNameCamelCase(dto);
+            const string randomCalculatorHelper = nameof(RandomCalculatorHelper);
+            const string generateOffset = nameof(RandomCalculatorHelper.GenerateOffset);
+
+            AppendOperatorTitleComment(dto);
+            AppendLineToReset($"{offset} = {randomCalculatorHelper}.{generateOffset}();");
+            AppendLine($"double {output} = {arrayCalculator}.Calculate({position} + {offset});");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private string GenerateRandomArrayCalculatorNameCamelCase(IRandom_OperatorDto dto)
+        {
+            RandomCalculatorBase randomCalculator;
+            switch (dto.ResampleInterpolationTypeEnum)
+            {
+                case ResampleInterpolationTypeEnum.Block:
+                    randomCalculator = _calculatorCache.GetRandomCalculator_Block(dto.OperatorID);
+                    break;
+
+                case ResampleInterpolationTypeEnum.Stripe:
+                    randomCalculator = _calculatorCache.GetRandomCalculator_Stripe(dto.OperatorID);
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(dto.ResampleInterpolationTypeEnum);
+            }
+
+            ICalculatorWithPosition underlyingArrayCalculator = randomCalculator.UnderlyingArrayCalculator;
+            string name = GenerateArrayCalculatorVariableNameCamelCaseAndCache(underlyingArrayCalculator);
+            return name;
+        }
+
+        private string GenerateRandomOperatorOffsetVariableNameCamelCase(int operatorID)
+        {
+            string variableNameCamelCase;
+            // ReSharper disable once InvertIf
+            if (!_randomOperatorID_To_OffsetVariableNameCamelCase_Dictionary.TryGetValue(operatorID, out variableNameCamelCase))
+            {
+                variableNameCamelCase = GenerateUniqueLongLivedVariableName(RANDOM_OPERATOR_OFFSET_MNEMONIC);
+
+                _randomOperatorID_To_OffsetVariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
+            }
+
+            return variableNameCamelCase;
         }
 
         protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
@@ -2918,9 +2976,12 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             ArrayCalculatorVariableInfo variableInfo;
             // ReSharper disable once InvertIf
-            if (!_calculatorWithPosition_To_CalculatorVariableInfo_Dictionary.TryGetValue(calculator, out variableInfo))
+            if (!_calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary.TryGetValue(calculator, out variableInfo))
             {
                 string typeName = calculator.GetType().Name;
+
+                // Do not call GenerateUniqueLongLivedVariableName. In a later stage those are all assumed to be double variables. 
+                // The array calculator variables are not doubles.
                 string nameCamelCase = GenerateUniqueLocalVariableName(ARRAY_CALCULATOR_MNEMONIC);
 
                 variableInfo = new ArrayCalculatorVariableInfo
@@ -2931,24 +2992,10 @@ namespace JJ.Business.Synthesizer.Roslyn
                     Calculator = (ArrayCalculatorBase)calculator
                 };
 
-                _calculatorWithPosition_To_CalculatorVariableInfo_Dictionary[calculator] = variableInfo;
+                _calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary[calculator] = variableInfo;
             }
 
             return variableInfo.NameCamelCase;
-        }
-
-        private string GenerateNoiseCalculatorVariableNameCamelCase(int operatorID)
-        {
-            string variableNameCamelCase;
-            // ReSharper disable once InvertIf
-            if (!_noiseOperatorID_To_VariableNameCamelCase_Dictionary.TryGetValue(operatorID, out variableNameCamelCase))
-            {
-                variableNameCamelCase = GenerateUniqueLocalVariableName(NOISE_CALCULATOR_MNEMONIC);
-
-                _noiseOperatorID_To_VariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
-            }
-
-            return variableNameCamelCase;
         }
 
         /// <summary> Returns the rate literal. </summary>
@@ -2982,7 +3029,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             return valueInfo;
         }
-
 
         private string GenerateLocalOutputName(IOperatorDto dto)
         {
@@ -3020,6 +3066,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
 
             return variableName;
+        }
+
+        private string GenerateNoiseCalculatorVariableNameCamelCase(int operatorID)
+        {
+            string variableNameCamelCase;
+            // ReSharper disable once InvertIf
+            if (!_noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary.TryGetValue(operatorID, out variableNameCamelCase))
+            {
+                variableNameCamelCase = GenerateUniqueLocalVariableName(NOISE_CALCULATOR_MNEMONIC);
+
+                _noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
+            }
+
+            return variableNameCamelCase;
         }
 
         /// <summary> Appends an empty line, pushes the output and returns dto casted to OperatorDtoBase. </summary>

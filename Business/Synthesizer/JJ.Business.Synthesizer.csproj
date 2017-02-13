@@ -69,7 +69,9 @@
     </Compile>
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Cubic.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Stripe.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Stripe.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Calculation\Arrays\ArrayCalculatorFactory.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Cubic.cs" />
@@ -81,12 +83,16 @@
     </Compile>
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Cubic.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Block_NoRate.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Block_NoRate.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Hermite.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Cubic.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Line_NoRate.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Line.cs" />
-    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Stripe_NoRate.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Stripe_NoRate.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Stripe.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculator_RotatePosition_Block.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -119,6 +125,7 @@
     <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
     <Compile Include="Configuration\CalculationEngineConfigurationEnum.cs" />
     <Compile Include="Dto\IOperatorDto.cs" />
     <Compile Include="Dto\IOperatorDto_VarSignal.cs" />

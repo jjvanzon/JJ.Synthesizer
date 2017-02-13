@@ -5,12 +5,10 @@ namespace JJ.Business.Synthesizer.Calculation.Random
 {
     internal class RandomCalculator_Stripe : RandomCalculatorBase, ICalculatorWithPosition
     {
-        private readonly ArrayCalculator_RotatePosition_Stripe_NoRate _arrayCalculator;
+        public override ICalculatorWithPosition UnderlyingArrayCalculator => _arrayCalculator;
 
-        public RandomCalculator_Stripe()
-        {
-            _arrayCalculator = new ArrayCalculator_RotatePosition_Stripe_NoRate(_samples);
-        }
+        private static readonly ArrayCalculator_RotatePosition_Stripe_NoRate _arrayCalculator =
+                            new ArrayCalculator_RotatePosition_Stripe_NoRate(RandomCalculatorHelper.Samples);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double Calculate(double time)

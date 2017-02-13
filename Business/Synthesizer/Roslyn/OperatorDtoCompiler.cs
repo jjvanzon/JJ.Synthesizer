@@ -8,6 +8,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
@@ -41,9 +42,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase_Block)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase_Line)}.cs",
+            $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase_Stripe)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Line)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPositionZero_Line)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_RotatePosition_Block)}.cs",
+            $"Calculation\\Arrays\\{nameof(ArrayCalculator_RotatePosition_Block_NoRate)}.cs",
+            $"Calculation\\Arrays\\{nameof(ArrayCalculator_RotatePosition_Stripe_NoRate)}.cs",
             $"Calculation\\Patches\\{nameof(PatchCalculatorHelper)}.cs",
             $"CopiedCode\\FromFramework\\{nameof(MathHelper)}.cs",
             $"CopiedCode\\FromFramework\\{nameof(Geometry)}.cs",
