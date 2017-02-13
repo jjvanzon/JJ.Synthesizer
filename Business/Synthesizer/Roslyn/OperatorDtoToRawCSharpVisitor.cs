@@ -1242,15 +1242,19 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string rate = _stack.Pop();
             string output = GenerateLocalOutputName(dto);
-            string position = GeneratePositionNameCamelCase(dto);
             string offset = GenerateRandomOperatorOffsetVariableNameCamelCase(dto.OperatorID);
             string arrayCalculator = GenerateRandomArrayCalculatorNameCamelCase(dto);
             const string randomCalculatorHelper = nameof(RandomCalculatorHelper);
             const string generateOffset = nameof(RandomCalculatorHelper.GenerateOffset);
 
             AppendOperatorTitleComment(dto);
+
             AppendLineToReset($"{offset} = {randomCalculatorHelper}.{generateOffset}();");
-            AppendLine($"double {output} = {arrayCalculator}.Calculate({position} + {offset});");
+            PhaseTrackingInfo phaseTrackingInfo = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
+
+            // TODO: Low priority: Just assigning offset to phase in the reset operation would be slightly faster,
+            // however, this might make the GeneratePhaseCalculationWithPhaseTracking not reusable here.
+            AppendLine($"double {output} = {arrayCalculator}.Calculate({phaseTrackingInfo.Phase} + {offset});");
 
             return GenerateOperatorWrapUp(dto, output);
         }
