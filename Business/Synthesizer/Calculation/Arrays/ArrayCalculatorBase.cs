@@ -1,4 +1,5 @@
 ﻿using System;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
@@ -6,9 +7,14 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
     internal abstract class ArrayCalculatorBase
     {
         public double[] UnderlyingArray => _array;
+        public double Rate => _rate;
+        public double MinPosition => _minPosition;
         public double ValueBefore => _valueBefore;
         public double ValueAfter => _valueAfter;
-        public double Rate => _rate;
+
+        public abstract InterpolationTypeEnum InterpolationTypeEnum { get; }
+        // ReSharper disable once UnassignedGetOnlyAutoProperty
+        public virtual bool IsRotatingPosition { get; }
 
         protected readonly double[] _array;
         protected readonly double _valueBefore;

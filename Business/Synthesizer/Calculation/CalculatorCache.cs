@@ -331,7 +331,8 @@ namespace JJ.Business.Synthesizer.Calculation
 #endif
                 }
 
-                ICalculatorWithPosition arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(
+                // TODO: Fix type assumption. Probably ICalculatorWithPosition will be removed altogether.
+                ICalculatorWithPosition arrayCalculator = (ICalculatorWithPosition)ArrayCalculatorFactory.CreateArrayCalculator(
                     samples, 
                     rate, 
                     start, 

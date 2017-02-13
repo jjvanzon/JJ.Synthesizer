@@ -76,7 +76,9 @@
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase_Stripe.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Calculation\Arrays\ArrayCalculatorFactory.cs" />
+    <Compile Include="Calculation\Arrays\ArrayCalculatorFactory.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPositionZero_Hermite.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
@@ -6,6 +7,8 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
     {
         private const int EXTRA_TICKS_BEFORE = 0;
         private const int EXTRA_TICKS_AFTER = 1;
+
+        public override InterpolationTypeEnum InterpolationTypeEnum => InterpolationTypeEnum.Stripe;
 
         public ArrayCalculatorBase_Stripe(
             double[] array, double rate, double minPosition, double valueBefore, double valueAfter)

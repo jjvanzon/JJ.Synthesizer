@@ -8,10 +8,10 @@ using System.Text;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
@@ -64,6 +64,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase_Hermite)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase_Line)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculatorBase_Stripe)}.cs",
+            $"Calculation\\Arrays\\{nameof(ArrayCalculatorFactory)}.cs",
             $"Calculation\\Patches\\{nameof(PatchCalculatorHelper)}.cs",
             $"CopiedCode\\FromFramework\\{nameof(Geometry)}.cs",
             $"CopiedCode\\FromFramework\\{nameof(Interpolator)}.cs",
@@ -132,12 +133,27 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Type type = Compile(codeGeneratorResult.GeneratedCode);
 
-            Dictionary<string, double[]> arrays = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.UnderlyingArray);
-            Dictionary<string, double> arrayRates = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.Rate);
-            Dictionary<string, double> arrayValuesBefore = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueBefore);
-            Dictionary<string, double> arrayValuesAfter = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueAfter);
+            Dictionary<string, double[]> arrayDictionary = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.UnderlyingArray);
+            Dictionary<string, double> arrayRateDictionary = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.Rate);
+            Dictionary<string, double> arrayMinPositionDictionary = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.MinPosition);
+            Dictionary<string, double> arrayValuesBeforeDictionary = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueBefore);
+            Dictionary<string, double> arrayValuesAfterDictionary = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.ValueAfter);
+            Dictionary<string, InterpolationTypeEnum> arrayInterpolationTypeEnumDictionary = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.InterpolationTypeEnum);
+            Dictionary<string, bool> arrayIsRotationPositionDictionary = codeGeneratorResult.ArrayCalculatorVariableInfos.ToDictionary(x => x.NameCamelCase, x => x.Calculator.IsRotatingPosition);
 
-            var args = new object[] { samplingRate, channelCount, channelIndex, arrays, arrayRates, arrayValuesBefore, arrayValuesAfter };
+            var args = new object[]
+            {
+                samplingRate,
+                channelCount,
+                channelIndex,
+                arrayDictionary,
+                arrayRateDictionary,
+                arrayMinPositionDictionary,
+                arrayValuesBeforeDictionary,
+                arrayValuesAfterDictionary,
+                arrayInterpolationTypeEnumDictionary,
+                arrayIsRotationPositionDictionary
+            };
 
             return new ActivationInfo(type, args);
         }

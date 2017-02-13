@@ -6,6 +6,8 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
     {
         private const double DEFAULT_MIN_POSITION = 0;
 
+        public override bool IsRotatingPosition => true;
+
         public ArrayCalculator_RotatePosition_Cubic(
             double[] array, double rate) 
             : base(array, rate, DEFAULT_MIN_POSITION, valueBefore: 0.0, valueAfter: 0.0)

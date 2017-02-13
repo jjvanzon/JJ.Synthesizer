@@ -5,14 +5,21 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
     internal static class ArrayCalculatorFactory
     {
-        public static ICalculatorWithPosition CreateArrayCalculator(
+        /// <param name="isRotatingPosition">Recently added to make this method a little more flexibly usable. It is optional for backwards compatibility.</param>
+        public static ArrayCalculatorBase CreateArrayCalculator(
             double[] array,
             double rate,
             double minPosition,
             double valueBefore,
             double valueAfter,
-            InterpolationTypeEnum interpolationTypeEnum)
+            InterpolationTypeEnum interpolationTypeEnum,
+            bool isRotatingPosition = false)
         {
+            if (isRotatingPosition)
+            {
+                return CreateArrayCalculator_RotatePosition(array, rate, interpolationTypeEnum);
+            }
+
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (minPosition == 0.0)
             {
