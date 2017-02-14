@@ -138,11 +138,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendFields(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<string> instanceVariableNamesCamelCase = GetInstanceVariableNamesCamelCase(visitorResult);
+            IList<string> doubleInstanceVariableNamesCamelCase = GetDoubleInstanceVariableNamesCamelCase(visitorResult);
 
-            if (instanceVariableNamesCamelCase.Any())
+            if (doubleInstanceVariableNamesCamelCase.Any())
             {
-                foreach (string variableName in instanceVariableNamesCamelCase)
+                foreach (string variableName in doubleInstanceVariableNamesCamelCase)
                 {
                     sb.AppendLine($"private double _{variableName};");
                 }
@@ -243,53 +243,16 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendCalculateMethod(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<string> instanceVariableNamesCamelCase = GetInstanceVariableNamesCamelCase(visitorResult);
-
             sb.AppendLine("[MethodImpl(MethodImplOptions.AggressiveInlining)]");
             sb.AppendLine("public override void Calculate(float[] buffer, int frameCount, double startTime)");
             sb.AppendLine("{");
             sb.Indent();
             {
                 // Copy Fields to Local
-                sb.AppendLine("double frameDuration = _frameDuration;");
-                sb.AppendLine();
-
-                if (instanceVariableNamesCamelCase.Any())
-                {
-                    foreach (string variableName in instanceVariableNamesCamelCase)
-                    {
-                        sb.AppendLine($"double {variableName} = _{variableName};");
-                    }
-                    sb.AppendLine();
-                }
-
-                if (visitorResult.ArrayCalculatorVariableInfos.Any())
-                {
-                    foreach (ArrayCalculatorVariableInfo variableInfo in visitorResult.ArrayCalculatorVariableInfos)
-                    {
-                        sb.AppendLine($"var {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
-                    }
-                    sb.AppendLine();
-                }
-
-                if (visitorResult.NoiseCalculatorVariableNamesCamelCase.Any())
-                {
-                    foreach (string variableName in visitorResult.NoiseCalculatorVariableNamesCamelCase)
-                    {
-                        sb.AppendLine($"{nameof(NoiseCalculator)} {variableName} = _{variableName};");
-                    }
-                    sb.AppendLine();
-                }
+                AppendCopyFieldsToLocal(sb, visitorResult);
 
                 // Declare Locally Reused Variables
-                if (visitorResult.LocalDimensionVariableNamesCamelCase.Any())
-                {
-                    foreach (string positionVariableName in visitorResult.LocalDimensionVariableNamesCamelCase)
-                    {
-                        sb.AppendLine($"double {positionVariableName};");
-                    }
-                    sb.AppendLine();
-                }
+                AppendDeclareLocallyReusedVariables(sb, visitorResult);
 
                 // Initialize ValueCount variable
                 sb.AppendLine($"int valueCount = frameCount * {_channelCount};");
@@ -332,10 +295,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
 
                 // Copy Local to Fields
-                foreach (string variableName in instanceVariableNamesCamelCase)
-                {
-                    sb.AppendLine($"_{variableName} = {variableName};");
-                }
+                AppendCopyLocalToFields(sb, visitorResult);
 
                 sb.Unindent();
             }
@@ -344,86 +304,87 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendResetMethod(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<string> instanceVariableNamesCamelCase = GetInstanceVariableNamesCamelCase(visitorResult);
-
             sb.AppendLine("public override void Reset(double time)");
             sb.AppendLine("{");
             sb.Indent();
             {
                 // Copy Fields to Local
-                if (instanceVariableNamesCamelCase.Any())
-                {
-                    foreach (string variableName in instanceVariableNamesCamelCase)
-                    {
-                        sb.AppendLine($"double {variableName} = _{variableName};");
-                    }
-                    sb.AppendLine();
-                }
-
-                if (visitorResult.ArrayCalculatorVariableInfos.Any())
-                {
-                    foreach (ArrayCalculatorVariableInfo variableInfo in visitorResult.ArrayCalculatorVariableInfos)
-                    {
-                        sb.AppendLine($"var {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
-                    }
-                    sb.AppendLine();
-                }
-
-                if (visitorResult.NoiseCalculatorVariableNamesCamelCase.Any())
-                {
-                    foreach (string variableName in visitorResult.NoiseCalculatorVariableNamesCamelCase)
-                    {
-                        sb.AppendLine($"{nameof(NoiseCalculator)} {variableName} = _{variableName};");
-                    }
-                    sb.AppendLine();
-                }
+                AppendCopyFieldsToLocal(sb, visitorResult);
 
                 // Declare Locally Reused Variables
-                if (visitorResult.LocalDimensionVariableNamesCamelCase.Any())
-                {
-                    foreach (string positionVariableName in visitorResult.LocalDimensionVariableNamesCamelCase)
-                    {
-                        sb.AppendLine($"double {positionVariableName};");
-                    }
-                    sb.AppendLine();
-                }
+                AppendDeclareLocallyReusedVariables(sb, visitorResult);
 
                 // Initialize First Time Variable
                 sb.AppendLine($"{visitorResult.FirstTimeVariableNameCamelCase} = time;");
                 sb.AppendLine();
 
                 // Raw Reset Code
-                // TODO: Reenable code line when RawResetCode is correct.
                 sb.Append(visitorResult.RawResetCode);
 
                 // Copy Local to Fields
-                foreach (string variableName in instanceVariableNamesCamelCase)
-                {
-                    sb.AppendLine($"_{variableName} = {variableName};");
-                }
-
-                // OLD:
-
-                //foreach (string variableName in visitorResult.LongLivedPhaseVariableNamesCamelCase)
-                //{
-                //    sb.AppendLine($"_{variableName} = 0.0;");
-                //}
-
-                //foreach (string variableName in visitorResult.LongLivedPreviousPositionVariableNamesCamelCase)
-                //{
-                //    // DIRTY: Phase of a partial does not have to be related to the time-dimension!
-                //    sb.AppendLine($"_{variableName} = time;");
-                //}
-
-                //foreach (string variableName in visitorResult.LongLivedOriginVariableNamesCamelCase)
-                //{
-                //    // DIRTY: Phase of a partial does not have to be related to the time-dimension!
-                //    sb.AppendLine($"_{variableName} = time;");
-                //}
+                AppendCopyLocalToFields(sb, visitorResult);
 
                 sb.Unindent();
             }
             sb.AppendLine("}");
+        }
+
+        private void AppendCopyFieldsToLocal(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
+        {
+            // Copy Fields to Local
+            sb.AppendLine("double frameDuration = _frameDuration;");
+            sb.AppendLine();
+
+            IList<string> doubleInstanceVariableNamesCamelCase = GetDoubleInstanceVariableNamesCamelCase(visitorResult);
+            if (doubleInstanceVariableNamesCamelCase.Any())
+            {
+                foreach (string variableName in doubleInstanceVariableNamesCamelCase)
+                {
+                    sb.AppendLine($"double {variableName} = _{variableName};");
+                }
+                sb.AppendLine();
+            }
+
+            if (visitorResult.ArrayCalculatorVariableInfos.Any())
+            {
+                foreach (ArrayCalculatorVariableInfo variableInfo in visitorResult.ArrayCalculatorVariableInfos)
+                {
+                    sb.AppendLine($"var {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
+                }
+                sb.AppendLine();
+            }
+
+            // ReSharper disable once InvertIf
+            if (visitorResult.NoiseCalculatorVariableNamesCamelCase.Any())
+            {
+                foreach (string variableName in visitorResult.NoiseCalculatorVariableNamesCamelCase)
+                {
+                    sb.AppendLine($"{nameof(NoiseCalculator)} {variableName} = _{variableName};");
+                }
+                sb.AppendLine();
+            }
+        }
+
+        private static void AppendDeclareLocallyReusedVariables(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
+        {
+            // ReSharper disable once InvertIf
+            if (visitorResult.LocalDimensionVariableNamesCamelCase.Any())
+            {
+                foreach (string positionVariableName in visitorResult.LocalDimensionVariableNamesCamelCase)
+                {
+                    sb.AppendLine($"double {positionVariableName};");
+                }
+                sb.AppendLine();
+            }
+        }
+
+        private void AppendCopyLocalToFields(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
+        {
+            IList<string> doubleInstanceVariableNamesCamelCase = GetDoubleInstanceVariableNamesCamelCase(visitorResult);
+            foreach (string variableName in doubleInstanceVariableNamesCamelCase)
+            {
+                sb.AppendLine($"_{variableName} = {variableName};");
+            }
         }
 
         private void AppendSetValue_ByListIndex(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
@@ -708,7 +669,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             }
         }
 
-        private IList<string> GetInstanceVariableNamesCamelCase(OperatorDtoToCSharpVisitorResult visitorResult)
+        private IList<string> GetDoubleInstanceVariableNamesCamelCase(OperatorDtoToCSharpVisitorResult visitorResult)
         {
             return visitorResult.LongLivedPhaseVariableNamesCamelCase.Union(visitorResult.LongLivedPreviousPositionVariableNamesCamelCase)
                                                                      .Union(visitorResult.LongLivedOriginVariableNamesCamelCase)
