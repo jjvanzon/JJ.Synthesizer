@@ -1150,6 +1150,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
+        private string GenerateNoiseCalculatorVariableNameCamelCase(int operatorID)
+        {
+            string variableNameCamelCase;
+            // ReSharper disable once InvertIf
+            if (!_noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary.TryGetValue(operatorID, out variableNameCamelCase))
+            {
+                variableNameCamelCase = GenerateUniqueLocalVariableName(NOISE_CALCULATOR_MNEMONIC);
+
+                _noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
+            }
+
+            return variableNameCamelCase;
+        }
+
         protected override OperatorDtoBase Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
         {
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
@@ -1943,6 +1957,93 @@ namespace JJ.Business.Synthesizer.Roslyn
             PhaseTrackingInfo info = GeneratePhaseCalculationWithPhaseTracking(dto, rate);
 
             return GenerateSampleChannelSwitchEnd(dto, info.Phase);
+        }
+
+        /// <summary> Returns the rate literal. </summary>
+        private string GenerateConstRateCalculationForSample(OperatorDtoBase_ConstFrequency dto)
+        {
+            string rate = CompilationHelper.FormatValue(dto.Frequency / SAMPLE_BASE_FREQUENCY);
+            return rate;
+        }
+
+        /// <summary> Returns the rate literal. </summary>
+        private string GenerateVarRateCalculationForSample(OperatorDtoBase_VarFrequency dto)
+        {
+            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
+            string frequency = _stack.Pop();
+            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+
+            AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
+
+            return rate;
+        }
+
+        private OperatorDtoBase GenerateSampleChannelSwitchEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        {
+            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
+
+            const int channnelDimensionStackLevel = 0; // TODO: This information should be in the DTO.
+            string channelIndexDouble = GeneratePositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
+            string channelIndex = GenerateUniqueLocalVariableName(DimensionEnum.Channel);
+            string output = GenerateLocalOutputName(dto);
+
+            AppendLine($"int {channelIndex} = (int){channelIndexDouble};");
+            AppendLine($"double {output} = 0.0;");
+            AppendLine($"switch ({channelIndex})");
+            AppendLine("{");
+            Indent();
+            {
+                for (int i = 0; i < calculators.Count; i++)
+                {
+                    ICalculatorWithPosition calculator = calculators[i];
+                    string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
+
+                    AppendLine($"case {i}:");
+                    Indent();
+                    {
+                        AppendLine($"{output} = {calculatorName}.Calculate({phase});");
+                        AppendLine("break;");
+                        Unindent();
+                    }
+                }
+                Unindent();
+            }
+            AppendLine("}");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase GenerateSampleMonoToStereoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        {
+            // Array
+            ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
+            string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
+
+            string output = GenerateLocalOutputName(dto);
+            AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
+
+            // Wrap-Up
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
+        private OperatorDtoBase GenerateSampleStereoToMonoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        {
+            // Array
+            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
+            string calculatorName1 = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculators[0]);
+            string calculatorName2 = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculators[1]);
+
+            string output = GenerateLocalOutputName(dto);
+            AppendLine($"double {output} =");
+            Indent();
+            {
+                AppendLine($"{calculatorName1}.Calculate({phase}) +");
+                AppendLine($"{calculatorName2}.Calculate({phase});");
+                Unindent();
+            }
+
+            // Wrap-Up
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -3002,13 +3103,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return variableInfo.NameCamelCase;
         }
 
-        /// <summary> Returns the rate literal. </summary>
-        private string GenerateConstRateCalculationForSample(OperatorDtoBase_ConstFrequency dto)
-        {
-            string rate = CompilationHelper.FormatValue(dto.Frequency / SAMPLE_BASE_FREQUENCY);
-            return rate;
-        }
-
         private ExtendedVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
         {
             object mnemonic;
@@ -3070,20 +3164,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
 
             return variableName;
-        }
-
-        private string GenerateNoiseCalculatorVariableNameCamelCase(int operatorID)
-        {
-            string variableNameCamelCase;
-            // ReSharper disable once InvertIf
-            if (!_noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary.TryGetValue(operatorID, out variableNameCamelCase))
-            {
-                variableNameCamelCase = GenerateUniqueLocalVariableName(NOISE_CALCULATOR_MNEMONIC);
-
-                _noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
-            }
-
-            return variableNameCamelCase;
         }
 
         /// <summary> Appends an empty line, pushes the output and returns dto casted to OperatorDtoBase. </summary>
@@ -3175,74 +3255,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return positionVariableName;
         }
 
-        private OperatorDtoBase GenerateSampleChannelSwitchEnd(ISample_OperatorDto_WithSampleID dto, string phase)
-        {
-            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-
-            const int channnelDimensionStackLevel = 0; // TODO: This information should be in the DTO.
-            string channelIndexDouble = GeneratePositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
-            string channelIndex = GenerateUniqueLocalVariableName(DimensionEnum.Channel);
-            string output = GenerateLocalOutputName(dto);
-
-            AppendLine($"int {channelIndex} = (int){channelIndexDouble};");
-            AppendLine($"double {output} = 0.0;");
-            AppendLine($"switch ({channelIndex})");
-            AppendLine("{");
-            Indent();
-            {
-                for (int i = 0; i < calculators.Count; i++)
-                {
-                    ICalculatorWithPosition calculator = calculators[i];
-                    string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
-
-                    AppendLine($"case {i}:");
-                    Indent();
-                    {
-                        AppendLine($"{output} = {calculatorName}.Calculate({phase});");
-                        AppendLine("break;");
-                        Unindent();
-                    }
-                }
-                Unindent();
-            }
-            AppendLine("}");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private OperatorDtoBase GenerateSampleMonoToStereoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
-        {
-            // Array
-            ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
-            string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
-
-            string output = GenerateLocalOutputName(dto);
-            AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
-
-            // Wrap-Up
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private OperatorDtoBase GenerateSampleStereoToMonoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
-        {
-            // Array
-            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-            string calculatorName1 = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculators[0]);
-            string calculatorName2 = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculators[1]);
-
-            string output = GenerateLocalOutputName(dto);
-            AppendLine($"double {output} =");
-            Indent();
-            {
-                AppendLine($"{calculatorName1}.Calculate({phase}) +");
-                AppendLine($"{calculatorName2}.Calculate({phase});");
-                Unindent();
-            }
-
-            // Wrap-Up
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
         private string GenerateUniqueDimensionAlias(object mnemonic)
         {
             string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
@@ -3283,18 +3295,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         private int GenerateUniqueNumber()
         {
             return _counter++;
-        }
-
-        /// <summary> Returns the rate literal. </summary>
-        private string GenerateVarRateCalculationForSample(OperatorDtoBase_VarFrequency dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
-            string frequency = _stack.Pop();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
-
-            AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
-
-            return rate;
         }
 
         /// <summary>
