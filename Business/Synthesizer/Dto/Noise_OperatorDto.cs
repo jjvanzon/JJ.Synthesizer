@@ -11,5 +11,6 @@ namespace JJ.Business.Synthesizer.Dto
 
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CanonicalCustomDimensionName { get; set; }
+        public int DimensionStackLevel { get; set; }
     }
 }

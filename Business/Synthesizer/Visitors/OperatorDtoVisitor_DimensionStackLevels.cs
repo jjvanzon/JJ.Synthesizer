@@ -68,10 +68,16 @@ namespace JJ.Business.Synthesizer.Visitors
             var operatorDto_WithDimension = dto as IOperatorDto_WithDimension;
             if (operatorDto_WithDimension != null)
             {
-                dto.DimensionStackLevel = GetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName);
+                operatorDto_WithDimension.DimensionStackLevel = GetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName);
             }
 
-            // Determine whether dto is a dimension writer. If not visit, normally.
+            var operatorDto_WithAdditionalChannelDimension = dto as IOperatorDto_WithAdditionalChannelDimension;
+            if (operatorDto_WithAdditionalChannelDimension != null)
+            {
+                operatorDto_WithAdditionalChannelDimension.ChannelDimensionStackLevel = GetCurrentStackLevel(DimensionEnum.Channel, "");
+            }
+
+            // Determine whether dto is a dimension writer. If not, continue visiting.
             Type dtoType = dto.GetType();
             bool isDimensionWriter = _dimensionWriting_OperatorDto_Types.Contains(dtoType);
             if (!isDimensionWriter)
@@ -79,14 +85,13 @@ namespace JJ.Business.Synthesizer.Visitors
                 return base.Visit_OperatorDto_Polymorphic(dto);
             }
 
-            // Do some casts
+            // Do some casts and type checks
             var operatorDto_VarSignal = dto as IOperatorDto_VarSignal;
             if (operatorDto_VarSignal == null)
             {
                 throw new IsNotTypeException<IOperatorDto_VarSignal>(() => operatorDto_VarSignal);
             }
 
-            operatorDto_WithDimension = dto as IOperatorDto_WithDimension;
             if (operatorDto_WithDimension == null)
             {
                 throw new IsNotTypeException<IOperatorDto_WithDimension>(() => operatorDto_WithDimension);

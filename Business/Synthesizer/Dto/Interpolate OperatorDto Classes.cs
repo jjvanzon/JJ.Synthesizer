@@ -49,9 +49,10 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
 
         public double SamplingRate { get; set; }
+        public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CanonicalCustomDimensionName { get; set; }
-        public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
+        public int DimensionStackLevel { get; set; }
     }
 
     internal class Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate : Interpolate_OperatorDto

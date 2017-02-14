@@ -12,8 +12,6 @@ namespace JJ.Business.Synthesizer.Dto
         public abstract OperatorTypeEnum OperatorTypeEnum { get; }
         public abstract IList<OperatorDtoBase> InputOperatorDtos { get; set; }
 
-        public int DimensionStackLevel { get; set; }
-
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

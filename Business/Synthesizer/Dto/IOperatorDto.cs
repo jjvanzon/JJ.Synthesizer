@@ -7,6 +7,5 @@ namespace JJ.Business.Synthesizer.Dto
     {
         OperatorTypeEnum OperatorTypeEnum { get; }
         IList<OperatorDtoBase> InputOperatorDtos { get; set; }
-        int DimensionStackLevel { get; set; }
     }
 }

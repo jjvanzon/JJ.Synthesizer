@@ -1982,7 +1982,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
 
-            const int channnelDimensionStackLevel = 0; // TODO: This information should be in the DTO.
+            int channnelDimensionStackLevel = dto.ChannelDimensionStackLevel;
             string channelIndexDouble = GeneratePositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
             string channelIndex = GenerateUniqueLocalVariableName(DimensionEnum.Channel);
             string output = GenerateLocalOutputName(dto);

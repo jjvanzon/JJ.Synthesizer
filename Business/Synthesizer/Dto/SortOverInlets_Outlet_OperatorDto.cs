@@ -9,5 +9,6 @@ namespace JJ.Business.Synthesizer.Dto
         public int OutletListIndex { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CanonicalCustomDimensionName { get; set; }
+        public int DimensionStackLevel { get; set; }
     }
 }

@@ -30,6 +30,7 @@ namespace JJ.Business.Synthesizer.Dto
         public double Step { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CanonicalCustomDimensionName { get; set; }
+        public int DimensionStackLevel { get; set; }
     }
 
     /// <summary> For Machine Optimization </summary>
@@ -41,5 +42,6 @@ namespace JJ.Business.Synthesizer.Dto
         public double Till { get; set; }
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CanonicalCustomDimensionName { get; set; }
+        public int DimensionStackLevel { get; set; }
     }
 }
