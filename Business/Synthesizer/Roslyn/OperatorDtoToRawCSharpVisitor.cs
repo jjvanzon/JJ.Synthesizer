@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string returnValue = _stack.Pop();
 
             // Get some more variable info
-            string firstTimeVariableNameCamelCase = GeneratePositionNameCamelCase(0, DimensionEnum.Time);
+            string firstTimeVariableNameCamelCase = GetPositionNameCamelCase(0, DimensionEnum.Time);
 
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfos = 
                 _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
@@ -223,7 +223,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
             string x = _stack.Pop();
 
-            string variable = GenerateLocalOutputName(dto);
+            string variable = GetLocalOutputName(dto);
 
             AppendOperatorTitleComment(dto);
 
@@ -279,8 +279,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendOperatorTitleComment(dto);
 
-            string sum = GenerateUniqueLocalVariableName(nameof(sum));
-            string output = GenerateLocalOutputName(dto);
+            string sum = GetUniqueLocalVariableName(nameof(sum));
+            string output = GetLocalOutputName(dto);
             int count = dto.Vars.Count;
 
             AppendTabs();
@@ -438,9 +438,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string input = _stack.Pop();
             string firstItem = _stack.Pop();
-            string smallestDistance = GenerateUniqueLocalVariableName(nameof(smallestDistance));
-            string closestItem = GenerateUniqueLocalVariableName(nameof(closestItem));
-            string output = GenerateLocalOutputName(dto);
+            string smallestDistance = GetUniqueLocalVariableName(nameof(smallestDistance));
+            string closestItem = GetUniqueLocalVariableName(nameof(closestItem));
+            string output = GetLocalOutputName(dto);
             const string geometry = nameof(Geometry);
             const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
 
@@ -452,7 +452,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             for (int i = 1; i < varCount; i++)
             {
                 string item = _stack.Pop();
-                string distance = GenerateUniqueLocalVariableName(nameof(distance));
+                string distance = GetUniqueLocalVariableName(nameof(distance));
 
                 AppendLine($"double {distance} = {geometry}.{absoluteDistance}({input}, {item});");
 
@@ -505,10 +505,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendOperatorTitleComment(dto);
 
-            string smallestDistance = GenerateUniqueLocalVariableName(nameof(smallestDistance));
-            string closestItem = GenerateUniqueLocalVariableName(nameof(closestItem));
-            string output = GenerateLocalOutputName(dto);
-            string logInput = GenerateUniqueLocalVariableName(nameof(logInput));
+            string smallestDistance = GetUniqueLocalVariableName(nameof(smallestDistance));
+            string closestItem = GetUniqueLocalVariableName(nameof(closestItem));
+            string output = GetLocalOutputName(dto);
+            string logInput = GetUniqueLocalVariableName(nameof(logInput));
             const string geometry = nameof(Geometry);
             const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
 
@@ -522,7 +522,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             for (int i = 1; i < varCount; i++)
             {
                 string item = _stack.Pop();
-                string distance = GenerateUniqueLocalVariableName(nameof(distance));
+                string distance = GetUniqueLocalVariableName(nameof(distance));
 
                 AppendLine($"double {distance} = {geometry}.{absoluteDistance}({logInput}, Math.Log({item}));");
 
@@ -568,10 +568,10 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             AppendOperatorTitleComment(dto);
 
-            string output = GenerateLocalOutputName(dto);
-            string position = GeneratePositionNameCamelCase(dto);
+            string output = GetLocalOutputName(dto);
+            string position = GetPositionNameCamelCase(dto);
             ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-            string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
+            string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(calculator);
 
             AppendLine($"double {output} = {calculatorName}.Calculate({position});");
 
@@ -581,8 +581,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         private OperatorDtoBase ProcessCurve_WithOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
         {
             ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-            string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
-            string output = GenerateLocalOutputName(dto);
+            string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(calculator);
+            string output = GetLocalOutputName(dto);
             string defaultRate = CompilationHelper.FormatValue(1.0);
 
             AppendOperatorTitleComment(dto);
@@ -595,9 +595,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
         {
-            string position = GeneratePositionNameCamelCase(dto);
+            string position = GetPositionNameCamelCase(dto);
             string fixedPosition = CompilationHelper.FormatValue(dto.OutletListIndex);
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendOperatorTitleComment(dto);
 
@@ -677,7 +677,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = {a} / {b};");
 
@@ -764,7 +764,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string low = _stack.Pop();
             string high = _stack.Pop();
             string ratio = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = {low} * Math.Pow({high} / {low}, {ratio});");
 
@@ -773,7 +773,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override OperatorDtoBase Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
         {
-            string position = GeneratePositionNameCamelCase(dto);
+            string position = GetPositionNameCamelCase(dto);
 
             _stack.Push(position);
 
@@ -837,7 +837,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             _holdOperatorIsActiveStack.Push(false);
 
             string signal = _stack.Pop();
-            string output = GenerateUniqueLongLivedVariableName(dto.OperatorTypeEnum);
+            string output = GetUniqueLongLivedVariableName(dto.OperatorTypeEnum);
 
             AppendLineToReset(GetOperatorTitleComment(dto));
             AppendLineToReset($"{output} = {signal};");
@@ -1130,7 +1130,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendOperatorTitleComment(dto);
 
             string x = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = -{x};");
 
@@ -1141,8 +1141,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             AppendOperatorTitleComment(dto);
 
-            string output = GenerateLocalOutputName(dto);
-            string position = GeneratePositionNameCamelCase(dto);
+            string output = GetLocalOutputName(dto);
+            string position = GetPositionNameCamelCase(dto);
             string calculatorName = GenerateNoiseCalculatorVariableNameCamelCase(dto.OperatorID);
 
             AppendLine($"double {output} = {calculatorName}.Calculate({position});");
@@ -1156,7 +1156,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             // ReSharper disable once InvertIf
             if (!_noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary.TryGetValue(operatorID, out variableNameCamelCase))
             {
-                variableNameCamelCase = GenerateUniqueLocalVariableName(NOISE_CALCULATOR_MNEMONIC);
+                variableNameCamelCase = GetUniqueLocalVariableName(NOISE_CALCULATOR_MNEMONIC);
 
                 _noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
             }
@@ -1171,7 +1171,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendOperatorTitleComment(dto);
 
             string x = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = {x} == 0.0 ? 1.0 : 0.0;");
 
@@ -1232,7 +1232,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendOperatorTitleComment(dto);
 
             string x = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = 1.0 / {x};");
 
@@ -1277,7 +1277,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendOperatorTitleComment(dto);
 
             string @base = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = {@base} * {@base};");
 
@@ -1291,7 +1291,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendOperatorTitleComment(dto);
 
             string @base = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = {@base} * {@base} * {@base};");
 
@@ -1305,7 +1305,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendOperatorTitleComment(dto);
 
             string @base = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = {@base} * {@base};");
             AppendLine($"{output} *= {output};");
@@ -1394,7 +1394,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
 
             string width = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
 
             return GenerateOperatorWrapUp(dto, output);
@@ -1410,7 +1410,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
 
             string width = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             AppendLine($"double {output} = {info.Phase} % 1.0 < {width} ? 1.0 : -1.0;");
 
             return GenerateOperatorWrapUp(dto, output);
@@ -1426,7 +1426,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             PhaseTrackingInfo info = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
 
             string width = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             AppendLine($"double {output} = {info.Phase} % 1.0 < {width} ? 1.0 : -1.0;");
 
             return GenerateOperatorWrapUp(dto, output);
@@ -1452,7 +1452,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.RateOperatorDto);
 
             string rate = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             string offset = GenerateRandomOperatorOffsetVariableNameCamelCase(dto.OperatorID);
             string arrayCalculator = GenerateRandomArrayCalculatorNameCamelCase(dto);
             const string randomCalculatorHelper = nameof(RandomCalculatorHelper);
@@ -1488,7 +1488,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             }
 
             ICalculatorWithPosition underlyingArrayCalculator = randomCalculator.UnderlyingArrayCalculator;
-            string name = GenerateArrayCalculatorVariableNameCamelCaseAndCache(underlyingArrayCalculator);
+            string name = GetArrayCalculatorVariableNameCamelCaseAndCache(underlyingArrayCalculator);
             return name;
         }
 
@@ -1498,7 +1498,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             // ReSharper disable once InvertIf
             if (!_randomOperatorID_To_OffsetVariableNameCamelCase_Dictionary.TryGetValue(operatorID, out variableNameCamelCase))
             {
-                variableNameCamelCase = GenerateUniqueLongLivedVariableName(RANDOM_OPERATOR_OFFSET_MNEMONIC);
+                variableNameCamelCase = GetUniqueLongLivedVariableName(RANDOM_OPERATOR_OFFSET_MNEMONIC);
 
                 _randomOperatorID_To_OffsetVariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
             }
@@ -1511,14 +1511,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             string from = CompilationHelper.FormatValue(dto.From);
             string till = CompilationHelper.FormatValue(dto.Till);
             string step = CompilationHelper.FormatValue(dto.Step);
-            string position = GeneratePositionNameCamelCase(dto);
-            string output = GenerateLocalOutputName(dto);
-            string tillPlusStep = GenerateUniqueLocalVariableName(nameof(tillPlusStep));
-            string valueNonRounded = GenerateUniqueLocalVariableName(nameof(valueNonRounded));
-            string upperBound = GenerateUniqueLocalVariableName(nameof(upperBound));
-            string valueNonRoundedCorrected = GenerateUniqueLocalVariableName(nameof(valueNonRoundedCorrected));
-            string stepDividedBy2 = GenerateUniqueLocalVariableName(nameof(stepDividedBy2));
-            string valueRounded = GenerateUniqueLocalVariableName(nameof(valueRounded));
+            string position = GetPositionNameCamelCase(dto);
+            string output = GetLocalOutputName(dto);
+            string tillPlusStep = GetUniqueLocalVariableName(nameof(tillPlusStep));
+            string valueNonRounded = GetUniqueLocalVariableName(nameof(valueNonRounded));
+            string upperBound = GetUniqueLocalVariableName(nameof(upperBound));
+            string valueNonRoundedCorrected = GetUniqueLocalVariableName(nameof(valueNonRoundedCorrected));
+            string stepDividedBy2 = GetUniqueLocalVariableName(nameof(stepDividedBy2));
+            string valueRounded = GetUniqueLocalVariableName(nameof(valueRounded));
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
@@ -1576,12 +1576,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             string from = _stack.Pop();
             string till = _stack.Pop();
             string step = _stack.Pop();
-            string position = GeneratePositionNameCamelCase(dto);
-            string output = GenerateLocalOutputName(dto);
-            string valueNonRounded = GenerateUniqueLocalVariableName(nameof(valueNonRounded));
-            string upperBound = GenerateUniqueLocalVariableName(nameof(upperBound));
-            string valueNonRoundedCorrected = GenerateUniqueLocalVariableName(nameof(valueNonRoundedCorrected));
-            string valueRounded = GenerateUniqueLocalVariableName(nameof(valueRounded));
+            string position = GetPositionNameCamelCase(dto);
+            string output = GetLocalOutputName(dto);
+            string valueNonRounded = GetUniqueLocalVariableName(nameof(valueNonRounded));
+            string upperBound = GetUniqueLocalVariableName(nameof(upperBound));
+            string valueNonRoundedCorrected = GetUniqueLocalVariableName(nameof(valueNonRoundedCorrected));
+            string valueRounded = GetUniqueLocalVariableName(nameof(valueRounded));
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
@@ -1632,13 +1632,13 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string from = CompilationHelper.FormatValue(dto.From);
             string till = CompilationHelper.FormatValue(dto.Till);
-            string position = GeneratePositionNameCamelCase(dto);
-            string output = GenerateLocalOutputName(dto);
-            string tillPlusOne = GenerateUniqueLocalVariableName(nameof(tillPlusOne));
-            string valueNonRounded = GenerateUniqueLocalVariableName(nameof(valueNonRounded));
-            string upperBound = GenerateUniqueLocalVariableName(nameof(upperBound));
-            string valueNonRoundedCorrected = GenerateUniqueLocalVariableName(nameof(valueNonRoundedCorrected));
-            string valueRounded = GenerateUniqueLocalVariableName(nameof(valueRounded));
+            string position = GetPositionNameCamelCase(dto);
+            string output = GetLocalOutputName(dto);
+            string tillPlusOne = GetUniqueLocalVariableName(nameof(tillPlusOne));
+            string valueNonRounded = GetUniqueLocalVariableName(nameof(valueNonRounded));
+            string upperBound = GetUniqueLocalVariableName(nameof(upperBound));
+            string valueNonRoundedCorrected = GetUniqueLocalVariableName(nameof(valueNonRoundedCorrected));
+            string valueRounded = GetUniqueLocalVariableName(nameof(valueRounded));
             const string math = nameof(Math);
             const string round = nameof(Math.Round);
             const string midpointRounding = nameof(MidpointRounding);
@@ -1710,7 +1710,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string from = _stack.Pop();
             string step = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = {from} + {step} * {dto.OutletListIndex};");
 
@@ -1760,7 +1760,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendOperatorTitleComment(dto);
 
             string signal = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             const string math = nameof(Math);
             const string round = nameof(Math.Round);
 
@@ -1798,7 +1798,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string signal = GetLiteralFromOperatorDtoOrValue(signalOperatorDto, signalValue);
             string step = GetLiteralFromOperatorDtoOrValue(stepOperatorDto, stepValue);
             string offset = GetLiteralFromOperatorDtoOrValue(offsetOperatorDto, offsetValue);
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
@@ -1818,7 +1818,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string signal = GetLiteralFromOperatorDtoOrValue(signalOperatorDto, signalValue);
             string step = GetLiteralFromOperatorDtoOrValue(stepOperatorDto, stepValue);
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
@@ -1971,7 +1971,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
             string frequency = _stack.Pop();
-            string rate = GenerateUniqueLocalVariableName(RATE_MNEMONIC);
+            string rate = GetUniqueLocalVariableName(RATE_MNEMONIC);
 
             AppendLine($"double {rate} = {frequency} / {SAMPLE_BASE_FREQUENCY};");
 
@@ -1983,9 +1983,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
 
             int channnelDimensionStackLevel = dto.ChannelDimensionStackLevel;
-            string channelIndexDouble = GeneratePositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
-            string channelIndex = GenerateUniqueLocalVariableName(DimensionEnum.Channel);
-            string output = GenerateLocalOutputName(dto);
+            string channelIndexDouble = GetPositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
+            string channelIndex = GetUniqueLocalVariableName(DimensionEnum.Channel);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"int {channelIndex} = (int){channelIndexDouble};");
             AppendLine($"double {output} = 0.0;");
@@ -1996,7 +1996,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 for (int i = 0; i < calculators.Count; i++)
                 {
                     ICalculatorWithPosition calculator = calculators[i];
-                    string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
+                    string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(calculator);
 
                     AppendLine($"case {i}:");
                     Indent();
@@ -2017,9 +2017,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             // Array
             ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
-            string calculatorName = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculator);
+            string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(calculator);
 
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
 
             // Wrap-Up
@@ -2030,10 +2030,10 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             // Array
             IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-            string calculatorName1 = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculators[0]);
-            string calculatorName2 = GenerateArrayCalculatorVariableNameCamelCaseAndCache(calculators[1]);
+            string calculatorName1 = GetArrayCalculatorVariableNameCamelCaseAndCache(calculators[0]);
+            string calculatorName2 = GetArrayCalculatorVariableNameCamelCaseAndCache(calculators[1]);
 
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             AppendLine($"double {output} =");
             Indent();
             {
@@ -2126,7 +2126,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string sourceValueB = _stack.Pop();
             string targetValueA = _stack.Pop();
             string targetValueB = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             const string mathHelper = nameof(MathHelper);
             const string scaleLinearly = nameof(MathHelper.ScaleLinearly);
 
@@ -2148,7 +2148,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private OperatorDtoBase ProcessSetDimension(IOperatorDto_VarSignal_WithDimension dto, OperatorDtoBase valueOperatorDto = null, double? value = null)
         {
             string valueLiteral = GetLiteralFromOperatorDtoOrValue(valueOperatorDto, value);
-            string position = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string position = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             AppendOperatorTitleComment(dto);
 
@@ -2175,8 +2175,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         private OperatorDtoBase ProcessShift(IOperatorDto_VarSignal_WithDimension dto, OperatorDtoBase distanceOperatorDto = null, double? distance = null)
         {
             string distanceLiteral = GetLiteralFromOperatorDtoOrValue(distanceOperatorDto, distance);
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GetPositionNameCamelCase(dto);
+            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             AppendOperatorTitleComment(dto);
             // IMPORTANT: To shift to the right in the output, you have shift to the left in the input.
@@ -2383,8 +2383,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string factor = _stack.Pop();
             string origin = _stack.Pop();
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GetPositionNameCamelCase(dto);
+            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
             // Calculate
@@ -2403,9 +2403,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         private OperatorDtoBase Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
             string factor = _stack.Pop();
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string origin = GenerateLongLivedOriginName();
+            string sourcePosition = GetPositionNameCamelCase(dto);
+            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string origin = GetLongLivedOriginName();
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
             AppendOperatorTitleComment(dto);
@@ -2424,10 +2424,10 @@ namespace JJ.Business.Synthesizer.Roslyn
         private OperatorDtoBase Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
             string factor = _stack.Pop();
-            string phase = GenerateLongLivedPhaseName();
-            string previousPosition = GenerateLongLivedPreviousPositionName();
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string phase = GetLongLivedPhaseName();
+            string previousPosition = GetLongLivedPreviousPositionName();
+            string sourcePosition = GetPositionNameCamelCase(dto);
+            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
             AppendOperatorTitleComment(dto);
@@ -2454,8 +2454,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
             string factor = _stack.Pop();
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GetPositionNameCamelCase(dto);
+            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
             AppendOperatorTitleComment(dto);
@@ -2577,9 +2577,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// <summary> Returns output variable name. </summary>
         private OperatorDtoBase Generate_TriangleCode_AfterDeterminePhase(IOperatorDto dto, string phase)
         {
-            string shiftedPhase = GenerateUniqueLocalVariableName(nameof(shiftedPhase));
-            string relativePhase = GenerateUniqueLocalVariableName(nameof(relativePhase));
-            string output = GenerateLocalOutputName(dto);
+            string shiftedPhase = GetUniqueLocalVariableName(nameof(shiftedPhase));
+            string relativePhase = GetUniqueLocalVariableName(nameof(relativePhase));
+            string output = GetLocalOutputName(dto);
 
             // Correct the phase shift, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
             AppendLine($"double {shiftedPhase} = {phase} + 0.25;");
@@ -2614,21 +2614,21 @@ namespace JJ.Business.Synthesizer.Roslyn
             string signal = _stack.Pop();
             string frequency = _stack.Pop();
             IList<string> additionalFilterParameters = dto.InputOperatorDtos.Skip(2).Select(x => _stack.Pop()).ToArray();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
-            string x1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
-            string x2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
-            string y1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
-            string y2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
-            string a0 = GenerateUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a0)}");
-            string a1 = GenerateUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a1)}");
-            string a2 = GenerateUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a2)}");
-            string a3 = GenerateUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a3)}");
-            string a4 = GenerateUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a4)}");
+            string x1 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
+            string x2 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
+            string y1 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
+            string y2 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
+            string a0 = GetUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a0)}");
+            string a1 = GetUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a1)}");
+            string a2 = GetUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a2)}");
+            string a3 = GetUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a3)}");
+            string a4 = GetUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a4)}");
 
             string nyquistFrequency = CompilationHelper.FormatValue(dto.NyquistFrequency);
             string samplingRate = CompilationHelper.FormatValue(dto.SamplingRate);
-            string limitedFrequency = GenerateUniqueLocalVariableName(nameof(limitedFrequency));
+            string limitedFrequency = GetUniqueLocalVariableName(nameof(limitedFrequency));
             const string biQuadFilterClassName = nameof(BiQuadFilterWithoutFields);
             string setFilterVariablesMethodName = biQuadFilterSetFilterVariablesMethodName;
             const string transformMethodName = nameof(BiQuadFilterWithoutFields.Transform);
@@ -2668,11 +2668,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string signal = _stack.Pop();
 
-            string x1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
-            string x2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
-            string y1 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
-            string y2 = GenerateUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
-            string output = GenerateLocalOutputName(dto);
+            string x1 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
+            string x2 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
+            string y1 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
+            string y2 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
+            string output = GetLocalOutputName(dto);
 
             string a0 = CompilationHelper.FormatValue(dto.A0);
             string a1 = CompilationHelper.FormatValue(dto.A1);
@@ -2702,7 +2702,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string @base = _stack.Pop();
             string exponent = _stack.Pop();
-            string variable = GenerateLocalOutputName(dto);
+            string variable = GetLocalOutputName(dto);
 
             AppendLine($"double {variable} = Math.Pow({@base}, {exponent});");
 
@@ -2715,7 +2715,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = {a} {operatorSymbol} {b};");
 
@@ -2728,7 +2728,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = {a} {operatorSymbol} {b} ? 1.0 : 0.0;");
 
@@ -2760,7 +2760,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = {a} != 0.0 {operatorSymbol} {b} != 0.0 ? 1.0 : 0.0;");
 
@@ -2772,7 +2772,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendOperatorTitleComment(dto);
 
             string firstValue = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
 
             AppendLine($"double {output} = {firstValue};");
@@ -2794,7 +2794,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string a = _stack.Pop();
             string b = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
 
             AppendLine($"double {output} = {a} {operatorSymbol} {b} ? {a} : {b};");
@@ -2872,7 +2872,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string a = _stack.Pop();
             string b = _stack.Pop();
             string origin = _stack.Pop();
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = ({a} - {origin}) {operatorSymbol} {b} + {origin};");
 
@@ -2883,7 +2883,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             AppendOperatorTitleComment(dto);
 
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendTabs();
             Append($"double {output} =");
@@ -2933,7 +2933,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendOperatorTitleComment(dto);
 
             OriginShiftingInfo info = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             string rightHandFormula = getRightHandFormulaDelegate(info.Phase);
 
             AppendLine($"double {output} = {rightHandFormula};");
@@ -2949,7 +2949,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string frequency = _stack.Pop();
             PhaseTrackingInfo info = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             string rightHandFormula = getRightHandFormulaDelegate(info.Phase);
 
             AppendLine($"double {output} = {rightHandFormula};");
@@ -2966,7 +2966,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
 
             string rightHandFormula = getRightHandFormulaDelegate(phase);
-            string output = GenerateLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
             AppendLine($"double {output} = {rightHandFormula};");
 
             return GenerateOperatorWrapUp(dto, output);
@@ -3077,7 +3077,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return convertedName;
         }
 
-        private string GenerateArrayCalculatorVariableNameCamelCaseAndCache(ICalculatorWithPosition calculator)
+        private string GetArrayCalculatorVariableNameCamelCaseAndCache(ICalculatorWithPosition calculator)
         {
             ArrayCalculatorVariableInfo variableInfo;
             // ReSharper disable once InvertIf
@@ -3087,7 +3087,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
                 // Do not call GenerateUniqueLongLivedVariableName. In a later stage those are all assumed to be double variables. 
                 // The array calculator variables are not doubles.
-                string nameCamelCase = GenerateUniqueLocalVariableName(ARRAY_CALCULATOR_MNEMONIC);
+                string nameCamelCase = GetUniqueLocalVariableName(ARRAY_CALCULATOR_MNEMONIC);
 
                 variableInfo = new ArrayCalculatorVariableInfo
                 {
@@ -3119,7 +3119,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 mnemonic = DEFAULT_INPUT_MNEMONIC;
             }
 
-            string variableName = GenerateUniqueLocalVariableName(mnemonic);
+            string variableName = GetUniqueLocalVariableName(mnemonic);
 
             var valueInfo = new ExtendedVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
 
@@ -3128,38 +3128,38 @@ namespace JJ.Business.Synthesizer.Roslyn
             return valueInfo;
         }
 
-        private string GenerateLocalOutputName(IOperatorDto dto)
+        private string GetLocalOutputName(IOperatorDto dto)
         {
-            return GenerateUniqueLocalVariableName(dto.OperatorTypeEnum);
+            return GetUniqueLocalVariableName(dto.OperatorTypeEnum);
         }
 
-        private string GenerateLocalPhaseName()
+        private string GetLocalPhaseName()
         {
-            string variableName = GenerateUniqueLocalVariableName(PHASE_MNEMONIC);
+            string variableName = GetUniqueLocalVariableName(PHASE_MNEMONIC);
             return variableName;
         }
 
-        private string GenerateLongLivedOriginName()
+        private string GetLongLivedOriginName()
         {
-            string variableName = GenerateUniqueLocalVariableName(ORIGIN_MNEMONIC);
+            string variableName = GetUniqueLocalVariableName(ORIGIN_MNEMONIC);
 
             _longLivedOriginVariableNamesCamelCase.Add(variableName);
 
             return variableName;
         }
 
-        private string GenerateLongLivedPhaseName()
+        private string GetLongLivedPhaseName()
         {
-            string variableName = GenerateUniqueLocalVariableName(PHASE_MNEMONIC);
+            string variableName = GetUniqueLocalVariableName(PHASE_MNEMONIC);
 
             _longLivedPhaseVariableNamesCamelCase.Add(variableName);
 
             return variableName;
         }
 
-        private string GenerateLongLivedPreviousPositionName()
+        private string GetLongLivedPreviousPositionName()
         {
-            string variableName = GenerateUniqueLocalVariableName(PREVIOUS_POSITION_MNEMONIC);
+            string variableName = GetUniqueLocalVariableName(PREVIOUS_POSITION_MNEMONIC);
 
             _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
 
@@ -3177,8 +3177,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// <summary> Returns the phase literal. </summary>
         private string GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto, string rate)
         {
-            string position = GeneratePositionNameCamelCase(dto);
-            string phase = GenerateLocalPhaseName();
+            string position = GetPositionNameCamelCase(dto);
+            string phase = GetLocalPhaseName();
 
             AppendLine($"double {phase} = {position} * {rate};");
 
@@ -3188,9 +3188,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// <summary> Returns the phase literal. </summary>
         private OriginShiftingInfo GeneratePhaseCalculationWithOriginShifting(IOperatorDto_WithDimension dto, string rate)
         {
-            string position = GeneratePositionNameCamelCase(dto);
-            string origin = GenerateLongLivedOriginName();
-            string phase = GenerateLocalPhaseName();
+            string position = GetPositionNameCamelCase(dto);
+            string origin = GetLongLivedOriginName();
+            string phase = GetLocalPhaseName();
 
             AppendLineToReset($"{origin} = {position};");
 
@@ -3201,9 +3201,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private PhaseTrackingInfo GeneratePhaseCalculationWithPhaseTracking(IOperatorDto_WithDimension dto, string rate)
         {
-            string position = GeneratePositionNameCamelCase(dto);
-            string previousPosition = GenerateLongLivedPreviousPositionName();
-            string phase = GenerateLongLivedPhaseName();
+            string position = GetPositionNameCamelCase(dto);
+            string previousPosition = GetLongLivedPreviousPositionName();
+            string phase = GetLongLivedPhaseName();
 
             AppendLineToReset($"{previousPosition} = {position};");
             AppendLineToReset($"{phase} = 0.0;");
@@ -3218,20 +3218,20 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// If it is the first level dimension position, the variable will be long lived.
         /// Higher level dimension positions will become local variables.
         /// </summary>
-        private string GeneratePositionNameCamelCase(IOperatorDto_WithDimension dto, int? alternativeStackIndexLevel = null)
+        private string GetPositionNameCamelCase(IOperatorDto_WithDimension dto, int? alternativeStackIndexLevel = null)
         {
             string canonicalCustomDimensionName = dto.CanonicalCustomDimensionName;
             DimensionEnum standardDimensionEnum = dto.StandardDimensionEnum;
             int stackLevel = alternativeStackIndexLevel ?? dto.DimensionStackLevel;
 
-            return GeneratePositionNameCamelCase(stackLevel, standardDimensionEnum, canonicalCustomDimensionName);
+            return GetPositionNameCamelCase(stackLevel, standardDimensionEnum, canonicalCustomDimensionName);
         }
 
         /// <summary>
         /// If it is the first level dimension position, the variable will be long lived.
         /// Higher level dimension positions will become local variables.
         /// </summary>
-        private string GeneratePositionNameCamelCase(int stackLevel, DimensionEnum standardDimensionEnum = DimensionEnum.Undefined, string canonicalCustomDimensionName = "")
+        private string GetPositionNameCamelCase(int stackLevel, DimensionEnum standardDimensionEnum = DimensionEnum.Undefined, string canonicalCustomDimensionName = "")
         {
             // Get DimensionAlias
             string dimensionAlias = GetDimensionAlias(standardDimensionEnum, canonicalCustomDimensionName);
@@ -3255,16 +3255,16 @@ namespace JJ.Business.Synthesizer.Roslyn
             return positionVariableName;
         }
 
-        private string GenerateUniqueDimensionAlias(object mnemonic)
+        private string GetUniqueDimensionAlias(object mnemonic)
         {
             string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
-            string uniqueLetterSequence = GenerateUniqueLetterSequence();
+            string uniqueLetterSequence = GetUniqueLetterSequence();
 
             string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}";
             return variableName;
         }
 
-        private string GenerateUniqueLetterSequence()
+        private string GetUniqueLetterSequence()
         {
             return NumberingSystems.ToLetterSequence(_counter++, firstChar: 'a', lastChar: 'z');
         }
@@ -3274,25 +3274,25 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// It will also be put into a (non-unique) form that will be valid in C#.
         /// Also underscores are removed from it, because that is a separator character in our variable names.
         /// </param>
-        private string GenerateUniqueLocalVariableName(object mnemonic)
+        private string GetUniqueLocalVariableName(object mnemonic)
         {
             string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
-            int uniqueNumber = GenerateUniqueNumber();
+            int uniqueNumber = GetUniqueNumber();
 
             string variableName = $"{nonUniqueNameInCode}_{uniqueNumber}";
             return variableName;
         }
 
-        private string GenerateUniqueLongLivedVariableName(object mnemonic)
+        private string GetUniqueLongLivedVariableName(object mnemonic)
         {
-            string variableName = GenerateUniqueLocalVariableName(mnemonic);
+            string variableName = GetUniqueLocalVariableName(mnemonic);
 
             _longLivedMiscVariableNamesCamelCase.Add(variableName);
 
             return variableName;
         }
 
-        private int GenerateUniqueNumber()
+        private int GetUniqueNumber()
         {
             return _counter++;
         }
@@ -3320,7 +3320,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             {
                 mnemonic = canonicalCustomDimensionName;
             }
-            alias = GenerateUniqueDimensionAlias(mnemonic);
+            alias = GetUniqueDimensionAlias(mnemonic);
 
             _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
             return alias;
