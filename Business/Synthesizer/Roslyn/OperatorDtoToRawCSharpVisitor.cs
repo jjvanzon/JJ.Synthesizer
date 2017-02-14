@@ -2378,6 +2378,97 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
+        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
+        private OperatorDtoBase Process_StretchOrSquash_WithOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
+        {
+            string factor = _stack.Pop();
+            string origin = _stack.Pop();
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
+
+            // Calculate
+            AppendOperatorTitleComment(dto);
+            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};");
+            AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            string signal = _stack.Pop();
+
+            _stack.Push(signal);
+            return (OperatorDtoBase)dto;
+        }
+
+        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
+        private OperatorDtoBase Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
+        {
+            string factor = _stack.Pop();
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string origin = GenerateLongLivedOriginName();
+            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
+
+            AppendOperatorTitleComment(dto);
+            AppendLineToReset($"{origin} = {sourcePosition};");
+            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};");
+            AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            string signal = _stack.Pop();
+
+            _stack.Push(signal);
+            return (OperatorDtoBase)dto;
+        }
+
+        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
+        private OperatorDtoBase Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
+        {
+            string factor = _stack.Pop();
+            string phase = GenerateLongLivedPhaseName();
+            string previousPosition = GenerateLongLivedPreviousPositionName();
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
+
+            AppendOperatorTitleComment(dto);
+            string positionTranformationLine = $"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};";
+
+            AppendLineToCalculate(positionTranformationLine);
+            AppendLineToCalculate($"{previousPosition} = {sourcePosition};");
+            AppendLineToCalculate($"{phase} = {destPosition};"); // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level, while phase needs to be uniquely used by the operator instance.
+            AppendLineToCalculate();
+
+            AppendLineToReset($"{phase} = 0.0;");
+            AppendLineToReset($"{previousPosition} = {sourcePosition};");
+            AppendLineToReset(positionTranformationLine);
+            AppendLineToReset();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            string signal = _stack.Pop();
+
+            _stack.Push(signal);
+            return (OperatorDtoBase)dto;
+        }
+
+        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
+        private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
+        {
+            string factor = _stack.Pop();
+            string sourcePosition = GeneratePositionNameCamelCase(dto);
+            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
+
+            AppendOperatorTitleComment(dto);
+            AppendLine($"{destPosition} = {sourcePosition} {operatorSymbol} {factor};");
+            AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            string signal = _stack.Pop();
+
+            _stack.Push(signal);
+            return (OperatorDtoBase)dto;
+        }
+
         protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
@@ -2616,97 +2707,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine($"double {variable} = Math.Pow({@base}, {exponent});");
 
             return GenerateOperatorWrapUp(dto, variable);
-        }
-
-        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
-        private OperatorDtoBase Process_StretchOrSquash_WithOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
-        {
-            string factor = _stack.Pop();
-            string origin = _stack.Pop();
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
-
-            // Calculate
-            AppendOperatorTitleComment(dto);
-            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};");
-            AppendLine();
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            _stack.Push(signal);
-            return (OperatorDtoBase)dto;
-        }
-
-        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
-        private OperatorDtoBase Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
-        {
-            string factor = _stack.Pop();
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string origin = GenerateLongLivedOriginName();
-            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
-
-            AppendOperatorTitleComment(dto);
-            AppendLineToReset($"{origin} = {sourcePosition};");
-            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};");
-            AppendLine();
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            _stack.Push(signal);
-            return (OperatorDtoBase)dto;
-        }
-
-        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
-        private OperatorDtoBase Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
-        {
-            string factor = _stack.Pop();
-            string phase = GenerateLongLivedPhaseName();
-            string previousPosition = GenerateLongLivedPreviousPositionName();
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
-
-            AppendOperatorTitleComment(dto);
-            string positionTranformationLine = $"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) {operatorSymbol} {factor};";
-
-            AppendLineToCalculate(positionTranformationLine);
-            AppendLineToCalculate($"{previousPosition} = {sourcePosition};");
-            AppendLineToCalculate($"{phase} = {destPosition};"); // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level, while phase needs to be uniquely used by the operator instance.
-            AppendLineToCalculate();
-
-            AppendLineToReset($"{phase} = 0.0;");
-            AppendLineToReset($"{previousPosition} = {sourcePosition};");
-            AppendLineToReset(positionTranformationLine);
-            AppendLineToReset();
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            _stack.Push(signal);
-            return (OperatorDtoBase)dto;
-        }
-
-        /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
-        private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
-        {
-            string factor = _stack.Pop();
-            string sourcePosition = GeneratePositionNameCamelCase(dto);
-            string destPosition = GeneratePositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
-
-            AppendOperatorTitleComment(dto);
-            AppendLine($"{destPosition} = {sourcePosition} {operatorSymbol} {factor};");
-            AppendLine();
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            _stack.Push(signal);
-            return (OperatorDtoBase)dto;
         }
 
         private OperatorDtoBase ProcessBinaryOperator(IOperatorDto dto, string operatorSymbol)
