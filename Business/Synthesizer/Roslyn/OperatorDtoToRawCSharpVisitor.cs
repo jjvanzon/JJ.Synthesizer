@@ -2972,11 +2972,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private void PutNumberOnStack(double value)
-        {
-            _stack.Push(CompilationHelper.FormatValue(value));
-        }
-
         // StringBuilder Helpers
 
         private void AppendLine(string line = null)
@@ -3063,107 +3058,10 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine(line);
         }
 
-        private string GetOperatorTitleComment(IOperatorDto dto)
-        {
-            string generalIdentifier = dto.OperatorTypeEnum.ToString();
-            string variationIdentifier = dto.GetType().Name.Replace("_OperatorDto", "").Replace($"{generalIdentifier}_", "");
-            string line = $"// {generalIdentifier} ({variationIdentifier})";
-            return line;
-        }
-
         private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
         {
             string convertedName = NameHelper.ToCanonical(arbitraryString).ToCamelCase().Replace("_", "");
             return convertedName;
-        }
-
-        private string GetArrayCalculatorVariableNameCamelCaseAndCache(ICalculatorWithPosition calculator)
-        {
-            ArrayCalculatorVariableInfo variableInfo;
-            // ReSharper disable once InvertIf
-            if (!_calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary.TryGetValue(calculator, out variableInfo))
-            {
-                string typeName = calculator.GetType().Name;
-
-                // Do not call GenerateUniqueLongLivedVariableName. In a later stage those are all assumed to be double variables. 
-                // The array calculator variables are not doubles.
-                string nameCamelCase = GetUniqueLocalVariableName(ARRAY_CALCULATOR_MNEMONIC);
-
-                variableInfo = new ArrayCalculatorVariableInfo
-                {
-                    NameCamelCase = nameCamelCase,
-                    TypeName = typeName,
-                    // DIRTY: Type assumption
-                    Calculator = (ArrayCalculatorBase)calculator
-                };
-
-                _calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary[calculator] = variableInfo;
-            }
-
-            return variableInfo.NameCamelCase;
-        }
-
-        private ExtendedVariableInfo GenerateInputVariableInfo(VariableInput_OperatorDto dto)
-        {
-            object mnemonic;
-            if (dto.DimensionEnum != DimensionEnum.Undefined)
-            {
-                mnemonic = dto.DimensionEnum;
-            }
-            else if (!string.IsNullOrEmpty(dto.CanonicalName))
-            {
-                mnemonic = dto.CanonicalName;
-            }
-            else
-            {
-                mnemonic = DEFAULT_INPUT_MNEMONIC;
-            }
-
-            string variableName = GetUniqueLocalVariableName(mnemonic);
-
-            var valueInfo = new ExtendedVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
-
-            _variableName_To_InputVariableInfo_Dictionary.Add(variableName, valueInfo);
-
-            return valueInfo;
-        }
-
-        private string GetLocalOutputName(IOperatorDto dto)
-        {
-            return GetUniqueLocalVariableName(dto.OperatorTypeEnum);
-        }
-
-        private string GetLocalPhaseName()
-        {
-            string variableName = GetUniqueLocalVariableName(PHASE_MNEMONIC);
-            return variableName;
-        }
-
-        private string GetLongLivedOriginName()
-        {
-            string variableName = GetUniqueLocalVariableName(ORIGIN_MNEMONIC);
-
-            _longLivedOriginVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
-
-        private string GetLongLivedPhaseName()
-        {
-            string variableName = GetUniqueLocalVariableName(PHASE_MNEMONIC);
-
-            _longLivedPhaseVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
-
-        private string GetLongLivedPreviousPositionName()
-        {
-            string variableName = GetUniqueLocalVariableName(PREVIOUS_POSITION_MNEMONIC);
-
-            _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
         }
 
         /// <summary> Appends an empty line, pushes the output and returns dto casted to OperatorDtoBase. </summary>
@@ -3212,6 +3110,200 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLineToCalculate($"{previousPosition} = {position};");
 
             return new PhaseTrackingInfo { Phase = phase, Position = position, PreviousPosition = previousPosition };
+        }
+
+        private string GetArrayCalculatorVariableNameCamelCaseAndCache(ICalculatorWithPosition calculator)
+        {
+            ArrayCalculatorVariableInfo variableInfo;
+            // ReSharper disable once InvertIf
+            if (!_calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary.TryGetValue(calculator, out variableInfo))
+            {
+                string typeName = calculator.GetType().Name;
+
+                // Do not call GenerateUniqueLongLivedVariableName. In a later stage those are all assumed to be double variables. 
+                // The array calculator variables are not doubles.
+                string nameCamelCase = GetUniqueLocalVariableName(ARRAY_CALCULATOR_MNEMONIC);
+
+                variableInfo = new ArrayCalculatorVariableInfo
+                {
+                    NameCamelCase = nameCamelCase,
+                    TypeName = typeName,
+                    // DIRTY: Type assumption
+                    Calculator = (ArrayCalculatorBase)calculator
+                };
+
+                _calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary[calculator] = variableInfo;
+            }
+
+            return variableInfo.NameCamelCase;
+        }
+
+        /// <summary>
+        /// Formats the dimension into a string that is close to the dimension name + a unique character sequence.
+        /// E.g.: "prettiness_1"
+        /// </summary>
+        private string GetDimensionAlias(DimensionEnum dimensionEnum, string canonicalCustomDimensionName)
+        {
+            var key = new Tuple<DimensionEnum, string>(dimensionEnum, canonicalCustomDimensionName);
+            string alias;
+
+            if (_standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(key, out alias))
+            {
+                return alias;
+            }
+
+            object mnemonic;
+            if (dimensionEnum != DimensionEnum.Undefined)
+            {
+                mnemonic = dimensionEnum;
+            }
+            else
+            {
+                mnemonic = canonicalCustomDimensionName;
+            }
+            alias = GetUniqueDimensionAlias(mnemonic);
+
+            _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
+            return alias;
+        }
+
+        private string GetInputName(VariableInput_OperatorDto dto)
+        {
+            string name;
+            if (_variableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out name))
+            {
+                return name;
+            }
+
+            ExtendedVariableInfo inputVariableInfo = GetInputVariableInfo(dto);
+
+            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = inputVariableInfo.VariableNameCamelCase;
+
+            return inputVariableInfo.VariableNameCamelCase;
+        }
+
+        private ExtendedVariableInfo GetInputVariableInfo(VariableInput_OperatorDto dto)
+        {
+            object mnemonic;
+            if (dto.DimensionEnum != DimensionEnum.Undefined)
+            {
+                mnemonic = dto.DimensionEnum;
+            }
+            else if (!string.IsNullOrEmpty(dto.CanonicalName))
+            {
+                mnemonic = dto.CanonicalName;
+            }
+            else
+            {
+                mnemonic = DEFAULT_INPUT_MNEMONIC;
+            }
+
+            string variableName = GetUniqueLocalVariableName(mnemonic);
+
+            var valueInfo = new ExtendedVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
+
+            _variableName_To_InputVariableInfo_Dictionary.Add(variableName, valueInfo);
+
+            return valueInfo;
+        }
+
+        private string GetLiteralFromOperatorDtoOrValue(OperatorDtoBase valueOperatorDto = null, double? value = null)
+        {
+            bool xor = valueOperatorDto != null ^ value.HasValue;
+            if (!xor)
+            {
+                throw new Exception($"Either {nameof(value)} or {nameof(valueOperatorDto)} must be filled in, but not both at the same time.");
+            }
+
+            if (valueOperatorDto != null)
+            {
+                Visit_OperatorDto_Polymorphic(valueOperatorDto);
+                string literal = _stack.Pop();
+                return literal;
+            }
+            // ReSharper disable once RedundantIfElseBlock
+            else
+            {
+                return CompilationHelper.FormatValue(value.Value);
+            }
+        }
+
+        private string GetLocalOutputName(IOperatorDto dto)
+        {
+            return GetUniqueLocalVariableName(dto.OperatorTypeEnum);
+        }
+
+        private string GetLocalPhaseName()
+        {
+            string variableName = GetUniqueLocalVariableName(PHASE_MNEMONIC);
+            return variableName;
+        }
+
+        private string GetLongLivedOriginName()
+        {
+            string variableName = GetUniqueLocalVariableName(ORIGIN_MNEMONIC);
+
+            _longLivedOriginVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
+        }
+
+        private string GetLongLivedPhaseName()
+        {
+            string variableName = GetUniqueLocalVariableName(PHASE_MNEMONIC);
+
+            _longLivedPhaseVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
+        }
+
+        private string GetLongLivedPreviousPositionName()
+        {
+            string variableName = GetUniqueLocalVariableName(PREVIOUS_POSITION_MNEMONIC);
+
+            _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
+        }
+
+        /// <summary>'/' for Stretch, '*' for Squash</summary>
+        private string GetOperatorSymbol(StretchOrSquashEnum stretchOrSquashEnum)
+        {
+            switch (stretchOrSquashEnum)
+            {
+                case StretchOrSquashEnum.Stretch:
+                    return DIVIDE_SYMBOL;
+
+                case StretchOrSquashEnum.Squash:
+                    return MULTIPLY_SYMBOL;
+
+                default:
+                    throw new ValueNotSupportedException(stretchOrSquashEnum);
+            }
+        }
+
+        /// <summary> '&gt;' for Min, '&lt;' for Max </summary>
+        private string GetOperatorSymbol(MinOrMaxEnum minOrMaxEnum)
+        {
+            switch (minOrMaxEnum)
+            {
+                case MinOrMaxEnum.Min:
+                    return GREATER_THAN_SYMBOL;
+
+                case MinOrMaxEnum.Max:
+                    return LESS_THAN_SYMBOL;
+
+                default:
+                    throw new ValueNotSupportedException(minOrMaxEnum);
+            }
+        }
+
+        private string GetOperatorTitleComment(IOperatorDto dto)
+        {
+            string generalIdentifier = dto.OperatorTypeEnum.ToString();
+            string variationIdentifier = dto.GetType().Name.Replace("_OperatorDto", "").Replace($"{generalIdentifier}_", "");
+            string line = $"// {generalIdentifier} ({variationIdentifier})";
+            return line;
         }
 
         /// <summary>
@@ -3297,101 +3389,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             return _counter++;
         }
 
-        /// <summary>
-        /// Formats the dimension into a string that is close to the dimension name + a unique character sequence.
-        /// E.g.: "prettiness_1"
-        /// </summary>
-        private string GetDimensionAlias(DimensionEnum dimensionEnum, string canonicalCustomDimensionName)
+        private void PutNumberOnStack(double value)
         {
-            var key = new Tuple<DimensionEnum, string>(dimensionEnum, canonicalCustomDimensionName);
-            string alias;
-
-            if (_standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(key, out alias))
-            {
-                return alias;
-            }
-
-            object mnemonic;
-            if (dimensionEnum != DimensionEnum.Undefined)
-            {
-                mnemonic = dimensionEnum;
-            }
-            else
-            {
-                mnemonic = canonicalCustomDimensionName;
-            }
-            alias = GetUniqueDimensionAlias(mnemonic);
-
-            _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
-            return alias;
-        }
-
-        private string GetInputName(VariableInput_OperatorDto dto)
-        {
-            string name;
-            if (_variableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out name))
-            {
-                return name;
-            }
-
-            ExtendedVariableInfo inputVariableInfo = GenerateInputVariableInfo(dto);
-
-            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = inputVariableInfo.VariableNameCamelCase;
-
-            return inputVariableInfo.VariableNameCamelCase;
-        }
-
-        private string GetLiteralFromOperatorDtoOrValue(OperatorDtoBase valueOperatorDto = null, double? value = null)
-        {
-            bool xor = valueOperatorDto != null ^ value.HasValue;
-            if (!xor)
-            {
-                throw new Exception($"Either {nameof(value)} or {nameof(valueOperatorDto)} must be filled in, but not both at the same time.");
-            }
-
-            if (valueOperatorDto != null)
-            {
-                Visit_OperatorDto_Polymorphic(valueOperatorDto);
-                string literal = _stack.Pop();
-                return literal;
-            }
-            // ReSharper disable once RedundantIfElseBlock
-            else
-            {
-                return CompilationHelper.FormatValue(value.Value);
-            }
-        }
-
-        /// <summary> '&gt;' for Min, '&lt;' for Max </summary>
-        private static string GetOperatorSymbol(MinOrMaxEnum minOrMaxEnum)
-        {
-            switch (minOrMaxEnum)
-            {
-                case MinOrMaxEnum.Min:
-                    return GREATER_THAN_SYMBOL;
-
-                case MinOrMaxEnum.Max:
-                    return LESS_THAN_SYMBOL;
-
-                default:
-                    throw new ValueNotSupportedException(minOrMaxEnum);
-            }
-        }
-
-        /// <summary>'/' for Stretch, '*' for Squash</summary>
-        private string GetOperatorSymbol(StretchOrSquashEnum stretchOrSquashEnum)
-        {
-            switch (stretchOrSquashEnum)
-            {
-                case StretchOrSquashEnum.Stretch:
-                    return DIVIDE_SYMBOL;
-
-                case StretchOrSquashEnum.Squash:
-                    return MULTIPLY_SYMBOL;
-
-                default:
-                    throw new ValueNotSupportedException(stretchOrSquashEnum);
-            }
+            _stack.Push(CompilationHelper.FormatValue(value));
         }
     }
 }
