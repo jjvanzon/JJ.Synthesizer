@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorEntityVisitorBase_WithInletCoalescing : OperatorEntityVisitorBase
     {
-        public abstract void InsertNumber(double number);
+        protected abstract void InsertNumber(double number);
 
         protected override void VisitMultiplyInlet(Inlet inlet)
         {
@@ -16,37 +16,37 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitAverageOverInletsInlet(Inlet inlet)
         {
-            DoNotCoalesce(inlet);
+            CoalesceByIgnoringEmptyInlet(inlet);
         }
 
         protected override void VisitClosestOverInletsExpInlet(Inlet inlet)
         {
-            DoNotCoalesce(inlet);
+            CoalesceByIgnoringEmptyInlet(inlet);
         }
 
         protected override void VisitClosestOverInletsInlet(Inlet inlet)
         {
-            DoNotCoalesce(inlet);
+            CoalesceByIgnoringEmptyInlet(inlet);
         }
 
         protected override void VisitMaxOverInletsInlet(Inlet inlet)
         {
-            DoNotCoalesce(inlet);
+            CoalesceByIgnoringEmptyInlet(inlet);
         }
 
         protected override void VisitMinOverInletsInlet(Inlet inlet)
         {
-            DoNotCoalesce(inlet);
+            CoalesceByIgnoringEmptyInlet(inlet);
         }
 
         protected override void VisitSortOverInletsInlet(Inlet inlet)
         {
-            DoNotCoalesce(inlet);
+            CoalesceByIgnoringEmptyInlet(inlet);
         }
 
         protected override void VisitInletOther(Inlet inlet)
         {
-            CoalesceToDefaultOrZero(inlet);
+            CoalesceToDefaultValueOrZero(inlet);
         }
 
         /// <summary>
@@ -66,10 +66,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
             }
 
-            CoalesceToDefaultOrZero(inlet);
+            CoalesceToDefaultValueOrZero(inlet);
         }
 
-        private void CoalesceToDefaultOrZero(Inlet inlet)
+        private void CoalesceToDefaultValueOrZero(Inlet inlet)
         {
             if (inlet.InputOutlet == null)
             {
@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void DoNotCoalesce(Inlet inlet)
+        private void CoalesceByIgnoringEmptyInlet(Inlet inlet)
         {
             base.VisitInletBase(inlet);
         }

@@ -180,12 +180,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            IList<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
-            for (int i = 0; i < op.Inlets.Count; i++)
-            {
-                OperatorCalculatorBase operandCalculator = _stack.Pop();
-                operandCalculators.Add(operandCalculator);
-            }
+            IList<OperatorCalculatorBase> operandCalculators = op.Inlets.Where(x => x.InputOutlet != null)
+                                                                        .Select(x => _stack.Pop())
+                                                                        .ToArray();
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Sum());
 
@@ -332,12 +329,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            IList<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
-            for (int i = 0; i < op.Inlets.Count; i++)
-            {
-                OperatorCalculatorBase operandCalculator = _stack.Pop();
-                operandCalculators.Add(operandCalculator);
-            }
+            IList<OperatorCalculatorBase> operandCalculators = op.Inlets.Where(x => x.InputOutlet != null)
+                                                                        .Select(x => _stack.Pop())
+                                                                        .ToArray();
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Average());
 
@@ -1970,12 +1964,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            IList<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
-            for (int i = 0; i < op.Inlets.Count; i++)
-            {
-                OperatorCalculatorBase operandCalculator = _stack.Pop();
-                operandCalculators.Add(operandCalculator);
-            }
+            IList<OperatorCalculatorBase> operandCalculators = op.Inlets.Where(x => x.InputOutlet != null)
+                                                                        .Select(x => _stack.Pop())
+                                                                        .ToArray();
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Max());
 
@@ -2137,12 +2128,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            IList<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
-            for (int i = 0; i < op.Inlets.Count; i++)
-            {
-                OperatorCalculatorBase operandCalculator = _stack.Pop();
-                operandCalculators.Add(operandCalculator);
-            }
+            IList<OperatorCalculatorBase> operandCalculators = op.Inlets.Where(x => x.InputOutlet != null)
+                                                                        .Select(x => _stack.Pop())
+                                                                        .ToArray();
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Min());
 
@@ -2304,12 +2292,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            IList<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>(op.Inlets.Count);
-            for (int i = 0; i < op.Inlets.Count; i++)
-            {
-                OperatorCalculatorBase operandCalculator = _stack.Pop();
-                operandCalculators.Add(operandCalculator);
-            }
+            IList<OperatorCalculatorBase> operandCalculators = op.Inlets.Where(x => x.InputOutlet != null)
+                                                                        .Select(x => _stack.Pop())
+                                                                        .ToArray();
+
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Product());
 
             // Get the constant, to handle 1 and 0.
@@ -4423,7 +4409,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Special Visitation
 
-        public override void InsertNumber(double number)
+        protected override void InsertNumber(double number)
         {
             OperatorCalculatorBase calculator;
 
@@ -4532,7 +4518,6 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             IList<OperatorCalculatorBase> truncatedOperandCalculatorList = varOperandCalculators.Union(aggregatedConstOperandCalculator)
-                                                                                                .Where(x => x != null)
                                                                                                 .ToList();
             return truncatedOperandCalculatorList;
         }

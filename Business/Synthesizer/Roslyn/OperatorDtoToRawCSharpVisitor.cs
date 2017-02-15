@@ -2387,7 +2387,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string operatorSymbol = GetOperatorSymbol(stretchOrSquashEnum);
 
-            // Calculate
             AppendOperatorTitleComment(dto);
             AppendLine($"{destPosition} = ({sourcePosition} - {origin}) {operatorSymbol} {factor} + {origin};");
             AppendLine();

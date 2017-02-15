@@ -8,6 +8,7 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
+using System;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -25,8 +26,8 @@ namespace JJ.Business.Synthesizer.Visitors
         private Dictionary<Operator, VariableInput_OperatorDto> _patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary;
 
         public OperatorEntityToDtoVisitor(
-            ICurveRepository curveRepository, 
-            IPatchRepository patchRepository, 
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository,
             ISampleRepository sampleRepository,
             ISpeakerSetupRepository speakerSetupRepository)
         {
@@ -223,9 +224,9 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto.CurveID = curve.ID;
                 dto.MinX = curve.Nodes
-                                .OrderBy(x => x.X)
-                                .First()
-                                .X;
+                    .OrderBy(x => x.X)
+                    .First()
+                    .X;
             }
 
             SetDimensionProperties(op, dto);
@@ -366,7 +367,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new LessThan_OperatorDto();
             Process_OperatorDtoBase_VarA_VarB(op, dto);
         }
-        
+
         protected override void VisitLessThanOrEqual(Operator op)
         {
             var dto = new LessThanOrEqual_OperatorDto();
@@ -391,7 +392,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         protected override void VisitLowPassFilter(Operator op)
         {
             base.VisitLowPassFilter(op);
@@ -405,25 +406,25 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         protected override void VisitLowShelfFilter(Operator op)
         {
             var dto = new LowShelfFilter_OperatorDto();
             Process_OperatorDtoBase_ShelfFilter_AllVars(op, dto);
         }
-        
+
         protected override void VisitMaxOverDimension(Operator op)
         {
             var dto = new MaxOverDimension_OperatorDto();
             Process_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
-        
+
         protected override void VisitMaxOverInlets(Operator op)
         {
             var dto = new MaxOverInlets_OperatorDto();
             Process_OperatorDtoBase_Vars(op, dto);
         }
-        
+
         protected override void VisitMaxFollower(Operator op)
         {
             var dto = new MaxFollower_OperatorDto();
@@ -441,19 +442,19 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new MinOverInlets_OperatorDto();
             Process_OperatorDtoBase_Vars(op, dto);
         }
-        
+
         protected override void VisitMinFollower(Operator op)
         {
             var dto = new MinFollower_OperatorDto();
             Process_OperatorDtoBase_AggregateFollower(op, dto);
         }
-        
+
         protected override void VisitMultiply(Operator op)
         {
             var dto = new Multiply_OperatorDto();
             Process_OperatorDtoBase_Vars(op, dto);
         }
-        
+
         protected override void VisitMultiplyWithOrigin(Operator op)
         {
             base.VisitMultiplyWithOrigin(op);
@@ -487,7 +488,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         protected override void VisitNot(Operator op)
         {
             var dto = new Not_OperatorDto();
@@ -527,7 +528,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         protected override void VisitOneOverX(Operator op)
         {
             var dto = new OneOverX_OperatorDto();
@@ -554,7 +555,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         protected override void VisitPower(Operator op)
         {
             base.VisitPower(op);
@@ -567,7 +568,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         protected override void VisitPulse(Operator op)
         {
             base.VisitPulse(op);
@@ -582,7 +583,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         protected override void VisitPulseTrigger(Operator op)
         {
             var dto = new PulseTrigger_OperatorDto();
@@ -606,7 +607,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         protected override void VisitRangeOverDimension(Operator op)
         {
             base.VisitRangeOverDimension(op);
@@ -670,7 +671,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         protected override void VisitReverse(Operator op)
         {
             base.VisitReverse(op);
@@ -685,7 +686,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         protected override void VisitRound(Operator op)
         {
             base.VisitRound(op);
@@ -728,7 +729,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new SawUp_OperatorDto();
             Process_OperatorDtoBase_VarFrequency(op, dto);
         }
-        
+
         protected override void VisitScaler(Operator op)
         {
             base.VisitScaler(op);
@@ -792,13 +793,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             SetDimensionProperties(outlet.Operator, dto);
         }
-        
+
         protected override void VisitSortOverDimension(Operator op)
         {
             var dto = new SortOverDimension_OperatorDto();
             Process_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
-        
+
         protected override void VisitSpectrum(Operator op)
         {
             base.VisitSpectrum(op);
@@ -815,7 +816,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         protected override void VisitSquare(Operator op)
         {
             var dto = new Square_OperatorDto();
@@ -845,7 +846,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new SumOverDimension_OperatorDto();
             Process_OperatorDtoBase_AggregateOverDimension(op, dto);
         }
-        
+
         protected override void VisitSumFollower(Operator op)
         {
             var dto = new SumFollower_OperatorDto();
@@ -916,7 +917,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _stack.Push(dto);
         }
-        
+
         private void Process_OperatorDtoBase_AggregateFollower(Operator op, OperatorDtoBase_AggregateFollower_AllVars dto)
         {
             VisitOperatorBase(op);
@@ -947,7 +948,9 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(Operator op, OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth dto)
+        private void Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(
+            Operator op,
+            OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth dto)
         {
             VisitOperatorBase(op);
 
@@ -1018,13 +1021,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             VisitOperatorBase(op);
 
-            int count = op.Inlets.Count;
-            var vars = new OperatorDtoBase[count];
-            for (int i = 0; i < count; i++)
-            {
-                vars[i] = _stack.Pop();
-            }
-            dto.Vars = vars;
+            dto.Vars = op.Inlets.Where(x => x.InputOutlet != null).Select(x => _stack.Pop()).ToArray();
 
             _stack.Push(dto);
         }
@@ -1046,7 +1043,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Special Visitation
 
-        public override void InsertNumber(double number)
+        protected override void InsertNumber(double number)
         {
             _stack.Push(new Number_OperatorDto { Number = number });
         }
