@@ -95,9 +95,10 @@ namespace JJ.Business.Synthesizer.Tests
 
                 // Trigger SampleCalculation
                 IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
-                double value = calculator.Calculate(0);
+                double value = TestHelper.CalculateOneValue(calculator);
             }
         }
+
 
         [TestMethod]
         public void Test_Sample_WavHeaderDetection()

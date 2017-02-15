@@ -31,18 +31,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         // Calculate
 
-        public virtual double Calculate(double time)
-        {
-            // Implementation for backward compatibility.
-            // TODO: Lower priority: Refactor this method away completely or at least prefer not using it?
-
-            var buffer = new float[_channelCount];
-
-            Calculate(buffer, frameCount: 1, t0: time);
-
-            return buffer[_channelIndex];
-        }
-
         public abstract void Calculate(float[] buffer, int frameCount, double t0);
 
         // Values

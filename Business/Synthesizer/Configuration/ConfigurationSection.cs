@@ -35,5 +35,8 @@ namespace JJ.Business.Synthesizer.Configuration
 
         [XmlAttribute]
         public bool IncludeSymbolsWithCompilation { get; set; }
+
+        [XmlAttribute]
+        public int AudioFileOutputBufferSizeInBytes { get; set; }
     }
 }

@@ -142,6 +142,7 @@
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Line.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Calculation\AudioFileOutputs\2017-02-15 Backup of AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
