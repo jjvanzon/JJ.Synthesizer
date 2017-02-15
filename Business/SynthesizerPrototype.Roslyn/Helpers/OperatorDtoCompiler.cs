@@ -118,6 +118,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
             byte[] pdbBytes = null;
             if (_includeSymbols)
             {
+                // ReSharper disable once PossibleNullReferenceException
                 pdbStream.Position = 0;
                 pdbBytes = StreamHelper.StreamToBytes(pdbStream);
             }
