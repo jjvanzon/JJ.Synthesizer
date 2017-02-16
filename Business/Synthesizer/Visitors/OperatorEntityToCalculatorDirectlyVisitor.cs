@@ -1936,11 +1936,11 @@ namespace JJ.Business.Synthesizer.Visitors
             switch (resampleInterpolationTypeEnum)
             {
                 case ResampleInterpolationTypeEnum.Block:
-                    calculator = new InletsToDimension_OperatorCalculator_BlockInterpolation(operandCalculators, dimensionStack);
+                    calculator = new InletsToDimension_OperatorCalculator_Block(operandCalculators, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.Stripe:
-                    calculator = new InletsToDimension_OperatorCalculator_StripeInterpolation(operandCalculators, dimensionStack);
+                    calculator = new InletsToDimension_OperatorCalculator_Stripe(operandCalculators, dimensionStack);
                     break;
 
                 case ResampleInterpolationTypeEnum.Line:

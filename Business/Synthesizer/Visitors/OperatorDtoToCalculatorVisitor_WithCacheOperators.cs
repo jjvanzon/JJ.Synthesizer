@@ -82,52 +82,52 @@ namespace JJ.Business.Synthesizer.Visitors
         //    return ProcessWithDimensionTranformation(dto);
         //}
 
-        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Block(Cache_OperatorDto_MultiChannel_Block dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_CubicInterpolation(Cache_OperatorDto_MultiChannel_CubicInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Cubic(Cache_OperatorDto_MultiChannel_Cubic dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_HermiteInterpolation(Cache_OperatorDto_MultiChannel_HermiteInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Hermite(Cache_OperatorDto_MultiChannel_Hermite dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_LineInterpolation(Cache_OperatorDto_MultiChannel_LineInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Line(Cache_OperatorDto_MultiChannel_Line dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_StripeInterpolation(Cache_OperatorDto_MultiChannel_StripeInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Stripe(Cache_OperatorDto_MultiChannel_Stripe dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation(Cache_OperatorDto_SingleChannel_BlockInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Block(Cache_OperatorDto_SingleChannel_Block dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_CubicInterpolation(Cache_OperatorDto_SingleChannel_CubicInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Cubic(Cache_OperatorDto_SingleChannel_Cubic dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_HermiteInterpolation(Cache_OperatorDto_SingleChannel_HermiteInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Hermite(Cache_OperatorDto_SingleChannel_Hermite dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_LineInterpolation(Cache_OperatorDto_SingleChannel_LineInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Line(Cache_OperatorDto_SingleChannel_Line dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_StripeInterpolation(Cache_OperatorDto_SingleChannel_StripeInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Stripe(Cache_OperatorDto_SingleChannel_Stripe dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }

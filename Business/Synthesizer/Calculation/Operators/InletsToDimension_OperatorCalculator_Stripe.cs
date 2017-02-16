@@ -5,14 +5,14 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class InletsToDimension_OperatorCalculator_BlockInterpolation : OperatorCalculatorBase_WithChildCalculators
+    internal class InletsToDimension_OperatorCalculator_Stripe : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase[] _operandCalculators;
         private readonly double _maxIndexDouble;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
         
-        public InletsToDimension_OperatorCalculator_BlockInterpolation(IList<OperatorCalculatorBase> operandCalculators, DimensionStack dimensionStack)
+        public InletsToDimension_OperatorCalculator_Stripe(IList<OperatorCalculatorBase> operandCalculators, DimensionStack dimensionStack)
             : base(operandCalculators)
         {
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
@@ -34,6 +34,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
+            // Correct position, to get stripe interpolation.
+            position += 0.5;
+
             double result;
 
             if (ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _maxIndexDouble))

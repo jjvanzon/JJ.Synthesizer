@@ -18,16 +18,16 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             blockInterpolationType.SortOrder = 1;
 
             InterpolationType lineInterpolationType = Get(2);
-            blockInterpolationType.SortOrder = 3;
+            lineInterpolationType.SortOrder = 3;
 
             InterpolationType stripeInterpolationType = Get(3);
-            blockInterpolationType.SortOrder = 2;
+            stripeInterpolationType.SortOrder = 2;
 
             InterpolationType curveInterpolationType = Get(4);
-            blockInterpolationType.SortOrder = 4;
+            curveInterpolationType.SortOrder = 4;
 
             InterpolationType hermiteInterpolationType = Get(5);
-            blockInterpolationType.SortOrder = 5;
+            hermiteInterpolationType.SortOrder = 5;
         }
     }
 }

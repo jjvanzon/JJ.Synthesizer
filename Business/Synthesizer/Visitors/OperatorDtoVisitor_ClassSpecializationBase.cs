@@ -250,43 +250,43 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
             {
-                dto2 = new Cache_OperatorDto_SingleChannel_BlockInterpolation();
+                dto2 = new Cache_OperatorDto_SingleChannel_Block();
             }
             else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic)
             {
-                dto2 = new Cache_OperatorDto_SingleChannel_CubicInterpolation();
+                dto2 = new Cache_OperatorDto_SingleChannel_Cubic();
             }
             else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite)
             {
-                dto2 = new Cache_OperatorDto_SingleChannel_HermiteInterpolation();
+                dto2 = new Cache_OperatorDto_SingleChannel_Hermite();
             }
             else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Line)
             {
-                dto2 = new Cache_OperatorDto_SingleChannel_LineInterpolation();
+                dto2 = new Cache_OperatorDto_SingleChannel_Line();
             }
             else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe)
             {
-                dto2 = new Cache_OperatorDto_SingleChannel_StripeInterpolation();
+                dto2 = new Cache_OperatorDto_SingleChannel_Stripe();
             }
             else if (dto.ChannelCount > 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
             {
-                dto2 = new Cache_OperatorDto_MultiChannel_BlockInterpolation();
+                dto2 = new Cache_OperatorDto_MultiChannel_Block();
             }
             else if (dto.ChannelCount > 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic)
             {
-                dto2 = new Cache_OperatorDto_MultiChannel_CubicInterpolation();
+                dto2 = new Cache_OperatorDto_MultiChannel_Cubic();
             }
             else if (dto.ChannelCount > 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite)
             {
-                dto2 = new Cache_OperatorDto_MultiChannel_HermiteInterpolation();
+                dto2 = new Cache_OperatorDto_MultiChannel_Hermite();
             }
             else if (dto.ChannelCount > 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Line)
             {
-                dto2 = new Cache_OperatorDto_MultiChannel_LineInterpolation();
+                dto2 = new Cache_OperatorDto_MultiChannel_Line();
             }
             else if (dto.ChannelCount > 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe)
             {
-                dto2 = new Cache_OperatorDto_MultiChannel_StripeInterpolation();
+                dto2 = new Cache_OperatorDto_MultiChannel_Stripe();
             }
             else
             {

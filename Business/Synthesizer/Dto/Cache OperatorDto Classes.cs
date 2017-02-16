@@ -14,34 +14,34 @@ namespace JJ.Business.Synthesizer.Dto
     // There is a lot of specialization here, that at one point seemed necessary, but is currently (2016-12-14) not used.
     // But in the future, we might use it again. Still it is a code smell that we have structuring with no purpose.
 
-    internal class Cache_OperatorDto_SingleChannel_BlockInterpolation : Cache_OperatorDtoBase_NotConstSignal
+    internal class Cache_OperatorDto_SingleChannel_Block : Cache_OperatorDtoBase_NotConstSignal
     { }
 
-    internal class Cache_OperatorDto_SingleChannel_CubicInterpolation : Cache_OperatorDtoBase_NotConstSignal
+    internal class Cache_OperatorDto_SingleChannel_Cubic : Cache_OperatorDtoBase_NotConstSignal
     { }
 
-    internal class Cache_OperatorDto_SingleChannel_HermiteInterpolation : Cache_OperatorDtoBase_NotConstSignal
+    internal class Cache_OperatorDto_SingleChannel_Hermite : Cache_OperatorDtoBase_NotConstSignal
     { }
 
-    internal class Cache_OperatorDto_SingleChannel_LineInterpolation : Cache_OperatorDtoBase_NotConstSignal
+    internal class Cache_OperatorDto_SingleChannel_Line : Cache_OperatorDtoBase_NotConstSignal
     { }
 
-    internal class Cache_OperatorDto_SingleChannel_StripeInterpolation : Cache_OperatorDtoBase_NotConstSignal
+    internal class Cache_OperatorDto_SingleChannel_Stripe : Cache_OperatorDtoBase_NotConstSignal
     { }
 
-    internal class Cache_OperatorDto_MultiChannel_BlockInterpolation : Cache_OperatorDtoBase_NotConstSignal
+    internal class Cache_OperatorDto_MultiChannel_Block : Cache_OperatorDtoBase_NotConstSignal
     { }
 
-    internal class Cache_OperatorDto_MultiChannel_CubicInterpolation : Cache_OperatorDtoBase_NotConstSignal
+    internal class Cache_OperatorDto_MultiChannel_Cubic : Cache_OperatorDtoBase_NotConstSignal
     { }
 
-    internal class Cache_OperatorDto_MultiChannel_HermiteInterpolation : Cache_OperatorDtoBase_NotConstSignal
+    internal class Cache_OperatorDto_MultiChannel_Hermite : Cache_OperatorDtoBase_NotConstSignal
     { }
 
-    internal class Cache_OperatorDto_MultiChannel_LineInterpolation : Cache_OperatorDtoBase_NotConstSignal
+    internal class Cache_OperatorDto_MultiChannel_Line : Cache_OperatorDtoBase_NotConstSignal
     { }
 
-    internal class Cache_OperatorDto_MultiChannel_StripeInterpolation : Cache_OperatorDtoBase_NotConstSignal
+    internal class Cache_OperatorDto_MultiChannel_Stripe : Cache_OperatorDtoBase_NotConstSignal
     { }
 
     internal abstract class Cache_OperatorDtoBase_NotConstSignal : OperatorDtoBase_WithDimension

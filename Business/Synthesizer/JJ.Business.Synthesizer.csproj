@@ -153,7 +153,7 @@
     </Compile>
     <Compile Include="Calculation\ICalculatorWithPosition.cs" />
     <Compile Include="Calculation\Operators\IPositionTransformer.cs" />
-    <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_StripeInterpolation.cs" />
+    <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorBase.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -236,7 +236,7 @@
     <Compile Include="Calculation\Operators\RangeOverDimension OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_OtherInterpolationTypes.cs" />
     <Compile Include="Calculation\Operators\DimensionToOutlets_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_BlockInterpolation.cs" />
+    <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Hold_OperatorCalculator_VarSignal.cs" />
     <Compile Include="Calculation\Operators\SetDimension OperatorCalculator Classes.cs" />

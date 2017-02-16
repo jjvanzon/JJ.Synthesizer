@@ -437,12 +437,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_BlockInterpolation(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_Block(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
         }
 
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_StripeInterpolation(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_Stripe(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
         }
 
         protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)

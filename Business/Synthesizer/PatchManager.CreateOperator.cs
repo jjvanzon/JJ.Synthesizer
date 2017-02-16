@@ -1596,7 +1596,7 @@ namespace JJ.Business.Synthesizer
             var wrapper = new Random_OperatorWrapper(op)
             {
                 Rate = rate,
-                InterpolationType = ResampleInterpolationTypeEnum.Block
+                InterpolationType = ResampleInterpolationTypeEnum.Stripe
             };
 
             wrapper.RateInlet.DefaultValue = DEFAULT_RANDOM_RATE;

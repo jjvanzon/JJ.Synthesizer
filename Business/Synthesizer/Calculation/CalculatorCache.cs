@@ -35,11 +35,11 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<int, NoiseCalculator> _operatorID_To_NoiseCalculator_Dictionary = new Dictionary<int, NoiseCalculator>();
         private readonly object _operatorID_To_NoiseCalculator_Dictionary_Lock = new object();
 
-        private readonly Dictionary<int, RandomCalculator_Block> _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary = new Dictionary<int, RandomCalculator_Block>();
-        private readonly object _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary_Lock = new object();
+        private readonly Dictionary<int, RandomCalculator_Block> _operatorID_To_RandomCalculator_Block_Dictionary = new Dictionary<int, RandomCalculator_Block>();
+        private readonly object _operatorID_To_RandomCalculator_Block_Dictionary_Lock = new object();
 
-        private readonly Dictionary<int, RandomCalculator_Stripe> _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary = new Dictionary<int, RandomCalculator_Stripe>();
-        private readonly object _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary_Lock = new object();
+        private readonly Dictionary<int, RandomCalculator_Stripe> _operatorID_To_RandomCalculator_Stripe_Dictionary = new Dictionary<int, RandomCalculator_Stripe>();
+        private readonly object _operatorID_To_RandomCalculator_Stripe_Dictionary_Lock = new object();
 
         private readonly Dictionary<int, IList<ICalculatorWithPosition>> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, IList<ICalculatorWithPosition>>();
         private readonly object _cacheOperatorID_To_ArrayCalculators_Dictionary_Lock = new object();
@@ -165,14 +165,14 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             if (operatorID == 0) throw new ZeroException(() => operatorID);
 
-            lock (_operatorID_To_RandomCalculator_StripeInterpolation_Dictionary_Lock)
+            lock (_operatorID_To_RandomCalculator_Stripe_Dictionary_Lock)
             {
                 RandomCalculator_Stripe randomCalculator;
                 // ReSharper disable once InvertIf
-                if (!_operatorID_To_RandomCalculator_StripeInterpolation_Dictionary.TryGetValue(operatorID, out randomCalculator))
+                if (!_operatorID_To_RandomCalculator_Stripe_Dictionary.TryGetValue(operatorID, out randomCalculator))
                 {
                     randomCalculator = new RandomCalculator_Stripe();
-                    _operatorID_To_RandomCalculator_StripeInterpolation_Dictionary.Add(operatorID, randomCalculator);
+                    _operatorID_To_RandomCalculator_Stripe_Dictionary.Add(operatorID, randomCalculator);
                 }
 
                 return randomCalculator;
@@ -183,14 +183,14 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             if (operatorID == 0) throw new ZeroException(() => operatorID);
 
-            lock (_operatorID_To_RandomCalculator_BlockInterpolation_Dictionary_Lock)
+            lock (_operatorID_To_RandomCalculator_Block_Dictionary_Lock)
             {
                 RandomCalculator_Block randomCalculator;
                 // ReSharper disable once InvertIf
-                if (!_operatorID_To_RandomCalculator_BlockInterpolation_Dictionary.TryGetValue(operatorID, out randomCalculator))
+                if (!_operatorID_To_RandomCalculator_Block_Dictionary.TryGetValue(operatorID, out randomCalculator))
                 {
                     randomCalculator = new RandomCalculator_Block();
-                    _operatorID_To_RandomCalculator_BlockInterpolation_Dictionary.Add(operatorID, randomCalculator);
+                    _operatorID_To_RandomCalculator_Block_Dictionary.Add(operatorID, randomCalculator);
                 }
                 return randomCalculator;
             }

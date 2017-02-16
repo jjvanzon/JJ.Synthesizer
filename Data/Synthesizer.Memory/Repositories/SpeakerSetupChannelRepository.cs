@@ -17,6 +17,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
 
             int id = 1;
 
+            // ReSharper disable once JoinDeclarationAndInitializer
             SpeakerSetupChannel entity;
 
             entity = new SpeakerSetupChannel();
