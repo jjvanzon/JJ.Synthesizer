@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_InterpretedPatchCalculator_Adder()
+        public void Test_Synthesizer_Add()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_InterpretedPatchCalculator_SineWithCurve_InterpretedMode()
+        public void Test_Synthesizer_SineWithCurve_InterpretedMode()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -218,7 +218,6 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_TimePowerWithEcho()
         {
@@ -256,7 +255,6 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_MultiplyWithEcho()
         {
@@ -430,9 +428,8 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        // Test engine crashes
         [TestMethod]
-        public void Test_Synthesizer_OptimizedPatchCalculator_WithNullInlet()
+        public void Test_Synthesizer_PatchCalculator_WithNullInlet()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -446,9 +443,8 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        // Test engine crashes
         [TestMethod]
-        public void Test_Synthesizer_OptimizedPatchCalculator_Nulls()
+        public void Test_Synthesizer_PatchCalculator_Nulls()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -462,9 +458,8 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        // Test engine crashes
         [TestMethod]
-        public void Test_Synthesizer_OptimizedPatchCalculator_NestedOperators()
+        public void Test_Synthesizer_PatchCalculator_NestedOperators()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {

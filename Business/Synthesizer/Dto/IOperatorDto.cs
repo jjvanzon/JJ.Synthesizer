@@ -6,6 +6,6 @@ namespace JJ.Business.Synthesizer.Dto
     internal interface IOperatorDto
     {
         OperatorTypeEnum OperatorTypeEnum { get; }
-        IList<OperatorDtoBase> InputOperatorDtos { get; set; }
+        IList<IOperatorDto> InputOperatorDtos { get; set; }
     }
 }

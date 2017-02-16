@@ -7,7 +7,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithInheritance
 {
     internal static partial class OperatorCalculatorFactory
     {
-        public static OperatorCalculatorBase CreateOperatorCalculatorFromDto(OperatorDtoBase dto, DimensionStack dimensionStack)
+        public static OperatorCalculatorBase CreateOperatorCalculatorFromDto(IOperatorDto dto, DimensionStack dimensionStack)
         {
             var visitor = new OperatorDtoToOperatorCalculatorVisitor(dimensionStack);
             OperatorCalculatorBase calculator = visitor.Execute(dto);

@@ -51,16 +51,16 @@ namespace JJ.Business.Synthesizer.Dto
         /// <summary> Used as a cache key. </summary>
         public int OperatorID { get; set; }
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase StartOperatorDto { get; set; }
-        public OperatorDtoBase EndOperatorDto { get; set; }
-        public OperatorDtoBase SamplingRateOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto StartOperatorDto { get; set; }
+        public IOperatorDto EndOperatorDto { get; set; }
+        public IOperatorDto SamplingRateOperatorDto { get; set; }
 
         public int ChannelCount { get; set; }
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public SpeakerSetupEnum SpeakerSetupEnum { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, StartOperatorDto, EndOperatorDto, SamplingRateOperatorDto }; }
             set { SignalOperatorDto = value[0]; StartOperatorDto = value[1]; EndOperatorDto = value[2]; SamplingRateOperatorDto = value[3]; }

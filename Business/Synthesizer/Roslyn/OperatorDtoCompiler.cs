@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         [Obsolete("Consider using CompileToPatchCalculatorActivationInfo instead, to compile once and instantiate multiple times.")]
         public IPatchCalculator CompileToPatchCalculator(
-            OperatorDtoBase dto, 
+            IOperatorDto dto, 
             int samplingRate, 
             int channelCount, 
             int channelIndex, 
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         public ActivationInfo CompileToPatchCalculatorActivationInfo(
-            OperatorDtoBase dto,
+            IOperatorDto dto,
             int samplingRate,
             int channelCount,
             int channelIndex,

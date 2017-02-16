@@ -9,7 +9,7 @@ namespace JJ.Business.SynthesizerPrototype.Helpers
     internal static class MathPropertiesHelper
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MathPropertiesDto GetMathPropertiesDto(OperatorDtoBase operatorDto)
+        public static MathPropertiesDto GetMathPropertiesDto(IOperatorDto operatorDto)
         {
             var number_OperatorDto = operatorDto as Number_OperatorDto;
             if (number_OperatorDto != null)
@@ -56,11 +56,11 @@ namespace JJ.Business.SynthesizerPrototype.Helpers
             return mathPropertiesDto;
         }
 
-        public static VarsConsts_MathPropertiesDto Get_VarsConsts_MathPropertiesDto(IList<OperatorDtoBase> operatorDtos)
+        public static VarsConsts_MathPropertiesDto Get_VarsConsts_MathPropertiesDto(IList<IOperatorDto> operatorDtos)
         {
-            IList<OperatorDtoBase> constOperatorDtos = operatorDtos.Where(x => GetMathPropertiesDto(x).IsConst).ToArray();
+            IList<IOperatorDto> constOperatorDtos = operatorDtos.Where(x => GetMathPropertiesDto(x).IsConst).ToArray();
 
-            IList<OperatorDtoBase> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
+            IList<IOperatorDto> varOperatorDtos = operatorDtos.Except(constOperatorDtos).ToArray();
             IList<double> consts = constOperatorDtos.Select(x => GetMathPropertiesDto(x).ConstValue).ToArray();
 
             bool hasVars = varOperatorDtos.Any();

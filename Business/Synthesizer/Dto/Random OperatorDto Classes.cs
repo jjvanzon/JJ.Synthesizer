@@ -7,12 +7,12 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Random;
 
-        public OperatorDtoBase RateOperatorDto { get; set; }
+        public IOperatorDto RateOperatorDto { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
         /// <summary> Used as a cache key. </summary>
         public int OperatorID { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { RateOperatorDto }; }
             set { RateOperatorDto = value[0]; }
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Dto
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
         /// <summary> Used as a cache key. </summary>
         public int OperatorID { get; set; }
-        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
+        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
 
     internal class Random_OperatorDto_Line_LagBehind_VarRate : Random_OperatorDto

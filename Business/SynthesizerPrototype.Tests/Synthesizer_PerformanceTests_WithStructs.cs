@@ -40,7 +40,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             IOperatorCalculator calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             var stopWatch = Stopwatch.StartNew();
@@ -63,7 +63,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
             var dimensionStack = new DimensionStack();
             dimensionStack.Push(0.0);
 
-            OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+            IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
             IOperatorCalculator calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             double t = 0.0;
@@ -88,7 +88,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 
             var compileTimeStruct = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
 
-            OperatorDtoBase dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
+            IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
             var runTimeStruct = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
             Type compileTimeStructType = compileTimeStruct.GetType();

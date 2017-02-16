@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Helpers
             return debuggerDisplay;
         }
 
-        public static string GetDebuggerDisplay(OperatorDtoBase operatorDto)
+        public static string GetDebuggerDisplay(IOperatorDto operatorDto)
         {
             if (operatorDto == null) throw new NullException(() => operatorDto);
 

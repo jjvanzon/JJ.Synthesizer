@@ -5,32 +5,32 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers
 {
     internal static class OperatorDtoFactory
     {
-        public static OperatorDtoBase CreateOperatorDto_8Partials()
+        public static IOperatorDto CreateOperatorDto_8Partials()
         {
             VariableInput_OperatorDto frequency_OperatorDto = Create_Frequency_VariableInput_OperatorDto();
 
             const int partialCount = 8;
 
-            IList<OperatorDtoBase> partialOperatorDtos = new List<OperatorDtoBase>(partialCount);
+            IList<IOperatorDto> partialOperatorDtos = new List<IOperatorDto>(partialCount);
 
             for (int i = 0; i < partialCount; i++)
             {
-                OperatorDtoBase partialOperatorDto = CreateOperatorDto_SinglePartial(frequency_OperatorDto);
+                IOperatorDto partialOperatorDto = CreateOperatorDto_SinglePartial(frequency_OperatorDto);
                 partialOperatorDtos.Add(partialOperatorDto);
             }
 
-            OperatorDtoBase operatorDto = new Add_OperatorDto { Vars = partialOperatorDtos };
+            IOperatorDto operatorDto = new Add_OperatorDto { Vars = partialOperatorDtos };
             return operatorDto;
         }
 
-        public static OperatorDtoBase CreateOperatorDto_SinglePartial()
+        public static IOperatorDto CreateOperatorDto_SinglePartial()
         {
             VariableInput_OperatorDto frequency_OperatorDto = Create_Frequency_VariableInput_OperatorDto();
-            OperatorDtoBase operatorDto = CreateOperatorDto_SinglePartial(frequency_OperatorDto);
+            IOperatorDto operatorDto = CreateOperatorDto_SinglePartial(frequency_OperatorDto);
             return operatorDto;
         }
 
-        private static OperatorDtoBase CreateOperatorDto_SinglePartial(VariableInput_OperatorDto frequency_VariableInput_OperatorDto)
+        private static IOperatorDto CreateOperatorDto_SinglePartial(VariableInput_OperatorDto frequency_VariableInput_OperatorDto)
         {
             const double volume = 10.0;
             const double phaseShift = 0.25;

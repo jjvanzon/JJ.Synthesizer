@@ -7,11 +7,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reset;
 
-        public OperatorDtoBase PassThroughInputOperatorDto { get; set; }
+        public IOperatorDto PassThroughInputOperatorDto { get; set; }
         public string Name { get; set; }
         public int? ListIndex { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { PassThroughInputOperatorDto }; }
             set { PassThroughInputOperatorDto = value[0]; }

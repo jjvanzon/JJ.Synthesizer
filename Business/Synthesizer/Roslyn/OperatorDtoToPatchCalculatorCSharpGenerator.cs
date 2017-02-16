@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             _sampleRepository = sampleRepository;
         }
 
-        public OperatorDtoToPatchCalculatorCSharpGeneratorResult Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName)
+        public OperatorDtoToPatchCalculatorCSharpGeneratorResult Execute(IOperatorDto dto, string generatedNameSpace, string generatedClassName)
         {
             if (string.IsNullOrEmpty(generatedNameSpace)) throw new NullOrEmptyException(() => generatedNameSpace);
             if (string.IsNullOrEmpty(generatedClassName)) throw new NullOrEmptyException(() => generatedClassName);

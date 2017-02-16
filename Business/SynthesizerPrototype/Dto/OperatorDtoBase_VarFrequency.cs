@@ -4,9 +4,9 @@ namespace JJ.Business.SynthesizerPrototype.Dto
 {
     public abstract class OperatorDtoBase_VarFrequency : OperatorDtoBase
     {
-        public OperatorDtoBase FrequencyOperatorDto { get; set; }
+        public IOperatorDto FrequencyOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { FrequencyOperatorDto }; }
             set { FrequencyOperatorDto = value[0]; }

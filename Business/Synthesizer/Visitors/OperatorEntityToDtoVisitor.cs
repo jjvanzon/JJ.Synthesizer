@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Visitors
         private readonly ISampleRepository _sampleRepository;
         private readonly ISpeakerSetupRepository _speakerSetupRepository;
 
-        private Stack<OperatorDtoBase> _stack;
+        private Stack<IOperatorDto> _stack;
         private Outlet _topLevelOutlet;
 
         /// <summary> Needed to maintain instance integrity. </summary>
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _speakerSetupRepository = speakerSetupRepository;
         }
 
-        public OperatorDtoBase Execute(Operator op)
+        public IOperatorDto Execute(Operator op)
         {
             if (op.Outlets.Count != 1) throw new NotEqualException(() => op.Outlets.Count, 1);
 
@@ -51,16 +51,16 @@ namespace JJ.Business.Synthesizer.Visitors
             return Execute(topLevelOutlet);
         }
 
-        public OperatorDtoBase Execute(Outlet topLevelOutlet)
+        public IOperatorDto Execute(Outlet topLevelOutlet)
         {
             _topLevelOutlet = topLevelOutlet;
 
-            _stack = new Stack<OperatorDtoBase>();
+            _stack = new Stack<IOperatorDto>();
             _patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary = new Dictionary<Operator, VariableInput_OperatorDto>();
 
             VisitOutletPolymorphic(topLevelOutlet);
 
-            OperatorDtoBase dto = _stack.Pop();
+            IOperatorDto dto = _stack.Pop();
 
             return dto;
         }
@@ -908,7 +908,7 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.InputOperatorDto = _stack.Pop();
 
             int count = op.Inlets.Count - 1;
-            var itemOperatorDtos = new OperatorDtoBase[count];
+            var itemOperatorDtos = new IOperatorDto[count];
             for (int i = 0; i < count; i++)
             {
                 itemOperatorDtos[i] = _stack.Pop();
@@ -1071,7 +1071,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitPatchInlet(op);
 
-            OperatorDtoBase inputDto = _stack.Pop();
+            IOperatorDto inputDto = _stack.Pop();
 
             bool isTopLevelPatchInlet = IsTopLevelPatchInlet(op);
             if (isTopLevelPatchInlet)

@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Dto
     {
         /// <summary> Only used to add comment to output generated C# code. </summary>
         public abstract OperatorTypeEnum OperatorTypeEnum { get; }
-        public abstract IList<OperatorDtoBase> InputOperatorDtos { get; set; }
+        public abstract IList<IOperatorDto> InputOperatorDtos { get; set; }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }

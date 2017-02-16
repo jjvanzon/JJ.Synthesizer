@@ -6,12 +6,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 {
     internal class OperatorDtoVisitor_CodeGenerationSimplification : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
-        public OperatorDtoBase Execute(OperatorDtoBase dto)
+        public IOperatorDto Execute(IOperatorDto dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
         }
 
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstFactor_NoOriginShifting(Reverse_OperatorDto_ConstFactor_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Reverse_OperatorDto_ConstFactor_NoOriginShifting(Reverse_OperatorDto_ConstFactor_NoOriginShifting dto)
         {
             double negativeFactor = -dto.Factor;
 
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_ConstFactor_WithOriginShifting(Reverse_OperatorDto_ConstFactor_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Reverse_OperatorDto_ConstFactor_WithOriginShifting(Reverse_OperatorDto_ConstFactor_WithOriginShifting dto)
         {
             double negativeFactor = -dto.Factor;
 
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarFactor_NoPhaseTracking(Reverse_OperatorDto_VarFactor_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Reverse_OperatorDto_VarFactor_NoPhaseTracking(Reverse_OperatorDto_VarFactor_NoPhaseTracking dto)
         {
             var negativeDto = new Negative_OperatorDto_VarX
             {
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto3;
         }
 
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto_VarFactor_WithPhaseTracking(Reverse_OperatorDto_VarFactor_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Reverse_OperatorDto_VarFactor_WithPhaseTracking(Reverse_OperatorDto_VarFactor_WithPhaseTracking dto)
         {
             var negativeDto = new Negative_OperatorDto_VarX
             {

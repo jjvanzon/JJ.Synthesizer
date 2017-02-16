@@ -20,10 +20,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverInlets;
 
-        public OperatorDtoBase InputOperatorDto { get; set; }
-        public IList<OperatorDtoBase> ItemOperatorDtos { get; set; }
+        public IOperatorDto InputOperatorDto { get; set; }
+        public IList<IOperatorDto> ItemOperatorDtos { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return InputOperatorDto.Union(ItemOperatorDtos).ToArray(); }
             set { InputOperatorDto = value[0]; ItemOperatorDtos = value.Skip(1).ToArray(); }
@@ -34,10 +34,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverInlets;
 
-        public OperatorDtoBase InputOperatorDto { get; set; }
+        public IOperatorDto InputOperatorDto { get; set; }
         public IList<double> Items { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] {InputOperatorDto}; }
             set { InputOperatorDto = value[0]; }
@@ -49,11 +49,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverInlets;
 
-        public OperatorDtoBase InputOperatorDto { get; set; }
+        public IOperatorDto InputOperatorDto { get; set; }
         public double Item1 { get; set; }
         public double Item2 { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { InputOperatorDto }; }
             set { InputOperatorDto = value[0]; }

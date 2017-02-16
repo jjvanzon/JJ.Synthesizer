@@ -18,7 +18,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
                     AOperatorDto = new Number_OperatorDto { Number = 4 },
                     BOperatorDto = new Add_OperatorDto
                     {
-                        Vars = new OperatorDtoBase[]
+                        Vars = new IOperatorDto[]
                         {
                             new Number_OperatorDto { Number = 100 },
                             new Number_OperatorDto { Number = 10 }
@@ -28,7 +28,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
             };
 
             var visitor = new OperatorDtoPreProcessingExecutor();
-            OperatorDtoBase operatorDtoBase = visitor.Execute(dto);
+            IOperatorDto operatorDtoBase = visitor.Execute(dto);
 
             AssertHelper.IsOfType<Sine_OperatorDto_ConstFrequency_WithOriginShifting>(() => operatorDtoBase);
 

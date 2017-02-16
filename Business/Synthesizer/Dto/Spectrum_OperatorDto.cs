@@ -15,12 +15,12 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Spectrum;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase StartOperatorDto { get; set; }
-        public OperatorDtoBase EndOperatorDto { get; set; }
-        public OperatorDtoBase FrequencyCountOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto StartOperatorDto { get; set; }
+        public IOperatorDto EndOperatorDto { get; set; }
+        public IOperatorDto FrequencyCountOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, StartOperatorDto, EndOperatorDto, FrequencyCountOperatorDto }; } 
             set

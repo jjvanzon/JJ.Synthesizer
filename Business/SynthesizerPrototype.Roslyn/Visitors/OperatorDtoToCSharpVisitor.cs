@@ -50,7 +50,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             }
         }
 
-        public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto, int intialIndentLevel)
+        public OperatorDtoToCSharpVisitorResult Execute(IOperatorDto dto, int intialIndentLevel)
         {
             _stack = new Stack<string>();
             _inputVariableInfoDictionary = new Dictionary<string, VariableInputInfo>();
@@ -80,21 +80,21 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
                 _phaseVariableNamesCamelCase);
         }
 
-        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
             VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
 
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
+        protected override IOperatorDto Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
             dto.Vars.ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
             return ProcessMultiVarOperator(dto, dto.Vars.Count, PLUS_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
+        protected override IOperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
             ProcessNumber(dto.ConstValue);
             dto.Vars.ForEach(x => Visit_OperatorDto_Polymorphic(x));
@@ -102,7 +102,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             return ProcessMultiVarOperator(dto, dto.Vars.Count + 1, PLUS_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
         {
             ProcessNumber(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -110,7 +110,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             return ProcessBinaryOperator(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -118,41 +118,41 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             return ProcessBinaryOperator(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
+        protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
             return ProcessNumberOperatorDto(dto);
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
+        protected override IOperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
             return ProcessNumberOperatorDto(dto);
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
+        protected override IOperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
         {
             return ProcessNumberOperatorDto(dto);
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
+        protected override IOperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
         {
             return ProcessNumberOperatorDto(dto);
         }
 
-        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
+        protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
             // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
 
             return ProcessShift(dto, distance: dto.Distance);
         }
 
-        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
+        protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
             // Do not call base: It will visit the inlets in one blow. We need to visit the inlets one by one.
 
             return ProcessShift(dto, dto.DistanceOperatorDto);
         }
 
-        private OperatorDtoBase ProcessShift(IOperatorDto_VarSignal dto, OperatorDtoBase distanceOperatorDto = null, double? distance = null)
+        private IOperatorDto ProcessShift(IOperatorDto_VarSignal dto, IOperatorDto distanceOperatorDto = null, double? distance = null)
         {
             if (distanceOperatorDto != null)
             {
@@ -180,10 +180,10 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 
             _stack.Push(signalLiteral);
 
-            return (OperatorDtoBase)dto; // Dirty. Refactor away if IOperatorDtoBase is the deepest base type.
+            return dto; // Dirty. Refactor away if IOperatorDtoBase is the deepest base type.
         }
 
-        protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
@@ -204,7 +204,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
+        protected override IOperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {
             string inputVariableName = GetInputVariableName(dto);
 
@@ -215,7 +215,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 
         // Generalized Methods
 
-        private OperatorDtoBase ProcessBinaryOperator(OperatorDtoBase dto, string operatorSymbol)
+        private IOperatorDto ProcessBinaryOperator(IOperatorDto dto, string operatorSymbol)
         {
             string a = _stack.Pop();
             string b = _stack.Pop();
@@ -230,7 +230,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             return dto;
         }
 
-        private OperatorDtoBase ProcessMultiVarOperator(OperatorDtoBase dto, int varCount, string operatorSymbol)
+        private IOperatorDto ProcessMultiVarOperator(IOperatorDto dto, int varCount, string operatorSymbol)
         {
             string output = GenerateOutputName(dto.OperatorTypeName);
 
@@ -268,7 +268,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
             _stack.Push(CompilationHelper.FormatValue(value));
         }
 
-        private OperatorDtoBase ProcessNumberOperatorDto(Number_OperatorDto dto)
+        private IOperatorDto ProcessNumberOperatorDto(Number_OperatorDto dto)
         {
             _sb.AppendLine("// " + dto.OperatorTypeName);
 

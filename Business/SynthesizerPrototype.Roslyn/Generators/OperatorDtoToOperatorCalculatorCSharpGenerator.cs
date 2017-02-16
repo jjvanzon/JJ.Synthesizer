@@ -17,7 +17,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Generators
         private const string TAB_STRING = "    ";
         private const int RAW_CALCULATION_INDENT_LEVEL = 3;
 
-        public string Execute(OperatorDtoBase dto, string generatedNameSpace, string generatedClassName)
+        public string Execute(IOperatorDto dto, string generatedNameSpace, string generatedClassName)
         {
             // Build up Method Body
             var visitor = new OperatorDtoToCSharpVisitor();

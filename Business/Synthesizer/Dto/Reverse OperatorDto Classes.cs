@@ -21,10 +21,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reverse;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase FactorOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto FactorOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, FactorOperatorDto }; }
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
@@ -41,10 +41,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reverse;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double Factor { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }

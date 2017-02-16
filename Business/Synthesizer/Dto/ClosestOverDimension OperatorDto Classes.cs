@@ -7,15 +7,15 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverDimension;
         
-        public OperatorDtoBase InputOperatorDto { get; set; }
-        public OperatorDtoBase CollectionOperatorDto { get; set; }
-        public OperatorDtoBase FromOperatorDto { get; set; }
-        public OperatorDtoBase TillOperatorDto { get; set; }
-        public OperatorDtoBase StepOperatorDto { get; set; }
+        public IOperatorDto InputOperatorDto { get; set; }
+        public IOperatorDto CollectionOperatorDto { get; set; }
+        public IOperatorDto FromOperatorDto { get; set; }
+        public IOperatorDto TillOperatorDto { get; set; }
+        public IOperatorDto StepOperatorDto { get; set; }
 
         public CollectionRecalculationEnum CollectionRecalculationEnum { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { InputOperatorDto, CollectionOperatorDto, FromOperatorDto, TillOperatorDto, StepOperatorDto }; }
             set { InputOperatorDto = value[0]; CollectionOperatorDto = value[1]; FromOperatorDto = value[2]; TillOperatorDto = value[3]; StepOperatorDto = value[4]; }

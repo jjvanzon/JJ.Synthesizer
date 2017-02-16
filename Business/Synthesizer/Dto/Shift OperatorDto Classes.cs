@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Dto
         public double Signal { get; set; }
         public double Distance { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
+        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
 
     internal class Shift_OperatorDto_ConstSignal_VarDistance : OperatorDtoBase_WithDimension
@@ -21,9 +21,9 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Shift;
 
         public double Signal { get; set; }
-        public OperatorDtoBase DistanceOperatorDto { get; set; }
+        public IOperatorDto DistanceOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { DistanceOperatorDto }; }
             set { DistanceOperatorDto = value[0]; }
@@ -34,10 +34,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Shift;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double Distance { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }
@@ -48,10 +48,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Shift;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase DistanceOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto DistanceOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, DistanceOperatorDto }; }
             set { SignalOperatorDto = value[0]; DistanceOperatorDto = value[1]; }

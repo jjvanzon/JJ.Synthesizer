@@ -5,7 +5,7 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 {
     public class OperatorDtoPreProcessingExecutor
     {
-        public OperatorDtoBase Execute(OperatorDtoBase dto)
+        public IOperatorDto Execute(IOperatorDto dto)
         {
             if (dto == null) throw new NullException(() => dto);
 

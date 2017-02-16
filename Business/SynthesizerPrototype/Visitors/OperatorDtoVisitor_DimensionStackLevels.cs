@@ -19,14 +19,14 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 
         private int _currentStackLevel;
 
-        public void Execute(OperatorDtoBase dto)
+        public void Execute(IOperatorDto dto)
         {
             _currentStackLevel = 0;
 
             Visit_OperatorDto_Polymorphic(dto);
         }
 
-        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
             dto.DimensionStackLevel = _currentStackLevel;
 
@@ -44,23 +44,17 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
                 throw new IsNotTypeException<IOperatorDto_VarSignal>(() => castedOperatorDto);
             }
 
-            foreach (OperatorDtoBase inputOperatorDto in dto.InputOperatorDtos.Except(castedOperatorDto.SignalOperatorDto))
+            foreach (IOperatorDto inputOperatorDto in dto.InputOperatorDtos.Except(castedOperatorDto.SignalOperatorDto))
             {
                 Visit_OperatorDto_Polymorphic(inputOperatorDto);
             }
 
             // Only behind the signal inlet the dimension stack level increases.
-            if (isDimensionWriter)
-            {
-                _currentStackLevel++;
-            }
+            _currentStackLevel++;
 
             Visit_OperatorDto_Polymorphic(castedOperatorDto.SignalOperatorDto);
 
-            if (isDimensionWriter)
-            {
-                _currentStackLevel--;
-            }
+            _currentStackLevel--;
 
             return dto;
         }

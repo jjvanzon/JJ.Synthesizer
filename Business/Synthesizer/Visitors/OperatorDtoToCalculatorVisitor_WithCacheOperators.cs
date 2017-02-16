@@ -26,108 +26,108 @@ namespace JJ.Business.Synthesizer.Visitors
                   sampleRepository)
         { }
 
-        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
+        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
         //{
         //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(dto);
 
         //    return ProcessWithDimensionTranformation(dto);
         //}
 
-        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
+        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
         //{
         //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(dto);
 
         //    return ProcessWithDimensionTranformation(dto);
         //}
 
-        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
         //{
         //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(dto);
 
         //    return ProcessWithDimensionTranformation(dto);
         //}
 
-        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
         //{
         //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(dto);
 
         //    return ProcessWithDimensionTranformation(dto);
         //}
 
-        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
+        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
         //{
         //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(dto);
 
         //    return ProcessWithDimensionTranformation(dto);
         //}
 
-        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
+        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
         //{
         //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(dto);
 
         //    return ProcessWithDimensionTranformation(dto);
         //}
 
-        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
+        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
         //{
         //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(dto);
 
         //    return ProcessWithDimensionTranformation(dto);
         //}
 
-        //protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
+        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
         //{
         //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(dto);
 
         //    return ProcessWithDimensionTranformation(dto);
         //}
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_CubicInterpolation(Cache_OperatorDto_MultiChannel_CubicInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_CubicInterpolation(Cache_OperatorDto_MultiChannel_CubicInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_HermiteInterpolation(Cache_OperatorDto_MultiChannel_HermiteInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_HermiteInterpolation(Cache_OperatorDto_MultiChannel_HermiteInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_LineInterpolation(Cache_OperatorDto_MultiChannel_LineInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_LineInterpolation(Cache_OperatorDto_MultiChannel_LineInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_StripeInterpolation(Cache_OperatorDto_MultiChannel_StripeInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_StripeInterpolation(Cache_OperatorDto_MultiChannel_StripeInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation(Cache_OperatorDto_SingleChannel_BlockInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation(Cache_OperatorDto_SingleChannel_BlockInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_CubicInterpolation(Cache_OperatorDto_SingleChannel_CubicInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_CubicInterpolation(Cache_OperatorDto_SingleChannel_CubicInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_HermiteInterpolation(Cache_OperatorDto_SingleChannel_HermiteInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_HermiteInterpolation(Cache_OperatorDto_SingleChannel_HermiteInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_LineInterpolation(Cache_OperatorDto_SingleChannel_LineInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_LineInterpolation(Cache_OperatorDto_SingleChannel_LineInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_StripeInterpolation(Cache_OperatorDto_SingleChannel_StripeInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_StripeInterpolation(Cache_OperatorDto_SingleChannel_StripeInterpolation dto)
         {
             return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
         }
@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /// because it is the only operator type for which you need to 
         /// calculate during optimization time, so calculate while the executable calculation is still being built up.
         /// </summary>
-        private OperatorDtoBase Process_Cache_OperatorDtoBase_NotConstSignal(Cache_OperatorDtoBase_NotConstSignal dto)
+        private IOperatorDto Process_Cache_OperatorDtoBase_NotConstSignal(Cache_OperatorDtoBase_NotConstSignal dto)
         {
             base.Visit_OperatorDto_Base(dto);
 
@@ -183,7 +183,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        //private OperatorDtoBase ProcessWithDimensionTranformation<TDto>(TDto dto)
+        //private IOperatorDto ProcessWithDimensionTranformation<TDto>(TDto dto)
         //    where TDto : OperatorDtoBase, IOperatorDtoWithDimension
         //{
         //    var calculator = _stack.Peek() as IPositionTransformer;

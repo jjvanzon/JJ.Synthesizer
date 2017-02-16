@@ -20,10 +20,10 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public double Signal { get; set; }
-        public OperatorDtoBase StepOperatorDto { get; set; }
-        public OperatorDtoBase OffsetOperatorDto { get; set; }
+        public IOperatorDto StepOperatorDto { get; set; }
+        public IOperatorDto OffsetOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { StepOperatorDto, OffsetOperatorDto }; }
             set { StepOperatorDto = value[0]; OffsetOperatorDto = value[1]; }
@@ -39,11 +39,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase StepOperatorDto { get; set; }
-        public OperatorDtoBase OffsetOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto StepOperatorDto { get; set; }
+        public IOperatorDto OffsetOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, StepOperatorDto, OffsetOperatorDto }; }
             set { SignalOperatorDto = value[0]; StepOperatorDto = value[1]; OffsetOperatorDto = value[2]; }
@@ -54,10 +54,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase StepOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto StepOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, StepOperatorDto }; }
             set { SignalOperatorDto = value[0]; StepOperatorDto = value[1]; }
@@ -68,11 +68,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase StepOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto StepOperatorDto { get; set; }
         public double Offset { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, StepOperatorDto }; }
             set { SignalOperatorDto = value[0]; StepOperatorDto = value[1]; }
@@ -83,11 +83,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double Step { get; set; }
-        public OperatorDtoBase OffsetOperatorDto { get; set; }
+        public IOperatorDto OffsetOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, OffsetOperatorDto }; }
             set { SignalOperatorDto = value[0]; OffsetOperatorDto = value[1]; }
@@ -98,10 +98,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double Step { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }
@@ -112,11 +112,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double Step { get; set; }
         public double Offset { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }

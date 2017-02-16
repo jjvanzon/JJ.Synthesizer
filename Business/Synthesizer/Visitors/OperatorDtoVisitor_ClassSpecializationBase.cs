@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorDtoVisitor_ClassSpecializationBase : OperatorDtoVisitorBase
     {
-        protected override OperatorDtoBase Visit_Absolute_OperatorDto(Absolute_OperatorDto dto)
+        protected override IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto)
         {
             base.Visit_Absolute_OperatorDto(dto);
 
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto)
+        protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
             base.Visit_Add_OperatorDto(dto);
 
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto)
+        protected override IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto)
         {
             base.Visit_AllPassFilter_OperatorDto(dto);
 
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_And_OperatorDto(And_OperatorDto dto)
+        protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto)
         {
             base.Visit_And_OperatorDto(dto);
 
@@ -108,13 +108,13 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto)
         {
             base.Visit_AverageOverDimension_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -138,13 +138,13 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
+        protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
         {
             base.Visit_AverageFollower_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
+        protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
         {
             base.Visit_AverageOverInlets_OperatorDto(dto);
 
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto)
         {
             base.Visit_BandPassFilterConstantPeakGain_OperatorDto(dto);
 
@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto(BandPassFilterConstantTransitionGain_OperatorDto dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto(BandPassFilterConstantTransitionGain_OperatorDto dto)
         {
             base.Visit_BandPassFilterConstantTransitionGain_OperatorDto(dto);
 
@@ -216,7 +216,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -236,13 +236,13 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto(Cache_OperatorDto dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto(Cache_OperatorDto dto)
         {
             base.Visit_Cache_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -298,7 +298,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
+        protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
         {
             base.Visit_ChangeTrigger_OperatorDto(dto);
 
@@ -327,7 +327,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto(ClosestOverDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto(ClosestOverDimension_OperatorDto dto)
         {
             base.Visit_ClosestOverDimension_OperatorDto(dto);
 
@@ -352,7 +352,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto(ClosestOverDimensionExp_OperatorDto dto)
+        protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto(ClosestOverDimensionExp_OperatorDto dto)
         {
             base.Visit_ClosestOverDimensionExp_OperatorDto(dto);
 
@@ -377,7 +377,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
+        protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
         {
             base.Visit_ClosestOverInlets_OperatorDto(dto);
 
@@ -398,7 +398,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
+        protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
         {
             base.Visit_ClosestOverInletsExp_OperatorDto(dto);
 
@@ -419,7 +419,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_Curve_OperatorDto(Curve_OperatorDto dto)
+        protected override IOperatorDto Visit_Curve_OperatorDto(Curve_OperatorDto dto)
         {
             base.Visit_Curve_OperatorDto(dto);
 
@@ -431,7 +431,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             bool hasMinX = dto.MinX != 0.0;
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (!hasMinX && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -459,7 +459,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Divide_OperatorDto(Divide_OperatorDto dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto)
         {
             base.Visit_Divide_OperatorDto(dto);
 
@@ -519,7 +519,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Equal_OperatorDto(Equal_OperatorDto dto)
+        protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto)
         {
             base.Visit_Equal_OperatorDto(dto);
 
@@ -546,7 +546,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto(Exponent_OperatorDto dto)
+        protected override IOperatorDto Visit_Exponent_OperatorDto(Exponent_OperatorDto dto)
         {
             base.Visit_Exponent_OperatorDto(dto);
 
@@ -590,7 +590,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
+        protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
         {
             base.Visit_GreaterThan_OperatorDto(dto);
 
@@ -617,7 +617,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto)
+        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto)
         {
             base.Visit_GreaterThanOrEqual_OperatorDto(dto);
 
@@ -644,7 +644,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto)
+        protected override IOperatorDto Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto)
         {
             base.Visit_HighPassFilter_OperatorDto(dto);
 
@@ -652,7 +652,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto minFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.MinFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -672,7 +672,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto)
+        protected override IOperatorDto Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto)
         {
             base.Visit_HighShelfFilter_OperatorDto(dto);
 
@@ -681,7 +681,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto transitionSlopeMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TransitionSlopeOperatorDto);
             MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DBGainOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -701,7 +701,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Hold_OperatorDto(Hold_OperatorDto dto)
+        protected override IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto)
         {
             base.Visit_Hold_OperatorDto(dto);
 
@@ -717,7 +717,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_If_OperatorDto(If_OperatorDto dto)
+        protected override IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto)
         {
             base.Visit_If_OperatorDto(dto);
 
@@ -761,11 +761,11 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto)
         {
             base.Visit_InletsToDimension_OperatorDto(dto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Block)
             {
@@ -805,14 +805,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto)
+        protected override IOperatorDto Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto)
         {
             base.Visit_Interpolate_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto samplingRateMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SamplingRateOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -860,7 +860,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
+        protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
         {
             base.Visit_LessThan_OperatorDto(dto);
 
@@ -887,7 +887,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto)
+        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto)
         {
             base.Visit_LessThanOrEqual_OperatorDto(dto);
 
@@ -914,7 +914,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Loop_OperatorDto(Loop_OperatorDto dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto)
         {
             base.Visit_Loop_OperatorDto(dto);
 
@@ -931,7 +931,7 @@ namespace JJ.Business.Synthesizer.Visitors
             bool noReleaseEndMarker = releaseEndMarkerMathPropertiesDto.IsConst && releaseEndMarkerMathPropertiesDto.ConstValue >= CalculationHelper.VERY_HIGH_VALUE;
             bool noSkip = skipMathPropertiesDto.IsConstZero;
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -1007,7 +1007,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto)
+        protected override IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto)
         {
             base.Visit_LowPassFilter_OperatorDto(dto);
 
@@ -1015,7 +1015,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto maxFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.MaxFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -1035,7 +1035,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto)
+        protected override IOperatorDto Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto)
         {
             base.Visit_LowShelfFilter_OperatorDto(dto);
 
@@ -1044,7 +1044,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto transitionSlopeMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TransitionSlopeOperatorDto);
             MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DBGainOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -1064,13 +1064,13 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto)
         {
             base.Visit_MaxOverDimension_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -1094,13 +1094,13 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
+        protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
         {
             base.Visit_MaxFollower_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -1116,7 +1116,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
+        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
         {
             base.Visit_MaxOverInlets_OperatorDto(dto);
 
@@ -1142,13 +1142,13 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto)
         {
             base.Visit_MinOverDimension_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -1172,13 +1172,13 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto)
+        protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto)
         {
             base.Visit_MinFollower_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -1194,7 +1194,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
+        protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
         {
             base.Visit_MinOverInlets_OperatorDto(dto);
 
@@ -1220,7 +1220,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
+        protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
         {
             base.Visit_Multiply_OperatorDto(dto);
 
@@ -1246,7 +1246,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto(MultiplyWithOrigin_OperatorDto dto)
+        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto(MultiplyWithOrigin_OperatorDto dto)
         {
             base.Visit_MultiplyWithOrigin_OperatorDto(dto);
 
@@ -1306,7 +1306,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Negative_OperatorDto(Negative_OperatorDto dto)
+        protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
         {
             base.Visit_Negative_OperatorDto(dto);
 
@@ -1324,7 +1324,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Not_OperatorDto(Not_OperatorDto dto)
+        protected override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto)
         {
             base.Visit_Not_OperatorDto(dto);
 
@@ -1342,7 +1342,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto)
+        protected override IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto)
         {
             base.Visit_NotchFilter_OperatorDto(dto);
 
@@ -1350,7 +1350,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto centerFrequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.CenterFrequencyOperatorDto);
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -1370,7 +1370,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
+        protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
         {
             base.Visit_NotEqual_OperatorDto(dto);
 
@@ -1397,7 +1397,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_OneOverX_OperatorDto(OneOverX_OperatorDto dto)
+        protected override IOperatorDto Visit_OneOverX_OperatorDto(OneOverX_OperatorDto dto)
         {
             base.Visit_OneOverX_OperatorDto(dto);
 
@@ -1415,7 +1415,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Or_OperatorDto(Or_OperatorDto dto)
+        protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto)
         {
             base.Visit_Or_OperatorDto(dto);
 
@@ -1442,7 +1442,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto)
+        protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto)
         {
             base.Visit_PeakingEQFilter_OperatorDto(dto);
 
@@ -1451,7 +1451,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto bandWidthMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.BandWidthOperatorDto);
             MathPropertiesDto dbGainMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DBGainOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -1471,7 +1471,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Power_OperatorDto(Power_OperatorDto dto)
+        protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
         {
             base.Visit_Power_OperatorDto(dto);
 
@@ -1498,7 +1498,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Pulse_OperatorDto(Pulse_OperatorDto dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto(Pulse_OperatorDto dto)
         {
             base.Visit_Pulse_OperatorDto(dto);
 
@@ -1507,7 +1507,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             bool isHalfWidth = widthMathPropertiesDto.IsConst && widthMathPropertiesDto.ConstValue == 0.5;
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (frequencyMathPropertiesDto.IsConstZero)
             {
@@ -1571,7 +1571,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
+        protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
         {
             base.Visit_PulseTrigger_OperatorDto(dto);
 
@@ -1600,13 +1600,13 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_Random_OperatorDto(Random_OperatorDto dto)
+        protected override IOperatorDto Visit_Random_OperatorDto(Random_OperatorDto dto)
         {
             base.Visit_Random_OperatorDto(dto);
 
             MathPropertiesDto rateMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.RateOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Block)
             {
@@ -1650,7 +1650,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto)
         {
             base.Visit_RangeOverDimension_OperatorDto(dto);
 
@@ -1682,7 +1682,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto(RangeOverOutlets_Outlet_OperatorDto dto)
+        protected override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto(RangeOverOutlets_Outlet_OperatorDto dto)
         {
             base.Visit_RangeOverOutlets_Outlet_OperatorDto(dto);
 
@@ -1713,14 +1713,14 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Reverse_OperatorDto(Reverse_OperatorDto dto)
+        protected override IOperatorDto Visit_Reverse_OperatorDto(Reverse_OperatorDto dto)
         {
             base.Visit_Reverse_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FactorOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -1752,7 +1752,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Round_OperatorDto(Round_OperatorDto dto)
+        protected override IOperatorDto Visit_Round_OperatorDto(Round_OperatorDto dto)
         {
             base.Visit_Round_OperatorDto(dto);
 
@@ -1802,7 +1802,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto(Sample_OperatorDto dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto(Sample_OperatorDto dto)
         {
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
@@ -1811,7 +1811,7 @@ namespace JJ.Business.Synthesizer.Visitors
             bool isFromMonoToStereo = sampleChannelCount == 1 && dto.TargetChannelCount == 2;
             bool isFromStereoToMono = sampleChannelCount == 2 && dto.TargetChannelCount == 1;
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (!dto.SampleID.HasValue)
             {
@@ -1879,13 +1879,13 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_SawDown_OperatorDto(SawDown_OperatorDto dto)
+        protected override IOperatorDto Visit_SawDown_OperatorDto(SawDown_OperatorDto dto)
         {
             base.Visit_SawDown_OperatorDto(dto);
 
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (frequencyMathPropertiesDto.IsConstZero)
             {
@@ -1917,13 +1917,13 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_SawUp_OperatorDto(SawUp_OperatorDto dto)
+        protected override IOperatorDto Visit_SawUp_OperatorDto(SawUp_OperatorDto dto)
         {
             base.Visit_SawUp_OperatorDto(dto);
 
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (frequencyMathPropertiesDto.IsConstZero)
             {
@@ -1955,7 +1955,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Scaler_OperatorDto(Scaler_OperatorDto dto)
+        protected override IOperatorDto Visit_Scaler_OperatorDto(Scaler_OperatorDto dto)
         {
             base.Visit_Scaler_OperatorDto(dto);
 
@@ -2007,7 +2007,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
         {
             base.Visit_SetDimension_OperatorDto(dto);
 
@@ -2042,14 +2042,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Shift_OperatorDto(Shift_OperatorDto dto)
+        protected override IOperatorDto Visit_Shift_OperatorDto(Shift_OperatorDto dto)
         {
             base.Visit_Shift_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DistanceOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsConst)
             {
@@ -2077,13 +2077,13 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Sine_OperatorDto(Sine_OperatorDto dto)
+        protected override IOperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto)
         {
             base.Visit_Sine_OperatorDto(dto);
 
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (frequencyMathPropertiesDto.IsConstZero)
             {
@@ -2115,13 +2115,13 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto)
         {
             base.Visit_SortOverDimension_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -2145,7 +2145,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
+        protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
         {
             base.Visit_Spectrum_OperatorDto(dto);
 
@@ -2171,13 +2171,13 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_Square_OperatorDto(Square_OperatorDto dto)
+        protected override IOperatorDto Visit_Square_OperatorDto(Square_OperatorDto dto)
         {
             base.Visit_Square_OperatorDto(dto);
 
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (frequencyMathPropertiesDto.IsConstZero)
             {
@@ -2209,7 +2209,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Squash_OperatorDto(Squash_OperatorDto dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto(Squash_OperatorDto dto)
         {
             base.Visit_Squash_OperatorDto(dto);
 
@@ -2217,7 +2217,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FactorOperatorDto);
             MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -2303,7 +2303,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto(Stretch_OperatorDto dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto(Stretch_OperatorDto dto)
         {
             base.Visit_Stretch_OperatorDto(dto);
 
@@ -2311,7 +2311,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto factorMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FactorOperatorDto);
             MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (dto.StandardDimensionEnum == DimensionEnum.Time)
             {
@@ -2397,7 +2397,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
+        protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
         {
             base.Visit_Subtract_OperatorDto(dto);
 
@@ -2424,7 +2424,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto)
         {
             base.Visit_SumOverDimension_OperatorDto(dto);
 
@@ -2433,7 +2433,7 @@ namespace JJ.Business.Synthesizer.Visitors
             MathPropertiesDto tillMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TillOperatorDto);
             MathPropertiesDto stepMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.StepOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst && fromMathPropertiesDto.IsConst && tillMathPropertiesDto.IsConst && stepMathPropertiesDto.IsConst)
             {
@@ -2457,14 +2457,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto)
+        protected override IOperatorDto Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto)
         {
             base.Visit_SumFollower_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto sampleCountMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SampleCountOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst && sampleCountMathPropertiesDto.IsConst)
             {
@@ -2484,14 +2484,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_TimePower_OperatorDto(TimePower_OperatorDto dto)
+        protected override IOperatorDto Visit_TimePower_OperatorDto(TimePower_OperatorDto dto)
         {
             base.Visit_TimePower_OperatorDto(dto);
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
             MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (signalMathPropertiesDto.IsConst)
             {
@@ -2511,7 +2511,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override OperatorDtoBase Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
+        protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
         {
             base.Visit_ToggleTrigger_OperatorDto(dto);
 
@@ -2540,13 +2540,13 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override OperatorDtoBase Visit_Triangle_OperatorDto(Triangle_OperatorDto dto)
+        protected override IOperatorDto Visit_Triangle_OperatorDto(Triangle_OperatorDto dto)
         {
             base.Visit_Triangle_OperatorDto(dto);
 
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
-            OperatorDtoBase dto2;
+            IOperatorDto dto2;
 
             if (frequencyMathPropertiesDto.IsConstZero)
             {

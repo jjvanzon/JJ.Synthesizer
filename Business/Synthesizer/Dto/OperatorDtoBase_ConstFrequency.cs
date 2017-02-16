@@ -6,6 +6,6 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public double Frequency { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
+        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
 }

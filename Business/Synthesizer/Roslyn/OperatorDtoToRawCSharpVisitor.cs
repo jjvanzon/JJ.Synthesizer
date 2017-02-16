@@ -145,7 +145,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             _sampleRepository = sampleRepository;
         }
 
-        public OperatorDtoToCSharpVisitorResult Execute(OperatorDtoBase dto)
+        public OperatorDtoToCSharpVisitorResult Execute(IOperatorDto dto)
         {
             _stack = new Stack<string>();
             _variableName_To_InputVariableInfo_Dictionary = new Dictionary<string, ExtendedVariableInfo>();
@@ -211,14 +211,14 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         [DebuggerHidden]
-        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
             VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
 
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
         {
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
             string x = _stack.Pop();
@@ -233,47 +233,47 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, variable);
         }
 
-        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
+        protected override IOperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
             return ProcessMultiVarOperator_Vars_1Const(dto, PLUS_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
+        protected override IOperatorDto Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
             return ProcessMultiVarOperator_Vars_NoConsts(dto, PLUS_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_AllVars(AllPassFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_AllPassFilter_OperatorDto_AllVars(AllPassFilter_OperatorDto_AllVars dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetAllPassFilterVariables));
         }
 
-        protected override OperatorDtoBase Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override OperatorDtoBase Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto)
         {
             return ProcessLogicalBinaryOperator(dto, AND_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_AverageFollower_OperatorDto_AllVars(AverageFollower_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_AverageFollower_OperatorDto_AllVars(AverageFollower_OperatorDto_AllVars dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
+        protected override IOperatorDto Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
         {
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
@@ -312,102 +312,102 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override OperatorDtoBase Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables));
         }
 
-        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override OperatorDtoBase Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables));
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_BlockInterpolation(Cache_OperatorDto_MultiChannel_BlockInterpolation dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_CubicInterpolation(Cache_OperatorDto_MultiChannel_CubicInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_CubicInterpolation(Cache_OperatorDto_MultiChannel_CubicInterpolation dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_HermiteInterpolation(Cache_OperatorDto_MultiChannel_HermiteInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_HermiteInterpolation(Cache_OperatorDto_MultiChannel_HermiteInterpolation dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_LineInterpolation(Cache_OperatorDto_MultiChannel_LineInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_LineInterpolation(Cache_OperatorDto_MultiChannel_LineInterpolation dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_MultiChannel_StripeInterpolation(Cache_OperatorDto_MultiChannel_StripeInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_StripeInterpolation(Cache_OperatorDto_MultiChannel_StripeInterpolation dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation(Cache_OperatorDto_SingleChannel_BlockInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_BlockInterpolation(Cache_OperatorDto_SingleChannel_BlockInterpolation dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_CubicInterpolation(Cache_OperatorDto_SingleChannel_CubicInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_CubicInterpolation(Cache_OperatorDto_SingleChannel_CubicInterpolation dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_HermiteInterpolation(Cache_OperatorDto_SingleChannel_HermiteInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_HermiteInterpolation(Cache_OperatorDto_SingleChannel_HermiteInterpolation dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_LineInterpolation(Cache_OperatorDto_SingleChannel_LineInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_LineInterpolation(Cache_OperatorDto_SingleChannel_LineInterpolation dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Cache_OperatorDto_SingleChannel_StripeInterpolation(Cache_OperatorDto_SingleChannel_StripeInterpolation dto)
+        protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_StripeInterpolation(Cache_OperatorDto_SingleChannel_StripeInterpolation dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(ChangeTrigger_OperatorDto_VarPassThrough_VarReset dto)
+        protected override IOperatorDto Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(ChangeTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(ClosestOverInlets_OperatorDto_VarInput_2ConstItems dto)
+        protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(ClosestOverInlets_OperatorDto_VarInput_2ConstItems dto)
         {
             PutNumberOnStack(dto.Item2);
             PutNumberOnStack(dto.Item1);
@@ -416,7 +416,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_ClosestOverInlets(dto, varCount: 2);
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
+        protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
         {
             dto.Items.Reverse().ForEach(x => PutNumberOnStack(x));
             Visit_OperatorDto_Polymorphic(dto.InputOperatorDto);
@@ -424,7 +424,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_ClosestOverInlets(dto, dto.Items.Count);
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
+        protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
         {
             dto.ItemOperatorDtos.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
             Visit_OperatorDto_Polymorphic(dto.InputOperatorDto);
@@ -432,7 +432,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_ClosestOverInlets(dto, dto.ItemOperatorDtos.Count);
         }
 
-        private OperatorDtoBase Process_ClosestOverInlets(IOperatorDto dto, int varCount)
+        private IOperatorDto Process_ClosestOverInlets(IOperatorDto dto, int varCount)
         {
             AppendOperatorTitleComment(dto);
 
@@ -473,7 +473,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto)
+        protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto)
         {
             PutNumberOnStack(dto.Item2);
             PutNumberOnStack(dto.Item1);
@@ -482,7 +482,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_ClosestOverInletsExp(dto, varCount: 2);
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
+        protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
         {
             dto.Items.Reverse().ForEach(x => PutNumberOnStack(x));
             Visit_OperatorDto_Polymorphic(dto.InputOperatorDto);
@@ -490,7 +490,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_ClosestOverInletsExp(dto, dto.Items.Count);
         }
 
-        protected override OperatorDtoBase Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto)
+        protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto)
         {
             dto.ItemOperatorDtos.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
             Visit_OperatorDto_Polymorphic(dto.InputOperatorDto);
@@ -498,7 +498,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_ClosestOverInletsExp(dto, dto.ItemOperatorDtos.Count);
         }
 
-        private OperatorDtoBase Process_ClosestOverInletsExp(IOperatorDto dto, int varCount)
+        private IOperatorDto Process_ClosestOverInletsExp(IOperatorDto dto, int varCount)
         {
             string input = _stack.Pop();
             string firstItem = _stack.Pop();
@@ -544,27 +544,27 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_NoOriginShifting(Curve_OperatorDto_MinX_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Curve_OperatorDto_MinX_NoOriginShifting(Curve_OperatorDto_MinX_NoOriginShifting dto)
         {
             return ProcessCurve_NoOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto)
         {
             return ProcessCurve_WithOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto)
         {
             return ProcessCurve_NoOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(Curve_OperatorDto_MinXZero_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(Curve_OperatorDto_MinXZero_WithOriginShifting dto)
         {
             return ProcessCurve_WithOriginShifting(dto);
         }
 
-        private OperatorDtoBase ProcessCurve_NoOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
+        private IOperatorDto ProcessCurve_NoOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
         {
             AppendOperatorTitleComment(dto);
 
@@ -578,7 +578,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessCurve_WithOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
+        private IOperatorDto ProcessCurve_WithOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
         {
             ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
             string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(calculator);
@@ -593,7 +593,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
+        protected override IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
         {
             string position = GetPositionNameCamelCase(dto);
             string fixedPosition = CompilationHelper.FormatValue(dto.OutletListIndex);
@@ -612,22 +612,22 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
         {
             return ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(dto, DIVIDE_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(Divide_OperatorDto_ConstA_VarB_ConstOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(Divide_OperatorDto_ConstA_VarB_ConstOrigin dto)
         {
             return ProcessMultiplyOrDivide_ConstA_VarB_ConstOrigin(dto, DIVIDE_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(Divide_OperatorDto_ConstA_VarB_VarOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(Divide_OperatorDto_ConstA_VarB_VarOrigin dto)
         {
             return ProcessMultiplyOrDivide_ConstA_VarB_VarOrigin(dto, DIVIDE_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             PutNumberOnStack(dto.A);
@@ -635,17 +635,17 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessDivideZeroOrigin(dto);
         }
 
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(Divide_OperatorDto_VarA_ConstB_ConstOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(Divide_OperatorDto_VarA_ConstB_ConstOrigin dto)
         {
             return ProcessMultiplyOrDivide_VarA_ConstB_ConstOrigin(dto, DIVIDE_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(Divide_OperatorDto_VarA_ConstB_VarOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(Divide_OperatorDto_VarA_ConstB_VarOrigin dto)
         {
             return ProcessMultiplyOrDivide_VarA_ConstB_VarOrigin(dto, DIVIDE_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
         {
             PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -653,17 +653,17 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessDivideZeroOrigin(dto);
         }
 
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(Divide_OperatorDto_VarA_VarB_ConstOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(Divide_OperatorDto_VarA_VarB_ConstOrigin dto)
         {
             return ProcessMultiplyOrDivide_VarA_VarB_ConstOrigin(dto, DIVIDE_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(Divide_OperatorDto_VarA_VarB_VarOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(Divide_OperatorDto_VarA_VarB_VarOrigin dto)
         {
             return ProcessMultiplyOrDivide_VarA_VarB_VarOrigin(dto, DIVIDE_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(Divide_OperatorDto_VarA_VarB_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(Divide_OperatorDto_VarA_VarB_ZeroOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -671,7 +671,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessDivideZeroOrigin(dto);
         }
 
-        private OperatorDtoBase ProcessDivideZeroOrigin(IOperatorDto dto)
+        private IOperatorDto ProcessDivideZeroOrigin(IOperatorDto dto)
         {
             AppendOperatorTitleComment(dto);
 
@@ -684,17 +684,17 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, EQUALS_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Equal_OperatorDto_VarA_VarB(Equal_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_Equal_OperatorDto_VarA_VarB(Equal_OperatorDto_VarA_VarB dto)
         {
             return ProcessComparativeOperator_VarA_VarB(dto, EQUALS_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio(Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio dto)
+        protected override IOperatorDto Visit_Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio(Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio dto)
         {
             Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
             PutNumberOnStack(dto.High);
@@ -703,7 +703,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessExponentOperator(dto);
         }
 
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio(Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio dto)
+        protected override IOperatorDto Visit_Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio(Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio dto)
         {
             PutNumberOnStack(dto.Ratio);
             Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
@@ -712,7 +712,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessExponentOperator(dto);
         }
 
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_ConstLow_VarHigh_VarRatio(Exponent_OperatorDto_ConstLow_VarHigh_VarRatio dto)
+        protected override IOperatorDto Visit_Exponent_OperatorDto_ConstLow_VarHigh_VarRatio(Exponent_OperatorDto_ConstLow_VarHigh_VarRatio dto)
         {
             Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
@@ -721,7 +721,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessExponentOperator(dto);
         }
 
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio(Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio dto)
+        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio(Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio dto)
         {
             PutNumberOnStack(dto.Ratio);
             PutNumberOnStack(dto.High);
@@ -730,7 +730,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessExponentOperator(dto);
         }
 
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_ConstHigh_VarRatio(Exponent_OperatorDto_VarLow_ConstHigh_VarRatio dto)
+        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_ConstHigh_VarRatio(Exponent_OperatorDto_VarLow_ConstHigh_VarRatio dto)
         {
             Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
             PutNumberOnStack(dto.High);
@@ -739,7 +739,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessExponentOperator(dto);
         }
 
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_VarHigh_ConstRatio(Exponent_OperatorDto_VarLow_VarHigh_ConstRatio dto)
+        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_VarHigh_ConstRatio(Exponent_OperatorDto_VarLow_VarHigh_ConstRatio dto)
         {
             PutNumberOnStack(dto.Ratio);
             Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
@@ -748,7 +748,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessExponentOperator(dto);
         }
 
-        protected override OperatorDtoBase Visit_Exponent_OperatorDto_VarLow_VarHigh_VarRatio(Exponent_OperatorDto_VarLow_VarHigh_VarRatio dto)
+        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_VarHigh_VarRatio(Exponent_OperatorDto_VarLow_VarHigh_VarRatio dto)
         {
             Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
@@ -757,7 +757,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessExponentOperator(dto);
         }
 
-        private OperatorDtoBase ProcessExponentOperator(IOperatorDto dto)
+        private IOperatorDto ProcessExponentOperator(IOperatorDto dto)
         {
             AppendOperatorTitleComment(dto);
 
@@ -771,7 +771,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
         {
             string position = GetPositionNameCamelCase(dto);
 
@@ -780,47 +780,47 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_GreaterThan_OperatorDto_VarA_ConstB(GreaterThan_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_GreaterThan_OperatorDto_VarA_ConstB(GreaterThan_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, GREATER_THAN_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_GreaterThan_OperatorDto_VarA_VarB(GreaterThan_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_GreaterThan_OperatorDto_VarA_VarB(GreaterThan_OperatorDto_VarA_VarB dto)
         {
             return ProcessComparativeOperator_VarA_VarB(dto, GREATER_THAN_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(GreaterThanOrEqual_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(GreaterThanOrEqual_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(GreaterThanOrEqual_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(GreaterThanOrEqual_OperatorDto_VarA_VarB dto)
         {
             return ProcessComparativeOperator_VarA_VarB(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_AllVars(HighPassFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_HighPassFilter_OperatorDto_AllVars(HighPassFilter_OperatorDto_AllVars dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetHighPassFilterVariables));
         }
 
-        protected override OperatorDtoBase Visit_HighPassFilter_OperatorDto_ManyConsts(HighPassFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_HighPassFilter_OperatorDto_ManyConsts(HighPassFilter_OperatorDto_ManyConsts dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_AllVars(HighShelfFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_AllVars(HighShelfFilter_OperatorDto_AllVars dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetHighShelfFilterVariables));
         }
 
-        protected override OperatorDtoBase Visit_HighShelfFilter_OperatorDto_ManyConsts(HighShelfFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_ManyConsts(HighShelfFilter_OperatorDto_ManyConsts dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override OperatorDtoBase Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
+        protected override IOperatorDto Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
         {
             // The calculate procedure should only use the held variable. 
             // The Reset procedure should do a calculation of that held variable. 
@@ -846,162 +846,162 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
+        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_ConstThen_VarElse(If_OperatorDto_VarCondition_ConstThen_VarElse dto)
+        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_VarElse(If_OperatorDto_VarCondition_ConstThen_VarElse dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_VarThen_ConstElse(If_OperatorDto_VarCondition_VarThen_ConstElse dto)
+        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_VarThen_ConstElse(If_OperatorDto_VarCondition_VarThen_ConstElse dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_If_OperatorDto_VarCondition_VarThen_VarElse(If_OperatorDto_VarCondition_VarThen_VarElse dto)
+        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_VarThen_VarElse(If_OperatorDto_VarCondition_VarThen_VarElse dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
+        protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto)
+        protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
+        protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicAbruptSlope(Interpolate_OperatorDto_CubicAbruptSlope dto)
+        protected override IOperatorDto Visit_Interpolate_OperatorDto_CubicAbruptSlope(Interpolate_OperatorDto_CubicAbruptSlope dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicEquidistant(Interpolate_OperatorDto_CubicEquidistant dto)
+        protected override IOperatorDto Visit_Interpolate_OperatorDto_CubicEquidistant(Interpolate_OperatorDto_CubicEquidistant dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_CubicSmoothSlope_LagBehind(Interpolate_OperatorDto_CubicSmoothSlope_LagBehind dto)
+        protected override IOperatorDto Visit_Interpolate_OperatorDto_CubicSmoothSlope_LagBehind(Interpolate_OperatorDto_CubicSmoothSlope_LagBehind dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto)
+        protected override IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate dto)
+        protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate dto)
+        protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto)
+        protected override IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_LessThan_OperatorDto_VarA_ConstB(LessThan_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_LessThan_OperatorDto_VarA_ConstB(LessThan_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, LESS_THAN_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_LessThan_OperatorDto_VarA_VarB(LessThan_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_LessThan_OperatorDto_VarA_VarB(LessThan_OperatorDto_VarA_VarB dto)
         {
             return ProcessComparativeOperator_VarA_VarB(dto, LESS_THAN_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(LessThanOrEqual_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(LessThanOrEqual_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, LESS_THAN_OR_EQUAL_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_LessThanOrEqual_OperatorDto_VarA_VarB(LessThanOrEqual_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto_VarA_VarB(LessThanOrEqual_OperatorDto_VarA_VarB dto)
         {
             return ProcessComparativeOperator_VarA_VarB(dto, LESS_THAN_OR_EQUAL_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_ManyConstants(Loop_OperatorDto_ManyConstants dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_ManyConstants(Loop_OperatorDto_ManyConstants dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_NoSkipOrRelease(Loop_OperatorDto_NoSkipOrRelease dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_NoSkipOrRelease(Loop_OperatorDto_NoSkipOrRelease dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants(Loop_OperatorDto_NoSkipOrRelease_ManyConstants dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants(Loop_OperatorDto_NoSkipOrRelease_ManyConstants dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetLowPassFilterVariables));
         }
 
-        protected override OperatorDtoBase Visit_LowPassFilter_OperatorDto_ManyConsts(LowPassFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_LowPassFilter_OperatorDto_ManyConsts(LowPassFilter_OperatorDto_ManyConsts dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetLowShelfFilterVariables));
         }
 
-        protected override OperatorDtoBase Visit_LowShelfFilter_OperatorDto_ManyConsts(LowShelfFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_ManyConsts(LowShelfFilter_OperatorDto_ManyConsts dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override OperatorDtoBase Visit_MaxFollower_OperatorDto_AllVars(MaxFollower_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_MaxFollower_OperatorDto_AllVars(MaxFollower_OperatorDto_AllVars dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_1Var_1Const(MaxOverInlets_OperatorDto_1Var_1Const dto)
+        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_1Var_1Const(MaxOverInlets_OperatorDto_1Var_1Const dto)
         {
             PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -1009,7 +1009,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Max);
         }
 
-        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_2Vars(MaxOverInlets_OperatorDto_2Vars dto)
+        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_2Vars(MaxOverInlets_OperatorDto_2Vars dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -1017,7 +1017,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Max);
         }
 
-        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
+        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
         {
             PutNumberOnStack(dto.ConstValue);
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
@@ -1025,29 +1025,29 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Max, dto.Vars.Count + 1);
         }
 
-        protected override OperatorDtoBase Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
+        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
         {
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
             return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Max, dto.Vars.Count);
         }
 
-        protected override OperatorDtoBase Visit_MinFollower_OperatorDto_AllVars(MinFollower_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_MinFollower_OperatorDto_AllVars(MinFollower_OperatorDto_AllVars dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_1Var_1Const(MinOverInlets_OperatorDto_1Var_1Const dto)
+        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_1Var_1Const(MinOverInlets_OperatorDto_1Var_1Const dto)
         {
             PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -1055,7 +1055,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
         }
 
-        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_2Vars(MinOverInlets_OperatorDto_2Vars dto)
+        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_2Vars(MinOverInlets_OperatorDto_2Vars dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -1063,7 +1063,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
         }
 
-        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto)
+        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto)
         {
             PutNumberOnStack(dto.ConstValue);
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
@@ -1071,59 +1071,59 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min, dto.Vars.Count + 1);
         }
 
-        protected override OperatorDtoBase Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
+        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
         {
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
             return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min, dto.Vars.Count);
         }
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
+        protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
         {
             return ProcessMultiVarOperator_Vars_1Const(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
+        protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
         {
             return ProcessMultiVarOperator_Vars_NoConsts(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin dto)
+        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin dto)
         {
             return ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin dto)
+        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin dto)
         {
             return ProcessMultiplyOrDivide_ConstA_VarB_ConstOrigin(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin dto)
+        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin dto)
         {
             return ProcessMultiplyOrDivide_ConstA_VarB_VarOrigin(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin dto)
+        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin dto)
         {
             return ProcessMultiplyOrDivide_VarA_ConstB_ConstOrigin(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin dto)
+        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin dto)
         {
             return ProcessMultiplyOrDivide_VarA_ConstB_VarOrigin(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin dto)
+        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin dto)
         {
             return ProcessMultiplyOrDivide_VarA_VarB_ConstOrigin(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin dto)
+        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin dto)
         {
             return ProcessMultiplyOrDivide_VarA_VarB_VarOrigin(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto)
         {
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
@@ -1137,7 +1137,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_Noise_OperatorDto(Noise_OperatorDto dto)
+        protected override IOperatorDto Visit_Noise_OperatorDto(Noise_OperatorDto dto)
         {
             AppendOperatorTitleComment(dto);
 
@@ -1164,7 +1164,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return variableNameCamelCase;
         }
 
-        protected override OperatorDtoBase Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
         {
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
@@ -1178,42 +1178,42 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_AllVars(NotchFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_NotchFilter_OperatorDto_AllVars(NotchFilter_OperatorDto_AllVars dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetNotchFilterVariables));
         }
 
-        protected override OperatorDtoBase Visit_NotchFilter_OperatorDto_ManyConsts(NotchFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_NotchFilter_OperatorDto_ManyConsts(NotchFilter_OperatorDto_ManyConsts dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
         {
             return ProcessComparativeOperator_VarA_ConstB(dto, NOT_EQUAL_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_NotEqual_OperatorDto_VarA_VarB(NotEqual_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_NotEqual_OperatorDto_VarA_VarB(NotEqual_OperatorDto_VarA_VarB dto)
         {
             return ProcessComparativeOperator_VarA_VarB(dto, NOT_EQUAL_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
+        protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
             return ProcessNumberOperatorDto(dto);
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
+        protected override IOperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
             return ProcessNumberOperatorDto(dto);
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
+        protected override IOperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
         {
             return ProcessNumberOperatorDto(dto);
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
+        protected override IOperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
         {
             return ProcessNumberOperatorDto(dto);
         }
@@ -1225,7 +1225,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
         {
             Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
 
@@ -1239,22 +1239,22 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
         
-        protected override OperatorDtoBase Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
         {
             return ProcessLogicalBinaryOperator(dto, OR_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetPeakingEQFilterVariables));
         }
 
-        protected override OperatorDtoBase Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override OperatorDtoBase Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
+        protected override IOperatorDto Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
         {
             Visit_OperatorDto_Polymorphic(dto.ExponentOperatorDto);
             PutNumberOnStack(dto.Base);
@@ -1262,7 +1262,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Math_Pow(dto);
         }
 
-        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto)
+        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto)
         {
             PutNumberOnStack(dto.Exponent);
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
@@ -1270,7 +1270,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Math_Pow(dto);
         }
 
-        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent2(Power_OperatorDto_VarBase_Exponent2 dto)
+        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent2(Power_OperatorDto_VarBase_Exponent2 dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
@@ -1284,7 +1284,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent3(Power_OperatorDto_VarBase_Exponent3 dto)
+        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent3(Power_OperatorDto_VarBase_Exponent3 dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
@@ -1298,7 +1298,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_Exponent4(Power_OperatorDto_VarBase_Exponent4 dto)
+        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent4(Power_OperatorDto_VarBase_Exponent4 dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
 
@@ -1313,7 +1313,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
+        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
         {
             Visit_OperatorDto_Polymorphic(dto.ExponentOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.BaseOperatorDto);
@@ -1321,7 +1321,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Math_Pow(dto);
         }
 
-        protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
         {
             PutNumberOnStack(dto.Width);
             PutNumberOnStack(dto.Frequency);
@@ -1329,7 +1329,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting dto)
         {
             PutNumberOnStack(dto.Width);
             PutNumberOnStack(dto.Frequency);
@@ -1337,7 +1337,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_WithOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting dto)
         {
             Visit_OperatorDto_Polymorphic(dto.WidthOperatorDto);
             PutNumberOnStack(dto.Frequency);
@@ -1345,7 +1345,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting dto)
         {
             Visit_OperatorDto_Polymorphic(dto.WidthOperatorDto);
             PutNumberOnStack(dto.Frequency);
@@ -1353,7 +1353,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_WithOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking dto)
         {
             PutNumberOnStack(dto.Width);
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
@@ -1361,7 +1361,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking dto)
         {
             PutNumberOnStack(dto.Width);
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
@@ -1369,7 +1369,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_WithPhaseTracking(dto);
         }
 
-        protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.WidthOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
@@ -1377,7 +1377,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
         }
 
-        protected override OperatorDtoBase Visit_Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.WidthOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
@@ -1385,7 +1385,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_WithPhaseTracking(dto);
         }
 
-        private OperatorDtoBase Process_Pulse_NoPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto)
+        private IOperatorDto Process_Pulse_NoPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto)
         {
             AppendOperatorTitleComment(dto);
 
@@ -1401,7 +1401,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         // ReSharper disable once SuggestBaseTypeForParameter
-        private OperatorDtoBase Process_Pulse_WithOriginShifting(OperatorDtoBase_ConstFrequency dto)
+        private IOperatorDto Process_Pulse_WithOriginShifting(OperatorDtoBase_ConstFrequency dto)
         {
             AppendOperatorTitleComment(dto);
 
@@ -1417,7 +1417,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         // ReSharper disable once SuggestBaseTypeForParameter
-        private OperatorDtoBase Process_Pulse_WithPhaseTracking(OperatorDtoBase_VarFrequency dto)
+        private IOperatorDto Process_Pulse_WithPhaseTracking(OperatorDtoBase_VarFrequency dto)
         {
             AppendOperatorTitleComment(dto);
 
@@ -1432,22 +1432,22 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(PulseTrigger_OperatorDto_VarPassThrough_VarReset dto)
+        protected override IOperatorDto Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(PulseTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
+        protected override IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
         {
             return Process_Random_OperatorDto(dto);
         }
 
-        protected override OperatorDtoBase Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto)
+        protected override IOperatorDto Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto)
         {
             return Process_Random_OperatorDto(dto);
         }
 
-        private OperatorDtoBase Process_Random_OperatorDto(Random_OperatorDto dto)
+        private IOperatorDto Process_Random_OperatorDto(Random_OperatorDto dto)
         {
             Visit_OperatorDto_Polymorphic(dto.RateOperatorDto);
 
@@ -1506,7 +1506,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return variableNameCamelCase;
         }
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
+        protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
         {
             string from = CompilationHelper.FormatValue(dto.From);
             string till = CompilationHelper.FormatValue(dto.Till);
@@ -1567,7 +1567,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto)
+        protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto)
         {
             Visit_OperatorDto_Polymorphic(dto.StepOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.TillOperatorDto);
@@ -1628,7 +1628,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto)
+        protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto)
         {
             string from = CompilationHelper.FormatValue(dto.From);
             string till = CompilationHelper.FormatValue(dto.Till);
@@ -1688,7 +1688,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto)
+        protected override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto)
         {
             Visit_OperatorDto_Polymorphic(dto.StepOperatorDto);
             PutNumberOnStack(dto.From);
@@ -1696,7 +1696,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_RangeOverOutlets_Outlet(dto);
         }
 
-        protected override OperatorDtoBase Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep dto)
+        protected override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep dto)
         {
             Visit_OperatorDto_Polymorphic(dto.StepOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.FromOperatorDto);
@@ -1704,7 +1704,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_RangeOverOutlets_Outlet(dto);
         }
 
-        private OperatorDtoBase Process_RangeOverOutlets_Outlet(IRangeOverOutlets_Outlet_OperatorDto_WithOutletListIndex dto)
+        private IOperatorDto Process_RangeOverOutlets_Outlet(IRangeOverOutlets_Outlet_OperatorDto_WithOutletListIndex dto)
         {
             AppendOperatorTitleComment(dto);
 
@@ -1717,12 +1717,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_Reset_OperatorDto(Reset_OperatorDto dto)
+        protected override IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto)
+        protected override IOperatorDto Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto)
         {
             // This DTO is not optimal for this kind of calculation engine. Do some optimization in-place here.
             MathPropertiesDto offsetMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OffsetOperatorDto);
@@ -1738,22 +1738,22 @@ namespace JJ.Business.Synthesizer.Roslyn
             }
         }
 
-        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffset(Round_OperatorDto_VarSignal_ConstStep_ConstOffset dto)
+        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffset(Round_OperatorDto_VarSignal_ConstStep_ConstOffset dto)
         {
             return ProcessRoundWithOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepValue: dto.Step, offsetValue: dto.Offset);
         }
 
-        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_VarOffset(Round_OperatorDto_VarSignal_ConstStep_VarOffset dto)
+        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_ConstStep_VarOffset(Round_OperatorDto_VarSignal_ConstStep_VarOffset dto)
         {
             return ProcessRoundWithOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepValue: dto.Step, offsetOperatorDto: dto.OffsetOperatorDto);
         }
 
-        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_ConstStep_ZeroOffset(Round_OperatorDto_VarSignal_ConstStep_ZeroOffset dto)
+        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_ConstStep_ZeroOffset(Round_OperatorDto_VarSignal_ConstStep_ZeroOffset dto)
         {
             return ProcessRoundZeroOffset(dto, signalOperatorDto: dto.SignalOperatorDto, stepValue: dto.Step);
         }
 
-        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_StepOne_OffsetZero(Round_OperatorDto_VarSignal_StepOne_OffsetZero dto)
+        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_StepOne_OffsetZero(Round_OperatorDto_VarSignal_StepOne_OffsetZero dto)
         {
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
 
@@ -1769,28 +1769,28 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
-        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_ConstOffset(Round_OperatorDto_VarSignal_VarStep_ConstOffset dto)
+        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_VarStep_ConstOffset(Round_OperatorDto_VarSignal_VarStep_ConstOffset dto)
         {
             return ProcessRoundWithOffset(dto, dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto, offsetValue: dto.Offset);
         }
 
-        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_VarOffset(Round_OperatorDto_VarSignal_VarStep_VarOffset dto)
+        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_VarStep_VarOffset(Round_OperatorDto_VarSignal_VarStep_VarOffset dto)
         {
             return ProcessRoundWithOffset(dto, dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto, offsetOperatorDto: dto.OffsetOperatorDto);
         }
 
-        protected override OperatorDtoBase Visit_Round_OperatorDto_VarSignal_VarStep_ZeroOffset(Round_OperatorDto_VarSignal_VarStep_ZeroOffset dto)
+        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_VarStep_ZeroOffset(Round_OperatorDto_VarSignal_VarStep_ZeroOffset dto)
         {
             return ProcessRoundZeroOffset(dto, dto.SignalOperatorDto, stepOperatorDto: dto.StepOperatorDto);
         }
 
-        private OperatorDtoBase ProcessRoundWithOffset(
+        private IOperatorDto ProcessRoundWithOffset(
             IOperatorDto dto,
-            OperatorDtoBase signalOperatorDto = null,
+            IOperatorDto signalOperatorDto = null,
             double? signalValue = null,
-            OperatorDtoBase stepOperatorDto = null,
+            IOperatorDto stepOperatorDto = null,
             double? stepValue = null,
-            OperatorDtoBase offsetOperatorDto = null,
+            IOperatorDto offsetOperatorDto = null,
             double? offsetValue = null)
         {
             AppendOperatorTitleComment(dto);
@@ -1807,11 +1807,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
-        private OperatorDtoBase ProcessRoundZeroOffset(
+        private IOperatorDto ProcessRoundZeroOffset(
             IOperatorDto dto,
-            OperatorDtoBase signalOperatorDto = null,
+            IOperatorDto signalOperatorDto = null,
             double? signalValue = null,
-            OperatorDtoBase stepOperatorDto = null,
+            IOperatorDto stepOperatorDto = null,
             double? stepValue = null)
         {
             AppendOperatorTitleComment(dto);
@@ -1827,7 +1827,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
@@ -1838,7 +1838,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleMonoToStereoEnd(dto, phase);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
@@ -1849,7 +1849,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleMonoToStereoEnd(dto, info.Phase);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
@@ -1860,7 +1860,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleChannelSwitchEnd(dto, phase);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
@@ -1871,7 +1871,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleStereoToMonoEnd(dto, phase);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
@@ -1882,7 +1882,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleStereoToMonoEnd(dto, info.Phase);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
@@ -1893,7 +1893,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleChannelSwitchEnd(dto, info.Phase);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
@@ -1904,7 +1904,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleMonoToStereoEnd(dto, phase);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
@@ -1915,7 +1915,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleMonoToStereoEnd(dto, info.Phase);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_NoPhaseTracking(Sample_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_NoPhaseTracking(Sample_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
@@ -1926,7 +1926,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleChannelSwitchEnd(dto, phase);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
@@ -1937,7 +1937,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleStereoToMonoEnd(dto, phase);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
@@ -1948,7 +1948,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleStereoToMonoEnd(dto, info.Phase);
         }
 
-        protected override OperatorDtoBase Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(Sample_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(Sample_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
@@ -1978,7 +1978,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return rate;
         }
 
-        private OperatorDtoBase GenerateSampleChannelSwitchEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        private IOperatorDto GenerateSampleChannelSwitchEnd(ISample_OperatorDto_WithSampleID dto, string phase)
         {
             IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
 
@@ -2013,7 +2013,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase GenerateSampleMonoToStereoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        private IOperatorDto GenerateSampleMonoToStereoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
         {
             // Array
             ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
@@ -2026,7 +2026,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase GenerateSampleStereoToMonoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
+        private IOperatorDto GenerateSampleStereoToMonoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
         {
             // Array
             IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
@@ -2046,55 +2046,55 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             PutNumberOnStack(dto.Frequency);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SAW_DOWN_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(SawDown_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        protected override IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(SawDown_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
             return ProcessOriginShifter(dto, x => string.Format(SAW_DOWN_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SAW_DOWN_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             return ProcessPhaseTrackingOperator(dto, x => string.Format(SAW_DOWN_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             PutNumberOnStack(dto.Frequency);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(SawUp_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        protected override IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(SawUp_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
             return ProcessOriginShifter(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             return ProcessPhaseTrackingOperator(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_Scaler_OperatorDto_AllVars(Scaler_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_Scaler_OperatorDto_AllVars(Scaler_OperatorDto_AllVars dto)
         {
             Visit_OperatorDto_Polymorphic(dto.TargetValueBOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.TargetValueAOperatorDto);
@@ -2105,7 +2105,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessScaler(dto);
         }
 
-        protected override OperatorDtoBase Visit_Scaler_OperatorDto_ManyConsts(Scaler_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_Scaler_OperatorDto_ManyConsts(Scaler_OperatorDto_ManyConsts dto)
         {
             PutNumberOnStack(dto.TargetValueB);
             PutNumberOnStack(dto.TargetValueA);
@@ -2117,7 +2117,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         /// <summary> Assumes all inlets literals are have been put on the _stack. </summary>
-        private OperatorDtoBase ProcessScaler(IOperatorDto dto)
+        private IOperatorDto ProcessScaler(IOperatorDto dto)
         {
             AppendOperatorTitleComment(dto);
 
@@ -2135,17 +2135,17 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_VarPassThrough_ConstValue(SetDimension_OperatorDto_VarPassThrough_ConstValue dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstValue(SetDimension_OperatorDto_VarPassThrough_ConstValue dto)
         {
             return ProcessSetDimension(dto, value: dto.Value);
         }
 
-        protected override OperatorDtoBase Visit_SetDimension_OperatorDto_VarPassThrough_VarValue(SetDimension_OperatorDto_VarPassThrough_VarValue dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarValue(SetDimension_OperatorDto_VarPassThrough_VarValue dto)
         {
             return ProcessSetDimension(dto, dto.ValueOperatorDto);
         }
 
-        private OperatorDtoBase ProcessSetDimension(IOperatorDto_VarSignal_WithDimension dto, OperatorDtoBase valueOperatorDto = null, double? value = null)
+        private IOperatorDto ProcessSetDimension(IOperatorDto_VarSignal_WithDimension dto, IOperatorDto valueOperatorDto = null, double? value = null)
         {
             string valueLiteral = GetLiteralFromOperatorDtoOrValue(valueOperatorDto, value);
             string position = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
@@ -2159,20 +2159,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             string signal = _stack.Pop();
 
             _stack.Push(signal);
-            return (OperatorDtoBase)dto;
+            return dto;
         }
 
-        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
+        protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
             return ProcessShift(dto, distance: dto.Distance);
         }
 
-        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
+        protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
             return ProcessShift(dto, dto.DistanceOperatorDto);
         }
 
-        private OperatorDtoBase ProcessShift(IOperatorDto_VarSignal_WithDimension dto, OperatorDtoBase distanceOperatorDto = null, double? distance = null)
+        private IOperatorDto ProcessShift(IOperatorDto_VarSignal_WithDimension dto, IOperatorDto distanceOperatorDto = null, double? distance = null)
         {
             string distanceLiteral = GetLiteralFromOperatorDtoOrValue(distanceOperatorDto, distance);
             string sourcePosition = GetPositionNameCamelCase(dto);
@@ -2187,78 +2187,78 @@ namespace JJ.Business.Synthesizer.Roslyn
             string signal = _stack.Pop();
 
             _stack.Push(signal);
-            return (OperatorDtoBase)dto;
+            return dto;
         }
 
-        protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             PutNumberOnStack(dto.Frequency);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SINE_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(Sine_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(Sine_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
             return ProcessOriginShifter(dto, x => string.Format(SINE_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SINE_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             return ProcessPhaseTrackingOperator(dto, x => string.Format(SINE_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
+        protected override IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Spectrum_OperatorDto_AllVars(Spectrum_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_Spectrum_OperatorDto_AllVars(Spectrum_OperatorDto_AllVars dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             PutNumberOnStack(dto.Frequency);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SQUARE_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(Square_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(Square_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
             return ProcessOriginShifter(dto, x => string.Format(SQUARE_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(Square_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(Square_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
             return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SQUARE_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             return ProcessPhaseTrackingOperator(dto, x => string.Format(SQUARE_FORMULA_FORMAT, x));
         }
 
-        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
         {
             PutNumberOnStack(dto.Origin);
             PutNumberOnStack(dto.Factor);
@@ -2266,7 +2266,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             PutNumberOnStack(dto.Factor);
@@ -2274,21 +2274,21 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
         {
             PutNumberOnStack(dto.Factor);
 
             return Process_StretchOrSquash_WithOriginShifting(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
         {
             PutNumberOnStack(dto.Factor);
 
             return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
         {
             PutNumberOnStack(dto.Origin);
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
@@ -2296,7 +2296,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_VarOrigin(Squash_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_VarOrigin(Squash_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
@@ -2304,21 +2304,21 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
             return Process_StretchOrSquash_WithPhaseTracking(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override OperatorDtoBase Visit_Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
             return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
         {
             PutNumberOnStack(dto.Origin);
             PutNumberOnStack(dto.Factor);
@@ -2326,7 +2326,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             PutNumberOnStack(dto.Factor);
@@ -2334,21 +2334,21 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
         {
             PutNumberOnStack(dto.Factor);
 
             return Process_StretchOrSquash_WithOriginShifting(dto, StretchOrSquashEnum.Stretch);
         }
 
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
         {
             PutNumberOnStack(dto.Factor);
 
             return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
         {
             PutNumberOnStack(dto.Origin);
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
@@ -2356,7 +2356,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
@@ -2364,14 +2364,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
             return Process_StretchOrSquash_WithPhaseTracking(dto, StretchOrSquashEnum.Stretch);
         }
 
-        protected override OperatorDtoBase Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FactorOperatorDto);
 
@@ -2379,7 +2379,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
-        private OperatorDtoBase Process_StretchOrSquash_WithOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
+        private IOperatorDto Process_StretchOrSquash_WithOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
             string factor = _stack.Pop();
             string origin = _stack.Pop();
@@ -2395,11 +2395,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             string signal = _stack.Pop();
 
             _stack.Push(signal);
-            return (OperatorDtoBase)dto;
+            return dto;
         }
 
         /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
-        private OperatorDtoBase Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
+        private IOperatorDto Process_StretchOrSquash_WithOriginShifting(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
             string factor = _stack.Pop();
             string sourcePosition = GetPositionNameCamelCase(dto);
@@ -2416,11 +2416,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             string signal = _stack.Pop();
 
             _stack.Push(signal);
-            return (OperatorDtoBase)dto;
+            return dto;
         }
 
         /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
-        private OperatorDtoBase Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
+        private IOperatorDto Process_StretchOrSquash_WithPhaseTracking(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
             string factor = _stack.Pop();
             string phase = GetLongLivedPhaseName();
@@ -2446,11 +2446,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             string signal = _stack.Pop();
 
             _stack.Push(signal);
-            return (OperatorDtoBase)dto;
+            return dto;
         }
 
         /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
-        private OperatorDtoBase Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
+        private IOperatorDto Process_StretchOrSquash_ZeroOrigin(IOperatorDto_VarSignal_WithDimension dto, StretchOrSquashEnum stretchOrSquashEnum)
         {
             string factor = _stack.Pop();
             string sourcePosition = GetPositionNameCamelCase(dto);
@@ -2465,10 +2465,10 @@ namespace JJ.Business.Synthesizer.Roslyn
             string signal = _stack.Pop();
 
             _stack.Push(signal);
-            return (OperatorDtoBase)dto;
+            return dto;
         }
 
-        protected override OperatorDtoBase Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
+        protected override IOperatorDto Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             PutNumberOnStack(dto.A);
@@ -2476,7 +2476,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto)
         {
             PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -2484,7 +2484,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_Subtract_OperatorDto_VarA_VarB(Subtract_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_Subtract_OperatorDto_VarA_VarB(Subtract_OperatorDto_VarA_VarB dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -2492,37 +2492,37 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
         }
 
-        protected override OperatorDtoBase Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin dto)
+        protected override IOperatorDto Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin dto)
+        protected override IOperatorDto Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(ToggleTrigger_OperatorDto_VarPassThrough_VarReset dto)
+        protected override IOperatorDto Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(ToggleTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
 
@@ -2533,7 +2533,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Generate_TriangleCode_AfterDeterminePhase(dto, phase);
         }
 
-        protected override OperatorDtoBase Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(Triangle_OperatorDto_ConstFrequency_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(Triangle_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
 
@@ -2544,7 +2544,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Generate_TriangleCode_AfterDeterminePhase(dto, info.Phase);
         }
 
-        protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(Triangle_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(Triangle_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
@@ -2557,7 +2557,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Generate_TriangleCode_AfterDeterminePhase(dto, phase);
         }
 
-        protected override OperatorDtoBase Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
@@ -2574,7 +2574,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         /// <summary> Returns output variable name. </summary>
-        private OperatorDtoBase Generate_TriangleCode_AfterDeterminePhase(IOperatorDto dto, string phase)
+        private IOperatorDto Generate_TriangleCode_AfterDeterminePhase(IOperatorDto dto, string phase)
         {
             string shiftedPhase = GetUniqueLocalVariableName(nameof(shiftedPhase));
             string relativePhase = GetUniqueLocalVariableName(nameof(relativePhase));
@@ -2593,7 +2593,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
+        protected override IOperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {
             string inputVariable = GetInputName(dto);
 
@@ -2604,7 +2604,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         // Generalized Methods
 
-        private OperatorDtoBase Process_Filter_OperatorDto_AllVars(OperatorDtoBase_Filter_VarSignal dto, string biQuadFilterSetFilterVariablesMethodName)
+        private IOperatorDto Process_Filter_OperatorDto_AllVars(OperatorDtoBase_Filter_VarSignal dto, string biQuadFilterSetFilterVariablesMethodName)
         {
             Visit_OperatorDto_Base(dto);
 
@@ -2659,7 +2659,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase Process_Filter_OperatorDto_ManyConsts(OperatorDtoBase_Filter_ManyConsts dto)
+        private IOperatorDto Process_Filter_OperatorDto_ManyConsts(OperatorDtoBase_Filter_ManyConsts dto)
         {
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
 
@@ -2695,7 +2695,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase Process_Math_Pow(IOperatorDto dto)
+        private IOperatorDto Process_Math_Pow(IOperatorDto dto)
         {
             AppendOperatorTitleComment(dto);
 
@@ -2708,7 +2708,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, variable);
         }
 
-        private OperatorDtoBase ProcessBinaryOperator(IOperatorDto dto, string operatorSymbol)
+        private IOperatorDto ProcessBinaryOperator(IOperatorDto dto, string operatorSymbol)
         {
             AppendOperatorTitleComment(dto);
 
@@ -2721,7 +2721,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessComparativeOperator(IOperatorDto dto, string operatorSymbol)
+        private IOperatorDto ProcessComparativeOperator(IOperatorDto dto, string operatorSymbol)
         {
             AppendOperatorTitleComment(dto);
 
@@ -2734,7 +2734,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessComparativeOperator_VarA_ConstB(OperatorDtoBase_VarA_ConstB dto, string operatorSymbol)
+        private IOperatorDto ProcessComparativeOperator_VarA_ConstB(OperatorDtoBase_VarA_ConstB dto, string operatorSymbol)
         {
             PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -2742,7 +2742,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessComparativeOperator(dto, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessComparativeOperator_VarA_VarB(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
+        private IOperatorDto ProcessComparativeOperator_VarA_VarB(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -2750,7 +2750,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessComparativeOperator(dto, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessLogicalBinaryOperator(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
+        private IOperatorDto ProcessLogicalBinaryOperator(OperatorDtoBase_VarA_VarB dto, string operatorSymbol)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
@@ -2766,7 +2766,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase Process_MinOrMaxOverInlets_MoreThan2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum, int varCount)
+        private IOperatorDto Process_MinOrMaxOverInlets_MoreThan2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum, int varCount)
         {
             AppendOperatorTitleComment(dto);
 
@@ -2787,7 +2787,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase Process_MinOrMaxOverInlets_With2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum)
+        private IOperatorDto Process_MinOrMaxOverInlets_With2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum)
         {
             AppendOperatorTitleComment(dto);
 
@@ -2801,7 +2801,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(OperatorDtoBase_ConstA_ConstB_VarOrigin dto, string operatorSymbol)
+        private IOperatorDto ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(OperatorDtoBase_ConstA_ConstB_VarOrigin dto, string operatorSymbol)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             PutNumberOnStack(dto.B);
@@ -2810,7 +2810,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessMultiplyOrDivide_ConstA_VarB_ConstOrigin(OperatorDtoBase_ConstA_VarB_ConstOrigin dto, string operatorSymbol)
+        private IOperatorDto ProcessMultiplyOrDivide_ConstA_VarB_ConstOrigin(OperatorDtoBase_ConstA_VarB_ConstOrigin dto, string operatorSymbol)
         {
             PutNumberOnStack(dto.Origin);
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
@@ -2819,7 +2819,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessMultiplyOrDivide_ConstA_VarB_VarOrigin(OperatorDtoBase_ConstA_VarB_VarOrigin dto, string operatorSymbol)
+        private IOperatorDto ProcessMultiplyOrDivide_ConstA_VarB_VarOrigin(OperatorDtoBase_ConstA_VarB_VarOrigin dto, string operatorSymbol)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
@@ -2828,7 +2828,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessMultiplyOrDivide_VarA_ConstB_ConstOrigin(OperatorDtoBase_VarA_ConstB_ConstOrigin dto, string operatorSymbol)
+        private IOperatorDto ProcessMultiplyOrDivide_VarA_ConstB_ConstOrigin(OperatorDtoBase_VarA_ConstB_ConstOrigin dto, string operatorSymbol)
         {
             PutNumberOnStack(dto.Origin);
             PutNumberOnStack(dto.B);
@@ -2837,7 +2837,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessMultiplyOrDivide_VarA_ConstB_VarOrigin(OperatorDtoBase_VarA_ConstB_VarOrigin dto, string operatorSymbol)
+        private IOperatorDto ProcessMultiplyOrDivide_VarA_ConstB_VarOrigin(OperatorDtoBase_VarA_ConstB_VarOrigin dto, string operatorSymbol)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             PutNumberOnStack(dto.B);
@@ -2846,7 +2846,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessMultiplyOrDivide_VarA_VarB_ConstOrigin(OperatorDtoBase_VarA_VarB_ConstOrigin dto, string operatorSymbol)
+        private IOperatorDto ProcessMultiplyOrDivide_VarA_VarB_ConstOrigin(OperatorDtoBase_VarA_VarB_ConstOrigin dto, string operatorSymbol)
         {
             PutNumberOnStack(dto.Origin);
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
@@ -2855,7 +2855,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessMultiplyOrDivide_VarA_VarB_VarOrigin(OperatorDtoBase_VarA_VarB_VarOrigin dto, string operatorSymbol)
+        private IOperatorDto ProcessMultiplyOrDivide_VarA_VarB_VarOrigin(OperatorDtoBase_VarA_VarB_VarOrigin dto, string operatorSymbol)
         {
             Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
@@ -2864,7 +2864,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessMultiplyOrDivideWithOrigin(IOperatorDto dto, string operatorSymbol)
+        private IOperatorDto ProcessMultiplyOrDivideWithOrigin(IOperatorDto dto, string operatorSymbol)
         {
             AppendOperatorTitleComment(dto);
 
@@ -2878,7 +2878,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessMultiVarOperator(IOperatorDto dto, int varCount, string operatorSymbol)
+        private IOperatorDto ProcessMultiVarOperator(IOperatorDto dto, int varCount, string operatorSymbol)
         {
             AppendOperatorTitleComment(dto);
 
@@ -2910,7 +2910,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessMultiVarOperator_Vars_1Const(OperatorDtoBase_Vars_1Const dto, string operatorSymbol)
+        private IOperatorDto ProcessMultiVarOperator_Vars_1Const(OperatorDtoBase_Vars_1Const dto, string operatorSymbol)
         {
             PutNumberOnStack(dto.ConstValue);
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
@@ -2918,14 +2918,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiVarOperator(dto, dto.Vars.Count + 1, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessMultiVarOperator_Vars_NoConsts(OperatorDtoBase_Vars dto, string operatorSymbol)
+        private IOperatorDto ProcessMultiVarOperator_Vars_NoConsts(OperatorDtoBase_Vars dto, string operatorSymbol)
         {
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
             return ProcessMultiVarOperator(dto, dto.Vars.Count, operatorSymbol);
         }
 
-        private OperatorDtoBase ProcessOriginShifter(OperatorDtoBase_ConstFrequency dto, Func<string, string> getRightHandFormulaDelegate)
+        private IOperatorDto ProcessOriginShifter(OperatorDtoBase_ConstFrequency dto, Func<string, string> getRightHandFormulaDelegate)
         {
             string frequency = CompilationHelper.FormatValue(dto.Frequency);
 
@@ -2940,7 +2940,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessPhaseTrackingOperator(OperatorDtoBase_VarFrequency dto, Func<string, string> getRightHandFormulaDelegate)
+        private IOperatorDto ProcessPhaseTrackingOperator(OperatorDtoBase_VarFrequency dto, Func<string, string> getRightHandFormulaDelegate)
         {
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
 
@@ -2956,7 +2956,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private OperatorDtoBase ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto, Func<string, string> getRightHandFormulaDelegate)
+        private IOperatorDto ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(IOperatorDto_WithDimension dto, Func<string, string> getRightHandFormulaDelegate)
         {
             AppendOperatorTitleComment(dto);
 
@@ -3063,12 +3063,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             return convertedName;
         }
 
-        /// <summary> Appends an empty line, pushes the output and returns dto casted to OperatorDtoBase. </summary>
-        private OperatorDtoBase GenerateOperatorWrapUp(IOperatorDto dto, string output)
+        /// <summary> Appends an empty line, pushes the output and returns dto casted to IOperatorDto. </summary>
+        private IOperatorDto GenerateOperatorWrapUp(IOperatorDto dto, string output)
         {
             AppendLine();
             _stack.Push(output);
-            return (OperatorDtoBase)dto;
+            return dto;
         }
 
         /// <summary> Returns the phase literal. </summary>
@@ -3206,7 +3206,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return valueInfo;
         }
 
-        private string GetLiteralFromOperatorDtoOrValue(OperatorDtoBase valueOperatorDto = null, double? value = null)
+        private string GetLiteralFromOperatorDtoOrValue(IOperatorDto valueOperatorDto = null, double? value = null)
         {
             bool xor = valueOperatorDto != null ^ value.HasValue;
             if (!xor)

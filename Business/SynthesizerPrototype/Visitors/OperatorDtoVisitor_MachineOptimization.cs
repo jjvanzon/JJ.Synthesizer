@@ -5,12 +5,12 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 {
     internal class OperatorDtoVisitor_MachineOptimization : OperatorDtoVisitorBase_AfterMathSimplification
     {
-        public OperatorDtoBase Execute(OperatorDtoBase dto)
+        public IOperatorDto Execute(IOperatorDto dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
+        protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
             base.Visit_Number_OperatorDto(dto);
 

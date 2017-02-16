@@ -7,11 +7,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverDimension;
 
-        public OperatorDtoBase FromOperatorDto { get; set; }
-        public OperatorDtoBase TillOperatorDto { get; set; }
-        public OperatorDtoBase StepOperatorDto { get; set; }
+        public IOperatorDto FromOperatorDto { get; set; }
+        public IOperatorDto TillOperatorDto { get; set; }
+        public IOperatorDto StepOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { FromOperatorDto, TillOperatorDto, StepOperatorDto }; }
             set { FromOperatorDto = value[0]; TillOperatorDto = value[1]; StepOperatorDto = value[2]; }

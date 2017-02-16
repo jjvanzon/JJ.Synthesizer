@@ -18,7 +18,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
             _dimensionStack = dimensionStack;
         }
 
-        public IOperatorCalculator Execute(OperatorDtoBase sourceOperatorDto)
+        public IOperatorCalculator Execute(IOperatorDto sourceOperatorDto)
         {
             var preProcessingVisitor = new OperatorDtoPreProcessingExecutor();
             sourceOperatorDto = preProcessingVisitor.Execute(sourceOperatorDto);

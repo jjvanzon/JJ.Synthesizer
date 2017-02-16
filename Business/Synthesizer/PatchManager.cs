@@ -543,7 +543,7 @@ namespace JJ.Business.Synthesizer
                     _repositories.PatchRepository,
                     _repositories.SampleRepository,
                     _repositories.SpeakerSetupRepository);
-                OperatorDtoBase dto = entityToDtoVisitor.Execute(outlet);
+                IOperatorDto dto = entityToDtoVisitor.Execute(outlet);
 
                 var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
                 dto = preProcessingVisitor.Execute(dto);
@@ -605,7 +605,7 @@ namespace JJ.Business.Synthesizer
                         _repositories.PatchRepository,
                         _repositories.SampleRepository,
                         _repositories.SpeakerSetupRepository);
-                    OperatorDtoBase dto = entityToDtoVisitor.Execute(outlet);
+                    IOperatorDto dto = entityToDtoVisitor.Execute(outlet);
 
                     var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
                     dto = preProcessingVisitor.Execute(dto);

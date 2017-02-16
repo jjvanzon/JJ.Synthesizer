@@ -5,9 +5,9 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class OperatorDtoBase_ConstA_VarB : OperatorDtoBase
     {
         public double A { get; set; }
-        public OperatorDtoBase BOperatorDto { get; set; }
+        public IOperatorDto BOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { BOperatorDto }; }
             set { BOperatorDto = value[0]; }

@@ -31,13 +31,13 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Scaler;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase SourceValueAOperatorDto { get; set; }
-        public OperatorDtoBase SourceValueBOperatorDto { get; set; }
-        public OperatorDtoBase TargetValueAOperatorDto { get; set; }
-        public OperatorDtoBase TargetValueBOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto SourceValueAOperatorDto { get; set; }
+        public IOperatorDto SourceValueBOperatorDto { get; set; }
+        public IOperatorDto TargetValueAOperatorDto { get; set; }
+        public IOperatorDto TargetValueBOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get
             {

@@ -19,9 +19,9 @@ namespace JJ.Business.SynthesizerPrototype.Dto
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
         public double Signal { get; set; }
-        public OperatorDtoBase DistanceOperatorDto { get; set; }
+        public IOperatorDto DistanceOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { DistanceOperatorDto }; }
             set { DistanceOperatorDto = value[0]; }
@@ -32,10 +32,10 @@ namespace JJ.Business.SynthesizerPrototype.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double Distance { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }
@@ -46,10 +46,10 @@ namespace JJ.Business.SynthesizerPrototype.Dto
     {
         public override string OperatorTypeName => nameof(OperatorTypeEnum.Shift);
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase DistanceOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto DistanceOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, DistanceOperatorDto }; }
             set { SignalOperatorDto = value[0]; DistanceOperatorDto = value[1]; }

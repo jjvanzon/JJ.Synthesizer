@@ -275,6 +275,7 @@ namespace JJ.Business.Synthesizer
                     Messages = validator.ValidationMessages.ToCanonical()
                 };
             }
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 curve.UnlinkRelatedEntities();

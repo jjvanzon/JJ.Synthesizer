@@ -4,11 +4,11 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_VarA_VarB_VarOrigin : OperatorDtoBase
     {
-        public OperatorDtoBase AOperatorDto { get; set; }
-        public OperatorDtoBase BOperatorDto { get; set; }
-        public OperatorDtoBase OriginOperatorDto { get; set; }
+        public IOperatorDto AOperatorDto { get; set; }
+        public IOperatorDto BOperatorDto { get; set; }
+        public IOperatorDto OriginOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { AOperatorDto, BOperatorDto, OriginOperatorDto }; }
             set { AOperatorDto = value[0]; BOperatorDto = value[1]; OriginOperatorDto = value[2]; }
@@ -25,11 +25,11 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class OperatorDtoBase_VarA_ConstB_VarOrigin : OperatorDtoBase
     {
-        public OperatorDtoBase AOperatorDto { get; set; }
+        public IOperatorDto AOperatorDto { get; set; }
         public double B { get; set; }
-        public OperatorDtoBase OriginOperatorDto { get; set; }
+        public IOperatorDto OriginOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { AOperatorDto, OriginOperatorDto }; }
             set { AOperatorDto = value[0]; OriginOperatorDto = value[1]; }
@@ -47,10 +47,10 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class OperatorDtoBase_ConstA_VarB_VarOrigin : OperatorDtoBase
     {
         public double A { get; set; }
-        public OperatorDtoBase BOperatorDto { get; set; }
-        public OperatorDtoBase OriginOperatorDto { get; set; }
+        public IOperatorDto BOperatorDto { get; set; }
+        public IOperatorDto OriginOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { BOperatorDto, OriginOperatorDto }; }
             set { BOperatorDto = value[0]; OriginOperatorDto = value[1]; }
@@ -67,9 +67,9 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class OperatorDtoBase_ConstA_ConstB_VarOrigin : OperatorDtoBase_ConstA_ConstB
     {
-        public OperatorDtoBase OriginOperatorDto { get; set; }
+        public IOperatorDto OriginOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { OriginOperatorDto }; }
             set { OriginOperatorDto = value[0]; }

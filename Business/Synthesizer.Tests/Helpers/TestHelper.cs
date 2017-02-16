@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             patchCalculator.Calculate(buffer, frameCount, time);
 
-            return buffer[1];
+            return buffer[0];
         }
     }
 }

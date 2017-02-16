@@ -6,7 +6,7 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 {
     internal abstract class OperatorDtoVisitorBase_ClassSpecialization : OperatorDtoVisitorBase
     {
-        protected override OperatorDtoBase Visit_Add_OperatorDto(Add_OperatorDto dto)
+        protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
             base.Visit_Add_OperatorDto(dto);
 
@@ -32,12 +32,12 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
+        protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
         {
             base.Visit_Multiply_OperatorDto(dto);
 
-            OperatorDtoBase aOperatorDto = dto.AOperatorDto;
-            OperatorDtoBase bOperatorDto = dto.BOperatorDto;
+            IOperatorDto aOperatorDto = dto.AOperatorDto;
+            IOperatorDto bOperatorDto = dto.BOperatorDto;
 
             MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(aOperatorDto);
             MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(bOperatorDto);
@@ -62,12 +62,12 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Shift_OperatorDto(Shift_OperatorDto dto)
+        protected override IOperatorDto Visit_Shift_OperatorDto(Shift_OperatorDto dto)
         {
             base.Visit_Shift_OperatorDto(dto);
 
-            OperatorDtoBase signalOperatorDto = dto.SignalOperatorDto;
-            OperatorDtoBase distanceOperatorDto = dto.DistanceOperatorDto;
+            IOperatorDto signalOperatorDto = dto.SignalOperatorDto;
+            IOperatorDto distanceOperatorDto = dto.DistanceOperatorDto;
 
             MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(signalOperatorDto);
             MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(distanceOperatorDto);
@@ -92,11 +92,11 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
             throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
         }
 
-        protected override OperatorDtoBase Visit_Sine_OperatorDto(Sine_OperatorDto dto)
+        protected override IOperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto)
         {
             base.Visit_Sine_OperatorDto(dto);
 
-            OperatorDtoBase frequencyOperatorDto = dto.FrequencyOperatorDto;
+            IOperatorDto frequencyOperatorDto = dto.FrequencyOperatorDto;
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(frequencyOperatorDto);
 
             if (frequencyMathPropertiesDto.IsConstZero)

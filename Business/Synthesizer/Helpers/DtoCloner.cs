@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Clone_DimensionProperties(source, dest);
         }
 
-        public static void TryClone_AggregateOverDimensionProperties(OperatorDtoBase_AggregateOverDimension_AllVars source, OperatorDtoBase dest)
+        public static void TryClone_AggregateOverDimensionProperties(OperatorDtoBase_AggregateOverDimension_AllVars source, IOperatorDto dest)
         {
             var castedDest = dest as OperatorDtoBase_AggregateOverDimension_AllVars;
             if (castedDest != null)
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Clone_DimensionProperties(source, dest);
         }
 
-        public static void TryClone_AggregateFollowerProperties(OperatorDtoBase_AggregateFollower_AllVars source, OperatorDtoBase dest)
+        public static void TryClone_AggregateFollowerProperties(OperatorDtoBase_AggregateFollower_AllVars source, IOperatorDto dest)
         {
             var castedDest = dest as OperatorDtoBase_AggregateFollower_AllVars;
             if (castedDest != null)
@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.SpeakerSetupEnum = source.SpeakerSetupEnum;
         }
 
-        public static void TryClone_CacheOperatorProperties(Cache_OperatorDtoBase_NotConstSignal source, OperatorDtoBase dest)
+        public static void TryClone_CacheOperatorProperties(Cache_OperatorDtoBase_NotConstSignal source, IOperatorDto dest)
         {
             var castedDest = dest as Cache_OperatorDtoBase_NotConstSignal;
             if (castedDest != null)
@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Clone_DimensionProperties(source, dest);
         }
 
-        public static void TryClone_CurveProperties(Curve_OperatorDto source, OperatorDtoBase dest)
+        public static void TryClone_CurveProperties(Curve_OperatorDto source, IOperatorDto dest)
         {
             {
                 var castedDest = dest as Curve_OperatorDtoBase_WithMinX;
@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.StandardDimensionEnum = source.StandardDimensionEnum;
         }
 
-        public static void TryClone_DimensionProperties(IOperatorDto_WithDimension source, OperatorDtoBase dest)
+        public static void TryClone_DimensionProperties(IOperatorDto_WithDimension source, IOperatorDto dest)
         {
             var destOperatorDto_WithDimension = dest as IOperatorDto_WithDimension;
             if (destOperatorDto_WithDimension != null)
@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Helpers
             }
         }
 
-        public static void TryClone_FilterVarSignalProperties(OperatorDtoBase_Filter_VarSignal source, OperatorDtoBase dest)
+        public static void TryClone_FilterVarSignalProperties(OperatorDtoBase_Filter_VarSignal source, IOperatorDto dest)
         {
             var destOperatorDto_Filter_VarSignal = dest as OperatorDtoBase_Filter_VarSignal;
             if (destOperatorDto_Filter_VarSignal != null)
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Clone_DimensionProperties(source, dest);
         }
 
-        public static void TryClone_InterpolateOperatorProperties(Interpolate_OperatorDto source, OperatorDtoBase dest)
+        public static void TryClone_InterpolateOperatorProperties(Interpolate_OperatorDto source, IOperatorDto dest)
         {
             var asIInterpolate_OperatorDto_VarSignal = dest as IInterpolate_OperatorDto_VarSignal;
             if (asIInterpolate_OperatorDto_VarSignal != null)
@@ -172,7 +172,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Clone_DimensionProperties(source, dest);
         }
 
-        public static void TryClone_RandomOperatorProperties(IRandom_OperatorDto source, OperatorDtoBase dest)
+        public static void TryClone_RandomOperatorProperties(IRandom_OperatorDto source, IOperatorDto dest)
         {
             var asIRandom_OperatorDto = dest as IRandom_OperatorDto;
             if (asIRandom_OperatorDto != null)
@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Helpers
             Clone_DimensionProperties(source, dest);
         }
 
-        public static void TryClone_SampleProperties(Sample_OperatorDto source, OperatorDtoBase dest)
+        public static void TryClone_SampleProperties(Sample_OperatorDto source, IOperatorDto dest)
         {
             var asISample_OperatorDto = dest as ISample_OperatorDto_WithSampleID;
             if (asISample_OperatorDto != null)

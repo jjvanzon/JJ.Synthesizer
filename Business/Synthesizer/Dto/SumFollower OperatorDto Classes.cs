@@ -19,9 +19,9 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SumFollower;
 
         public double Signal { get; set; }
-        public OperatorDtoBase SampleCountOperatorDto { get; set; }
+        public IOperatorDto SampleCountOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SampleCountOperatorDto }; }
             set { SampleCountOperatorDto = value[0]; }
@@ -36,6 +36,6 @@ namespace JJ.Business.Synthesizer.Dto
         public double Signal { get; set; }
         public double SampleCount { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
+        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
 }

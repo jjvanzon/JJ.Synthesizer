@@ -4,10 +4,10 @@ namespace JJ.Business.SynthesizerPrototype.Dto
 {
     public abstract class OperatorDtoBase_VarA_VarB : OperatorDtoBase
     {
-        public OperatorDtoBase AOperatorDto { get; set; }
-        public OperatorDtoBase BOperatorDto { get; set; }
+        public IOperatorDto AOperatorDto { get; set; }
+        public IOperatorDto BOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { AOperatorDto, BOperatorDto }; }
             set { AOperatorDto = value[0]; BOperatorDto = value[1]; }

@@ -15,11 +15,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
 
-        public OperatorDtoBase CenterFrequencyOperatorDto { get; set; }
-        public OperatorDtoBase BandWidthOperatorDto { get; set; }
-        public OperatorDtoBase DBGainOperatorDto { get; set; }
+        public IOperatorDto CenterFrequencyOperatorDto { get; set; }
+        public IOperatorDto BandWidthOperatorDto { get; set; }
+        public IOperatorDto DBGainOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get
             {

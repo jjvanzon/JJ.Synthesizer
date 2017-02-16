@@ -4,7 +4,7 @@ namespace JJ.Business.SynthesizerPrototype.Dto
 {
     public class VarsConsts_MathPropertiesDto
     {
-        public IList<OperatorDtoBase> Vars { get; set; }
+        public IList<IOperatorDto> Vars { get; set; }
         public IList<double> Consts { get; set; }
         public bool HasVars { get; set; }
         public bool HasConsts { get; set; }

@@ -4,12 +4,12 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitor_ProgrammerLaziness : OperatorDtoVisitorBase_AfterRewiring
     {
-        public OperatorDtoBase Execute(OperatorDtoBase dto)
+        public IOperatorDto Execute(IOperatorDto dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
         }
 
-        protected override OperatorDtoBase Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(SumFollower_OperatorDto_ConstSignal_VarSampleCount dto)
+        protected override IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(SumFollower_OperatorDto_ConstSignal_VarSampleCount dto)
         {
             base.Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(dto);
 

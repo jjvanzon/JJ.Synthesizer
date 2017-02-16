@@ -4,10 +4,10 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_Trigger_VarPassThrough_VarReset : OperatorDtoBase
     {
-        public OperatorDtoBase PassThroughInputOperatorDto { get; set; }
-        public OperatorDtoBase ResetOperatorDto { get; set; }
+        public IOperatorDto PassThroughInputOperatorDto { get; set; }
+        public IOperatorDto ResetOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { PassThroughInputOperatorDto, ResetOperatorDto }; }
             set { PassThroughInputOperatorDto = value[0]; ResetOperatorDto = value[1]; }
@@ -16,10 +16,10 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class OperatorDtoBase_Trigger_VarPassThrough_ConstReset : OperatorDtoBase
     {
-        public OperatorDtoBase PassThroughInputOperatorDto { get; set; }
+        public IOperatorDto PassThroughInputOperatorDto { get; set; }
         public double Reset { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { PassThroughInputOperatorDto }; }
             set { PassThroughInputOperatorDto = value[0]; }
@@ -29,9 +29,9 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class OperatorDtoBase_Trigger_ConstPassThrough_VarReset : OperatorDtoBase
     {
         public double PassThrough { get; set; }
-        public OperatorDtoBase ResetOperatorDto { get; set; }
+        public IOperatorDto ResetOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { ResetOperatorDto }; }
             set { ResetOperatorDto = value[0]; }

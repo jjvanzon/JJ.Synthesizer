@@ -5,14 +5,14 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_AggregateOverDimension_AllVars : OperatorDtoBase_WithDimension
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase FromOperatorDto { get; set; }
-        public OperatorDtoBase TillOperatorDto { get; set; }
-        public OperatorDtoBase StepOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto FromOperatorDto { get; set; }
+        public IOperatorDto TillOperatorDto { get; set; }
+        public IOperatorDto StepOperatorDto { get; set; }
 
         public CollectionRecalculationEnum CollectionRecalculationEnum { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, FromOperatorDto, TillOperatorDto, StepOperatorDto }; }
             set { SignalOperatorDto = value[0]; FromOperatorDto = value[1]; TillOperatorDto = value[2]; StepOperatorDto = value[3]; }

@@ -7,9 +7,9 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
 
-        public OperatorDtoBase WidthOperatorDto { get; set; }
+        public IOperatorDto WidthOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { FrequencyOperatorDto, WidthOperatorDto }; }
             set { FrequencyOperatorDto = value[0]; WidthOperatorDto = value[1]; }
@@ -37,9 +37,9 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
 
-        public OperatorDtoBase WidthOperatorDto { get; set; }
+        public IOperatorDto WidthOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { WidthOperatorDto }; }
             set { WidthOperatorDto = value[0]; }

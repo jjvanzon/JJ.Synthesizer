@@ -15,10 +15,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.NotchFilter;
 
-        public OperatorDtoBase CenterFrequencyOperatorDto { get; set; }
-        public OperatorDtoBase BandWidthOperatorDto { get; set; }
+        public IOperatorDto CenterFrequencyOperatorDto { get; set; }
+        public IOperatorDto BandWidthOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, CenterFrequencyOperatorDto, BandWidthOperatorDto }; }
             set { SignalOperatorDto = value[0]; CenterFrequencyOperatorDto = value[1]; BandWidthOperatorDto = value[2]; }

@@ -20,7 +20,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
             _dimensionStack = dimensionStack;
         }
 
-        public OperatorCalculatorBase Execute(OperatorDtoBase dto)
+        public OperatorCalculatorBase Execute(IOperatorDto dto)
         {
             var preProcessingVisitor = new OperatorDtoPreProcessingExecutor();
             dto = preProcessingVisitor.Execute(dto);
@@ -32,7 +32,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
 
         // Add
 
-        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
+        protected override IOperatorDto Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
             base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
 
@@ -44,7 +44,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
+        protected override IOperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
@@ -58,7 +58,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
 
         // Multiply
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_Multiply_OperatorDto_VarA_ConstB(Multiply_OperatorDto_VarA_ConstB dto)
         {
             base.Visit_Multiply_OperatorDto_VarA_ConstB(dto);
 
@@ -69,7 +69,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_Multiply_OperatorDto_VarA_VarB(Multiply_OperatorDto_VarA_VarB dto)
         {
             base.Visit_Multiply_OperatorDto_VarA_VarB(dto);
 
@@ -81,7 +81,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
 
         // Number
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto(Number_OperatorDto dto)
+        protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
             base.Visit_Number_OperatorDto(dto);
 
@@ -91,7 +91,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
+        protected override IOperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
         {
             base.Visit_Number_OperatorDto_NaN(dto);
 
@@ -101,7 +101,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
+        protected override IOperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
         {
             base.Visit_Number_OperatorDto_One(dto);
 
@@ -111,7 +111,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
+        protected override IOperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
         {
             base.Visit_Number_OperatorDto_Zero(dto);
 
@@ -123,7 +123,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
 
         // Shift
 
-        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
+        protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
         {
             base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
 
@@ -133,7 +133,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
+        protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
         {
             base.Visit_Shift_OperatorDto_VarSignal_VarDistance(dto);
 
@@ -145,7 +145,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
 
         // Sine
 
-        protected override OperatorDtoBase Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             base.Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(dto);
 
@@ -155,7 +155,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
             base.Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(dto);
 
@@ -165,7 +165,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             base.Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(dto);
 
@@ -177,7 +177,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
 
         // VariableInput
 
-        protected override OperatorDtoBase Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
+        protected override IOperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
         {
             base.Visit_VariableInput_OperatorDto(dto);
 
@@ -187,7 +187,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
             return dto;
         }
 
-        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
             VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
 

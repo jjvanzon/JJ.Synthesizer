@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Dto
         public int? CurveID { get; set; }
         public double MinX { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
+        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
 
     internal class Curve_OperatorDto_NoCurve : OperatorDtoBase_WithoutInputOperatorDtos
@@ -41,6 +41,6 @@ namespace JJ.Business.Synthesizer.Dto
 
         public int CurveID { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
+        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
 }

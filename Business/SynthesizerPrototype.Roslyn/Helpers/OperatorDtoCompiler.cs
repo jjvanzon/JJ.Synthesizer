@@ -39,7 +39,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
             };
         }
 
-        public IOperatorCalculator CompileToOperatorCalculator(OperatorDtoBase dto)
+        public IOperatorCalculator CompileToOperatorCalculator(IOperatorDto dto)
         {
             if (dto == null) throw new NullException(() => dto);
 
@@ -54,7 +54,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
             return calculator;
         }
 
-        public IPatchCalculator CompileToPatchCalculator(OperatorDtoBase dto, int framesPerChunk)
+        public IPatchCalculator CompileToPatchCalculator(IOperatorDto dto, int framesPerChunk)
         {
             if (dto == null) throw new NullException(() => dto);
 

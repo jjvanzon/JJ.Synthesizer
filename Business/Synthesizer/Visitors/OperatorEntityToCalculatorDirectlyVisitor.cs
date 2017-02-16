@@ -2472,7 +2472,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.VisitNoise(op);
 
             // Cast to concrete calculator type for performance.
-            var noiseCalculator = (NoiseCalculator)_calculatorCache.GetNoiseCalculator(op.ID);
+            NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(op.ID);
 
             var calculator = new Noise_OperatorCalculator(noiseCalculator, dimensionStack);
             _stack.Push(calculator);
@@ -4518,6 +4518,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             IList<OperatorCalculatorBase> truncatedOperandCalculatorList = varOperandCalculators.Union(aggregatedConstOperandCalculator)
+                                                                                                .Where(x => x != null)
                                                                                                 .ToList();
             return truncatedOperandCalculatorList;
         }

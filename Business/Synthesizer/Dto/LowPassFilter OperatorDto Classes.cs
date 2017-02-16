@@ -15,10 +15,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.LowPassFilter;
 
-        public OperatorDtoBase MaxFrequencyOperatorDto { get; set; }
-        public OperatorDtoBase BandWidthOperatorDto { get; set; }
+        public IOperatorDto MaxFrequencyOperatorDto { get; set; }
+        public IOperatorDto BandWidthOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, MaxFrequencyOperatorDto, BandWidthOperatorDto }; }
             set { SignalOperatorDto = value[0]; MaxFrequencyOperatorDto = value[1]; BandWidthOperatorDto = value[2]; }

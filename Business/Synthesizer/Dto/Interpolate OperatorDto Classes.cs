@@ -7,11 +7,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase SamplingRateOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto SamplingRateOperatorDto { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, SamplingRateOperatorDto }; }
             set { SignalOperatorDto = value[0]; SamplingRateOperatorDto = value[1]; }
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Dto
     /// </summary>
     internal interface IInterpolate_OperatorDto_VarSignal : IOperatorDto_WithDimension
     {
-        OperatorDtoBase SignalOperatorDto { get; set; }
+        IOperatorDto SignalOperatorDto { get; set; }
         ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
     }
 

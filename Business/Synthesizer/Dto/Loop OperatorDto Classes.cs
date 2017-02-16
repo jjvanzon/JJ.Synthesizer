@@ -15,12 +15,12 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double LoopStartMarker { get; set; }
         public double LoopEndMarker { get; set; }
-        public OperatorDtoBase NoteDurationOperatorDto { get; set; }
+        public IOperatorDto NoteDurationOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, NoteDurationOperatorDto }; }
             set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
@@ -31,14 +31,14 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double Skip { get; set; }
         public double LoopStartMarker { get; set; }
         public double LoopEndMarker { get; set; }
         public double ReleaseEndMarker { get; set; }
-        public OperatorDtoBase NoteDurationOperatorDto { get; set; }
+        public IOperatorDto NoteDurationOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, NoteDurationOperatorDto }; }
             set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
@@ -49,12 +49,12 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double SkipAndLoopStartMarker { get; set; }
         public double LoopEndMarker { get; set; }
-        public OperatorDtoBase ReleaseEndMarkerOperatorDto { get; set; }
+        public IOperatorDto ReleaseEndMarkerOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, ReleaseEndMarkerOperatorDto }; }
             set { SignalOperatorDto = value[0]; ReleaseEndMarkerOperatorDto = value[1]; }
@@ -65,12 +65,12 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double SkipAndLoopStartMarker { get; set; }
-        public OperatorDtoBase LoopEndMarkerOperatorDto { get; set; }
-        public OperatorDtoBase ReleaseEndMarkerOperatorDto { get; set; }
+        public IOperatorDto LoopEndMarkerOperatorDto { get; set; }
+        public IOperatorDto ReleaseEndMarkerOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, LoopEndMarkerOperatorDto, ReleaseEndMarkerOperatorDto, }; }
             set { SignalOperatorDto = value[0]; LoopEndMarkerOperatorDto = value[1]; ReleaseEndMarkerOperatorDto = value[2]; }
@@ -81,12 +81,12 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase LoopStartMarkerOperatorDto { get; set; }
-        public OperatorDtoBase LoopEndMarkerOperatorDto { get; set; }
-        public OperatorDtoBase NoteDurationOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto LoopStartMarkerOperatorDto { get; set; }
+        public IOperatorDto LoopEndMarkerOperatorDto { get; set; }
+        public IOperatorDto NoteDurationOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get
             {
@@ -112,14 +112,14 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase SkipOperatorDto { get; set; }
-        public OperatorDtoBase LoopStartMarkerOperatorDto { get; set; }
-        public OperatorDtoBase LoopEndMarkerOperatorDto { get; set; }
-        public OperatorDtoBase ReleaseEndMarkerOperatorDto { get; set; }
-        public OperatorDtoBase NoteDurationOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto SkipOperatorDto { get; set; }
+        public IOperatorDto LoopStartMarkerOperatorDto { get; set; }
+        public IOperatorDto LoopEndMarkerOperatorDto { get; set; }
+        public IOperatorDto ReleaseEndMarkerOperatorDto { get; set; }
+        public IOperatorDto NoteDurationOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get
             {

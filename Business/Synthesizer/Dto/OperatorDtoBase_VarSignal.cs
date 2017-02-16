@@ -4,9 +4,9 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_VarSignal : OperatorDtoBase, IOperatorDto_VarSignal
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }

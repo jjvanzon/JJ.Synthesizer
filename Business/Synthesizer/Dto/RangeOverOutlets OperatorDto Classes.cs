@@ -10,9 +10,9 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
-        public OperatorDtoBase FromOperatorDto { get; set; }
+        public IOperatorDto FromOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { FromOperatorDto }; }
             set { FromOperatorDto = value[0]; }
@@ -23,11 +23,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
-        public OperatorDtoBase FromOperatorDto { get; set; }
-        public OperatorDtoBase StepOperatorDto { get; set; }
+        public IOperatorDto FromOperatorDto { get; set; }
+        public IOperatorDto StepOperatorDto { get; set; }
         public int OutletListIndex { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { FromOperatorDto, StepOperatorDto }; }
             set { FromOperatorDto = value[0]; StepOperatorDto = value[1]; }
@@ -38,11 +38,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
-        public OperatorDtoBase FromOperatorDto { get; set; }
+        public IOperatorDto FromOperatorDto { get; set; }
         public double Step { get; set; }
         public int OutletListIndex { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { FromOperatorDto }; }
             set { FromOperatorDto = value[0]; }
@@ -54,10 +54,10 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 
         public double From { get; set; }
-        public OperatorDtoBase StepOperatorDto { get; set; }
+        public IOperatorDto StepOperatorDto { get; set; }
         public int OutletListIndex { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { StepOperatorDto }; }
             set { StepOperatorDto = value[0]; }

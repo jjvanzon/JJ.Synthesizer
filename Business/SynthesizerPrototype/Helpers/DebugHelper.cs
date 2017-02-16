@@ -5,7 +5,7 @@ namespace JJ.Business.SynthesizerPrototype.Helpers
 {
     internal static class DebugHelper
     {
-        public static string GetDebuggerDisplay(OperatorDtoBase operatorDto)
+        public static string GetDebuggerDisplay(IOperatorDto operatorDto)
         {
             if (operatorDto == null) throw new NullException(() => operatorDto);
 

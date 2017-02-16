@@ -10,15 +10,15 @@ namespace JJ.Business.Synthesizer.Dto
         public double Signal { get; set; }
         public double Factor { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
+        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
 
     internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin : OperatorDtoBase_WithDimension
     {
         public double Signal { get; set; }
-        public OperatorDtoBase FactorOperatorDto { get; set; }
+        public IOperatorDto FactorOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { FactorOperatorDto }; }
             set { FactorOperatorDto = value[0]; }
@@ -27,10 +27,10 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double Factor { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }
@@ -39,10 +39,10 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_ZeroOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase FactorOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto FactorOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, FactorOperatorDto }; }
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
@@ -55,16 +55,16 @@ namespace JJ.Business.Synthesizer.Dto
         public double Factor { get; set; }
         public double Origin { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
+        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
 
     internal abstract class StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_VarOrigin : OperatorDtoBase_WithDimension
     {
         public double Signal { get; set; }
         public double Factor { get; set; }
-        public OperatorDtoBase OriginOperatorDto { get; set; }
+        public IOperatorDto OriginOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { OriginOperatorDto }; }
             set { OriginOperatorDto = value[0]; }
@@ -74,10 +74,10 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_ConstOrigin : OperatorDtoBase_WithDimension
     {
         public double Signal { get; set; }
-        public OperatorDtoBase FactorOperatorDto { get; set; }
+        public IOperatorDto FactorOperatorDto { get; set; }
         public double Origin { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { FactorOperatorDto }; }
             set { FactorOperatorDto = value[0]; }
@@ -87,10 +87,10 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_VarOrigin : OperatorDtoBase_WithDimension
     {
         public double Signal { get; set; }
-        public OperatorDtoBase FactorOperatorDto { get; set; }
-        public OperatorDtoBase OriginOperatorDto { get; set; }
+        public IOperatorDto FactorOperatorDto { get; set; }
+        public IOperatorDto OriginOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { FactorOperatorDto, OriginOperatorDto }; }
             set { FactorOperatorDto = value[0]; OriginOperatorDto = value[1]; }
@@ -99,11 +99,11 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ConstOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double Factor { get; set; }
         public double Origin { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }
@@ -112,11 +112,11 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_VarOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double Factor { get; set; }
-        public OperatorDtoBase OriginOperatorDto { get; set; }
+        public IOperatorDto OriginOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, OriginOperatorDto }; }
             set { SignalOperatorDto = value[0]; OriginOperatorDto = value[1]; }
@@ -125,11 +125,11 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_ConstOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase FactorOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto FactorOperatorDto { get; set; }
         public double Origin { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, FactorOperatorDto }; }
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
@@ -138,11 +138,11 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_VarOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase FactorOperatorDto { get; set; }
-        public OperatorDtoBase OriginOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto FactorOperatorDto { get; set; }
+        public IOperatorDto OriginOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, FactorOperatorDto, OriginOperatorDto }; }
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; OriginOperatorDto = value[2]; }
@@ -156,15 +156,15 @@ namespace JJ.Business.Synthesizer.Dto
         public double Signal { get; set; }
         public double Factor { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
+        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
 
     internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking : OperatorDtoBase_WithDimension
     {
         public double Signal { get; set; }
-        public OperatorDtoBase FactorOperatorDto { get; set; }
+        public IOperatorDto FactorOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { FactorOperatorDto }; }
             set { FactorOperatorDto = value[0]; }
@@ -173,10 +173,10 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public double Factor { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto }; }
             set { SignalOperatorDto = value[0]; }
@@ -185,10 +185,10 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase FactorOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto FactorOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, FactorOperatorDto }; }
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }

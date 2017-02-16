@@ -10,16 +10,16 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
 
-        public OperatorDtoBase PassThroughInputOperatorDto { get; set; }
-        public OperatorDtoBase ValueOperatorDto { get; set; }
+        public IOperatorDto PassThroughInputOperatorDto { get; set; }
+        public IOperatorDto ValueOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { PassThroughInputOperatorDto, ValueOperatorDto }; }
             set { PassThroughInputOperatorDto = value[0]; ValueOperatorDto = value[1]; }
         }
 
-        public OperatorDtoBase SignalOperatorDto
+        public IOperatorDto SignalOperatorDto
         {
             get { return PassThroughInputOperatorDto; }
             set { PassThroughInputOperatorDto = value; }
@@ -30,16 +30,16 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
 
-        public OperatorDtoBase PassThroughInputOperatorDto { get; set; }
+        public IOperatorDto PassThroughInputOperatorDto { get; set; }
         public double Value { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { PassThroughInputOperatorDto }; }
             set { PassThroughInputOperatorDto = value[0]; }
         }
 
-        public OperatorDtoBase SignalOperatorDto
+        public IOperatorDto SignalOperatorDto
         {
             get { return PassThroughInputOperatorDto; }
             set { PassThroughInputOperatorDto = value; }
@@ -51,9 +51,9 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
 
         public double PassThrough { get; set; }
-        public OperatorDtoBase ValueOperatorDto { get; set; }
+        public IOperatorDto ValueOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { ValueOperatorDto }; }
             set { ValueOperatorDto = value[0]; }
@@ -67,6 +67,6 @@ namespace JJ.Business.Synthesizer.Dto
         public double PassThrough { get; set; }
         public double Value { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos { get; set; } = new OperatorDtoBase[0];
+        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
 }

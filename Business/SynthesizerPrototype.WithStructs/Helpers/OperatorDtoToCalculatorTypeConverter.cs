@@ -26,13 +26,13 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
             { typeof(VariableInput_OperatorDto), typeof(VariableInput_OperatorCalculator) },
         };
 
-        public static Type ConvertToClosedGenericType(OperatorDtoBase operatorDto)
+        public static Type ConvertToClosedGenericType(IOperatorDto operatorDto)
         {
             if (operatorDto == null) throw new NullException(() => operatorDto);
 
             Type calculatorType_OpenGeneric = Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(operatorDto);
 
-            IList<OperatorDtoBase> inputOperatorDtos = operatorDto.InputOperatorDtos;
+            IList<IOperatorDto> inputOperatorDtos = operatorDto.InputOperatorDtos;
 
             int count = inputOperatorDtos.Count;
 
@@ -45,7 +45,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
             Type[] calculatorType_ClosedGenericTypeArguments = new Type[count];
             for (int i = 0; i < count; i++)
             {
-                OperatorDtoBase inputOperatorDto = inputOperatorDtos[i];
+                IOperatorDto inputOperatorDto = inputOperatorDtos[i];
 
                 Type calculatorType_ClosedGenericTypeArgument = ConvertToClosedGenericType(inputOperatorDto);
 
@@ -58,7 +58,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static Type Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(OperatorDtoBase operatorDto)
+        private static Type Get_CalculatorType_OpenGeneric_By_DtoType_Concrete(IOperatorDto operatorDto)
         {
             Type dtoType_Concrete = operatorDto.GetType();
 

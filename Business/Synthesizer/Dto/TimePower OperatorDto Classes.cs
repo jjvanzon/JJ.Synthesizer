@@ -15,11 +15,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.TimePower;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase ExponentOperatorDto { get; set; }
-        public OperatorDtoBase OriginOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto ExponentOperatorDto { get; set; }
+        public IOperatorDto OriginOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, ExponentOperatorDto, OriginOperatorDto }; }
             set { SignalOperatorDto = value[0]; ExponentOperatorDto = value[1]; OriginOperatorDto = value[2]; }
@@ -30,10 +30,10 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.TimePower;
 
-        public OperatorDtoBase SignalOperatorDto { get; set; }
-        public OperatorDtoBase ExponentOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
+        public IOperatorDto ExponentOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { SignalOperatorDto, ExponentOperatorDto }; }
             set { SignalOperatorDto = value[0]; ExponentOperatorDto = value[1]; }

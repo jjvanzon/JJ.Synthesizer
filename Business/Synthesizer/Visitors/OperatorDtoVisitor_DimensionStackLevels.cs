@@ -55,14 +55,14 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private Dictionary<Tuple<DimensionEnum, string>, int> _dimensionToCurrentStackLevelDictionary;
 
-        public void Execute(OperatorDtoBase dto)
+        public void Execute(IOperatorDto dto)
         {
             _dimensionToCurrentStackLevelDictionary = new Dictionary<Tuple<DimensionEnum, string>, int>();
 
             Visit_OperatorDto_Polymorphic(dto);
         }
 
-        protected override OperatorDtoBase Visit_OperatorDto_Polymorphic(OperatorDtoBase dto)
+        protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
             // Set DimensionStackLevel for both dimension readers and dimension writers.
             var operatorDto_WithDimension = dto as IOperatorDto_WithDimension;
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             // Visit non-signal inlets normally, because for those the dimension stack level does not increase.
-            foreach (OperatorDtoBase inputOperatorDto in dto.InputOperatorDtos.Except(operatorDto_VarSignal.SignalOperatorDto))
+            foreach (IOperatorDto inputOperatorDto in dto.InputOperatorDtos.Except(operatorDto_VarSignal.SignalOperatorDto))
             {
                 Visit_OperatorDto_Polymorphic(inputOperatorDto);
             }

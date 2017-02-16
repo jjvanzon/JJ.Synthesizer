@@ -10,11 +10,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
-        public OperatorDtoBase LowOperatorDto { get; set; }
-        public OperatorDtoBase HighOperatorDto { get; set; }
-        public OperatorDtoBase RatioOperatorDto { get; set; }
+        public IOperatorDto LowOperatorDto { get; set; }
+        public IOperatorDto HighOperatorDto { get; set; }
+        public IOperatorDto RatioOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { LowOperatorDto, HighOperatorDto, RatioOperatorDto }; }
             set { LowOperatorDto = value[0]; HighOperatorDto = value[1]; RatioOperatorDto = value[2]; }
@@ -25,11 +25,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
-        public OperatorDtoBase LowOperatorDto { get; set; }
-        public OperatorDtoBase HighOperatorDto { get; set; }
+        public IOperatorDto LowOperatorDto { get; set; }
+        public IOperatorDto HighOperatorDto { get; set; }
         public double Ratio { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { LowOperatorDto, HighOperatorDto }; }
             set { LowOperatorDto = value[0]; HighOperatorDto = value[1]; }
@@ -40,11 +40,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
-        public OperatorDtoBase LowOperatorDto { get; set; }
+        public IOperatorDto LowOperatorDto { get; set; }
         public double High { get; set; }
-        public OperatorDtoBase RatioOperatorDto { get; set; }
+        public IOperatorDto RatioOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { LowOperatorDto, RatioOperatorDto }; }
             set { LowOperatorDto = value[0]; RatioOperatorDto = value[1]; }
@@ -55,11 +55,11 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
-        public OperatorDtoBase LowOperatorDto { get; set; }
+        public IOperatorDto LowOperatorDto { get; set; }
         public double High { get; set; }
         public double Ratio { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { LowOperatorDto }; }
             set { LowOperatorDto = value[0]; }
@@ -71,10 +71,10 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
         public double Low { get; set; }
-        public OperatorDtoBase HighOperatorDto { get; set; }
-        public OperatorDtoBase RatioOperatorDto { get; set; }
+        public IOperatorDto HighOperatorDto { get; set; }
+        public IOperatorDto RatioOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { HighOperatorDto, RatioOperatorDto }; }
             set { HighOperatorDto = value[0]; RatioOperatorDto = value[1]; }
@@ -86,10 +86,10 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Exponent;
 
         public double Low { get; set; }
-        public OperatorDtoBase HighOperatorDto { get; set; }
+        public IOperatorDto HighOperatorDto { get; set; }
         public double Ratio { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { HighOperatorDto }; }
             set { HighOperatorDto = value[0]; }
@@ -102,9 +102,9 @@ namespace JJ.Business.Synthesizer.Dto
 
         public double Low { get; set; }
         public double High { get; set; }
-        public OperatorDtoBase RatioOperatorDto { get; set; }
+        public IOperatorDto RatioOperatorDto { get; set; }
 
-        public override IList<OperatorDtoBase> InputOperatorDtos
+        public override IList<IOperatorDto> InputOperatorDtos
         {
             get { return new[] { RatioOperatorDto }; }
             set { RatioOperatorDto = value[0]; }
