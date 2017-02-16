@@ -186,8 +186,9 @@ namespace JJ.Business.Synthesizer.Helpers
             if (!source.SampleID.HasValue) throw new NullException(() => source.SampleID);
 
             dest.SampleID = source.SampleID.Value;
-            dest.ChannelCount = source.ChannelCount;
+            dest.SampleChannelCount = source.SampleChannelCount;
             dest.InterpolationTypeEnum = source.InterpolationTypeEnum;
+            dest.TargetChannelCount = source.TargetChannelCount;
 
             Clone_DimensionProperties(source, dest);
         }

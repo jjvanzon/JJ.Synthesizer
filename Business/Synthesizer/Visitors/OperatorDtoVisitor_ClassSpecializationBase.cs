@@ -9,15 +9,6 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorDtoVisitor_ClassSpecializationBase : OperatorDtoVisitorBase
     {
-        private readonly int _targetChannelCount;
-
-        public OperatorDtoVisitor_ClassSpecializationBase(int targetChannelCount)
-        {
-            if (targetChannelCount <= 0) throw new LessThanOrEqualException(() => targetChannelCount, 0);
-
-            _targetChannelCount = targetChannelCount;
-        }
-
         protected override OperatorDtoBase Visit_Absolute_OperatorDto(Absolute_OperatorDto dto)
         {
             base.Visit_Absolute_OperatorDto(dto);
@@ -1815,10 +1806,10 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             MathPropertiesDto frequencyMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.FrequencyOperatorDto);
 
-            int sampleChannelCount = dto.ChannelCount;
-            bool hasTargetChannelCount = sampleChannelCount == _targetChannelCount;
-            bool isFromMonoToStereo = sampleChannelCount == 1 && _targetChannelCount == 2;
-            bool isFromStereoToMono = sampleChannelCount == 2 && _targetChannelCount == 1;
+            int sampleChannelCount = dto.SampleChannelCount;
+            bool hasTargetChannelCount = sampleChannelCount == dto.TargetChannelCount;
+            bool isFromMonoToStereo = sampleChannelCount == 1 && dto.TargetChannelCount == 2;
+            bool isFromStereoToMono = sampleChannelCount == 2 && dto.TargetChannelCount == 1;
 
             OperatorDtoBase dto2;
 

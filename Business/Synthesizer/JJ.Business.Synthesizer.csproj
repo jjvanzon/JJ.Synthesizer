@@ -164,6 +164,7 @@
     <Compile Include="Dto\IOperatorDto_VarSignal.cs" />
     <Compile Include="Dto\IOperatorDto_VarSignal_WithDimension.cs" />
     <Compile Include="Dto\IOperatorDto_WithAdditionalChannelDimension.cs" />
+    <Compile Include="Dto\IOperatorDto_WithTargetChannelCount.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts_WithBandWidth.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_VarSignal.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts.cs" />

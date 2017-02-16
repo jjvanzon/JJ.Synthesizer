@@ -108,9 +108,11 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                                 break;
                             }
 
-                            float value = buffer[j];
-                            value = value * (float)adjustedAmplifier; // TODO: Unsafe double to float conversion.
-                            WriteValue(writer, value);
+                            float floatValue = buffer[j];
+
+                            double doubleValue = floatValue;
+                            doubleValue = doubleValue * adjustedAmplifier;
+                            WriteValue(writer, doubleValue);
 
                             valueCounter++;
                         }

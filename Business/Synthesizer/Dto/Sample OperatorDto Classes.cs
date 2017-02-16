@@ -2,12 +2,13 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Sample_OperatorDto : OperatorDtoBase_VarFrequency
+    internal class Sample_OperatorDto : OperatorDtoBase_VarFrequency, IOperatorDto_WithTargetChannelCount
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sample;
 
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-        public int ChannelCount { get; set; }
+        public int SampleChannelCount { get; set; }
+        public int TargetChannelCount { get; set; }
         public int? SampleID { get; set; }
     }
 
@@ -62,7 +63,8 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sample;
 
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-        public int ChannelCount { get; set; }
+        public int SampleChannelCount { get; set; }
+        public int TargetChannelCount { get; set; }
         public int SampleID { get; set; }
         public int ChannelDimensionStackLevel { get; set; }
     }
@@ -72,15 +74,16 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sample;
 
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-        public int ChannelCount { get; set; }
+        public int SampleChannelCount { get; set; }
+        public int TargetChannelCount { get; set; }
         public int SampleID { get; set; }
         public int ChannelDimensionStackLevel { get; set; }
     }
 
-    internal interface ISample_OperatorDto_WithSampleID : IOperatorDto_WithDimension, IOperatorDto_WithAdditionalChannelDimension
+    internal interface ISample_OperatorDto_WithSampleID : IOperatorDto_WithDimension, IOperatorDto_WithAdditionalChannelDimension, IOperatorDto_WithTargetChannelCount
     {
         InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-        int ChannelCount { get; set; }
+        int SampleChannelCount { get; set; }
         int SampleID { get; set; }
     }
 }

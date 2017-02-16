@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
 using JJ.Framework.Mathematics;
+// ReSharper disable RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -23,10 +24,6 @@ namespace JJ.Business.Synthesizer.Visitors
         private delegate void SetShelfFilterParametersDelegate(
             double samplingRate, double limitedFrequency, double transitionSlope, double dbGain,
             out double a0, out double a1, out double a2, out double a3, out double a4);
-
-        public OperatorDtoVisitor_MathSimplification(int targetChannelCount)
-            : base(targetChannelCount)
-        { }
 
         // General
 

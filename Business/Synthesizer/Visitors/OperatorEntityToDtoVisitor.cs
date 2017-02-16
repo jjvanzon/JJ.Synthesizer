@@ -714,7 +714,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto.SampleID = sample.ID;
                 dto.InterpolationTypeEnum = sample.GetInterpolationTypeEnum();
-                dto.ChannelCount = sample.GetChannelCount();
+                dto.SampleChannelCount = sample.GetChannelCount();
             }
         }
 
