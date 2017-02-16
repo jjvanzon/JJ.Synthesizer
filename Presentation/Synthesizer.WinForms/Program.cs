@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private static Thread _midiInputThread;
 
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             var businessConfig = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
             ConfigurationHelper.SetSection(businessConfig);
@@ -74,13 +74,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 PatchCalculatorContainer = new EmptyPatchCalculatorContainer();
             }
-            else if (winFormsConfig.MultiThreaded)
-            {
-                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(noteRecycler);
-            }
             else
             {
-                PatchCalculatorContainer = new SingleThreadedPatchCalculatorContainer();
+                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(noteRecycler);
             }
 
             if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, audioOutput);
@@ -96,9 +92,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor.Stop();
             if (winFormsConfig.MidiInputEnabled) _midiInputProcessor.Stop();
-
-            var disposablePatchCalculator = PatchCalculatorContainer.Calculator as IDisposable;
-            disposablePatchCalculator?.Dispose();
         }
 
         private static Thread StartMidiInputThread(MidiInputProcessor midiInputProcessor)

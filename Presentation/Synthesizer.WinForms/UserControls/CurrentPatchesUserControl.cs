@@ -17,7 +17,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> RemoveRequested;
         public event EventHandler CloseRequested;
         public event EventHandler ShowAutoPatchRequested;
-        public event EventHandler ShowAutoPatchPolyphonicRequested;
 
         public CurrentPatchesUserControl()
         {
@@ -34,8 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            buttonShowAutoPatchPolyphonic.Visible = ViewModel.CanShowAutoPatchPolyphonic;
-
             IList<CurrentPatchItemUserControl> itemUserControls = flowLayoutPanel.Controls.OfType<CurrentPatchItemUserControl>().ToArray();
 
             if (itemUserControls.Count != flowLayoutPanel.Controls.Count)
@@ -73,24 +70,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 flowLayoutPanel.Controls.RemoveAt(i);
             }
 
-            PositionControls(ViewModel.CanShowAutoPatchPolyphonic);
+            PositionControls();
         }
 
-        private void PositionControls(bool buttonShowAutoPatchPolyphonicVisible)
+        private void PositionControls()
         {
             flowLayoutPanel.Top = 0;
             flowLayoutPanel.Left = 0;
             flowLayoutPanel.Height = Height;
 
-            int buttonCount;
-            if (buttonShowAutoPatchPolyphonicVisible)
-            {
-                buttonCount = 3;
-            }
-            else
-            {
-                buttonCount = 2;
-            }
+            const int buttonCount = 2;
 
             int x = Width - StyleHelper.DefaultMargin - (StyleHelper.IconButtonSize + StyleHelper.DefaultSpacing) * buttonCount;
             if (x < 1)
@@ -109,17 +98,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             x += StyleHelper.IconButtonSize;
             x += StyleHelper.DefaultSpacing;
 
-            if (buttonShowAutoPatchPolyphonicVisible)
-            {
-                buttonShowAutoPatchPolyphonic.Top = 0;
-                buttonShowAutoPatchPolyphonic.Left = x;
-                buttonShowAutoPatchPolyphonic.Width = StyleHelper.IconButtonSize;
-                buttonShowAutoPatchPolyphonic.Height = StyleHelper.IconButtonSize;
-
-                x += StyleHelper.IconButtonSize;
-                x += StyleHelper.DefaultSpacing;
-            }
-
             buttonClose.Top = 0;
             buttonClose.Left = x;
             buttonClose.Width = StyleHelper.IconButtonSize;
@@ -128,13 +106,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void CurrentPatchesUserControl_SizeChanged(object sender, EventArgs e)
         {
-            bool buttonShowAutoPatchPolyphonicVisible = false;
-            if (ViewModel != null)
-            {
-                buttonShowAutoPatchPolyphonicVisible = ViewModel.CanShowAutoPatchPolyphonic;
-            }
-
-            PositionControls(buttonShowAutoPatchPolyphonicVisible);
+            PositionControls();
         }
 
         private void ItemUserControl_RemoveRequested(object sender, EventArgs<int> e)
@@ -150,11 +122,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void buttonShowAutoPatch_Click(object sender, EventArgs e)
         {
             ShowAutoPatchRequested?.Invoke(sender, EventArgs.Empty);
-        }
-
-        private void buttonShowAutoPatchPolyphonic_Click(object sender, EventArgs e)
-        {
-            ShowAutoPatchPolyphonicRequested?.Invoke(sender, EventArgs.Empty);
         }
     }
 }

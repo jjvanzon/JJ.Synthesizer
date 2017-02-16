@@ -274,64 +274,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _currentPatchesPresenter.Move(userInput, patchID, newPosition));
         }
 
-        public void CurrentPatchesShowAutoPatchPolyphonic()
-        {
-            // NOTE: Almost a copy of CurrentPatchesShowAutoPatch, except for the business method call.
-
-            // GetViewModel
-            CurrentPatchesViewModel currentPatchesViewModel = MainViewModel.Document.CurrentPatches;
-
-            // RefreshCounter
-            currentPatchesViewModel.RefreshCounter++;
-
-            // Set !Successful
-            currentPatchesViewModel.Successful = false;
-
-            // ToEntity
-            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Get Entities
-            IList<Patch> underlyingPatches = currentPatchesViewModel.ToEntities(_repositories.PatchRepository);
-
-            // Business
-            var patchManager = new PatchManager(_patchRepositories);
-            patchManager.AutoPatchPolyphonic(underlyingPatches, 2);
-
-            // Business
-            IResult validationResult = _documentManager.Save(document);
-            if (!validationResult.Successful)
-            {
-                // Non-Persisted
-                currentPatchesViewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(currentPatchesViewModel);
-
-                return;
-            }
-
-            // ToViewModel
-            PatchDetailsViewModel detailsViewModel = patchManager.Patch.ToDetailsViewModel(
-                _repositories.SampleRepository,
-                _repositories.CurveRepository,
-                _repositories.PatchRepository,
-                _entityPositionManager);
-
-            // Non-Persisted
-            detailsViewModel.Visible = true;
-
-            // Successful
-            currentPatchesViewModel.Successful = true;
-            detailsViewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchAutoPatchDetailsViewModel(detailsViewModel);
-        }
-
         public void CurrentPatchesShowAutoPatch()
         {
-            // NOTE: Almost a copy of CurrentPatchesShowAutoPatchPolyphonic, except for the business method call.
-
             // GetViewModel
             CurrentPatchesViewModel currentPatchesViewModel = MainViewModel.Document.CurrentPatches;
 

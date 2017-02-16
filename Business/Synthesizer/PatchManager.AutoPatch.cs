@@ -14,68 +14,6 @@ namespace JJ.Business.Synthesizer
 {
     public partial class PatchManager
     {
-        /// <summary>
-        /// Auto-patches the provided patches and makes a custom operator from it.
-        /// Then creates a wrapper patch around it, that enables polyphony.
-        /// For more information: see method summary of AutoPatch.
-        /// </summary>
-        public Outlet AutoPatchPolyphonic(IList<Patch> underlyingPatches, int maxConcurrentNotes)
-        {
-            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
-            if (maxConcurrentNotes < 1) throw new LessThanException(() => maxConcurrentNotes, 1);
-
-            AutoPatch(underlyingPatches);
-            Patch monophonicAutoPatch = Patch;
-
-            CreatePatch();
-            Patch.Name = "Auto-Generated Polyphonic Patch";
-
-            int inletListIndex = 0;
-            int resetListIndex = 0;
-            var monophonicOutlets = new List<Outlet>(maxConcurrentNotes);
-
-            for (int i = 0; i < maxConcurrentNotes; i++)
-            {
-                CustomOperator_OperatorWrapper intermediateCustomOperatorWrapper = CustomOperator(monophonicAutoPatch);
-
-                foreach (Inlet intermediateCustomOperatorInlet in intermediateCustomOperatorWrapper.Inlets)
-                {
-                    DimensionEnum intermediateCustomOperatorInletDimensionEnum = intermediateCustomOperatorInlet.GetDimensionEnum();
-                    // ReSharper disable once InvertIf
-                    if (intermediateCustomOperatorInletDimensionEnum != DimensionEnum.Undefined)
-                    {
-                        PatchInlet_OperatorWrapper destPatchInletWrapper = ConvertToPatchInlet(intermediateCustomOperatorInlet);
-                        destPatchInletWrapper.Name = $"{intermediateCustomOperatorInletDimensionEnum} {i}";
-                        destPatchInletWrapper.ListIndex = inletListIndex++;
-
-                        intermediateCustomOperatorInlet.LinkTo(destPatchInletWrapper.Result);
-                    }
-                }
-
-                Outlet intermediateSignalOutlet = intermediateCustomOperatorWrapper.Outlets.Where(x => x.GetDimensionEnum() == DimensionEnum.Signal)
-                                                                                           .SingleOrDefault();
-                // ReSharper disable once InvertIf
-                if (intermediateSignalOutlet != null)
-                {
-                    // Add Reset operator in between.
-                    Reset_OperatorWrapper resetWrapper = Reset(intermediateSignalOutlet, resetListIndex++);
-
-                    monophonicOutlets.Add(resetWrapper.PassThroughOutlet);
-                }
-            }
-
-            Add_OperatorWrapper addWrapper = Add(monophonicOutlets);
-            Outlet polyphonicOutlet = addWrapper.Result;
-
-            // This makes side-effects go off.
-            VoidResult savePatchResult = SavePatch();
-
-            // This is sensitive, error prone code, so assert its result.
-            ResultHelper.Assert(savePatchResult);
-
-            return polyphonicOutlet;
-        }
-
         /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
         public Outlet TryAutoPatch_WithTone(Tone tone, IList<Patch> underlyingPatches)
         {

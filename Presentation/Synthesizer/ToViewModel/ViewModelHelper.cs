@@ -33,7 +33,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private const int STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX = 2;
         private const int RANGE_OVER_OUTLETS_FROM_LIST_INDEX = 0;
         private const int RANGE_OVER_OUTLETS_STEP_LIST_INDEX = 1;
-        private static readonly bool _showAutoPatchPolyphonicEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().ShowAutoPatchPolyphonicEnabled;
 
         // OperatorTypeEnum HashSets
 
@@ -283,7 +282,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurrentPatchesViewModel
             {
                 List = patches.Select(x => x.ToIDAndName()).ToList(),
-                CanShowAutoPatchPolyphonic = _showAutoPatchPolyphonicEnabled,
                 ValidationMessages = new List<Message>()
             };
 

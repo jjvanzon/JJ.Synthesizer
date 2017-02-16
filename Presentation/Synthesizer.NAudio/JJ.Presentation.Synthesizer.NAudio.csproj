@@ -48,7 +48,6 @@
     <Compile Include="MultiThreadedPatchCalculator.cs" />
     <Compile Include="NoteInfo.cs" />
     <Compile Include="NoteRecycler.cs" />
-    <Compile Include="SingleThreadedPatchCalculatorContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

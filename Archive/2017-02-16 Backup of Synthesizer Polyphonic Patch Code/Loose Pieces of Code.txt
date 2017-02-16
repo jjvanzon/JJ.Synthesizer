@@ -1,0 +1,121 @@
+PatchManager:
+
+        /// <summary>
+        /// Auto-patches the provided patches and makes a custom operator from it.
+        /// Then creates a wrapper patch around it, that enables polyphony.
+        /// For more information: see method summary of AutoPatch.
+        /// </summary>
+        public Outlet AutoPatchPolyphonic(IList<Patch> underlyingPatches, int maxConcurrentNotes)
+        {
+            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
+            if (maxConcurrentNotes < 1) throw new LessThanException(() => maxConcurrentNotes, 1);
+
+            AutoPatch(underlyingPatches);
+            Patch monophonicAutoPatch = Patch;
+
+            CreatePatch();
+            Patch.Name = "Auto-Generated Polyphonic Patch";
+
+            int inletListIndex = 0;
+            int resetListIndex = 0;
+            var monophonicOutlets = new List<Outlet>(maxConcurrentNotes);
+
+            for (int i = 0; i < maxConcurrentNotes; i++)
+            {
+                CustomOperator_OperatorWrapper intermediateCustomOperatorWrapper = CustomOperator(monophonicAutoPatch);
+
+                foreach (Inlet intermediateCustomOperatorInlet in intermediateCustomOperatorWrapper.Inlets)
+                {
+                    DimensionEnum intermediateCustomOperatorInletDimensionEnum = intermediateCustomOperatorInlet.GetDimensionEnum();
+                    // ReSharper disable once InvertIf
+                    if (intermediateCustomOperatorInletDimensionEnum != DimensionEnum.Undefined)
+                    {
+                        PatchInlet_OperatorWrapper destPatchInletWrapper = ConvertToPatchInlet(intermediateCustomOperatorInlet);
+                        destPatchInletWrapper.Name = $"{intermediateCustomOperatorInletDimensionEnum} {i}";
+                        destPatchInletWrapper.ListIndex = inletListIndex++;
+
+                        intermediateCustomOperatorInlet.LinkTo(destPatchInletWrapper.Result);
+                    }
+                }
+
+                Outlet intermediateSignalOutlet = intermediateCustomOperatorWrapper.Outlets.Where(x => x.GetDimensionEnum() == DimensionEnum.Signal)
+                                                                                           .SingleOrDefault();
+                // ReSharper disable once InvertIf
+                if (intermediateSignalOutlet != null)
+                {
+                    // Add Reset operator in between.
+                    Reset_OperatorWrapper resetWrapper = Reset(intermediateSignalOutlet, resetListIndex++);
+
+                    monophonicOutlets.Add(resetWrapper.PassThroughOutlet);
+                }
+            }
+
+            Add_OperatorWrapper addWrapper = Add(monophonicOutlets);
+            Outlet polyphonicOutlet = addWrapper.Result;
+
+            // This makes side-effects go off.
+            VoidResult savePatchResult = SavePatch();
+
+            // This is sensitive, error prone code, so assert its result.
+            ResultHelper.Assert(savePatchResult);
+
+            return polyphonicOutlet;
+        }
+
+MainPresenter.Actions:
+
+        public void CurrentPatchesShowAutoPatchPolyphonic()
+        {
+            // NOTE: Almost a copy of CurrentPatchesShowAutoPatch, except for the business method call.
+
+            // GetViewModel
+            CurrentPatchesViewModel currentPatchesViewModel = MainViewModel.Document.CurrentPatches;
+
+            // RefreshCounter
+            currentPatchesViewModel.RefreshCounter++;
+
+            // Set !Successful
+            currentPatchesViewModel.Successful = false;
+
+            // ToEntity
+            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Get Entities
+            IList<Patch> underlyingPatches = currentPatchesViewModel.ToEntities(_repositories.PatchRepository);
+
+            // Business
+            var patchManager = new PatchManager(_patchRepositories);
+            patchManager.AutoPatchPolyphonic(underlyingPatches, 2);
+
+            // Business
+            IResult validationResult = _documentManager.Save(document);
+            if (!validationResult.Successful)
+            {
+                // Non-Persisted
+                currentPatchesViewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+                // DispatchViewModel
+                DispatchViewModel(currentPatchesViewModel);
+
+                return;
+            }
+
+            // ToViewModel
+            PatchDetailsViewModel detailsViewModel = patchManager.Patch.ToDetailsViewModel(
+                _repositories.SampleRepository,
+                _repositories.CurveRepository,
+                _repositories.PatchRepository,
+                _entityPositionManager);
+
+            // Non-Persisted
+            detailsViewModel.Visible = true;
+
+            // Successful
+            currentPatchesViewModel.Successful = true;
+            detailsViewModel.Successful = true;
+
+            // DispatchViewModel
+            DispatchAutoPatchDetailsViewModel(detailsViewModel);
+        }
+
+		

@@ -20,7 +20,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             currentPatchesUserControl.CloseRequested += currentPatchesUserControl_CloseRequested;
             currentPatchesUserControl.RemoveRequested += currentPatchesUserControl_RemoveRequested;
             currentPatchesUserControl.ShowAutoPatchRequested += currentPatchesUserControl_ShowAutoPatchRequested;
-            currentPatchesUserControl.ShowAutoPatchPolyphonicRequested += currentPatchesUserControl_ShowAutoPatchPolyphonicRequested;
             curveDetailsUserControl.ChangeSelectedNodeTypeRequested += curveDetailsUserControl_ChangeSelectedNodeTypeRequested;
             curveDetailsUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
@@ -212,11 +211,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void currentPatchesUserControl_ShowAutoPatchRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.CurrentPatchesShowAutoPatch);
-        }
-
-        private void currentPatchesUserControl_ShowAutoPatchPolyphonicRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.CurrentPatchesShowAutoPatchPolyphonic);
         }
 
         private void _autoPatchDetailsForm_CloseRequested(object sender, EventArgs e)

@@ -31,7 +31,6 @@
             this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonShowAutoPatch = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonShowAutoPatchPolyphonic = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // flowLayoutPanel
@@ -68,24 +67,10 @@
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
-            // buttonShowAutoPatchPolyphonic
-            // 
-            this.buttonShowAutoPatchPolyphonic.FlatAppearance.BorderSize = 0;
-            this.buttonShowAutoPatchPolyphonic.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonShowAutoPatchPolyphonic.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIconThinner;
-            this.buttonShowAutoPatchPolyphonic.Location = new System.Drawing.Point(213, 7);
-            this.buttonShowAutoPatchPolyphonic.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonShowAutoPatchPolyphonic.Name = "buttonShowAutoPatchPolyphonic";
-            this.buttonShowAutoPatchPolyphonic.Size = new System.Drawing.Size(32, 30);
-            this.buttonShowAutoPatchPolyphonic.TabIndex = 4;
-            this.buttonShowAutoPatchPolyphonic.UseVisualStyleBackColor = true;
-            this.buttonShowAutoPatchPolyphonic.Click += new System.EventHandler(this.buttonShowAutoPatchPolyphonic_Click);
-            // 
             // CurrentPatchesUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.buttonShowAutoPatchPolyphonic);
             this.Controls.Add(this.buttonShowAutoPatch);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.flowLayoutPanel);
@@ -102,6 +87,5 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
         private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonShowAutoPatch;
-        private System.Windows.Forms.Button buttonShowAutoPatchPolyphonic;
     }
 }
