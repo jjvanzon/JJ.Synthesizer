@@ -134,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 throw new Exception($"tag '{tag}' does not start with '{tagPrefix}'.");
             }
 
-            string idString = tagString.CutLeft(tagPrefix.Length);
+            string idString = tagString.TrimStart(tagPrefix.Length);
 
             return int.Parse(idString);
         }
