@@ -46,11 +46,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var visitor3 = new OperatorDtoToCalculatorVisitor_WithCacheOperators(
                 _targetSamplingRate, 
-                _targetChannelCount, 
                 _secondsBetweenApplyFilterVariables, 
                 _calculatorCache, 
                 _curveRepository, 
                 _sampleRepository);
+
             ToCalculatorResult result = visitor3.Execute(dto);
 
             return result;

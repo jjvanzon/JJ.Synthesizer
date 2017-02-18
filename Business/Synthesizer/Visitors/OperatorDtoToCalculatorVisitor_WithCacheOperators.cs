@@ -12,14 +12,12 @@ namespace JJ.Business.Synthesizer.Visitors
     {
         public OperatorDtoToCalculatorVisitor_WithCacheOperators(
             int targetSamplingRate, 
-            int targetChannelCount, 
             double secondsBetweenApplyFilterVariables, 
             CalculatorCache calculatorCache, 
             ICurveRepository curveRepository, 
             ISampleRepository sampleRepository) 
             : base(
                   targetSamplingRate, 
-                  targetChannelCount, 
                   secondsBetweenApplyFilterVariables, 
                   calculatorCache, 
                   curveRepository, 

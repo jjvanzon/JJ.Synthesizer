@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Visitors
     internal abstract class OperatorDtoToCalculatorVisitorBase : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
         private readonly double _targetSamplingRate;
-        private readonly int _targetChannelCount;
         private readonly int _samplesBetweenApplyFilterVariables;
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
@@ -30,7 +29,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         public OperatorDtoToCalculatorVisitorBase(
             int targetSamplingRate, 
-            int targetChannelCount, 
             double secondsBetweenApplyFilterVariables,
             CalculatorCache calculatorCache,
             ICurveRepository curveRepository,
@@ -41,7 +39,6 @@ namespace JJ.Business.Synthesizer.Visitors
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             _targetSamplingRate = targetSamplingRate;
-            _targetChannelCount = targetChannelCount;
             _calculatorCache = calculatorCache;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
@@ -1367,13 +1364,11 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         /// <summary> Will get a DimensionStack and pass it to the OperatorCalculator, which is then pushed onto the _stack. </summary>
-        private IOperatorDto ProcessWithDimension(IOperatorDto dto, Func<DimensionStack, OperatorCalculatorBase> createOperatorCalculatorDelegate)
+        private IOperatorDto ProcessWithDimension(IOperatorDto_WithDimension dto, Func<DimensionStack, OperatorCalculatorBase> createOperatorCalculatorDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            var dtoWithDimension = (IOperatorDto_WithDimension)dto;
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dtoWithDimension);
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
             OperatorCalculatorBase calculator = createOperatorCalculatorDelegate(dimensionStack);
             _stack.Push(calculator);
@@ -1382,15 +1377,13 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         private IOperatorDto Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(
-            IOperatorDto dto,
+            ISample_OperatorDto_WithSampleID dto,
             Func<DimensionStack, ICalculatorWithPosition, OperatorCalculatorBase> createOperatorCalculatorDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            var dtoWithSampleID = (ISample_OperatorDto_WithSampleID)dto;
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dtoWithSampleID);
-            ICalculatorWithPosition underlyingCalculator = _calculatorCache.GetSampleCalculators(dtoWithSampleID.SampleID, _sampleRepository).Single();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+            ICalculatorWithPosition underlyingCalculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
 
             var calculator = createOperatorCalculatorDelegate(dimensionStack, underlyingCalculator);
             _stack.Push(calculator);
@@ -1400,16 +1393,14 @@ namespace JJ.Business.Synthesizer.Visitors
 
         /// <param name="createOperatorCalculatorDelegate"> Second DimensionStack parameter is the channelDimensionStack </param>
         private IOperatorDto Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(
-            IOperatorDto dto,
+            ISample_OperatorDto_WithSampleID dto,
             Func<DimensionStack, DimensionStack, IList<ICalculatorWithPosition>, OperatorCalculatorBase> createOperatorCalculatorDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            var dtoWithSampleID = (ISample_OperatorDto_WithSampleID)dto;
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dtoWithSampleID);
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
             DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
-            IList<ICalculatorWithPosition> underlyingCalculators = _calculatorCache.GetSampleCalculators(dtoWithSampleID.SampleID, _sampleRepository);
+            IList<ICalculatorWithPosition> underlyingCalculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
 
             var calculator = createOperatorCalculatorDelegate(dimensionStack, channelDimensionStack, underlyingCalculators);
             _stack.Push(calculator);
@@ -1418,15 +1409,13 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         private IOperatorDto Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(
-            IOperatorDto dto,
+            ISample_OperatorDto_WithSampleID dto,
             Func<DimensionStack, IList<ICalculatorWithPosition>, OperatorCalculatorBase> createOperatorCalculatorDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            var dtoWithSampleID = (ISample_OperatorDto_WithSampleID)dto;
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dtoWithSampleID);
-            IList<ICalculatorWithPosition> underlyingCalculators = _calculatorCache.GetSampleCalculators(dtoWithSampleID.SampleID, _sampleRepository);
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+            IList<ICalculatorWithPosition> underlyingCalculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
 
             var calculator = createOperatorCalculatorDelegate(dimensionStack, underlyingCalculators);
             _stack.Push(calculator);
