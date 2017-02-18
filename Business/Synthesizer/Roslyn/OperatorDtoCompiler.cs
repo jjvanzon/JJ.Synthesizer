@@ -14,7 +14,6 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
@@ -84,25 +83,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         };
 
         [Obsolete("Consider using CompileToPatchCalculatorActivationInfo instead, to compile once and instantiate multiple times.")]
-        public IPatchCalculator CompileToPatchCalculator(
-            IOperatorDto dto, 
-            int samplingRate, 
-            int channelCount, 
-            int channelIndex, 
-            CalculatorCache calculatorCache, 
-            ICurveRepository curveRepository,
-            IOperatorRepository operatorRepository,
-            ISampleRepository sampleRepository)
+        public IPatchCalculator CompileToPatchCalculator(IOperatorDto dto, int samplingRate, int channelCount, int channelIndex)
         {
-            ActivationInfo activationInfo = CompileToPatchCalculatorActivationInfo(
-                dto,
-                samplingRate,
-                channelCount,
-                channelIndex,
-                calculatorCache,
-                curveRepository,
-                operatorRepository,
-                sampleRepository);
+            ActivationInfo activationInfo = CompileToPatchCalculatorActivationInfo(dto, samplingRate, channelCount, channelIndex);
 
             var calculator = (IPatchCalculator)Activator.CreateInstance(activationInfo.Type, activationInfo.Args);
 
@@ -113,11 +96,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             IOperatorDto dto,
             int samplingRate,
             int channelCount,
-            int channelIndex,
-            CalculatorCache calculatorCache,
-            ICurveRepository curveRepository,
-            IOperatorRepository operatorRepository,
-            ISampleRepository sampleRepository)
+            int channelIndex)
         {
             if (dto == null) throw new NullException(() => dto);
 
@@ -127,7 +106,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             var codeGenerationSimplificationVisitor = new OperatorDtoVisitor_CodeGenerationSimplification();
             dto = codeGenerationSimplificationVisitor.Execute(dto);
 
-            var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex, calculatorCache, curveRepository, sampleRepository);
+            var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex);
             OperatorDtoToPatchCalculatorCSharpGeneratorResult codeGeneratorResult = codeGenerator.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             Type type = Compile(codeGeneratorResult.GeneratedCode);

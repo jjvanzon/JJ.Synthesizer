@@ -120,44 +120,39 @@ namespace JJ.Business.Synthesizer.Helpers
 
             var wrapper = new Curve_OperatorWrapper(op, curveRepository);
             Curve curve = wrapper.Curve;
+            ArrayDto arrayDto = calculatorCache.GetCurveArrayDto(curve);
 
-            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(curve, op.GetStandardDimensionEnum(), dimensionStackCollection, calculatorCache);
+            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(arrayDto, op.GetStandardDimensionEnum(), dimensionStackCollection);
 
             return calculator;
         }
 
         public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
             [NotNull] Curve_OperatorDtoBase_WithoutMinX dto,
-            [NotNull] DimensionStackCollection dimensionStackCollection,
-            [NotNull] CalculatorCache calculatorCache,
-            [NotNull] ICurveRepository curveRepository)
+            [NotNull] DimensionStackCollection dimensionStackCollection)
         {
             if (dto == null) throw new ArgumentNullException(nameof(dto));
 
-            Curve curve = curveRepository.Get(dto.CurveID);
-
-            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(curve, dto.StandardDimensionEnum, dimensionStackCollection, calculatorCache);
+            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(dto.ArrayDto, dto.StandardDimensionEnum, dimensionStackCollection);
 
             return calculator;
         }
 
+        /// <param name="arrayDto">nullable</param>
         public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
-            [CanBeNull] Curve curve,
+            [CanBeNull] ArrayDto arrayDto,
             DimensionEnum standardDimensionEnum,
-            [NotNull] DimensionStackCollection dimensionStackCollection,
-            [NotNull] CalculatorCache calculatorCache)
+            [NotNull] DimensionStackCollection dimensionStackCollection)
         {
-            if (calculatorCache == null) throw new NullException(() => calculatorCache);
             if (dimensionStackCollection == null) throw new ArgumentNullException(nameof(dimensionStackCollection));
 
-            if (curve == null)
+            if (arrayDto == null)
             {
                 return new Number_OperatorCalculator_Zero();
             }
 
             DimensionStack dimensionStack = dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
-            ArrayDto arrayDto = calculatorCache.GetCurveArrayDto(curve);
             ICalculatorWithPosition arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
 
             var arrayCalculator_MinPosition = arrayCalculator as ArrayCalculator_MinPosition_Line;

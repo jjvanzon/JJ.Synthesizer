@@ -227,10 +227,9 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_OperatorDto_Base(dto);
 
             OperatorCalculatorBase calculator = OperatorCalculatorFactory.Create_Curve_OperatorCalculator(
-                dto,
-                _dimensionStackCollection,
-                _calculatorCache,
-                _curveRepository);
+                dto.ArrayDto,
+                dto.StandardDimensionEnum,
+                _dimensionStackCollection);
 
             _stack.Push(calculator);
 
@@ -1026,7 +1025,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_OperatorDto_Base(dto);
 
-            ArrayDto arrayDto = _calculatorCache.GetSampleArrayDtos(dto.SampleID, _sampleRepository).Single();
+            ArrayDto arrayDto = dto.ArrayDtos.Single();
             ICalculatorWithPosition underlyingCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
@@ -1043,8 +1042,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_OperatorDto_Base(dto);
 
-            IList<ArrayDto> arrayDtos = _calculatorCache.GetSampleArrayDtos(dto.SampleID, _sampleRepository);
-            IList<ICalculatorWithPosition> underlyingCalculators = arrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
+            IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
             DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
 
@@ -1060,8 +1058,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_OperatorDto_Base(dto);
 
-            IList<ArrayDto> arrayDtos = _calculatorCache.GetSampleArrayDtos(dto.SampleID, _sampleRepository);
-            IList<ICalculatorWithPosition> underlyingCalculators = arrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
+            IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
             var calculator = createOperatorCalculatorDelegate(dimensionStack, underlyingCalculators);

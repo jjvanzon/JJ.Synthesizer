@@ -542,15 +542,7 @@ namespace JJ.Business.Synthesizer
                 dto = preProcessingVisitor.Execute(dto);
 
                 var compiler = new OperatorDtoCompiler();
-                ActivationInfo activationInfo = compiler.CompileToPatchCalculatorActivationInfo(
-                    dto,
-                    samplingRate,
-                    channelCount,
-                    channelIndex,
-                    calculatorCache,
-                    _repositories.CurveRepository,
-                    _repositories.OperatorRepository,
-                    _repositories.SampleRepository);
+                ActivationInfo activationInfo = compiler.CompileToPatchCalculatorActivationInfo(dto, samplingRate, channelCount, channelIndex);
 
                 IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
                     calculatorCount,
@@ -605,15 +597,7 @@ namespace JJ.Business.Synthesizer
                     dto = preProcessingVisitor.Execute(dto);
 
                     var compiler = new OperatorDtoCompiler();
-                    patchCalculator = compiler.CompileToPatchCalculator(
-                        dto,
-                        samplingRate,
-                        channelCount,
-                        channelIndex,
-                        calculatorCache,
-                        _repositories.CurveRepository,
-                        _repositories.OperatorRepository,
-                        _repositories.SampleRepository);
+                    patchCalculator = compiler.CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
 
                     break;
 

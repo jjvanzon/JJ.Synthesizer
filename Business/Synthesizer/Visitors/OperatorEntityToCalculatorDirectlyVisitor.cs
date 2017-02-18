@@ -610,7 +610,6 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-
                 IList<ArrayDto> arrayDtos = _calculatorCache.GetCacheArrayDtos(
                     op,
                     signalCalculator,

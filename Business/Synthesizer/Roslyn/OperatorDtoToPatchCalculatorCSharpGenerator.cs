@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 
@@ -23,26 +22,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private readonly int _channelCount;
         private readonly int _channelIndex;
-        private readonly CalculatorCache _calculatorCache;
-        private readonly ICurveRepository _curveRepository;
-        private readonly ISampleRepository _sampleRepository;
 
-        public OperatorDtoToPatchCalculatorCSharpGenerator(
-            int channelCount, 
-            int channelIndex, 
-            CalculatorCache calculatorCache, 
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository)
+        public OperatorDtoToPatchCalculatorCSharpGenerator(int channelCount, int channelIndex)
         {
-            if (calculatorCache == null) throw new NullException(() => calculatorCache);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-
             _channelCount = channelCount;
             _channelIndex = channelIndex;
-            _calculatorCache = calculatorCache;
-            _curveRepository = curveRepository;
-            _sampleRepository = sampleRepository;
         }
 
         public OperatorDtoToPatchCalculatorCSharpGeneratorResult Execute(IOperatorDto dto, string generatedNameSpace, string generatedClassName)
@@ -53,10 +37,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             // Build up Method Bodies
             var visitor = new OperatorDtoToRawCSharpVisitor(
                 RAW_CALCULATION_CODE_INDENT_LEVEL,
-                RAW_RESET_CODE_INDENT_LEVEL,
-                _calculatorCache,
-                _curveRepository,
-                _sampleRepository);
+                RAW_RESET_CODE_INDENT_LEVEL);
             OperatorDtoToCSharpVisitorResult visitorResult = visitor.Execute(dto);
 
             // Build up Code File
