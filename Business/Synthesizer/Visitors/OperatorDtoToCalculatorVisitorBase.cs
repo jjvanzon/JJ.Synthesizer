@@ -204,59 +204,34 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto)
         {
-            base.Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            // Cast to concrete calculator type for performance.
-            var underlyingCalculator = (ArrayCalculator_MinPositionZero_Line)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-
-            var calculator = new Curve_OperatorCalculator_MinXZero_NoOriginShifting(underlyingCalculator, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessCurveOperator(dto);
         }
 
         protected override IOperatorDto Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(Curve_OperatorDto_MinXZero_WithOriginShifting dto)
         {
-            base.Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            // Cast to concrete calculator type for performance.
-            var underlyingCalculator = (ArrayCalculator_MinPositionZero_Line)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-
-            var calculator = new Curve_OperatorCalculator_MinXZero_WithOriginShifting(underlyingCalculator, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessCurveOperator(dto);
         }
 
         protected override IOperatorDto Visit_Curve_OperatorDto_MinX_NoOriginShifting(Curve_OperatorDto_MinX_NoOriginShifting dto)
         {
-            base.Visit_Curve_OperatorDto_MinX_NoOriginShifting(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-            // Cast to concrete calculator type for performance.
-            var underlyingCalculator = (ArrayCalculator_MinPosition_Line)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-
-            var calculator = new Curve_OperatorCalculator_MinX_NoOriginShifting(underlyingCalculator, dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
+            return ProcessCurveOperator(dto);
         }
 
         protected override IOperatorDto Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto)
         {
-            base.Visit_Curve_OperatorDto_MinX_WithOriginShifting(dto);
+            return ProcessCurveOperator(dto);
+        }
 
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+        private IOperatorDto ProcessCurveOperator(Curve_OperatorDtoBase_WithoutMinX dto)
+        {
+            base.Visit_OperatorDto_Base(dto);
 
-            // Cast to concrete calculator type for performance.
-            var underlyingCalculator = (ArrayCalculator_MinPosition_Line)_calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.Create_Curve_OperatorCalculator(
+                dto,
+                _dimensionStackCollection,
+                _calculatorCache,
+                _curveRepository);
 
-            var calculator = new Curve_OperatorCalculator_MinX_WithOriginShifting(underlyingCalculator, dimensionStack);
             _stack.Push(calculator);
 
             return dto;
@@ -1045,6 +1020,55 @@ namespace JJ.Business.Synthesizer.Visitors
             });
         }
 
+        private IOperatorDto Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(
+            ISample_OperatorDto_WithSampleID dto,
+            Func<DimensionStack, ICalculatorWithPosition, OperatorCalculatorBase> createOperatorCalculatorDelegate)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            ArrayDto arrayDto = _calculatorCache.GetSampleArrayDtos(dto.SampleID, _sampleRepository).Single();
+            ICalculatorWithPosition underlyingCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = createOperatorCalculatorDelegate(dimensionStack, underlyingCalculator);
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        /// <param name="createOperatorCalculatorDelegate"> Second DimensionStack parameter is the channelDimensionStack </param>
+        private IOperatorDto Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(
+            ISample_OperatorDto_WithSampleID dto,
+            Func<DimensionStack, DimensionStack, IList<ICalculatorWithPosition>, OperatorCalculatorBase> createOperatorCalculatorDelegate)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            IList<ArrayDto> arrayDtos = _calculatorCache.GetSampleArrayDtos(dto.SampleID, _sampleRepository);
+            IList<ICalculatorWithPosition> underlyingCalculators = arrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
+
+            var calculator = createOperatorCalculatorDelegate(dimensionStack, channelDimensionStack, underlyingCalculators);
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        private IOperatorDto Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(
+            ISample_OperatorDto_WithSampleID dto,
+            Func<DimensionStack, IList<ICalculatorWithPosition>, OperatorCalculatorBase> createOperatorCalculatorDelegate)
+        {
+            base.Visit_OperatorDto_Base(dto);
+
+            IList<ArrayDto> arrayDtos = _calculatorCache.GetSampleArrayDtos(dto.SampleID, _sampleRepository);
+            IList<ICalculatorWithPosition> underlyingCalculators = arrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
+
+            var calculator = createOperatorCalculatorDelegate(dimensionStack, underlyingCalculators);
+            _stack.Push(calculator);
+
+            return dto;
+        }
         protected override IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new SawDown_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency, dimensionStack));
@@ -1371,53 +1395,6 @@ namespace JJ.Business.Synthesizer.Visitors
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
             OperatorCalculatorBase calculator = createOperatorCalculatorDelegate(dimensionStack);
-            _stack.Push(calculator);
-
-            return dto;
-        }
-
-        private IOperatorDto Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(
-            ISample_OperatorDto_WithSampleID dto,
-            Func<DimensionStack, ICalculatorWithPosition, OperatorCalculatorBase> createOperatorCalculatorDelegate)
-        {
-            base.Visit_OperatorDto_Base(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            ICalculatorWithPosition underlyingCalculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
-
-            var calculator = createOperatorCalculatorDelegate(dimensionStack, underlyingCalculator);
-            _stack.Push(calculator);
-
-            return dto;
-        }
-
-        /// <param name="createOperatorCalculatorDelegate"> Second DimensionStack parameter is the channelDimensionStack </param>
-        private IOperatorDto Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(
-            ISample_OperatorDto_WithSampleID dto,
-            Func<DimensionStack, DimensionStack, IList<ICalculatorWithPosition>, OperatorCalculatorBase> createOperatorCalculatorDelegate)
-        {
-            base.Visit_OperatorDto_Base(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
-            IList<ICalculatorWithPosition> underlyingCalculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-
-            var calculator = createOperatorCalculatorDelegate(dimensionStack, channelDimensionStack, underlyingCalculators);
-            _stack.Push(calculator);
-
-            return dto;
-        }
-
-        private IOperatorDto Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(
-            ISample_OperatorDto_WithSampleID dto,
-            Func<DimensionStack, IList<ICalculatorWithPosition>, OperatorCalculatorBase> createOperatorCalculatorDelegate)
-        {
-            base.Visit_OperatorDto_Base(dto);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            IList<ICalculatorWithPosition> underlyingCalculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
-
-            var calculator = createOperatorCalculatorDelegate(dimensionStack, underlyingCalculators);
             _stack.Push(calculator);
 
             return dto;

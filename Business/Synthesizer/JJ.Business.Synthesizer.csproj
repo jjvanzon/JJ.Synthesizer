@@ -160,6 +160,9 @@
     </Compile>
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
     <Compile Include="Configuration\CalculationEngineConfigurationEnum.cs" />
+    <Compile Include="Dto\ArrayDto.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Dto\IOperatorDto.cs" />
     <Compile Include="Dto\IOperatorDto_VarSignal.cs" />
     <Compile Include="Dto\IOperatorDto_VarSignal_WithDimension.cs" />
@@ -170,9 +173,9 @@
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
-    <Compile Include="Calculation\CurveArrayInfo.cs" />
-    <Compile Include="Calculation\CurveArrayHelper.cs" />
-    <Compile Include="Calculation\CurveArrayCalculatorFactory.cs" />
+    <Compile Include="Calculation\2017-02-18 Backup of CurveArrayInfo.cs" />
+    <Compile Include="Calculation\CurveArrayDtoFactory.cs" />
+    <Compile Include="Calculation\2017-02-18 Backup of CurveArrayCalculatorFactory.cs" />
     <Compile Include="Calculation\DimensionStackCollection.cs" />
     <Compile Include="Calculation\Operators\Add OperatorCalculator Classes Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
@@ -315,7 +318,7 @@
     <Compile Include="Roslyn\ActivationInfo.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoToPatchCalculatorCSharpGeneratorResult.cs" />
     <Compile Include="Roslyn\Helpers\CompilationHelper.cs" />
-    <Compile Include="Roslyn\Helpers\ArrayCalculatorVariableInfo.cs" />
+    <Compile Include="Roslyn\Helpers\ArrayCalculationInfo.cs" />
     <Compile Include="Roslyn\OperatorDtoCompiler.cs" />
     <Compile Include="Roslyn\OperatorDtoToRawCSharpVisitor.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoToCSharpVisitorResult.cs" />
@@ -507,7 +510,7 @@
     <Compile Include="Calculation\Random\RandomCalculator_Stripe.cs" />
     <Compile Include="Calculation\SampleReader.cs" />
     <Compile Include="Calculation\InterpretedCurveCalculator.cs" />
-    <Compile Include="Calculation\SampleArrayCalculatorFactory.cs" />
+    <Compile Include="Calculation\SampleArrayDtoFactory.cs" />
     <Compile Include="Calculation\SineCalculator.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>

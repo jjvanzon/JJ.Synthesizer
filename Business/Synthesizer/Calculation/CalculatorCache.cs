@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Random;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -22,14 +22,14 @@ namespace JJ.Business.Synthesizer.Calculation
         /// This dictionary is about reusing the same CurveCalculator in multiple OperatorCalculator_Curve's
         /// in case they uses the same Curve, more than optimizing things by using a dictionary.
         /// </summary>
-        private readonly Dictionary<Curve, ICalculatorWithPosition> _curve_To_Calculator_Dictionary = new Dictionary<Curve, ICalculatorWithPosition>();
+        private readonly Dictionary<Curve, ArrayDto> _curve_To_Calculator_Dictionary = new Dictionary<Curve, ArrayDto>();
         private readonly object _curveLock = new object();
 
         /// <summary>
         /// This dictionary is about reusing the same SampleCalculator in multiple OperatorCalculator_Sample's
         /// in case they uses the same Sample, more than optimizing things by using a dictionary.
         /// </summary>
-        private readonly Dictionary<Sample, IList<ICalculatorWithPosition>> _sample_To_Calculators_Dictionary = new Dictionary<Sample, IList<ICalculatorWithPosition>>();
+        private readonly Dictionary<Sample, IList<ArrayDto>> _sample_To_ArrayDtos_Dictionary = new Dictionary<Sample, IList<ArrayDto>>();
         private readonly object _sampleLock = new object();
 
         private readonly Dictionary<int, NoiseCalculator> _operatorID_To_NoiseCalculator_Dictionary = new Dictionary<int, NoiseCalculator>();
@@ -41,40 +41,40 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<int, RandomCalculator_Stripe> _operatorID_To_RandomCalculator_Stripe_Dictionary = new Dictionary<int, RandomCalculator_Stripe>();
         private readonly object _operatorID_To_RandomCalculator_Stripe_Dictionary_Lock = new object();
 
-        private readonly Dictionary<int, IList<ICalculatorWithPosition>> _cacheOperatorID_To_ArrayCalculators_Dictionary = new Dictionary<int, IList<ICalculatorWithPosition>>();
-        private readonly object _cacheOperatorID_To_ArrayCalculators_Dictionary_Lock = new object();
+        private readonly Dictionary<int, IList<ArrayDto>> _cacheOperatorID_To_ArrayDtos_Dictionary = new Dictionary<int, IList<ArrayDto>>();
+        private readonly object _cacheOperatorID_To_ArrayDtos_Dictionary_Lock = new object();
 
-        internal ICalculatorWithPosition GetCurveCalculator(int curveID, ICurveRepository curveRepository)
+        internal ArrayDto GetArrayDto(int curveID, ICurveRepository curveRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
 
             Curve curve = curveRepository.Get(curveID);
 
-            ICalculatorWithPosition curveCalculator = GetCurveCalculator(curve);
+            ArrayDto curveCalculator = GetArrayDto(curve);
 
             return curveCalculator;
         }
 
-        internal ICalculatorWithPosition GetCurveCalculator(Curve curve)
+        internal ArrayDto GetArrayDto(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
 
             lock (_curveLock)
             {
-                ICalculatorWithPosition curveCalculator;
+                ArrayDto arrayDto;
                 // ReSharper disable once InvertIf
-                if (!_curve_To_Calculator_Dictionary.TryGetValue(curve, out curveCalculator))
+                if (!_curve_To_Calculator_Dictionary.TryGetValue(curve, out arrayDto))
                 {
-                    curveCalculator = CurveArrayCalculatorFactory.CreateCurveArrayCalculator(curve);
-                    _curve_To_Calculator_Dictionary.Add(curve, curveCalculator);
+                    arrayDto = CurveArrayDtoFactory.ConvertToArrayDto(curve);
+                    _curve_To_Calculator_Dictionary.Add(curve, arrayDto);
                 }
 
-                return curveCalculator;
+                return arrayDto;
             }
         }
 
         /// <summary> Returns one calculator for each channel. </summary>
-        internal IList<ICalculatorWithPosition> GetSampleCalculators(int sampleID, ISampleRepository sampleRepository)
+        internal IList<ArrayDto> GetSampleArrayDtos(int sampleID, ISampleRepository sampleRepository)
         {
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
@@ -83,25 +83,25 @@ namespace JJ.Business.Synthesizer.Calculation
 
             var sampleInfo = new SampleInfo { Sample = sample, Bytes = bytes };
 
-            IList<ICalculatorWithPosition> calculators = GetSampleCalculators(sampleInfo);
+            IList<ArrayDto> calculators = GetSampleArrayDtos(sampleInfo);
 
             return calculators;
         }
 
         /// <summary> Returns one calculator for each channel. </summary>
-        internal IList<ICalculatorWithPosition> GetSampleCalculators(SampleInfo sampleInfo)
+        internal IList<ArrayDto> GetSampleArrayDtos(SampleInfo sampleInfo)
         {
             if (sampleInfo == null) throw new NullException(() => sampleInfo);
             if (sampleInfo.Sample == null) throw new NullException(() => sampleInfo.Sample);
 
             lock (_sampleLock)
             {
-                IList<ICalculatorWithPosition> calculators;
+                IList<ArrayDto> calculators;
                 // ReSharper disable once InvertIf
-                if (!_sample_To_Calculators_Dictionary.TryGetValue(sampleInfo.Sample, out calculators))
+                if (!_sample_To_ArrayDtos_Dictionary.TryGetValue(sampleInfo.Sample, out calculators))
                 {
-                    calculators = SampleArrayCalculatorFactory.CreateSampleCalculators(sampleInfo.Sample, sampleInfo.Bytes);
-                    _sample_To_Calculators_Dictionary.Add(sampleInfo.Sample, calculators);
+                    calculators = SampleArrayDtoFactory.CreateArrayDtos(sampleInfo.Sample, sampleInfo.Bytes);
+                    _sample_To_ArrayDtos_Dictionary.Add(sampleInfo.Sample, calculators);
                 }
 
                 return calculators;
@@ -203,7 +203,7 @@ namespace JJ.Business.Synthesizer.Calculation
         /// you only have to check one of them.
         /// </summary>
         /// <param name="samplingRate">greater than 0</param>
-        internal IList<ICalculatorWithPosition> GetCacheArrayCalculators(
+        internal IList<ArrayDto> GetCacheArrayDtos(
             Operator op,
             OperatorCalculatorBase signalCalculator,
             double start,
@@ -222,7 +222,7 @@ namespace JJ.Business.Synthesizer.Calculation
             int channelCount = speakerSetup.SpeakerSetupChannels.Count;
             InterpolationTypeEnum interpolationTypeEnum = wrapper.InterpolationType;
 
-            IList<ICalculatorWithPosition> arrayCalculators = GetCacheArrayCalculators(
+            IList<ArrayDto> arrayCalculators = GetCacheArrayDtos(
                 op.ID, 
                 signalCalculator, 
                 start, 
@@ -236,7 +236,7 @@ namespace JJ.Business.Synthesizer.Calculation
             return arrayCalculators;
         }
 
-        internal IList<ICalculatorWithPosition> GetCacheArrayCalculators(
+        internal IList<ArrayDto> GetCacheArrayDtos(
             int operatorID, 
             OperatorCalculatorBase signalCalculator, 
             double start, 
@@ -249,13 +249,13 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             if (operatorID == 0) throw new ZeroException(() => operatorID);
 
-            lock (_cacheOperatorID_To_ArrayCalculators_Dictionary_Lock)
+            lock (_cacheOperatorID_To_ArrayDtos_Dictionary_Lock)
             {
-                IList<ICalculatorWithPosition> arrayCalculators;
+                IList<ArrayDto> arrayCalculators;
                 // ReSharper disable once InvertIf
-                if (!_cacheOperatorID_To_ArrayCalculators_Dictionary.TryGetValue(operatorID, out arrayCalculators))
+                if (!_cacheOperatorID_To_ArrayDtos_Dictionary.TryGetValue(operatorID, out arrayCalculators))
                 {
-                    arrayCalculators = CreateCacheArrayCalculators(
+                    arrayCalculators = CreateCacheArrayDtos(
                         signalCalculator,
                         start,
                         end,
@@ -265,14 +265,14 @@ namespace JJ.Business.Synthesizer.Calculation
                         dimensionStack,
                         channelDimensionStack);
 
-                    _cacheOperatorID_To_ArrayCalculators_Dictionary.Add(operatorID, arrayCalculators);
+                    _cacheOperatorID_To_ArrayDtos_Dictionary.Add(operatorID, arrayCalculators);
                 }
 
                 return arrayCalculators;
             }
         }
 
-        private IList<ICalculatorWithPosition> CreateCacheArrayCalculators(
+        private IList<ArrayDto> CreateCacheArrayDtos(
             OperatorCalculatorBase signalCalculator,
             double start, 
             double end, 
@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer.Calculation
             int tickCount = (int)(length * rate) + 1;
             double tickLength = 1.0 / rate;
 
-            var arrayCalculators = new ICalculatorWithPosition[channelCount];
+            var arrayCalculators = new ArrayDto[channelCount];
 
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {
@@ -331,16 +331,17 @@ namespace JJ.Business.Synthesizer.Calculation
 #endif
                 }
 
-                // TODO: Fix type assumption. Probably ICalculatorWithPosition will be removed altogether.
-                ICalculatorWithPosition arrayCalculator = (ICalculatorWithPosition)ArrayCalculatorFactory.CreateArrayCalculator(
-                    samples, 
-                    rate, 
-                    start, 
-                    DEFAULT_VALUE_BEFORE,
-                    DEFAULT_VALUE_AFTER,
-                    interpolationTypeEnum);
+                var arrayDto = new ArrayDto
+                {
+                    Array = samples,
+                    Rate = rate,
+                    MinPosition = start,
+                    ValueBefore = DEFAULT_VALUE_BEFORE,
+                    ValueAfter = DEFAULT_VALUE_AFTER,
+                    InterpolationTypeEnum = interpolationTypeEnum
+                };
 
-                arrayCalculators[channelIndex] = arrayCalculator;
+                arrayCalculators[channelIndex] = arrayDto;
             }
 
             return arrayCalculators;

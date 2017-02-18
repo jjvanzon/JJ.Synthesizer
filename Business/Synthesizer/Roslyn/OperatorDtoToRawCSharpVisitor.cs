@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private Dictionary<Tuple<DimensionEnum, string>, string> _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary;
 
         // Information about Satellite Calculators
-        private Dictionary<ICalculatorWithPosition, ArrayCalculatorVariableInfo> _calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary;
+        private Dictionary<ICalculatorWithPosition, ArrayCalculationInfo> _calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary;
         private Dictionary<int, string> _noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary;
         private Dictionary<int, string> _randomOperatorID_To_OffsetVariableNameCamelCase_Dictionary;
 
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<Tuple<DimensionEnum, string>, string>();
             _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
-            _calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary = new Dictionary<ICalculatorWithPosition, ArrayCalculatorVariableInfo>();
+            _calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary = new Dictionary<ICalculatorWithPosition, ArrayCalculationInfo>();
             _noiseOperatorID_To_NoiseCalculatorVariableNameCamelCase_Dictionary = new Dictionary<int, string>();
             _randomOperatorID_To_OffsetVariableNameCamelCase_Dictionary = new Dictionary<int, string>();
             _counter = 0;
@@ -568,10 +568,11 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             AppendOperatorTitleComment(dto);
 
+            ArrayDto arrayDto = _calculatorCache.GetArrayDto(dto.CurveID, _curveRepository);
+            ICalculatorWithPosition calculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
+            string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(calculator);
             string output = GetLocalOutputName(dto);
             string position = GetPositionNameCamelCase(dto);
-            ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
-            string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(calculator);
 
             AppendLine($"double {output} = {calculatorName}.Calculate({position});");
 
@@ -580,7 +581,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private IOperatorDto ProcessCurve_WithOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
         {
-            ICalculatorWithPosition calculator = _calculatorCache.GetCurveCalculator(dto.CurveID, _curveRepository);
+            ArrayDto arrayDto = _calculatorCache.GetArrayDto(dto.CurveID, _curveRepository);
+            ICalculatorWithPosition calculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
             string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(calculator);
             string output = GetLocalOutputName(dto);
             string defaultRate = CompilationHelper.FormatValue(1.0);
@@ -824,10 +826,11 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             // The calculate procedure should only use the held variable. 
             // The Reset procedure should do a calculation of that held variable. 
-            // But that Reset procedure should not execute the reset lines.
-            // So the Calculate procedure should not write at all, 
-            // and the Reset procedure should not write the reset lines, but does have to write the calculate lines.
-            // In the methods that delegate to StringBuilders, the _holdOperatorIsActiveStack is inspected to see to which StringBuilder to write.
+            // But that Reset procedure should not execute the reset code lines.
+            // So the Calculate procedure should not be written at all, 
+            // and the Reset procedure should get the reset code lines, but does have to get the calculate code lines.
+            // In the methods that delegate to StringBuilders, 
+            // the _holdOperatorIsActiveStack is inspected to see to which StringBuilder to write, during visitation.
 
             _holdOperatorIsActiveStack.Push(true);
 
@@ -1980,7 +1983,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private IOperatorDto GenerateSampleChannelSwitchEnd(ISample_OperatorDto_WithSampleID dto, string phase)
         {
-            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
+            IList<ArrayDto> arrayDtos = _calculatorCache.GetSampleArrayDtos(dto.SampleID, _sampleRepository);
+            IList<ICalculatorWithPosition> calculators = arrayDtos.Select(ArrayCalculatorFactory.CreateArrayCalculator).ToArray();
 
             int channnelDimensionStackLevel = dto.ChannelDimensionStackLevel;
             string channelIndexDouble = GetPositionNameCamelCase(channnelDimensionStackLevel, DimensionEnum.Channel);
@@ -2016,10 +2020,11 @@ namespace JJ.Business.Synthesizer.Roslyn
         private IOperatorDto GenerateSampleMonoToStereoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
         {
             // Array
-            ICalculatorWithPosition calculator = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository).Single();
+            ArrayDto arrayDto = _calculatorCache.GetSampleArrayDtos(dto.SampleID, _sampleRepository).Single();
+            ICalculatorWithPosition calculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
             string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(calculator);
-
             string output = GetLocalOutputName(dto);
+
             AppendLine($"double {output} = {calculatorName}.Calculate({phase});"); // Return the single channel for both channels.
 
             // Wrap-Up
@@ -2029,7 +2034,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         private IOperatorDto GenerateSampleStereoToMonoEnd(ISample_OperatorDto_WithSampleID dto, string phase)
         {
             // Array
-            IList<ICalculatorWithPosition> calculators = _calculatorCache.GetSampleCalculators(dto.SampleID, _sampleRepository);
+            IList<ArrayDto> arrayDtos = _calculatorCache.GetSampleArrayDtos(dto.SampleID, _sampleRepository);
+            IList<ICalculatorWithPosition> calculators = arrayDtos.Select(ArrayCalculatorFactory.CreateArrayCalculator).ToArray();
             string calculatorName1 = GetArrayCalculatorVariableNameCamelCaseAndCache(calculators[0]);
             string calculatorName2 = GetArrayCalculatorVariableNameCamelCaseAndCache(calculators[1]);
 
@@ -3113,7 +3119,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private string GetArrayCalculatorVariableNameCamelCaseAndCache(ICalculatorWithPosition calculator)
         {
-            ArrayCalculatorVariableInfo variableInfo;
+            ArrayCalculationInfo variableInfo;
             // ReSharper disable once InvertIf
             if (!_calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary.TryGetValue(calculator, out variableInfo))
             {
@@ -3123,12 +3129,23 @@ namespace JJ.Business.Synthesizer.Roslyn
                 // The array calculator variables are not doubles.
                 string nameCamelCase = GetUniqueLocalVariableName(ARRAY_CALCULATOR_MNEMONIC);
 
-                variableInfo = new ArrayCalculatorVariableInfo
+                var asArrayCalculatorBase = calculator as ArrayCalculatorBase;
+                if (asArrayCalculatorBase == null)
+                {
+                    throw new UnexpectedTypeException(() => calculator);
+                }
+
+                variableInfo = new ArrayCalculationInfo
                 {
                     NameCamelCase = nameCamelCase,
                     TypeName = typeName,
-                    // DIRTY: Type assumption
-                    Calculator = (ArrayCalculatorBase)calculator
+                    UnderlyingArray = asArrayCalculatorBase.UnderlyingArray,
+                    Rate = asArrayCalculatorBase.Rate,
+                    MinPosition = asArrayCalculatorBase.MinPosition,
+                    ValueBefore = asArrayCalculatorBase.ValueBefore,
+                    ValueAfter = asArrayCalculatorBase.ValueAfter,
+                    InterpolationTypeEnum = asArrayCalculatorBase.InterpolationTypeEnum,
+                    IsRotatingPosition = asArrayCalculatorBase.IsRotatingPosition
                 };
 
                 _calculatorWithPosition_To_ArrayCalculatorVariableInfo_Dictionary[calculator] = variableInfo;

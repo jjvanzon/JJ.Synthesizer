@@ -13,6 +13,8 @@ using System.Linq;
 using System.Collections.Generic;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Validation.Curves;
 
 namespace JJ.Business.Synthesizer
@@ -316,7 +318,8 @@ namespace JJ.Business.Synthesizer
         /// <summary> Slower initialization, faster calculation. </summary>
         public ICalculatorWithPosition CreateOptimizedCalculator(Curve curve)
         {
-            return CurveArrayCalculatorFactory.CreateCurveArrayCalculator(curve);
+            ArrayDto arrayDto = CurveArrayDtoFactory.ConvertToArrayDto(curve);
+            return ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
         }
 
         public void RotateNodeType(Node node)

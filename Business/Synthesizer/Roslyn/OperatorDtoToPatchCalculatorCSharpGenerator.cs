@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             var result = new OperatorDtoToPatchCalculatorCSharpGeneratorResult
             {
                 GeneratedCode = generatedCode,
-                ArrayCalculatorVariableInfos = visitorResult.ArrayCalculatorVariableInfos
+                ArrayCalculationInfos = visitorResult.ArrayCalculationInfos
             };
 
             return result;
@@ -149,9 +149,9 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
             }
 
-            if (visitorResult.ArrayCalculatorVariableInfos.Any())
+            if (visitorResult.ArrayCalculationInfos.Any())
             {
-                foreach (ArrayCalculatorVariableInfo variableInfo in visitorResult.ArrayCalculatorVariableInfos)
+                foreach (ArrayCalculationInfo variableInfo in visitorResult.ArrayCalculationInfos)
                 {
                     sb.AppendLine($"private readonly {variableInfo.TypeName} _{variableInfo.NameCamelCase};");
                 }
@@ -203,9 +203,9 @@ namespace JJ.Business.Synthesizer.Roslyn
                     sb.AppendLine();
                 }
 
-                if (visitorResult.ArrayCalculatorVariableInfos.Any())
+                if (visitorResult.ArrayCalculationInfos.Any())
                 {
-                    foreach (ArrayCalculatorVariableInfo variableInfo in visitorResult.ArrayCalculatorVariableInfos)
+                    foreach (ArrayCalculationInfo variableInfo in visitorResult.ArrayCalculationInfos)
                     {
                         string name = variableInfo.NameCamelCase;
                         string type = variableInfo.TypeName;
@@ -345,9 +345,9 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
             }
 
-            if (visitorResult.ArrayCalculatorVariableInfos.Any())
+            if (visitorResult.ArrayCalculationInfos.Any())
             {
-                foreach (ArrayCalculatorVariableInfo variableInfo in visitorResult.ArrayCalculatorVariableInfos)
+                foreach (ArrayCalculationInfo variableInfo in visitorResult.ArrayCalculationInfos)
                 {
                     sb.AppendLine($"var {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
                 }

@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         public IList<ExtendedVariableInfo> LongLivedDimensionVariableInfos { get; }
         public IList<string> LocalDimensionVariableNamesCamelCase { get; }
         public IList<string> LongLivedMiscVariableNamesCamelCase { get; }
-        public IList<ArrayCalculatorVariableInfo> ArrayCalculatorVariableInfos { get; }
+        public IList<ArrayCalculationInfo> ArrayCalculationInfos { get; }
         public IList<string> NoiseCalculatorVariableNamesCamelCase { get; }
 
         public OperatorDtoToCSharpVisitorResult(
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfos,
             IList<string> localDimensionVariableNamesCamelCase,
             IList<string> longLivedMiscVariableNamesCamelCase,
-            IList<ArrayCalculatorVariableInfo> arrayCalculatorVariableInfos,
+            IList<ArrayCalculationInfo> arrayCalculationInfos,
             IList<string> noiseCalculatorVariableNamesCamelCase)
         {
             RawCalculationCode = rawCalculationCode;
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             LongLivedDimensionVariableInfos = longLivedDimensionVariableInfos;
             LocalDimensionVariableNamesCamelCase = localDimensionVariableNamesCamelCase;
             LongLivedMiscVariableNamesCamelCase = longLivedMiscVariableNamesCamelCase;
-            ArrayCalculatorVariableInfos = arrayCalculatorVariableInfos;
+            ArrayCalculationInfos = arrayCalculationInfos;
             NoiseCalculatorVariableNamesCamelCase = noiseCalculatorVariableNamesCamelCase;
         }
     }

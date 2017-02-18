@@ -1,21 +1,40 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
     internal static class ArrayCalculatorFactory
     {
-        /// <param name="isRotatingPosition">Recently added to make this method a little more flexibly usable. It is optional for backwards compatibility.</param>
-        public static ArrayCalculatorBase CreateArrayCalculator(
+        public static ICalculatorWithPosition CreateArrayCalculator(ArrayDto dto)
+        {
+            if (dto == null) throw new NullException(() => dto);
+
+            ICalculatorWithPosition calculator = CreateArrayCalculator(
+                dto.Array,
+                dto.Rate,
+                dto.MinPosition,
+                dto.ValueAfter,
+                dto.ValueAfter,
+                dto.InterpolationTypeEnum,
+                dto.IsRotating);
+
+            return calculator;
+        }
+
+        /// <param name="isRotating">Recently (2017-02) added to make this method a little more flexibly usable. It is optional for backwards compatibility.</param>
+        public static ICalculatorWithPosition CreateArrayCalculator(
             double[] array,
             double rate,
             double minPosition,
             double valueBefore,
             double valueAfter,
             InterpolationTypeEnum interpolationTypeEnum,
-            bool isRotatingPosition = false)
+            bool isRotating = false)
         {
-            if (isRotatingPosition)
+            // TODO: Optimize to single value to a literal number instead.
+
+            if (isRotating)
             {
                 return CreateArrayCalculator_RotatePosition(array, rate, interpolationTypeEnum);
             }
@@ -79,7 +98,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
             }
         }
 
-        public static ArrayCalculatorBase CreateArrayCalculator_RotatePosition(
+        private static ICalculatorWithPosition CreateArrayCalculator_RotatePosition(
             double[] array,
             double rate,
             InterpolationTypeEnum interpolationTypeEnum)

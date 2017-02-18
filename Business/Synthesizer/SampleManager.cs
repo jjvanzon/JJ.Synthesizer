@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Converters;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -152,7 +154,9 @@ namespace JJ.Business.Synthesizer
         /// <summary> Returns a calculator for each channel. </summary>
         public IList<ICalculatorWithPosition> CreateCalculators(Sample sample, byte[] bytes)
         {
-            return SampleArrayCalculatorFactory.CreateSampleCalculators(sample, bytes);
+            IList<ArrayDto> dtos = SampleArrayDtoFactory.CreateArrayDtos(sample, bytes);
+            IList<ICalculatorWithPosition> calculators = dtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
+            return calculators;
         }
 
         // Private Methods

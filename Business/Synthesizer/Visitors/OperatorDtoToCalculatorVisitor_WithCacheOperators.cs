@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
@@ -162,7 +164,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                IList<ICalculatorWithPosition> arrayCalculators = _calculatorCache.GetCacheArrayCalculators(
+                IList<ArrayDto> arrayDtos = _calculatorCache.GetCacheArrayDtos(
                     dto.OperatorID,
                     signalCalculator,
                     start,
@@ -172,6 +174,8 @@ namespace JJ.Business.Synthesizer.Visitors
                     dto.InterpolationTypeEnum,
                     dimensionStack,
                     channelDimensionStack);
+
+                IList<ICalculatorWithPosition> arrayCalculators = arrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
 
                 calculator = OperatorCalculatorFactory.Create_Cache_OperatorCalculator(arrayCalculators, dimensionStack, channelDimensionStack);
             }

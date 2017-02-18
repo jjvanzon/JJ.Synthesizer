@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -609,7 +610,8 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                IList<ICalculatorWithPosition> arrayCalculators = _calculatorCache.GetCacheArrayCalculators(
+
+                IList<ArrayDto> arrayDtos = _calculatorCache.GetCacheArrayDtos(
                     op,
                     signalCalculator,
                     start,
@@ -618,6 +620,8 @@ namespace JJ.Business.Synthesizer.Visitors
                     dimensionStack,
                     channelDimensionStack,
                     _speakerSetupRepository);
+
+                IList<ICalculatorWithPosition> arrayCalculators = arrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
 
                 calculator = OperatorCalculatorFactory.Create_Cache_OperatorCalculator(arrayCalculators, dimensionStack, channelDimensionStack);
             }
@@ -945,54 +949,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitCurveOperator(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
-
             base.VisitCurveOperator(op);
 
-            OperatorCalculatorBase calculator = null;
-
-            var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
-            Curve curve = wrapper.Curve;
-            if (curve == null)
-            {
-                calculator = new Number_OperatorCalculator_Zero();
-            }
-            else
-            {
-                ICalculatorWithPosition curveCalculator = _calculatorCache.GetCurveCalculator(curve);
-
-                var curveCalculator_MinPosition = curveCalculator as ArrayCalculator_MinPosition_Line;
-                if (curveCalculator_MinPosition != null)
-                {
-                    if (standardDimensionEnum == DimensionEnum.Time)
-                    {
-                        calculator = new Curve_OperatorCalculator_MinX_WithOriginShifting(curveCalculator_MinPosition, dimensionStack);
-                    }
-                    else
-                    {
-                        calculator = new Curve_OperatorCalculator_MinX_NoOriginShifting(curveCalculator_MinPosition, dimensionStack);
-                    }
-                }
-
-                var curveCalculator_MinPositionZero = curveCalculator as ArrayCalculator_MinPositionZero_Line;
-                if (curveCalculator_MinPositionZero != null)
-                {
-                    if (standardDimensionEnum == DimensionEnum.Time)
-                    {
-                        calculator = new Curve_OperatorCalculator_MinXZero_WithOriginShifting(curveCalculator_MinPositionZero, dimensionStack);
-                    }
-                    else
-                    {
-                        calculator = new Curve_OperatorCalculator_MinXZero_NoOriginShifting(curveCalculator_MinPositionZero, dimensionStack);
-                    }
-                }
-            }
-
-            if (calculator == null)
-            {
-                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-            }
+            OperatorCalculatorBase calculator = OperatorCalculatorFactory.Create_Curve_OperatorCalculator(
+                op,
+                _dimensionStackCollection,
+                _calculatorCache,
+                _curveRepository);
 
             _stack.Push(calculator);
         }
@@ -3397,7 +3360,8 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                IList<ICalculatorWithPosition> underlyingCalculators = _calculatorCache.GetSampleCalculators(sampleInfo);
+                IList<ArrayDto> arrayDtos = _calculatorCache.GetSampleArrayDtos(sampleInfo);
+                IList<ICalculatorWithPosition> underlyingCalculators = arrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
                 ICalculatorWithPosition underlyingCalculator = underlyingCalculators.FirstOrDefault();
 
                 int sampleChannelCount = sampleInfo.Sample.GetChannelCount();

@@ -1,17 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-    internal static class CurveArrayHelper
+    internal static class CurveArrayDtoFactory
     {
         private const double MINIMUM_SAMPLES_PER_NODE = 100.0;
         private const int MAXIMUM_SAMPLE_COUNT = 10000;
-
-        public static CurveArrayInfo ConvertToCurveArrayInfo(Curve curve)
+        // These defaults may become variables in the future.
+        private const InterpolationTypeEnum DEFAULT_INTERPOLATION_TYPE_ENUM = InterpolationTypeEnum.Line;
+        private const bool DEFAULT_IS_ROTATING = false;
+        
+        public static ArrayDto ConvertToArrayDto(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
 
@@ -48,13 +53,15 @@ namespace JJ.Business.Synthesizer.Calculation
                 x += step;
             }
 
-            return new CurveArrayInfo
+            return new ArrayDto
             {
                 Array = samples,
                 Rate = samplingRate,
-                MinX = minX,
-                YBefore = yBefore,
-                YAfter = yAfter
+                MinPosition = minX,
+                ValueBefore = yBefore,
+                ValueAfter = yAfter,
+                InterpolationTypeEnum = DEFAULT_INTERPOLATION_TYPE_ENUM,
+                IsRotating = DEFAULT_IS_ROTATING
             };
         }
         

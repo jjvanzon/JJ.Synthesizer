@@ -1,8 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
 
@@ -85,10 +93,6 @@ namespace JJ.Business.Synthesizer.Helpers
             }
         }
 
-        // The array calculators really dictate which Cache_OperatorCalculator to instantiate.
-        // We need the array calculator as a concrete type argument 
-        // to prevent some indirections imposed by calling an abstract type.
-
         public static OperatorCalculatorBase Create_Cache_OperatorCalculator_MultiChannel(IList<ICalculatorWithPosition> arrayCalculators, DimensionStack dimensionStack, DimensionStack channelDimensionStack)
         {
             Type arrayCalculatorType = arrayCalculators.GetItemType();
@@ -104,6 +108,87 @@ namespace JJ.Business.Synthesizer.Helpers
             Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_SingleChannel<>).MakeGenericType(arrayCalculatorType);
             var calculator = (OperatorCalculatorBase)Activator.CreateInstance(cache_OperatorCalculator_Type, arrayCalculator, dimensionStack);
             return calculator;
+        }
+
+        public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
+            [NotNull] Operator op,
+            [NotNull] DimensionStackCollection dimensionStackCollection,
+            [NotNull] CalculatorCache calculatorCache,
+            [NotNull] ICurveRepository curveRepository)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            var wrapper = new Curve_OperatorWrapper(op, curveRepository);
+            Curve curve = wrapper.Curve;
+
+            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(curve, op.GetStandardDimensionEnum(), dimensionStackCollection, calculatorCache);
+
+            return calculator;
+        }
+
+        public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
+            [NotNull] Curve_OperatorDtoBase_WithoutMinX dto,
+            [NotNull] DimensionStackCollection dimensionStackCollection,
+            [NotNull] CalculatorCache calculatorCache,
+            [NotNull] ICurveRepository curveRepository)
+        {
+            if (dto == null) throw new ArgumentNullException(nameof(dto));
+
+            Curve curve = curveRepository.Get(dto.CurveID);
+
+            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(curve, dto.StandardDimensionEnum, dimensionStackCollection, calculatorCache);
+
+            return calculator;
+        }
+
+        public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
+            [CanBeNull] Curve curve,
+            DimensionEnum standardDimensionEnum,
+            [NotNull] DimensionStackCollection dimensionStackCollection,
+            [NotNull] CalculatorCache calculatorCache)
+        {
+            if (calculatorCache == null) throw new NullException(() => calculatorCache);
+            if (dimensionStackCollection == null) throw new ArgumentNullException(nameof(dimensionStackCollection));
+
+            if (curve == null)
+            {
+                return new Number_OperatorCalculator_Zero();
+            }
+
+            DimensionStack dimensionStack = dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
+
+            ArrayDto arrayDto = calculatorCache.GetArrayDto(curve);
+            ICalculatorWithPosition arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
+
+            var arrayCalculator_MinPosition = arrayCalculator as ArrayCalculator_MinPosition_Line;
+            if (arrayCalculator_MinPosition != null)
+            {
+                if (standardDimensionEnum == DimensionEnum.Time)
+                {
+                    return new Curve_OperatorCalculator_MinX_WithOriginShifting(arrayCalculator_MinPosition, dimensionStack);
+                }
+                // ReSharper disable once RedundantIfElseBlock
+                else
+                {
+                    return new Curve_OperatorCalculator_MinX_NoOriginShifting(arrayCalculator_MinPosition, dimensionStack);
+                }
+            }
+
+            var arrayCalculator_MinPositionZero = arrayCalculator as ArrayCalculator_MinPositionZero_Line;
+            if (arrayCalculator_MinPositionZero != null)
+            {
+                if (standardDimensionEnum == DimensionEnum.Time)
+                {
+                    return new Curve_OperatorCalculator_MinXZero_WithOriginShifting(arrayCalculator_MinPositionZero, dimensionStack);
+                }
+                // ReSharper disable once RedundantIfElseBlock
+                else
+                {
+                    return new Curve_OperatorCalculator_MinXZero_NoOriginShifting(arrayCalculator_MinPositionZero, dimensionStack);
+                }
+            }
+
+            throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
         }
     }
 }
