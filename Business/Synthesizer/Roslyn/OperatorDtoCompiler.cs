@@ -11,7 +11,6 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
@@ -69,7 +68,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             $"CopiedCode\\FromFramework\\{nameof(Geometry)}.cs",
             $"CopiedCode\\FromFramework\\{nameof(Interpolator)}.cs",
             $"CopiedCode\\FromFramework\\{nameof(MathHelper)}.cs",
-            $"Dto\\{nameof(ArrayDto)}.cs",
             $"Helpers\\{nameof(ConversionHelper)}.cs");
 
         private static readonly IList<MetadataReference> _metaDataReferences = new MetadataReference[]
@@ -134,26 +132,14 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             Type type = Compile(codeGeneratorResult.GeneratedCode);
 
-            Dictionary<string, double[]> arrayDictionary = codeGeneratorResult.ArrayCalculationInfos.ToDictionary(x => x.NameCamelCase, x => x.UnderlyingArray);
-            Dictionary<string, double> arrayRateDictionary = codeGeneratorResult.ArrayCalculationInfos.ToDictionary(x => x.NameCamelCase, x => x.Rate);
-            Dictionary<string, double> arrayMinPositionDictionary = codeGeneratorResult.ArrayCalculationInfos.ToDictionary(x => x.NameCamelCase, x => x.MinPosition);
-            Dictionary<string, double> arrayValuesBeforeDictionary = codeGeneratorResult.ArrayCalculationInfos.ToDictionary(x => x.NameCamelCase, x => x.ValueBefore);
-            Dictionary<string, double> arrayValuesAfterDictionary = codeGeneratorResult.ArrayCalculationInfos.ToDictionary(x => x.NameCamelCase, x => x.ValueAfter);
-            Dictionary<string, InterpolationTypeEnum> arrayInterpolationTypeEnumDictionary = codeGeneratorResult.ArrayCalculationInfos.ToDictionary(x => x.NameCamelCase, x => x.InterpolationTypeEnum);
-            Dictionary<string, bool> arrayIsRotationPositionDictionary = codeGeneratorResult.ArrayCalculationInfos.ToDictionary(x => x.NameCamelCase, x => x.IsRotatingPosition);
+            Dictionary<string, ArrayDto> arrayDtoDictionary = codeGeneratorResult.ArrayCalculationInfos.ToDictionary(x => x.NameCamelCase, x => x.ArrayDto);
 
             var args = new object[]
             {
                 samplingRate,
                 channelCount,
                 channelIndex,
-                arrayDictionary,
-                arrayRateDictionary,
-                arrayMinPositionDictionary,
-                arrayValuesBeforeDictionary,
-                arrayValuesAfterDictionary,
-                arrayInterpolationTypeEnumDictionary,
-                arrayIsRotationPositionDictionary
+                arrayDtoDictionary
             };
 
             return new ActivationInfo(type, args);

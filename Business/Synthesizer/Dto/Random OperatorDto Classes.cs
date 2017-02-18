@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public IOperatorDto RateOperatorDto { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
-        /// <summary> Used as a cache key. </summary>
+        /// <summary> Used as offset cache key. </summary>
         public int OperatorID { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos
@@ -27,6 +27,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal interface IRandom_OperatorDto : IOperatorDto_WithDimension
     {
         ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
+        /// <summary> Used as offset cache key. </summary>
         int OperatorID { get; set; }
     }
 

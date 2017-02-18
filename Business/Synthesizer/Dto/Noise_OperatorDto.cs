@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Noise;
 
-        /// <summary> Used as a cache key. </summary>
+        /// <summary> Used as offset cache key. </summary>
         public int OperatorID { get; set; }
 
         public DimensionEnum StandardDimensionEnum { get; set; }

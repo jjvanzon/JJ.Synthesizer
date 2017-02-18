@@ -71,8 +71,10 @@ namespace JJ.Business.Synthesizer.Roslyn
             sb.AppendLine("using " + typeof(NameHelper).Namespace + ";");
             sb.AppendLine("using " + typeof(MathHelper).Namespace + ";");
             sb.AppendLine("using " + typeof(ArrayCalculatorBase).Namespace + ";");
+            sb.AppendLine("using " + typeof(ArrayDto).Namespace + ";");
             sb.AppendLine("using " + typeof(ConversionHelper).Namespace + ";");
             sb.AppendLine("using " + typeof(RandomCalculatorHelper).Namespace + ";");
+            sb.AppendLine("using " + typeof(NoiseCalculatorHelper).Namespace + ";");
             sb.AppendLine();
             sb.AppendLine($"namespace {generatedNameSpace}");
             sb.AppendLine("{");
@@ -149,21 +151,12 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
             }
 
+            // ReSharper disable once InvertIf
             if (visitorResult.ArrayCalculationInfos.Any())
             {
                 foreach (ArrayCalculationInfo variableInfo in visitorResult.ArrayCalculationInfos)
                 {
                     sb.AppendLine($"private readonly {variableInfo.TypeName} _{variableInfo.NameCamelCase};");
-                }
-                sb.AppendLine();
-            }
-
-            // ReSharper disable once InvertIf
-            if (visitorResult.NoiseCalculatorVariableNamesCamelCase.Any())
-            {
-                foreach (string variableName in visitorResult.NoiseCalculatorVariableNamesCamelCase)
-                {
-                    sb.AppendLine($"private readonly {nameof(NoiseCalculator)} _{variableName};");
                 }
                 sb.AppendLine();
             }
@@ -177,13 +170,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine("int samplingRate,");
                 sb.AppendLine("int channelCount,");
                 sb.AppendLine("int channelIndex,");
-                sb.AppendLine("Dictionary<string, double[]> arrayDictionary,");
-                sb.AppendLine("Dictionary<string, double> arrayRateDictionary,");
-                sb.AppendLine("Dictionary<string, double> arrayMinPositionDictionary,");
-                sb.AppendLine("Dictionary<string, double> arrayValueBeforeDictionary,");
-                sb.AppendLine("Dictionary<string, double> arrayValueAfterDictionary,");
-                sb.AppendLine("Dictionary<string, InterpolationTypeEnum> arrayInterpolationTypeEnumDictionary,");
-                sb.AppendLine("Dictionary<string, bool> arrayIsRotatingPositionDictionary)");
+                sb.AppendLine("Dictionary<string, ArrayDto> arrayDtoDictionary)");
                 sb.Unindent();
             }
             sb.Indent();
@@ -213,24 +200,15 @@ namespace JJ.Business.Synthesizer.Roslyn
                         sb.AppendLine($"_{name} = ({type})ArrayCalculatorFactory.CreateArrayCalculator(");
                         sb.Indent();
                         {
-                            sb.AppendLine($"arrayDictionary[\"{name}\"],");
-                            sb.AppendLine($"arrayRateDictionary[\"{name}\"],");
-                            sb.AppendLine($"arrayMinPositionDictionary[\"{name}\"],");
-                            sb.AppendLine($"arrayValueBeforeDictionary[\"{name}\"],");
-                            sb.AppendLine($"arrayValueAfterDictionary[\"{name}\"],");
-                            sb.AppendLine($"arrayInterpolationTypeEnumDictionary[\"{name}\"],");
-                            sb.AppendLine($"arrayIsRotatingPositionDictionary[\"{name}\"]);");
+                            sb.AppendLine($"arrayDtoDictionary[\"{name}\"].Array,");
+                            sb.AppendLine($"arrayDtoDictionary[\"{name}\"].Rate,");
+                            sb.AppendLine($"arrayDtoDictionary[\"{name}\"].MinPosition,");
+                            sb.AppendLine($"arrayDtoDictionary[\"{name}\"].ValueBefore,");
+                            sb.AppendLine($"arrayDtoDictionary[\"{name}\"].ValueAfter,");
+                            sb.AppendLine($"arrayDtoDictionary[\"{name}\"].InterpolationTypeEnum,");
+                            sb.AppendLine($"arrayDtoDictionary[\"{name}\"].IsRotating);");
                             sb.Unindent();
                         }
-                    }
-                    sb.AppendLine();
-                }
-
-                if (visitorResult.NoiseCalculatorVariableNamesCamelCase.Any())
-                {
-                    foreach (string variableName in visitorResult.NoiseCalculatorVariableNamesCamelCase)
-                    {
-                        sb.AppendLine($"_{variableName} = new {nameof(NoiseCalculator)}();");
                     }
                     sb.AppendLine();
                 }
@@ -345,21 +323,12 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
             }
 
+            // ReSharper disable once InvertIf
             if (visitorResult.ArrayCalculationInfos.Any())
             {
                 foreach (ArrayCalculationInfo variableInfo in visitorResult.ArrayCalculationInfos)
                 {
                     sb.AppendLine($"var {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
-                }
-                sb.AppendLine();
-            }
-
-            // ReSharper disable once InvertIf
-            if (visitorResult.NoiseCalculatorVariableNamesCamelCase.Any())
-            {
-                foreach (string variableName in visitorResult.NoiseCalculatorVariableNamesCamelCase)
-                {
-                    sb.AppendLine($"{nameof(NoiseCalculator)} {variableName} = _{variableName};");
                 }
                 sb.AppendLine();
             }

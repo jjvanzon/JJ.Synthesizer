@@ -44,6 +44,30 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<int, IList<ArrayDto>> _cacheOperatorID_To_ArrayDtos_Dictionary = new Dictionary<int, IList<ArrayDto>>();
         private readonly object _cacheOperatorID_To_ArrayDtos_Dictionary_Lock = new object();
 
+        private static readonly ArrayDto _randomArrayDto_Block = new ArrayDto
+        {
+            Array = RandomCalculatorHelper.Samples,
+            InterpolationTypeEnum = InterpolationTypeEnum.Block,
+            Rate = 1,
+            IsRotating = true
+        };
+
+        private static readonly ArrayDto _randomArrayDto_Stripe = new ArrayDto
+        {
+            Array = RandomCalculatorHelper.Samples,
+            InterpolationTypeEnum = InterpolationTypeEnum.Stripe,
+            Rate = 1,
+            IsRotating = true
+        };
+
+        private static readonly ArrayDto _noiseArrayDto = new ArrayDto
+        {
+            Array = NoiseCalculatorHelper.Samples,
+            InterpolationTypeEnum = InterpolationTypeEnum.Block,
+            Rate = NoiseCalculatorHelper.SamplingRate,
+            IsRotating = true
+        };
+
         internal ArrayDto GetArrayDto(int curveID, ICurveRepository curveRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -126,6 +150,8 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
+        internal ArrayDto GetNoiseArrayDto() => _noiseArrayDto;
+
         internal RandomCalculatorBase GetRandomCalculator(Operator op)
         {
             if (op == null) throw new NullException(() => op);
@@ -195,6 +221,10 @@ namespace JJ.Business.Synthesizer.Calculation
                 return randomCalculator;
             }
         }
+
+        internal ArrayDto GetRandomArrayDto_Block() => _randomArrayDto_Block;
+
+        internal ArrayDto GetRandomArrayDto_Stripe() => _randomArrayDto_Stripe;
 
         /// <summary>
         /// Out comes an array calculator for each channel.

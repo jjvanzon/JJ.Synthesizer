@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class ArrayDto
+    public class ArrayDto
     {
         public double[] Array { get; set; }
         public double Rate { get; set; }

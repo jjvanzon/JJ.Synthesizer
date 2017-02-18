@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
@@ -6,12 +6,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
     {
         public string NameCamelCase { get; set; }
         public string TypeName { get; set; }
-        public double[] UnderlyingArray { get; set; }
-        public double Rate { get; set; }
-        public double MinPosition { get; set; }
-        public double ValueBefore { get; set; }
-        public double ValueAfter { get; set; }
-        public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-        public bool IsRotatingPosition { get; set; }
+        public ArrayDto ArrayDto { get; set; }
     }
 }
