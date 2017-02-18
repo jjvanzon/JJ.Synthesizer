@@ -79,10 +79,10 @@ namespace JJ.Business.Synthesizer
 
                 foreach (Outlet destCustomOperatorOutlet in destCustomOperatorOutlets)
                 {
-                    string canoncial_DestCustomOperatorOutlet_Name = NameHelper.ToCanonical(destCustomOperatorOutlet.Name);
+                    string canonical_DestCustomOperatorOutlet_Name = NameHelper.ToCanonical(destCustomOperatorOutlet.Name);
 
                     bool namesAreEqual = string.Equals(
-                        canoncial_DestCustomOperatorOutlet_Name,
+                        canonical_DestCustomOperatorOutlet_Name,
                         canonical_SourcePatchOutlet_Name);
 
                     if (namesAreEqual)

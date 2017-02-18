@@ -50,8 +50,7 @@ namespace JJ.Business.Synthesizer
             // ReSharper disable once InvertIf
             if (mustGenerateName)
             {
-                ISideEffect sideEffect = new Scale_SideEffect_GenerateName(scale);
-                sideEffect.Execute();
+                new Scale_SideEffect_GenerateName(scale).Execute();
             }
 
             return scale;
@@ -66,8 +65,7 @@ namespace JJ.Business.Synthesizer
             // ReSharper disable once InvertIf
             if (mustSetDefaults)
             {
-                ISideEffect sideEffect = new Scale_SideEffect_SetDefaults(scale, _repositories.ScaleTypeRepository);
-                sideEffect.Execute();
+                new Scale_SideEffect_SetDefaults(scale, _repositories.ScaleTypeRepository).Execute();
             }
 
             return scale;

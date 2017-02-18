@@ -36,12 +36,12 @@ namespace JJ.Business.Synthesizer
             var document = new Document { ID = _repositories.IDRepository.GetID() };
             _repositories.DocumentRepository.Insert(document);
 
-            ISideEffect sideEffect = new Document_SideEffect_AutoCreateAudioOutput(
+            new Document_SideEffect_AutoCreateAudioOutput(
                 document,
                 _repositories.AudioOutputRepository,
                 _repositories.SpeakerSetupRepository,
-                _repositories.IDRepository);
-            sideEffect.Execute();
+                _repositories.IDRepository)
+                .Execute();
 
             return document;
         }
@@ -50,8 +50,7 @@ namespace JJ.Business.Synthesizer
         {
             Document document = Create();
 
-            ISideEffect sideEffect = new Document_SideEffect_CreatePatch(document, new PatchRepositories(_repositories));
-            sideEffect.Execute();
+            new Document_SideEffect_CreatePatch(document, new PatchRepositories(_repositories)).Execute();
 
             return document;
         }

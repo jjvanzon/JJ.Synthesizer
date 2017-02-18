@@ -1,4 +1,6 @@
-﻿namespace JJ.Data.Synthesizer
+﻿using JetBrains.Annotations;
+
+namespace JJ.Data.Synthesizer
 {
     /// <summary> bridge entity </summary>
     public class SpeakerSetupChannel
@@ -7,9 +9,11 @@
         public virtual int IndexNumber { get; set; }
 
         /// <summary> not nullable </summary>
+        [NotNull]
         public virtual SpeakerSetup SpeakerSetup { get; set; }
 
         /// <summary> not nullable </summary>
+        [NotNull]
         public virtual Channel Channel { get; set; }
     }
 }

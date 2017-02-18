@@ -101,14 +101,12 @@ namespace JJ.Business.Synthesizer
 
             sample.LinkTo(document);
 
-            ISideEffect sideEffect = new Sample_SideEffect_SetDefaults(sample, _repositories);
-            sideEffect.Execute();
+            new Sample_SideEffect_SetDefaults(sample, _repositories).Execute();
 
             // ReSharper disable once InvertIf
             if (mustGenerateName)
             {
-                ISideEffect sideEffect2 = new Sample_SideEffect_GenerateName(sample);
-                sideEffect2.Execute();
+                new Sample_SideEffect_GenerateName(sample).Execute();
             }
 
             return sample;

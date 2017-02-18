@@ -1,10 +1,12 @@
-﻿using JJ.Data.Synthesizer;
+﻿using JetBrains.Annotations;
+using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -22,6 +24,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { Inlet.LinkTo(value); }
         }
 
+        [NotNull]
         public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
 
         public int? ListIndex
@@ -30,9 +33,20 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value); }
         }
 
+        public Dimension Dimension
+        {
+            get { return Inlet.Dimension; }
+            set { Inlet.LinkTo(value); }
+        }
+
         public DimensionEnum DimensionEnum => Inlet.GetDimensionEnum();
-        public double? DefaultValue => Inlet.DefaultValue;
-        public Dimension Dimension => Inlet.Dimension;
+        public void SetDimensionEnum(DimensionEnum enumValue, IDimensionRepository repository) => Inlet.SetDimensionEnum(enumValue, repository);
+
+        public double? DefaultValue
+        {
+            get { return Inlet.DefaultValue; }
+            set { Inlet.DefaultValue = value; }
+        }
 
         public override string GetInletDisplayName(int listIndex)
         {

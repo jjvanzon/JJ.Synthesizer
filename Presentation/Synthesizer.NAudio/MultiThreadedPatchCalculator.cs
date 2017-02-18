@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             var calculatorCache = new CalculatorCache();
 
             Outlet signalOutlet = patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                .Where(x => x.Result.GetDimensionEnum() == DimensionEnum.Signal)
+                .Where(x => x.DimensionEnum == DimensionEnum.Signal)
                 .SingleOrDefault();
             if (signalOutlet == null)
             {

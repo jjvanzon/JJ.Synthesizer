@@ -13,9 +13,6 @@ namespace JJ.Data.Synthesizer
         public virtual float X { get; set; }
         public virtual float Y { get; set; }
 
-        private string DebuggerDisplay
-        {
-            get { return DebugHelper.GetDebuggerDisplay(this); }
-        }
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

@@ -8,7 +8,6 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
-using System;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -188,7 +187,6 @@ namespace JJ.Business.Synthesizer.Visitors
             base.VisitCache(op);
 
             var wrapper = new Cache_OperatorWrapper(op);
-            SpeakerSetupEnum speakerSetupEnum = wrapper.SpeakerSetup;
 
             var dto = new Cache_OperatorDto
             {
@@ -197,13 +195,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 StartOperatorDto = _stack.Pop(),
                 EndOperatorDto = _stack.Pop(),
                 SamplingRateOperatorDto = _stack.Pop(),
-
                 InterpolationTypeEnum = wrapper.InterpolationType,
-                SpeakerSetupEnum = speakerSetupEnum
+                SpeakerSetupEnum = wrapper.SpeakerSetup,
+                ChannelCount = wrapper.GetChannelCount(_speakerSetupRepository)
             };
-
-            SpeakerSetup speakerSetup = _speakerSetupRepository.Get((int)speakerSetupEnum);
-            dto.ChannelCount = speakerSetup.SpeakerSetupChannels.Count;
 
             SetDimensionProperties(op, dto);
 
@@ -224,9 +219,9 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto.CurveID = curve.ID;
                 dto.MinX = curve.Nodes
-                    .OrderBy(x => x.X)
-                    .First()
-                    .X;
+                                .OrderBy(x => x.X)
+                                .First()
+                                .X;
             }
 
             SetDimensionProperties(op, dto);
@@ -906,14 +901,7 @@ namespace JJ.Business.Synthesizer.Visitors
             VisitOperatorBase(op);
 
             dto.InputOperatorDto = _stack.Pop();
-
-            int count = op.Inlets.Count - 1;
-            var itemOperatorDtos = new IOperatorDto[count];
-            for (int i = 0; i < count; i++)
-            {
-                itemOperatorDtos[i] = _stack.Pop();
-            }
-            dto.ItemOperatorDtos = itemOperatorDtos;
+            dto.ItemOperatorDtos = op.Inlets.Skip(1).Select(x => _stack.Pop()).ToArray();
 
             _stack.Push(dto);
         }

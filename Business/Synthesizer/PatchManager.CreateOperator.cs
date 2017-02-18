@@ -484,8 +484,7 @@ namespace JJ.Business.Synthesizer
             CustomOperator_OperatorWrapper op = CustomOperator();
             op.UnderlyingPatch = underlyingPatch;
 
-            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories);
-            sideEffect.Execute();
+            new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
 
             VoidResult result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1396,7 +1395,7 @@ namespace JJ.Business.Synthesizer
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
 
-            wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
+            wrapper.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
             VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);
@@ -1419,7 +1418,7 @@ namespace JJ.Business.Synthesizer
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Name = name;
-            wrapper.Inlet.DefaultValue = defaultValue;
+            wrapper.DefaultValue = defaultValue;
 
             VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);
@@ -1430,9 +1429,8 @@ namespace JJ.Business.Synthesizer
         public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
-            Inlet patchInletInlet = wrapper.Inlet;
-            patchInletInlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
-            patchInletInlet.DefaultValue = defaultValue;
+            wrapper.SetDimensionEnum(dimension, _repositories.DimensionRepository);
+            wrapper.DefaultValue = defaultValue;
 
             VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);
@@ -1465,7 +1463,7 @@ namespace JJ.Business.Synthesizer
         public PatchOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimension, Outlet input = null)
         {
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
-            wrapper.Result.SetDimensionEnum(dimension, _repositories.DimensionRepository);
+            wrapper.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
             VoidResult result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);
@@ -2297,14 +2295,9 @@ namespace JJ.Business.Synthesizer
 
         private void ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(Operator op)
         {
-            ISideEffect sideEffect2 = new Operator_SideEffect_GeneratePatchInletListIndex(op);
-            sideEffect2.Execute();
-
-            ISideEffect sideEffect3 = new Operator_SideEffect_GeneratePatchOutletListIndex(op);
-            sideEffect3.Execute();
-
-            ISideEffect sideEffect4 = new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories);
-            sideEffect4.Execute();
+            new Operator_SideEffect_GeneratePatchInletListIndex(op).Execute();
+            new Operator_SideEffect_GeneratePatchOutletListIndex(op).Execute();
+            new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories).Execute();
         }
 
         // Generic methods for operator creation

@@ -1,6 +1,9 @@
 ﻿using JJ.Data.Synthesizer.Helpers;
 using System.Collections.Generic;
 using System.Diagnostics;
+using JetBrains.Annotations;
+
+// ReSharper disable VirtualMemberCallInConstructor
 
 namespace JJ.Data.Synthesizer
 {
@@ -19,6 +22,7 @@ namespace JJ.Data.Synthesizer
         public virtual string Name { get; set; }
 
         /// <summary> nullable </summary>
+        [CanBeNull]
         public virtual Dimension Dimension { get; set; }
 
         /// <summary>
@@ -37,6 +41,7 @@ namespace JJ.Data.Synthesizer
         public virtual bool IsObsolete { get; set; }
 
         /// <summary> parent </summary>
+        [NotNull]
         public virtual Operator Operator { get; set; }
 
         public virtual IList<Inlet> ConnectedInlets { get; set; }

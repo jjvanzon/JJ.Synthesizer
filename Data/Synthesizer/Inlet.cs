@@ -1,5 +1,6 @@
 ﻿using JJ.Data.Synthesizer.Helpers;
 using System.Diagnostics;
+using JetBrains.Annotations;
 
 namespace JJ.Data.Synthesizer
 {
@@ -27,14 +28,13 @@ namespace JJ.Data.Synthesizer
         public virtual bool IsObsolete { get; set; }
 
         /// <summary> parent </summary>
+        [NotNull]
         public virtual Operator Operator { get; set; }
 
         /// <summary> nullable </summary>
+        [CanBeNull]
         public virtual Outlet InputOutlet { get; set; }
 
-        private string DebuggerDisplay
-        {
-            get { return DebugHelper.GetDebuggerDisplay(this); }
-        }
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

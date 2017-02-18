@@ -34,13 +34,12 @@ namespace JJ.Business.Synthesizer
         {
             var curve = CreateWithoutNodes();
 
-            ISideEffect sideEffect = new Curve_SideEffect_SetDefaults_Nodes(
+            new Curve_SideEffect_SetDefaults_Nodes(
                 curve,
                 _repositories.NodeRepository,
                 _repositories.NodeTypeRepository,
-                _repositories.IDRepository);
-
-            sideEffect.Execute();
+                _repositories.IDRepository)
+                .Execute();
 
             return curve;
         }
@@ -62,8 +61,7 @@ namespace JJ.Business.Synthesizer
             // ReSharper disable once InvertIf
             if (mustGenerateName)
             {
-                ISideEffect sideEffect2 = new Curve_SideEffect_GenerateName(curve);
-                sideEffect2.Execute();
+                new Curve_SideEffect_GenerateName(curve).Execute();
             }
 
             return curve;

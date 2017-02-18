@@ -700,8 +700,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var sb = new StringBuilder();
 
             var wrapper = new PatchInlet_OperatorWrapper(op);
-            Inlet inlet = wrapper.Inlet;
-            DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
+            DimensionEnum dimensionEnum = wrapper.DimensionEnum;
 
             // Use OperatorType DisplayName
             sb.Append(PropertyDisplayNames.Inlet);
@@ -709,24 +708,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Try Use Operator Name
             if (!string.IsNullOrWhiteSpace(op.Name))
             {
-                sb.AppendFormat(": {0}", op.Name);
+                sb.Append($": {op.Name}");
             }
             // Try Use Dimension
             else if (dimensionEnum != DimensionEnum.Undefined)
             {
-                sb.AppendFormat(": {0}", ResourceHelper.GetDisplayName(dimensionEnum));
+                sb.Append($": {ResourceHelper.GetDisplayName(dimensionEnum)}");
             }
             // Try Use List Index
             else
             {
-                sb.AppendFormat(" {0}", wrapper.ListIndex + 1);
+                sb.Append($" {wrapper.ListIndex + 1}");
             }
 
             // Try Use DefaultValue
-            double? defaultValue = inlet.DefaultValue;
+            double? defaultValue = wrapper.DefaultValue;
             if (defaultValue.HasValue)
             {
-                sb.AppendFormat(" = {0}", defaultValue.Value);
+                sb.Append($" = {defaultValue.Value}");
             }
 
             return sb.ToString();

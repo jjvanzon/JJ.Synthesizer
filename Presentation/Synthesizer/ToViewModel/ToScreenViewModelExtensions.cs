@@ -505,7 +505,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var wrapper = new PatchInlet_OperatorWrapper(entity);
 
-            viewModel.DefaultValue = Convert.ToString(wrapper.Inlet.DefaultValue);
+            viewModel.DefaultValue = Convert.ToString(wrapper.DefaultValue);
 
             if (wrapper.ListIndex.HasValue)
             {
@@ -542,7 +542,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             // In case of PatchInlet Dimension has to come from Outlet, not Operator.
             viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
-            DimensionEnum dimensionEnum = wrapper.Result.GetDimensionEnum();
+            DimensionEnum dimensionEnum = wrapper.DimensionEnum;
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();

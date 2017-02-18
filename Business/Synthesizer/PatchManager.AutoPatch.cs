@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer
             }
 
             IList<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                               .Where(x => x.Result.GetDimensionEnum() == DimensionEnum.Signal)
+                                               .Where(x => x.DimensionEnum == DimensionEnum.Signal)
                                                .Select(x => x.Result)
                                                .ToArray();
             switch (signalOutlets.Count)
@@ -190,10 +190,8 @@ namespace JJ.Business.Synthesizer
             PatchInlet_OperatorWrapper destPatchInletWrapper = PatchInlet();
             destPatchInletWrapper.Name = intermediateInlet.Name;
             destPatchInletWrapper.ListIndex = intermediateInlet.ListIndex;
-
-            Inlet destPatchInletInlet = destPatchInletWrapper.Inlet;
-            destPatchInletInlet.Dimension = intermediateInlet.Dimension;
-            destPatchInletInlet.DefaultValue = intermediateInlet.DefaultValue;
+            destPatchInletWrapper.Dimension = intermediateInlet.Dimension;
+            destPatchInletWrapper.DefaultValue = intermediateInlet.DefaultValue;
 
             intermediateInlet.LinkTo(destPatchInletWrapper.Result);
 
@@ -237,7 +235,7 @@ namespace JJ.Business.Synthesizer
             destPatchOutletWrapper.Name = intermediateUnmatchedOutlet.Name;
             destPatchOutletWrapper.ListIndex = intermediateUnmatchedOutlet.ListIndex;
             destPatchOutletWrapper.Input = intermediateUnmatchedOutlet;
-            destPatchOutletWrapper.Result.Dimension = intermediateUnmatchedOutlet.Dimension;
+            destPatchOutletWrapper.Dimension = intermediateUnmatchedOutlet.Dimension;
 
             return destPatchOutletWrapper;
         }

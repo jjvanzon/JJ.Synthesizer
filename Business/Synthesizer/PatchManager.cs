@@ -89,8 +89,7 @@ namespace JJ.Business.Synthesizer
             // ReSharper disable once InvertIf
             if (mustGenerateName)
             {
-                ISideEffect sideEffect = new Patch_SideEffect_GenerateName(Patch);
-                sideEffect.Execute();
+                new Patch_SideEffect_GenerateName(Patch).Execute();
             }
         }
 
@@ -130,8 +129,7 @@ namespace JJ.Business.Synthesizer
 
             foreach (Operator op in Patch.Operators.ToArray())
             {
-                ISideEffect sideEffect1 = new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories);
-                sideEffect1.Execute();
+                new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
             }
 
             VoidResult result = ValidatePatchWithRelatedEntities();
@@ -140,8 +138,7 @@ namespace JJ.Business.Synthesizer
                 return result;
             }
 
-            ISideEffect sideEffect2 = new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories);
-            sideEffect2.Execute();
+            new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories).Execute();
 
             return result;
         }
@@ -163,11 +160,8 @@ namespace JJ.Business.Synthesizer
                 return result1;
             }
 
-            ISideEffect sideEffect1 = new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories);
-            sideEffect1.Execute();
-
-            ISideEffect sideEffect2 = new Operator_SideEffect_UpdateDependentCustomOperators(op, _repositories);
-            sideEffect2.Execute();
+            new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
+            new Operator_SideEffect_UpdateDependentCustomOperators(op, _repositories).Execute();
 
             // Validate the whole patch, because side-effect can affect the whole patch.
             // But also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
@@ -267,8 +261,7 @@ namespace JJ.Business.Synthesizer
             op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
             _repositories.OperatorRepository.Delete(op);
 
-            ISideEffect sideEffect1 = new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories);
-            sideEffect1.Execute();
+            new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories).Execute();
 
             // Clean up obsolete inlets and outlets.
             // (Inlets and outlets that do not exist anymore in a CustomOperator's UnderlyingPatch
@@ -276,8 +269,7 @@ namespace JJ.Business.Synthesizer
 
             foreach (Operator connectedCustomOperator in connectedCustomOperators)
             {
-                ISideEffect sideEffect2 = new Operator_SideEffect_ApplyUnderlyingPatch(connectedCustomOperator, _repositories);
-                sideEffect2.Execute();
+                new Operator_SideEffect_ApplyUnderlyingPatch(connectedCustomOperator, _repositories).Execute();
             }
         }
 
@@ -710,8 +702,8 @@ namespace JJ.Business.Synthesizer
 
             IList<PatchInlet_OperatorWrapper> patchInletWrappers = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
                                                                         .Where(x => x.DimensionEnum == DimensionEnum.Signal &&
-                                                                                    x.Inlet.InputOutlet == null &&
-                                                                                    !x.Inlet.DefaultValue.HasValue)
+                                                                                    x.Input == null &&
+                                                                                   !x.DefaultValue.HasValue)
                                                                         .ToArray();
             Outlet sineOutlet = Sine(Number(440));
 

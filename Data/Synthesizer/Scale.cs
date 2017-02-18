@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using JJ.Data.Synthesizer.Helpers;
+// ReSharper disable VirtualMemberCallInConstructor
 
 namespace JJ.Data.Synthesizer
 {

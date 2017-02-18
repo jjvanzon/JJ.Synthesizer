@@ -34,16 +34,15 @@ namespace JJ.Business.Synthesizer
             audioFileOutput.LinkTo(document);
             _repositories.AudioFileOutputRepository.Insert(audioFileOutput);
 
-            ISideEffect sideEffect1 = new AudioFileOutput_SideEffect_SetDefaults(
+            new AudioFileOutput_SideEffect_SetDefaults(
                 audioFileOutput,
-                _repositories.SampleDataTypeRepository, _repositories.SpeakerSetupRepository, _repositories.AudioFileFormatRepository);
-            sideEffect1.Execute();
+                _repositories.SampleDataTypeRepository, _repositories.SpeakerSetupRepository, _repositories.AudioFileFormatRepository)
+                .Execute();
 
             // ReSharper disable once InvertIf
             if (mustGenerateName)
             {
-                ISideEffect sideEffect = new AudioFileOutput_SideEffect_GenerateName(audioFileOutput);
-                sideEffect.Execute();
+                new AudioFileOutput_SideEffect_GenerateName(audioFileOutput).Execute();
             }
 
             return audioFileOutput;
