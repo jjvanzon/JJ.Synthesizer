@@ -53,6 +53,7 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.ChannelCount = source.ChannelCount;
             dest.InterpolationTypeEnum = source.InterpolationTypeEnum;
             dest.SpeakerSetupEnum = source.SpeakerSetupEnum;
+            dest.ArrayDto = source.ArrayDto;
         }
 
         public static void TryClone_CacheOperatorProperties(Cache_OperatorDtoBase_NotConstSignal source, IOperatorDto dest)
@@ -112,6 +113,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (!source.CurveID.HasValue) throw new NullException(() => source.CurveID);
 
             dest.CurveID = source.CurveID.Value;
+            dest.ArrayDto = source.ArrayDto;
 
             Clone_DimensionProperties(source, dest);
         }
@@ -168,6 +170,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             dest.ResampleInterpolationTypeEnum = source.ResampleInterpolationTypeEnum;
             dest.OperatorID = source.OperatorID;
+            dest.ArrayDto = source.ArrayDto;
 
             Clone_DimensionProperties(source, dest);
         }
@@ -189,6 +192,7 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.SampleChannelCount = source.SampleChannelCount;
             dest.InterpolationTypeEnum = source.InterpolationTypeEnum;
             dest.TargetChannelCount = source.TargetChannelCount;
+            dest.ArrayDtos = source.ArrayDtos;
 
             Clone_DimensionProperties(source, dest);
         }

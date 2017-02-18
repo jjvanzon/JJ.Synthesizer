@@ -564,7 +564,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             AppendOperatorTitleComment(dto);
 
-            ArrayDto arrayDto = _calculatorCache.GetArrayDto(dto.CurveID, _curveRepository);
+            ArrayDto arrayDto = _calculatorCache.GetCurveArrayDto(dto.CurveID, _curveRepository);
             string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(arrayDto);
             string output = GetLocalOutputName(dto);
             string position = GetPositionNameCamelCase(dto);
@@ -576,7 +576,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private IOperatorDto ProcessCurve_WithOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
         {
-            ArrayDto arrayDto = _calculatorCache.GetArrayDto(dto.CurveID, _curveRepository);
+            ArrayDto arrayDto = _calculatorCache.GetCurveArrayDto(dto.CurveID, _curveRepository);
             string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(arrayDto);
             string output = GetLocalOutputName(dto);
             string defaultRate = CompilationHelper.FormatValue(1.0);

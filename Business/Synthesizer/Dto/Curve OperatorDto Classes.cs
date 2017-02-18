@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -8,7 +9,9 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
 
         public int? CurveID { get; set; }
+        [Obsolete("Obsolete?")]
         public double MinX { get; set; }
+        public ArrayDto ArrayDto { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
@@ -40,6 +43,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
 
         public int CurveID { get; set; }
+        public ArrayDto ArrayDto { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }

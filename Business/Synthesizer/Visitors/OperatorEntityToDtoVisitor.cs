@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
@@ -13,6 +16,7 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorEntityToDtoVisitor : OperatorEntityVisitorBase_WithInletCoalescing
     {
+        private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
         private readonly IPatchRepository _patchRepository;
         private readonly ISampleRepository _sampleRepository;
@@ -25,16 +29,19 @@ namespace JJ.Business.Synthesizer.Visitors
         private Dictionary<Operator, VariableInput_OperatorDto> _patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary;
 
         public OperatorEntityToDtoVisitor(
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository,
-            ISampleRepository sampleRepository,
-            ISpeakerSetupRepository speakerSetupRepository)
+            [NotNull] CalculatorCache calculatorCache,
+            [NotNull] ICurveRepository curveRepository,
+            [NotNull] IPatchRepository patchRepository,
+            [NotNull] ISampleRepository sampleRepository,
+            [NotNull] ISpeakerSetupRepository speakerSetupRepository)
         {
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+            if (calculatorCache == null) throw new ArgumentNullException(nameof(calculatorCache));
+            if (curveRepository == null) throw new ArgumentNullException(nameof(curveRepository));
+            if (patchRepository == null) throw new ArgumentNullException(nameof(patchRepository));
+            if (sampleRepository == null) throw new ArgumentNullException(nameof(sampleRepository));
+            if (speakerSetupRepository == null) throw new ArgumentNullException(nameof(speakerSetupRepository));
 
+            _calculatorCache = calculatorCache;
             _curveRepository = curveRepository;
             _patchRepository = patchRepository;
             _sampleRepository = sampleRepository;
@@ -218,6 +225,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (curve != null)
             {
                 dto.CurveID = curve.ID;
+                dto.ArrayDto = _calculatorCache.GetCurveArrayDto(curve.ID, _curveRepository);
                 dto.MinX = curve.Nodes
                                 .OrderBy(x => x.X)
                                 .First()
@@ -357,6 +365,24 @@ namespace JJ.Business.Synthesizer.Visitors
             SetDimensionProperties(op, dto);
         }
 
+        protected override void VisitInterpolate(Operator op)
+        {
+            base.VisitInterpolate(op);
+
+            var wrapper = new Interpolate_OperatorWrapper(op);
+
+            var dto = new Interpolate_OperatorDto
+            {
+                SignalOperatorDto = _stack.Pop(),
+                SamplingRateOperatorDto = _stack.Pop(),
+                ResampleInterpolationTypeEnum = wrapper.InterpolationType
+            };
+
+            SetDimensionProperties(op, dto);
+
+            _stack.Push(dto);
+        }
+
         protected override void VisitLessThan(Operator op)
         {
             var dto = new LessThan_OperatorDto();
@@ -476,7 +502,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new Noise_OperatorDto
             {
-                OperatorID = op.ID
+                OperatorID = op.ID,
+                ArrayDto = _calculatorCache.GetNoiseArrayDto()
             };
 
             SetDimensionProperties(op, dto);
@@ -593,9 +620,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new Random_OperatorDto
             {
+                OperatorID = op.ID,
                 RateOperatorDto = _stack.Pop(),
                 ResampleInterpolationTypeEnum = wrapper.InterpolationType,
-                OperatorID = op.ID
+                ArrayDto = _calculatorCache.GetRandomArrayDto(wrapper.InterpolationType)
             };
 
             SetDimensionProperties(op, dto);
@@ -629,24 +657,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 StepOperatorDto = _stack.Pop(),
                 OutletListIndex = outlet.ListIndex
             };
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitInterpolate(Operator op)
-        {
-            base.VisitInterpolate(op);
-
-            var wrapper = new Interpolate_OperatorWrapper(op);
-
-            var dto = new Interpolate_OperatorDto
-            {
-                SignalOperatorDto = _stack.Pop(),
-                SamplingRateOperatorDto = _stack.Pop(),
-                ResampleInterpolationTypeEnum = wrapper.InterpolationType
-            };
-
-            SetDimensionProperties(op, dto);
 
             _stack.Push(dto);
         }
@@ -710,6 +720,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto.SampleID = sample.ID;
                 dto.InterpolationTypeEnum = sample.GetInterpolationTypeEnum();
                 dto.SampleChannelCount = sample.GetChannelCount();
+                dto.ArrayDtos = _calculatorCache.GetSampleArrayDtos(sample.ID, _sampleRepository);
             }
         }
 

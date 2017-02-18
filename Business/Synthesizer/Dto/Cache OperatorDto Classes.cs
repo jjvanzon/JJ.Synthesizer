@@ -50,6 +50,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         /// <summary> Used as a cache key. </summary>
         public int OperatorID { get; set; }
+        public IList<ArrayDto> ArrayDto { get; set; }
 
         public IOperatorDto SignalOperatorDto { get; set; }
         public IOperatorDto StartOperatorDto { get; set; }

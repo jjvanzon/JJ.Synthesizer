@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
         /// <summary> Used as offset cache key. </summary>
         public int OperatorID { get; set; }
+        public ArrayDto ArrayDto { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
@@ -29,6 +30,7 @@ namespace JJ.Business.Synthesizer.Dto
         ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
         /// <summary> Used as offset cache key. </summary>
         int OperatorID { get; set; }
+        ArrayDto ArrayDto { get; set; }
     }
 
     internal class Random_OperatorDto_Block : Random_OperatorDto
@@ -53,6 +55,7 @@ namespace JJ.Business.Synthesizer.Dto
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
         /// <summary> Used as a cache key. </summary>
         public int OperatorID { get; set; }
+        public ArrayDto ArrayDto { get; set; }
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }
 

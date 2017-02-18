@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             DimensionStack dimensionStack = dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
 
-            ArrayDto arrayDto = calculatorCache.GetArrayDto(curve);
+            ArrayDto arrayDto = calculatorCache.GetCurveArrayDto(curve);
             ICalculatorWithPosition arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
 
             var arrayCalculator_MinPosition = arrayCalculator as ArrayCalculator_MinPosition_Line;

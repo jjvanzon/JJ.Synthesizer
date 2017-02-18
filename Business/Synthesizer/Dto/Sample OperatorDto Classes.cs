@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -10,6 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
         public int SampleChannelCount { get; set; }
         public int TargetChannelCount { get; set; }
         public int? SampleID { get; set; }
+        public IList<ArrayDto> ArrayDtos { get; set; }
     }
 
     internal class Sample_OperatorDto_NoSample : OperatorDtoBase_WithoutInputOperatorDtos
@@ -67,6 +69,7 @@ namespace JJ.Business.Synthesizer.Dto
         public int TargetChannelCount { get; set; }
         public int SampleID { get; set; }
         public int ChannelDimensionStackLevel { get; set; }
+        public IList<ArrayDto> ArrayDtos { get; set; }
     }
 
     internal abstract class Sample_OperatorDto_ConstFrequency : OperatorDtoBase_ConstFrequency, ISample_OperatorDto_WithSampleID
@@ -78,6 +81,7 @@ namespace JJ.Business.Synthesizer.Dto
         public int TargetChannelCount { get; set; }
         public int SampleID { get; set; }
         public int ChannelDimensionStackLevel { get; set; }
+        public IList<ArrayDto> ArrayDtos { get; set; }
     }
 
     internal interface ISample_OperatorDto_WithSampleID : IOperatorDto_WithDimension, IOperatorDto_WithAdditionalChannelDimension, IOperatorDto_WithTargetChannelCount
@@ -85,5 +89,6 @@ namespace JJ.Business.Synthesizer.Dto
         InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         int SampleChannelCount { get; set; }
         int SampleID { get; set; }
+        IList<ArrayDto> ArrayDtos { get; set; }
     }
 }

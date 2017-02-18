@@ -68,18 +68,18 @@ namespace JJ.Business.Synthesizer.Calculation
             IsRotating = true
         };
 
-        internal ArrayDto GetArrayDto(int curveID, ICurveRepository curveRepository)
+        internal ArrayDto GetCurveArrayDto(int curveID, ICurveRepository curveRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
 
             Curve curve = curveRepository.Get(curveID);
 
-            ArrayDto curveCalculator = GetArrayDto(curve);
+            ArrayDto curveCalculator = GetCurveArrayDto(curve);
 
             return curveCalculator;
         }
 
-        internal ArrayDto GetArrayDto(Curve curve)
+        internal ArrayDto GetCurveArrayDto(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
 
@@ -222,6 +222,20 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
+        internal ArrayDto GetRandomArrayDto(ResampleInterpolationTypeEnum resampleInterpolationTypeEnum)
+        {
+            switch (resampleInterpolationTypeEnum)
+            {
+                case ResampleInterpolationTypeEnum.Block:
+                    return GetRandomArrayDto_Block();
+
+                case ResampleInterpolationTypeEnum.Stripe:
+                    return GetRandomArrayDto_Stripe();
+
+                default:
+                    throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+            }
+        }
         internal ArrayDto GetRandomArrayDto_Block() => _randomArrayDto_Block;
 
         internal ArrayDto GetRandomArrayDto_Stripe() => _randomArrayDto_Stripe;

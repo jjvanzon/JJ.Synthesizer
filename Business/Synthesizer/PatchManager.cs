@@ -531,6 +531,7 @@ namespace JJ.Business.Synthesizer
             else
             {
                 var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
+                    calculatorCache,
                     _repositories.CurveRepository,
                     _repositories.PatchRepository,
                     _repositories.SampleRepository,
@@ -593,6 +594,7 @@ namespace JJ.Business.Synthesizer
 
                 case CalculationEngineConfigurationEnum.RoslynRuntimeCompilation:
                     var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
+                        calculatorCache,
                         _repositories.CurveRepository,
                         _repositories.PatchRepository,
                         _repositories.SampleRepository,

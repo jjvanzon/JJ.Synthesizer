@@ -327,6 +327,7 @@
     <Compile Include="Roslyn\OperatorDtoVisitor_CodeGenerationSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewiring.cs" />
+    <Compile Include="Visitors\2017-02-18 Backup of OperatorDtoVisitor_ArrayDtos.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevels.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_Rewiring.cs" />
@@ -1023,6 +1024,7 @@
     <None Include="Calculation\Operators\OperatorCalculator Inheritance.cd" />
     <Compile Include="Validation\ValidationHelper.Unicity.cs" />
     <None Include="packages.config" />
+    <None Include="Visitors\Visitors.cd" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

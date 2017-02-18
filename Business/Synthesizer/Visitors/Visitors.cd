@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorEntityToDtoVisitor" Collapsed="true">
+    <Position X="4.25" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>JGZGY2UGXIoAoKQGMYVBElDCQCKCMyUAgZwEQvE2zrY=</HashCode>
+      <FileName>Visitors\OperatorEntityToDtoVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoToCalculatorVisitor_WithCacheOperators" Collapsed="true">
+    <Position X="10" Y="12.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAEAAAAAAAgBAIBCAAAAAAACAAAQAAAEIAAAA=</HashCode>
+      <FileName>Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoToCalculatorVisitorBase" Collapsed="true">
+    <Position X="5" Y="12.75" Width="3" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase_AfterProgrammerLaziness" FixedToPoint="true">
+      <Path>
+        <Point X="2.375" Y="10.941" />
+        <Point X="2.375" Y="13" />
+        <Point X="5" Y="13" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>Vwe5l/N918T13LUu//zfQ9T1Yc51ue+HTPma1V5/3D8=</HashCode>
+      <FileName>Visitors\OperatorDtoToCalculatorVisitorBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitor_ClassSpecializationBase" Collapsed="true">
+    <Position X="5.25" Y="5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>IA4giMAQCQBngBRJBAQEgAggAyo25ACMBaIImOQABA0=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitor_ClassSpecializationBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitor_DimensionStackLevels" Collapsed="true">
+    <Position X="9.25" Y="7.75" Width="3" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase" FixedToPoint="true">
+      <Path>
+        <Point X="2.5" Y="5.562" />
+        <Point X="2.5" Y="5.941" />
+        <Point X="8.528" Y="5.941" />
+        <Point X="8.528" Y="8.188" />
+        <Point X="9.064" Y="8.188" Type="JumpStart" />
+        <Point X="9.231" Y="8.188" Type="JumpEnd" />
+        <Point X="9.25" Y="8.188" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAMwAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitor_DimensionStackLevels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitor_InfrastructureVariables" Collapsed="true">
+    <Position X="9.25" Y="6.75" Width="3.25" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase" FixedToPoint="true">
+      <Path>
+        <Point X="2.5" Y="5.562" />
+        <Point X="2.5" Y="5.941" />
+        <Point X="8.528" Y="5.941" />
+        <Point X="8.528" Y="7.125" />
+        <Point X="9.064" Y="7.125" Type="JumpStart" />
+        <Point X="9.231" Y="7.125" Type="JumpEnd" />
+        <Point X="9.25" Y="7.125" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AQgAABAwCAAiACQAAIAMCAgAYAQABAwKBAAAAAIAABU=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitor_InfrastructureVariables.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitor_MachineOptimization" Collapsed="true">
+    <Position X="5" Y="7.75" Width="3" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase_AfterMathSimplification" FixedFromPoint="true">
+      <Path>
+        <Point X="4.25" Y="7.813" />
+        <Point X="5" Y="7.813" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAQAAQABBAAAAAAAEgAEAAACAAQAAAAAAA=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitor_MachineOptimization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitor_MathSimplification" Collapsed="true">
+    <Position X="9.25" Y="5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>dwe71P9/9/X1/v/u//vvf/z1ae/zv/+n//m/9U9/z78=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitor_MathSimplification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitor_ProgrammerLaziness" Collapsed="true">
+    <Position X="5" Y="9" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitor_ProgrammerLaziness.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitor_Rewiring" Collapsed="true">
+    <Position X="5" Y="6.75" Width="2.75" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase_AfterMathSimplification" FixedFromPoint="true">
+      <Path>
+        <Point X="4.25" Y="7.813" />
+        <Point X="4.625" Y="7.813" />
+        <Point X="4.625" Y="7.096" />
+        <Point X="5" Y="7.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAiAAAAQAAAAAIAAACCAQACAgQAgAIAACAAA=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitor_Rewiring.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase" Collapsed="true">
+    <Position X="1.5" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>dw+73P99//X33v/v///v//z1a+93//+v//u//e9/zb8=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitorBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase_AfterClassSpecialization" Collapsed="true">
+    <Position X="0.75" Y="6.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>IA4giMAQCQBngBRJBAQEgAggAyo25ACMBaIImOQABA0=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitorBase_AfterClassSpecialization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase_AfterMathSimplification" Collapsed="true">
+    <Position X="0.75" Y="7.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>JwA7wO5MZFEEBtrEw4OgSMgAAGMDjhmDvkA9kAM8Bbg=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase_AfterProgrammerLaziness" Collapsed="true">
+    <Position X="0.75" Y="10.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitorBase_AfterProgrammerLaziness.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase_AfterRewiring" Collapsed="true">
+    <Position X="1" Y="9" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAiAAAAAAAAAAIAAACCAAACAgQAgAIAAAAAA=</HashCode>
+      <FileName>Visitors\OperatorDtoVisitorBase_AfterRewiring.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorEntityToCalculatorDirectlyVisitor" Collapsed="true">
+    <Position X="0.75" Y="3.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>JGRGYmUiXI4QoIQGMYVBGlDCQCKCEwUAgZwEQnFWfrY=</HashCode>
+      <FileName>Visitors\OperatorEntityToCalculatorDirectlyVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorEntityVisitorBase" Collapsed="true">
+    <Position X="3" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>JGZCcmUAXM4AoISAMYVFEnBCQSLCEwUAiZwEQnEUTuQ=</HashCode>
+      <FileName>Visitors\OperatorEntityVisitorBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Visitors.OperatorEntityVisitorBase_WithInletCoalescing" Collapsed="true">
+    <Position X="2.5" Y="1.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAIEAAAAAEYAAAQAEQAAACAAAABQAAAAAAAAQAAAAIA=</HashCode>
+      <FileName>Visitors\OperatorEntityVisitorBase_WithInletCoalescing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Roslyn.OperatorDtoVisitor_CodeGenerationSimplification" Collapsed="true">
+    <Position X="5" Y="10.25" Width="3.5" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase_AfterProgrammerLaziness" FixedToPoint="true">
+      <Path>
+        <Point X="4" Y="10.625" />
+        <Point X="5" Y="10.625" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAgAAAAAAABAAAAAACEAAAAAAAA=</HashCode>
+      <FileName>Roslyn\OperatorDtoVisitor_CodeGenerationSimplification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Roslyn.OperatorDtoVisitorBase_AfterCodeGenerationSimplification" Collapsed="true">
+    <Position X="5" Y="11.5" Width="4.25" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Visitors.OperatorDtoVisitorBase_AfterProgrammerLaziness" FixedToPoint="true">
+      <Path>
+        <Point X="2.375" Y="10.941" />
+        <Point X="2.375" Y="11.812" />
+        <Point X="5" Y="11.812" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAABAAAAAACEAAAAAAAA=</HashCode>
+      <FileName>Roslyn\OperatorDtoVisitorBase_AfterCodeGenerationSimplification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Roslyn.OperatorDtoToRawCSharpVisitor" Collapsed="true">
+    <Position X="10" Y="11.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>94+9/PN91+f3/vV///TPV/b18f61+e///d2e189/3z8=</HashCode>
+      <FileName>Roslyn\OperatorDtoToRawCSharpVisitor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
