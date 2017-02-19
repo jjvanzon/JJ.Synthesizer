@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class DimensionToOutlets_Outlet_OperatorDto : OperatorDtoBase_WithDimension
+    internal class DimensionToOutlets_Outlet_OperatorDto : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.DimensionToOutlets;
 
@@ -14,6 +15,12 @@ namespace JJ.Business.Synthesizer.Dto
         {
             get { return new[] { OperandOperatorDto }; }
             set { OperandOperatorDto = value[0]; }
+        }
+
+        public IOperatorDto SignalOperatorDto
+        {
+            get { return OperandOperatorDto; }
+            set { OperandOperatorDto = value; }
         }
     }
 }

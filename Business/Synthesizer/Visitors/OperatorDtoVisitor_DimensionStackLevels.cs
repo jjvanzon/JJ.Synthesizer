@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Visitors
     {
         private readonly HashSet<Type> _dimensionWriting_OperatorDto_Types = new HashSet<Type>
         {
+            typeof(DimensionToOutlets_Outlet_OperatorDto),
             typeof(Loop_OperatorDto),
             typeof(Loop_OperatorDto_NoSkipOrRelease_ManyConstants),
             typeof(Loop_OperatorDto_ManyConstants),

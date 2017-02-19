@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
 #if !USE_INVAR_INDICES
-            double position = _dimensionStack.PopAndGet();
+            double position = _dimensionStack.Get();
 #else
             double position = _dimensionStack.Get(_dimensionStackIndex);
 #endif
@@ -52,9 +52,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 result = 0.0;
             }
 
-#if !USE_INVAR_INDICES
-            _dimensionStack.Push(position);
-#endif
             return result;
         }
     }

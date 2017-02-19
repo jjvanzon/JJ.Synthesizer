@@ -572,13 +572,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
         {
-            string position = GetPositionNameCamelCase(dto);
+            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string fixedPosition = CompilationHelper.FormatValue(dto.OutletListIndex);
             string output = GetLocalOutputName(dto);
 
             AppendOperatorTitleComment(dto);
 
-            AppendLine($"{position} = {fixedPosition};");
+            AppendLine($"{destPosition} = {fixedPosition};");
             AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.OperandOperatorDto);
@@ -846,14 +846,61 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
         {
-            throw new NotImplementedException();
+            return Process_InletsToDimension(dto, isStripe: false);
         }
 
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto)
         {
-            throw new NotImplementedException();
+            return Process_InletsToDimension(dto, isStripe: true);
         }
 
+        private IOperatorDto Process_InletsToDimension(InletsToDimension_OperatorDto dto, bool isStripe)
+        {
+            string position = GetPositionNameCamelCase(dto);
+            string transformedPosition = GetUniqueLocalVariableName(nameof(transformedPosition));
+            string castedPosition = GetUniqueLocalVariableName(nameof(castedPosition));
+            string output = GetLocalOutputName(dto);
+
+            AppendOperatorTitleComment(dto);
+
+            // Transform and cast position.
+            AppendLine($"double {transformedPosition} = {position};");
+            if (isStripe)
+            {
+                AppendLine($"{transformedPosition} += 0.5;");
+            }
+            AppendLine($"int {castedPosition} = (int){transformedPosition};");
+
+            // Switch over position.
+            AppendLine($"double {output} = 0.0;");
+            AppendLine($"switch ({castedPosition})");
+            AppendLine("{");
+            Indent();
+            {
+                int count = dto.Vars.Count;
+
+                for (int i = 0; i < count; i++)
+                {
+                    IOperatorDto operandDto = dto.Vars[i];
+                    AppendLine($"case {i}:");
+                    Indent();
+                    {
+                        Visit_OperatorDto_Polymorphic(operandDto);
+                        string operand = _stack.Pop();
+
+                        AppendLine($"{output} = {operand};");
+                        AppendLine("break;");
+                        AppendLine();
+                        Unindent();
+                    }
+                }
+                Unindent();
+            }
+            AppendLine("}");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+        
         protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
         {
             throw new NotImplementedException();
@@ -1937,6 +1984,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                     {
                         AppendLine($"{output} = {calculatorName}.Calculate({phase});");
                         AppendLine("break;");
+                        AppendLine();
                         Unindent();
                     }
                 }
