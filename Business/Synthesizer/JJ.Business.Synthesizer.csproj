@@ -155,6 +155,7 @@
     <Compile Include="Calculation\NoiseCalculatorHelper.cs" />
     <Compile Include="Calculation\Operators\IPositionTransformer.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Stripe.cs" />
+    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_Helper.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorBase.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

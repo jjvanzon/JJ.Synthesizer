@@ -53,6 +53,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
+            outputPosition -= _origin;
 
             // BeforeAttack
             double skip = GetSkip();
