@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
@@ -44,18 +46,19 @@ namespace JJ.Business.Synthesizer.Roslyn
             var sb = new StringBuilderWithIndentation(TAB_STRING);
 
             sb.AppendLine("using System;");
-            sb.AppendLine("using System.Runtime.CompilerServices;");
-            sb.AppendLine("using " + typeof(Dictionary<,>).Namespace + ";");
-            sb.AppendLine("using " + typeof(PatchCalculatorBase).Namespace + ";");
-            sb.AppendLine("using " + typeof(SineCalculator).Namespace + ";");
-            sb.AppendLine("using " + typeof(DimensionEnum).Namespace + ";");
-            sb.AppendLine("using " + typeof(NameHelper).Namespace + ";");
-            sb.AppendLine("using " + typeof(MathHelper).Namespace + ";");
             sb.AppendLine("using " + typeof(ArrayCalculatorBase).Namespace + ";");
             sb.AppendLine("using " + typeof(ArrayDto).Namespace + ";");
             sb.AppendLine("using " + typeof(ConversionHelper).Namespace + ";");
-            sb.AppendLine("using " + typeof(RandomCalculatorHelper).Namespace + ";");
+            sb.AppendLine("using " + typeof(Dictionary<,>).Namespace + ";");
+            sb.AppendLine("using " + typeof(DimensionEnum).Namespace + ";");
+            sb.AppendLine("using " + typeof(Loop_OperatorCalculator_Helper).Namespace + ";");
+            sb.AppendLine("using " + typeof(MathHelper).Namespace + ";");
+            sb.AppendLine("using " + typeof(MethodImplAttribute).Namespace + ";");
+            sb.AppendLine("using " + typeof(NameHelper).Namespace + ";");
             sb.AppendLine("using " + typeof(NoiseCalculatorHelper).Namespace + ";");
+            sb.AppendLine("using " + typeof(PatchCalculatorBase).Namespace + ";");
+            sb.AppendLine("using " + typeof(RandomCalculatorHelper).Namespace + ";");
+            sb.AppendLine("using " + typeof(SineCalculator).Namespace + ";");
             sb.AppendLine();
             sb.AppendLine($"namespace {generatedNameSpace}");
             sb.AppendLine("{");

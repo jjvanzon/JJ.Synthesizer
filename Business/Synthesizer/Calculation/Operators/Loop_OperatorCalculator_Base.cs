@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double? transformedPosition = GetTransformedPosition();
             if (!transformedPosition.HasValue)
             {
-                return 0;
+                return 0.0;
             }
 
 #if !USE_INVAR_INDICES
@@ -69,9 +69,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double? transformedPosition = GetTransformedPosition();
             if (!transformedPosition.HasValue)
             {
-                // TODO: There is no meaningful value to fall back to.
-                // What to do?
-                transformedPosition = _origin;
+                // TODO: There is no meaningful value to fall back to. What to do? Return instead?
+                //transformedPosition = _origin;
+                return;
             }
 
 #if !USE_INVAR_INDICES

@@ -6,6 +6,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
@@ -852,7 +853,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             double? elseValue)
         {
             Visit_OperatorDto_Polymorphic(dto.ConditionOperatorDto);
-
             string condition = _stack.Pop();
             string @else = GetLiteralFromOperatorDtoOrValue(elseOperatorDto, elseValue);
             string then = GetLiteralFromOperatorDtoOrValue(thenOperatorDto, thenValue);
@@ -985,32 +985,138 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
         {
-            throw new NotImplementedException();
+            return Process_Loop_OperatorDto(
+                dto,
+                dto.SkipOperatorDto,
+                loopStartMarkerOperatorDto: dto.LoopStartMarkerOperatorDto,
+                loopEndMarkerOperatorDto: dto.LoopEndMarkerOperatorDto,
+                releaseEndMarkerOperatorDto: dto.ReleaseEndMarkerOperatorDto,
+                noteDurationValue: CalculationHelper.VERY_HIGH_VALUE);
         }
 
         protected override IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto)
         {
-            throw new NotImplementedException();
+            return Process_Loop_OperatorDto(
+                dto,
+                skipValue: dto.SkipAndLoopStartMarker,
+                loopStartMarkerValue: dto.SkipAndLoopStartMarker,
+                loopEndMarkerValue: dto.LoopEndMarker,
+                releaseEndMarkerOperatorDto: dto.ReleaseEndMarkerOperatorDto,
+                noteDurationValue: CalculationHelper.VERY_HIGH_VALUE);
         }
 
         protected override IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration dto)
         {
-            throw new NotImplementedException();
+            return Process_Loop_OperatorDto(
+                dto,
+                skipValue: dto.SkipAndLoopStartMarker,
+                loopStartMarkerValue: dto.SkipAndLoopStartMarker,
+                loopEndMarkerOperatorDto: dto.LoopEndMarkerOperatorDto,
+                releaseEndMarkerOperatorDto: dto.ReleaseEndMarkerOperatorDto,
+                noteDurationValue: CalculationHelper.VERY_HIGH_VALUE);
         }
 
         protected override IOperatorDto Visit_Loop_OperatorDto_ManyConstants(Loop_OperatorDto_ManyConstants dto)
         {
-            throw new NotImplementedException();
+            return Process_Loop_OperatorDto(
+                dto,
+                skipValue: dto.Skip,
+                loopStartMarkerValue: dto.LoopStartMarker,
+                loopEndMarkerValue: dto.LoopEndMarker,
+                releaseEndMarkerValue: dto.ReleaseEndMarker,
+                noteDurationOperatorDto: dto.NoteDurationOperatorDto);
         }
 
         protected override IOperatorDto Visit_Loop_OperatorDto_NoSkipOrRelease(Loop_OperatorDto_NoSkipOrRelease dto)
         {
-            throw new NotImplementedException();
+            return Process_Loop_OperatorDto(
+                dto,
+                skipValue: 0.0,
+                loopStartMarkerOperatorDto: dto.LoopStartMarkerOperatorDto,
+                loopEndMarkerOperatorDto: dto.LoopEndMarkerOperatorDto,
+                releaseEndMarkerValue: 0.0,
+                noteDurationOperatorDto: dto.NoteDurationOperatorDto);
         }
 
         protected override IOperatorDto Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants(Loop_OperatorDto_NoSkipOrRelease_ManyConstants dto)
         {
-            throw new NotImplementedException();
+            return Process_Loop_OperatorDto(
+                dto, 
+                skipValue: 0.0, 
+                loopStartMarkerValue: dto.LoopStartMarker, 
+                loopEndMarkerValue: dto.LoopEndMarker, 
+                releaseEndMarkerValue: 0.0, 
+                noteDurationOperatorDto: dto.NoteDurationOperatorDto);
+        }
+
+        private IOperatorDto Process_Loop_OperatorDto<TDto>(
+            TDto dto,
+            IOperatorDto skipOperatorDto = null,
+            double? skipValue = null,
+            IOperatorDto loopStartMarkerOperatorDto = null,
+            double? loopStartMarkerValue = null,
+            IOperatorDto loopEndMarkerOperatorDto = null,
+            double? loopEndMarkerValue = null,
+            IOperatorDto releaseEndMarkerOperatorDto = null,
+            double? releaseEndMarkerValue = null,
+            IOperatorDto noteDurationOperatorDto = null,
+            double? noteDurationValue = null)
+            where TDto : IOperatorDto_WithDimension, IOperatorDto_VarSignal
+        {
+            string skip = GetLiteralFromOperatorDtoOrValue(skipOperatorDto, skipValue);
+            string loopStartMarker = GetLiteralFromOperatorDtoOrValue(loopStartMarkerOperatorDto, loopStartMarkerValue);
+            string loopEndMarker = GetLiteralFromOperatorDtoOrValue(loopEndMarkerOperatorDto, loopEndMarkerValue);
+            string releaseEndMarker = GetLiteralFromOperatorDtoOrValue(releaseEndMarkerOperatorDto, releaseEndMarkerValue);
+            string noteDuration = GetLiteralFromOperatorDtoOrValue(noteDurationOperatorDto, noteDurationValue);
+
+            string output = GetLocalOutputName(dto);
+            string sourcePosition = GetPositionNameCamelCase(dto);
+            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string origin = GetLongLivedOriginName();
+            string tempPosition = GetUniqueLocalVariableName(nameof(tempPosition));
+            const string loop_OperatorCalculator_Helper = nameof(Loop_OperatorCalculator_Helper);
+            const string getTransformedPosition = nameof(Loop_OperatorCalculator_Helper.GetTransformedPosition);
+
+            AppendOperatorTitleComment(dto);
+
+            AppendLineToReset($"{origin} = {sourcePosition};");
+
+            AppendLine($"double {output};");
+            AppendLine($"double? {tempPosition} = {loop_OperatorCalculator_Helper}.{getTransformedPosition}(");
+            Indent();
+            {
+                AppendLine($"{sourcePosition},");
+                AppendLine($"{origin},");
+                AppendLine($"{skip},");
+                AppendLine($"{loopStartMarker},");
+                AppendLine($"{loopEndMarker},");
+                AppendLine($"{releaseEndMarker},");
+                AppendLine($"{noteDuration});");
+                Unindent();
+            }
+            AppendLine($"if (!{tempPosition}.HasValue)");
+            AppendLine("{");
+            Indent();
+            {
+                AppendLine($"{output} = 0.0;");
+                Unindent();
+            }
+            AppendLine("}");
+            AppendLine("else");
+            AppendLine("{");
+            Indent();
+            {
+                AppendLine($"{destPosition} = {tempPosition}.Value;");
+
+                Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+                string signal = _stack.Pop();
+
+                AppendLine($"{output} = {signal};");
+                Unindent();
+            }
+            AppendLine("}");
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)

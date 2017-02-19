@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
@@ -37,6 +38,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             $"Calculation\\{nameof(SineCalculator)}.cs",
             $"Calculation\\{nameof(NoiseCalculator)}.cs",
             $"Calculation\\{nameof(BiQuadFilterWithoutFields)}.cs",
+            $"Calculation\\Operators\\{nameof(Loop_OperatorCalculator_Helper)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Block)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Cubic)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Hermite)}.cs",
