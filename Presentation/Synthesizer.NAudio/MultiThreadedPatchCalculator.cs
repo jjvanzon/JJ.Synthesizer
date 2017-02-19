@@ -242,7 +242,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             if (patchCalcultorNoteIndex < 0) throw new LessThanException(() => patchCalcultorNoteIndex, 0);
             int maxNoteIndex = _maxConcurrentNotes - 1;
-            if (patchCalcultorNoteIndex >= maxNoteIndex) throw new GreaterThanOrEqualException(() => patchCalcultorNoteIndex, () => maxNoteIndex);
+            if (patchCalcultorNoteIndex > maxNoteIndex) throw new GreaterThanException(() => patchCalcultorNoteIndex, () => maxNoteIndex);
         }
 
         private void AssertAudioOutput(AudioOutput audioOutput, RepositoryWrapper repositories)

@@ -28,18 +28,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double condition = _conditionCalculator.Calculate();
 
-            bool conditionIsTrue = condition != 0.0;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            bool isTrue = condition != 0.0;
 
-            if (conditionIsTrue)
-            {
-                double then = _thenCalculator.Calculate();
-                return then;
-            }
-            else
-            {
-                double @else = _elseCalculator.Calculate();
-                return @else;
-            }
+            return isTrue ? _thenCalculator.Calculate() : _elseCalculator.Calculate();
         }
     }
 
@@ -68,17 +60,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double condition = _conditionCalculator.Calculate();
 
-            bool conditionIsTrue = condition != 0.0;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            bool isTrue = condition != 0.0;
 
-            if (conditionIsTrue)
-            {
-                return _then;
-            }
-            else
-            {
-                double @else = _elseCalculator.Calculate();
-                return @else;
-            }
+            return isTrue ? _then : _elseCalculator.Calculate();
         }
     }
 
@@ -107,17 +92,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double condition = _conditionCalculator.Calculate();
 
-            bool conditionIsTrue = condition != 0.0;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            bool isTrue = condition != 0.0;
 
-            if (conditionIsTrue)
-            {
-                double then = _thenCalculator.Calculate();
-                return then;
-            }
-            else
-            {
-                return _else;
-            }
+            return isTrue ? _thenCalculator.Calculate() : _else;
         }
     }
 
@@ -145,16 +123,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double condition = _conditionCalculator.Calculate();
 
-            bool conditionIsTrue = condition != 0.0;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            bool isTrue = condition != 0.0;
 
-            if (conditionIsTrue)
-            {
-                return _then;
-            }
-            else
-            {
-                return _else;
-            }
+            return isTrue ? _then : _else;
         }
     }
 }

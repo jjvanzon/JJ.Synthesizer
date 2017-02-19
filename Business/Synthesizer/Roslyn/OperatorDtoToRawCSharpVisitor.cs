@@ -826,22 +826,44 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
         {
-            throw new NotImplementedException();
+            return Process_If_OperatorDto(dto, null, dto.Then, null, dto.Else);
         }
 
         protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_VarElse(If_OperatorDto_VarCondition_ConstThen_VarElse dto)
         {
-            throw new NotImplementedException();
+            return Process_If_OperatorDto(dto, null, dto.Then, dto.ElseOperatorDto, null);
         }
 
         protected override IOperatorDto Visit_If_OperatorDto_VarCondition_VarThen_ConstElse(If_OperatorDto_VarCondition_VarThen_ConstElse dto)
         {
-            throw new NotImplementedException();
+            return Process_If_OperatorDto(dto, dto.ThenOperatorDto, null, null, dto.Else);
         }
 
         protected override IOperatorDto Visit_If_OperatorDto_VarCondition_VarThen_VarElse(If_OperatorDto_VarCondition_VarThen_VarElse dto)
         {
-            throw new NotImplementedException();
+            return Process_If_OperatorDto(dto, dto.ThenOperatorDto, null, dto.ElseOperatorDto, null);
+        }
+
+        private IOperatorDto Process_If_OperatorDto(
+            If_OperatorDtoBase_VarCondition dto,
+            IOperatorDto thenOperatorDto,
+            double? thenValue,
+            IOperatorDto elseOperatorDto,
+            double? elseValue)
+        {
+            Visit_OperatorDto_Polymorphic(dto.ConditionOperatorDto);
+
+            string condition = _stack.Pop();
+            string @else = GetLiteralFromOperatorDtoOrValue(elseOperatorDto, elseValue);
+            string then = GetLiteralFromOperatorDtoOrValue(thenOperatorDto, thenValue);
+            string isTrue = GetUniqueLocalVariableName(nameof(isTrue));
+            string output = GetLocalOutputName(dto);
+
+            AppendOperatorTitleComment(dto);
+            AppendLine($"bool {isTrue} = {condition} != 0.0;");
+            AppendLine($"double {output} = {isTrue} ? {then} : {@else};");
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)

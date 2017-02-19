@@ -6,11 +6,8 @@ namespace JJ.Business.Synthesizer.Dto
     internal class If_OperatorDto : If_OperatorDto_VarCondition_VarThen_VarElse
     { }
 
-    internal class If_OperatorDto_VarCondition_VarThen_VarElse : OperatorDtoBase
+    internal class If_OperatorDto_VarCondition_VarThen_VarElse : If_OperatorDtoBase_VarCondition
     {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.If;
-
-        public IOperatorDto ConditionOperatorDto { get; set; }
         public IOperatorDto ThenOperatorDto { get; set; }
         public IOperatorDto ElseOperatorDto { get; set; }
 
@@ -21,11 +18,8 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class If_OperatorDto_VarCondition_VarThen_ConstElse : OperatorDtoBase
+    internal class If_OperatorDto_VarCondition_VarThen_ConstElse : If_OperatorDtoBase_VarCondition
     {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.If;
-
-        public IOperatorDto ConditionOperatorDto { get; set; }
         public IOperatorDto ThenOperatorDto { get; set; }
         public double Else { get; set; }
 
@@ -36,11 +30,8 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class If_OperatorDto_VarCondition_ConstThen_VarElse : OperatorDtoBase
+    internal class If_OperatorDto_VarCondition_ConstThen_VarElse : If_OperatorDtoBase_VarCondition
     {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.If;
-
-        public IOperatorDto ConditionOperatorDto { get; set; }
         public double Then { get; set; }
         public IOperatorDto ElseOperatorDto { get; set; }
 
@@ -51,11 +42,8 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class If_OperatorDto_VarCondition_ConstThen_ConstElse : OperatorDtoBase
+    internal class If_OperatorDto_VarCondition_ConstThen_ConstElse : If_OperatorDtoBase_VarCondition
     {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.If;
-
-        public IOperatorDto ConditionOperatorDto { get; set; }
         public double Then { get; set; }
         public double Else { get; set; }
 
@@ -109,6 +97,13 @@ namespace JJ.Business.Synthesizer.Dto
             get { return new[] { ElseOperatorDto }; }
             set { ElseOperatorDto = value[0]; }
         }
+    }
+
+    internal abstract class If_OperatorDtoBase_VarCondition : OperatorDtoBase
+    {
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.If;
+
+        public IOperatorDto ConditionOperatorDto { get; set; }
     }
 
     internal class If_OperatorDto_ConstCondition_ConstThen_ConstElse : OperatorDtoBase_WithoutInputOperatorDtos
