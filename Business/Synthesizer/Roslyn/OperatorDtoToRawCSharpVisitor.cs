@@ -1082,18 +1082,18 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLineToReset($"{origin} = {sourcePosition};");
 
             AppendLine($"double {output};");
-            AppendLine($"double? {tempPosition} = {loop_OperatorCalculator_Helper}.{getTransformedPosition}(");
-            Indent();
+            AppendTabs();
+            Append($"double? {tempPosition} = {loop_OperatorCalculator_Helper}.{getTransformedPosition}(");
             {
-                AppendLine($"{sourcePosition},");
-                AppendLine($"{origin},");
-                AppendLine($"{skip},");
-                AppendLine($"{loopStartMarker},");
-                AppendLine($"{loopEndMarker},");
-                AppendLine($"{releaseEndMarker},");
-                AppendLine($"{noteDuration});");
-                Unindent();
+                Append($"{sourcePosition}, ");
+                Append($"{origin}, ");
+                Append($"{skip}, ");
+                Append($"{loopStartMarker}, ");
+                Append($"{loopEndMarker}, ");
+                Append($"{releaseEndMarker}, ");
+                Append($"{noteDuration});");
             }
+            AppendLine();
             AppendLine($"if (!{tempPosition}.HasValue)");
             AppendLine("{");
             Indent();
