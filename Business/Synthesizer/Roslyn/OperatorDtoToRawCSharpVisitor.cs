@@ -1107,6 +1107,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             Indent();
             {
                 AppendLine($"{destPosition} = {tempPosition}.Value;");
+                AppendLine();
 
                 Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
                 string signal = _stack.Pop();
@@ -2618,12 +2619,50 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin dto)
         {
-            throw new NotImplementedException();
+            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.ExponentOperatorDto);
+
+            string exponent = _stack.Pop();
+            string origin = _stack.Pop();
+            string sourcePosition = GetPositionNameCamelCase(dto);
+            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string output = GetLocalOutputName(dto);
+            const string timePower_OperatorCalculator_Helper = nameof(TimePower_OperatorCalculator_Helper);
+            const string getTransformedPosition = nameof(TimePower_OperatorCalculator_Helper.GetTransformedPosition);
+
+            AppendOperatorTitleComment(dto);
+            AppendLine($"{destPosition} = {timePower_OperatorCalculator_Helper}.{getTransformedPosition}({sourcePosition}, {exponent}, {origin});");
+            AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            string signal = _stack.Pop();
+
+            AppendLine($"double {output} = {signal};");
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin dto)
         {
-            throw new NotImplementedException();
+            Visit_OperatorDto_Polymorphic(dto.ExponentOperatorDto);
+
+            string exponent = _stack.Pop();
+            string sourcePosition = GetPositionNameCamelCase(dto);
+            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string output = GetLocalOutputName(dto);
+            const string timePower_OperatorCalculator_Helper = nameof(TimePower_OperatorCalculator_Helper);
+            const string getTransformedPosition = nameof(TimePower_OperatorCalculator_Helper.GetTransformedPosition);
+
+            AppendOperatorTitleComment(dto);
+            AppendLine($"{destPosition} = {timePower_OperatorCalculator_Helper}.{getTransformedPosition}({sourcePosition}, {exponent});");
+            AppendLine();
+
+            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            string signal = _stack.Pop();
+
+            AppendLine($"double {output} = {signal};");
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(ToggleTrigger_OperatorDto_VarPassThrough_VarReset dto)

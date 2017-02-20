@@ -158,6 +158,9 @@
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_Helper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Calculation\Operators\TimePower_OperatorCalculator_Helper.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Calculation\Patches\PatchCalculatorBase.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

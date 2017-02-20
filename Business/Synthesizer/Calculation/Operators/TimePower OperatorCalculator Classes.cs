@@ -36,17 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double transformedPosition = GetTransformedPosition();
-
-#if !USE_INVAR_INDICES
-
-            _dimensionStack.Push(transformedPosition);
-#else
-            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+            PushTransformedPosition();
 
             double result = _signalCalculator.Calculate();
 
@@ -58,16 +48,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double transformedPosition = GetTransformedPosition();
+            PushTransformedPosition();
 
-#if !USE_INVAR_INDICES
-            _dimensionStack.Push(transformedPosition);
-#else
-            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
             base.Reset();
 
 #if !USE_INVAR_INDICES
@@ -75,8 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetTransformedPosition()
+        private void PushTransformedPosition()
         {
 #if !USE_INVAR_INDICES
             double position = _dimensionStack.Get();
@@ -86,32 +67,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
+            double exponent = _exponentCalculator.Calculate();
             double origin = _originCalculator.Calculate();
 
-            // IMPORTANT: 
+            double transformedPosition = TimePower_OperatorCalculator_Helper.GetTransformedPosition(position, exponent, origin);
 
-            // To increase time in the output, you have to decrease time of the input. 
-            // That is why the reciprocal of the exponent is used.
-
-            // Furthermore, you can not use a fractional exponent on a negative number.
-            // Time can be negative, that is why the sign is taken off the time 
-            // before taking the power and then added to it again after taking the power.
-
-            double positionAbs = Math.Abs(position - origin);
-
-            double exponent = _exponentCalculator.Calculate();
-
-            double transformedPosition = Math.Pow(positionAbs, 1 / exponent) + origin;
-
-            // TODO: Not debugged yet.
-            int positionSign = Math.Sign(position - origin);
-            if (positionSign == -1)
-            {
-                transformedPosition = -transformedPosition;
-            }
-
-            return transformedPosition;
+#if !USE_INVAR_INDICES
+            _dimensionStack.Push(transformedPosition);
+#else
+            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
         }
     }
 
@@ -143,18 +111,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double transformedPosition = GetTransformedPosition();
-
-#if !USE_INVAR_INDICES
-            _dimensionStack.Push(transformedPosition);
-#else
-            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+            PushTransformedPosition();
 
             double result = _signalCalculator.Calculate();
+
 #if !USE_INVAR_INDICES
             _dimensionStack.Pop();
 #endif
@@ -163,16 +123,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double transformedPosition = GetTransformedPosition();
+            PushTransformedPosition();
 
-#if !USE_INVAR_INDICES
-            _dimensionStack.Push(transformedPosition);
-#else
-            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
             base.Reset();
 
 #if !USE_INVAR_INDICES
@@ -180,8 +132,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #endif
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetTransformedPosition()
+        private void PushTransformedPosition()
         {
 #if !USE_INVAR_INDICES
             double position = _dimensionStack.Get();
@@ -191,31 +142,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
 #endif
-
-            // IMPORTANT: 
-
-            // To increase time in the output, you have to decrease time of the input. 
-            // That is why the reciprocal of the exponent is used.
-
-            // Furthermore, you can not use a fractional exponent on a negative number.
-            // Time can be negative, that is why the sign is taken off the time 
-            // before taking the power and then added to it again after taking the power.
-
-            // (time: -4, exponent: 2) => -1 * Pow(4, 1/2)
-            double positionAbs = Math.Abs(position);
-
             double exponent = _exponentCalculator.Calculate();
 
-            double transformedPosition = Math.Pow(positionAbs, 1 / exponent);
+            double transformedPosition = TimePower_OperatorCalculator_Helper.GetTransformedPosition(position, exponent);
 
-            // TODO: Not debugged yet.
-            int positionSign = Math.Sign(position);
-            if (positionSign == -1)
-            {
-                transformedPosition = -transformedPosition;
-            }
-
-            return transformedPosition;
+#if !USE_INVAR_INDICES
+            _dimensionStack.Push(transformedPosition);
+#else
+            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
+#endif
+#if ASSERT_INVAR_INDICES
+            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
+#endif
         }
     }
 }

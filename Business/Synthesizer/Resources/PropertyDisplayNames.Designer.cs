@@ -2050,7 +2050,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Time Exponent.
+        ///   Looks up a localized string similar to Time Power.
         /// </summary>
         public static string TimePower {
             get {
