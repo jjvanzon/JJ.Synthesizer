@@ -1097,67 +1097,99 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine();
             AppendLine($"{inputPosition} -= {origin};");
             AppendLine();
-            AppendLine($"// BeforeAttack");
+            AppendLine("// BeforeAttack");
             AppendLine();
             string skip = GetLiteralFromOperatorDtoOrValue(skipOperatorDto, skipValue);
             AppendLine($"{inputPosition} += {skip};");
             AppendLine($"bool {isBeforeAttack} = {inputPosition} < {skip};");
             AppendLine($"if ({isBeforeAttack})");
             AppendLine("{");
-            AppendLine($"    {nullableInputPosition} = null;");
+            Indent();
+            {
+                AppendLine($"{nullableInputPosition} = null;");
+                Unindent();
+            }
             AppendLine("}");
-            AppendLine($"else");
+            AppendLine("else");
             AppendLine("{");
-            AppendLine($"    // InAttack");
-            AppendLine();
-            string loopStartMarker = GetLiteralFromOperatorDtoOrValue(loopStartMarkerOperatorDto, loopStartMarkerValue);
-            AppendLine($"    bool {isInAttack} = {inputPosition} < {loopStartMarker};");
-            AppendLine($"    if ({isInAttack})");
-            AppendLine("    {");
-            AppendLine($"        {nullableInputPosition} = {inputPosition};");
-            AppendLine("    }");
-            AppendLine($"    else");
-            AppendLine("    {");
-            AppendLine($"        // InLoop");
-            AppendLine();
-            string loopEndMarker = GetLiteralFromOperatorDtoOrValue(loopEndMarkerOperatorDto, loopEndMarkerValue);
-            AppendLine($"        double {cycleLength} = {loopEndMarker} - {loopStartMarker};");
-            AppendLine();
-            AppendLine($"        // Round up end of loop to whole cycles.");
-            AppendLine($"        double {outputLoopStart} = {loopStartMarker} - {skip};");
-            AppendLine();
-            string noteDuration = GetLiteralFromOperatorDtoOrValue(noteDurationOperatorDto, noteDurationValue);
-            AppendLine($"        double {noteEndPhase} = ({noteDuration} - {outputLoopStart}) / {cycleLength};");
-            AppendLine($"        double {outputLoopEnd} = {outputLoopStart} + Math.Ceiling({noteEndPhase}) * {cycleLength};");
-            AppendLine();
-            AppendLine($"        bool {isInLoop} = {outputPosition} < {outputLoopEnd};");
-            AppendLine($"        if ({isInLoop})");
-            AppendLine("        {");
-            AppendLine($"            double {phase} = ({inputPosition} - {loopStartMarker}) % {cycleLength};");
-            AppendLine($"            {inputPosition} = {loopStartMarker} + {phase};");
-            AppendLine($"            {nullableInputPosition} = {inputPosition};");
-            AppendLine("        }");
-            AppendLine($"        else");
-            AppendLine("        {");
-            AppendLine($"            // InRelease");
-            AppendLine();
-            string releaseEndMarker = GetLiteralFromOperatorDtoOrValue(releaseEndMarkerOperatorDto, releaseEndMarkerValue);
-            AppendLine($"            double {releaseLength} = {releaseEndMarker} - {loopEndMarker};");
-            AppendLine($"            double {outputReleaseEndPosition} = {outputLoopEnd} + {releaseLength};");
-            AppendLine($"            bool {isInRelease} = {outputPosition} < {outputReleaseEndPosition};");
-            AppendLine($"            if ({isInRelease})");
-            AppendLine("            {");
-            AppendLine($"                double {positionInRelease} = {outputPosition} - {outputLoopEnd};");
-            AppendLine($"                {inputPosition} = {loopEndMarker} + {positionInRelease};");
-            AppendLine($"                {nullableInputPosition} = {inputPosition};");
-            AppendLine("            }");
-            AppendLine($"            else");
-            AppendLine("            {");
-            AppendLine($"                // AfterRelease");
-            AppendLine($"                {nullableInputPosition} = null;");
-            AppendLine("            }");
-            AppendLine("        }");
-            AppendLine("    }");
+            Indent();
+            {
+                AppendLine("// InAttack");
+                AppendLine();
+                string loopStartMarker = GetLiteralFromOperatorDtoOrValue(loopStartMarkerOperatorDto, loopStartMarkerValue);
+                AppendLine($"bool {isInAttack} = {inputPosition} < {loopStartMarker};");
+                AppendLine($"if ({isInAttack})");
+                AppendLine("{");
+                Indent();
+                {
+                    AppendLine($"{nullableInputPosition} = {inputPosition};");
+                    Unindent();
+                }
+                AppendLine("}");
+                AppendLine("else");
+                AppendLine("{");
+                Indent();
+                {
+                    AppendLine("// InLoop");
+                    AppendLine();
+                    string loopEndMarker = GetLiteralFromOperatorDtoOrValue(loopEndMarkerOperatorDto, loopEndMarkerValue);
+                    AppendLine($"double {cycleLength} = {loopEndMarker} - {loopStartMarker};");
+                    AppendLine();
+                    AppendLine("// Round up end of loop to whole cycles.");
+                    AppendLine($"double {outputLoopStart} = {loopStartMarker} - {skip};");
+                    AppendLine();
+                    string noteDuration = GetLiteralFromOperatorDtoOrValue(noteDurationOperatorDto, noteDurationValue);
+                    AppendLine($"double {noteEndPhase} = ({noteDuration} - {outputLoopStart}) / {cycleLength};");
+                    AppendLine($"double {outputLoopEnd} = {outputLoopStart} + Math.Ceiling({noteEndPhase}) * {cycleLength};");
+                    AppendLine();
+                    AppendLine($"bool {isInLoop} = {outputPosition} < {outputLoopEnd};");
+                    AppendLine($"if ({isInLoop})");
+                    AppendLine("{");
+                    Indent();
+                    {
+                        AppendLine($"double {phase} = ({inputPosition} - {loopStartMarker}) % {cycleLength};");
+                        AppendLine($"{inputPosition} = {loopStartMarker} + {phase};");
+                        AppendLine($"{nullableInputPosition} = {inputPosition};");
+                        Unindent();
+                    }
+                    AppendLine("}");
+                    AppendLine("else");
+                    AppendLine("{");
+                    Indent();
+                    {
+                        AppendLine("// InRelease");
+                        AppendLine();
+                        string releaseEndMarker = GetLiteralFromOperatorDtoOrValue(releaseEndMarkerOperatorDto, releaseEndMarkerValue);
+                        AppendLine($"double {releaseLength} = {releaseEndMarker} - {loopEndMarker};");
+                        AppendLine($"double {outputReleaseEndPosition} = {outputLoopEnd} + {releaseLength};");
+                        AppendLine($"bool {isInRelease} = {outputPosition} < {outputReleaseEndPosition};");
+                        AppendLine($"if ({isInRelease})");
+                        AppendLine("{");
+                        Indent();
+                        {
+                            AppendLine($"double {positionInRelease} = {outputPosition} - {outputLoopEnd};");
+                            AppendLine($"{inputPosition} = {loopEndMarker} + {positionInRelease};");
+                            AppendLine($"{nullableInputPosition} = {inputPosition};");
+                            Unindent();
+                        }
+                        AppendLine("}");
+                        AppendLine("else");
+                        AppendLine("{");
+                        Indent();
+                        {
+                            AppendLine("// AfterRelease");
+                            AppendLine($"{nullableInputPosition} = null;");
+                            Unindent();
+                        }
+                        AppendLine("}");
+                        Unindent();
+                    }
+                    AppendLine("}");
+                    Unindent();
+                }
+                AppendLine("}");
+                Unindent();
+            }
             AppendLine("}");
             AppendLine();
 
