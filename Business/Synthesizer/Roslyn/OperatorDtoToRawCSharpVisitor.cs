@@ -1063,37 +1063,104 @@ namespace JJ.Business.Synthesizer.Roslyn
             double? noteDurationValue = null)
             where TDto : IOperatorDto_WithDimension, IOperatorDto_VarSignal
         {
-            string skip = GetLiteralFromOperatorDtoOrValue(skipOperatorDto, skipValue);
-            string loopStartMarker = GetLiteralFromOperatorDtoOrValue(loopStartMarkerOperatorDto, loopStartMarkerValue);
-            string loopEndMarker = GetLiteralFromOperatorDtoOrValue(loopEndMarkerOperatorDto, loopEndMarkerValue);
-            string releaseEndMarker = GetLiteralFromOperatorDtoOrValue(releaseEndMarkerOperatorDto, releaseEndMarkerValue);
-            string noteDuration = GetLiteralFromOperatorDtoOrValue(noteDurationOperatorDto, noteDurationValue);
-
             string output = GetLocalOutputName(dto);
             string sourcePosition = GetPositionNameCamelCase(dto);
             string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string origin = GetLongLivedOriginName();
             string nullableInputPosition = GetUniqueLocalVariableName(nameof(nullableInputPosition));
-            const string loop_OperatorCalculator_Helper = nameof(Loop_OperatorCalculator_Helper);
-            const string getTransformedPosition = nameof(Loop_OperatorCalculator_Helper.GetTransformedPosition);
 
             AppendOperatorTitleComment(dto);
 
             AppendLineToReset($"{origin} = {sourcePosition};");
 
             AppendLine($"double {output};");
-            AppendTabs();
-            Append($"double? {nullableInputPosition} = {loop_OperatorCalculator_Helper}.{getTransformedPosition}(");
-            {
-                Append($"{sourcePosition}, ");
-                Append($"{origin}, ");
-                Append($"{skip}, ");
-                Append($"{loopStartMarker}, ");
-                Append($"{loopEndMarker}, ");
-                Append($"{releaseEndMarker}, ");
-                Append($"{noteDuration});");
-            }
+
+            // Ported from Loop_OperatorCalculator_Helper.GetTransformedPosition.
+            string outputPosition = GetUniqueLocalVariableName(nameof(outputPosition));
+            string inputPosition = GetUniqueLocalVariableName(nameof(inputPosition));
+            string isBeforeAttack = GetUniqueLocalVariableName(nameof(isBeforeAttack));
+            string isInAttack = GetUniqueLocalVariableName(nameof(isInAttack));
+            string cycleLength = GetUniqueLocalVariableName(nameof(cycleLength));
+            string outputLoopStart = GetUniqueLocalVariableName(nameof(outputLoopStart));
+            string noteEndPhase = GetUniqueLocalVariableName(nameof(noteEndPhase));
+            string outputLoopEnd = GetUniqueLocalVariableName(nameof(outputLoopEnd));
+            string isInLoop = GetUniqueLocalVariableName(nameof(isInLoop));
+            string phase = GetUniqueLocalVariableName(nameof(phase));
+            string releaseLength = GetUniqueLocalVariableName(nameof(releaseLength));
+            string outputReleaseEndPosition = GetUniqueLocalVariableName(nameof(outputReleaseEndPosition));
+            string isInRelease = GetUniqueLocalVariableName(nameof(isInRelease));
+            string positionInRelease = GetUniqueLocalVariableName(nameof(positionInRelease));
+            AppendLine($"double? {nullableInputPosition};");
             AppendLine();
+            AppendLine($"double {outputPosition} = {sourcePosition};");
+            AppendLine($"double {inputPosition} = {outputPosition};");
+            AppendLine();
+            AppendLine($"{inputPosition} -= {origin};");
+            AppendLine();
+            AppendLine($"// BeforeAttack");
+            AppendLine();
+            string skip = GetLiteralFromOperatorDtoOrValue(skipOperatorDto, skipValue);
+            AppendLine($"{inputPosition} += {skip};");
+            AppendLine($"bool {isBeforeAttack} = {inputPosition} < {skip};");
+            AppendLine($"if ({isBeforeAttack})");
+            AppendLine("{");
+            AppendLine($"    {nullableInputPosition} = null;");
+            AppendLine("}");
+            AppendLine($"else");
+            AppendLine("{");
+            AppendLine($"    // InAttack");
+            AppendLine();
+            string loopStartMarker = GetLiteralFromOperatorDtoOrValue(loopStartMarkerOperatorDto, loopStartMarkerValue);
+            AppendLine($"    bool {isInAttack} = {inputPosition} < {loopStartMarker};");
+            AppendLine($"    if ({isInAttack})");
+            AppendLine("    {");
+            AppendLine($"        {nullableInputPosition} = {inputPosition};");
+            AppendLine("    }");
+            AppendLine($"    else");
+            AppendLine("    {");
+            AppendLine($"        // InLoop");
+            AppendLine();
+            string loopEndMarker = GetLiteralFromOperatorDtoOrValue(loopEndMarkerOperatorDto, loopEndMarkerValue);
+            AppendLine($"        double {cycleLength} = {loopEndMarker} - {loopStartMarker};");
+            AppendLine();
+            AppendLine($"        // Round up end of loop to whole cycles.");
+            AppendLine($"        double {outputLoopStart} = {loopStartMarker} - {skip};");
+            AppendLine();
+            string noteDuration = GetLiteralFromOperatorDtoOrValue(noteDurationOperatorDto, noteDurationValue);
+            AppendLine($"        double {noteEndPhase} = ({noteDuration} - {outputLoopStart}) / {cycleLength};");
+            AppendLine($"        double {outputLoopEnd} = {outputLoopStart} + Math.Ceiling({noteEndPhase}) * {cycleLength};");
+            AppendLine();
+            AppendLine($"        bool {isInLoop} = {outputPosition} < {outputLoopEnd};");
+            AppendLine($"        if ({isInLoop})");
+            AppendLine("        {");
+            AppendLine($"            double {phase} = ({inputPosition} - {loopStartMarker}) % {cycleLength};");
+            AppendLine($"            {inputPosition} = {loopStartMarker} + {phase};");
+            AppendLine($"            {nullableInputPosition} = {inputPosition};");
+            AppendLine("        }");
+            AppendLine($"        else");
+            AppendLine("        {");
+            AppendLine($"            // InRelease");
+            AppendLine();
+            string releaseEndMarker = GetLiteralFromOperatorDtoOrValue(releaseEndMarkerOperatorDto, releaseEndMarkerValue);
+            AppendLine($"            double {releaseLength} = {releaseEndMarker} - {loopEndMarker};");
+            AppendLine($"            double {outputReleaseEndPosition} = {outputLoopEnd} + {releaseLength};");
+            AppendLine($"            bool {isInRelease} = {outputPosition} < {outputReleaseEndPosition};");
+            AppendLine($"            if ({isInRelease})");
+            AppendLine("            {");
+            AppendLine($"                double {positionInRelease} = {outputPosition} - {outputLoopEnd};");
+            AppendLine($"                {inputPosition} = {loopEndMarker} + {positionInRelease};");
+            AppendLine($"                {nullableInputPosition} = {inputPosition};");
+            AppendLine("            }");
+            AppendLine($"            else");
+            AppendLine("            {");
+            AppendLine($"                // AfterRelease");
+            AppendLine($"                {nullableInputPosition} = null;");
+            AppendLine("            }");
+            AppendLine("        }");
+            AppendLine("    }");
+            AppendLine("}");
+            AppendLine();
+
             AppendLine($"if (!{nullableInputPosition}.HasValue)");
             AppendLine("{");
             Indent();
