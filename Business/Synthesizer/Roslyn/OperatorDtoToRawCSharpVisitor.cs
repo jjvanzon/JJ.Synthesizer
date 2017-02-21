@@ -1073,7 +1073,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string sourcePosition = GetPositionNameCamelCase(dto);
             string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
             string origin = GetLongLivedOriginName();
-            string tempPosition = GetUniqueLocalVariableName(nameof(tempPosition));
+            string nullableInputPosition = GetUniqueLocalVariableName(nameof(nullableInputPosition));
             const string loop_OperatorCalculator_Helper = nameof(Loop_OperatorCalculator_Helper);
             const string getTransformedPosition = nameof(Loop_OperatorCalculator_Helper.GetTransformedPosition);
 
@@ -1083,7 +1083,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendLine($"double {output};");
             AppendTabs();
-            Append($"double? {tempPosition} = {loop_OperatorCalculator_Helper}.{getTransformedPosition}(");
+            Append($"double? {nullableInputPosition} = {loop_OperatorCalculator_Helper}.{getTransformedPosition}(");
             {
                 Append($"{sourcePosition}, ");
                 Append($"{origin}, ");
@@ -1094,7 +1094,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 Append($"{noteDuration});");
             }
             AppendLine();
-            AppendLine($"if (!{tempPosition}.HasValue)");
+            AppendLine($"if (!{nullableInputPosition}.HasValue)");
             AppendLine("{");
             Indent();
             {
@@ -1106,7 +1106,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine("{");
             Indent();
             {
-                AppendLine($"{destPosition} = {tempPosition}.Value;");
+                AppendLine($"{destPosition} = {nullableInputPosition}.Value;");
                 AppendLine();
 
                 Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);

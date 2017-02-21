@@ -16,11 +16,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double? nullableInputPosition;
 
             double outputPosition = position;
+            double inputPosition = outputPosition;
 
-            outputPosition -= origin;
+            inputPosition -= origin;
 
             // BeforeAttack
-            double inputPosition = outputPosition + skip;
+            inputPosition += skip;
             bool isBeforeAttack = inputPosition < skip;
             if (isBeforeAttack)
             {
