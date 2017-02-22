@@ -69,6 +69,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string SUBTRACT_SYMBOL = "-";
 
         private const string ARRAY_CALCULATOR_MNEMONIC = "arraycalculator";
+        private const string ARRAY_MNEMONIC = "array";
         private const string DEFAULT_INPUT_MNEMONIC = "input";
         private const string PHASE_MNEMONIC = "phase";
         private const string PREVIOUS_POSITION_MNEMONIC = "prevpos";
@@ -101,10 +102,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         /// <summary> HashSet for unicity. </summary>
         private HashSet<string> _positionVariableNamesCamelCaseHashSet;
-        private IList<string> _longLivedPreviousPositionVariableNamesCamelCase;
-        private IList<string> _longLivedPhaseVariableNamesCamelCase;
-        private IList<string> _longLivedOriginVariableNamesCamelCase;
-        private IList<string> _longLivedMiscVariableNamesCamelCase;
+        private IList<string> _longLivedDoubleVariableNamesCamelCase;
+        private IList<DoubleArrayVariableInfo> _longLivedDoubleArrayVariableInfos;
 
         // Information for Input Variables
 
@@ -132,10 +131,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             _stack = new Stack<string>();
             _variableName_To_InputVariableInfo_Dictionary = new Dictionary<string, ExtendedVariableInfo>();
             _positionVariableNamesCamelCaseHashSet = new HashSet<string>();
-            _longLivedPreviousPositionVariableNamesCamelCase = new List<string>();
-            _longLivedPhaseVariableNamesCamelCase = new List<string>();
-            _longLivedOriginVariableNamesCamelCase = new List<string>();
-            _longLivedMiscVariableNamesCamelCase = new List<string>();
+            _longLivedDoubleVariableNamesCamelCase = new List<string>();
+            _longLivedDoubleArrayVariableInfos = new List<DoubleArrayVariableInfo>();
             _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
             _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<Tuple<DimensionEnum, string>, string>();
             _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
@@ -169,7 +166,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                                                                                                   .Where(x => x.ListIndex == 0)
                                                                                                   .Except(x => string.Equals(x.VariableNameCamelCase, firstTimeVariableNameCamelCase))
                                                                                                   .ToArray();
-            IList<string> localDimensionVariableNamesCamelCase =
+            IList<string> locallyReusedDoubleVariableNamesCamelCase =
                 _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
                                                                                                   .Except(longLivedDimensionVariableInfos)
                                                                                                   .Select(x => x.VariableNameCamelCase)
@@ -179,15 +176,12 @@ namespace JJ.Business.Synthesizer.Roslyn
                 rawResetCode,
                 returnValue,
                 firstTimeVariableNameCamelCase,
+                _longLivedDoubleVariableNamesCamelCase,
+                locallyReusedDoubleVariableNamesCamelCase,
                 _variableName_To_InputVariableInfo_Dictionary.Values.ToArray(),
-                _positionVariableNamesCamelCaseHashSet.ToArray(),
-                _longLivedPreviousPositionVariableNamesCamelCase,
-                _longLivedPhaseVariableNamesCamelCase,
-                _longLivedOriginVariableNamesCamelCase,
                 longLivedDimensionVariableInfos,
-                localDimensionVariableNamesCamelCase,
-                _longLivedMiscVariableNamesCamelCase,
-                _arrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray());
+                _arrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray(),
+                _longLivedDoubleArrayVariableInfos);
         }
 
         [DebuggerHidden]
@@ -2435,7 +2429,42 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
         {
-            throw new NotImplementedException();
+            string position = GetPositionNameCamelCase(dto);
+            string items = GetLongLivedDoubleArrayVariableName(dto.Vars.Count);
+            string output = GetLocalOutputName(dto);
+            const string conversionHelper = nameof(ConversionHelper);
+            const string canCastToNonNegativeInt32WithMax = nameof(ConversionHelper.CanCastToNonNegativeInt32WithMax);
+            string maxIndex = CompilationHelper.FormatValue(dto.Vars.Count - 1);
+
+            AppendOperatorTitleComment(dto);
+
+            AppendLine($"double {output};");
+            AppendLine($"if (!{conversionHelper}.{canCastToNonNegativeInt32WithMax}({position}, {maxIndex}))");
+            AppendLine("{");
+            Indent();
+            {
+                AppendLine($"{output} = 0.0;");
+                Unindent();
+            }
+            AppendLine("}");
+            AppendLine();
+
+            for (int i = 0; i < dto.Vars.Count; i++)
+            {
+                IOperatorDto operandDto = dto.Vars[i];
+
+                Visit_OperatorDto_Polymorphic(operandDto);
+                string item = _stack.Pop();
+
+                AppendLine($"{items}[{i}] = {item};");
+            }
+
+            AppendLine();
+            AppendLine($"Array.Sort({items});");
+            AppendLine();
+            AppendLine($"{output} = {items}[(int){position}];");
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_Spectrum_OperatorDto_AllVars(Spectrum_OperatorDto_AllVars dto)
@@ -3498,32 +3527,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             return variableName;
         }
 
-        private string GetLongLivedOriginName()
-        {
-            string variableName = GetUniqueLocalVariableName(ORIGIN_MNEMONIC);
-
-            _longLivedOriginVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
-
-        private string GetLongLivedPhaseName()
-        {
-            string variableName = GetUniqueLocalVariableName(PHASE_MNEMONIC);
-
-            _longLivedPhaseVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
-
-        private string GetLongLivedPreviousPositionName()
-        {
-            string variableName = GetUniqueLocalVariableName(PREVIOUS_POSITION_MNEMONIC);
-
-            _longLivedPreviousPositionVariableNamesCamelCase.Add(variableName);
-
-            return variableName;
-        }
+        private string GetLongLivedOriginName() => GetUniqueLongLivedVariableName(ORIGIN_MNEMONIC);
+        private string GetLongLivedPhaseName() => GetUniqueLongLivedVariableName(PHASE_MNEMONIC);
+        private string GetLongLivedPreviousPositionName() => GetUniqueLongLivedVariableName(PREVIOUS_POSITION_MNEMONIC);
 
         /// <summary>'/' for Stretch, '*' for Squash</summary>
         private string GetOperatorSymbol(StretchOrSquashEnum stretchOrSquashEnum)
@@ -3638,7 +3644,16 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string variableName = GetUniqueLocalVariableName(mnemonic);
 
-            _longLivedMiscVariableNamesCamelCase.Add(variableName);
+            _longLivedDoubleVariableNamesCamelCase.Add(variableName);
+
+            return variableName;
+        }
+
+        private string GetLongLivedDoubleArrayVariableName(int arrayLength)
+        {
+            string variableName = GetUniqueLocalVariableName(ARRAY_MNEMONIC);
+
+            _longLivedDoubleArrayVariableInfos.Add(new DoubleArrayVariableInfo { NameCamelCase = variableName, ArrayLength = arrayLength });
 
             return variableName;
         }

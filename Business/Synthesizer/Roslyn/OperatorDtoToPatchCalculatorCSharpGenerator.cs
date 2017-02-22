@@ -126,23 +126,20 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             IList<string> doubleInstanceVariableNamesCamelCase = GetDoubleInstanceVariableNamesCamelCase(visitorResult);
 
-            if (doubleInstanceVariableNamesCamelCase.Any())
+            foreach (string variableName in doubleInstanceVariableNamesCamelCase)
             {
-                foreach (string variableName in doubleInstanceVariableNamesCamelCase)
-                {
-                    sb.AppendLine($"private double _{variableName};");
-                }
-                sb.AppendLine();
+                sb.AppendLine($"private double _{variableName};");
+            }
+
+            foreach (ArrayCalculationInfo variableInfo in visitorResult.ArrayCalculationInfos)
+            {
+                sb.AppendLine($"private readonly {variableInfo.TypeName} _{variableInfo.NameCamelCase};");
             }
 
             // ReSharper disable once InvertIf
-            if (visitorResult.ArrayCalculationInfos.Any())
+            foreach (DoubleArrayVariableInfo variableInfo in visitorResult.LongLivedDoubleArrayVariableInfos)
             {
-                foreach (ArrayCalculationInfo variableInfo in visitorResult.ArrayCalculationInfos)
-                {
-                    sb.AppendLine($"private readonly {variableInfo.TypeName} _{variableInfo.NameCamelCase};");
-                }
-                sb.AppendLine();
+                sb.AppendLine($"private readonly double[] _{variableInfo.NameCamelCase} = new double[{variableInfo.ArrayLength}];");
             }
         }
 
@@ -307,7 +304,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
             }
 
-            // ReSharper disable once InvertIf
             if (visitorResult.ArrayCalculationInfos.Any())
             {
                 foreach (ArrayCalculationInfo variableInfo in visitorResult.ArrayCalculationInfos)
@@ -316,14 +312,24 @@ namespace JJ.Business.Synthesizer.Roslyn
                 }
                 sb.AppendLine();
             }
+
+            // ReSharper disable once InvertIf
+            if (visitorResult.LongLivedDoubleArrayVariableInfos.Any())
+            {
+                foreach (DoubleArrayVariableInfo variableInfo in visitorResult.LongLivedDoubleArrayVariableInfos)
+                {
+                    sb.AppendLine($"double[] {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
+                }
+                sb.AppendLine();
+            }
         }
 
         private static void AppendDeclareLocallyReusedVariables(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
             // ReSharper disable once InvertIf
-            if (visitorResult.LocalDimensionVariableNamesCamelCase.Any())
+            if (visitorResult.LocallyReusedDoubleVariableNamesCamelCase.Any())
             {
-                foreach (string positionVariableName in visitorResult.LocalDimensionVariableNamesCamelCase)
+                foreach (string positionVariableName in visitorResult.LocallyReusedDoubleVariableNamesCamelCase)
                 {
                     sb.AppendLine($"double {positionVariableName};");
                 }
@@ -394,7 +400,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine("base.SetValue(dimensionEnum, value);");
                 sb.AppendLine();
 
-                AppendFieldAssignments_ByDimensionEnum(sb, variableInfos);
+                AppendSetValue_FieldAssignments_ByDimensionEnum(sb, variableInfos);
 
                 sb.Unindent();
             }
@@ -418,7 +424,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine("string canonicalName = NameHelper.ToCanonical(name);");
                 sb.AppendLine();
 
-                AppendFieldAssignments_ByCanonicalName(sb, variableInfos);
+                AppendSetValue_FieldAssignments_ByCanonicalName(sb, variableInfos);
 
                 sb.Unindent();
             }
@@ -447,11 +453,11 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
 
                 // Dimension Variables
-                AppendFieldAssignments_ByDimensionEnum(sb, longLivedDimensionVariableInfosToInclude);
+                AppendSetValue_FieldAssignments_ByDimensionEnum(sb, longLivedDimensionVariableInfosToInclude);
                 sb.AppendLine();
 
                 // Input Variables
-                AppendFieldAssignments_ByDimensionEnumAndListIndex(sb, inputVariableInfosToInclude);
+                AppendSetValue_FieldAssignments_ByDimensionEnumAndListIndex(sb, inputVariableInfosToInclude);
 
                 sb.Unindent();
             }
@@ -482,11 +488,11 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
 
                 // Dimension Variables
-                AppendFieldAssignments_ByCanonicalName(sb, longLivedDimensionVariableInfosToInclude);
+                AppendSetValue_FieldAssignments_ByCanonicalName(sb, longLivedDimensionVariableInfosToInclude);
                 sb.AppendLine();
 
                 // Input Variables
-                AppendFieldAssignments_ByCanonicalNameAndListIndex(sb, inputVariableInfosToInclude);
+                AppendSetValue_FieldAssignments_ByCanonicalNameAndListIndex(sb, inputVariableInfosToInclude);
 
                 sb.Unindent();
             }
@@ -494,7 +500,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         /// <summary> Assumes that the variable dimensionEnum is already declared in the generated code. </summary>
-        private void AppendFieldAssignments_ByDimensionEnum(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        private void AppendSetValue_FieldAssignments_ByDimensionEnum(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             // ReSharper disable once SuggestVarOrType_Elsewhere
             var groups = variableInfos.GroupBy(x => x.DimensionEnum);
@@ -534,7 +540,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// <summary> 
         /// Assumes that the variable canonicalName is already declared in the generated code.
         /// </summary>
-        private void AppendFieldAssignments_ByCanonicalName(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        private void AppendSetValue_FieldAssignments_ByCanonicalName(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             // ReSharper disable once SuggestVarOrType_Elsewhere
             var groups = variableInfos.GroupBy(x => x.CanonicalName);
@@ -567,7 +573,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// Assumes that the variable dimensionEnum is already declared in the generated code.
         /// Assumes variableInfos are already order by ListIndex.
         /// </summary>
-        private void AppendFieldAssignments_ByDimensionEnumAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        private void AppendSetValue_FieldAssignments_ByDimensionEnumAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             // ReSharper disable once SuggestVarOrType_Elsewhere
             var groups = variableInfos.GroupBy(x => x.DimensionEnum);
@@ -596,7 +602,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// Assumes that the variable canonicalName is already declared in the generated code.
         /// Assumes variableInfos are already order by ListIndex.
         /// </summary>
-        private void AppendFieldAssignments_ByCanonicalNameAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        private void AppendSetValue_FieldAssignments_ByCanonicalNameAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             // Input Variables
             // ReSharper disable once SuggestVarOrType_Elsewhere
@@ -624,12 +630,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private IList<string> GetDoubleInstanceVariableNamesCamelCase(OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            return visitorResult.LongLivedPhaseVariableNamesCamelCase.Union(visitorResult.LongLivedPreviousPositionVariableNamesCamelCase)
-                                                                     .Union(visitorResult.LongLivedOriginVariableNamesCamelCase)
-                                                                     .Union(visitorResult.LongLivedMiscVariableNamesCamelCase)
-                                                                     .Union(visitorResult.LongLivedDimensionVariableInfos.Select(x => x.VariableNameCamelCase))
-                                                                     .Union(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
-                                                                     .ToArray();
+            return visitorResult.LongLivedDoubleVariableNamesCamelCase.Union(visitorResult.LongLivedDimensionVariableInfos.Select(x => x.VariableNameCamelCase))
+                                                                      .Union(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
+                                                                      .ToArray();
         }
 
         private bool IsAnonymousDimension(ExtendedVariableInfo extendedVariableInfo)

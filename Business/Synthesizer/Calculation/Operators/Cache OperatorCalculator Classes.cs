@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         where TArrayCalculator : ICalculatorWithPosition
     {
         private readonly TArrayCalculator[] _arrayCalculators;
-        private readonly int _arrayCalculatorsMaxIndex;
+        private readonly double _arrayCalculatorsMaxIndexDouble;
         private readonly DimensionStack _dimensionStack;
         private readonly DimensionStack _channelDimensionStack;
         private readonly int _dimensionStackIndex;
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertDimensionStack(channelDimensionStack);
 
             _arrayCalculators = arrayCalculators.ToArray();
-            _arrayCalculatorsMaxIndex = _arrayCalculators.Length - 1;
+            _arrayCalculatorsMaxIndexDouble = _arrayCalculators.Length - 1;
             _dimensionStack = dimensionStack;
             _channelDimensionStack = channelDimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
 #endif
-            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelDouble, _arrayCalculatorsMaxIndex))
+            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelDouble, _arrayCalculatorsMaxIndexDouble))
             {
                 return 0.0;
             }

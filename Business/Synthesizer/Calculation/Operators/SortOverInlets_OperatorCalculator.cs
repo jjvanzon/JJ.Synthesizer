@@ -9,6 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase[] _itemCalculators;
         private readonly double[] _items;
+        private readonly double _maxIndexDouble;
         private readonly int _itemCount;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
@@ -25,6 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _itemCalculators = itemCalculators.ToArray();
             _itemCount = itemCalculators.Count;
+            _maxIndexDouble = _itemCount - 1;
             _items = new double[_itemCount];
         }
 
@@ -38,7 +40,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
-            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _itemCount))
+            if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _maxIndexDouble))
             {
                 return 0.0;
             }
@@ -49,7 +51,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             Array.Sort(_items);
-
+            
             double item = _items[(int)position];
 
             return item;
