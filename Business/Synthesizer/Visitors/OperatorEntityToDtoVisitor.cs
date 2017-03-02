@@ -11,6 +11,7 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -81,6 +82,9 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 VisitorHelper.WithStackCheck(_stack, () => base.VisitOperatorPolymorphic(op));
+
+                IOperatorDto dto = _stack.Peek();
+                dto.OperatorID = op.ID;
             }
         }
 
@@ -90,6 +94,9 @@ namespace JJ.Business.Synthesizer.Visitors
             if (hasOutletVisitation)
             {
                 VisitorHelper.WithStackCheck(_stack, () => base.VisitOutletPolymorphic(outlet));
+
+                IOperatorDto dto = _stack.Peek();
+                dto.OperatorID = outlet.Operator.ID;
             }
             else
             {

@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 DimensionStackLevel = dto.DimensionStackLevel
             };
 
-            DtoCloner.Clone_DimensionProperties(dto, dto2);
+            DtoCloner.Clone_WithDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 DimensionStackLevel = dto.DimensionStackLevel
             };
 
-            DtoCloner.Clone_DimensionProperties(dto, dto2);
+            DtoCloner.Clone_WithDimensionProperties(dto, dto2);
 
             return dto2;
         }
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 DimensionStackLevel = dto.DimensionStackLevel
             };
 
-            DtoCloner.Clone_DimensionProperties(dto, dto3);
+            DtoCloner.Clone_WithDimensionProperties(dto, dto3);
 
             return dto3;
         }
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 DimensionStackLevel = dto.DimensionStackLevel
             };
 
-            DtoCloner.Clone_DimensionProperties(dto, dto3);
+            DtoCloner.Clone_WithDimensionProperties(dto, dto3);
 
             return dto3;
         }

@@ -1,11 +1,13 @@
 ﻿namespace JJ.Business.Synthesizer.Configuration
 {
-    public enum CalculationEngineConfigurationEnum
+    public enum CalculationMethodEnum
     {
         Undefined,
         EntityToCalculatorDirectly,
         EntityThruDtoToCalculator,
-        RoslynRuntimeCompilation,
+        Roslyn,
+        Roslyn_WithUninlining_WithRefParameters,
+        Roslyn_WithUninlining_WithNormalAndOutParameters,
         HardCoded,
         ExampleGeneratedCode
     }

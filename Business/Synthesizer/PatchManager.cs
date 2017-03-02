@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer
     public partial class PatchManager
     {
         private static readonly double _secondsBetweenApplyFilterVariables = ConfigurationHelper.GetSection<ConfigurationSection>().SecondsBetweenApplyFilterVariables;
-        private static readonly CalculationEngineConfigurationEnum _calculationEngineConfigurationEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationEngine;
+        private static readonly CalculationMethodEnum _calculationMethodEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationMethod;
 
         private readonly PatchRepositories _repositories;
 
@@ -513,43 +513,48 @@ namespace JJ.Business.Synthesizer
             CalculatorCache calculatorCache,
             bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
         {
-            if (_calculationEngineConfigurationEnum != CalculationEngineConfigurationEnum.RoslynRuntimeCompilation)
+            switch (_calculationMethodEnum)
             {
-                IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
-                    calculatorCount,
-                    () => CreateCalculator(
-                        outlet,
-                        samplingRate,
-                        channelCount,
-                        channelIndex,
+                case CalculationMethodEnum.Roslyn:
+                case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
+                case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
+                {
+                    IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
+                                                                                   calculatorCount,
+                                                                                   () =>
+                                                                                       CreateCalculator(
+                                                                                           outlet,
+                                                                                           samplingRate,
+                                                                                           channelCount,
+                                                                                           channelIndex,
+                                                                                           calculatorCache,
+                                                                                           mustSubstituteSineForUnfilledInSignalPatchInlets))
+                                                                               .ToArray();
+
+                    return patchCalculators;
+                }
+                default:
+                {
+                    var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
                         calculatorCache,
-                        mustSubstituteSineForUnfilledInSignalPatchInlets))
-                    .ToArray();
+                        _repositories.CurveRepository,
+                        _repositories.PatchRepository,
+                        _repositories.SampleRepository,
+                        _repositories.SpeakerSetupRepository);
+                    IOperatorDto dto = entityToDtoVisitor.Execute(outlet);
 
-                return patchCalculators;
-            }
-            else
-            {
-                var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
-                    calculatorCache,
-                    _repositories.CurveRepository,
-                    _repositories.PatchRepository,
-                    _repositories.SampleRepository,
-                    _repositories.SpeakerSetupRepository);
-                IOperatorDto dto = entityToDtoVisitor.Execute(outlet);
+                    var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
+                    dto = preProcessingVisitor.Execute(dto);
 
-                var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
-                dto = preProcessingVisitor.Execute(dto);
+                    var compiler = new OperatorDtoCompiler();
+                    ActivationInfo activationInfo = compiler.CompileToPatchCalculatorActivationInfo(dto, samplingRate, channelCount, channelIndex);
 
-                var compiler = new OperatorDtoCompiler();
-                ActivationInfo activationInfo = compiler.CompileToPatchCalculatorActivationInfo(dto, samplingRate, channelCount, channelIndex);
+                    IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
+                        calculatorCount,
+                        () => (IPatchCalculator)Activator.CreateInstance(activationInfo.Type, activationInfo.Args)).ToArray();
 
-                IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
-                    calculatorCount,
-                    () => (IPatchCalculator)Activator.CreateInstance(activationInfo.Type, activationInfo.Args))
-                    .ToArray();
-
-                return patchCalculators;
+                    return patchCalculators;
+                }
             }
         }
 
@@ -567,10 +572,10 @@ namespace JJ.Business.Synthesizer
             }
 
             IPatchCalculator patchCalculator;
-            switch (_calculationEngineConfigurationEnum)
+            switch (_calculationMethodEnum)
             {
-                case CalculationEngineConfigurationEnum.EntityThruDtoToCalculator:
-                case CalculationEngineConfigurationEnum.EntityToCalculatorDirectly:
+                case CalculationMethodEnum.EntityThruDtoToCalculator:
+                case CalculationMethodEnum.EntityToCalculatorDirectly:
                     patchCalculator = new SingleChannelPatchCalculator(
                         outlet,
                         samplingRate,
@@ -584,7 +589,9 @@ namespace JJ.Business.Synthesizer
                         _repositories.SpeakerSetupRepository);
                     break;
 
-                case CalculationEngineConfigurationEnum.RoslynRuntimeCompilation:
+                case CalculationMethodEnum.Roslyn:
+                case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
+                case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
                     var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
                         calculatorCache,
                         _repositories.CurveRepository,
@@ -601,14 +608,14 @@ namespace JJ.Business.Synthesizer
 
                     break;
 
-                case CalculationEngineConfigurationEnum.HardCoded:
+                case CalculationMethodEnum.HardCoded:
                     return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
 
-                case CalculationEngineConfigurationEnum.ExampleGeneratedCode:
+                case CalculationMethodEnum.ExampleGeneratedCode:
                     return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<string, double[]>(), new Dictionary<string, double>());
 
                 default:
-                    throw new ValueNotSupportedException(_calculationEngineConfigurationEnum);
+                    throw new ValueNotSupportedException(_calculationMethodEnum);
             }
 
             return patchCalculator;

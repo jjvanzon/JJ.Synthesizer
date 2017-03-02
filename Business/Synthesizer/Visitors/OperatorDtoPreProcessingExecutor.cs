@@ -1,4 +1,9 @@
-﻿using JJ.Business.Synthesizer.Dto;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
@@ -29,7 +34,22 @@ namespace JJ.Business.Synthesizer.Visitors
             dto = new OperatorDtoVisitor_ProgrammerLaziness().Execute(dto);
             new OperatorDtoVisitor_DimensionStackLevels().Execute(dto);
 
+            AssertZeroOperatorIDs(dto);
+
             return dto;
+        }
+
+        private static void AssertZeroOperatorIDs(IOperatorDto dto)
+        {
+            IList<IOperatorDto> operatorDtosWithZeroOperatorID = dto.UnionRecursive(x => x.InputOperatorDtos)
+                                                                    .Where(x => x.OperatorTypeEnum != OperatorTypeEnum.Number)
+                                                                    .Where(x => x.OperatorID == 0)
+                                                                    .ToArray();
+            if (operatorDtosWithZeroOperatorID.Count != 0)
+            {
+                string distinctConcatinatedOperatorDtoTypeNames = string.Join(", ", operatorDtosWithZeroOperatorID.Select(x => x.GetType().Name).Distinct());
+                throw new Exception($"Error pre-processing OperatorDto's. There are {operatorDtosWithZeroOperatorID.Count} non-Number OperatorDto's with OperatorID = 0. Dto types: {{{distinctConcatinatedOperatorDtoTypeNames}}}");
+            }
         }
     }
 }

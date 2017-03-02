@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
 
         public int? CurveID { get; set; }
-        [Obsolete("Obsolete?")]
+        [Obsolete("Obsolete? Check it.")]
         public double MinX { get; set; }
         public ArrayDto ArrayDto { get; set; }
 

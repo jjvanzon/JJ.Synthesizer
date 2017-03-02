@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Random;
+using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
@@ -39,7 +40,109 @@ namespace JJ.Business.Synthesizer.Roslyn
             Squash
         }
 
+        private class GeneratedMethodInfo
+        {
+            public string MethodNameForCalculate { get; set; }
+            public string MethodNameForReset { get; set; }
+            public string MethodCodeForCalculate { get; set; }
+            public string MethodCodeForReset { get; set; }
+            public bool MethodGenerationIsComplete { get; set; }
+
+            public StringBuilderWithIndentation MethodBodyStringBuilderForCalculate { get; } = new StringBuilderWithIndentation(TAB_STRING)
+            {
+                IndentLevel = METHOD_BODY_INDENT_LEVEL
+            };
+
+            public StringBuilderWithIndentation MethodBodyStringBuilderForReset { get; } = new StringBuilderWithIndentation(TAB_STRING)
+            {
+                IndentLevel = METHOD_BODY_INDENT_LEVEL
+            };
+
+            public VariableInfo VariableInfo { get; set; } = new VariableInfo();
+
+            public IList<GeneratedParameterInfo> GetGeneratedParameterInfos()
+            {
+                // TODO: Repeated code from Execute method.
+                IList<ExtendedVariableInfo> longLivedDimensionVariableInfos =
+                    VariableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
+                                .Where(x => x.ListIndex == 0)
+                                .ToArray();
+
+                IList<string> locallyReusedDoubleVariableNamesCamelCase =
+                    VariableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
+                                // ReSharper disable once PossibleMultipleEnumeration
+                                .Except(longLivedDimensionVariableInfos)
+                                .Select(x => x.VariableNameCamelCase)
+                                .ToArray();
+
+                IList<ExtendedVariableInfo> inputVariableInfos = VariableInfo.VariableName_To_InputVariableInfo_Dictionary.Values.ToArray();
+                IList<ArrayCalculationInfo> arrayCalculationInfos = VariableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray();
+
+                IList<string> longLivedDoubleVariableNamesCamelCase = VariableInfo.LongLivedDoubleVariableNamesCamelCase.ToArray();
+                DoubleArrayVariableInfo[] longLivedDoubleArrayVariableInfos = VariableInfo.LongLivedDoubleArrayVariableInfos.ToArray();
+
+                IList<GeneratedParameterInfo> list =
+                    longLivedDoubleVariableNamesCamelCase.Select(y => new GeneratedParameterInfo { NameCamelCase = y, TypeName = nameof(Double) })
+                                                         .Union(
+                                                             locallyReusedDoubleVariableNamesCamelCase.Select(
+                                                                 y => new GeneratedParameterInfo { NameCamelCase = y, TypeName = nameof(Double) }))
+                                                         .Union(
+                                                             longLivedDimensionVariableInfos.Select(
+                                                                 y => new GeneratedParameterInfo { NameCamelCase = y.VariableNameCamelCase, TypeName = nameof(Double) }))
+                                                         .Union(
+                                                             inputVariableInfos.Select(
+                                                                 y => new GeneratedParameterInfo { NameCamelCase = y.VariableNameCamelCase, TypeName = nameof(Double) }))
+                                                         .Union(
+                                                             arrayCalculationInfos.Select(
+                                                                 y => new GeneratedParameterInfo { NameCamelCase = y.NameCamelCase, TypeName = y.TypeName }))
+                                                         .Union(
+                                                             longLivedDoubleArrayVariableInfos.Select(
+                                                                 y => new GeneratedParameterInfo { NameCamelCase = y.NameCamelCase, TypeName = nameof(Double) + "[]" }))
+                                                         .ToArray();
+
+                return list;
+            }
+        }
+
+        private class VariableInfo
+        {
+            // Simple Sets of Variable Names
+
+            /// <summary> HashSet for unicity. </summary>
+            public HashSet<string> PositionVariableNamesCamelCaseHashSet { get; } = new HashSet<string>();
+
+            public IList<string> LongLivedDoubleVariableNamesCamelCase { get; } = new List<string>();
+            public IList<DoubleArrayVariableInfo> LongLivedDoubleArrayVariableInfos { get; } = new List<DoubleArrayVariableInfo>();
+
+            // Information for Input Variables
+
+            /// <summary> Dictionary for unicity. Key is variable name camel-case. </summary>
+            public Dictionary<string, ExtendedVariableInfo> VariableName_To_InputVariableInfo_Dictionary { get; } = new Dictionary<string, ExtendedVariableInfo>();
+
+            /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
+            public Dictionary<VariableInput_OperatorDto, string> VariableInput_OperatorDto_To_VariableName_Dictionary { get; } =
+                new Dictionary<VariableInput_OperatorDto, string>();
+
+            // Information for Dimension Values
+
+            public Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo> DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary
+            { get; } = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
+
+            public Dictionary<Tuple<DimensionEnum, string>, string> StandardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary { get; } =
+                new Dictionary<Tuple<DimensionEnum, string>, string>();
+
+            // Information about Satellite Calculators
+
+            public Dictionary<ArrayDto, ArrayCalculationInfo> ArrayDto_To_ArrayCalculationInfo_Dictionary { get; } =
+                new Dictionary<ArrayDto, ArrayCalculationInfo>();
+
+            public Dictionary<int, string> RandomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary { get; } = new Dictionary<int, string>();
+        }
+
         private const string TAB_STRING = "    ";
+        private const int METHOD_BODY_INDENT_LEVEL = 3;
+        private const int METHOD_SIGNATURE_INDENT_LEVEL = 2;
+        private const int MULTI_LINE_PARAMETER_LIST_INDENT_LEVEL = 3;
 
         private const string AND_SYMBOL = "&&";
         private const string DIVIDE_SYMBOL = "/";
@@ -54,120 +157,120 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string PLUS_SYMBOL = "+";
         private const string SUBTRACT_SYMBOL = "-";
 
+        private const string ANONYMOUS_MNEMONIC = "anynomous";
         private const string ARRAY_CALCULATOR_MNEMONIC = "arraycalculator";
         private const string ARRAY_MNEMONIC = "array";
+        private const string CALCULATE_MNEMONIC = "calculate";
         private const string DEFAULT_INPUT_MNEMONIC = "input";
+        private const string OFFSET_MNEMONIC = "offset";
+        private const string ORIGIN_MNEMONIC = "origin";
         private const string PHASE_MNEMONIC = "phase";
         private const string PREVIOUS_POSITION_MNEMONIC = "prevpos";
-        private const string ORIGIN_MNEMONIC = "origin";
         private const string RATE_MNEMONIC = "rate";
-        private const string OFFSET_MNEMONIC = "offset";
+        private const string RESET_MNEMONIC = "reset";
 
         /// <summary> {0} = phase </summary>
         private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
+
         /// <summary> {0} = phase </summary>
         private const string SAW_UP_FORMULA_FORMAT = "-1.0 + (2.0 * {0} % 2.0)";
+
         /// <summary> {0} = phase </summary>
         private const string SINE_FORMULA_FORMAT = "SineCalculator.Sin({0})";
+
         /// <summary> {0} = phase </summary>
         private const string SQUARE_FORMULA_FORMAT = "{0} % 1.0 < 0.5 ? 1.0 : -1.0";
 
         private const double SAMPLE_BASE_FREQUENCY = 440.0;
 
+        private static readonly CalculationMethodEnum _calculationMethodEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationMethod;
+
         private readonly int _calculationIndentLevel;
         private readonly int _resetIndentLevel;
 
         private Stack<string> _stack;
-        private StringBuilderWithIndentation _calculateStringBuilder;
-        private StringBuilderWithIndentation _resetStringBuilder;
+        private StringBuilderWithIndentation _stringBuilderForCalculate;
+        private StringBuilderWithIndentation _stringBuilderForReset;
         private int _counter;
-
         private Stack<bool> _holdOperatorIsActiveStack;
 
-        // Simple Sets of Variable Names
+        private VariableInfo _variableInfo;
 
-        /// <summary> HashSet for unicity. </summary>
-        private HashSet<string> _positionVariableNamesCamelCaseHashSet;
-        private IList<string> _longLivedDoubleVariableNamesCamelCase;
-        private IList<DoubleArrayVariableInfo> _longLivedDoubleArrayVariableInfos;
+        // We need botha list and a stack. A stack for where we are in the processing,
+        // a list to not lose generated methods, when they are popped from the stack.
 
-        // Information for Input Variables
-
-        /// <summary> Dictionary for unicity. Key is variable name camel-case. </summary>
-        private Dictionary<string, ExtendedVariableInfo> _variableName_To_InputVariableInfo_Dictionary;
-        /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
-        private Dictionary<VariableInput_OperatorDto, string> _variableInput_OperatorDto_To_VariableName_Dictionary;
-
-        // Information for Dimension Values
-        private Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo> _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary;
-        private Dictionary<Tuple<DimensionEnum, string>, string> _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary;
-
-        // Information about Satellite Calculators
-        private Dictionary<ArrayDto, ArrayCalculationInfo> _arrayDto_To_ArrayCalculationInfo_Dictionary;
-        private Dictionary<int, string> _randomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary;
+        private Stack<GeneratedMethodInfo> _generatedMethodInfoStack;
+        private Dictionary<int, GeneratedMethodInfo> _operatorID_To_GeneratedMethodInfo_Dictionary;
 
         public OperatorDtoToRawCSharpVisitor(int calculationIndentLevel, int resetIndentLevel)
         {
             _calculationIndentLevel = calculationIndentLevel;
             _resetIndentLevel = resetIndentLevel;
+            _variableInfo = new VariableInfo();
         }
 
         public OperatorDtoToCSharpVisitorResult Execute(IOperatorDto dto)
         {
             _stack = new Stack<string>();
-            _variableName_To_InputVariableInfo_Dictionary = new Dictionary<string, ExtendedVariableInfo>();
-            _positionVariableNamesCamelCaseHashSet = new HashSet<string>();
-            _longLivedDoubleVariableNamesCamelCase = new List<string>();
-            _longLivedDoubleArrayVariableInfos = new List<DoubleArrayVariableInfo>();
-            _variableInput_OperatorDto_To_VariableName_Dictionary = new Dictionary<VariableInput_OperatorDto, string>();
-            _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary = new Dictionary<Tuple<DimensionEnum, string>, string>();
-            _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
-            _arrayDto_To_ArrayCalculationInfo_Dictionary = new Dictionary<ArrayDto, ArrayCalculationInfo>();
-            _randomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary = new Dictionary<int, string>();
+            _variableInfo = new VariableInfo();
+            _generatedMethodInfoStack = new Stack<GeneratedMethodInfo>();
+            _operatorID_To_GeneratedMethodInfo_Dictionary = new Dictionary<int, GeneratedMethodInfo>();
             _counter = 0;
             _holdOperatorIsActiveStack = new Stack<bool>();
             _holdOperatorIsActiveStack.Push(false);
 
-            _calculateStringBuilder = new StringBuilderWithIndentation(TAB_STRING)
+            _stringBuilderForCalculate = new StringBuilderWithIndentation(TAB_STRING)
             {
                 IndentLevel = _calculationIndentLevel
             };
 
-            _resetStringBuilder = new StringBuilderWithIndentation(TAB_STRING)
+            _stringBuilderForReset = new StringBuilderWithIndentation(TAB_STRING)
             {
                 IndentLevel = _resetIndentLevel
             };
 
             Visit_OperatorDto_Polymorphic(dto);
 
-            string rawCalculationCode = _calculateStringBuilder.ToString();
-            string rawResetCode = _resetStringBuilder.ToString();
-            string returnValue = _stack.Pop();
+            // Gather up output
+            string rawCalculationCode = _stringBuilderForCalculate.ToString();
+            string rawResetCode = _stringBuilderForReset.ToString();
+            string returnValueLiteral = _stack.Pop();
 
             // Get some more variable info
             string firstTimeVariableNameCamelCase = GetPositionNameCamelCase(0, DimensionEnum.Time);
 
-            IList<ExtendedVariableInfo> longLivedDimensionVariableInfos = 
-                _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                                                                                                  .Where(x => x.ListIndex == 0)
-                                                                                                  .Except(x => string.Equals(x.VariableNameCamelCase, firstTimeVariableNameCamelCase))
-                                                                                                  .ToArray();
+            IList<ExtendedVariableInfo> longLivedDimensionVariableInfos =
+                _variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
+                             .Where(x => x.ListIndex == 0)
+                             .Except(x => string.Equals(x.VariableNameCamelCase, firstTimeVariableNameCamelCase))
+                             .ToArray();
+
             IList<string> locallyReusedDoubleVariableNamesCamelCase =
-                _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                                                                                                  .Except(longLivedDimensionVariableInfos)
-                                                                                                  .Select(x => x.VariableNameCamelCase)
-                                                                                                  .ToArray();
+                _variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
+                             .Except(longLivedDimensionVariableInfos)
+                             .Select(x => x.VariableNameCamelCase)
+                             .ToArray();
+
+            IList<ExtendedVariableInfo> inputVariableInfos = _variableInfo.VariableName_To_InputVariableInfo_Dictionary.Values.ToArray();
+            IList<ArrayCalculationInfo> arrayCalculationInfos = _variableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray();
+
+            // ReSharper disable once InvokeAsExtensionMethod
+            IList<string> calculationMethodCodeList = _operatorID_To_GeneratedMethodInfo_Dictionary.Values.Select(x => x.MethodCodeForCalculate).ToArray();
+            IList<string> resetMethodCodeList = _operatorID_To_GeneratedMethodInfo_Dictionary.Values.Select(x => x.MethodCodeForReset).ToArray();
+
             return new OperatorDtoToCSharpVisitorResult(
                 rawCalculationCode,
                 rawResetCode,
-                returnValue,
+                returnValueLiteral,
                 firstTimeVariableNameCamelCase,
-                _longLivedDoubleVariableNamesCamelCase,
+                _variableInfo.LongLivedDoubleVariableNamesCamelCase,
                 locallyReusedDoubleVariableNamesCamelCase,
-                _variableName_To_InputVariableInfo_Dictionary.Values.ToArray(),
+                inputVariableInfos,
                 longLivedDimensionVariableInfos,
-                _arrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray(),
-                _longLivedDoubleArrayVariableInfos);
+                arrayCalculationInfos,
+                _variableInfo.LongLivedDoubleArrayVariableInfos,
+                calculationMethodCodeList,
+                resetMethodCodeList);
         }
 
         [DebuggerHidden]
@@ -223,12 +326,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(
+            AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(
+            AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -272,22 +377,26 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(
+            BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(
+            BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables));
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(
+            BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(
+            BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables));
         }
@@ -347,22 +456,26 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(
+            ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(
+            ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(
+            ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(
+            ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -562,8 +675,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine($"{destPosition} = {fixedPosition};");
             AppendLine();
 
+            BeginGenerateMethod(dto.OperatorID, dto.OperatorTypeEnum);
+
             Visit_OperatorDto_Polymorphic(dto.OperandOperatorDto);
             string operand = _stack.Pop();
+
+            operand = EndGenerateMethod(operand);
 
             AppendLine($"double {output} = {operand};");
 
@@ -834,12 +951,43 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             Visit_OperatorDto_Polymorphic(dto.ConditionOperatorDto);
             string condition = _stack.Pop();
-            string @else = GetLiteralFromOperatorDtoOrValue(elseOperatorDto, elseValue);
-            string then = GetLiteralFromOperatorDtoOrValue(thenOperatorDto, thenValue);
+
+            string then = GetUniqueLocalVariableName(nameof(then));
+            string @else = GetUniqueLocalVariableName(nameof(@else));
             string isTrue = GetUniqueLocalVariableName(nameof(isTrue));
             string output = GetLocalOutputName(dto);
 
             AppendOperatorTitleComment(dto);
+
+            // TODO: Lower priority: Putting the then and else clauses in separate methods should be dependent on the if being 'long', 
+            // which should be determined in the DTO pre-processing.
+            
+            if (thenOperatorDto != null)
+            {
+                BeginGenerateMethod(thenOperatorDto.OperatorID, nameof(then));
+                string thenLeftSide = GetLiteralFromOperatorDtoOrValue(thenOperatorDto, thenValue);
+                thenLeftSide = EndGenerateMethod(thenLeftSide);
+                AppendLine($"double {then} = {thenLeftSide};");
+            }
+            else
+            {
+                string thenLeftSide = GetLiteralFromOperatorDtoOrValue(null, thenValue);
+                AppendLine($"double {then} = {thenLeftSide};");
+            }
+
+            if (elseOperatorDto != null)
+            {
+                BeginGenerateMethod(elseOperatorDto.OperatorID, nameof(@else));
+                string elseLeftSide = GetLiteralFromOperatorDtoOrValue(elseOperatorDto, elseValue);
+                elseLeftSide = EndGenerateMethod(elseLeftSide);
+                AppendLine($"double {@else} = {elseLeftSide};");
+            }
+            else
+            {
+                string elseLeftSide = GetLiteralFromOperatorDtoOrValue(null, elseValue);
+                AppendLine($"double {@else} = {elseLeftSide};");
+            }
+
             AppendLine($"bool {isTrue} = {condition} != 0.0;");
             AppendLine($"double {output} = {isTrue} ? {then} : {@else};");
 
@@ -902,7 +1050,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             return GenerateOperatorWrapUp(dto, output);
         }
-        
+
         protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
         {
             throw new NotImplementedException();
@@ -974,7 +1122,8 @@ namespace JJ.Business.Synthesizer.Roslyn
                 noteDurationValue: CalculationHelper.VERY_HIGH_VALUE);
         }
 
-        protected override IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(
+            Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto)
         {
             return Process_Loop_OperatorDto(
                 dto,
@@ -985,7 +1134,8 @@ namespace JJ.Business.Synthesizer.Roslyn
                 noteDurationValue: CalculationHelper.VERY_HIGH_VALUE);
         }
 
-        protected override IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(
+            Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration dto)
         {
             return Process_Loop_OperatorDto(
                 dto,
@@ -1021,11 +1171,11 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants(Loop_OperatorDto_NoSkipOrRelease_ManyConstants dto)
         {
             return Process_Loop_OperatorDto(
-                dto, 
-                skipValue: 0.0, 
-                loopStartMarkerValue: dto.LoopStartMarker, 
-                loopEndMarkerValue: dto.LoopEndMarker, 
-                releaseEndMarkerValue: 0.0, 
+                dto,
+                skipValue: 0.0,
+                loopStartMarkerValue: dto.LoopStartMarker,
+                loopEndMarkerValue: dto.LoopEndMarker,
+                releaseEndMarkerValue: 0.0,
                 noteDurationOperatorDto: dto.NoteDurationOperatorDto);
         }
 
@@ -1224,12 +1374,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(
+            MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(
+            MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -1270,12 +1422,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(
+            MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(
+            MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -1374,7 +1528,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string output = GetLocalOutputName(dto);
             string position = GetPositionNameCamelCase(dto);
-            string offset = GenerateRandomOrNoiseOffsetVariableNameCamelCase(dto.OperatorID);
+            string offset = GetRandomOrNoiseOffsetVariableNameCamelCase(dto.OperatorID);
             string arrayCalculator = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
             const string noiseCalculatorHelper = nameof(NoiseCalculatorHelper);
             const string generateOffset = nameof(NoiseCalculatorHelper.GenerateOffset);
@@ -1463,7 +1617,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             return GenerateOperatorWrapUp(dto, output);
         }
-        
+
         protected override IOperatorDto Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
         {
             return ProcessLogicalBinaryOperator(dto, OR_SYMBOL);
@@ -1546,7 +1700,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Math_Pow(dto);
         }
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(
+            Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
         {
             PutNumberOnStack(dto.Width);
             PutNumberOnStack(dto.Frequency);
@@ -1554,7 +1709,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
         }
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(
+            Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting dto)
         {
             PutNumberOnStack(dto.Width);
             PutNumberOnStack(dto.Frequency);
@@ -1570,7 +1726,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
         }
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(
+            Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting dto)
         {
             Visit_OperatorDto_Polymorphic(dto.WidthOperatorDto);
             PutNumberOnStack(dto.Frequency);
@@ -1586,7 +1743,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
         }
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(
+            Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking dto)
         {
             PutNumberOnStack(dto.Width);
             Visit_OperatorDto_Polymorphic(dto.FrequencyOperatorDto);
@@ -1678,7 +1836,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string rate = _stack.Pop();
             string output = GetLocalOutputName(dto);
-            string offset = GenerateRandomOrNoiseOffsetVariableNameCamelCase(dto.OperatorID);
+            string offset = GetRandomOrNoiseOffsetVariableNameCamelCase(dto.OperatorID);
             string arrayCalculator = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
             const string randomCalculatorHelper = nameof(RandomCalculatorHelper);
             const string generateOffset = nameof(RandomCalculatorHelper.GenerateOffset);
@@ -2016,7 +2174,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(
+            Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
@@ -2027,7 +2186,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleMonoToStereoEnd(dto, phase);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(
+            Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
@@ -2049,7 +2209,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleChannelSwitchEnd(dto, phase);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(
+            Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
@@ -2060,7 +2221,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleStereoToMonoEnd(dto, phase);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(
+            Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
         {
             string rate = GenerateConstRateCalculationForSample(dto);
 
@@ -2082,7 +2244,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleChannelSwitchEnd(dto, phase);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(
+            Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
@@ -2093,7 +2256,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleMonoToStereoEnd(dto, phase);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(
+            Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
@@ -2115,7 +2279,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleChannelSwitchEnd(dto, phase);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(
+            Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
@@ -2126,7 +2291,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateSampleStereoToMonoEnd(dto, phase);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(
+            Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
         {
             string rate = GenerateVarRateCalculationForSample(dto);
 
@@ -2403,12 +2569,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessPhaseTrackingOperator(dto, x => string.Format(SINE_FORMULA_FORMAT, x));
         }
 
-        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(
+            SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(
+            SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -2498,7 +2666,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(
+            Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
         {
             PutNumberOnStack(dto.Factor);
 
@@ -2558,7 +2727,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
-        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(
+            Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
         {
             PutNumberOnStack(dto.Factor);
 
@@ -2658,7 +2828,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendLineToCalculate(positionTranformationLine);
             AppendLineToCalculate($"{previousPosition} = {sourcePosition};");
-            AppendLineToCalculate($"{phase} = {destPosition};"); // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level, while phase needs to be uniquely used by the operator instance.
+            AppendLineToCalculate($"{phase} = {destPosition};");
+                // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level, while phase needs to be uniquely used by the operator instance.
             AppendLineToCalculate();
 
             AppendLineToReset($"{phase} = 0.0;");
@@ -2721,12 +2892,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(
+            SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(
+            SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -3241,7 +3414,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLineToReset(line);
         }
 
-        private void AppendLineToCalculate(string line = null) => GetStringBuilderForWritingCalculation().AppendLine(line);
+        private void AppendLineToCalculate(string line = null) => TryGetStringBuilderForWritingCalculation()?.AppendLine(line);
         private void AppendLineToReset(string line = null) => TryGetStringBuilderForWritingReset()?.AppendLine(line);
 
         private void Indent()
@@ -3250,7 +3423,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             IndentReset();
         }
 
-        private void IndentCalculate() => GetStringBuilderForWritingCalculation().Indent();
+        private void IndentCalculate() => TryGetStringBuilderForWritingCalculation()?.Indent();
         private void IndentReset() => TryGetStringBuilderForWritingReset()?.Indent();
 
         private void Unindent()
@@ -3259,7 +3432,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             UnindentReset();
         }
 
-        private void UnindentCalculate() => GetStringBuilderForWritingCalculation().Unindent();
+        private void UnindentCalculate() => TryGetStringBuilderForWritingCalculation()?.Unindent();
         private void UnindentReset() => TryGetStringBuilderForWritingReset()?.Unindent();
 
         private void Append(char chr)
@@ -3268,7 +3441,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendReset(chr);
         }
 
-        private void AppendCalculate(char chr) => GetStringBuilderForWritingCalculation().Append(chr);
+        private void AppendCalculate(char chr) => TryGetStringBuilderForWritingCalculation()?.Append(chr);
         private void AppendReset(char chr) => TryGetStringBuilderForWritingReset()?.Append(chr);
 
         private void Append(string text)
@@ -3277,8 +3450,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendReset(text);
         }
 
-        private void AppendCalculate(string text) => GetStringBuilderForWritingCalculation().Append(text);
-        private void AppendReset(string text) =>  TryGetStringBuilderForWritingReset()?.Append(text);
+        private void AppendCalculate(string text) => TryGetStringBuilderForWritingCalculation()?.Append(text);
+        private void AppendReset(string text) => TryGetStringBuilderForWritingReset()?.Append(text);
 
         private void AppendTabs()
         {
@@ -3286,21 +3459,221 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendTabsReset();
         }
 
-        private void AppendTabsCalculate() => GetStringBuilderForWritingCalculation().AppendTabs();
+        private void AppendTabsCalculate() => TryGetStringBuilderForWritingCalculation()?.AppendTabs();
         private void AppendTabsReset() => TryGetStringBuilderForWritingReset()?.AppendTabs();
 
-        [NotNull]
-        private StringBuilderWithIndentation GetStringBuilderForWritingCalculation()
+        [CanBeNull]
+        private StringBuilderWithIndentation TryGetStringBuilderForWritingCalculation()
         {
+            // Hold operator just does the whole calculation in the Reset method.
             bool holdOperatorIsActive = _holdOperatorIsActiveStack.Peek();
-            return holdOperatorIsActive ? _resetStringBuilder : _calculateStringBuilder;
+            if (holdOperatorIsActive)
+            {
+                return _stringBuilderForReset;
+            }
+
+            // When you are in a separate generated method, you have to write to that.
+            GeneratedMethodInfo generatedMethodInfo = _generatedMethodInfoStack.PeekOrDefault();
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (generatedMethodInfo != null)
+            {
+                return generatedMethodInfo.MethodBodyStringBuilderForCalculate;
+            }
+
+            // Otherwise, write to the main calculate method.
+            return _stringBuilderForCalculate;
         }
 
         [CanBeNull]
         private StringBuilderWithIndentation TryGetStringBuilderForWritingReset()
         {
             bool holdOperatorIsActive = _holdOperatorIsActiveStack.Peek();
-            return holdOperatorIsActive ? null : _resetStringBuilder;
+            if (holdOperatorIsActive)
+            {
+                return null;
+            }
+
+            // When you are in a separate generated method, you have to write to that.
+            GeneratedMethodInfo generatedMethodInfo = _generatedMethodInfoStack.PeekOrDefault();
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (generatedMethodInfo != null)
+            {
+                return generatedMethodInfo.MethodBodyStringBuilderForReset;
+            }
+
+            return _stringBuilderForReset;
+        }
+
+        /// <param name="operatorID">key for a unique method</param>
+        private void BeginGenerateMethod(int operatorID, object mnemonic)
+        {
+            switch (_calculationMethodEnum)
+            {
+                case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
+                case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
+                    GeneratedMethodInfo generatedMethodInfo;
+                    if (!_operatorID_To_GeneratedMethodInfo_Dictionary.TryGetValue(operatorID, out generatedMethodInfo))
+                    {
+                        generatedMethodInfo = new GeneratedMethodInfo
+                        {
+                            MethodNameForCalculate = GetMethodName($"{CALCULATE_MNEMONIC}{mnemonic}"),
+                            MethodNameForReset = GetMethodName($"{RESET_MNEMONIC}{mnemonic}"),
+                        };
+
+                        _operatorID_To_GeneratedMethodInfo_Dictionary[operatorID] = generatedMethodInfo;
+                    }
+                    else
+                    {
+                        // For an already written method, create a new argument list.
+                        generatedMethodInfo.VariableInfo = new VariableInfo();
+                    }
+
+                    _generatedMethodInfoStack.Push(generatedMethodInfo);
+                    break;
+
+                case CalculationMethodEnum.Roslyn:
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(_calculationMethodEnum);
+            }
+        }
+
+        /// <summary> Returns a right side for a variable assignment. </summary>
+        private string EndGenerateMethod(string expressionToReturn)
+        {
+            switch (_calculationMethodEnum)
+            {
+                case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
+                case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
+
+                    GeneratedMethodInfo generatedMethodInfo = _generatedMethodInfoStack.Peek();
+                    IList<GeneratedParameterInfo> generatedParameterInfos = generatedMethodInfo.GetGeneratedParameterInfos();
+
+                    if (!generatedMethodInfo.MethodGenerationIsComplete)
+                    {
+                        generatedMethodInfo.MethodGenerationIsComplete = true;
+
+                        // Build Parameter List Code
+                        string parameterListCode;
+                        {
+                            var sb = new StringBuilderWithIndentation(TAB_STRING) { IndentLevel = MULTI_LINE_PARAMETER_LIST_INDENT_LEVEL };
+
+                            foreach (GeneratedParameterInfo generatedParameterInfo in generatedParameterInfos)
+                            {
+                                if (_calculationMethodEnum == CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters)
+                                {
+                                    sb.AppendLine($"{generatedParameterInfo.TypeName} {generatedParameterInfo.NameCamelCase},");
+
+                                    sb.AppendTabs();
+                                    sb.Append($"out {generatedParameterInfo.TypeName} {generatedParameterInfo.NameCamelCase}_out");
+                                        // DIRTY: "_out" suffix does not create ambiguity, but only by accident because the last part of an identifier is always a number.
+                                }
+                                else if (_calculationMethodEnum == CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters)
+                                {
+                                    sb.AppendTabs();
+                                    sb.Append($"ref {generatedParameterInfo.TypeName} {generatedParameterInfo.NameCamelCase}");
+                                }
+                                else
+                                {
+                                    throw new ValueNotSupportedException(_calculationMethodEnum);
+                                }
+
+                                bool isLast = generatedParameterInfo == generatedParameterInfos.Last();
+                                if (!isLast)
+                                {
+                                    sb.Append(',');
+                                }
+                                else
+                                {
+                                    sb.Append(')');
+                                }
+
+                                sb.AppendLine();
+                            }
+                            parameterListCode = sb.ToString();
+                        }
+
+                        // Write last bit of raw method code.
+                        if (_calculationMethodEnum == CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters)
+                        {
+                            foreach (GeneratedParameterInfo generatedParameterInfo in generatedParameterInfos)
+                            {
+                                AppendLine($"{generatedParameterInfo.NameCamelCase}_out = {generatedParameterInfo.NameCamelCase};");
+                                    // DIRTY: "_out" suffix does not create ambiguity, but only by accident because the last part of an identifier is always a number.
+                            }
+                            AppendLine();
+                        }
+
+                        AppendLine($"return {expressionToReturn};");
+
+                        // Wrap raw Calculate code in a method.
+                        {
+                            var sb = new StringBuilderWithIndentation(TAB_STRING) { IndentLevel = METHOD_SIGNATURE_INDENT_LEVEL };
+                            sb.AppendLine("[MethodImpl(MethodImplOptions.NoInlining)]");
+                            sb.AppendLine($"private double {generatedMethodInfo.MethodNameForCalculate}(");
+                            sb.Append(parameterListCode);
+                            sb.AppendLine("{");
+                            sb.Indent();
+                            {
+                                sb.Append(generatedMethodInfo.MethodBodyStringBuilderForCalculate.ToString());
+                                sb.Unindent();
+                            }
+                            sb.AppendLine("}");
+                            generatedMethodInfo.MethodCodeForCalculate = sb.ToString();
+                        }
+
+                        // Wrap raw Reset code in a method.
+                        {
+                            var sb = new StringBuilderWithIndentation(TAB_STRING) { IndentLevel = METHOD_SIGNATURE_INDENT_LEVEL };
+                            sb.AppendLine($"private double {generatedMethodInfo.MethodNameForReset}(");
+                            sb.Append(parameterListCode);
+                            sb.AppendLine("{");
+                            sb.Indent();
+                            {
+                                sb.Append(generatedMethodInfo.MethodBodyStringBuilderForReset.ToString());
+                                sb.Unindent();
+                            }
+                            sb.AppendLine("}");
+                            generatedMethodInfo.MethodCodeForReset = sb.ToString();
+                        }
+                    }
+
+                    // Pop to parent level.
+                    _generatedMethodInfoStack.Pop();
+
+                    // Write method calls
+                    string argumentListCode;
+                    if (_calculationMethodEnum == CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters)
+                    {
+                        argumentListCode = string.Join(
+                            ", ",
+                            generatedMethodInfo.GetGeneratedParameterInfos().Select(x => $"{x.NameCamelCase}, out {x.NameCamelCase}"));
+                    }
+                    else if (_calculationMethodEnum == CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters)
+                    {
+                        argumentListCode = string.Join(
+                            ", ",
+                            generatedMethodInfo.GetGeneratedParameterInfos().Select(x => $"ref {x.NameCamelCase}"));
+                    }
+                    else
+                    {
+                        throw new ValueNotSupportedException(_calculationMethodEnum);
+                    }
+
+                    string output = GetUniqueLocalVariableName(generatedMethodInfo.MethodNameForCalculate);
+
+                    AppendLineToCalculate($"double {output} = {generatedMethodInfo.MethodNameForCalculate}({argumentListCode});");
+                    AppendLineToReset($"double {output} = {generatedMethodInfo.MethodNameForReset}({argumentListCode});");
+
+                    return output;
+
+                case CalculationMethodEnum.Roslyn:
+                    return expressionToReturn;
+
+                default:
+                    throw new ValueNotSupportedException(_calculationMethodEnum);
+            }
         }
 
         // Helpers
@@ -3321,6 +3694,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private string Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(string arbitraryString)
         {
+            if (string.IsNullOrWhiteSpace(arbitraryString)) throw new NullOrWhiteSpaceException(() => arbitraryString);
+
             string convertedName = NameHelper.ToCanonical(arbitraryString).ToCamelCase().Replace("_", "");
             return convertedName;
         }
@@ -3374,15 +3749,18 @@ namespace JJ.Business.Synthesizer.Roslyn
             return phase;
         }
 
-        private string GenerateRandomOrNoiseOffsetVariableNameCamelCase(int operatorID)
+        private string GetRandomOrNoiseOffsetVariableNameCamelCase(int operatorID)
         {
             string variableNameCamelCase;
             // ReSharper disable once InvertIf
-            if (!_randomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary.TryGetValue(operatorID, out variableNameCamelCase))
+            if (!_variableInfo.RandomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary.TryGetValue(operatorID, out variableNameCamelCase))
             {
                 variableNameCamelCase = GetUniqueLongLivedVariableName(OFFSET_MNEMONIC);
+            }
 
-                _randomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
+            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            {
+                variableInfo.RandomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
             }
 
             return variableNameCamelCase;
@@ -3390,27 +3768,30 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private string GetArrayCalculatorVariableNameCamelCaseAndCache(ArrayDto arrayDto)
         {
-            ArrayCalculationInfo variableInfo;
+            ArrayCalculationInfo arrayCalculationInfo;
             // ReSharper disable once InvertIf
-            if (!_arrayDto_To_ArrayCalculationInfo_Dictionary.TryGetValue(arrayDto, out variableInfo))
+            if (!_variableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.TryGetValue(arrayDto, out arrayCalculationInfo))
             {
                 // Do not call GenerateUniqueLongLivedVariableName. In a later stage those are all assumed to be double variables. 
                 // The array calculator variables are not doubles.
-                string nameCamelCase = GetUniqueLocalVariableName(ARRAY_CALCULATOR_MNEMONIC);
+                string nameCamelCase = GetUniqueVariableNameCamelCase(ARRAY_CALCULATOR_MNEMONIC);
 
                 ICalculatorWithPosition arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
 
-                variableInfo = new ArrayCalculationInfo
+                arrayCalculationInfo = new ArrayCalculationInfo
                 {
                     NameCamelCase = nameCamelCase,
                     TypeName = arrayCalculator.GetType().Name,
                     ArrayDto = arrayDto
                 };
-
-                _arrayDto_To_ArrayCalculationInfo_Dictionary[arrayDto] = variableInfo;
             }
 
-            return variableInfo.NameCamelCase;
+            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            {
+                variableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary[arrayDto] = arrayCalculationInfo;
+            }
+
+            return arrayCalculationInfo.NameCamelCase;
         }
 
         /// <summary>
@@ -3422,64 +3803,65 @@ namespace JJ.Business.Synthesizer.Roslyn
             var key = new Tuple<DimensionEnum, string>(dimensionEnum, canonicalCustomDimensionName);
             string alias;
 
-            if (_standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(key, out alias))
+            if (!_variableInfo.StandardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(key, out alias))
             {
-                return alias;
+                object mnemonic;
+                if (dimensionEnum != DimensionEnum.Undefined)
+                {
+                    mnemonic = dimensionEnum;
+                }
+                else
+                {
+                    mnemonic = canonicalCustomDimensionName;
+                }
+                alias = GetUniqueDimensionAlias(mnemonic);
             }
 
-            object mnemonic;
-            if (dimensionEnum != DimensionEnum.Undefined)
+            foreach (VariableInfo variableInfo in GetVariableInfoList())
             {
-                mnemonic = dimensionEnum;
+                variableInfo.StandardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
             }
-            else
-            {
-                mnemonic = canonicalCustomDimensionName;
-            }
-            alias = GetUniqueDimensionAlias(mnemonic);
 
-            _standardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
             return alias;
         }
 
         private string GetInputName(VariableInput_OperatorDto dto)
         {
-            string name;
-            if (_variableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out name))
+            string variableName;
+            ExtendedVariableInfo inputVariableInfo = null;
+
+            if (_variableInfo.VariableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out variableName))
             {
-                return name;
+                _variableInfo.VariableName_To_InputVariableInfo_Dictionary.TryGetValue(variableName, out inputVariableInfo);
             }
 
-            ExtendedVariableInfo inputVariableInfo = GetInputVariableInfo(dto);
-
-            _variableInput_OperatorDto_To_VariableName_Dictionary[dto] = inputVariableInfo.VariableNameCamelCase;
-
-            return inputVariableInfo.VariableNameCamelCase;
-        }
-
-        private ExtendedVariableInfo GetInputVariableInfo(VariableInput_OperatorDto dto)
-        {
-            object mnemonic;
-            if (dto.DimensionEnum != DimensionEnum.Undefined)
+            if (string.IsNullOrEmpty(variableName) || inputVariableInfo == null)
             {
-                mnemonic = dto.DimensionEnum;
-            }
-            else if (!string.IsNullOrEmpty(dto.CanonicalName))
-            {
-                mnemonic = dto.CanonicalName;
-            }
-            else
-            {
-                mnemonic = DEFAULT_INPUT_MNEMONIC;
+                object mnemonic;
+                if (dto.DimensionEnum != DimensionEnum.Undefined)
+                {
+                    mnemonic = dto.DimensionEnum;
+                }
+                else if (!string.IsNullOrEmpty(dto.CanonicalName))
+                {
+                    mnemonic = dto.CanonicalName;
+                }
+                else
+                {
+                    mnemonic = DEFAULT_INPUT_MNEMONIC;
+                }
+
+                variableName = GetUniqueVariableNameCamelCase(mnemonic);
+                inputVariableInfo = new ExtendedVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
             }
 
-            string variableName = GetUniqueLocalVariableName(mnemonic);
+            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            {
+                variableInfo.VariableInput_OperatorDto_To_VariableName_Dictionary[dto] = variableName;
+                variableInfo.VariableName_To_InputVariableInfo_Dictionary[variableName] = inputVariableInfo;
+            }
 
-            var valueInfo = new ExtendedVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
-
-            _variableName_To_InputVariableInfo_Dictionary.Add(variableName, valueInfo);
-
-            return valueInfo;
+            return variableName;
         }
 
         private string GetLiteralFromOperatorDtoOrValue(IOperatorDto valueOperatorDto = null, double? value = null)
@@ -3505,12 +3887,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private string GetLocalOutputName(IOperatorDto dto)
         {
-            return GetUniqueLocalVariableName(dto.OperatorTypeEnum);
+            return GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
         }
 
         private string GetLocalPhaseName()
         {
-            string variableName = GetUniqueLocalVariableName(PHASE_MNEMONIC);
+            string variableName = GetUniqueVariableNameCamelCase(PHASE_MNEMONIC);
             return variableName;
         }
 
@@ -3582,26 +3964,43 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             // Format PositionVariableNAme
             string positionVariableName = $"{dimensionAlias}_{stackLevel}";
-            _positionVariableNamesCamelCaseHashSet.Add(positionVariableName);
+
+            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            {
+                variableInfo.PositionVariableNamesCamelCaseHashSet.Add(positionVariableName);
+            }
 
             // Manage Dictionary with Dimension Info
             var key = new Tuple<DimensionEnum, string, int>(standardDimensionEnum, canonicalCustomDimensionName, stackLevel);
-            ExtendedVariableInfo variableInfo;
+            ExtendedVariableInfo extendedVariableInfo;
 
-            if (_dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out variableInfo))
+            if (!_variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out extendedVariableInfo))
             {
-                return positionVariableName;
+                extendedVariableInfo = new ExtendedVariableInfo(
+                    positionVariableName,
+                    canonicalCustomDimensionName,
+                    standardDimensionEnum,
+                    stackLevel,
+                    defaultValue: null);
             }
 
-            variableInfo = new ExtendedVariableInfo(positionVariableName, canonicalCustomDimensionName, standardDimensionEnum, stackLevel, defaultValue: null);
-            _dimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary[key] = variableInfo;
+            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            {
+                variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary[key] = extendedVariableInfo;
+            }
 
             return positionVariableName;
         }
 
         private string GetUniqueDimensionAlias(object mnemonic)
         {
-            string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
+            string convertedMnemonic = Convert.ToString(mnemonic);
+            if (string.IsNullOrWhiteSpace(convertedMnemonic))
+            {
+                convertedMnemonic = ANONYMOUS_MNEMONIC;
+            }
+
+            string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(convertedMnemonic);
             string uniqueLetterSequence = GetUniqueLetterSequence();
 
             string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}";
@@ -3613,12 +4012,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             return NumberingSystems.ToLetterSequence(_counter++, firstChar: 'a', lastChar: 'z');
         }
 
+        private string GetUniqueLocalVariableName(object mnemonic) => GetUniqueVariableNameCamelCase(mnemonic);
+
         /// <param name="mnemonic">
         /// Will be incorporated into the variable name. It will be converted to string.
         /// It will also be put into a (non-unique) form that will be valid in C#.
         /// Also underscores are removed from it, because that is a separator character in our variable names.
         /// </param>
-        private string GetUniqueLocalVariableName(object mnemonic)
+        private string GetUniqueVariableNameCamelCase(object mnemonic)
         {
             string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(Convert.ToString(mnemonic));
             int uniqueNumber = GetUniqueNumber();
@@ -3629,20 +4030,33 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private string GetUniqueLongLivedVariableName(object mnemonic)
         {
-            string variableName = GetUniqueLocalVariableName(mnemonic);
+            string variableName = GetUniqueVariableNameCamelCase(mnemonic);
 
-            _longLivedDoubleVariableNamesCamelCase.Add(variableName);
+            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            {
+                variableInfo.LongLivedDoubleVariableNamesCamelCase.Add(variableName);
+            }
 
             return variableName;
         }
 
         private string GetLongLivedDoubleArrayVariableName(int arrayLength)
         {
-            string variableName = GetUniqueLocalVariableName(ARRAY_MNEMONIC);
+            string variableName = GetUniqueVariableNameCamelCase(ARRAY_MNEMONIC);
 
-            _longLivedDoubleArrayVariableInfos.Add(new DoubleArrayVariableInfo { NameCamelCase = variableName, ArrayLength = arrayLength });
+            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            {
+                variableInfo.LongLivedDoubleArrayVariableInfos.Add(new DoubleArrayVariableInfo { NameCamelCase = variableName, ArrayLength = arrayLength });
+            }
 
             return variableName;
+        }
+
+        private string GetMethodName(object mnemonic)
+        {
+            string uniqueNameCamelCase = GetUniqueVariableNameCamelCase(mnemonic);
+            string uniqueNamePascalCase = uniqueNameCamelCase.Left(1).ToUpper() + uniqueNameCamelCase.TrimStart(1);
+            return uniqueNamePascalCase;
         }
 
         private int GetUniqueNumber()
@@ -3653,6 +4067,12 @@ namespace JJ.Business.Synthesizer.Roslyn
         private void PutNumberOnStack(double value)
         {
             _stack.Push(CompilationHelper.FormatValue(value));
+        }
+
+        private IList<VariableInfo> GetVariableInfoList()
+        {
+            IList<VariableInfo> list = _generatedMethodInfoStack.Select(x => x.VariableInfo).Union(_variableInfo).ToArray();
+            return list;
         }
     }
 }

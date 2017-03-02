@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         // ReSharper disable once UnusedMember.Local
         private const int TOP_LEVEL_DIMENSION_STACK_INDEX = 0;
 #endif
-        private static readonly CalculationEngineConfigurationEnum _calculationEngineConfigurationEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationEngine;
+        private static readonly CalculationMethodEnum _calculationMethodEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationMethod;
 
         private readonly DimensionStackCollection _dimensionStackCollection;
         private readonly DimensionStack _timeDimensionStack;
@@ -48,9 +48,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             if (topLevelOutlet == null) throw new NullException(() => topLevelOutlet);
 
             ToCalculatorResult result;
-            switch (_calculationEngineConfigurationEnum)
+            switch (_calculationMethodEnum)
             {
-                case CalculationEngineConfigurationEnum.EntityToCalculatorDirectly:
+                case CalculationMethodEnum.EntityToCalculatorDirectly:
                     {
                         var visitor = new OperatorEntityToCalculatorDirectlyVisitor(
                             topLevelOutlet,
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         break;
                     }
 
-                case CalculationEngineConfigurationEnum.EntityThruDtoToCalculator:
+                case CalculationMethodEnum.EntityThruDtoToCalculator:
                     {
                         var visitor = new OperatorEntityThruDtoToCalculatorExecutor(
                             samplingRate,
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     }
 
                 default:
-                    throw new ValueNotSupportedException(_calculationEngineConfigurationEnum);
+                    throw new ValueNotSupportedException(_calculationMethodEnum);
             }
 
             // Yield over results to fields.

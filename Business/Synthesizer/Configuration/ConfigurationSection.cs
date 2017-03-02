@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Configuration
         public double SecondsBetweenApplyFilterVariables { get; set; }
 
         [XmlAttribute]
-        public CalculationEngineConfigurationEnum CalculationEngine { get; set; }
+        public CalculationMethodEnum CalculationMethod { get; set; }
 
         [XmlAttribute]
         public int DefaultSamplingRate { get; set; }

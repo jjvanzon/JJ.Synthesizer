@@ -14,6 +14,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         public IList<ExtendedVariableInfo> LongLivedDimensionVariableInfos { get; }
         public IList<ArrayCalculationInfo> ArrayCalculationInfos { get; }
         public IList<DoubleArrayVariableInfo> LongLivedDoubleArrayVariableInfos { get; }
+        public IList<string> CalculationMethodCodeList { get; }
+        public IList<string> ResetMethodCodeList { get; }
 
         public OperatorDtoToCSharpVisitorResult(
             string rawCalculationCode,
@@ -25,7 +27,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             IList<ExtendedVariableInfo> inputVariableInfos,
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfos,
             IList<ArrayCalculationInfo> arrayCalculationInfos,
-            IList<DoubleArrayVariableInfo> longLivedDoubleArrayVariableInfos)
+            IList<DoubleArrayVariableInfo> longLivedDoubleArrayVariableInfos,
+            IList<string> calculationMethodCodeList,
+            IList<string> resetMethodCodeList)
         {
             RawCalculationCode = rawCalculationCode;
             RawResetCode = rawResetCode;
@@ -37,6 +41,8 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             LongLivedDimensionVariableInfos = longLivedDimensionVariableInfos;
             ArrayCalculationInfos = arrayCalculationInfos;
             LongLivedDoubleArrayVariableInfos = longLivedDoubleArrayVariableInfos;
+            CalculationMethodCodeList = calculationMethodCodeList;
+            ResetMethodCodeList = resetMethodCodeList;
         }
     }
 }

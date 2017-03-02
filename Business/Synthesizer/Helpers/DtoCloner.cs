@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Dto;
+﻿using System;
+using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
@@ -13,7 +15,7 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.StepOperatorDto = source.StepOperatorDto;
             dest.CollectionRecalculationEnum = source.CollectionRecalculationEnum;
 
-            Clone_DimensionProperties(source, dest);
+            Clone_WithDimensionProperties(source, dest);
         }
 
         public static void TryClone_AggregateOverDimensionProperties(OperatorDtoBase_AggregateOverDimension_AllVars source, IOperatorDto dest)
@@ -31,7 +33,7 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.SliceLengthOperatorDto = source.SliceLengthOperatorDto;
             dest.SampleCountOperatorDto = source.SampleCountOperatorDto;
 
-            Clone_DimensionProperties(source, dest);
+            Clone_WithDimensionProperties(source, dest);
         }
 
         public static void TryClone_AggregateFollowerProperties(OperatorDtoBase_AggregateFollower_AllVars source, IOperatorDto dest)
@@ -54,6 +56,8 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.InterpolationTypeEnum = source.InterpolationTypeEnum;
             dest.SpeakerSetupEnum = source.SpeakerSetupEnum;
             dest.ArrayDto = source.ArrayDto;
+
+            Clone_OperatorBaseProperties(source, dest);
         }
 
         public static void TryClone_CacheOperatorProperties(Cache_OperatorDtoBase_NotConstSignal source, IOperatorDto dest)
@@ -64,7 +68,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 Clone_CacheOperatorProperties(source, castedDest);
             }
 
-            TryClone_DimensionProperties(source, dest);
+            TryClone_WithDimensionProperties(source, dest);
         }
 
         public static void Clone_ClosestOverDimensionProperties(ClosestOverDimension_OperatorDto source, ClosestOverDimension_OperatorDto dest)
@@ -76,7 +80,7 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.StepOperatorDto = source.StepOperatorDto;
             dest.CollectionRecalculationEnum = source.CollectionRecalculationEnum;
 
-            Clone_DimensionProperties(source, dest);
+            Clone_WithDimensionProperties(source, dest);
         }
 
         public static void TryClone_CurveProperties(Curve_OperatorDto source, IOperatorDto dest)
@@ -115,30 +119,32 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.CurveID = source.CurveID.Value;
             dest.ArrayDto = source.ArrayDto;
 
-            Clone_DimensionProperties(source, dest);
+            Clone_WithDimensionProperties(source, dest);
         }
 
-        public static void Clone_DimensionProperties(IOperatorDto_WithDimension source, IOperatorDto_WithDimension dest)
+        public static void Clone_WithDimensionProperties(IOperatorDto_WithDimension source, IOperatorDto_WithDimension dest)
         {
             dest.CanonicalCustomDimensionName = source.CanonicalCustomDimensionName;
             dest.StandardDimensionEnum = source.StandardDimensionEnum;
+
+            Clone_OperatorBaseProperties(source, dest);
         }
 
-        public static void TryClone_DimensionProperties(IOperatorDto_WithDimension source, IOperatorDto dest)
+        public static void TryClone_WithDimensionProperties(IOperatorDto_WithDimension source, IOperatorDto dest)
         {
-            var destOperatorDto_WithDimension = dest as IOperatorDto_WithDimension;
-            if (destOperatorDto_WithDimension != null)
+            var castedDest = dest as IOperatorDto_WithDimension;
+            if (castedDest != null)
             {
-                Clone_DimensionProperties(source, destOperatorDto_WithDimension);
+                Clone_WithDimensionProperties(source, castedDest);
             }
         }
 
-        public static void TryClone_FilterVarSignalProperties(OperatorDtoBase_Filter_VarSignal source, IOperatorDto dest)
+        public static void TryClone_FilterProperties(OperatorDtoBase_Filter_VarSignal source, IOperatorDto dest)
         {
-            var destOperatorDto_Filter_VarSignal = dest as OperatorDtoBase_Filter_VarSignal;
-            if (destOperatorDto_Filter_VarSignal != null)
+            var castedDest = dest as OperatorDtoBase_Filter_VarSignal;
+            if (castedDest != null)
             {
-                Clone_FilterProperties(source, destOperatorDto_Filter_VarSignal);
+                Clone_FilterProperties(source, castedDest);
             }
         }
 
@@ -147,6 +153,8 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.SignalOperatorDto = source.SignalOperatorDto;
             dest.SamplingRate = source.SamplingRate;
             dest.NyquistFrequency = source.NyquistFrequency;
+
+            Clone_OperatorBaseProperties(source, dest);
         }
 
         public static void Clone_InterpolateOperatorProperties(IInterpolate_OperatorDto_VarSignal source, IInterpolate_OperatorDto_VarSignal dest)
@@ -154,15 +162,15 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.ResampleInterpolationTypeEnum = source.ResampleInterpolationTypeEnum;
             dest.SignalOperatorDto = source.SignalOperatorDto;
 
-            Clone_DimensionProperties(source, dest);
+            Clone_WithDimensionProperties(source, dest);
         }
 
         public static void TryClone_InterpolateOperatorProperties(Interpolate_OperatorDto source, IOperatorDto dest)
         {
-            var asIInterpolate_OperatorDto_VarSignal = dest as IInterpolate_OperatorDto_VarSignal;
-            if (asIInterpolate_OperatorDto_VarSignal != null)
+            var castedDest = dest as IInterpolate_OperatorDto_VarSignal;
+            if (castedDest != null)
             {
-                Clone_InterpolateOperatorProperties(source, asIInterpolate_OperatorDto_VarSignal);
+                Clone_InterpolateOperatorProperties(source, castedDest);
             }
         }
 
@@ -172,15 +180,15 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.OperatorID = source.OperatorID;
             dest.ArrayDto = source.ArrayDto;
 
-            Clone_DimensionProperties(source, dest);
+            Clone_WithDimensionProperties(source, dest);
         }
 
         public static void TryClone_RandomOperatorProperties(IRandom_OperatorDto source, IOperatorDto dest)
         {
-            var asIRandom_OperatorDto = dest as IRandom_OperatorDto;
-            if (asIRandom_OperatorDto != null)
+            var castedDest = dest as IRandom_OperatorDto;
+            if (castedDest != null)
             {
-                Clone_RandomOperatorProperties(source, asIRandom_OperatorDto);
+                Clone_RandomOperatorProperties(source, castedDest);
             }
         }
 
@@ -194,16 +202,24 @@ namespace JJ.Business.Synthesizer.Helpers
             dest.TargetChannelCount = source.TargetChannelCount;
             dest.ArrayDtos = source.ArrayDtos;
 
-            Clone_DimensionProperties(source, dest);
+            Clone_WithDimensionProperties(source, dest);
         }
 
         public static void TryClone_SampleProperties(Sample_OperatorDto source, IOperatorDto dest)
         {
-            var asISample_OperatorDto = dest as ISample_OperatorDto_WithSampleID;
-            if (asISample_OperatorDto != null)
+            var castedDest = dest as ISample_OperatorDto_WithSampleID;
+            if (castedDest != null)
             {
-                Clone_SampleProperties(source, asISample_OperatorDto);
+                Clone_SampleProperties(source, castedDest);
             }
+        }
+
+        public static void Clone_OperatorBaseProperties([NotNull] IOperatorDto source, [NotNull] IOperatorDto dest)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (dest == null) throw new ArgumentNullException(nameof(dest));
+
+            dest.OperatorID = source.OperatorID;
         }
     }
 }

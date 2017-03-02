@@ -48,8 +48,6 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Cache;
 
-        /// <summary> Used as a cache key. </summary>
-        public int OperatorID { get; set; }
         public IList<ArrayDto> ArrayDto { get; set; }
 
         public IOperatorDto SignalOperatorDto { get; set; }

@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -19,7 +20,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 SampleCountOperatorDto = dto.SampleCountOperatorDto,
                 SliceLengthOperatorDto = new Number_OperatorDto_One()
             };
-            
+
+            DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
+
             // Dimension does not matter in case of ConstSignal.
 
             return dto2;

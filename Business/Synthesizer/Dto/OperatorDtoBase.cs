@@ -8,9 +8,10 @@ namespace JJ.Business.Synthesizer.Dto
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     internal abstract class OperatorDtoBase : IOperatorDto
     {
-        /// <summary> Only used to add comment to output generated C# code. </summary>
         public abstract OperatorTypeEnum OperatorTypeEnum { get; }
         public abstract IList<IOperatorDto> InputOperatorDtos { get; set; }
+
+        public int OperatorID { get; set; }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
