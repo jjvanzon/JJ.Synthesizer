@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
@@ -127,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 Name = "documentTreeToolStripMenuItem",
                 // ReSharper disable once LocalizableElement
-                Text = "&" + Titles.DocumentTree
+                Text = "&" + ResourceFormatter.DocumentTree
             };
 
             return toolStripMenuItem;
@@ -139,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 Name = "currentPatchesToolStripMenuItem",
                 // ReSharper disable once LocalizableElement
-                Text = "&" + Titles.CurrentPatches
+                Text = "&" + ResourceFormatter.CurrentPatches
             };
 
             return toolStripMenuItem;
@@ -175,7 +174,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 Name = "documentListToolStripMenuItem",
                 // ReSharper disable once LocalizableElement
-                Text = "&" + Titles.DocumentList
+                Text = "&" + ResourceFormatter.DocumentList
             };
 
             return toolStripMenuItem;

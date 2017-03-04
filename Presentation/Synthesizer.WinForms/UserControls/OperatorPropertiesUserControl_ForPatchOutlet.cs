@@ -1,5 +1,4 @@
 ﻿using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
@@ -21,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelNumber.Text = Titles.Number;
+            labelNumber.Text = ResourceFormatter.Number;
             labelDimension.Text = ResourceFormatter.Dimension;
         }
 

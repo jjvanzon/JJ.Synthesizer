@@ -7,7 +7,6 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Calculation.Patches;
@@ -15,6 +14,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Configuration;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -263,7 +263,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.ValidationMessages.Add(new Message
                 {
                     PropertyKey = PresentationPropertyNames.SelectedOperator,
-                    Text = PresentationMessages.SelectAnOperatorFirst
+                    Text = ResourceFormatter.SelectAnOperatorFirst
                 });
 
                 return userInput;
@@ -345,7 +345,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.ValidationMessages.Add(new Message
                 {
                     PropertyKey = PresentationPropertyNames.SelectedOperator,
-                    Text = PresentationMessages.SelectAnOperatorFirst
+                    Text = ResourceFormatter.SelectAnOperatorFirst
                 });
 
                 return null;
@@ -358,7 +358,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.ValidationMessages.Add(new Message
                 {
                     PropertyKey = PresentationPropertyNames.SelectedOperator,
-                    Text = PresentationMessages.SelectAnOperatorWithASingleOutlet
+                    Text = ResourceFormatter.SelectAnOperatorWithASingleOutlet
                 });
 
                 return null;

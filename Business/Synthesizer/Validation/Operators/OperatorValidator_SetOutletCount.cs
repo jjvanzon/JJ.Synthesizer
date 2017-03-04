@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         private string GetOperatorTypeNotAllowedMessage()
         {
             IList<string> operatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceFormatter.GetText(x)).ToArray();
-            string message = ValidationMessageFormatter.NotInList(ResourceFormatter.OperatorType, operatorTypeDisplayNames);
+            string message = ValidationResourceFormatter.NotInList(ResourceFormatter.OperatorType, operatorTypeDisplayNames);
             return message;
         }
     }

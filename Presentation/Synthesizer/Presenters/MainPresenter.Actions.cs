@@ -14,7 +14,6 @@ using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.Validators;
@@ -22,6 +21,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Collections;
 // ReSharper disable InvertIf
 
@@ -969,7 +969,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.ValidationMessages.Add(new Message
                 {
                     PropertyKey = PresentationPropertyNames.SelectedNodeID,
-                    Text = PresentationMessages.SelectANodeFirst
+                    Text = ResourceFormatter.SelectANodeFirst
                 });
                 return;
             }

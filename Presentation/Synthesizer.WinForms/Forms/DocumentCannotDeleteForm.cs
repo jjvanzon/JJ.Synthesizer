@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.ViewModels;
 using System;
 using System.Windows.Forms;
-using JJ.Presentation.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         {
             InitializeComponent();
 
-            Text = Titles.ApplicationName;
+            Text = ResourceFormatter.ApplicationName;
         }
 
         public void ShowDialog(DocumentCannotDeleteViewModel viewModel)

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using JJ.Presentation.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
         private void SetTitles()
         {
-            Text = Titles.ApplicationName;
+            Text = ResourceFormatter.ApplicationName;
         }
 
         private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)

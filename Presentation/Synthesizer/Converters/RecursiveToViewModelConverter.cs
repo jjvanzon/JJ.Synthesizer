@@ -3,6 +3,7 @@ using System.Linq;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -10,7 +11,6 @@ using JJ.Framework.Common;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -140,11 +140,11 @@ namespace JJ.Presentation.Synthesizer.Converters
                     {
                         if (operatorViewModel.Dimension.Key.StartsWith(ViewModelHelper.CUSTOM_DIMENSION_KEY_PREFIX))
                         {
-                            operatorViewModel.Dimension.Name += $" ({Titles.Custom})";
+                            operatorViewModel.Dimension.Name += $" ({ResourceFormatter.Custom})";
                         }
                         else
                         {
-                            operatorViewModel.Dimension.Name += $" ({Titles.Standard})";
+                            operatorViewModel.Dimension.Name += $" ({ResourceFormatter.Standard})";
                         }
                     }
                 }

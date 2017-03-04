@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (!customOperatorInlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
-                    string message = ValidationMessageFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.True);
+                    string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.True);
                     ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
                 }
             }
@@ -202,7 +202,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (customOperatorInlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
-                    string message = ValidationMessageFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.False);
+                    string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.False);
                     ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
                 }
             }
@@ -278,7 +278,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (!customOperatorOutlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
-                    string message = ValidationMessageFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.True);
+                    string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.True);
                     ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
                 }
             }
@@ -288,7 +288,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (customOperatorOutlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
-                    string message = ValidationMessageFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.False);
+                    string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.False);
                     ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
                 }
             }

@@ -976,4 +976,84 @@
   <data name="Y" xml:space="preserve">
     <value>y</value>
   </data>
+  <data name="AddToCurrentPatches" xml:space="preserve">
+    <value>Toevoegen aan huidige schakelingen</value>
+  </data>
+  <data name="Average" xml:space="preserve">
+    <value>Gemiddeld</value>
+  </data>
+  <data name="Closest" xml:space="preserve">
+    <value>Dichtsbijzijnd</value>
+  </data>
+  <data name="ClosestExp" xml:space="preserve">
+    <value>Dichtstbijzijnd exp</value>
+  </data>
+  <data name="CurrentPatches" xml:space="preserve">
+    <value>Huidige schakelingen</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Afwijkend</value>
+  </data>
+  <data name="CustomDimension" xml:space="preserve">
+    <value>Afwijkende dimensie</value>
+  </data>
+  <data name="DocumentList" xml:space="preserve">
+    <value>Documentenlijst</value>
+  </data>
+  <data name="DocumentName" xml:space="preserve">
+    <value>Document naam</value>
+  </data>
+  <data name="DocumentTree" xml:space="preserve">
+    <value>Document verkenner</value>
+  </data>
+  <data name="GetDimensionWithPlaceholder" xml:space="preserve">
+    <value>{0} opvragen</value>
+    <comment>{0} = dimension, example: Get Time</comment>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Groep</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Minimum</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Afspelen</value>
+  </data>
+  <data name="Range" xml:space="preserve">
+    <value>Reeks</value>
+  </data>
+  <data name="SetDimensionWithPlaceholder" xml:space="preserve">
+    <value>{0} instellen</value>
+    <comment>{0} = dimension, example: Set Time</comment>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sorteren</value>
+  </data>
+  <data name="Standard" xml:space="preserve">
+    <value>Standaard</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Som</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Soort</value>
+  </data>
+  <data name="UsedIn" xml:space="preserve">
+    <value>Gebruikt in</value>
+  </data>
+  <data name="SelectANodeFirst" xml:space="preserve">
+    <value>Selecteer eerst een knooppunt.</value>
+  </data>
+  <data name="SelectAnOperatorFirst" xml:space="preserve">
+    <value>Selecteer eerst een operator.</value>
+  </data>
+  <data name="SelectAnOperatorWithASingleOutlet" xml:space="preserve">
+    <value>De geselecteerde operator moet precies één uitgang hebben.</value>
+  </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Synthesizer</value>
+  </data>
 </root>

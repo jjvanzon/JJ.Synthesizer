@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Framework.Presentation.Resources;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
@@ -65,9 +64,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             TitleBarText = CommonResourceFormatter.ObjectProperties(ResourceFormatter.Operator);
             _labelName.Text = CommonResourceFormatter.Name;
             // ReSharper disable once LocalizableElement
-            _labelOperatorTypeTitle.Text = Titles.Type + ":";
+            _labelOperatorTypeTitle.Text = ResourceFormatter.Type + ":";
             _labelStandardDimension.Text = ResourceFormatter.StandardDimension;
-            _labelCustomDimensionName.Text = Titles.CustomDimension;
+            _labelCustomDimensionName.Text = ResourceFormatter.CustomDimension;
         }
 
         protected override void ApplyViewModelToControls()

@@ -7,8 +7,8 @@ using JJ.Framework.Configuration;
 using JJ.Framework.Logging;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.NAudio;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Api;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -141,7 +141,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private static string GetMessageBoxCaption()
         {
-            return $"{Titles.ApplicationName} - Exception";
+            return $"{ResourceFormatter.ApplicationName} - Exception";
         }
     }
 }

@@ -3,7 +3,6 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -28,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             TitleBarText = CommonResourceFormatter.ObjectProperties(ResourceFormatter.Scale);
             labelName.Text = CommonResourceFormatter.Name;
-            labelScaleType.Text = Titles.Type;
+            labelScaleType.Text = ResourceFormatter.Type;
             labelBaseFrequency.Text = ResourceFormatter.BaseFrequency;
         }
 

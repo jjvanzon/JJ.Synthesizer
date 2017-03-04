@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Framework.Configuration;
 using JJ.Presentation.Synthesizer.Helpers;
 
@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 sb.AppendFormat("{0} - ", openDocument.Name);
             }
 
-            sb.Append(Titles.ApplicationName);
+            sb.Append(ResourceFormatter.ApplicationName);
 
             sb.Append(_titleBarExtraText);
 

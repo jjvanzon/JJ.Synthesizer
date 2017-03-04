@@ -8,7 +8,6 @@ using JJ.Framework.Configuration;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
@@ -52,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void SetTitles()
         {
             TitleBarText = CommonResourceFormatter.ObjectDetails(ResourceFormatter.Patch);
-            buttonPlay.Text = Titles.Play;
+            buttonPlay.Text = ResourceFormatter.Play;
         }
 
         protected override void PositionControls()

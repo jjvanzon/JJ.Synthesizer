@@ -1,7 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using CanonicalModel = JJ.Data.Canonical;
@@ -44,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             {
                 string message = CommonResourceFormatter.AreYouSureYouWishToDeleteWithName(ResourceFormatter.Document, viewModel.Document.Name);
 
-                DialogResult dialogResult = MessageBox.Show(message, Titles.ApplicationName, MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show(message, ResourceFormatter.ApplicationName, MessageBoxButtons.YesNo);
                 switch (dialogResult)
                 {
                     case DialogResult.Yes:

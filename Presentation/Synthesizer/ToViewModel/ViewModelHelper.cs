@@ -16,7 +16,6 @@ using JJ.Framework.Configuration;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
@@ -577,15 +576,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 case OperatorTypeEnum.AverageOverDimension:
                 case OperatorTypeEnum.AverageOverInlets:
-                    return Titles.Average;
+                    return ResourceFormatter.Average;
 
                 case OperatorTypeEnum.ClosestOverDimension:
                 case OperatorTypeEnum.ClosestOverInlets:
-                    return Titles.Closest;
+                    return ResourceFormatter.Closest;
 
                 case OperatorTypeEnum.ClosestOverDimensionExp:
                 case OperatorTypeEnum.ClosestOverInletsExp:
-                    return Titles.ClosestExp;
+                    return ResourceFormatter.ClosestExp;
 
                 case OperatorTypeEnum.Curve:
                     return GetOperatorCaption_ForCurve(op, curveRepository);
@@ -598,11 +597,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case OperatorTypeEnum.MaxOverDimension:
                 case OperatorTypeEnum.MaxOverInlets:
-                    return Titles.Max;
+                    return ResourceFormatter.Max;
 
                 case OperatorTypeEnum.MinOverDimension:
                 case OperatorTypeEnum.MinOverInlets:
-                    return Titles.Min;
+                    return ResourceFormatter.Min;
 
                 case OperatorTypeEnum.Number:
                     return GetOperatorCaption_ForNumber(op);
@@ -615,7 +614,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case OperatorTypeEnum.RangeOverDimension:
                 case OperatorTypeEnum.RangeOverOutlets:
-                    return Titles.Range;
+                    return ResourceFormatter.Range;
 
                 case OperatorTypeEnum.Sample:
                     return GetOperatorCaption_ForSample(op, sampleRepository);
@@ -625,10 +624,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case OperatorTypeEnum.SortOverDimension:
                 case OperatorTypeEnum.SortOverInlets:
-                    return Titles.Sort;
+                    return ResourceFormatter.Sort;
 
                 case OperatorTypeEnum.SumOverDimension:
-                    return Titles.Sum;
+                    return ResourceFormatter.Sum;
 
                 default:
                     return GetOperatorCaption_ForOtherOperators(op);
@@ -786,12 +785,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_ForGetDimension(Operator op)
         {
-            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.GetDimensionWithPlaceholder);
+            return GetOperatorCaption_WithDimensionPlaceholder(op, ResourceFormatter.GetDimensionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
         }
 
         private static string GetOperatorCaption_ForSetDimension(Operator op)
         {
-            return GetOperatorCaption_WithDimensionPlaceholder(op, Titles.SetDimensionWithPlaceholder);
+            return GetOperatorCaption_WithDimensionPlaceholder(op, ResourceFormatter.SetDimensionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
         }
 
         private static string GetOperatorCaption_WithDimensionPlaceholder(Operator op, string operatorTypeDisplayNameWithPlaceholder)
@@ -1096,7 +1095,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (dto.UsedInIDAndNames.Count > 0)
             {
                 string formattedUsedInList = FormatUsedInList(dto.UsedInIDAndNames);
-                sb.AppendFormat(" ({0}: {1})", Titles.UsedIn, formattedUsedInList);
+                sb.AppendFormat(" ({0}: {1})", ResourceFormatter.UsedIn, formattedUsedInList);
             }
 
             return sb.ToString();
@@ -1114,7 +1113,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (dto.UsedInIDAndNames.Count > 0)
             {
                 string formattedUsedInList = FormatUsedInList(dto.UsedInIDAndNames);
-                sb.Append($" ({Titles.UsedIn}: {formattedUsedInList})");
+                sb.Append($" ({ResourceFormatter.UsedIn}: {formattedUsedInList})");
             }
 
             return sb.ToString();

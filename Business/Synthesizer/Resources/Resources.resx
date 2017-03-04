@@ -983,4 +983,84 @@
   <data name="Y" xml:space="preserve">
     <value>y</value>
   </data>
+  <data name="AddToCurrentPatches" xml:space="preserve">
+    <value>Add to Current Patches</value>
+  </data>
+  <data name="Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="Closest" xml:space="preserve">
+    <value>Closest</value>
+  </data>
+  <data name="ClosestExp" xml:space="preserve">
+    <value>Closest Exp</value>
+  </data>
+  <data name="CurrentPatches" xml:space="preserve">
+    <value>Current Patches</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="CustomDimension" xml:space="preserve">
+    <value>Custom Dimension</value>
+  </data>
+  <data name="DocumentList" xml:space="preserve">
+    <value>Document List</value>
+  </data>
+  <data name="DocumentName" xml:space="preserve">
+    <value>Document Name</value>
+  </data>
+  <data name="DocumentTree" xml:space="preserve">
+    <value>Document Explorer</value>
+  </data>
+  <data name="GetDimensionWithPlaceholder" xml:space="preserve">
+    <value>Get {0}</value>
+    <comment>{0} = dimension, example: Get Time</comment>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Max" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="Range" xml:space="preserve">
+    <value>Range</value>
+  </data>
+  <data name="SetDimensionWithPlaceholder" xml:space="preserve">
+    <value>Set {0}</value>
+    <comment>{0} = dimension, example: Set Time</comment>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="Standard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="Sum" xml:space="preserve">
+    <value>Sum</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="UsedIn" xml:space="preserve">
+    <value>Used In</value>
+  </data>
+  <data name="SelectANodeFirst" xml:space="preserve">
+    <value>Select a node first.</value>
+  </data>
+  <data name="SelectAnOperatorFirst" xml:space="preserve">
+    <value>Select an operator first.</value>
+  </data>
+  <data name="SelectAnOperatorWithASingleOutlet" xml:space="preserve">
+    <value>Please select an operator with a single outlet.</value>
+  </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Synthesizer</value>
+  </data>
 </root>

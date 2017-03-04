@@ -1,6 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Validators
@@ -17,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.Validators
 
         protected override void Execute()
         {
-            For(() => Obj.Number, Titles.Number).GreaterThanOrEqual(1);
+            For(() => Obj.Number, ResourceFormatter.Number).GreaterThanOrEqual(1);
             For(() => Obj.DefaultValue, ResourceFormatter.DefaultValue).IsDouble();
         }
     }

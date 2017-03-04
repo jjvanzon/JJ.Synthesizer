@@ -22,14 +22,14 @@ namespace JJ.Presentation.Synthesizer.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PresentationMessages {
+    internal class _2017_03_04_Backup_of_PresentationMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PresentationMessages() {
+        internal _2017_03_04_Backup_of_PresentationMessages() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JJ.Presentation.Synthesizer.Resources.PresentationMessages", typeof(PresentationMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JJ.Presentation.Synthesizer.Resources.2017-03-04 Backup of PresentationMessages", typeof(_2017_03_04_Backup_of_PresentationMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
