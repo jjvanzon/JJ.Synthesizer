@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            For(_newInletCount, PropertyNames.InletCount, CommonResourceFormatter.ObjectCount(ResourceFormatter.Inlets))
+            For(_newInletCount, PropertyNames.InletCount, CommonResourceFormatter.ObjectCount_WithNamePlural(ResourceFormatter.Inlets))
                 .GreaterThan(1);
 
             IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();

@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonResourceFormatter.ObjectProperties(ResourceFormatter.AudioOutput);
+            TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.AudioOutput);
             labelSamplingRate.Text = ResourceFormatter.SamplingRate;
             labelSpeakerSetup.Text = ResourceFormatter.SpeakerSetup;
             labelMaxConcurrentNotes.Text = ResourceFormatter.MaxConcurrentNotes;

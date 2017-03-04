@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Patch underlyingPatch = _patchRepository.TryGet(underlyingPatchID);
             if (underlyingPatch == null)
             {
-                ValidationMessages.Add(() => underlyingPatch, CommonResourceFormatter.ObjectNotFoundWithID(ResourceFormatter.UnderlyingPatch, underlyingPatchID));
+                ValidationMessages.Add(() => underlyingPatch, CommonResourceFormatter.NotFound_WithName_AndID(ResourceFormatter.UnderlyingPatch, underlyingPatchID));
             }
             else
             {

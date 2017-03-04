@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonResourceFormatter.ObjectProperties(ResourceFormatter.Sample);
+            TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Sample);
             labelName.Text = CommonResourceFormatter.Name;
             labelSamplingRate.Text = ResourceFormatter.SamplingRate;
             labelAudioFileFormat.Text = ResourceFormatter.AudioFileFormat;

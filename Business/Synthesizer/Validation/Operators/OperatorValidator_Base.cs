@@ -95,12 +95,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private string GetPropertyDisplayName_ForInletCount()
         {
-            return CommonResourceFormatter.ObjectCount(ResourceFormatter.Inlets);
+            return CommonResourceFormatter.ObjectCount_WithNamePlural(ResourceFormatter.Inlets);
         }
 
         private string GetPropertyDisplayName_ForOutletCount()
         {
-            return CommonResourceFormatter.ObjectCount(ResourceFormatter.Outlets);
+            return CommonResourceFormatter.ObjectCount_WithNamePlural(ResourceFormatter.Outlets);
         }
     }
 }

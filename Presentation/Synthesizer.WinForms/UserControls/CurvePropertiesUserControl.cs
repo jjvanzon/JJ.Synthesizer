@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonResourceFormatter.ObjectProperties(ResourceFormatter.Curve);
+            TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Curve);
             labelName.Text = CommonResourceFormatter.Name;
         }
 

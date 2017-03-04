@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
             else
             {
-                sb.Append($"'{CommonResourceFormatter.NoObject(CommonResourceFormatter.Name)}'");
+                sb.Append($"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'");
             }
 
             if (string.IsNullOrWhiteSpace(lowerDocumentReference.Alias))
