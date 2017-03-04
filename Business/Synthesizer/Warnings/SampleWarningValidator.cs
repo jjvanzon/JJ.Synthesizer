@@ -3,6 +3,8 @@ using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
@@ -45,7 +47,7 @@ namespace JJ.Business.Synthesizer.Warnings
             }
             else if (_bytes.Length == 0)
             {
-                ValidationMessages.Add(() => _bytes.Length, ResourceFormatter.SampleCount0(Obj.Name));
+                ValidationMessages.Add(() => _bytes.Length, ValidationResourceFormatter.IsZero(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Samples)));
             }
         }
     }

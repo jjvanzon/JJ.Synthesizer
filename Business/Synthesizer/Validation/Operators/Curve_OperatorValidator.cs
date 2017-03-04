@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -29,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
 
             string curveIDString = DataPropertyParser.TryGetString(op, PropertyNames.CurveID);
-            For(() => curveIDString, ResourceFormatter.CurveID).IsInteger();
+            For(() => curveIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.Curve)).IsInteger();
 
             int curveID;
             if (!int.TryParse(curveIDString, out curveID))

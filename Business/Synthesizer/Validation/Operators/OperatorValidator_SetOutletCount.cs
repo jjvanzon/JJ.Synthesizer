@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 ValidationMessages.Add(() => op.OperatorType, message);
             }
 
-            For(_newOutletCount, PropertyNames.OutletCount, CommonResourceFormatter.ObjectCount_WithNamePlural(ResourceFormatter.Outlets))
+            For(_newOutletCount, PropertyNames.OutletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets))
                 .GreaterThan(0);
 
             IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();

@@ -128,9 +128,6 @@
   <data name="ChannelCountDoesNotMatchSpeakerSetup" xml:space="preserve">
     <value>Channel count does not match speaker setup.</value>
   </data>
-  <data name="ChannelIndexNumberDoesNotMatchSpeakerSetup" xml:space="preserve">
-    <value>Channel number does not match speaker setup.</value>
-  </data>
   <data name="UnderlyingPatchIsCircular" xml:space="preserve">
     <value>There is a circular dependency with its underlying patch.</value>
     <comment>{0} = name</comment>
@@ -145,10 +142,6 @@
   <data name="InletNotSet" xml:space="preserve">
     <value>{0} operator named '{1}' does not have {2} filled in.</value>
     <comment>{0} = Operator type name. {1} = Operator name. {2} = Operand name.</comment>
-  </data>
-  <data name="NotFoundInList_WithItemName_ID_AndListName" xml:space="preserve">
-    <value>{0} with ID '{1}' not found in the list of {2}.</value>
-    <comment>{0} = name, {1} = id, {2} = name plural</comment>
   </data>
   <data name="OperatorIsCircularWithName" xml:space="preserve">
     <value>Operator named '{0}' has a circular reference.</value>
@@ -192,10 +185,6 @@
     <value>Operator '{0}' has no inlets filled in.</value>
     <comment>{0} = name or type of object</comment>
   </data>
-  <data name="OperatorHasNoInletFilledIn_WithOperatorName" xml:space="preserve">
-    <value>Operator '{0}' has no inlet filled in.</value>
-    <comment>{0} = name or type of object</comment>
-  </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Cannot change the amount of inlets, because inlet {0} is still filled in.</value>
     <comment>{0} = number</comment>
@@ -208,20 +197,9 @@
     <value>{0} names are not unique. Duplicate names: {1}.</value>
     <comment>{0} = object type singular, e.g. 'Scale', {1} = comma separated list of names</comment>
   </data>
-  <data name="NotUnique_WithPropertyName_AndValue" xml:space="preserve">
-    <value>{0} '{1}' is not unique.</value>
-    <comment>{0} = property, {1} = value</comment>
-  </data>
   <data name="InletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
     <value>{0} of inlet does not match with underlying patch.</value>
     <comment>{0} = property name</comment>
-  </data>
-  <data name="NameOrDimensionMustBeFilledIn" xml:space="preserve">
-    <value>Either a name or a dimension must be filled in.</value>
-  </data>
-  <data name="NotFound_WithTypeName_AndName" xml:space="preserve">
-    <value>{0} named '{1}' not found.</value>
-    <comment>{0} = type of object, e.g. 'Recipe', {1} = name of object, e.g. 'eggs and bacon'</comment>
   </data>
   <data name="OutletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
     <value>{0} of outlet does not match with underlying patch.</value>
@@ -230,10 +208,6 @@
   <data name="MustBePowerOf2" xml:space="preserve">
     <value>{0} must be a power of 2.</value>
     <comment>{0} = name of the value</comment>
-  </data>
-  <data name="OperatorHasNoItemsFilledIn_WithOperatorName" xml:space="preserve">
-    <value>Operator '{0}' has no items filled in.</value>
-    <comment>{0} = name or type of object</comment>
   </data>
   <data name="OperatorIsInGraphButNotInList" xml:space="preserve">
     <value>Operator '{0}' is present in the graph, but not in the flat list.</value>

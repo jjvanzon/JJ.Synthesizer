@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Node);
             labelX.Text = ResourceFormatter.X;
             labelY.Text = ResourceFormatter.Y;
-            labelNodeType.Text = ResourceFormatter.Type;
+            labelNodeType.Text = CommonResourceFormatter.Type;
         }
 
         // Binding

@@ -16,11 +16,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             if (DataPropertyParser.DataIsWellFormed(Obj))
             {
                 double? number = DataPropertyParser.TryParseDouble(Obj, PropertyNames.Number);
-                // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if (number == 0.0)
-                {
-                    ValidationMessages.Add(() => Obj.Data, ResourceFormatter.NumberIs0WithName(Obj.Name));
-                }
+
+                For(() => number, ResourceFormatter.Number).NotZero();
             }
         }
     }

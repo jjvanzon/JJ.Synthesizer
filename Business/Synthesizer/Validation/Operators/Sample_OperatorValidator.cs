@@ -4,6 +4,7 @@ using JJ.Data.Synthesizer;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -31,7 +32,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             string sampleIDString = DataPropertyParser.TryGetString(op, PropertyNames.SampleID);
 
-            For(() => sampleIDString, ResourceFormatter.SampleID).IsInteger();
+            For(() => sampleIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.Sample)).IsInteger();
 
             int sampleID;
             if (!int.TryParse(sampleIDString, out sampleID))

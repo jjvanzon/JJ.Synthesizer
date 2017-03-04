@@ -128,9 +128,6 @@
   <data name="ChannelCountDoesNotMatchSpeakerSetup" xml:space="preserve">
     <value>Het aantal kanalen komt niet overeen met de luidspreker opstelling.</value>
   </data>
-  <data name="ChannelIndexNumberDoesNotMatchSpeakerSetup" xml:space="preserve">
-    <value>Kanaalnummer komt niet overeen met luidspreker opstelling.</value>
-  </data>
   <data name="UnderlyingPatchIsCircular" xml:space="preserve">
     <value>Er is een cirkelverband met de onderliggende schakeling.</value>
     <comment>{0} = name</comment>
@@ -144,14 +141,6 @@
   </data>
   <data name="InletNotSet" xml:space="preserve">
     <value>{2} is niet ingevuld voor {0} operator genaamd '{1}'.</value>
-  </data>
-  <data name="NotFoundInList_WithItemName_ID_AndListName" xml:space="preserve">
-    <value>{0} met ID '{1}' niet gevonden in de lijst van {2}.</value>
-    <comment>{0} = name, {1} = id, {2} = name plural</comment>
-  </data>
-  <data name="NotFound_WithTypeName_AndName" xml:space="preserve">
-    <value>{0} genaamd '{1}' niet gevonden.</value>
-    <comment>{0} = type of object, e.g. 'Recipe', {1} = name of object, e.g. 'eggs and bacon'</comment>
   </data>
   <data name="OperatorIsCircularWithName" xml:space="preserve">
     <value>Operator genaamd '{0}' heeft een cirkelverwijzing.</value>
@@ -191,10 +180,6 @@
     <value>Er zijn geen ingangen ingevuld voor operator '{0}'.</value>
     <comment>{0} = name or type of object</comment>
   </data>
-  <data name="OperatorHasNoInletFilledIn_WithOperatorName" xml:space="preserve">
-    <value>Er is geen ingang ingevuld voor operator '{0}'.</value>
-    <comment>{0} = name or type of object</comment>
-  </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Kan het aantal ingangen niet aanpassen, omdat ingang {0} nog ingevuld is.</value>
     <comment>{0} = number</comment>
@@ -207,16 +192,9 @@
     <value>{0} namen zijn niet uniek. Dubbele namen: {1}.</value>
     <comment>{0} = object type singular, e.g. 'Scale', {1} = comma separated list of names</comment>
   </data>
-  <data name="NotUnique_WithPropertyName_AndValue" xml:space="preserve">
-    <value>{0} '{1}' is niet uniek.</value>
-    <comment>{0} = property, {1} = value</comment>
-  </data>
   <data name="InletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
     <value>{0} van ingang wijkt af van de onderliggende schakeling.</value>
     <comment>{0} = property display name</comment>
-  </data>
-  <data name="NameOrDimensionMustBeFilledIn" xml:space="preserve">
-    <value>Er moet of een naam of een dimensie worden ingevuld.</value>
   </data>
   <data name="OutletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
     <value>{0} van uitgang wijkt af van de onderliggende schakeling.</value>
@@ -228,10 +206,6 @@
   </data>
   <data name="OperatorIsInGraphButNotInList" xml:space="preserve">
     <value>Operator '{0}' is aanwezig in de graaf, but niet in de platte lijst.</value>
-  </data>
-  <data name="OperatorHasNoItemsFilledIn_WithOperatorName" xml:space="preserve">
-    <value>Operator '{0}' heeft geen ingevulde items.</value>
-    <comment>{0} = name or type of object</comment>
   </data>
   <data name="A" xml:space="preserve">
     <value>A</value>

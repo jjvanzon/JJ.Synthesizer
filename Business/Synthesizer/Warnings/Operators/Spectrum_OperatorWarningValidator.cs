@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Mathematics;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
@@ -57,7 +58,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => frequencyCount, ResourceFormatter.FrequencyCount)
+            For(() => frequencyCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Frequencies))
                 .IsInteger()
                 .GreaterThan(2.0);
 
@@ -75,8 +76,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 // ReSharper disable once InvertIf
                 if (!MathHelper.IsPowerOf2((int)frequencyCount.Value))
                 {
-                    string message = ResourceFormatter.MustBePowerOf2(ResourceFormatter.FrequencyCount);
-                    ValidationMessages.Add(ResourceFormatter.FrequencyCount, message);
+                    string message = ResourceFormatter.MustBePowerOf2(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Frequencies));
+                    ValidationMessages.Add(PropertyNames.FrequencyCount, message);
                 }
             }
         }

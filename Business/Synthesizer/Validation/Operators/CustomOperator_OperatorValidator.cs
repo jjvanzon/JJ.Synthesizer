@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             string underlyingPatchIDString = DataPropertyParser.TryGetString(op, PropertyNames.UnderlyingPatchID);
 
-            For(() => underlyingPatchIDString, ResourceFormatter.UnderlyingPatchID).IsInteger();
+            For(() => underlyingPatchIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.UnderlyingPatch)).IsInteger();
 
             int underlyingPatchID;
             if (!int.TryParse(underlyingPatchIDString, out underlyingPatchID))

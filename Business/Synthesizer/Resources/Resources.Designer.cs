@@ -448,15 +448,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Channel number does not match speaker setup..
-        /// </summary>
-        internal static string ChannelIndexNumberDoesNotMatchSpeakerSetup {
-            get {
-                return ResourceManager.GetString("ChannelIndexNumberDoesNotMatchSpeakerSetup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Channels.
         /// </summary>
         internal static string Channels {
@@ -1483,15 +1474,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Either a name or a dimension must be filled in..
-        /// </summary>
-        internal static string NameOrDimensionMustBeFilledIn {
-            get {
-                return ResourceManager.GetString("NameOrDimensionMustBeFilledIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} names are not unique. Duplicate names: {1}..
         /// </summary>
         internal static string NamesNotUnique_WithEntityTypeNameAndNames {
@@ -1591,33 +1573,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} named &apos;{1}&apos; not found..
-        /// </summary>
-        internal static string NotFound_WithTypeName_AndName {
-            get {
-                return ResourceManager.GetString("NotFound_WithTypeName_AndName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} with ID &apos;{1}&apos; not found in the list of {2}..
-        /// </summary>
-        internal static string NotFoundInList_WithItemName_ID_AndListName {
-            get {
-                return ResourceManager.GetString("NotFoundInList_WithItemName_ID_AndListName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} &apos;{1}&apos; is not unique..
-        /// </summary>
-        internal static string NotUnique_WithPropertyName_AndValue {
-            get {
-                return ResourceManager.GetString("NotUnique_WithPropertyName_AndValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Number.
         /// </summary>
         internal static string Number {
@@ -1690,29 +1645,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operator &apos;{0}&apos; has no inlet filled in..
-        /// </summary>
-        internal static string OperatorHasNoInletFilledIn_WithOperatorName {
-            get {
-                return ResourceManager.GetString("OperatorHasNoInletFilledIn_WithOperatorName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Operator &apos;{0}&apos; has no inlets filled in..
         /// </summary>
         internal static string OperatorHasNoInletsFilledIn_WithOperatorName {
             get {
                 return ResourceManager.GetString("OperatorHasNoInletsFilledIn_WithOperatorName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Operator &apos;{0}&apos; has no items filled in..
-        /// </summary>
-        internal static string OperatorHasNoItemsFilledIn_WithOperatorName {
-            get {
-                return ResourceManager.GetString("OperatorHasNoItemsFilledIn_WithOperatorName", resourceCulture);
             }
         }
         

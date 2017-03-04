@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Scale);
             labelName.Text = CommonResourceFormatter.Name;
-            labelScaleType.Text = ResourceFormatter.Type;
+            labelScaleType.Text = CommonResourceFormatter.Type;
             labelBaseFrequency.Text = ResourceFormatter.BaseFrequency;
         }
 

@@ -56,7 +56,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string ChangeTrigger => Resources.ChangeTrigger;
         public static string Channel => Resources.Channel;
         public static string ChannelCountDoesNotMatchSpeakerSetup => Resources.ChannelCountDoesNotMatchSpeakerSetup;
-        public static string ChannelIndexNumberDoesNotMatchSpeakerSetup => Resources.ChannelIndexNumberDoesNotMatchSpeakerSetup;
         public static string Channels => Resources.Channels;
         public static string Closest => Resources.Closest;
         public static string ClosestExp => Resources.ClosestExp;
@@ -73,8 +72,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string CubicSmoothSlope => Resources.CubicSmoothSlope;
         public static string CurrentPatches => Resources.CurrentPatches;
         public static string Curve => Resources.Curve;
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string CurveID => Resources.CurveID;
         public static string Curves => Resources.Curves;
         public static string Custom => Resources.Custom;
         public static string CustomDimension => Resources.CustomDimension;
@@ -108,8 +105,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string FilePath => Resources.FilePath;
         public static string Frequencies => Resources.Frequencies;
         public static string Frequency => Resources.Frequency;
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string FrequencyCount => Resources.FrequencyCount;
         public static string From => Resources.From;
         public static string GetDimension => Resources.GetDimension;
         public static string GreaterThan => Resources.GreaterThan;
@@ -168,8 +163,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Mono => Resources.Mono;
         public static string Multiply => Resources.Multiply;
         public static string MultiplyWithOrigin => Resources.MultiplyWithOrigin;
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string NameOrDimensionMustBeFilledIn => Resources.NameOrDimensionMustBeFilledIn;
         public static string Negative => Resources.Negative;
         public static string Node => Resources.Node;
         public static string Nodes => Resources.Nodes;
@@ -223,11 +216,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Right => Resources.Right;
         public static string Round => Resources.Round;
         public static string Sample => Resources.Sample;
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string SampleCount => Resources.SampleCount;
         public static string SampleDataType => Resources.SampleDataType;
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string SampleID => Resources.SampleID;
         public static string Samples => Resources.Samples;
         public static string SamplingRate => Resources.SamplingRate;
         public static string SawDown => Resources.SawDown;
@@ -279,19 +268,13 @@ namespace JJ.Business.Synthesizer.Resources
         public static string TimePower => Resources.TimePower;
         public static string ToggleTrigger => Resources.ToggleTrigger;
         public static string Tone => Resources.Tone;
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string ToneCount => Resources.ToneCount;
         public static string Tones => Resources.Tones;
         public static string TransitionFrequency => Resources.TransitionFrequency;
         public static string TransitionSlope => Resources.TransitionSlope;
         public static string TremoloDepth => Resources.TremoloDepth;
         public static string TremoloSpeed => Resources.TremoloSpeed;
         public static string Triangle => Resources.Triangle;
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string Type => Resources.Type;
         public static string UnderlyingPatch => Resources.UnderlyingPatch;
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string UnderlyingPatchID => Resources.UnderlyingPatchID;
         public static string UnderlyingPatchIsCircular => Resources.UnderlyingPatchIsCircular;
         public static string UponReset => Resources.UponReset;
         public static string UsedIn => Resources.UsedIn;
@@ -316,6 +299,7 @@ namespace JJ.Business.Synthesizer.Resources
         [Obsolete("Replace with better delete validation messages.")]
         public static string DocumentIsDependentOnDocument(string dependentDocumentName, string dependentOnDocumentName) => string.Format(Resources.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
         public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
+        public static string OperatorHasNoInletsFilledIn_WithOperatorName(string operatorName) => string.Format(Resources.OperatorHasNoInletsFilledIn_WithOperatorName, operatorName);
         /// <summary> Note: When OperatorTypeEnum equals Undefined it will return a text like: "Undefined operator named '...' does not have ... filled in." </summary>
         public static string InletNotSet(OperatorTypeEnum operatorTypeEnum, string operatorName, string operandName) => string.Format(Resources.InletNotSet, operatorTypeEnum, operatorName, operandName);
         public static string InletNotSet(string operatorTypeName, string operatorName, string operandName) => string.Format(Resources.InletNotSet, operatorTypeName, operatorName, operandName);
@@ -331,23 +315,10 @@ namespace JJ.Business.Synthesizer.Resources
             return string.Format(Resources.NamesNotUnique_WithEntityTypeNameAndNames, entityTypeDisplayName, formattedDuplicateNames);
         }
 
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string NotFound_WithTypeName_AndName(string entityTypeDisplayName, string name) => string.Format(Resources.NotFound_WithTypeName_AndName, entityTypeDisplayName, name);
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string NotFoundInList_WithItemName_ID_AndListName(string name, int documentID, string listName) => string.Format(Resources.NotFoundInList_WithItemName_ID_AndListName, name, documentID, listName);
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string NotUnique_WithPropertyName_AndValue(string propertyDisplayName, object value) => string.Format(Resources.NotUnique_WithPropertyName_AndValue, propertyDisplayName, value);
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string NumberIs0WithName(string name) => string.Format(Resources.NumberIs0WithName, name);
-        public static string OperatorHasNoInletFilledIn_WithOperatorName(string name) => string.Format(Resources.OperatorHasNoInletFilledIn_WithOperatorName, name);
-        public static string OperatorHasNoInletsFilledIn_WithOperatorName(string name) => string.Format(Resources.OperatorHasNoInletsFilledIn_WithOperatorName, name);
-        public static string OperatorHasNoItemsFilledIn_WithOperatorName(string name) => string.Format(Resources.OperatorHasNoItemsFilledIn_WithOperatorName, name);
         public static string OperatorIsCircularWithName(string name) => string.Format(Resources.OperatorIsCircularWithName, name);
         public static string OperatorIsInGraphButNotInList(string operatorIdentifier) => string.Format(Resources.OperatorIsInGraphButNotInList, operatorIdentifier);
         public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName) => string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
         public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
-        [Obsolete("Use a resource out of CommonResources or ValidationResources instead, or move this resource to there.")]
-        public static string SampleCount0(string sampleName) => string.Format(Resources.SampleCount0, sampleName);
         public static string SampleNotActive(string sampleName) => string.Format(Resources.SampleNotActive, sampleName);
         public static string SampleNotLoaded(string sampleName) => string.Format(Resources.SampleNotLoaded, sampleName);
         public static string SetDimensionWithPlaceholder(string dimension) => string.Format(Resources.SetDimensionWithPlaceholder, dimension);

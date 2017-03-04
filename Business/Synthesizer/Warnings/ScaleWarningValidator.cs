@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings
@@ -13,7 +14,7 @@ namespace JJ.Business.Synthesizer.Warnings
         protected override void Execute()
         {
             For(() => Obj.BaseFrequency, ResourceFormatter.BaseFrequency).IsNull();
-            For(() => Obj.Tones.Count, ResourceFormatter.ToneCount).GreaterThan(0);
+            For(() => Obj.Tones.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Tone)).GreaterThan(0);
         }
     }
 }

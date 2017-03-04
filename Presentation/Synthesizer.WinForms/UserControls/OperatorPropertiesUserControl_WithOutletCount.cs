@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelOutletCount.Text = CommonResourceFormatter.ObjectCount_WithNamePlural(ResourceFormatter.Outlets);
+            labelOutletCount.Text = CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets);
         }
 
         protected override void AddProperties()
