@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
-                string message = MessageFormatter.NamesNotUnique_WithEntityTypeNameAndNames(PropertyDisplayNames.AudioFileOutput, duplicateNames);
+                string message = ResourceFormatter.NamesNotUnique_WithEntityTypeNameAndNames(ResourceFormatter.AudioFileOutput, duplicateNames);
                 ValidationMessages.Add(PropertyNames.AudioFileOutputs, message);
             }
         }
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
-                string message = MessageFormatter.NamesNotUnique_WithEntityTypeNameAndNames(PropertyDisplayNames.Patch, duplicateNames);
+                string message = ResourceFormatter.NamesNotUnique_WithEntityTypeNameAndNames(ResourceFormatter.Patch, duplicateNames);
                 ValidationMessages.Add(PropertyNames.Patches, message);
             }
         }
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
-                string message = MessageFormatter.NamesNotUnique_WithEntityTypeNameAndNames(PropertyDisplayNames.Sample, duplicateNames);
+                string message = ResourceFormatter.NamesNotUnique_WithEntityTypeNameAndNames(ResourceFormatter.Sample, duplicateNames);
                 ValidationMessages.Add(PropertyNames.Samples, message);
             }
         }
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
-                string message = MessageFormatter.NamesNotUnique_WithEntityTypeNameAndNames(PropertyDisplayNames.Scale, duplicateNames);
+                string message = ResourceFormatter.NamesNotUnique_WithEntityTypeNameAndNames(ResourceFormatter.Scale, duplicateNames);
                 ValidationMessages.Add(PropertyNames.Scales, message);
             }
         }

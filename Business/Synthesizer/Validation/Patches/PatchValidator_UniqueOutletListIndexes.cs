@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             bool listIndexesAreUnique = ValidationHelper.PatchOutletListIndexesAreUniqueWithinPatch(Obj);
             if (!listIndexesAreUnique)
             {
-                ValidationMessages.Add(PropertyNames.PatchOutlet, Messages.OutletListIndexesAreNotUnique);
+                ValidationMessages.Add(PropertyNames.PatchOutlet, ResourceFormatter.OutletListIndexesAreNotUnique);
             }
         }
     }

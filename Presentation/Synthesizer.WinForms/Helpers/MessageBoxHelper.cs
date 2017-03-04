@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             // Class summary explains why this is 'async'.
             parentForm.BeginInvoke(new Action(() =>
             {
-                string message = CommonMessageFormatter.AreYouSureYouWishToDeleteWithName(PropertyDisplayNames.Document, viewModel.Document.Name);
+                string message = CommonResourceFormatter.AreYouSureYouWishToDeleteWithName(ResourceFormatter.Document, viewModel.Document.Name);
 
                 DialogResult dialogResult = MessageBox.Show(message, Titles.ApplicationName, MessageBoxButtons.YesNo);
                 switch (dialogResult)
@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             // Class summary explains why this is 'async'.
             parentForm.BeginInvoke(new Action(() =>
             {
-                MessageBox.Show(CommonMessageFormatter.ObjectIsDeleted(PropertyDisplayNames.Document));
+                MessageBox.Show(CommonResourceFormatter.ObjectIsDeleted(ResourceFormatter.Document));
 
                 DocumentDeletedOK?.Invoke(_dummySender, EventArgs.Empty);
             }));

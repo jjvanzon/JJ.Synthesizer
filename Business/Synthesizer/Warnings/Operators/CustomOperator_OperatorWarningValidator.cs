@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 string underlyingPatchIDString = DataPropertyParser.TryGetString(Obj, PropertyNames.UnderlyingPatchID);
 
-                For(() => underlyingPatchIDString, PropertyDisplayNames.UnderlyingPatch)
+                For(() => underlyingPatchIDString, ResourceFormatter.UnderlyingPatch)
                     .NotNullOrEmpty();
             }
         }

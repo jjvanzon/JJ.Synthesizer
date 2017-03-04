@@ -203,7 +203,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //            {
         //                foreach (Patch patch in childDocument.Patches)
         //                {
-        //                    string newName = String.Format("{0} {1}", PropertyDisplayNames.Patch, patchNumber);
+        //                    string newName = String.Format("{0} {1}", ResourceFormatter.Patch, patchNumber);
         //                    patch.Name = newName;
 
         //                    patchNumber++;
@@ -212,7 +212,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         //            foreach (Patch patch in rootDocument.Patches)
         //            {
-        //                string newName = String.Format("{0} {1}", PropertyDisplayNames.Patch, patchNumber);
+        //                string newName = String.Format("{0} {1}", ResourceFormatter.Patch, patchNumber);
         //                patch.Name = newName;
 
         //                patchNumber++;

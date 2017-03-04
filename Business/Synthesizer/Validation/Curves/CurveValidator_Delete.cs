@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
             if (hasOperators)
             {
                 // TODO: It might be handy to know what patch and possibly what operator still uses it.
-                ValidationMessages.Add(PropertyNames.Curve, MessageFormatter.CannotDeleteCurveBecauseHasOperators(curve.Name));
+                ValidationMessages.Add(PropertyNames.Curve, ResourceFormatter.CannotDeleteCurveBecauseHasOperators(curve.Name));
             }
         }
 

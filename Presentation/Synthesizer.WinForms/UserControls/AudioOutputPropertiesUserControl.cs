@@ -26,11 +26,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonTitlesFormatter.ObjectProperties(PropertyDisplayNames.AudioOutput);
-            labelSamplingRate.Text = PropertyDisplayNames.SamplingRate;
-            labelSpeakerSetup.Text = PropertyDisplayNames.SpeakerSetup;
-            labelMaxConcurrentNotes.Text = PropertyDisplayNames.MaxConcurrentNotes;
-            labelDesiredBufferDuration.Text = PropertyDisplayNames.DesiredBufferDuration;
+            TitleBarText = CommonResourceFormatter.ObjectProperties(ResourceFormatter.AudioOutput);
+            labelSamplingRate.Text = ResourceFormatter.SamplingRate;
+            labelSpeakerSetup.Text = ResourceFormatter.SpeakerSetup;
+            labelMaxConcurrentNotes.Text = ResourceFormatter.MaxConcurrentNotes;
+            labelDesiredBufferDuration.Text = ResourceFormatter.DesiredBufferDuration;
         }
 
         // Binding

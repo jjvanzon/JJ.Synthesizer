@@ -35,8 +35,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                     // ReSharper disable once InvertIf
                     if (inlet.InputOutlet == null)
                     {
-                        string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(Obj);
-                        string message = MessageFormatter.InletNotSet(operatorTypeDisplayName, Obj.Name, inlet.Name);
+                        string operatorTypeDisplayName = ResourceFormatter.GetOperatorTypeText(Obj);
+                        string message = ResourceFormatter.InletNotSet(operatorTypeDisplayName, Obj.Name, inlet.Name);
                         ValidationMessages.Add(() => inlet.InputOutlet, message);
                     }
                 }

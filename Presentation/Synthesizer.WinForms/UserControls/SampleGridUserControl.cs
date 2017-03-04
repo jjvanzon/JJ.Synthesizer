@@ -28,12 +28,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.Samples;
-            NameColumn.HeaderText = CommonTitlesFormatter.Name;
-            SampleDataTypeColumn.HeaderText = PropertyDisplayNames.SampleDataType;
-            SpeakerSetupColumn.HeaderText = PropertyDisplayNames.SpeakerSetup;
-            SamplingRateColumn.HeaderText = PropertyDisplayNames.SamplingRate;
-            IsActiveColumn.HeaderText = PropertyDisplayNames.IsActive;
+            titleBarUserControl.Text = ResourceFormatter.Samples;
+            NameColumn.HeaderText = CommonResourceFormatter.Name;
+            SampleDataTypeColumn.HeaderText = ResourceFormatter.SampleDataType;
+            SpeakerSetupColumn.HeaderText = ResourceFormatter.SpeakerSetup;
+            SamplingRateColumn.HeaderText = ResourceFormatter.SamplingRate;
+            IsActiveColumn.HeaderText = ResourceFormatter.IsActive;
         }
 
         // Binding
@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 x.ID,
                 x.Name,
-                IsActive = x.IsActive ? CommonTitlesFormatter.Yes : CommonTitlesFormatter.No,
+                IsActive = x.IsActive ? CommonResourceFormatter.Yes : CommonResourceFormatter.No,
                 x.SamplingRate,
                 x.SampleDataType,
                 x.SpeakerSetup,

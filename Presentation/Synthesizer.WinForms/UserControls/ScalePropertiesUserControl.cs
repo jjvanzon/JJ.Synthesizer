@@ -26,10 +26,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonTitlesFormatter.ObjectProperties(PropertyDisplayNames.Scale);
-            labelName.Text = CommonTitlesFormatter.Name;
+            TitleBarText = CommonResourceFormatter.ObjectProperties(ResourceFormatter.Scale);
+            labelName.Text = CommonResourceFormatter.Name;
             labelScaleType.Text = Titles.Type;
-            labelBaseFrequency.Text = PropertyDisplayNames.BaseFrequency;
+            labelBaseFrequency.Text = ResourceFormatter.BaseFrequency;
         }
 
         // Binding

@@ -115,7 +115,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 Name = "menuToolStripMenuItem",
                 // ReSharper disable once LocalizableElement
-                Text = "&" + CommonTitlesFormatter.Menu
+                Text = "&" + CommonResourceFormatter.Menu
             };
 
             return toolStripMenuItem;
@@ -151,7 +151,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 Name = "documentSaveToolStripMenuItem",
                 // ReSharper disable once LocalizableElement
-                Text = "&" + CommonTitlesFormatter.SaveObject(PropertyDisplayNames.Document)
+                Text = "&" + CommonResourceFormatter.SaveObject(ResourceFormatter.Document)
             };
 
             return toolStripMenuItem;
@@ -163,7 +163,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 Name = "documentCloseToolStripMenuItem",
                 // ReSharper disable once LocalizableElement
-                Text = "&" + CommonTitlesFormatter.CloseObject(PropertyDisplayNames.Document)
+                Text = "&" + CommonResourceFormatter.CloseObject(ResourceFormatter.Document)
             };
 
             return toolStripMenuItem;
@@ -187,7 +187,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 Name = "documentPropertiesToolStripMenuItem",
                 // ReSharper disable once LocalizableElement
-                Text = "&" + CommonTitlesFormatter.ObjectProperties(PropertyDisplayNames.Document)
+                Text = "&" + CommonResourceFormatter.ObjectProperties(ResourceFormatter.Document)
             };
 
             return toolStripMenuItem;

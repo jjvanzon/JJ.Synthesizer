@@ -32,8 +32,8 @@ namespace JJ.Business.Synthesizer.Validation
 
             foreach (CustomOperator_OperatorWrapper higherCustomOperatorWrapper in higherCustomOperatorWrappers)
             {
-                //string documentReferenceIdentifier = PropertyDisplayNames.DocumentReference + " " + ValidationHelper.GetIdentifier_ForLowerDocumentReference(documentReference);
-                //string cannotDeleteMessagePrefix = CommonMessageFormatter.CannotDeleteObjectWithName( documentReferenceIdentifier) + ": ";
+                //string documentReferenceIdentifier = ResourceFormatter.DocumentReference + " " + ValidationHelper.GetIdentifier_ForLowerDocumentReference(documentReference);
+                //string cannotDeleteMessagePrefix = CommonResourceFormatter.CannotDeleteObjectWithName( documentReferenceIdentifier) + ": ";
                 //string message = $"{)}";
             }
 

@@ -38,8 +38,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             // ReSharper disable once LocalizableElement
-            labelMessagesTitle.Text = CommonTitlesFormatter.Messages + ":";
-            buttonOK.Text = CommonTitlesFormatter.OK;
+            labelMessagesTitle.Text = CommonResourceFormatter.Messages + ":";
+            buttonOK.Text = CommonResourceFormatter.OK;
         }
 
         // Binding
@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            labelCannotDeleteObject.Text = CommonMessageFormatter.CannotDeleteObjectWithName(PropertyDisplayNames.Document, ViewModel.Document.Name);
+            labelCannotDeleteObject.Text = CommonResourceFormatter.CannotDeleteObjectWithName(ResourceFormatter.Document, ViewModel.Document.Name);
 
             string formattedMessages = MessageHelper.FormatMessages(ViewModel.ValidationMessages);
             labelMessageList.Text = formattedMessages;

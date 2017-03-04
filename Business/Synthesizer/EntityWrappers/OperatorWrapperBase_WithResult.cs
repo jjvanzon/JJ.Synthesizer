@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
-            string name = ResourceHelper.GetPropertyDisplayName(() => Result);
+            string name = ResourceFormatter.GetText(() => Result);
             return name;
         }
     }

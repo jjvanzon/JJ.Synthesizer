@@ -46,19 +46,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case FROM_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => From);
+                        string name = ResourceFormatter.GetText(() => From);
                         return name;
                     }
 
                 case TILL_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Till);
+                        string name = ResourceFormatter.GetText(() => Till);
                         return name;
                     }
 
                 case STEP_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Step);
+                        string name = ResourceFormatter.GetText(() => Step);
                         return name;
                     }
 

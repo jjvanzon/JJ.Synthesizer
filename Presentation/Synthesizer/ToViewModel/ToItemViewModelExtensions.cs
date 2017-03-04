@@ -125,7 +125,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         //    if (dimensionEnum != DimensionEnum.Undefined)
         //    {
-        //        viewModel.Name = ResourceHelper.GetPropertyDisplayName(dimensionEnum);
+        //        viewModel.Name = ResourceFormatter.GetText(dimensionEnum);
         //    }
         //    else
         //    {

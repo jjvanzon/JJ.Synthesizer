@@ -72,25 +72,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case OperatorConstants.CACHE_SIGNAL_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
+                        string name = ResourceFormatter.GetText(() => Signal);
                         return name;
                     }
 
                 case OperatorConstants.CACHE_START_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Start);
+                        string name = ResourceFormatter.GetText(() => Start);
                         return name;
                     }
 
                 case OperatorConstants.CACHE_END_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => End);
+                        string name = ResourceFormatter.GetText(() => End);
                         return name;
                     }
 
                 case OperatorConstants.CACHE_SAMPLING_RATE_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => SamplingRate);
+                        string name = ResourceFormatter.GetText(() => SamplingRate);
                         return name;
                     }
 

@@ -12,11 +12,11 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            For(() => Obj.SpeakerSetup, PropertyDisplayNames.SpeakerSetup).NotNull();
-            For(() => Obj.SamplingRate, PropertyDisplayNames.SamplingRate).GreaterThan(0);
-            For(() => Obj.MaxConcurrentNotes, PropertyDisplayNames.MaxConcurrentNotes).GreaterThan(0);
+            For(() => Obj.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
+            For(() => Obj.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
+            For(() => Obj.MaxConcurrentNotes, ResourceFormatter.MaxConcurrentNotes).GreaterThan(0);
 
-            For(() => Obj.DesiredBufferDuration, PropertyDisplayNames.DesiredBufferDuration)
+            For(() => Obj.DesiredBufferDuration, ResourceFormatter.DesiredBufferDuration)
                 .NotNaN()
                 .NotInfinity()
                 .GreaterThan(0);

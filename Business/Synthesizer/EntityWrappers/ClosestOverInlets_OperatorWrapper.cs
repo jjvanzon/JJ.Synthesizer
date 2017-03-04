@@ -56,12 +56,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             if (listIndex == INPUT_INDEX)
             {
-                string name = ResourceHelper.GetPropertyDisplayName(() => Input);
+                string name = ResourceFormatter.GetText(() => Input);
                 return name;
             }
             else
             {
-                string name = $"{CommonTitlesFormatter.Item} {listIndex}";
+                string name = $"{CommonResourceFormatter.Item} {listIndex}";
                 return name;
             }
         }

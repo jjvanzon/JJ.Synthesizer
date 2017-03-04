@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                string message = MessageFormatter.NotUnique_WithPropertyName_AndValue(CommonTitlesFormatter.Name, Obj.Name);
+                string message = ResourceFormatter.NotUnique_WithPropertyName_AndValue(CommonResourceFormatter.Name, Obj.Name);
                 ValidationMessages.Add(PropertyNames.Name, message);
             }
         }

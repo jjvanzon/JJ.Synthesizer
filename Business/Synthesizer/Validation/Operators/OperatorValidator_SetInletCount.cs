@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             OperatorTypeEnum.SortOverInlets
         };
 
-        private static readonly IList<string> _allowedOperatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceHelper.GetDisplayName(x)).ToArray();
+        private static readonly IList<string> _allowedOperatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceFormatter.GetText(x)).ToArray();
 
         private readonly int _newInletCount;
 
@@ -45,11 +45,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (!_allowedOperatorTypeEnums.Contains(operatorTypeEnum))
             {
-                ValidationMessages.AddNotInListMessage(() => operatorTypeEnum, PropertyDisplayNames.OperatorType, _allowedOperatorTypeDisplayNames);
+                ValidationMessages.AddNotInListMessage(() => operatorTypeEnum, ResourceFormatter.OperatorType, _allowedOperatorTypeDisplayNames);
                 return;
             }
 
-            For(_newInletCount, PropertyNames.InletCount, CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Inlets))
+            For(_newInletCount, PropertyNames.InletCount, CommonResourceFormatter.ObjectCount(ResourceFormatter.Inlets))
                 .GreaterThan(1);
 
             IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 // ReSharper disable once InvertIf
                 if (inlet.InputOutlet != null)
                 {
-                    string message = MessageFormatter.CannotChangeInletsBecauseOneIsStillFilledIn(i + 1);
+                    string message = ResourceFormatter.CannotChangeInletsBecauseOneIsStillFilledIn(i + 1);
                     ValidationMessages.Add(PropertyNames.Inlets, message);
                 }
             }

@@ -44,13 +44,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case SIGNAL_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
+                        string name = ResourceFormatter.GetText(() => Signal);
                         return name;
                     }
 
                 case SAMPLING_RATE_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => SamplingRate);
+                        string name = ResourceFormatter.GetText(() => SamplingRate);
                         return name;
                     }
 

@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            For(() => Obj.Outlets.Count, CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Outlets)).GreaterThan(0);
+            For(() => Obj.Outlets.Count, CommonResourceFormatter.ObjectCount(ResourceFormatter.Outlets)).GreaterThan(0);
         }
     }
 }

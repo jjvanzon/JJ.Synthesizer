@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case ORIGIN_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Origin);
+                        string name = ResourceFormatter.GetText(() => Origin);
                         return name;
                     }
 

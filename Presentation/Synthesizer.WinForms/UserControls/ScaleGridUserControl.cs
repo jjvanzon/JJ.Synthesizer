@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.Scales;
+            titleBarUserControl.Text = ResourceFormatter.Scales;
         }
 
         // Binding

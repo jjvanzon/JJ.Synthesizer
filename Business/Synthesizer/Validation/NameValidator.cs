@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation
     internal class NameValidator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
         private const bool DEFAULT_REQUIRED = true;
-        private static readonly string _defaultPropertyDisplayName = CommonTitlesFormatter.Name;
+        private static readonly string _defaultPropertyDisplayName = CommonResourceFormatter.Name;
         private static readonly int? _nameMaxLength = GetNameMaxLength();
 
         private readonly bool _required;

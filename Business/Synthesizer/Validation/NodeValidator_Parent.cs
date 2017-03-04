@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            For(() => Obj.Curve, PropertyDisplayNames.Curve).NotNull();
+            For(() => Obj.Curve, ResourceFormatter.Curve).NotNull();
         }
     }
 }

@@ -181,15 +181,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 PatchesNode = new PatchesTreeNodeViewModel
                 {
-                    Text = GetTreeNodeText(PropertyDisplayNames.Patches, count: 0),
+                    Text = GetTreeNodeText(ResourceFormatter.Patches, count: 0),
                     PatchNodes = new List<PatchTreeNodeViewModel>(),
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
                 },
-                CurvesNode = CreateTreeLeafViewModel(PropertyDisplayNames.Curves, count: 0),
-                SamplesNode = CreateTreeLeafViewModel(PropertyDisplayNames.Samples, count: 0),
-                ScalesNode = CreateTreeLeafViewModel(PropertyDisplayNames.Scales, count: 0),
-                AudioOutputNode = CreateTreeLeafViewModel(PropertyDisplayNames.AudioOutput),
-                AudioFileOutputListNode = CreateTreeLeafViewModel(PropertyDisplayNames.AudioFileOutput, count: 0),
+                CurvesNode = CreateTreeLeafViewModel(ResourceFormatter.Curves, count: 0),
+                SamplesNode = CreateTreeLeafViewModel(ResourceFormatter.Samples, count: 0),
+                ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, count: 0),
+                AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
+                AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, count: 0),
                 ValidationMessages = new List<Message>(),
                 ReferencedDocumentNode = new ReferencedDocumentsTreeNodeViewModel
                 {

@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelSample.Text = PropertyDisplayNames.Sample;
+            labelSample.Text = ResourceFormatter.Sample;
         }
 
         protected override void AddProperties()

@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             base.SetTitles();
 
             labelNumber.Text = Titles.Number;
-            labelDimension.Text = PropertyDisplayNames.Dimension;
+            labelDimension.Text = ResourceFormatter.Dimension;
         }
 
         protected override void AddProperties()

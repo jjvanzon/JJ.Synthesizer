@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelUnderlyingPatch.Text = PropertyDisplayNames.UnderlyingPatch;
+            labelUnderlyingPatch.Text = ResourceFormatter.UnderlyingPatch;
         }
 
         protected override void AddProperties()

@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 string sampleIDString = DataPropertyParser.TryGetString(Obj, PropertyNames.SampleID);
 
-                For(() => sampleIDString, PropertyDisplayNames.Sample)
+                For(() => sampleIDString, ResourceFormatter.Sample)
                     .NotNullOrEmpty();
             }
         }

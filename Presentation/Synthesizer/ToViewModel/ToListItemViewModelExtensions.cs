@@ -36,17 +36,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // TODO: Do this with Enums.
             if (entity.AudioFileFormat != null)
             {
-                viewModel.AudioFileFormat = PropertyDisplayNames.ResourceManager.GetString(entity.AudioFileFormat.Name);
+                viewModel.AudioFileFormat = ResourceFormatter.GetText(entity.AudioFileFormat.Name);
             }
 
             if (entity.SampleDataType != null)
             {
-                viewModel.SampleDataType = PropertyDisplayNames.ResourceManager.GetString(entity.SampleDataType.Name);
+                viewModel.SampleDataType = ResourceFormatter.GetText(entity.SampleDataType.Name);
             }
 
             if (entity.SpeakerSetup != null)
             {
-                viewModel.SpeakerSetup = PropertyDisplayNames.ResourceManager.GetString(entity.SpeakerSetup.Name);
+                viewModel.SpeakerSetup = ResourceFormatter.GetText(entity.SpeakerSetup.Name);
             }
 
             return viewModel;
@@ -134,12 +134,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // TODO: Do this with enums.
             if (entity.SampleDataType != null)
             {
-                viewModel.SampleDataType = PropertyDisplayNames.ResourceManager.GetString(entity.SampleDataType.Name);
+                viewModel.SampleDataType = ResourceFormatter.GetText(entity.SampleDataType.Name);
             }
 
             if (entity.SpeakerSetup != null)
             {
-                viewModel.SpeakerSetup = PropertyDisplayNames.ResourceManager.GetString(entity.SpeakerSetup.Name);
+                viewModel.SpeakerSetup = ResourceFormatter.GetText(entity.SpeakerSetup.Name);
             }
 
             return viewModel;

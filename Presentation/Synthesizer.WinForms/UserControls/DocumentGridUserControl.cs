@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.Documents;
+            titleBarUserControl.Text = ResourceFormatter.Documents;
         }
 
         protected override void ApplyViewModelToControls()

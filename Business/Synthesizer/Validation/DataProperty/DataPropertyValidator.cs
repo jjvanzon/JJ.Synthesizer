@@ -42,13 +42,13 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             // Check length
             if (_dataMaxLength.HasValue)
             {
-                For(() => data, PropertyDisplayNames.Data).MaxLength(_dataMaxLength.Value);
+                For(() => data, ResourceFormatter.Data).MaxLength(_dataMaxLength.Value);
             }
 
             // Check well-formedness
             if (!DataPropertyParser.DataIsWellFormed(Obj))
             {
-                ValidationMessages.AddIsInvalidMessage(() => data, PropertyDisplayNames.Data);
+                ValidationMessages.AddIsInvalidMessage(() => data, ResourceFormatter.Data);
                 return;
             }
 
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             int uniqueActualDataKeyCount = actualDataKeysList.Distinct().Count();
             if (uniqueActualDataKeyCount != actualDataKeysList.Count)
             {
-                ValidationMessages.AddNotUniqueMessagePlural(PropertyNames.DataKeys, PropertyDisplayNames.DataKeys);
+                ValidationMessages.AddNotUniqueMessagePlural(PropertyNames.DataKeys, ResourceFormatter.DataKeys);
                 return;
             }
 
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
                 {
                     ValidationMessages.AddNotInListMessage(
                         PropertyNames.DataKey,
-                        PropertyDisplayNames.DataKey,
+                        ResourceFormatter.DataKey,
                         actualDataKey,
                         _expectedDataKeysHashSet);
                 }
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
                 bool dataKeyExists = actualDataKeysHashSet.Contains(expectedDataKey);
                 if (!dataKeyExists)
                 {
-                    ValidationMessages.AddNotExistsMessage(PropertyNames.DataKey, PropertyDisplayNames.DataKey, expectedDataKey);
+                    ValidationMessages.AddNotExistsMessage(PropertyNames.DataKey, ResourceFormatter.DataKey, expectedDataKey);
                 }
             }
         }

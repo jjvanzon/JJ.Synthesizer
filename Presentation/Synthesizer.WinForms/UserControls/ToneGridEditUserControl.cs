@@ -30,12 +30,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.Tones;
+            titleBarUserControl.Text = ResourceFormatter.Tones;
             PlayColumn.HeaderText = Titles.Play;
             PlayColumn.Text = Titles.Play;
             PlayColumn.UseColumnTextForButtonValue = true;
-            OctaveColumn.HeaderText = PropertyDisplayNames.Octave;
-            FrequencyColumn.HeaderText = PropertyDisplayNames.Frequency;
+            OctaveColumn.HeaderText = ResourceFormatter.Octave;
+            FrequencyColumn.HeaderText = ResourceFormatter.Frequency;
         }
 
         // Binding

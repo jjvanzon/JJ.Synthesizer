@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
+            string displayName = ResourceFormatter.GetText(entity.Name);
 
             return new IDAndName
             {
@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string displayName = ResourceHelper.GetDisplayName(entity);
+            string displayName = ResourceFormatter.GetText(entity);
 
             return new IDAndName
             {
@@ -47,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IDAndName ToIDAndDisplayName(this DimensionEnum enumValue)
         {
-            string displayName = ResourceHelper.GetDisplayName(enumValue);
+            string displayName = ResourceFormatter.GetText(enumValue);
 
             return new IDAndName
             {
@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
+            string displayName = ResourceFormatter.GetText(entity.Name);
 
             return new IDAndName
             {
@@ -82,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IDAndName ToIDAndDisplayName(this InterpolationTypeEnum enumValue)
         {
-            string displayName = ResourceHelper.GetDisplayName(enumValue);
+            string displayName = ResourceFormatter.GetText(enumValue);
 
             return new IDAndName
             {
@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
+            string displayName = ResourceFormatter.GetText(entity.Name);
 
             return new IDAndName
             {
@@ -111,7 +111,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new IDAndName
             {
                 ID = operatorType.ID,
-                Name = ResourceHelper.GetPropertyDisplayName(operatorType.Name)
+                Name = ResourceFormatter.GetText(operatorType.Name)
             };
 
             return viewModel;
@@ -130,7 +130,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IDAndName ToIDAndDisplayName(this ResampleInterpolationTypeEnum enumValue)
         {
-            string displayName = ResourceHelper.GetDisplayName(enumValue);
+            string displayName = ResourceFormatter.GetText(enumValue);
 
             return new IDAndName
             {
@@ -141,7 +141,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IDAndName ToIDAndDisplayName(this CollectionRecalculationEnum enumValue)
         {
-            string displayName = ResourceHelper.GetDisplayName(enumValue);
+            string displayName = ResourceFormatter.GetText(enumValue);
 
             return new IDAndName
             {
@@ -152,7 +152,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IDAndName ToIDAndDisplayName(this SpeakerSetupEnum enumValue)
         {
-            string displayName = ResourceHelper.GetDisplayName(enumValue);
+            string displayName = ResourceFormatter.GetText(enumValue);
 
             return new IDAndName
             {
@@ -187,7 +187,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
+            string displayName = ResourceFormatter.GetText(entity.Name);
 
             return new IDAndName
             {
@@ -200,7 +200,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
+            string displayName = ResourceFormatter.GetText(entity.Name);
 
             return new IDAndName
             {
@@ -222,7 +222,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IDAndName ToIDAndDisplayNamePlural(this ScaleTypeEnum enumValue)
         {
-            string displayName = ResourceHelper.GetDisplayNamePlural(enumValue);
+            string displayName = ResourceFormatter.GetTextPlural(enumValue);
 
             return new IDAndName
             {
@@ -235,7 +235,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string displayName = ResourceHelper.GetDisplayNamePlural(entity);
+            string displayName = ResourceFormatter.GetTextPlural(entity);
 
             return new IDAndName
             {

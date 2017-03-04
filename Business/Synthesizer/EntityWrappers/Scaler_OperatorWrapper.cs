@@ -64,31 +64,31 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case SIGNAL_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
+                        string name = ResourceFormatter.GetText(() => Signal);
                         return name;
                     }
 
                 case SOURCE_VALUE_A_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => SourceValueA);
+                        string name = ResourceFormatter.GetText(() => SourceValueA);
                         return name;
                     }
 
                 case SOURCE_VALUE_B_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => SourceValueB);
+                        string name = ResourceFormatter.GetText(() => SourceValueB);
                         return name;
                     }
 
                 case TARGET_VALUE_A_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => TargetValueA);
+                        string name = ResourceFormatter.GetText(() => TargetValueA);
                         return name;
                     }
 
                 case TARGET_VALUE_B_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => TargetValueB);
+                        string name = ResourceFormatter.GetText(() => TargetValueB);
                         return name;
                     }
 

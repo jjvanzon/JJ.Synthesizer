@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             {
                 string interpolationType = DataPropertyParser.TryGetString(Obj, PropertyNames.InterpolationType);
 
-                For(() => interpolationType, PropertyDisplayNames.InterpolationType)
+                For(() => interpolationType, ResourceFormatter.InterpolationType)
                     .NotNullOrEmpty()
                     .IsEnum<ResampleInterpolationTypeEnum>()
                     .IsNot(ResampleInterpolationTypeEnum.Undefined);

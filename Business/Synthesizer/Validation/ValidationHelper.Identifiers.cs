@@ -34,12 +34,12 @@ namespace JJ.Business.Synthesizer.Validation
             }
             else
             {
-                sb.Append($"'{CommonTitlesFormatter.NoObject(CommonTitlesFormatter.Name)}'");
+                sb.Append($"'{CommonResourceFormatter.NoObject(CommonResourceFormatter.Name)}'");
             }
 
             if (string.IsNullOrWhiteSpace(lowerDocumentReference.Alias))
             {
-                sb.Append($" ({PropertyDisplayNames.Alias} '{lowerDocumentReference.Alias}')");
+                sb.Append($" ({ResourceFormatter.Alias} '{lowerDocumentReference.Alias}')");
             }
 
             return sb.ToString();
@@ -60,12 +60,12 @@ namespace JJ.Business.Synthesizer.Validation
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 // Downside: Dimension might not be unique among an operator's inlets.
-                string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
+                string dimensionDisplayName = ResourceFormatter.GetText(dimensionEnum);
                 return dimensionDisplayName;
             }
 
             // Use ListIndex
-            string inletIdentifier = $"{PropertyDisplayNames.Inlet} {inlet.ListIndex}";
+            string inletIdentifier = $"{ResourceFormatter.Inlet} {inlet.ListIndex}";
             return inletIdentifier;
         }
 
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Validation
             // ReSharper disable once InvertIf
             if (op.OperatorType != null)
             {
-                string operatorTypeDisplayName = ResourceHelper.GetDisplayName(op.OperatorType);
+                string operatorTypeDisplayName = ResourceFormatter.GetText(op.OperatorType);
                 return operatorTypeDisplayName;
             }
 
@@ -103,12 +103,12 @@ namespace JJ.Business.Synthesizer.Validation
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 // Downside: Dimension might not be unique among an operator's outlets.
-                string dimensionDisplayName = ResourceHelper.GetDisplayName(dimensionEnum);
+                string dimensionDisplayName = ResourceFormatter.GetText(dimensionEnum);
                 return dimensionDisplayName;
             }
 
             // Use ListIndex
-            string outletIdentifier = $"{PropertyDisplayNames.Outlet} {outlet.ListIndex}";
+            string outletIdentifier = $"{ResourceFormatter.Outlet} {outlet.ListIndex}";
             return outletIdentifier;
         }
     }

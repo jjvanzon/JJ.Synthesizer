@@ -22,8 +22,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             base.SetTitles();
 
             labelNumber.Text = Titles.Number;
-            labelDimension.Text = PropertyDisplayNames.Dimension;
-            labelDefaultValue.Text = PropertyDisplayNames.DefaultValue;
+            labelDimension.Text = ResourceFormatter.Dimension;
+            labelDefaultValue.Text = ResourceFormatter.DefaultValue;
         }
 
         protected override void AddProperties()

@@ -26,13 +26,13 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected sealed override void Execute()
         {
-            For(() => Obj.Name, CommonTitlesFormatter.Name).IsNullOrEmpty();
+            For(() => Obj.Name, CommonResourceFormatter.Name).IsNullOrEmpty();
 
             // ListIndex check DOES NOT apply to CustomOperators, 
             // because those need to be more flexible or it would become unmanageable for the user.
-            For(() => Obj.ListIndex, PropertyDisplayNames.ListIndex).Is(_expectedListIndex);
+            For(() => Obj.ListIndex, ResourceFormatter.ListIndex).Is(_expectedListIndex);
 
-            For(() => Obj.GetDimensionEnum(), PropertyDisplayNames.Dimension).Is(_expectedDimensionEnum);
+            For(() => Obj.GetDimensionEnum(), ResourceFormatter.Dimension).Is(_expectedDimensionEnum);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             ExecuteValidator(new NameValidator(Obj.Name, required: false));
 
-            For(() => Obj.OperatorType, PropertyDisplayNames.OperatorType).NotNull();
+            For(() => Obj.OperatorType, ResourceFormatter.OperatorType).NotNull();
         }
     }
 }

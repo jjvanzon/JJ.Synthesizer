@@ -38,20 +38,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonTitlesFormatter.ObjectProperties(PropertyDisplayNames.Sample);
-            labelName.Text = CommonTitlesFormatter.Name;
-            labelSamplingRate.Text = PropertyDisplayNames.SamplingRate;
-            labelAudioFileFormat.Text = PropertyDisplayNames.AudioFileFormat;
-            labelSampleDataType.Text = PropertyDisplayNames.SampleDataType;
-            labelSpeakerSetup.Text = PropertyDisplayNames.SpeakerSetup;
-            labelAmplifier.Text = PropertyDisplayNames.Amplifier;
-            labelTimeMultiplier.Text = PropertyDisplayNames.TimeMultiplier;
-            labelIsActive.Text = PropertyDisplayNames.IsActive;
-            labelBytesToSkip.Text = PropertyDisplayNames.BytesToSkip;
-            labelInterpolationType.Text = PropertyDisplayNames.InterpolationType;
-            labelOriginalLocation.Text = PropertyDisplayNames.OriginalLocation;
+            TitleBarText = CommonResourceFormatter.ObjectProperties(ResourceFormatter.Sample);
+            labelName.Text = CommonResourceFormatter.Name;
+            labelSamplingRate.Text = ResourceFormatter.SamplingRate;
+            labelAudioFileFormat.Text = ResourceFormatter.AudioFileFormat;
+            labelSampleDataType.Text = ResourceFormatter.SampleDataType;
+            labelSpeakerSetup.Text = ResourceFormatter.SpeakerSetup;
+            labelAmplifier.Text = ResourceFormatter.Amplifier;
+            labelTimeMultiplier.Text = ResourceFormatter.TimeMultiplier;
+            labelIsActive.Text = ResourceFormatter.IsActive;
+            labelBytesToSkip.Text = ResourceFormatter.BytesToSkip;
+            labelInterpolationType.Text = ResourceFormatter.InterpolationType;
+            labelOriginalLocation.Text = ResourceFormatter.OriginalLocation;
             // ReSharper disable once LocalizableElement
-            labelDurationTitle.Text = PropertyDisplayNames.Duration + ":";
+            labelDurationTitle.Text = ResourceFormatter.Duration + ":";
         }
 
         protected override void ApplyStyling()

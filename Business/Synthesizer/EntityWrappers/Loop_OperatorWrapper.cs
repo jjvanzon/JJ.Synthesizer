@@ -66,37 +66,37 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case OperatorConstants.LOOP_SIGNAL_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
+                        string name = ResourceFormatter.GetText(() => Signal);
                         return name;
                     }
 
                 case OperatorConstants.LOOP_SKIP_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Skip);
+                        string name = ResourceFormatter.GetText(() => Skip);
                         return name;
                     }
 
                 case OperatorConstants.LOOP_LOOP_START_MARKER_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => LoopStartMarker);
+                        string name = ResourceFormatter.GetText(() => LoopStartMarker);
                         return name;
                     }
 
                 case OperatorConstants.LOOP_LOOP_END_MARKER_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => LoopEndMarker);
+                        string name = ResourceFormatter.GetText(() => LoopEndMarker);
                         return name;
                     }
 
                 case OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => ReleaseEndMarker);
+                        string name = ResourceFormatter.GetText(() => ReleaseEndMarker);
                         return name;
                     }
 
                 case OperatorConstants.LOOP_NOTE_DURATION_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => NoteDuration);
+                        string name = ResourceFormatter.GetText(() => NoteDuration);
                         return name;
                     }
 

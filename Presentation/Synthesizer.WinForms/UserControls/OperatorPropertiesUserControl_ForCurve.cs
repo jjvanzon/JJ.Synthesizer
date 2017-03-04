@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelCurve.Text = PropertyDisplayNames.Curve;
+            labelCurve.Text = ResourceFormatter.Curve;
         }
 
         protected override void AddProperties()

@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (op.IsCircular())
             {
-                ValidationMessages.Add(() => op, MessageFormatter.OperatorIsCircularWithName(op.Name));
+                ValidationMessages.Add(() => op, ResourceFormatter.OperatorIsCircularWithName(op.Name));
             }
 
             // TODO: Enable the UnderlyingPatchIsCircular check again, when it is corrected, so it works.
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             {
                 if (op.HasCircularUnderlyingPatch(_patchRepository))
                 {
-                    ValidationMessages.Add(() => op, Messages.UnderlyingPatchIsCircular);
+                    ValidationMessages.Add(() => op, ResourceFormatter.UnderlyingPatchIsCircular);
                 }
             }
         }

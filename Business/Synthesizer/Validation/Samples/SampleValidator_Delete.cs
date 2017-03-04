@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Validation.Samples
             if (hasOperators)
             {
                 // TODO: It might be handy to know what patch and possibly what operator still uses it.
-                ValidationMessages.Add(PropertyNames.Sample, MessageFormatter.CannotDeleteSampleBecauseHasOperators(Obj.Name));
+                ValidationMessages.Add(PropertyNames.Sample, ResourceFormatter.CannotDeleteSampleBecauseHasOperators(Obj.Name));
             }
         }
 

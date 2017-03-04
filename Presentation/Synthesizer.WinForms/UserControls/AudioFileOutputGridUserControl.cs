@@ -27,12 +27,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.AudioFileOutputList;
-            NameColumn.HeaderText = CommonTitlesFormatter.Name;
-            AudioFileFormatColumn.HeaderText = PropertyDisplayNames.AudioFileFormat;
-            SampleDataTypeColumn.HeaderText = PropertyDisplayNames.SampleDataType;
-            SpeakerSetupColumn.HeaderText = PropertyDisplayNames.SpeakerSetup;
-            SamplingRateColumn.HeaderText = PropertyDisplayNames.SamplingRate;
+            titleBarUserControl.Text = ResourceFormatter.AudioFileOutputList;
+            NameColumn.HeaderText = CommonResourceFormatter.Name;
+            AudioFileFormatColumn.HeaderText = ResourceFormatter.AudioFileFormat;
+            SampleDataTypeColumn.HeaderText = ResourceFormatter.SampleDataType;
+            SpeakerSetupColumn.HeaderText = ResourceFormatter.SpeakerSetup;
+            SamplingRateColumn.HeaderText = ResourceFormatter.SamplingRate;
         }
 
         // Binding

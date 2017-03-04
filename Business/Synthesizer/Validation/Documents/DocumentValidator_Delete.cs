@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
             foreach (DocumentReference higherDocumentReference in document.HigherDocumentReferences)
             {
-                string message = MessageFormatter.DocumentIsDependentOnDocument(
+                string message = ResourceFormatter.DocumentIsDependentOnDocument(
                     higherDocumentReference.HigherDocument.Name, 
                     higherDocumentReference.LowerDocument.Name);
 

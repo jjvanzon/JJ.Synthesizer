@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 ValidationMessages.Add(() => op.OperatorType, message);
             }
 
-            For(_newOutletCount, PropertyNames.OutletCount, CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Outlets))
+            For(_newOutletCount, PropertyNames.OutletCount, CommonResourceFormatter.ObjectCount(ResourceFormatter.Outlets))
                 .GreaterThan(0);
 
             IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 // ReSharper disable once InvertIf
                 if (outlet.ConnectedInlets.Count > 0)
                 {
-                    string message = MessageFormatter.CannotChangeOutletsBecauseOneIsStillFilledIn(i + 1);
+                    string message = ResourceFormatter.CannotChangeOutletsBecauseOneIsStillFilledIn(i + 1);
                     ValidationMessages.Add(PropertyNames.Outlets, message);
                 }
             }
@@ -58,8 +58,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private string GetOperatorTypeNotAllowedMessage()
         {
-            IList<string> operatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceHelper.GetDisplayName(x)).ToArray();
-            string message = ValidationMessageFormatter.NotInList(PropertyDisplayNames.OperatorType, operatorTypeDisplayNames);
+            IList<string> operatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceFormatter.GetText(x)).ToArray();
+            string message = ValidationMessageFormatter.NotInList(ResourceFormatter.OperatorType, operatorTypeDisplayNames);
             return message;
         }
     }

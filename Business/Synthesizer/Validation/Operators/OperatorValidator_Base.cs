@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator op = Obj;
 
-            For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(_expectedOperatorTypeEnum);
+            For(() => op.GetOperatorTypeEnum(), ResourceFormatter.OperatorType).Is(_expectedOperatorTypeEnum);
 
             ExecuteValidator(new OperatorValidator_Dimension(op));
             ExecuteValidator(new DataPropertyValidator(op.Data, _expectedDataKeys));
@@ -95,12 +95,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private string GetPropertyDisplayName_ForInletCount()
         {
-            return CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Inlets);
+            return CommonResourceFormatter.ObjectCount(ResourceFormatter.Inlets);
         }
 
         private string GetPropertyDisplayName_ForOutletCount()
         {
-            return CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Outlets);
+            return CommonResourceFormatter.ObjectCount(ResourceFormatter.Outlets);
         }
     }
 }

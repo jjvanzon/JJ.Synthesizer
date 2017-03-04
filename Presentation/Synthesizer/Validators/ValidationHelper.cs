@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.Validators
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            string messagePrefix = $"{PropertyDisplayNames.Tone} {i}: ";
+            string messagePrefix = $"{ResourceFormatter.Tone} {i}: ";
             return messagePrefix;
         }
     }

@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
 
         protected override void Execute()
         {
-            For(() => Obj.Document, PropertyDisplayNames.Document).NotNull();
+            For(() => Obj.Document, ResourceFormatter.Document).NotNull();
 
             ExecuteValidator(new NameValidator(Obj.Name));
 

@@ -834,13 +834,12 @@
     <Compile Include="Warnings\Operators\Stretch_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\DimensionToOutlets_OperatorWarningValidator.cs" />
     <Compile Include="WavHeaderManager.cs" />
-    <Compile Include="Resources\Messages.Designer.cs">
+    <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Messages.resx</DependentUpon>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\MessageFormatter.cs" />
-    <Compile Include="Resources\ResourceHelper.cs" />
+    <Compile Include="Resources\ResourceFormatter.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_GenerateName.cs" />
@@ -927,11 +926,6 @@
     <Compile Include="LinkTo\LinkToExtensions.cs" />
     <Compile Include="Helpers\PropertyNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\PropertyDisplayNames.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PropertyDisplayNames.resx</DependentUpon>
-    </Compile>
     <Compile Include="Validation\Operators\Basic_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Versatile_OperatorValidator.cs" />
     <Compile Include="Warnings\Operators\Curve_OperatorWarningValidator.cs" />
@@ -1013,20 +1007,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Messages.nl-NL.resx">
+    <EmbeddedResource Include="Resources\Resources.nl-NL.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Messages.resx">
+    <EmbeddedResource Include="Resources\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\PropertyDisplayNames.nl-NL.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\PropertyDisplayNames.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>PropertyDisplayNames.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

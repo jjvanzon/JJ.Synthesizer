@@ -21,8 +21,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelInletCount.Text = CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Inlets);
-            labelInterpolation.Text = PropertyDisplayNames.Interpolation;
+            labelInletCount.Text = CommonResourceFormatter.ObjectCount(ResourceFormatter.Inlets);
+            labelInterpolation.Text = ResourceFormatter.Interpolation;
         }
 
         protected override void AddProperties()

@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 AddDocumentDescendantNodes(treeView.Nodes, ViewModel);
 
                 // TODO: Uncomment when the referenced documents functionality is programmed.
-                //var referencedDocumentsTreeNode = new TreeNode(PropertyDisplayNames.ReferencedDocuments);
+                //var referencedDocumentsTreeNode = new TreeNode(ResourceFormatter.ReferencedDocuments);
                 //treeView.Nodes.Add(referencedDocumentsTreeNode);
 
                 //foreach (ReferencedDocumentViewModel referencedDocumentViewModel in _viewModel.ReferencedDocuments.List)

@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.Validators
 
         protected override void Execute()
         {
-            For(() => Obj.Octave, PropertyDisplayNames.Octave).IsInteger();
+            For(() => Obj.Octave, ResourceFormatter.Octave).IsInteger();
             For(() => Obj.Number, _numberPropertyDisplayName).IsDouble();
         }
     }

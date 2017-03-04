@@ -77,12 +77,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
-                return ResourceHelper.GetDisplayName(dimensionEnum);
+                return ResourceFormatter.GetText(dimensionEnum);
             }
 
             // Use List Position (not ListIndex, becuase it does not have to be consecutive).
             int listPosition = WrappedOperator.Inlets.IndexOf(inlet);
-            string displayName = $"{PropertyDisplayNames.Inlet} {listPosition + 1}";
+            string displayName = $"{ResourceFormatter.Inlet} {listPosition + 1}";
             return displayName;
         }
 
@@ -102,12 +102,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
-                return ResourceHelper.GetDisplayName(dimensionEnum);
+                return ResourceFormatter.GetText(dimensionEnum);
             }
 
             // Use List Position (not ListIndex, becuase it does not have to be consecutive).
             int listPosition = WrappedOperator.Outlets.IndexOf(outlet);
-            string displayName = $"{PropertyDisplayNames.Outlet} {listPosition + 1}";
+            string displayName = $"{ResourceFormatter.Outlet} {listPosition + 1}";
             return displayName;
 
         }

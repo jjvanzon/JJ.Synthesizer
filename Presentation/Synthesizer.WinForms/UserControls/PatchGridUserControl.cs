@@ -29,8 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.Patches;
-            NameColumn.HeaderText = CommonTitlesFormatter.Name;
+            titleBarUserControl.Text = ResourceFormatter.Patches;
+            NameColumn.HeaderText = CommonResourceFormatter.Name;
             UsedInColumn.HeaderText = Titles.UsedIn;
         }
 

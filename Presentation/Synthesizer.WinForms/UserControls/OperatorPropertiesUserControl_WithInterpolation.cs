@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelInterpolation.Text = PropertyDisplayNames.Interpolation;
+            labelInterpolation.Text = ResourceFormatter.Interpolation;
         }
 
         protected override void AddProperties()

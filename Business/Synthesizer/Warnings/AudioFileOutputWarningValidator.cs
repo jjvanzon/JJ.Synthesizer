@@ -14,8 +14,8 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             AudioFileOutput audioFileOutput = Obj;
 
-            For(() => Obj.Outlet, PropertyDisplayNames.Outlet).NotNull();
-            For(() => audioFileOutput.Amplifier, PropertyDisplayNames.Amplifier).IsNot(0.0);
+            For(() => Obj.Outlet, ResourceFormatter.Outlet).NotNull();
+            For(() => audioFileOutput.Amplifier, ResourceFormatter.Amplifier).IsNot(0.0);
         }
     }
 }

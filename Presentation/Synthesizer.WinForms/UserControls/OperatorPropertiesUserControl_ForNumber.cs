@@ -18,7 +18,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelNumber.Text = PropertyDisplayNames.Number;
+            labelNumber.Text = ResourceFormatter.Number;
         }
 
         protected override void AddProperties()

@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         protected override void Execute()
         {
             string numberString = DataPropertyParser.TryGetString(Obj, PropertyNames.Number);
-            For(() => numberString, PropertyDisplayNames.Number, DataPropertyParser.FormattingCulture)
+            For(() => numberString, ResourceFormatter.Number, DataPropertyParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()

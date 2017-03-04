@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
         protected override void Execute()
         {
-            ExecuteValidator(new NameValidator(Obj.GroupName, PropertyDisplayNames.GroupName, required: false));
+            ExecuteValidator(new NameValidator(Obj.GroupName, ResourceFormatter.GroupName, required: false));
 
             ExecuteValidator(new PatchValidator_Name(Obj));
             ExecuteValidator(new PatchValidator_UniqueName(Obj));

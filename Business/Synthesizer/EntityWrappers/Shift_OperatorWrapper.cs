@@ -37,13 +37,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case SIGNAL_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Signal);
+                        string name = ResourceFormatter.GetText(() => Signal);
                         return name;
                     }
 
                 case DIFFERENCE_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Difference);
+                        string name = ResourceFormatter.GetText(() => Difference);
                         return name;
                     }
 

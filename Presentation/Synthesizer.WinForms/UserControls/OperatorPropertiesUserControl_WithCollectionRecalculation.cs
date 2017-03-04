@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelRecalculation.Text = PropertyDisplayNames.CollectionRecalculation;
+            labelRecalculation.Text = ResourceFormatter.CollectionRecalculation;
         }
 
         protected override void AddProperties()

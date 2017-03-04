@@ -212,15 +212,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentTreeViewModel
             {
                 ID = document.ID,
-                CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Curves, document.Curves.Count),
-                SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Samples, document.Samples.Count),
-                ScalesNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.Scales, document.Scales.Count),
-                AudioOutputNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioOutput),
-                AudioFileOutputListNode = ViewModelHelper.CreateTreeLeafViewModel(PropertyDisplayNames.AudioFileOutput, document.AudioFileOutputs.Count),
+                CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(ResourceFormatter.Curves, document.Curves.Count),
+                SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(ResourceFormatter.Samples, document.Samples.Count),
+                ScalesNode = ViewModelHelper.CreateTreeLeafViewModel(ResourceFormatter.Scales, document.Scales.Count),
+                AudioOutputNode = ViewModelHelper.CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
+                AudioFileOutputListNode = ViewModelHelper.CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, document.AudioFileOutputs.Count),
                 ValidationMessages = new List<Message>(),
                 PatchesNode = new PatchesTreeNodeViewModel
                 {
-                    Text = ViewModelHelper.GetTreeNodeText(PropertyDisplayNames.Patches, document.Patches.Count),
+                    Text = ViewModelHelper.GetTreeNodeText(ResourceFormatter.Patches, document.Patches.Count),
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
                 },
                 ReferencedDocumentNode = new ReferencedDocumentsTreeNodeViewModel

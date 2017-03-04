@@ -32,20 +32,20 @@ namespace JJ.Business.Synthesizer.Warnings
             }
             _alreadyDone.Add(Obj);
 
-            For(() => Obj.Amplifier, PropertyDisplayNames.Amplifier).IsNot(0.0);
+            For(() => Obj.Amplifier, ResourceFormatter.Amplifier).IsNot(0.0);
 
             if (!Obj.IsActive)
             {
-                ValidationMessages.Add(() => Obj.Amplifier, MessageFormatter.SampleNotActive(Obj.Name));
+                ValidationMessages.Add(() => Obj.Amplifier, ResourceFormatter.SampleNotActive(Obj.Name));
             }
 
             if (_bytes == null)
             {
-                ValidationMessages.Add(() => _bytes, MessageFormatter.SampleNotLoaded(Obj.Name));
+                ValidationMessages.Add(() => _bytes, ResourceFormatter.SampleNotLoaded(Obj.Name));
             }
             else if (_bytes.Length == 0)
             {
-                ValidationMessages.Add(() => _bytes.Length, MessageFormatter.SampleCount0(Obj.Name));
+                ValidationMessages.Add(() => _bytes.Length, ResourceFormatter.SampleCount0(Obj.Name));
             }
         }
     }

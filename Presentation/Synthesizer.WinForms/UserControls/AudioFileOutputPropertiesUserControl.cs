@@ -33,16 +33,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            labelName.Text = CommonTitlesFormatter.Name;
-            labelSamplingRate.Text = PropertyDisplayNames.SamplingRate;
-            labelAudioFileFormat.Text = PropertyDisplayNames.AudioFileFormat;
-            labelSampleDataType.Text = PropertyDisplayNames.SampleDataType;
-            labelSpeakerSetup.Text = PropertyDisplayNames.SpeakerSetup;
-            labelStartTime.Text = PropertyDisplayNames.StartTime;
-            labelDuration.Text = PropertyDisplayNames.Duration;
-            labelAmplifier.Text = PropertyDisplayNames.Amplifier;
-            labelTimeMultiplier.Text = PropertyDisplayNames.TimeMultiplier;
-            labelFilePath.Text = CommonTitlesFormatter.FilePath;
+            labelName.Text = CommonResourceFormatter.Name;
+            labelSamplingRate.Text = ResourceFormatter.SamplingRate;
+            labelAudioFileFormat.Text = ResourceFormatter.AudioFileFormat;
+            labelSampleDataType.Text = ResourceFormatter.SampleDataType;
+            labelSpeakerSetup.Text = ResourceFormatter.SpeakerSetup;
+            labelStartTime.Text = ResourceFormatter.StartTime;
+            labelDuration.Text = ResourceFormatter.Duration;
+            labelAmplifier.Text = ResourceFormatter.Amplifier;
+            labelTimeMultiplier.Text = ResourceFormatter.TimeMultiplier;
+            labelFilePath.Text = CommonResourceFormatter.FilePath;
         }
 
         // Binding

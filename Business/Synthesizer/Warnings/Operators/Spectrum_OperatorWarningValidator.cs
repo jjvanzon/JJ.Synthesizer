@@ -45,19 +45,19 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 }
             }
 
-            For(() => signal, PropertyDisplayNames.Signal)
+            For(() => signal, ResourceFormatter.Signal)
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => start, PropertyDisplayNames.Start)
+            For(() => start, ResourceFormatter.Start)
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => end, PropertyDisplayNames.End)
+            For(() => end, ResourceFormatter.End)
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => frequencyCount, PropertyDisplayNames.FrequencyCount)
+            For(() => frequencyCount, ResourceFormatter.FrequencyCount)
                 .IsInteger()
                 .GreaterThan(2.0);
 
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (end.Value < start.Value)
                 {
-                    ValidationMessages.AddLessThanMessage(PropertyNames.End, PropertyDisplayNames.End, PropertyDisplayNames.Start);
+                    ValidationMessages.AddLessThanMessage(PropertyNames.End, ResourceFormatter.End, ResourceFormatter.Start);
                 }   
             }
 
@@ -75,8 +75,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 // ReSharper disable once InvertIf
                 if (!MathHelper.IsPowerOf2((int)frequencyCount.Value))
                 {
-                    string message = MessageFormatter.MustBePowerOf2(PropertyDisplayNames.FrequencyCount);
-                    ValidationMessages.Add(PropertyDisplayNames.FrequencyCount, message);
+                    string message = ResourceFormatter.MustBePowerOf2(ResourceFormatter.FrequencyCount);
+                    ValidationMessages.Add(ResourceFormatter.FrequencyCount, message);
                 }
             }
         }

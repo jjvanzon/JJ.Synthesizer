@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 if (inlet.InputOutlet == null && !inlet.DefaultValue.HasValue)
                 {
                     // ReSharper disable once AccessToModifiedClosure
-                    ValidationMessages.Add(() => Obj.Inlets[i].InputOutlet, MessageFormatter.InletNotSet(Obj.GetOperatorTypeEnum(), Obj.Name, inlet.Name));
+                    ValidationMessages.Add(() => Obj.Inlets[i].InputOutlet, ResourceFormatter.InletNotSet(Obj.GetOperatorTypeEnum(), Obj.Name, inlet.Name));
                 }
                 i++;
             }

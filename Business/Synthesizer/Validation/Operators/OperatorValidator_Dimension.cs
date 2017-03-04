@@ -31,16 +31,16 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     ValidationMessages.AddNotBothValidationMessage(
                         PropertyNames.Dimension,
-                        PropertyDisplayNames.StandardDimension,
-                        PropertyDisplayNames.CustomDimensionName);
+                        ResourceFormatter.StandardDimension,
+                        ResourceFormatter.CustomDimensionName);
                 }
 
-                ExecuteValidator(new NameValidator(op.CustomDimensionName, PropertyDisplayNames.CustomDimensionName, required: false));
+                ExecuteValidator(new NameValidator(op.CustomDimensionName, ResourceFormatter.CustomDimensionName, required: false));
             }
             else
             {
-                For(() => Obj.StandardDimension, PropertyDisplayNames.StandardDimension).IsNull();
-                For(() => Obj.CustomDimensionName, PropertyDisplayNames.CustomDimensionName).IsNullOrEmpty();
+                For(() => Obj.StandardDimension, ResourceFormatter.StandardDimension).IsNull();
+                For(() => Obj.CustomDimensionName, ResourceFormatter.CustomDimensionName).IsNullOrEmpty();
             }
         }
     }

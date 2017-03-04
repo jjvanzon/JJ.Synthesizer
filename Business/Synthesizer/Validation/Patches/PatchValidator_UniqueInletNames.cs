@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             bool namesAreUnique = ValidationHelper.PatchInletNamesAreUniqueWithinPatch(Obj);
             if (!namesAreUnique)
             {
-                ValidationMessages.Add(PropertyNames.PatchInlet, Messages.InletNamesAreNotUnique);
+                ValidationMessages.Add(PropertyNames.PatchInlet, ResourceFormatter.InletNamesAreNotUnique);
             }
         }
     }

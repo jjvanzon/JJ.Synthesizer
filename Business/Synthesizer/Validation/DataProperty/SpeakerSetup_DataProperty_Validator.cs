@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             {
                 string speakerSetupString = DataPropertyParser.TryGetString(Obj, PropertyNames.SpeakerSetup);
 
-                For(() => speakerSetupString, PropertyDisplayNames.SpeakerSetup)
+                For(() => speakerSetupString, ResourceFormatter.SpeakerSetup)
                     .NotNullOrEmpty()
                     .IsEnum<SpeakerSetupEnum>()
                     .IsNot(SpeakerSetupEnum.Undefined);

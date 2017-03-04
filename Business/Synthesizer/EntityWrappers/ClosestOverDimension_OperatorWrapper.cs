@@ -71,31 +71,31 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case INPUT_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Input);
+                        string name = ResourceFormatter.GetText(() => Input);
                         return name;
                     }
 
                 case COLLECTION_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Collection);
+                        string name = ResourceFormatter.GetText(() => Collection);
                         return name;
                     }
 
                 case FROM_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => From);
+                        string name = ResourceFormatter.GetText(() => From);
                         return name;
                     }
 
                 case TILL_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Till);
+                        string name = ResourceFormatter.GetText(() => Till);
                         return name;
                     }
 
                 case STEP_INDEX:
                     {
-                        string name = ResourceHelper.GetPropertyDisplayName(() => Step);
+                        string name = ResourceFormatter.GetText(() => Step);
                         return name;
                     }
 

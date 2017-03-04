@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
-            string name = ResourceHelper.GetPropertyDisplayName(PropertyNames.PassThrough);
+            string name = ResourceFormatter.GetText(PropertyNames.PassThrough);
             return name;
         }
 
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
-            string name = ResourceHelper.GetPropertyDisplayName(PropertyNames.PassThrough);
+            string name = ResourceFormatter.GetText(PropertyNames.PassThrough);
             return name;
         }
     }

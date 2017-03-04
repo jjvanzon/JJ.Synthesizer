@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             bool hasCustomOperators = document.Patches.SelectMany(x => x.EnumerateDependentCustomOperators(_patchRepository)).Any();
             if (hasCustomOperators)
             {
-                ValidationMessages.Add(PropertyNames.Patch, MessageFormatter.CannotDeleteBecauseHasReferences());
+                ValidationMessages.Add(PropertyNames.Patch, ResourceFormatter.CannotDeleteBecauseHasReferences);
             }
 
             // TODO: Be more specific about which custom operators still refer to this document,
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
         //        }
         //    }
 
-        //    string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
+        //    string operatorTypeDisplayName = ResourceFormatter.GetOperatorTypeText(entity);
         //    return operatorTypeDisplayName;
         //}
     }

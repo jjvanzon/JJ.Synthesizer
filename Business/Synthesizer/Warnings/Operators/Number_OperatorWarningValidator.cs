@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (number == 0.0)
                 {
-                    ValidationMessages.Add(() => Obj.Data, MessageFormatter.NumberIs0WithName(Obj.Name));
+                    ValidationMessages.Add(() => Obj.Data, ResourceFormatter.NumberIs0WithName(Obj.Name));
                 }
             }
         }

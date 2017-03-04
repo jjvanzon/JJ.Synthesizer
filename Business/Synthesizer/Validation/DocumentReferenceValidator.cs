@@ -14,10 +14,10 @@ namespace JJ.Business.Synthesizer.Validation
         {
             DocumentReference documentReference = Obj;
 
-            ExecuteValidator(new NameValidator(documentReference.Alias, PropertyDisplayNames.Alias, required: false));
+            ExecuteValidator(new NameValidator(documentReference.Alias, ResourceFormatter.Alias, required: false));
 
-            For(() => documentReference.HigherDocument, PropertyDisplayNames.HigherDocument).NotNull();
-            For(() => documentReference.LowerDocument, PropertyDisplayNames.LowerDocument).NotNull();
+            For(() => documentReference.HigherDocument, ResourceFormatter.HigherDocument).NotNull();
+            For(() => documentReference.LowerDocument, ResourceFormatter.LowerDocument).NotNull();
         }
     }
 }

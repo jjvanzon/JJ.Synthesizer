@@ -19,28 +19,28 @@ namespace JJ.Business.Synthesizer.Validation
         {
             AudioFileOutput audioFileOutput = Obj;
 
-            For(() => audioFileOutput.Amplifier, PropertyDisplayNames.Amplifier)
+            For(() => audioFileOutput.Amplifier, ResourceFormatter.Amplifier)
                 .NotNaN()
                 .NotInfinity();
 
-            For(() => audioFileOutput.StartTime, PropertyDisplayNames.StartTime)
+            For(() => audioFileOutput.StartTime, ResourceFormatter.StartTime)
                 .NotNaN()
                 .NotInfinity();
 
-            For(() => audioFileOutput.TimeMultiplier, PropertyDisplayNames.TimeMultiplier)
+            For(() => audioFileOutput.TimeMultiplier, ResourceFormatter.TimeMultiplier)
                 .NotNaN()
                 .NotInfinity()
                 .IsNot(0);
 
-            For(() => audioFileOutput.Duration, PropertyDisplayNames.Duration)
+            For(() => audioFileOutput.Duration, ResourceFormatter.Duration)
                 .NotNaN()
                 .NotInfinity()
                 .GreaterThan(0);
 
-            For(() => audioFileOutput.SamplingRate, PropertyDisplayNames.SamplingRate).GreaterThan(0);
-            For(() => audioFileOutput.AudioFileFormat, PropertyDisplayNames.AudioFileFormat).NotNull();
-            For(() => audioFileOutput.SampleDataType, PropertyDisplayNames.SampleDataType).NotNull();
-            For(() => audioFileOutput.SpeakerSetup, PropertyDisplayNames.SpeakerSetup).NotNull();
+            For(() => audioFileOutput.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
+            For(() => audioFileOutput.AudioFileFormat, ResourceFormatter.AudioFileFormat).NotNull();
+            For(() => audioFileOutput.SampleDataType, ResourceFormatter.SampleDataType).NotNull();
+            For(() => audioFileOutput.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
 
             TryValidateOutletReference();
         }
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (!referenceIsValid)
             {
-                ValidationMessages.AddNotInListMessage(PropertyNames.Outlet, PropertyDisplayNames.Outlet, Obj.Outlet.ID);
+                ValidationMessages.AddNotInListMessage(PropertyNames.Outlet, ResourceFormatter.Outlet, Obj.Outlet.ID);
             }
         }
     }
