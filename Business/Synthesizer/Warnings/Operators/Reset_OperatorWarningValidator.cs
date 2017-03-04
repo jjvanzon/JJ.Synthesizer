@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             base.Execute();
 
-            For(() => Object.Name, CommonTitles.Name).NotNullOrWhiteSpace();
+            For(() => Obj.Name, CommonTitlesFormatter.Name).NotNullOrWhiteSpace();
         }
     }
 }

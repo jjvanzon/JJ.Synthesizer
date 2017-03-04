@@ -25,9 +25,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Operator op = Object;
+            Operator op = Obj;
 
-            For(() => op.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThan(0);
+            For(() => op.Inlets.Count, CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThan(0);
         }
     }
 }

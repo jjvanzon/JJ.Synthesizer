@@ -228,7 +228,7 @@
   <data name="Patches" xml:space="preserve">
     <value>Schakelingen</value>
   </data>
-  <data name="ReferencedDocuments" xml:space="preserve">
+  <data name="LowerDocuments" xml:space="preserve">
     <value>Bibliotheken</value>
   </data>
   <data name="IsActive" xml:space="preserve">
@@ -850,5 +850,14 @@
   </data>
   <data name="RangeOverOutlets" xml:space="preserve">
     <value>Reeks over uitgangen</value>
+  </data>
+  <data name="HigherDocument" xml:space="preserve">
+    <value>Gebruikend document</value>
+  </data>
+  <data name="LowerDocument" xml:space="preserve">
+    <value>Bibliotheek</value>
+  </data>
+  <data name="Alias" xml:space="preserve">
+    <value>Vervangende naam</value>
   </data>
 </root>

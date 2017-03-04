@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            foreach (Operator op in Object.Operators)
+            foreach (Operator op in Obj.Operators)
             {
                 ExecuteValidator(new Recursive_OperatorWarningValidator(op, _sampleRepository, _alreadyDone));
             }

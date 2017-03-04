@@ -13,9 +13,9 @@ namespace JJ.Business.Synthesizer.Validation.Curves
 
         protected override void Execute()
         {
-            Curve curve = Object;
+            Curve curve = Obj;
 
-            For(() => curve.Nodes.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Nodes)).GreaterThanOrEqual(2);
+            For(() => curve.Nodes.Count, CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Nodes)).GreaterThanOrEqual(2);
 
             int i = 1;
             foreach (Node node in curve.Nodes)

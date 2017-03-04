@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 
         protected sealed override void Execute()
         {
-            string data = Object;
+            string data = Obj;
 
             // Check length
             if (_dataMaxLength.HasValue)
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             }
 
             // Check well-formedness
-            if (!DataPropertyParser.DataIsWellFormed(Object))
+            if (!DataPropertyParser.DataIsWellFormed(Obj))
             {
                 ValidationMessages.AddIsInvalidMessage(() => data, PropertyDisplayNames.Data);
                 return;

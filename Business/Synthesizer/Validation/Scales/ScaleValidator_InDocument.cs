@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Validation.Scales
 
         protected override void Execute()
         {
-            For(() => Object.Document, PropertyDisplayNames.Document).NotNull();
+            For(() => Obj.Document, PropertyDisplayNames.Document).NotNull();
 
-            ExecuteValidator(new NameValidator(Object.Name));
+            ExecuteValidator(new NameValidator(Obj.Name));
         }
     }
 }

@@ -13,13 +13,13 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         protected override void Execute()
         {
             // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(Object))
+            if (DataPropertyParser.DataIsWellFormed(Obj))
             {
-                double? number = DataPropertyParser.TryParseDouble(Object, PropertyNames.Number);
+                double? number = DataPropertyParser.TryParseDouble(Obj, PropertyNames.Number);
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (number == 0.0)
                 {
-                    ValidationMessages.Add(() => Object.Data, MessageFormatter.NumberIs0WithName(Object.Name));
+                    ValidationMessages.Add(() => Obj.Data, MessageFormatter.NumberIs0WithName(Obj.Name));
                 }
             }
         }

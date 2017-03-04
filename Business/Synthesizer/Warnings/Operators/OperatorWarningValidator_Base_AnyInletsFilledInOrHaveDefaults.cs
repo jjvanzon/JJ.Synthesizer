@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         protected override void Execute()
         {
-            Operator op = Object;
+            Operator op = Obj;
 
             bool anyInletsFilledIn = op.Inlets.Where(x => x.InputOutlet != null &&
                                                          !x.DefaultValue.HasValue)

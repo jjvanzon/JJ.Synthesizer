@@ -21,16 +21,16 @@ namespace JJ.Business.Synthesizer.Validation.Scales
 
         protected override void Execute()
         {
-            if (Object.Document == null)
+            if (Obj.Document == null)
             {
                 return;
             }
 
-            bool isUnique = ValidationHelper.ScaleNameIsUnique(Object);
+            bool isUnique = ValidationHelper.ScaleNameIsUnique(Obj);
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                string message = MessageFormatter.NotUnique_WithPropertyName_AndValue(CommonTitles.Name, Object.Name);
+                string message = MessageFormatter.NotUnique_WithPropertyName_AndValue(CommonTitlesFormatter.Name, Obj.Name);
                 ValidationMessages.Add(PropertyNames.Name, message);
             }
         }

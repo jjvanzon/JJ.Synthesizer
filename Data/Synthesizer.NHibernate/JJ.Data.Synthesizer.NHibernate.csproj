@@ -44,9 +44,6 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\..\Third Party\NHibernate\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="JJ.Framework.Exceptions">
-      <HintPath>..\..\Framework\Exceptions\bin\Debug\JJ.Framework.Exceptions.dll</HintPath>
-    </Reference>
     <Reference Include="NHibernate.ByteCode.Castle">
       <HintPath>..\..\Third Party\NHibernate\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
@@ -90,6 +87,10 @@
     <Compile Include="SynthesizerContext.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
+      <Name>JJ.Framework.Exceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Third Party\FluentNHibernate\Source Code\1.3\src\FluentNHibernate\FluentNHibernate.csproj">
       <Project>{529145d5-6cc3-4016-89b5-826563024af1}</Project>
       <Name>FluentNHibernate</Name>

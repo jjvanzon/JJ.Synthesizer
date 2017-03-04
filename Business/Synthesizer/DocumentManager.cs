@@ -1,20 +1,23 @@
-﻿using JJ.Data.Canonical;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
+using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.SideEffects;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Validation.Documents;
+using JJ.Business.Synthesizer.Warnings;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.SideEffects;
-using JJ.Framework.Business;
-using System.Collections.Generic;
-using JJ.Business.Canonical;
-using JJ.Business.Synthesizer.Warnings;
-using JJ.Business.Synthesizer.Validation.Documents;
-using System.Linq;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Framework.Collections;
-using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Business.Synthesizer
 {
@@ -55,26 +58,39 @@ namespace JJ.Business.Synthesizer
             return document;
         }
 
+        public DocumentReference CreateDocumentReference([NotNull] Document higherDocument, [CanBeNull] Document lowerDocument = null)
+        {
+            if (higherDocument == null) throw new NullException(() => higherDocument);
+
+            DocumentReference documentReference = _repositories.DocumentReferenceRepository.Create();
+            documentReference.ID = _repositories.IDRepository.GetID();
+            documentReference.LinkToHigherDocument(higherDocument);
+            documentReference.LinkToLowerDocument(lowerDocument);
+
+            return documentReference;
+        }
+
         // Save
 
         public VoidResult Save(Document document)
         {
             if (document == null) throw new NullException(() => document);
 
-            IValidator validator = new Recursive_DocumentValidator(
+            IValidator validator = new DocumentValidator_Recursive(
                 document, 
                 _repositories.CurveRepository, 
                 _repositories. SampleRepository, 
                 _repositories.PatchRepository, 
                 new HashSet<object>());
 
-            var result = new VoidResult
-            {
-                Successful = validator.IsValid,
-                Messages = validator.ValidationMessages.ToCanonical()
-            };
+            return validator.ToResult();
+        }
 
-            return result;
+        public VoidResult SaveDocumentReference([NotNull] DocumentReference documentReference)
+        {
+            IValidator validator = new DocumentReferenceValidator(documentReference);
+
+            return validator.ToResult();
         }
 
         // Delete
@@ -103,23 +119,24 @@ namespace JJ.Business.Synthesizer
 
         public VoidResult CanDelete(Document document)
         {
-            if (document == null) throw new NullException(() => document);
-
             IValidator validator = new DocumentValidator_Delete(document);
+            return validator.ToResult();
+        }
 
-            if (!validator.IsValid)
+        public VoidResult DeleteDocumentReference([NotNull] DocumentReference documentReference)
+        {
+            if (documentReference == null) throw new NullException(() => documentReference);
+
+            IValidator validator = new DocumentReferenceValidator_Delete(documentReference);
+
+            if (validator.IsValid)
             {
-                var result = new VoidResult
-                {
-                    Successful = false,
-                    Messages = validator.ValidationMessages.ToCanonical()
-                };
-                return result;
+                documentReference.UnlinkHigherDocument();
+                documentReference.UnlinkLowerDocument();
+                _repositories.DocumentReferenceRepository.Delete(documentReference);
             }
-            else
-            {
-                return new VoidResult { Successful = true };
-            }
+
+            return validator.ToResult();
         }
 
         // Other
@@ -153,6 +170,7 @@ namespace JJ.Business.Synthesizer
         public IList<IDAndName> GetUsedIn(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
+            if (curve.Document == null) throw new NullException(() => curve.Document);
 
             IEnumerable<Patch> patches = 
                 curve.Document
@@ -182,6 +200,7 @@ namespace JJ.Business.Synthesizer
         public IList<IDAndName> GetUsedIn(Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
+            if (sample.Document == null) throw new NullException(() => sample.Document);
 
             IEnumerable<Patch> patches =
                 sample.Document
@@ -211,6 +230,7 @@ namespace JJ.Business.Synthesizer
         public IList<IDAndName> GetUsedIn(Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
+            if (patch.Document == null) throw new NullException(() => patch.Document);
 
             IEnumerable<Patch> patches =
                 patch.Document

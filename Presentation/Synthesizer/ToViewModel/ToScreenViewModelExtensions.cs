@@ -229,7 +229,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 }
             };
 
-            viewModel.ReferencedDocumentNode.List = document.DependentOnDocuments.Select(x => x.DependentOnDocument)
+            viewModel.ReferencedDocumentNode.List = document.LowerDocumentReferences.Select(x => x.LowerDocument)
                                                                                      .Select(x => x.ToReferencedDocumentViewModelWithRelatedEntities())
                                                                                      .OrderBy(x => x.Name)
                                                                                      .ToList();

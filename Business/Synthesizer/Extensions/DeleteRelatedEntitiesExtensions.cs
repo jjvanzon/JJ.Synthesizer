@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 repositories.ScaleRepository.Delete(scale);
             }
 
-            foreach (DocumentReference documentReference in document.DependentOnDocuments.ToArray())
+            foreach (DocumentReference documentReference in document.LowerDocumentReferences.ToArray())
             {
                 documentReference.UnlinkRelatedEntities();
                 repositories.DocumentReferenceRepository.Delete(documentReference);

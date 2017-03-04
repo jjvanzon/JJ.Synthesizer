@@ -35,10 +35,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl.Text = PropertyDisplayNames.Document;
-            labelIDTitle.Text = CommonTitles.ID;
-            labelName.Text = CommonTitles.Name;
-            buttonSave.Text = CommonTitles.Save;
-            buttonDelete.Text = CommonTitles.Delete;
+            labelIDTitle.Text = CommonTitlesFormatter.ID;
+            labelName.Text = CommonTitlesFormatter.Name;
+            buttonSave.Text = CommonTitlesFormatter.Save;
+            buttonDelete.Text = CommonTitlesFormatter.Delete;
         }
 
         protected override void ApplyViewModelToControls()

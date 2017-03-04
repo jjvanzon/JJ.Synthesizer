@@ -15,9 +15,9 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             base.Execute();
 
             // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(Object.Data))
+            if (DataPropertyParser.DataIsWellFormed(Obj.Data))
             {
-                string sampleIDString = DataPropertyParser.TryGetString(Object, PropertyNames.SampleID);
+                string sampleIDString = DataPropertyParser.TryGetString(Obj, PropertyNames.SampleID);
 
                 For(() => sampleIDString, PropertyDisplayNames.Sample)
                     .NotNullOrEmpty();

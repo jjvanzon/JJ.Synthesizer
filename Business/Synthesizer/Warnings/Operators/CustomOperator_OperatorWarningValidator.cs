@@ -13,9 +13,9 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         protected override void Execute()
         {
             // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(Object.Data))
+            if (DataPropertyParser.DataIsWellFormed(Obj.Data))
             {
-                string underlyingPatchIDString = DataPropertyParser.TryGetString(Object, PropertyNames.UnderlyingPatchID);
+                string underlyingPatchIDString = DataPropertyParser.TryGetString(Obj, PropertyNames.UnderlyingPatchID);
 
                 For(() => underlyingPatchIDString, PropertyDisplayNames.UnderlyingPatch)
                     .NotNullOrEmpty();

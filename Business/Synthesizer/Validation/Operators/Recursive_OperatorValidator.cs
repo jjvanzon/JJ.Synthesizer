@@ -7,6 +7,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Validation.Curves;
+using JJ.Business.Synthesizer.Validation.Samples;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -52,7 +53,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected sealed override void Execute()
         {
-            Operator op = Object;
+            Operator op = Obj;
 
             if (_alreadyDone.Contains(op))
             {

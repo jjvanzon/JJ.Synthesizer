@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            Operator op = Object;
+            Operator op = Obj;
 
             For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(_expectedOperatorTypeEnum);
 
@@ -95,12 +95,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private string GetPropertyDisplayName_ForInletCount()
         {
-            return CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets);
+            return CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Inlets);
         }
 
         private string GetPropertyDisplayName_ForOutletCount()
         {
-            return CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets);
+            return CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Outlets);
         }
     }
 }

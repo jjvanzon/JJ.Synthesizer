@@ -12,12 +12,12 @@ namespace JJ.Business.Synthesizer.Validation.Scales
 
         protected override void Execute()
         {
-            if (Object.BaseFrequency.HasValue)
+            if (Obj.BaseFrequency.HasValue)
             {
-                For(() => Object.BaseFrequency, PropertyDisplayNames.BaseFrequency).NotNaN().NotInfinity().GreaterThan(0);
+                For(() => Obj.BaseFrequency, PropertyDisplayNames.BaseFrequency).NotNaN().NotInfinity().GreaterThan(0);
             }
 
-            For(() => Object.ScaleType, PropertyDisplayNames.ScaleType).NotNull();
+            For(() => Obj.ScaleType, PropertyDisplayNames.ScaleType).NotNull();
         }
     }
 }

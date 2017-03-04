@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         protected override void Execute()
         {
-            Operator op = Object;
+            Operator op = Obj;
 
             // ReSharper disable once InvertIf
             if (op.Inlets.Count >= 1)

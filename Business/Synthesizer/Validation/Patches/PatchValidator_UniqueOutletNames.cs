@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
         protected override void Execute()
         {
-            bool namesAreUnique = ValidationHelper.PatchOutletNamesAreUniqueWithinPatch(Object);
+            bool namesAreUnique = ValidationHelper.PatchOutletNamesAreUniqueWithinPatch(Obj);
             if (!namesAreUnique)
             {
                 ValidationMessages.Add(PropertyNames.PatchOutlet, Messages.OutletNamesAreNotUnique);

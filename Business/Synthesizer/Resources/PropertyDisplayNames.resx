@@ -229,7 +229,7 @@
   <data name="Patches" xml:space="preserve">
     <value>Patches</value>
   </data>
-  <data name="ReferencedDocuments" xml:space="preserve">
+  <data name="LowerDocuments" xml:space="preserve">
     <value>Libraries</value>
   </data>
   <data name="IsActive" xml:space="preserve">
@@ -852,5 +852,14 @@
   </data>
   <data name="RangeOverOutlets" xml:space="preserve">
     <value>Range over Outlets</value>
+  </data>
+  <data name="HigherDocument" xml:space="preserve">
+    <value>Higher Document</value>
+  </data>
+  <data name="LowerDocument" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="Alias" xml:space="preserve">
+    <value>Alias</value>
   </data>
 </root>

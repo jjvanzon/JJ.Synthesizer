@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
             else
             {
-                string name = $"{CommonTitles.Item} {listIndex}";
+                string name = $"{CommonTitlesFormatter.Item} {listIndex}";
                 return name;
             }
         }

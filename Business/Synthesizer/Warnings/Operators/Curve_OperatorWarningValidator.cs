@@ -13,9 +13,9 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         protected override void Execute()
         {
             // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(Object.Data))
+            if (DataPropertyParser.DataIsWellFormed(Obj.Data))
             {
-                string curveIDString = DataPropertyParser.TryGetString(Object, PropertyNames.CurveID);
+                string curveIDString = DataPropertyParser.TryGetString(Obj, PropertyNames.CurveID);
 
                 For(() => curveIDString, PropertyDisplayNames.Curve)
                     .NotNullOrEmpty();

@@ -13,12 +13,12 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 
         protected override void Execute()
         {
-            string data = Object;
+            string data = Obj;
 
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
-                string speakerSetupString = DataPropertyParser.TryGetString(Object, PropertyNames.SpeakerSetup);
+                string speakerSetupString = DataPropertyParser.TryGetString(Obj, PropertyNames.SpeakerSetup);
 
                 For(() => speakerSetupString, PropertyDisplayNames.SpeakerSetup)
                     .NotNullOrEmpty()

@@ -34,18 +34,18 @@ namespace JJ.Business.Synthesizer.LinkTo
             document.LinkTo((AudioOutput)null);
         }
 
-        public static void UnlinkDependentDocument(this DocumentReference documentReference)
+        public static void UnlinkHigherDocument(this DocumentReference documentReference)
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
-            documentReference.LinkToDependentDocument((Document)null);
+            documentReference.LinkToHigherDocument((Document)null);
         }
 
-        public static void UnlinkDependentOnDocument(this DocumentReference documentOnReference)
+        public static void UnlinkLowerDocument(this DocumentReference lowerDocumentReference)
         {
-            if (documentOnReference == null) throw new NullException(() => documentOnReference);
+            if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
 
-            documentOnReference.LinkToDependentOnDocument((Document)null);
+            lowerDocumentReference.LinkToLowerDocument((Document)null);
         }
 
         public static void UnlinkCurve(this Node node)

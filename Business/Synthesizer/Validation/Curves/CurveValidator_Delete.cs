@@ -9,6 +9,7 @@ using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace JJ.Business.Synthesizer.Validation.Curves
 {
@@ -16,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
     {
         private readonly ICurveRepository _curveRepository;
 
-        public CurveValidator_Delete(Curve curve, ICurveRepository curveRepository)
+        public CurveValidator_Delete([NotNull] Curve curve, [NotNull] ICurveRepository curveRepository)
             : base(curve, postponeExecute: true)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -28,7 +29,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
 
         protected sealed override void Execute()
         {
-            Curve curve = Object;
+            Curve curve = Obj;
 
             bool hasOperators = EnumerateCurveOperators(curve).Any();
             if (hasOperators)
@@ -38,9 +39,13 @@ namespace JJ.Business.Synthesizer.Validation.Curves
             }
         }
 
-        private IEnumerable<Operator> EnumerateCurveOperators(Curve curve)
+        private IEnumerable<Operator> EnumerateCurveOperators([NotNull] Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
+            if (curve.Document == null)
+            {
+                yield break;    
+            }
 
             foreach (Operator op in curve.Document.Patches.SelectMany(x => x.Operators))
             {

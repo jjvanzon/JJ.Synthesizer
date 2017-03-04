@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
@@ -13,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
     {
         private readonly IPatchRepository _patchRepository;
 
-        public PatchValidator_Delete(Patch obj, IPatchRepository patchRepository) 
+        public PatchValidator_Delete([NotNull] Patch obj, [NotNull] IPatchRepository patchRepository) 
             : base(obj, postponeExecute: true)
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
@@ -26,7 +27,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
         protected override void Execute()
         {
-            Patch patch = Object;
+            Patch patch = Obj;
             Document document = patch.Document;
 
             if (document == null)

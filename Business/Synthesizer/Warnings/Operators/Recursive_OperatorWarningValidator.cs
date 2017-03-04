@@ -27,15 +27,15 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         protected override void Execute()
         {
-            if (_alreadyDone.Contains(Object)) return;
-            _alreadyDone.Add(Object);
+            if (_alreadyDone.Contains(Obj)) return;
+            _alreadyDone.Add(Obj);
 
-            ExecuteValidator(new Versatile_OperatorWarningValidator(Object));
+            ExecuteValidator(new Versatile_OperatorWarningValidator(Obj));
 
-            if (Object.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
+            if (Obj.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
             {
                 int sampleID;
-                if (int.TryParse(Object.Data, out sampleID))
+                if (int.TryParse(Obj.Data, out sampleID))
                 {
                     Sample sample = _sampleRepository.TryGet(sampleID);
                     if (sample != null)
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 }
             }
 
-            foreach (Inlet inlet in Object.Inlets)
+            foreach (Inlet inlet in Obj.Inlets)
             {
                 if (inlet.InputOutlet != null)
                 {

@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.Samples
 {
     internal class SampleValidator_UniqueName : VersatileValidator<Sample>
     {
@@ -21,16 +21,16 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            if (Object.Document == null)
+            if (Obj.Document == null)
             {
                 return;
             }
 
-            bool isUnique = ValidationHelper.SampleNameIsUnique(Object);
+            bool isUnique = ValidationHelper.SampleNameIsUnique(Obj);
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                string message = MessageFormatter.NotUnique_WithPropertyName_AndValue(CommonTitles.Name, Object.Name);
+                string message = MessageFormatter.NotUnique_WithPropertyName_AndValue(CommonTitlesFormatter.Name, Obj.Name);
                 ValidationMessages.Add(PropertyNames.Name, message);
             }
         }

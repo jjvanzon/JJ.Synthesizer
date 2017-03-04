@@ -5,10 +5,15 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
+    /// <summary>
+    /// Validates that name does not exceed the common max length (probably 256),
+    /// and optionally is it required. You can pass a different property name than 'Name',
+    /// if it is about a property that is not called Name.
+    /// </summary>
     internal class NameValidator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
         private const bool DEFAULT_REQUIRED = true;
-        private static readonly string _defaultPropertyDisplayName = CommonTitles.Name;
+        private static readonly string _defaultPropertyDisplayName = CommonTitlesFormatter.Name;
         private static readonly int? _nameMaxLength = GetNameMaxLength();
 
         private readonly bool _required;
@@ -37,7 +42,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected sealed override void Execute()
         {
-            string name = Object;
+            string name = Obj;
 
             if (_required)
             {

@@ -15,8 +15,8 @@ namespace JJ.Data.Synthesizer
             Patches = new List<Patch>();
             Samples = new List<Sample>();
             Scales = new List<Scale>();
-            DependentOnDocuments = new List<DocumentReference>();
-            DependentDocuments = new List<DocumentReference>();
+            LowerDocumentReferences = new List<DocumentReference>();
+            HigherDocumentReferences = new List<DocumentReference>();
         }
 
         public virtual int ID { get; set; }
@@ -30,9 +30,8 @@ namespace JJ.Data.Synthesizer
         public virtual IList<Patch> Patches { get; set; }
         public virtual IList<Sample> Samples { get; set; }
         public virtual IList<Scale> Scales { get; set; }
-
-        public virtual IList<DocumentReference> DependentOnDocuments { get; set; }
-        public virtual IList<DocumentReference> DependentDocuments { get; set; }
+        public virtual IList<DocumentReference> LowerDocumentReferences { get; set; }
+        public virtual IList<DocumentReference> HigherDocumentReferences { get; set; }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }

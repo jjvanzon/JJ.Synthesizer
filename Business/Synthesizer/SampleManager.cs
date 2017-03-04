@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Validation.Samples;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Business;
@@ -50,13 +51,7 @@ namespace JJ.Business.Synthesizer
                 validators.Add(new SampleValidator_InDocument(entity));
             }
 
-            var result = new VoidResult
-            {
-                Successful = validators.All(x => x.IsValid),
-                Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical()
-            };
-
-            return result;
+            return validators.ToResult();
         }
 
         // Delete

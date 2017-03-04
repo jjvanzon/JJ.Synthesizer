@@ -1,8 +1,8 @@
 ﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.Samples
 {
     internal class SampleValidator : VersatileValidator<Sample>
     {
@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            Sample sample = Object;
+            Sample sample = Obj;
 
             ExecuteValidator(new NameValidator(sample.Name, required: false));
 

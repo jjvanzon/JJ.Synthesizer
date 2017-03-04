@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            AudioFileOutput audioFileOutput = Object;
+            AudioFileOutput audioFileOutput = Obj;
 
             For(() => audioFileOutput.Amplifier, PropertyDisplayNames.Amplifier)
                 .NotNaN()
@@ -47,8 +47,8 @@ namespace JJ.Business.Synthesizer.Validation
 
         private void TryValidateOutletReference()
         {
-            bool mustValidate = Object.Outlet != null &&
-                                Object.Document != null;
+            bool mustValidate = Obj.Outlet != null &&
+                                Obj.Document != null;
 
             if (!mustValidate)
             {
@@ -56,15 +56,15 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             IEnumerable<Outlet> outletsEnumerable = 
-                Object.Document.Patches
+                Obj.Document.Patches
                                .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet))
                                .SelectMany(x => x.Outlets);
 
-            bool referenceIsValid = outletsEnumerable.Any(x => x.ID == Object.Outlet.ID);
+            bool referenceIsValid = outletsEnumerable.Any(x => x.ID == Obj.Outlet.ID);
 
             if (!referenceIsValid)
             {
-                ValidationMessages.AddNotInListMessage(PropertyNames.Outlet, PropertyDisplayNames.Outlet, Object.Outlet.ID);
+                ValidationMessages.AddNotInListMessage(PropertyNames.Outlet, PropertyDisplayNames.Outlet, Obj.Outlet.ID);
             }
         }
     }

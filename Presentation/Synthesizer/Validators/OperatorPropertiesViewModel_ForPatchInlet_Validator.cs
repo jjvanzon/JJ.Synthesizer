@@ -17,8 +17,8 @@ namespace JJ.Presentation.Synthesizer.Validators
 
         protected override void Execute()
         {
-            For(() => Object.Number, Titles.Number).GreaterThanOrEqual(1);
-            For(() => Object.DefaultValue, PropertyDisplayNames.DefaultValue).IsDouble();
+            For(() => Obj.Number, Titles.Number).GreaterThanOrEqual(1);
+            For(() => Obj.DefaultValue, PropertyDisplayNames.DefaultValue).IsDouble();
         }
     }
 }

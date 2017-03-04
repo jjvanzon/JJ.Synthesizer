@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            ExecuteValidator(new NameValidator(Object.Name, required: false));
+            ExecuteValidator(new NameValidator(Obj.Name, required: false));
 
-            For(() => Object.OperatorType, PropertyDisplayNames.OperatorType).NotNull();
+            For(() => Obj.OperatorType, PropertyDisplayNames.OperatorType).NotNull();
         }
     }
 }

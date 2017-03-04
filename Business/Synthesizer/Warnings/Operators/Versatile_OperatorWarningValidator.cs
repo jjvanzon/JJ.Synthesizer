@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         protected override void Execute()
         {
-            OperatorTypeEnum operatorTypeEnum = Object.GetOperatorTypeEnum();
+            OperatorTypeEnum operatorTypeEnum = Obj.GetOperatorTypeEnum();
             Type validatorType;
             if (!_warningValidatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
             {

@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
         protected override void Execute()
         {
-            For(() => Object.AudioOutput, PropertyDisplayNames.AudioOutput).NotNull();
+            For(() => Obj.AudioOutput, PropertyDisplayNames.AudioOutput).NotNull();
 
-            ExecuteValidator(new NameValidator(Object.Name), ValidationHelper.GetMessagePrefix(Object));
+            ExecuteValidator(new NameValidator(Obj.Name), ValidationHelper.GetMessagePrefix(Obj));
         }
     }
 }

@@ -21,16 +21,16 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            if (Object.Document == null)
+            if (Obj.Document == null)
             {
                 return;
             }
 
-            bool isUnique = ValidationHelper.AudioFileOutputNameIsUnique(Object);
+            bool isUnique = ValidationHelper.AudioFileOutputNameIsUnique(Obj);
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                string message = MessageFormatter.NotUnique_WithPropertyName_AndValue(CommonTitles.Name, Object.Name);
+                string message = MessageFormatter.NotUnique_WithPropertyName_AndValue(CommonTitlesFormatter.Name, Obj.Name);
                 ValidationMessages.Add(PropertyNames.Name, message);
             }
         }

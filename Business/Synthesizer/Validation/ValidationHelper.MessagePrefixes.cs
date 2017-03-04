@@ -5,75 +5,89 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Helpers;
+using JetBrains.Annotations;
 
 namespace JJ.Business.Synthesizer.Validation
 {
     internal static partial class ValidationHelper
     {
-        public static string GetMessagePrefix(AudioFileOutput entity)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] AudioFileOutput entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             return GetMessagePrefix(PropertyDisplayNames.AudioFileOutput, entity.Name);
         }
 
-        public static string GetMessagePrefix(AudioOutput audioOutput)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] AudioOutput audioOutput)
         {
             if (audioOutput == null) throw new NullException(() => audioOutput);
 
             return PropertyDisplayNames.AudioOutput;
         }
 
-        public static string GetMessagePrefix(Curve entity)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             return GetMessagePrefix(PropertyDisplayNames.Curve, entity.Name);
         }
 
-        public static string GetMessagePrefix(Document entity)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             return GetMessagePrefix(PropertyDisplayNames.Document, entity.Name);
         }
 
+        [NotNull]
+        public static string GetMessagePrefix_ForLowerDocumentReference([NotNull] DocumentReference lowerDocumentReference)
+        {
+            // Returns something like "Library 'bla':"
+            string identifier = GetIdentifier_ForLowerDocumentReference(lowerDocumentReference);
+            return $"{PropertyDisplayNames.LowerDocument} {identifier}: ";
+        }
+
         /// <param name="number">1-based</param>
-        public static string GetMessagePrefix(Inlet entity, int? number = null)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] Inlet entity, int? number = null)
         {
             if (entity == null) throw new NullException(() => entity);
 
             if (!string.IsNullOrEmpty(entity.Name))
             {
-                string messagePrefix = $"{PropertyDisplayNames.Inlet} '{entity.Name}': ";
-                return messagePrefix;
+                return $"{PropertyDisplayNames.Inlet} '{entity.Name}': ";
             }
+            // ReSharper disable once RedundantIfElseBlock
             else if (number.HasValue)
             {
-                string messagePrefix = $"{PropertyDisplayNames.Inlet} {number}: ";
-                return messagePrefix;
+                return $"{PropertyDisplayNames.Inlet} {number}: ";
             }
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
-                string messagePrefix = PropertyDisplayNames.Inlet + ": ";
-                return messagePrefix;
+                return PropertyDisplayNames.Inlet + ": ";
             }
         }
 
         /// <param name="number">1-based</param>
-        public static string GetMessagePrefix(Node entity, int number)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] Node entity, int number)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string messagePrefix = $"{PropertyDisplayNames.Node} {number}: ";
-            return messagePrefix;
+            return $"{PropertyDisplayNames.Node} {number}: ";
         }
 
+        [NotNull]
         public static string GetMessagePrefix(
-            Operator entity,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository)
+            [NotNull] Operator entity,
+            [NotNull] ISampleRepository sampleRepository,
+            [NotNull] ICurveRepository curveRepository,
+            [NotNull] IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -107,7 +121,8 @@ namespace JJ.Business.Synthesizer.Validation
             }
         }
 
-        private static string GetMessagePrefix_ForCurveOperator(Operator entity, ICurveRepository curveRepository)
+        [NotNull]
+        private static string GetMessagePrefix_ForCurveOperator([NotNull] Operator entity, [NotNull] ICurveRepository curveRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
 
@@ -139,7 +154,8 @@ namespace JJ.Business.Synthesizer.Validation
             return operatorTypeDisplayName + ": ";
         }
 
-        private static string GetMessagePrefix_ForCustomOperator(Operator entity, IPatchRepository patchRepository)
+        [NotNull]
+        private static string GetMessagePrefix_ForCustomOperator([NotNull] Operator entity, [NotNull] IPatchRepository patchRepository)
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
@@ -171,7 +187,8 @@ namespace JJ.Business.Synthesizer.Validation
             return operatorTypeDisplayName + ": ";
         }
 
-        private static string GetMessagePrefix_ForNumberOperator(Operator entity)
+        [NotNull]
+        private static string GetMessagePrefix_ForNumberOperator([NotNull] Operator entity)
         {
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
 
@@ -189,8 +206,7 @@ namespace JJ.Business.Synthesizer.Validation
                 // ReSharper disable once InvertIf
                 if (number.HasValue)
                 {
-                    string messagePrefix = $"{operatorTypeDisplayName} '{number.Value:0.######}': ";
-                    return messagePrefix;
+                    return $"{operatorTypeDisplayName} '{number.Value:0.######}': ";
                 }
             }
 
@@ -198,7 +214,8 @@ namespace JJ.Business.Synthesizer.Validation
             return operatorTypeDisplayName + ": ";
         }
 
-        private static string GetMessagePrefix_ForPatchInlet(Operator entity)
+        [NotNull]
+        private static string GetMessagePrefix_ForPatchInlet([NotNull] Operator entity)
         {
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
 
@@ -228,7 +245,8 @@ namespace JJ.Business.Synthesizer.Validation
             return operatorTypeDisplayName + ": ";
         }
 
-        private static string GetMessagePrefix_ForPatchOutlet(Operator entity)
+        [NotNull]
+        private static string GetMessagePrefix_ForPatchOutlet([NotNull] Operator entity)
         {
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
 
@@ -258,7 +276,8 @@ namespace JJ.Business.Synthesizer.Validation
             return operatorTypeDisplayName + ": ";
         }
 
-        private static string GetMessagePrefix_ForSampleOperator(Operator entity, ISampleRepository sampleRepository)
+        [NotNull]
+        private static string GetMessagePrefix_ForSampleOperator([NotNull] Operator entity, [NotNull] ISampleRepository sampleRepository)
         {
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
@@ -290,12 +309,14 @@ namespace JJ.Business.Synthesizer.Validation
             return operatorTypeDisplayName + ": ";
         }
 
-        private static string GetMessagePrefix_ForUndefinedOperatorType(Operator entity)
+        [NotNull]
+        private static string GetMessagePrefix_ForUndefinedOperatorType([NotNull] Operator entity)
         {
             return GetMessagePrefix(PropertyDisplayNames.Operator, entity.Name);
         }
 
-        private static string GetMessagePrefix_ForOtherOperartorType(Operator entity)
+        [NotNull]
+        private static string GetMessagePrefix_ForOtherOperartorType([NotNull] Operator entity)
         {
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
 
@@ -310,7 +331,8 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         /// <param name="number">1-based</param>
-        public static string GetMessagePrefix(Outlet entity, int number)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] Outlet entity, int number)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -319,49 +341,53 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         /// <param name="number">1-based</param>
-        public static string GetMessagePrefix(Outlet entity, int? number = null)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] Outlet entity, int? number = null)
         {
             if (entity == null) throw new NullException(() => entity);
 
             if (!string.IsNullOrEmpty(entity.Name))
             {
-                string messagePrefix = $"{PropertyDisplayNames.Outlet} '{entity.Name}': ";
-                return messagePrefix;
+                return $"{PropertyDisplayNames.Outlet} '{entity.Name}': ";
             }
+            // ReSharper disable once RedundantIfElseBlock
             else if (number.HasValue)
             {
-                string messagePrefix = $"{PropertyDisplayNames.Outlet} {number}: ";
-                return messagePrefix;
+                return $"{PropertyDisplayNames.Outlet} {number}: ";
             }
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
-                string messagePrefix = PropertyDisplayNames.Outlet + ": ";
-                return messagePrefix;
+                return PropertyDisplayNames.Outlet + ": ";
             }
         }
 
-        public static string GetMessagePrefix(Patch entity)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             return GetMessagePrefix(PropertyDisplayNames.Patch, entity.Name);
         }
 
-        public static string GetMessagePrefix(Sample entity)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] Sample entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             return GetMessagePrefix(PropertyDisplayNames.Sample, entity.Name);
         }
 
-        public static string GetMessagePrefix(Scale entity)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] Scale entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             return GetMessagePrefix(PropertyDisplayNames.Scale, entity.Name);
         }
 
-        public static string GetMessagePrefix(Tone entity)
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] Tone entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -369,21 +395,20 @@ namespace JJ.Business.Synthesizer.Validation
             return PropertyDisplayNames.Tone;
         }
 
-        /// <summary>
-        /// Uses the name in the message or otherwise the entityTypeDisplayName.
-        /// </summary>
-        private static string GetMessagePrefix(string entityTypeDisplayName, string name)
+        /// <summary> Uses the name in the message or otherwise the entityTypeDisplayName. </summary>
+        [NotNull]
+        private static string GetMessagePrefix(string entityTypeDisplayName, [CanBeNull] string name)
         {
-            string messagePrefix;
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (string.IsNullOrEmpty(name))
             {
-                messagePrefix = $"{entityTypeDisplayName}: ";
+                return $"{entityTypeDisplayName}: ";
             }
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
-                messagePrefix = $"{entityTypeDisplayName} '{name}': ";
+                return $"{entityTypeDisplayName} '{name}': ";
             }
-            return messagePrefix;
         }
     }
 }

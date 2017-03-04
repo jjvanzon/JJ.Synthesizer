@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         protected override void Execute()
         {
-            IList<Inlet> sortedInlets = Object.Inlets.OrderBy(x => x.ListIndex).ToArray();
+            IList<Inlet> sortedInlets = Obj.Inlets.OrderBy(x => x.ListIndex).ToArray();
 
             foreach (int indexToCheck in _indexesToCheck)
             {
@@ -35,8 +35,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                     // ReSharper disable once InvertIf
                     if (inlet.InputOutlet == null)
                     {
-                        string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(Object);
-                        string message = MessageFormatter.InletNotSet(operatorTypeDisplayName, Object.Name, inlet.Name);
+                        string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(Obj);
+                        string message = MessageFormatter.InletNotSet(operatorTypeDisplayName, Obj.Name, inlet.Name);
                         ValidationMessages.Add(() => inlet.InputOutlet, message);
                     }
                 }

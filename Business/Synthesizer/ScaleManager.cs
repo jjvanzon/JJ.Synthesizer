@@ -103,12 +103,7 @@ namespace JJ.Business.Synthesizer
                 validators.Add(new ScaleValidator_InDocument(scale));
             }
 
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var result = new VoidResult();
-            result.Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical();
-            result.Successful = result.Messages.Count == 0;
-
-            return result;
+            return validators.ToResult();
         }
 
         // Delete

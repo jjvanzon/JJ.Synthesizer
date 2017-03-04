@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            For(() => Object.Data, PropertyDisplayNames.Data).IsNullOrEmpty();
+            For(() => Obj.Data, PropertyDisplayNames.Data).IsNullOrEmpty();
         }
     }
 }

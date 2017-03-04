@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            Operator op = Object;
+            Operator op = Obj;
 
             if (op.OperatorType == null)
             {
@@ -39,8 +39,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
             else
             {
-                For(() => Object.StandardDimension, PropertyDisplayNames.StandardDimension).IsNull();
-                For(() => Object.CustomDimensionName, PropertyDisplayNames.CustomDimensionName).IsNullOrEmpty();
+                For(() => Obj.StandardDimension, PropertyDisplayNames.StandardDimension).IsNull();
+                For(() => Obj.CustomDimensionName, PropertyDisplayNames.CustomDimensionName).IsNullOrEmpty();
             }
         }
     }

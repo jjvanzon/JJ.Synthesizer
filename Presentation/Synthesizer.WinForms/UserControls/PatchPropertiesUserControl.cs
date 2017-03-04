@@ -28,8 +28,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Patch);
-            labelName.Text = CommonTitles.Name;
+            TitleBarText = CommonTitlesFormatter.ObjectProperties(PropertyDisplayNames.Patch);
+            labelName.Text = CommonTitlesFormatter.Name;
             labelGroup.Text = Titles.Group;
             buttonAddToCurentPatches.Text = Titles.AddToCurrentPatches;
         }

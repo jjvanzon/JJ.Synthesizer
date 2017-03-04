@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected sealed override void Execute()
         {
-            Operator op = Object;
+            Operator op = Obj;
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            For(_newInletCount, PropertyNames.InletCount, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets))
+            For(_newInletCount, PropertyNames.InletCount, CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Inlets))
                 .GreaterThan(1);
 
             IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();

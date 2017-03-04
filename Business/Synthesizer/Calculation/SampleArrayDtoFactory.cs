@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Validation.Samples;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;

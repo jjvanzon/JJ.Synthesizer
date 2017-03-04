@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Scales
 
         protected override void Execute()
         {
-            foreach (Tone tone in Object.Tones)
+            foreach (Tone tone in Obj.Tones)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(tone);
                 ExecuteValidator(new ToneValidator(tone), messagePrefix);

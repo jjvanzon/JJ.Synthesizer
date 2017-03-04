@@ -13,12 +13,12 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 
         protected override void Execute()
         {
-            string data = Object;
+            string data = Obj;
 
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
-                string interpolationType = DataPropertyParser.TryGetString(Object, PropertyNames.InterpolationType);
+                string interpolationType = DataPropertyParser.TryGetString(Obj, PropertyNames.InterpolationType);
 
                 For(() => interpolationType, PropertyDisplayNames.InterpolationType)
                     .NotNullOrEmpty()

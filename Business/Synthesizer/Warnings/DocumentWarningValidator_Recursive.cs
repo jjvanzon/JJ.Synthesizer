@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            Document document = Object;
+            Document document = Obj;
 
             if (_alreadyDone.Contains(document))
             {

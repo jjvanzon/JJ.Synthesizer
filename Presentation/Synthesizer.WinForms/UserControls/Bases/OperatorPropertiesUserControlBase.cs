@@ -62,8 +62,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
-            _labelName.Text = CommonTitles.Name;
+            TitleBarText = CommonTitlesFormatter.ObjectProperties(PropertyDisplayNames.Operator);
+            _labelName.Text = CommonTitlesFormatter.Name;
             // ReSharper disable once LocalizableElement
             _labelOperatorTypeTitle.Text = Titles.Type + ":";
             _labelStandardDimension.Text = PropertyDisplayNames.StandardDimension;

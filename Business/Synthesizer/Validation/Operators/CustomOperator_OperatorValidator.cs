@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected sealed override void Execute()
         {
-            Operator op = Object;
+            Operator op = Obj;
 
             ValidateInletNamesUnique();
             ValidateOutletNamesUnique();
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private void ValidateInletNamesUnique()
         {
-            IList<string> names = Object.Inlets.Where(x => !string.IsNullOrEmpty(x.Name))
+            IList<string> names = Obj.Inlets.Where(x => !string.IsNullOrEmpty(x.Name))
                                                .Select(x => x.Name)
                                                .ToArray();
 
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private void ValidateOutletNamesUnique()
         {
-            IList<string> names = Object.Outlets.Where(x => !string.IsNullOrEmpty(x.Name))
+            IList<string> names = Obj.Outlets.Where(x => !string.IsNullOrEmpty(x.Name))
                                                 .Select(x => x.Name)
                                                 .ToArray();
 
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private void ValidateUnderlyingPatchReferenceConstraint(Patch underlyingPatch)
         {
-            Operator op = Object;
+            Operator op = Obj;
 
             // We are quite tollerant here: we omit the check if it is not in a patch or document.
             bool mustCheckReference = op.Patch?.Document != null;
@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private void ValidateInletsAgainstUnderlyingPatch()
         {
-            Operator customOperator = Object;
+            Operator customOperator = Obj;
 
             foreach (Inlet customOperatorInlet in customOperator.Inlets)
             {
@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (!string.Equals(customOperatorInlet.Name, underlyingPatchInletOperator.Name))
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
-                        CommonTitles.Name,
+                        CommonTitlesFormatter.Name,
                         customOperatorInlet,
                         underlyingPatchInletOperator,
                         customOperatorInlet.Name,
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (!customOperatorInlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
-                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.True);
+                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitlesFormatter.True);
                     ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
                 }
             }
@@ -202,7 +202,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (customOperatorInlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
-                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.False);
+                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitlesFormatter.False);
                     ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
                 }
             }
@@ -210,7 +210,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private void ValidateOutletsAgainstUnderlyingPatch()
         {
-            Operator customOperator = Object;
+            Operator customOperator = Obj;
 
             foreach (Outlet customOperatorOutlet in customOperator.Outlets)
             {
@@ -240,7 +240,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (!string.Equals(customOperatorOutlet.Name, underlyingPatchOutlet.Name))
                 {
                     string message = GetOutletPropertyDoesNotMatchMessage(
-                        CommonTitles.Name,
+                        CommonTitlesFormatter.Name,
                         customOperatorOutlet,
                         underlyingPatchOutlet,
                         customOperatorOutlet.Name,
@@ -278,7 +278,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (!customOperatorOutlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
-                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.True);
+                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitlesFormatter.True);
                     ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
                 }
             }
@@ -288,7 +288,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (customOperatorOutlet.IsObsolete)
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
-                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitles.False);
+                    string message = ValidationMessageFormatter.NotEqual(PropertyDisplayNames.IsObsolete, CommonTitlesFormatter.False);
                     ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
                 }
             }

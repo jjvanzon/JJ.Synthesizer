@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            For(() => Object.NodeType, PropertyDisplayNames.NodeType).NotNull();
-            For(() => Object.X, PropertyDisplayNames.X).NotNaN().NotInfinity();
-            For(() => Object.Y, PropertyDisplayNames.Y).NotNaN().NotInfinity();
+            For(() => Obj.NodeType, PropertyDisplayNames.NodeType).NotNull();
+            For(() => Obj.X, PropertyDisplayNames.X).NotNaN().NotInfinity();
+            For(() => Obj.Y, PropertyDisplayNames.Y).NotNaN().NotInfinity();
         }
     }
 }

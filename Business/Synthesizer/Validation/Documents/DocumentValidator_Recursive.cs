@@ -7,17 +7,18 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Business.Synthesizer.Validation.Patches;
+using JJ.Business.Synthesizer.Validation.Samples;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
-    internal class Recursive_DocumentValidator : VersatileValidator<Document>
+    internal class DocumentValidator_Recursive : VersatileValidator<Document>
     {
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly IPatchRepository _patchRepository;
         private readonly HashSet<object> _alreadyDone;
 
-        public Recursive_DocumentValidator(
+        public DocumentValidator_Recursive(
             Document document, 
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
@@ -40,7 +41,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
         protected sealed override void Execute()
         {
-            Document document = Object;
+            Document document = Obj;
 
             if (_alreadyDone.Contains(document))
             {
@@ -99,13 +100,11 @@ namespace JJ.Business.Synthesizer.Validation.Documents
                 ExecuteValidator(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
             }
 
-            // TODO:
-
-            // DependentOnDocuments
-            // DependentDocuments
-
-            // TODO: Compare to validation in Circle code base.
-            // TODO: Some collections / references must be filled in / empty depending on its being a root document or not.
+            foreach (DocumentReference lowerDocumentReference in document.LowerDocumentReferences)
+            {
+                string messagePrefix = ValidationHelper.GetMessagePrefix_ForLowerDocumentReference(lowerDocumentReference);
+                ExecuteValidator(new DocumentReferenceValidator(lowerDocumentReference), messagePrefix);
+            }
         }
     }
 }

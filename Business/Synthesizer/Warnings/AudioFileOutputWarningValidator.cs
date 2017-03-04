@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            AudioFileOutput audioFileOutput = Object;
+            AudioFileOutput audioFileOutput = Obj;
 
-            For(() => Object.Outlet, PropertyDisplayNames.Outlet).NotNull();
+            For(() => Obj.Outlet, PropertyDisplayNames.Outlet).NotNull();
             For(() => audioFileOutput.Amplifier, PropertyDisplayNames.Amplifier).IsNot(0.0);
         }
     }

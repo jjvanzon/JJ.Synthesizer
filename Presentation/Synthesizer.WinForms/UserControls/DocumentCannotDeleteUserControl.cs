@@ -38,8 +38,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             // ReSharper disable once LocalizableElement
-            labelMessagesTitle.Text = CommonTitles.Messages + ":";
-            buttonOK.Text = CommonTitles.OK;
+            labelMessagesTitle.Text = CommonTitlesFormatter.Messages + ":";
+            buttonOK.Text = CommonTitlesFormatter.OK;
         }
 
         // Binding

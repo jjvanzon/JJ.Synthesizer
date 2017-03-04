@@ -26,26 +26,26 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            if (_alreadyDone.Contains(Object))
+            if (_alreadyDone.Contains(Obj))
             {
                 return;
             }
-            _alreadyDone.Add(Object);
+            _alreadyDone.Add(Obj);
 
-            For(() => Object.Amplifier, PropertyDisplayNames.Amplifier).IsNot(0.0);
+            For(() => Obj.Amplifier, PropertyDisplayNames.Amplifier).IsNot(0.0);
 
-            if (!Object.IsActive)
+            if (!Obj.IsActive)
             {
-                ValidationMessages.Add(() => Object.Amplifier, MessageFormatter.SampleNotActive(Object.Name));
+                ValidationMessages.Add(() => Obj.Amplifier, MessageFormatter.SampleNotActive(Obj.Name));
             }
 
             if (_bytes == null)
             {
-                ValidationMessages.Add(() => _bytes, MessageFormatter.SampleNotLoaded(Object.Name));
+                ValidationMessages.Add(() => _bytes, MessageFormatter.SampleNotLoaded(Obj.Name));
             }
             else if (_bytes.Length == 0)
             {
-                ValidationMessages.Add(() => _bytes.Length, MessageFormatter.SampleCount0(Object.Name));
+                ValidationMessages.Add(() => _bytes.Length, MessageFormatter.SampleCount0(Obj.Name));
             }
         }
     }

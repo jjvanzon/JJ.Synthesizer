@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            ExecuteValidator(new ListIndex_DataProperty_Validator(Object.Data));
+            ExecuteValidator(new ListIndex_DataProperty_Validator(Obj.Data));
 
             base.Execute();
         }

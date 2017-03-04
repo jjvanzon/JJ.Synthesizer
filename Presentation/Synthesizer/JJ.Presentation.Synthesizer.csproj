@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JJ.Framework.Exceptions">
-      <HintPath>..\..\Framework\Exceptions\bin\Debug\JJ.Framework.Exceptions.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.XML" />
@@ -220,6 +217,10 @@
     <ProjectReference Include="..\..\Framework\Configuration\JJ.Framework.Configuration.csproj">
       <Project>{805a8237-05ed-40ae-8d1a-9288373ea5e0}</Project>
       <Name>JJ.Framework.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
+      <Name>JJ.Framework.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Mathematics\JJ.Framework.Mathematics.csproj">
       <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>

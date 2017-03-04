@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected sealed override void Execute()
         {
-            Operator op = Object;
+            Operator op = Obj;
 
             if (op.IsCircular())
             {

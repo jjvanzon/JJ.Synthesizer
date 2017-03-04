@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             double? end = null;
             double? frequencyCount = null;
 
-            foreach (Inlet inlet in Object.Inlets)
+            foreach (Inlet inlet in Obj.Inlets)
             {
                 double? number = inlet.TryGetConstantNumber();
 

@@ -13,13 +13,13 @@ namespace JJ.Business.Synthesizer.Validation.Patches
         {
             if (MustValidate())
             {
-                ExecuteValidator(new NameValidator(Object.Name));
+                ExecuteValidator(new NameValidator(Obj.Name));
             }
         }
 
         private bool MustValidate()
         {
-            return Object.Document != null;
+            return Obj.Document != null;
         }
     }
 }

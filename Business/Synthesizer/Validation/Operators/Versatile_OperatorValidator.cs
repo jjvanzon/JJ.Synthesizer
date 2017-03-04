@@ -108,13 +108,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected override void Execute()
         {
-            ExecuteValidator(new Basic_OperatorValidator(Object));
+            ExecuteValidator(new Basic_OperatorValidator(Obj));
 
-            OperatorTypeEnum operatorTypeEnum = Object.GetOperatorTypeEnum();
+            OperatorTypeEnum operatorTypeEnum = Obj.GetOperatorTypeEnum();
 
             if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
             {
-                ExecuteValidator(new CustomOperator_OperatorValidator(Object, _patchRepository));
+                ExecuteValidator(new CustomOperator_OperatorValidator(Obj, _patchRepository));
                 return;
             }
 

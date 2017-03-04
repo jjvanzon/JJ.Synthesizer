@@ -25,12 +25,12 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         protected override void Execute()
         {
             int i = 0;
-            foreach (Inlet inlet in Object.Inlets.OrderBy(x => x.ListIndex).Take(_inletCount))
+            foreach (Inlet inlet in Obj.Inlets.OrderBy(x => x.ListIndex).Take(_inletCount))
             {
                 if (inlet.InputOutlet == null && !inlet.DefaultValue.HasValue)
                 {
                     // ReSharper disable once AccessToModifiedClosure
-                    ValidationMessages.Add(() => Object.Inlets[i].InputOutlet, MessageFormatter.InletNotSet(Object.GetOperatorTypeEnum(), Object.Name, inlet.Name));
+                    ValidationMessages.Add(() => Obj.Inlets[i].InputOutlet, MessageFormatter.InletNotSet(Obj.GetOperatorTypeEnum(), Obj.Name, inlet.Name));
                 }
                 i++;
             }

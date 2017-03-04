@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
 
         protected override void Execute()
         {
-            Curve curve = Object;
+            Curve curve = Obj;
 
             ExecuteValidator(new NameValidator(curve.Name, required: false));
         }

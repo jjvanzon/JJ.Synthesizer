@@ -1,8 +1,8 @@
-﻿using JJ.Framework.Validation;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.Samples
 {
     internal class SampleValidator_InDocument : VersatileValidator<Sample>
     {
@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            For(() => Object.Document, PropertyDisplayNames.Document).NotNull();
+            For(() => Obj.Document, PropertyDisplayNames.Document).NotNull();
 
-            ExecuteValidator(new NameValidator(Object.Name));
+            ExecuteValidator(new NameValidator(Obj.Name));
             
             // TODO: Consider if more additional constraints need to be enforced in a document e.g. reference constraints.
         }

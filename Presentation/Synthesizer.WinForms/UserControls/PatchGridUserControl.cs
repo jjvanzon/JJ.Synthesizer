@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl.Text = PropertyDisplayNames.Patches;
-            NameColumn.HeaderText = CommonTitles.Name;
+            NameColumn.HeaderText = CommonTitlesFormatter.Name;
             UsedInColumn.HeaderText = Titles.UsedIn;
         }
 

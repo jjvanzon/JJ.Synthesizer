@@ -13,26 +13,26 @@ namespace JJ.Business.Synthesizer.Validation.Scales
 
         protected override void Execute()
         {
-            ScaleTypeEnum scaleTypeEnum = Object.GetScaleTypeEnum();
+            ScaleTypeEnum scaleTypeEnum = Obj.GetScaleTypeEnum();
 
-            ExecuteValidator(new Basic_ScaleValidator(Object));
+            ExecuteValidator(new Basic_ScaleValidator(Obj));
 
             switch (scaleTypeEnum)
             {
                 case ScaleTypeEnum.LiteralFrequency:
-                    ExecuteValidator(new LiteralFrequency_ScaleValidator(Object));
+                    ExecuteValidator(new LiteralFrequency_ScaleValidator(Obj));
                     break;
 
                 case ScaleTypeEnum.Factor:
-                    ExecuteValidator(new Factor_ScaleValidator(Object));
+                    ExecuteValidator(new Factor_ScaleValidator(Obj));
                     break;
 
                 case ScaleTypeEnum.Exponent:
-                    ExecuteValidator(new Exponent_ScaleValidator(Object));
+                    ExecuteValidator(new Exponent_ScaleValidator(Obj));
                     break;
 
                 case ScaleTypeEnum.SemiTone:
-                    ExecuteValidator(new SemiTone_ScaleValidator(Object));
+                    ExecuteValidator(new SemiTone_ScaleValidator(Obj));
                     break;
             }
         }

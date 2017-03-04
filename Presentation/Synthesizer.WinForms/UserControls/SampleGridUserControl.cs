@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl.Text = PropertyDisplayNames.Samples;
-            NameColumn.HeaderText = CommonTitles.Name;
+            NameColumn.HeaderText = CommonTitlesFormatter.Name;
             SampleDataTypeColumn.HeaderText = PropertyDisplayNames.SampleDataType;
             SpeakerSetupColumn.HeaderText = PropertyDisplayNames.SpeakerSetup;
             SamplingRateColumn.HeaderText = PropertyDisplayNames.SamplingRate;
@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 x.ID,
                 x.Name,
-                IsActive = x.IsActive ? CommonTitles.Yes : CommonTitles.No,
+                IsActive = x.IsActive ? CommonTitlesFormatter.Yes : CommonTitlesFormatter.No,
                 x.SamplingRate,
                 x.SampleDataType,
                 x.SpeakerSetup,

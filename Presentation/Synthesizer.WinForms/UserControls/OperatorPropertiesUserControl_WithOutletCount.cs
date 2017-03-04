@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelOutletCount.Text = CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets);
+            labelOutletCount.Text = CommonTitlesFormatter.ObjectCount(PropertyDisplayNames.Outlets);
         }
 
         protected override void AddProperties()

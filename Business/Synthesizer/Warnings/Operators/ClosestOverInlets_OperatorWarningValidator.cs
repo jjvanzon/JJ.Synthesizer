@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         protected override void Execute()
         {
-            Operator op = Object;
+            Operator op = Obj;
 
             bool anyItemsFilledIn = op.Inlets.Skip(1).Where(x => x.InputOutlet != null).Any();
             // ReSharper disable once InvertIf

@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
         protected override void Execute()
         {
-            Patch patch = Object;
+            Patch patch = Obj;
 
             IList<Operator> operatorsInGraph = patch.GetOperatorsRecursive();
             IList<Operator> operatorsMissingInList = operatorsInGraph.Except(patch.Operators).ToArray();

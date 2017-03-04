@@ -1,21 +1,20 @@
-﻿using JJ.Data.Canonical;
-using JJ.Data.Synthesizer;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Business;
-using JJ.Business.Synthesizer.SideEffects;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.SideEffects;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Curves;
+using JJ.Data.Canonical;
+using JJ.Data.Synthesizer;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
@@ -228,13 +227,7 @@ namespace JJ.Business.Synthesizer
                 validators.Add(new CurveValidator_InDocument(entity));
             }
 
-            var result = new VoidResult
-            {
-                Successful = validators.All(x => x.IsValid),
-                Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical()
-            };
-
-            return result;
+            return validators.ToResult();
         }
 
         public VoidResult SaveNode(Node entity)
@@ -245,13 +238,7 @@ namespace JJ.Business.Synthesizer
                 new NodeValidator_Parent(entity)
             };
 
-            var result = new VoidResult
-            {
-                Successful = validators.All(x => x.IsValid),
-                Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical()
-            };
-
-            return result;
+            return validators.ToResult();
         }
 
         // Delete

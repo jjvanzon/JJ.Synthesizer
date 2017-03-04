@@ -14,8 +14,8 @@ namespace JJ.Business.Synthesizer.Validation.Scales
 
         protected override void Execute()
         {
-            For(() => Object.BaseFrequency, PropertyDisplayNames.BaseFrequency).NotNull();
-            For(() => Object.GetScaleTypeEnum(), PropertyDisplayNames.ScaleType).Is(ScaleTypeEnum.Exponent);
+            For(() => Obj.BaseFrequency, PropertyDisplayNames.BaseFrequency).NotNull();
+            For(() => Obj.GetScaleTypeEnum(), PropertyDisplayNames.ScaleType).Is(ScaleTypeEnum.Exponent);
         }
     }
 }

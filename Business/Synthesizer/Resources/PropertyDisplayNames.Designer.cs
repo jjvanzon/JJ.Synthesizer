@@ -88,6 +88,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alias.
+        /// </summary>
+        public static string Alias {
+            get {
+                return ResourceManager.GetString("Alias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All Pass Filter.
         /// </summary>
         public static string AllPassFilter {
@@ -817,6 +826,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Higher Document.
+        /// </summary>
+        public static string HigherDocument {
+            get {
+                return ResourceManager.GetString("HigherDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to High Pass Filter.
         /// </summary>
         public static string HighPassFilter {
@@ -1065,6 +1083,24 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Low {
             get {
                 return ResourceManager.GetString("Low", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Library.
+        /// </summary>
+        public static string LowerDocument {
+            get {
+                return ResourceManager.GetString("LowerDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Libraries.
+        /// </summary>
+        public static string LowerDocuments {
+            get {
+                return ResourceManager.GetString("LowerDocuments", resourceCulture);
             }
         }
         
@@ -1560,15 +1596,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Raw {
             get {
                 return ResourceManager.GetString("Raw", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Libraries.
-        /// </summary>
-        public static string ReferencedDocuments {
-            get {
-                return ResourceManager.GetString("ReferencedDocuments", resourceCulture);
             }
         }
         

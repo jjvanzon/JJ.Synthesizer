@@ -10,8 +10,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Alias);
 
-            References(x => x.DependentDocument, ColumnNames.DependentDocumentID);
-            References(x => x.DependentOnDocument, ColumnNames.DependentOnDocumentID);
+            References(x => x.LowerDocument, ColumnNames.LowerDocumentID);
+            References(x => x.HigherDocument, ColumnNames.HigherDocumentID);
         }
     }
 }

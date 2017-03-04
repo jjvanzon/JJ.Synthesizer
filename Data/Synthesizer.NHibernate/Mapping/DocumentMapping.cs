@@ -19,8 +19,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             HasMany(x => x.Scales).KeyColumn(ColumnNames.DocumentID).Inverse();
             HasMany(x => x.AudioFileOutputs).KeyColumn(ColumnNames.DocumentID).Inverse();
 
-            HasMany(x => x.DependentOnDocuments).KeyColumn(ColumnNames.DependentDocumentID).Inverse();
-            HasMany(x => x.DependentDocuments).KeyColumn(ColumnNames.DependentOnDocumentID).Inverse();
+            HasMany(x => x.LowerDocumentReferences).KeyColumn(ColumnNames.HigherDocumentID).Inverse();
+            HasMany(x => x.HigherDocumentReferences).KeyColumn(ColumnNames.LowerDocumentID).Inverse();
         }
     }
 }

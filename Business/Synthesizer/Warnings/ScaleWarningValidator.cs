@@ -12,8 +12,8 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            For(() => Object.BaseFrequency, PropertyDisplayNames.BaseFrequency).IsNull();
-            For(() => Object.Tones.Count, PropertyDisplayNames.ToneCount).GreaterThan(0);
+            For(() => Obj.BaseFrequency, PropertyDisplayNames.BaseFrequency).IsNull();
+            For(() => Obj.Tones.Count, PropertyDisplayNames.ToneCount).GreaterThan(0);
         }
     }
 }

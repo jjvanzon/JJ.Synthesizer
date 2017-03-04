@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             base.Execute();
 
-            Operator op = Object;
+            Operator op = Obj;
 
             if (!DataPropertyParser.DataIsWellFormed(op))
             {

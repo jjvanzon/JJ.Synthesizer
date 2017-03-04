@@ -8,18 +8,19 @@ namespace JJ.Business.Synthesizer.Validation.Documents
     internal class DocumentValidator_Delete : VersatileValidator<Document>
     {
         public DocumentValidator_Delete(Document obj)
-            : base(obj, postponeExecute: true)
-        {
-            Execute();
-        }
+            : base(obj)
+        { }
 
         protected sealed override void Execute()
         {
-            Document document = Object;
+            Document document = Obj;
 
-            foreach (DocumentReference dependentDocument in document.DependentDocuments)
+            foreach (DocumentReference higherDocumentReference in document.HigherDocumentReferences)
             {
-                string message = MessageFormatter.DocumentIsDependentOnDocument(dependentDocument.DependentDocument.Name, dependentDocument.DependentOnDocument.Name);
+                string message = MessageFormatter.DocumentIsDependentOnDocument(
+                    higherDocumentReference.HigherDocument.Name, 
+                    higherDocumentReference.LowerDocument.Name);
+
                 ValidationMessages.Add(PropertyNames.DocumentReference, message);
             }
         }

@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
-            documentReference.UnlinkDependentOnDocument();
+            documentReference.UnlinkLowerDocument();
 
             // NOTE: Do not unlink DependentDocument: those should either be deleted first, or things should crash on reference constraint violations.
         }

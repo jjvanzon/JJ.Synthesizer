@@ -40,17 +40,17 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
         protected override void Execute()
         {
-            ExecuteValidator(new NameValidator(Object.GroupName, PropertyDisplayNames.GroupName, required: false));
+            ExecuteValidator(new NameValidator(Obj.GroupName, PropertyDisplayNames.GroupName, required: false));
 
-            ExecuteValidator(new PatchValidator_Name(Object));
-            ExecuteValidator(new PatchValidator_UniqueName(Object));
-            ExecuteValidator(new PatchValidator_UniqueInletNames(Object));
-            ExecuteValidator(new PatchValidator_UniqueInletListIndexes(Object));
-            ExecuteValidator(new PatchValidator_UniqueOutletNames(Object));
-            ExecuteValidator(new PatchValidator_UniqueOutletListIndexes(Object));
-            ExecuteValidator(new PatchValidator_IsOperatorsListComplete(Object));
+            ExecuteValidator(new PatchValidator_Name(Obj));
+            ExecuteValidator(new PatchValidator_UniqueName(Obj));
+            ExecuteValidator(new PatchValidator_UniqueInletNames(Obj));
+            ExecuteValidator(new PatchValidator_UniqueInletListIndexes(Obj));
+            ExecuteValidator(new PatchValidator_UniqueOutletNames(Obj));
+            ExecuteValidator(new PatchValidator_UniqueOutletListIndexes(Obj));
+            ExecuteValidator(new PatchValidator_IsOperatorsListComplete(Obj));
 
-            foreach (Operator op in Object.Operators)
+            foreach (Operator op in Obj.Operators)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository, _patchRepository);
 

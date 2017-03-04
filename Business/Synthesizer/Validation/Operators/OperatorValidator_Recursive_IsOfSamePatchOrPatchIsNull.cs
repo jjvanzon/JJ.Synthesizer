@@ -22,13 +22,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         protected sealed override void Execute()
         {
-            if (Object.Patch != null &&
-                Object.Patch != _patch)
+            if (Obj.Patch != null &&
+                Obj.Patch != _patch)
             {
-                ValidationMessages.Add(PropertyNames.Patch, MessageFormatter.OperatorPatchIsNotTheExpectedPatch(Object.Name, _patch.Name));
+                ValidationMessages.Add(PropertyNames.Patch, MessageFormatter.OperatorPatchIsNotTheExpectedPatch(Obj.Name, _patch.Name));
             }
 
-            foreach (Inlet inlet in Object.Inlets)
+            foreach (Inlet inlet in Obj.Inlets)
             {
                 if (inlet.InputOutlet != null)
                 {

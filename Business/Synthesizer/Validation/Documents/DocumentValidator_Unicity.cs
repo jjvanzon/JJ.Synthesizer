@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
         private void ValidateAudioFileOutputNamesUnique()
         {
-            IList<string> duplicateNames = ValidationHelper.GetDuplicateAudioFileOutputNames(Object);
+            IList<string> duplicateNames = ValidationHelper.GetDuplicateAudioFileOutputNames(Obj);
 
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
         private void ValidatePatchNamesUnique()
         {
-            IList<string> duplicateNames = ValidationHelper.GetDuplicatePatchNames(Object);
+            IList<string> duplicateNames = ValidationHelper.GetDuplicatePatchNames(Obj);
 
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
         private void ValidateSampleNamesUnique()
         {
-            IList<string> duplicateNames = ValidationHelper.GetDuplicateSampleNames(Object);
+            IList<string> duplicateNames = ValidationHelper.GetDuplicateSampleNames(Obj);
 
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
         private void ValidateScaleNamesUnique()
         {
-            IList<string> duplicateNames = ValidationHelper.GetDuplicateScaleNames(Object);
+            IList<string> duplicateNames = ValidationHelper.GetDuplicateScaleNames(Obj);
 
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)

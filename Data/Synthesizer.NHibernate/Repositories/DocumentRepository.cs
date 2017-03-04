@@ -3,6 +3,7 @@ using JJ.Framework.Data.NHibernate;
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
+// ReSharper disable UnusedVariable
 
 namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
@@ -62,12 +63,12 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                                                        .Future<Document>();
 
             var level_2_dependentOnDocumentsQuery = _context.Session.QueryOver(() => document)
-                                                                    .Left.JoinAlias(() => document.DependentOnDocuments, () => dependentOn_documentReference)
+                                                                    .Left.JoinAlias(() => document.LowerDocumentReferences, () => dependentOn_documentReference)
                                                                     .Where(() => document.ID == documentID)
                                                                     .Future<Document>();
 
             var level_2_dependentDocumentsQuery = _context.Session.QueryOver(() => document)
-                                                                  .Left.JoinAlias(() => document.DependentDocuments, () => dependent_documentReference)
+                                                                  .Left.JoinAlias(() => document.HigherDocumentReferences, () => dependent_documentReference)
                                                                   .Where(() => document.ID == documentID)
                                                                   .Future<Document>();
 
@@ -108,20 +109,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 
             Document outputDocument = level_1_documentQuery.FirstOrDefault();
             return outputDocument;
-        }
-
-        private IList<Document> GetManyByID(IList<int> ids)
-        {
-            if (ids == null) throw new NullException(() => ids);
-
-            IList<Document> list = new List<Document>(ids.Count);
-            foreach (int id in ids)
-            {
-                Document entity = Get(id);
-                list.Add(entity);
-            }
-
-            return list;
         }
     }
 }

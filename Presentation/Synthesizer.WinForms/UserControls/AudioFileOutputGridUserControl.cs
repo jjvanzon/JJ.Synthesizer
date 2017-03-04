@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl.Text = PropertyDisplayNames.AudioFileOutputList;
-            NameColumn.HeaderText = CommonTitles.Name;
+            NameColumn.HeaderText = CommonTitlesFormatter.Name;
             AudioFileFormatColumn.HeaderText = PropertyDisplayNames.AudioFileFormat;
             SampleDataTypeColumn.HeaderText = PropertyDisplayNames.SampleDataType;
             SpeakerSetupColumn.HeaderText = PropertyDisplayNames.SpeakerSetup;
