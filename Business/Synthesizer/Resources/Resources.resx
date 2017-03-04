@@ -125,9 +125,6 @@
     <value>Sample '{0}' cannot be deleted, because it is being used by operators.</value>
     <comment>{0} = name</comment>
   </data>
-  <data name="ChannelCountDoesNotMatchSpeakerSetup" xml:space="preserve">
-    <value>Channel count does not match speaker setup.</value>
-  </data>
   <data name="UnderlyingPatchIsCircular" xml:space="preserve">
     <value>There is a circular dependency with its underlying patch.</value>
     <comment>{0} = name</comment>

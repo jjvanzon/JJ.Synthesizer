@@ -125,9 +125,6 @@
     <value>Geluidsfragment '{0}' kan niet worden verwijderd, omdat het in gebruik is door operators.</value>
     <comment>{0} = name</comment>
   </data>
-  <data name="ChannelCountDoesNotMatchSpeakerSetup" xml:space="preserve">
-    <value>Het aantal kanalen komt niet overeen met de luidspreker opstelling.</value>
-  </data>
   <data name="UnderlyingPatchIsCircular" xml:space="preserve">
     <value>Er is een cirkelverband met de onderliggende schakeling.</value>
     <comment>{0} = name</comment>

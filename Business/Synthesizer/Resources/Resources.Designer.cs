@@ -439,15 +439,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Channel count does not match speaker setup..
-        /// </summary>
-        internal static string ChannelCountDoesNotMatchSpeakerSetup {
-            get {
-                return ResourceManager.GetString("ChannelCountDoesNotMatchSpeakerSetup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Channels.
         /// </summary>
         internal static string Channels {
