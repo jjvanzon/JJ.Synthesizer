@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Validation;
+﻿using JetBrains.Annotations;
+using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
@@ -9,7 +10,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
     /// </summary>
     internal abstract class OperatorWarningValidator_Base : VersatileValidator<Operator>
     {
-        public OperatorWarningValidator_Base(Operator op, bool postponeExecute = false)
+        public OperatorWarningValidator_Base([NotNull] Operator op, bool postponeExecute = false)
             : base(op, postponeExecute)
         { }
     }

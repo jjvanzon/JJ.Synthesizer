@@ -1,7 +1,9 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
+using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
@@ -16,7 +18,8 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             bool listIndexesAreUnique = ValidationHelper.PatchInletListIndexesAreUniqueWithinPatch(Obj);
             if (!listIndexesAreUnique)
             {
-                ValidationMessages.Add(PropertyNames.PatchInlet, ResourceFormatter.InletListIndexesAreNotUnique);
+                string message = ResourceFormatter.Inlets + ": " + ValidationResourceFormatter.NotUniquePlural(ResourceFormatter.ListIndexes);
+                ValidationMessages.Add(PropertyNames.PatchInlet, message);
             }
         }
     }

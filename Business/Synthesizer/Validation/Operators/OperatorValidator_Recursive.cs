@@ -5,6 +5,7 @@ using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Business.Synthesizer.Validation.Samples;
@@ -17,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     /// Makes sure that objects are only validated once to 
     /// prevent problems with circularities.
     /// </summary>
-    internal class Recursive_OperatorValidator : ValidatorBase<Operator>
+    internal class OperatorValidator_Recursive : ValidatorBase<Operator>
     {
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
@@ -30,12 +31,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         /// Makes sure that objects are only validated once to 
         /// prevent problems with circularity.
         /// </summary>
-        public Recursive_OperatorValidator(
-            Operator obj, 
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
-            IPatchRepository patchRepository, 
-            HashSet<object> alreadyDone)
+        public OperatorValidator_Recursive(
+            [NotNull] Operator obj,
+            [NotNull] ICurveRepository curveRepository,
+            [NotNull] ISampleRepository sampleRepository,
+            [NotNull] IPatchRepository patchRepository,
+            [NotNull] HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -113,7 +114,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     // Message prefix not used here on purpose. 
                     // This to prevent long message prefixes due to recursive processing.
-                    ExecuteValidator(new Recursive_OperatorValidator(inlet.InputOutlet.Operator, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone));
+                    ExecuteValidator(new OperatorValidator_Recursive(inlet.InputOutlet.Operator, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone));
                 }
             }
         }

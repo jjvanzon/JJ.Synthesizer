@@ -313,7 +313,7 @@ namespace JJ.Business.Synthesizer
 
         private VoidResult ValidatePatchWithRelatedEntities()
         {
-            IValidator validator = new PatchValidator(
+            IValidator validator = new PatchValidator_WithRelatedEntities(
                 Patch,
                 _repositories.CurveRepository,
                 _repositories.SampleRepository,

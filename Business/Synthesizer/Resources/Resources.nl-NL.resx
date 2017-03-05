@@ -133,8 +133,8 @@
     <value>Document '{0}' is afhankelijk van document '{1}'.</value>
     <comment>{0} = dependent document, {1} = dependent on document</comment>
   </data>
-  <data name="InletNamesAreNotUnique" xml:space="preserve">
-    <value>De ingang namen zijn niet uniek.</value>
+  <data name="InletNames" xml:space="preserve">
+    <value>Ingang namen</value>
   </data>
   <data name="InletNotSet" xml:space="preserve">
     <value>{2} is niet ingevuld voor {0} operator genaamd '{1}'.</value>
@@ -146,9 +146,6 @@
     <value>De patch van operator '{0}' is ingevuld, maar het is niet de verwachte patch '{1}'.</value>
     <comment>{0} = operator name, {1} = patch name</comment>
   </data>
-  <data name="OutletNamesAreNotUnique" xml:space="preserve">
-    <value>De uitgang namen zijn niet uniek.</value>
-  </data>
   <data name="SampleCount0" xml:space="preserve">
     <value>Geluidsfragment '{0}' heeft geen data.</value>
   </data>
@@ -158,20 +155,14 @@
   <data name="SampleNotLoaded" xml:space="preserve">
     <value>Geluidsfragment '{0} is niet ingeladen.</value>
   </data>
-  <data name="NumberIs0WithName" xml:space="preserve">
-    <value>Getal genaamd '{0}' is 0.</value>
+  <data name="InletListIndexes" xml:space="preserve">
+    <value>Ingang volgnummers</value>
   </data>
-  <data name="InletListIndexesAreNotUnique" xml:space="preserve">
-    <value>De ingang volgnummers zijn niet uniek.</value>
-  </data>
-  <data name="OutletListIndexesAreNotUnique" xml:space="preserve">
-    <value>De uitgang volgnummers zijn niet uniek.</value>
+  <data name="ListIndexes" xml:space="preserve">
+    <value>Volgnummers</value>
   </data>
   <data name="CannotDeleteBecauseHasReferences" xml:space="preserve">
     <value>Het item kan niet worden verwijderd, omdat er nog verwijzingen naar bestaan.</value>
-  </data>
-  <data name="ScaleNamesNotUnique" xml:space="preserve">
-    <value>Toonladder namen zijn niet uniek.</value>
   </data>
   <data name="OperatorHasNoInletsFilledIn_WithOperatorName" xml:space="preserve">
     <value>Er zijn geen ingangen ingevuld voor operator '{0}'.</value>
@@ -184,10 +175,6 @@
   <data name="CannotChangeOutletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Kan het aantal uitgangen niet aanpassen, omdat uitgang {0} in gebruik is.</value>
     <comment>{0} = number</comment>
-  </data>
-  <data name="NamesNotUnique_WithEntityTypeNameAndNames" xml:space="preserve">
-    <value>{0} namen zijn niet uniek. Dubbele namen: {1}.</value>
-    <comment>{0} = object type singular, e.g. 'Scale', {1} = comma separated list of names</comment>
   </data>
   <data name="InletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
     <value>{0} van ingang wijkt af van de onderliggende schakeling.</value>

@@ -2,7 +2,9 @@
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
+using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
@@ -27,8 +29,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
-                string message = ResourceFormatter.NamesNotUnique_WithEntityTypeNameAndNames(ResourceFormatter.AudioFileOutput, duplicateNames);
-                ValidationMessages.Add(PropertyNames.AudioFileOutputs, message);
+                string messagePrefix = ResourceFormatter.AudioFileOutput + ": ";
+                string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
+                ValidationMessages.Add(PropertyNames.AudioFileOutputs, messagePrefix + message);
             }
         }
 
@@ -39,8 +42,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
-                string message = ResourceFormatter.NamesNotUnique_WithEntityTypeNameAndNames(ResourceFormatter.Patch, duplicateNames);
-                ValidationMessages.Add(PropertyNames.Patches, message);
+                string messagePrefix = ResourceFormatter.Patches + ": ";
+                string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
+                ValidationMessages.Add(PropertyNames.Patches, messagePrefix + message);
             }
         }
 
@@ -51,8 +55,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
-                string message = ResourceFormatter.NamesNotUnique_WithEntityTypeNameAndNames(ResourceFormatter.Sample, duplicateNames);
-                ValidationMessages.Add(PropertyNames.Samples, message);
+                string messagePrefix = ResourceFormatter.Samples + ": ";
+                string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
+                ValidationMessages.Add(PropertyNames.Samples, messagePrefix + message);
             }
         }
 
@@ -63,8 +68,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
-                string message = ResourceFormatter.NamesNotUnique_WithEntityTypeNameAndNames(ResourceFormatter.Scale, duplicateNames);
-                ValidationMessages.Add(PropertyNames.Scales, message);
+                string messagePrefix = ResourceFormatter.Scales + ": ";
+                string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
+                ValidationMessages.Add(PropertyNames.Scales, messagePrefix + message);
             }
         }
     }

@@ -75,7 +75,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             bool namesAreUnique = names.Distinct().Count() == names.Count;
             if (!namesAreUnique)
             {
-                ValidationMessages.Add(PropertyNames.Inlets, ResourceFormatter.InletNamesAreNotUnique);
+                string message = ResourceFormatter.Inlets + ": " + ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names);
+                ValidationMessages.Add(PropertyNames.Inlets, message);
             }
         }
 
@@ -88,7 +89,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             bool namesAreUnique = names.Distinct().Count() == names.Count;
             if (!namesAreUnique)
             {
-                ValidationMessages.Add(PropertyNames.Outlets, ResourceFormatter.OutletNamesAreNotUnique);
+                string message = ResourceFormatter.Outlets + ": " + ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names);
+                ValidationMessages.Add(PropertyNames.Outlets, message);
             }
         }
 

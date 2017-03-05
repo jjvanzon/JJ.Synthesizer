@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Operators;
+using JJ.Business.Synthesizer.Validation.Patches;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Collections;
@@ -84,8 +85,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
         public ToCalculatorResult Execute()
         {
-            IValidator validator = new Recursive_OperatorValidator(
-                _topLevelOutlet.Operator,
+            IValidator validator = new PatchValidator_WithRelatedEntities(
+                _topLevelOutlet.Operator?.Patch,
                 _curveRepository, _sampleRepository, _patchRepository,
                 // ReSharper disable once ArgumentsStyleOther
                 alreadyDone: new HashSet<object>());

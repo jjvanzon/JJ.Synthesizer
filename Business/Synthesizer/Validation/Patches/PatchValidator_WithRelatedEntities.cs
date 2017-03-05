@@ -9,14 +9,14 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator : VersatileValidator<Patch>
+    internal class PatchValidator_WithRelatedEntities : VersatileValidator<Patch>
     {
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly IPatchRepository _patchRepository;
         private readonly HashSet<object> _alreadyDone;
 
-        public PatchValidator(
+        public PatchValidator_WithRelatedEntities(
             Patch obj,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
                 // Message prefix not used here on purpose.
                 // See Recursive_OperatorValidator.
                 // This to prevent long message prefixes due to recursive processing.
-                ExecuteValidator(new Recursive_OperatorValidator(
+                ExecuteValidator(new OperatorValidator_Recursive(
                     op,
                     _curveRepository,
                     _sampleRepository,

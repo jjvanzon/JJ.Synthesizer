@@ -1,14 +1,12 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Enums;
-using System.Collections.Generic;
-using JJ.Framework.Exceptions;
-using System.Linq;
 using System.Linq.Expressions;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Resources
@@ -49,6 +47,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Byte => Resources.Byte;
         public static string BytesToSkip => Resources.BytesToSkip;
         public static string Cache => Resources.Cache;
+        [Obsolete("Replace with better delete validation messages.")]
         public static string CannotDeleteBecauseHasReferences => Resources.CannotDeleteBecauseHasReferences;
         public static string Cent => Resources.Cent;
         public static string CenterFrequency => Resources.CenterFrequency;
@@ -119,8 +118,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Hold => Resources.Hold;
         public static string If => Resources.If;
         public static string Inlet => Resources.Inlet;
-        public static string InletListIndexesAreNotUnique => Resources.InletListIndexesAreNotUnique;
-        public static string InletNamesAreNotUnique => Resources.InletNamesAreNotUnique;
         public static string Inlets => Resources.Inlets;
         public static string InletsToDimension => Resources.InletsToDimension;
         public static string Input => Resources.Input;
@@ -138,6 +135,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string LessThanOrEqual => Resources.LessThanOrEqual;
         public static string Line => Resources.Line;
         public static string ListIndex => Resources.ListIndex;
+        public static string ListIndexes => Resources.ListIndexes;
         public static string LiteralFrequencies => Resources.LiteralFrequencies;
         public static string LiteralFrequency => Resources.LiteralFrequency;
         public static string Loop => Resources.Loop;
@@ -185,8 +183,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Origin => Resources.Origin;
         public static string OriginalLocation => Resources.OriginalLocation;
         public static string Outlet => Resources.Outlet;
-        public static string OutletListIndexesAreNotUnique => Resources.OutletListIndexesAreNotUnique;
-        public static string OutletNamesAreNotUnique => Resources.OutletNamesAreNotUnique;
         public static string Outlets => Resources.Outlets;
         public static string OutletType => Resources.OutletType;
         public static string PassThrough => Resources.PassThrough;
@@ -298,22 +294,13 @@ namespace JJ.Business.Synthesizer.Resources
         [Obsolete("Replace with better delete validation messages.")]
         public static string DocumentIsDependentOnDocument(string dependentDocumentName, string dependentOnDocumentName) => string.Format(Resources.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
         public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
+        [Obsolete("Build up as follows instead: {operator}: {inlets} list is empty. Use MessagePrefix pattern and reusable resource strings.")]
         public static string OperatorHasNoInletsFilledIn_WithOperatorName(string operatorName) => string.Format(Resources.OperatorHasNoInletsFilledIn_WithOperatorName, operatorName);
         /// <summary> Note: When OperatorTypeEnum equals Undefined it will return a text like: "Undefined operator named '...' does not have ... filled in." </summary>
-        public static string InletNotSet(OperatorTypeEnum operatorTypeEnum, string operatorName, string operandName) => string.Format(Resources.InletNotSet, operatorTypeEnum, operatorName, operandName);
-        public static string InletNotSet(string operatorTypeName, string operatorName, string operandName) => string.Format(Resources.InletNotSet, operatorTypeName, operatorName, operandName);
+        [Obsolete("Build up as follows instead: {operator} '{name}': {...} required. Use message prefix pattern and ValidationMessageFormatter.Required.")]
+        public static string InletNotSet(object operatorTypeEnumOrOperatorTypeName, string operatorName, string operandName) => string.Format(Resources.InletNotSet, operatorTypeEnumOrOperatorTypeName, operatorName, operandName);
         public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
         public static string MustBePowerOf2(string frequencyCount) => string.Format(Resources.MustBePowerOf2, frequencyCount);
-
-        public static string NamesNotUnique_WithEntityTypeNameAndNames(string entityTypeDisplayName, [NotNull] IList<string> duplicateNames)
-        {
-            if (duplicateNames == null) throw new NullException(() => duplicateNames);
-
-            string formattedDuplicateNames = string.Join(", ", duplicateNames.Select(x => $"'{x}'"));
-
-            return string.Format(Resources.NamesNotUnique_WithEntityTypeNameAndNames, entityTypeDisplayName, formattedDuplicateNames);
-        }
-
         public static string OperatorIsCircularWithName(string name) => string.Format(Resources.OperatorIsCircularWithName, name);
         public static string OperatorIsInGraphButNotInList(string operatorIdentifier) => string.Format(Resources.OperatorIsInGraphButNotInList, operatorIdentifier);
         public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName) => string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);

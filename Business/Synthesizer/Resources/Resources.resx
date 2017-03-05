@@ -127,14 +127,10 @@
   </data>
   <data name="UnderlyingPatchIsCircular" xml:space="preserve">
     <value>There is a circular dependency with its underlying patch.</value>
-    <comment>{0} = name</comment>
   </data>
   <data name="DocumentIsDependentOnDocument" xml:space="preserve">
     <value>Document '{0}' is dependent on document '{1}'.</value>
     <comment>{0} = dependent document, {1} = dependent on document</comment>
-  </data>
-  <data name="InletNamesAreNotUnique" xml:space="preserve">
-    <value>Inlet names are not unique.</value>
   </data>
   <data name="InletNotSet" xml:space="preserve">
     <value>{0} operator named '{1}' does not have {2} filled in.</value>
@@ -146,9 +142,6 @@
   <data name="OperatorPatchIsNotTheExpectedPatch" xml:space="preserve">
     <value>The patch of operator '{0}' is filled in, but it is not the expected patch '{1}'.</value>
     <comment>{0} = operator name, {1} = patch name</comment>
-  </data>
-  <data name="OutletNamesAreNotUnique" xml:space="preserve">
-    <value>Outlet names are not unique.</value>
   </data>
   <data name="SampleCount0" xml:space="preserve">
     <value>Sample '{0}' has no data.</value>
@@ -162,21 +155,11 @@
     <value>Sample '{0}' is not loaded.</value>
     <comment>{0} = sample name</comment>
   </data>
-  <data name="NumberIs0WithName" xml:space="preserve">
-    <value>Number named '{0}' is 0.</value>
-    <comment>{0} = Value operator name.</comment>
-  </data>
-  <data name="InletListIndexesAreNotUnique" xml:space="preserve">
-    <value>Inlet numbers are not unique.</value>
-  </data>
-  <data name="OutletListIndexesAreNotUnique" xml:space="preserve">
-    <value>Outlet list indexes are not unique.</value>
+  <data name="ListIndexes" xml:space="preserve">
+    <value>Numbers</value>
   </data>
   <data name="CannotDeleteBecauseHasReferences" xml:space="preserve">
     <value>Cannot delete item, because there are things still linking to it.</value>
-  </data>
-  <data name="ScaleNamesNotUnique" xml:space="preserve">
-    <value>Scale names are not unique.</value>
   </data>
   <data name="OperatorHasNoInletsFilledIn_WithOperatorName" xml:space="preserve">
     <value>Operator '{0}' has no inlets filled in.</value>
@@ -190,10 +173,6 @@
     <value>Cannot change the amount of outlets, because outlet {0} is still in use.</value>
     <comment>{0} = number</comment>
   </data>
-  <data name="NamesNotUnique_WithEntityTypeNameAndNames" xml:space="preserve">
-    <value>{0} names are not unique. Duplicate names: {1}.</value>
-    <comment>{0} = object type singular, e.g. 'Scale', {1} = comma separated list of names</comment>
-  </data>
   <data name="InletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
     <value>{0} of inlet does not match with underlying patch.</value>
     <comment>{0} = property name</comment>
@@ -204,7 +183,7 @@
   </data>
   <data name="MustBePowerOf2" xml:space="preserve">
     <value>{0} must be a power of 2.</value>
-    <comment>{0} = name of the value</comment>
+    <comment>{0} = name</comment>
   </data>
   <data name="OperatorIsInGraphButNotInList" xml:space="preserve">
     <value>Operator '{0}' is present in the graph, but not in the flat list.</value>

@@ -4,16 +4,17 @@ using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Recursive_OperatorWarningValidator : ValidatorBase<Operator>
+    internal class OperatorWarningValidator_Recursive : VersatileValidator<Operator>
     {
         private readonly ISampleRepository _sampleRepository;
         private readonly HashSet<object> _alreadyDone;
 
-        public Recursive_OperatorWarningValidator(Operator obj, ISampleRepository sampleRepository, HashSet<object> alreadyDone = null)
+        public OperatorWarningValidator_Recursive([NotNull] Operator obj, [NotNull] ISampleRepository sampleRepository, [CanBeNull] HashSet<object> alreadyDone = null)
             : base(obj, postponeExecute: true)
         {
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
@@ -50,7 +51,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (inlet.InputOutlet != null)
                 {
-                    ExecuteValidator(new Recursive_OperatorWarningValidator(inlet.InputOutlet.Operator, _sampleRepository, _alreadyDone));
+                    ExecuteValidator(new OperatorWarningValidator_Recursive(inlet.InputOutlet.Operator, _sampleRepository, _alreadyDone));
                 }
             }
         }

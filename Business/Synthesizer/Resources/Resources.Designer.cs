@@ -1051,24 +1051,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inlet numbers are not unique..
-        /// </summary>
-        internal static string InletListIndexesAreNotUnique {
-            get {
-                return ResourceManager.GetString("InletListIndexesAreNotUnique", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inlet names are not unique..
-        /// </summary>
-        internal static string InletNamesAreNotUnique {
-            get {
-                return ResourceManager.GetString("InletNamesAreNotUnique", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} operator named &apos;{1}&apos; does not have {2} filled in..
         /// </summary>
         internal static string InletNotSet {
@@ -1236,6 +1218,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string ListIndex {
             get {
                 return ResourceManager.GetString("ListIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numbers.
+        /// </summary>
+        internal static string ListIndexes {
+            get {
+                return ResourceManager.GetString("ListIndexes", resourceCulture);
             }
         }
         
@@ -1465,15 +1456,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} names are not unique. Duplicate names: {1}..
-        /// </summary>
-        internal static string NamesNotUnique_WithEntityTypeNameAndNames {
-            get {
-                return ResourceManager.GetString("NamesNotUnique_WithEntityTypeNameAndNames", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Negative.
         /// </summary>
         internal static string Negative {
@@ -1569,15 +1551,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Number {
             get {
                 return ResourceManager.GetString("Number", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Number named &apos;{0}&apos; is 0..
-        /// </summary>
-        internal static string NumberIs0WithName {
-            get {
-                return ResourceManager.GetString("NumberIs0WithName", resourceCulture);
             }
         }
         
@@ -1722,24 +1695,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Outlet {
             get {
                 return ResourceManager.GetString("Outlet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Outlet list indexes are not unique..
-        /// </summary>
-        internal static string OutletListIndexesAreNotUnique {
-            get {
-                return ResourceManager.GetString("OutletListIndexesAreNotUnique", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Outlet names are not unique..
-        /// </summary>
-        internal static string OutletNamesAreNotUnique {
-            get {
-                return ResourceManager.GetString("OutletNamesAreNotUnique", resourceCulture);
             }
         }
         
@@ -2100,15 +2055,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Scale {
             get {
                 return ResourceManager.GetString("Scale", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Scale names are not unique..
-        /// </summary>
-        internal static string ScaleNamesNotUnique {
-            get {
-                return ResourceManager.GetString("ScaleNamesNotUnique", resourceCulture);
             }
         }
         

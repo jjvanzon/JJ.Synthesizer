@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             foreach (Patch patch in document.Patches)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
-                ExecuteValidator(new PatchValidator(patch, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
+                ExecuteValidator(new PatchValidator_WithRelatedEntities(patch, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
             }
 
             foreach (Scale scale in document.Scales)
