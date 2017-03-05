@@ -18,8 +18,6 @@ namespace JJ.Business.Synthesizer.Visitors
     {
         private readonly double _targetSamplingRate;
         private readonly int _samplesBetweenApplyFilterVariables;
-        private readonly ICurveRepository _curveRepository;
-        private readonly ISampleRepository _sampleRepository;
         private Dictionary<VariableInput_OperatorDto, VariableInput_OperatorCalculator> _variableInput_OperatorDto_To_Calculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
@@ -40,8 +38,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _targetSamplingRate = targetSamplingRate;
             _calculatorCache = calculatorCache;
-            _curveRepository = curveRepository;
-            _sampleRepository = sampleRepository;
 
             _samplesBetweenApplyFilterVariables = VisitorHelper.GetSamplesBetweenApplyFilterVariables(secondsBetweenApplyFilterVariables, targetSamplingRate);
         }

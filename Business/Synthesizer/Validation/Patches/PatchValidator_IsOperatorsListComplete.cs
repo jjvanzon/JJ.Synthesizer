@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Extensions;
@@ -8,9 +9,9 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_IsOperatorsListComplete : VersatileValidator<Patch>
+    internal class PatchValidator_IsOperatorsListComplete : ValidatorBase<Patch>
     {
-        public PatchValidator_IsOperatorsListComplete(Patch obj) 
+        public PatchValidator_IsOperatorsListComplete([NotNull] Patch obj) 
             : base(obj)
         { }
 

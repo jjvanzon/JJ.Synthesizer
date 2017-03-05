@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
@@ -17,11 +18,11 @@ namespace JJ.Business.Synthesizer.Validation.Patches
         private readonly HashSet<object> _alreadyDone;
 
         public PatchValidator_WithRelatedEntities(
-            Patch obj,
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
-            IPatchRepository patchRepository,
-            HashSet<object> alreadyDone)
+            [NotNull] Patch obj,
+            [NotNull] ICurveRepository curveRepository,
+            [NotNull] ISampleRepository sampleRepository,
+            [NotNull] IPatchRepository patchRepository,
+            [NotNull] HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -56,15 +57,14 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
                 ExecuteValidator(new OperatorValidator_IsCircular(op, _patchRepository), messagePrefix);
 
-                // Message prefix not used here on purpose.
-                // See Recursive_OperatorValidator.
-                // This to prevent long message prefixes due to recursive processing.
-                ExecuteValidator(new OperatorValidator_Recursive(
-                    op,
-                    _curveRepository,
-                    _sampleRepository,
-                    _patchRepository,
-                    _alreadyDone));
+                ExecuteValidator(
+                    new OperatorValidator_WithUnderlyingEntities(
+                        op,
+                        _curveRepository,
+                        _sampleRepository,
+                        _patchRepository,
+                        _alreadyDone),
+                    messagePrefix);
             }
         }
     }

@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Framework.Validation.Resources;
 using JJ.Framework.Exceptions;
 using System.Text;
+using JetBrains.Annotations;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -21,9 +22,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private readonly IPatchRepository _patchRepository;
 
-        public CustomOperator_OperatorValidator(Operator op, IPatchRepository patchRepository)
+        public CustomOperator_OperatorValidator([NotNull] Operator op, [NotNull] IPatchRepository patchRepository)
             : base(op, postponeExecute: true)
         {
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
             _patchRepository = patchRepository;
 
             Execute();
@@ -68,9 +71,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private void ValidateInletNamesUnique()
         {
-            IList<string> names = Obj.Inlets.Where(x => !string.IsNullOrEmpty(x.Name))
-                                               .Select(x => x.Name)
-                                               .ToArray();
+            IList<string> names = Obj.Inlets
+                                     .Where(x => !string.IsNullOrEmpty(x.Name))
+                                     .Select(x => x.Name)
+                                     .ToArray();
 
             bool namesAreUnique = names.Distinct().Count() == names.Count;
             if (!namesAreUnique)

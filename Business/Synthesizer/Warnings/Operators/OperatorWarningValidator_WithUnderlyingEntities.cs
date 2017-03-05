@@ -9,12 +9,25 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class OperatorWarningValidator_Recursive : VersatileValidator<Operator>
+    internal class OperatorWarningValidator_WithUnderlyingEntities : VersatileValidator<Operator>
     {
         private readonly ISampleRepository _sampleRepository;
         private readonly HashSet<object> _alreadyDone;
 
-        public OperatorWarningValidator_Recursive([NotNull] Operator obj, [NotNull] ISampleRepository sampleRepository, [CanBeNull] HashSet<object> alreadyDone = null)
+        /// <summary>
+        /// Validates an operator, but not its descendant operators.
+        /// Does validate underlying curves and samples.
+        /// Makes sure that objects are only validated once to 
+        /// prevent excessive validation messages.
+        /// The reason that underlying entities such as samples and curves are validated here,
+        /// is because even though it already happens when you validate a whole document,
+        /// in some cases you do not validate the whole document, but a narrower scope,
+        /// such as a patch.
+        /// </summary>
+        public OperatorWarningValidator_WithUnderlyingEntities(
+            [NotNull] Operator obj,
+            [NotNull] ISampleRepository sampleRepository,
+            [CanBeNull] HashSet<object> alreadyDone = null)
             : base(obj, postponeExecute: true)
         {
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
@@ -47,13 +60,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 }
             }
 
-            foreach (Inlet inlet in Obj.Inlets)
-            {
-                if (inlet.InputOutlet != null)
-                {
-                    ExecuteValidator(new OperatorWarningValidator_Recursive(inlet.InputOutlet.Operator, _sampleRepository, _alreadyDone));
-                }
-            }
+            // There are no curve warnings.
         }
     }
 }

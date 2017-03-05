@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Canonical;
@@ -25,7 +24,7 @@ namespace JJ.Business.Synthesizer
     {
         private readonly RepositoryWrapper _repositories;
 
-        public DocumentManager(RepositoryWrapper repositories)
+        public DocumentManager([NotNull] RepositoryWrapper repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
@@ -34,6 +33,7 @@ namespace JJ.Business.Synthesizer
 
         // Create
 
+        [NotNull]
         public Document Create()
         {
             var document = new Document { ID = _repositories.IDRepository.GetID() };
@@ -49,6 +49,7 @@ namespace JJ.Business.Synthesizer
             return document;
         }
 
+        [NotNull]
         public Document CreateWithPatch()
         {
             Document document = Create();
@@ -58,6 +59,7 @@ namespace JJ.Business.Synthesizer
             return document;
         }
 
+        [NotNull]
         public DocumentReference CreateDocumentReference([NotNull] Document higherDocument, [CanBeNull] Document lowerDocument = null)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
@@ -72,7 +74,7 @@ namespace JJ.Business.Synthesizer
 
         // Save
 
-        public VoidResult Save(Document document)
+        public VoidResult Save([NotNull] Document document)
         {
             if (document == null) throw new NullException(() => document);
 
@@ -95,13 +97,15 @@ namespace JJ.Business.Synthesizer
 
         // Delete
 
+        [NotNull]
         public VoidResult DeleteWithRelatedEntities(int documentID)
         {
             Document document = _repositories.DocumentRepository.Get(documentID);
             return DeleteWithRelatedEntities(document);
         }
 
-        public VoidResult DeleteWithRelatedEntities(Document document)
+        [NotNull]
+        public VoidResult DeleteWithRelatedEntities([NotNull] Document document)
         {
             if (document == null) throw new NullException(() => document);
 
@@ -117,7 +121,8 @@ namespace JJ.Business.Synthesizer
             return new VoidResult { Successful = true };
         }
 
-        public VoidResult CanDelete(Document document)
+        [NotNull]
+        public VoidResult CanDelete([NotNull] Document document)
         {
             IValidator validator = new DocumentValidator_Delete(document);
             return validator.ToResult();
@@ -129,6 +134,7 @@ namespace JJ.Business.Synthesizer
 
             IValidator validator = new DocumentReferenceValidator_Delete(documentReference);
 
+            // ReSharper disable once InvertIf
             if (validator.IsValid)
             {
                 documentReference.UnlinkHigherDocument();
@@ -141,11 +147,17 @@ namespace JJ.Business.Synthesizer
 
         // Other
 
-        public VoidResult GetWarningsRecursive(Document entity)
+        [NotNull]
+        public VoidResult GetWarningsRecursive([NotNull] Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            IValidator warningsValidator = new DocumentWarningValidator_Recursive(entity, _repositories.SampleRepository, new HashSet<object>());
+            IValidator warningsValidator = new DocumentWarningValidator_Recursive(
+                entity,
+                _repositories.CurveRepository,
+                _repositories.SampleRepository,
+                _repositories.PatchRepository,
+                new HashSet<object>());
 
             var result = new VoidResult
             {
@@ -156,8 +168,11 @@ namespace JJ.Business.Synthesizer
             return result;
         }
 
-        public IList<UsedInDto<Curve>> GetUsedIn(IList<Curve> entities)
+        [NotNull]
+        public IList<UsedInDto<Curve>> GetUsedIn([NotNull] IList<Curve> entities)
         {
+            if (entities == null) throw new NullException(() => entities);
+
             IList<UsedInDto<Curve>> dtos = entities.Select(x => new UsedInDto<Curve>
                                                    {
                                                        Entity = x,
@@ -167,9 +182,12 @@ namespace JJ.Business.Synthesizer
             return dtos;
         }
 
-        public IList<IDAndName> GetUsedIn(Curve curve)
+        [NotNull]
+        public IList<IDAndName> GetUsedIn([NotNull] Curve curve)
         {
+            // ReSharper disable once ImplicitlyCapturedClosure
             if (curve == null) throw new NullException(() => curve);
+            // ReSharper disable once ImplicitlyCapturedClosure
             if (curve.Document == null) throw new NullException(() => curve.Document);
 
             IEnumerable<Patch> patches = 
@@ -186,8 +204,11 @@ namespace JJ.Business.Synthesizer
             return idAndNames;
         }
 
-        public IList<UsedInDto<Sample>> GetUsedIn(IList<Sample> entities)
+        [NotNull]
+        public IList<UsedInDto<Sample>> GetUsedIn([NotNull] IList<Sample> entities)
         {
+            if (entities == null) throw new NullException(() => entities);
+
             IList<UsedInDto<Sample>> dtos = entities.Select(x => new UsedInDto<Sample>
                                                     {
                                                         Entity = x,
@@ -197,9 +218,12 @@ namespace JJ.Business.Synthesizer
             return dtos;
         }
 
-        public IList<IDAndName> GetUsedIn(Sample sample)
+        [NotNull]
+        public IList<IDAndName> GetUsedIn([NotNull] Sample sample)
         {
+            // ReSharper disable once ImplicitlyCapturedClosure
             if (sample == null) throw new NullException(() => sample);
+            // ReSharper disable once ImplicitlyCapturedClosure
             if (sample.Document == null) throw new NullException(() => sample.Document);
 
             IEnumerable<Patch> patches =
@@ -216,8 +240,11 @@ namespace JJ.Business.Synthesizer
             return idAndNames;
         }
 
-        public IList<UsedInDto<Patch>> GetUsedIn(IList<Patch> entities)
+        [NotNull]
+        public IList<UsedInDto<Patch>> GetUsedIn([NotNull] IList<Patch> entities)
         {
+            if (entities == null) throw new NullException(() => nameof(entities));
+
             IList<UsedInDto<Patch>> dtos = entities.Select(x => new UsedInDto<Patch>
                                                    {
                                                        Entity = x,
@@ -227,9 +254,12 @@ namespace JJ.Business.Synthesizer
             return dtos;
         }
 
-        public IList<IDAndName> GetUsedIn(Patch patch)
+        [NotNull]
+        public IList<IDAndName> GetUsedIn([NotNull] Patch patch)
         {
+            // ReSharper disable once ImplicitlyCapturedClosure
             if (patch == null) throw new NullException(() => patch);
+            // ReSharper disable once ImplicitlyCapturedClosure
             if (patch.Document == null) throw new NullException(() => patch.Document);
 
             IEnumerable<Patch> patches =

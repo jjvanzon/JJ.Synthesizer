@@ -12,13 +12,7 @@ using JJ.Business.Synthesizer.Validation.Samples;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    /// <summary>
-    /// Validates a root operator and its descendant operators.
-    /// Also validates related curves and samples.
-    /// Makes sure that objects are only validated once to 
-    /// prevent problems with circularities.
-    /// </summary>
-    internal class OperatorValidator_Recursive : ValidatorBase<Operator>
+    internal class OperatorValidator_WithUnderlyingEntities : ValidatorBase<Operator>
     {
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
@@ -26,12 +20,16 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         private readonly HashSet<object> _alreadyDone;
 
         /// <summary>
-        /// Validates a root operator and its descendant operators.
-        /// Also validates related curves and samples.
+        /// Validates an operator, but not its descendant operators.
+        /// Does validate underlying curves and samples.
         /// Makes sure that objects are only validated once to 
-        /// prevent problems with circularity.
+        /// prevent excessive validation messages.
+        /// The reason that underlying entities such as samples and curves are validated here,
+        /// is because even though it already happens when you validate a whole document,
+        /// in some cases you do not validate the whole document, but a narrower scope,
+        /// such as a patch.
         /// </summary>
-        public OperatorValidator_Recursive(
+        public OperatorValidator_WithUnderlyingEntities(
             [NotNull] Operator obj,
             [NotNull] ICurveRepository curveRepository,
             [NotNull] ISampleRepository sampleRepository,
@@ -62,11 +60,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
             _alreadyDone.Add(op);
 
-            // Message prefix pattern broken here on purpose.
-            // This to prevent long message prefixes due to recursive processing.
-            string operatorMessagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository, _patchRepository);
-
-            ExecuteValidator(new Versatile_OperatorValidator(op, _patchRepository), operatorMessagePrefix);
+            ExecuteValidator(new Versatile_OperatorValidator(op, _patchRepository));
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
@@ -105,16 +99,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                             ExecuteValidator(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
                         }
                     }
-                }
-            }
-            
-            foreach (Inlet inlet in op.Inlets)
-            {
-                if (inlet.InputOutlet != null)
-                {
-                    // Message prefix not used here on purpose. 
-                    // This to prevent long message prefixes due to recursive processing.
-                    ExecuteValidator(new OperatorValidator_Recursive(inlet.InputOutlet.Operator, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone));
                 }
             }
         }
