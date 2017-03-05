@@ -285,34 +285,36 @@ namespace JJ.Business.Synthesizer.Resources
 
         // Resource texts with placeholders
 
-        public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber) => string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
-        public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber) => string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
+        [NotNull] public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber) => string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
+        [NotNull] public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber) => string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
         [Obsolete("Replace with better delete validation messages.")]
-        public static string CannotDeleteCurveBecauseHasOperators(string name) => string.Format(Resources.CannotDeleteCurveBecauseHasOperators, name);
+        [NotNull] public static string CannotDeleteCurveBecauseHasOperators(string name) => string.Format(Resources.CannotDeleteCurveBecauseHasOperators, name);
         [Obsolete("Replace with better delete validation messages.")]
-        public static string CannotDeleteSampleBecauseHasOperators(string name) => string.Format(Resources.CannotDeleteSampleBecauseHasOperators, name);
+        [NotNull] public static string CannotDeleteSampleBecauseHasOperators(string name) => string.Format(Resources.CannotDeleteSampleBecauseHasOperators, name);
         [Obsolete("Replace with better delete validation messages.")]
-        public static string DocumentIsDependentOnDocument(string dependentDocumentName, string dependentOnDocumentName) => string.Format(Resources.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
-        public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
-        public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
-        public static string MustBePowerOf2(string frequencyCount) => string.Format(Resources.MustBePowerOf2, frequencyCount);
-        public static string OperatorIsCircularWithName(string name) => string.Format(Resources.OperatorIsCircularWithName, name);
-        public static string OperatorIsInGraphButNotInList(string operatorIdentifier) => string.Format(Resources.OperatorIsInGraphButNotInList, operatorIdentifier);
-        public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName) => string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
-        public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
-        public static string SampleNotActive(string sampleName) => string.Format(Resources.SampleNotActive, sampleName);
-        public static string SampleNotLoaded(string sampleName) => string.Format(Resources.SampleNotLoaded, sampleName);
-        public static string SetDimensionWithPlaceholder(string dimension) => string.Format(Resources.SetDimensionWithPlaceholder, dimension);
+        [NotNull] public static string DocumentIsDependentOnDocument(string dependentDocumentName, string dependentOnDocumentName) => string.Format(Resources.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
+        [NotNull] public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
+        [NotNull] public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
+        [NotNull] public static string MustBePowerOf2(string frequencyCount) => string.Format(Resources.MustBePowerOf2, frequencyCount);
+        [NotNull] public static string OperatorIsCircularWithName(string name) => string.Format(Resources.OperatorIsCircularWithName, name);
+        [NotNull] public static string OperatorIsInGraphButNotInList(string operatorIdentifier) => string.Format(Resources.OperatorIsInGraphButNotInList, operatorIdentifier);
+        [NotNull] public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName) => string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
+        [NotNull] public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
+        [NotNull] public static string SampleNotActive(string sampleName) => string.Format(Resources.SampleNotActive, sampleName);
+        [NotNull] public static string SampleNotLoaded(string sampleName) => string.Format(Resources.SampleNotLoaded, sampleName);
+        [NotNull] public static string SetDimensionWithPlaceholder(string dimension) => string.Format(Resources.SetDimensionWithPlaceholder, dimension);
 
         // Generic methods that could return several different resource text
 
         /// <summary> You can use this overload if the object resourceName's ToString converts it to the resource key. </summary>
+        [NotNull]
         public static string GetText(object resourceName)
         {
             return GetText(Convert.ToString(resourceName));
         }
 
-        public static string GetText(string resourceName)
+        [NotNull]
+        public static string GetText([NotNull] string resourceName)
         {
             string str = Resources.ResourceManager.GetString(resourceName);
 
@@ -324,6 +326,7 @@ namespace JJ.Business.Synthesizer.Resources
             return str;
         }
 
+        [NotNull]
         public static string GetText([NotNull] Expression<Func<object>> resourceNameExpression)
         {
             if (resourceNameExpression == null) throw new NullException(() => resourceNameExpression);
@@ -335,6 +338,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         // Dimension
 
+        [NotNull]
         public static string GetText([NotNull] Dimension entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -344,6 +348,7 @@ namespace JJ.Business.Synthesizer.Resources
             return GetText(dimensionEnum);
         }
 
+        [NotNull]
         public static string GetText(DimensionEnum enumValue)
         {
             return GetText(enumValue.ToString());
@@ -351,6 +356,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         // InterpolationType
 
+        [NotNull]
         public static string GetText([NotNull] InterpolationType entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -360,6 +366,7 @@ namespace JJ.Business.Synthesizer.Resources
             return GetText(dimensionEnum);
         }
 
+        [NotNull]
         public static string GetText(InterpolationTypeEnum enumValue)
         {
             return GetText(enumValue.ToString());
@@ -367,12 +374,14 @@ namespace JJ.Business.Synthesizer.Resources
 
         // OperatorType
 
+        [NotNull]
         public static string GetOperatorTypeText([NotNull] Operator op)
         {
             if (op == null) throw new NullException(() => op);
             return GetText(op.GetOperatorTypeEnum());
         }
 
+        [NotNull]
         public static string GetText([NotNull] OperatorType entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -382,6 +391,7 @@ namespace JJ.Business.Synthesizer.Resources
             return GetText(enumValue);
         }
 
+        [NotNull]
         public static string GetText(OperatorTypeEnum enumValue)
         {
             return GetText(enumValue.ToString());
@@ -389,6 +399,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         // SpeakerSetup
 
+        [NotNull]
         public static string GetText([NotNull] SpeakerSetup entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -398,6 +409,7 @@ namespace JJ.Business.Synthesizer.Resources
             return GetText(dimensionEnum);
         }
 
+        [NotNull]
         public static string GetText(SpeakerSetupEnum enumValue)
         {
             return GetText(enumValue.ToString());
@@ -405,6 +417,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         // ResampleInterpolationType
 
+        [NotNull]
         public static string GetText(ResampleInterpolationTypeEnum enumValue)
         {
             return GetText(enumValue.ToString());
@@ -412,6 +425,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         // CollectionRecalculation
 
+        [NotNull]
         public static string GetText(CollectionRecalculationEnum enumValue)
         {
             return GetText(enumValue.ToString());
@@ -421,6 +435,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         // TODO: For Scale implement overloads that take entity as such that unproxy is avoided.
 
+        [NotNull]
         public static string GetScaleTypeTextSingular([NotNull] Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
@@ -428,6 +443,7 @@ namespace JJ.Business.Synthesizer.Resources
             return GetTextSingular(scale.ScaleType);
         }
 
+        [NotNull]
         public static string GetTextSingular([NotNull] ScaleType entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -437,19 +453,21 @@ namespace JJ.Business.Synthesizer.Resources
             return GetTextSingular(enumValue);
         }
 
+        [NotNull]
         public static string GetTextSingular(ScaleTypeEnum enumValue)
         {
             return GetText(enumValue.ToString());
         }
 
         // TODO: Perhaps remove this overload.
-        internal static string GetScaleTypeTextSingular(string scaleTypeName)
+        internal static string GetScaleTypeTextSingular([NotNull] string scaleTypeName)
         {
             return Resources.ResourceManager.GetString(scaleTypeName);
         }
 
         // ScaleType Plural
 
+        [NotNull]
         public static string GetScaleTypeTextPlural([NotNull] Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
@@ -457,6 +475,7 @@ namespace JJ.Business.Synthesizer.Resources
             return GetTextPlural(scale.ScaleType);
         }
 
+        [NotNull]
         public static string GetTextPlural([NotNull] ScaleType entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -467,6 +486,7 @@ namespace JJ.Business.Synthesizer.Resources
         }
 
         // Notice that the deepest overload has a different parameter than the singular variation.
+        [NotNull]
         public static string GetTextPlural(ScaleTypeEnum scaleTypeEnum)
         {
             switch (scaleTypeEnum)
@@ -497,6 +517,7 @@ namespace JJ.Business.Synthesizer.Resources
         }
 
         // TODO: Perhaps remove this overload
+        [NotNull]
         internal static string GetScaleTypeTextPlural(string scaleTypeName)
         {
             ScaleTypeEnum scaleTypeEnum = EnumHelper.Parse<ScaleTypeEnum>(scaleTypeName);
