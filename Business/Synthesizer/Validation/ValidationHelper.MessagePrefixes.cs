@@ -14,73 +14,48 @@ namespace JJ.Business.Synthesizer.Validation
         [NotNull]
         public static string GetMessagePrefix([NotNull] AudioFileOutput entity)
         {
-            if (entity == null) throw new NullException(() => entity);
-
-            return GetMessagePrefix(ResourceFormatter.AudioFileOutput, entity.Name);
+            return GetMessagePrefix(ResourceFormatter.AudioFileOutput, GetIdentifier(entity));
         }
 
         [NotNull]
-        public static string GetMessagePrefix([NotNull] AudioOutput audioOutput)
+        public static string GetMessagePrefix([NotNull] AudioOutput entity)
         {
-            if (audioOutput == null) throw new NullException(() => audioOutput);
-
-            return ResourceFormatter.AudioOutput;
+            return GetMessagePrefix(ResourceFormatter.AudioOutput, GetIdentifier(entity));
         }
 
         [NotNull]
         public static string GetMessagePrefix([NotNull] Curve entity)
         {
-            if (entity == null) throw new NullException(() => entity);
-
-            return GetMessagePrefix(ResourceFormatter.Curve, entity.Name);
+            return GetMessagePrefix(ResourceFormatter.Curve, GetIdentifier(entity));
         }
 
         [NotNull]
         public static string GetMessagePrefix([NotNull] Document entity)
         {
-            if (entity == null) throw new NullException(() => entity);
-
             return GetMessagePrefix(ResourceFormatter.Document, entity.Name);
         }
 
         [NotNull]
         public static string GetMessagePrefix_ForLowerDocumentReference([NotNull] DocumentReference lowerDocumentReference)
         {
-            // Returns something like "Library 'bla':"
-            string identifier = GetIdentifier_ForLowerDocumentReference(lowerDocumentReference);
-            return $"{ResourceFormatter.LowerDocument} {identifier}: ";
+            return GetMessagePrefix(ResourceFormatter.LowerDocument, GetIdentifier_ForLowerDocumentReference(lowerDocumentReference));
         }
 
-        /// <param name="number">1-based</param>
-        [NotNull]
-        public static string GetMessagePrefix([NotNull] Inlet entity, int? number = null)
-        {
-            if (entity == null) throw new NullException(() => entity);
 
-            if (!string.IsNullOrEmpty(entity.Name))
-            {
-                return $"{ResourceFormatter.Inlet} '{entity.Name}': ";
-            }
-            // ReSharper disable once RedundantIfElseBlock
-            else if (number.HasValue)
-            {
-                return $"{ResourceFormatter.Inlet} {number}: ";
-            }
-            // ReSharper disable once RedundantIfElseBlock
-            else
-            {
-                return ResourceFormatter.Inlet + ": ";
-            }
+        [NotNull]
+        public static string GetMessagePrefix([NotNull] Inlet entity)
+        {
+            return GetMessagePrefix(ResourceFormatter.Inlet, GetIdentifier(entity));
         }
 
         /// <param name="number">1-based</param>
         [NotNull]
         public static string GetMessagePrefix([NotNull] Node entity, int number)
         {
-            if (entity == null) throw new NullException(() => entity);
-
-            return $"{ResourceFormatter.Node} {number}: ";
+            return GetMessagePrefix(ResourceFormatter.Node, GetIdentifier(entity, number));
         }
+
+        // WAS HERE REFACTORING IT.
 
         [NotNull]
         public static string GetMessagePrefix(
@@ -395,19 +370,19 @@ namespace JJ.Business.Synthesizer.Validation
             return ResourceFormatter.Tone;
         }
 
-        /// <summary> Uses the name in the message or otherwise the entityTypeDisplayName. </summary>
+        /// <summary> Uses the name in the message or otherwise the only the entityTypeDisplayName. </summary>
         [NotNull]
-        private static string GetMessagePrefix(string entityTypeDisplayName, [CanBeNull] string name)
+        private static string GetMessagePrefix(string entityTypeDisplayName, [CanBeNull] string identifier)
         {
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(identifier))
             {
                 return $"{entityTypeDisplayName}: ";
             }
             // ReSharper disable once RedundantIfElseBlock
             else
             {
-                return $"{entityTypeDisplayName} '{name}': ";
+                return $"{entityTypeDisplayName} {identifier}: ";
             }
         }
     }

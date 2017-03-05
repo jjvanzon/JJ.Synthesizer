@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer
         [NotNull]
         public IList<UsedInDto<Patch>> GetUsedIn([NotNull] IList<Patch> entities)
         {
-            if (entities == null) throw new NullException(() => nameof(entities));
+            if (entities == null) throw new NullException(() => entities);
 
             IList<UsedInDto<Patch>> dtos = entities.Select(x => new UsedInDto<Patch>
                                                    {

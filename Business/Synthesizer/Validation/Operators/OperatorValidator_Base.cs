@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     Inlet inlet = sortedInlets[i];
                     DimensionEnum expectedDimensionEnum = _expectedInletDimensionEnums[i];
 
-                    string messagePrefix = ValidationHelper.GetMessagePrefix(inlet, i + 1);
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(inlet);
                     ExecuteValidator(new InletValidator_NotForCustomOperator(inlet, i, expectedDimensionEnum), messagePrefix);
                 }
             }

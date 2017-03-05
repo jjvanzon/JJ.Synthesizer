@@ -341,7 +341,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             string customOperatorInletIdentifier = ValidationHelper.GetIdentifier(customOperatorInlet);
             sb.AppendFormat(
-                " {0}: {1} '{2}': {3} = '{4}'.",
+                " {0}: {1} {2}: {3} = '{4}'.",
                 ResourceFormatter.CustomOperator,
                 ResourceFormatter.Inlet,
                 customOperatorInletIdentifier,
@@ -351,7 +351,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             string patchInletIdentifier = ValidationHelper.GetIdentifier(patchInlet);
 
             sb.AppendFormat(
-                "{0}: {1} '{2}': {3} = '{4}'.",
+                "{0}: {1} {2}: {3} = '{4}'.",
                 ResourceFormatter.UnderlyingPatch,
                 ResourceFormatter.PatchInlet,
                 patchInletIdentifier,
@@ -387,7 +387,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             string patchOutletIdentifier = ValidationHelper.GetIdentifier(patchOutlet);
             sb.AppendFormat(
-                "{0}: {1} '{2}': {3} = '{4}'.",
+                "{0}: {1} {2}: {3} = '{4}'.",
                 ResourceFormatter.UnderlyingPatch,
                 ResourceFormatter.PatchOutlet,
                 patchOutletIdentifier,
