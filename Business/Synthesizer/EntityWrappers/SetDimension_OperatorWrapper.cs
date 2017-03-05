@@ -40,13 +40,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case PASS_THROUGH_INLET_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(PropertyNames.PassThrough);
+                        string name = ResourceFormatter.GetDisplayName(PropertyNames.PassThrough);
                         return name;
                     }
 
                 case VALUE_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Value);
+                        string name = ResourceFormatter.GetDisplayName(() => Value);
                         return name;
                     }
 
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
-            string name = ResourceFormatter.GetText(PropertyNames.PassThrough);
+            string name = ResourceFormatter.GetDisplayName(PropertyNames.PassThrough);
             return name;
         }
     }

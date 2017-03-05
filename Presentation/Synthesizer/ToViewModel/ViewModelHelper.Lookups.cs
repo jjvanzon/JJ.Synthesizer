@@ -270,7 +270,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     continue;
                 }
 
-                string displayName = ResourceFormatter.GetText(enumValue.ToString());
+                string displayName = ResourceFormatter.GetDisplayName(enumValue.ToString());
 
                 var idAndName = new IDAndName
                 {

@@ -63,25 +63,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case SIGNAL_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Signal);
+                        string name = ResourceFormatter.GetDisplayName(() => Signal);
                         return name;
                     }
 
                 case FROM_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => From);
+                        string name = ResourceFormatter.GetDisplayName(() => From);
                         return name;
                     }
 
                 case TILL_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Till);
+                        string name = ResourceFormatter.GetDisplayName(() => Till);
                         return name;
                     }
 
                 case STEP_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Step);
+                        string name = ResourceFormatter.GetDisplayName(() => Step);
                         return name;
                     }
 

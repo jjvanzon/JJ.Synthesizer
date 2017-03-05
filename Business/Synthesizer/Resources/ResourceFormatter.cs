@@ -308,13 +308,13 @@ namespace JJ.Business.Synthesizer.Resources
 
         /// <summary> You can use this overload if the object resourceName's ToString converts it to the resource key. </summary>
         [NotNull]
-        public static string GetText(object resourceName)
+        public static string GetDisplayName(object resourceName)
         {
-            return GetText(Convert.ToString(resourceName));
+            return GetDisplayName(Convert.ToString(resourceName));
         }
 
         [NotNull]
-        public static string GetText([NotNull] string resourceName)
+        public static string GetDisplayName([NotNull] string resourceName)
         {
             string str = Resources.ResourceManager.GetString(resourceName);
 
@@ -327,108 +327,108 @@ namespace JJ.Business.Synthesizer.Resources
         }
 
         [NotNull]
-        public static string GetText([NotNull] Expression<Func<object>> resourceNameExpression)
+        public static string GetDisplayName([NotNull] Expression<Func<object>> resourceNameExpression)
         {
             if (resourceNameExpression == null) throw new NullException(() => resourceNameExpression);
 
             string resourceName = ExpressionHelper.GetName(resourceNameExpression);
-            string str = GetText(resourceName);
+            string str = GetDisplayName(resourceName);
             return str;
         }
 
         // Dimension
 
         [NotNull]
-        public static string GetText([NotNull] Dimension entity)
+        public static string GetDisplayName([NotNull] Dimension entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             DimensionEnum dimensionEnum = (DimensionEnum)entity.ID;
 
-            return GetText(dimensionEnum);
+            return GetDisplayName(dimensionEnum);
         }
 
         [NotNull]
-        public static string GetText(DimensionEnum enumValue)
+        public static string GetDisplayName(DimensionEnum enumValue)
         {
-            return GetText(enumValue.ToString());
+            return GetDisplayName(enumValue.ToString());
         }
 
         // InterpolationType
 
         [NotNull]
-        public static string GetText([NotNull] InterpolationType entity)
+        public static string GetDisplayName([NotNull] InterpolationType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             InterpolationTypeEnum dimensionEnum = (InterpolationTypeEnum)entity.ID;
 
-            return GetText(dimensionEnum);
+            return GetDisplayName(dimensionEnum);
         }
 
         [NotNull]
-        public static string GetText(InterpolationTypeEnum enumValue)
+        public static string GetDisplayName(InterpolationTypeEnum enumValue)
         {
-            return GetText(enumValue.ToString());
+            return GetDisplayName(enumValue.ToString());
         }
 
         // OperatorType
 
         [NotNull]
-        public static string GetOperatorTypeText([NotNull] Operator op)
+        public static string GetOperatorTypeDisplayName([NotNull] Operator op)
         {
             if (op == null) throw new NullException(() => op);
-            return GetText(op.GetOperatorTypeEnum());
+            return GetDisplayName(op.GetOperatorTypeEnum());
         }
 
         [NotNull]
-        public static string GetText([NotNull] OperatorType entity)
+        public static string GetDisplayName([NotNull] OperatorType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             OperatorTypeEnum enumValue = (OperatorTypeEnum)entity.ID;
 
-            return GetText(enumValue);
+            return GetDisplayName(enumValue);
         }
 
         [NotNull]
-        public static string GetText(OperatorTypeEnum enumValue)
+        public static string GetDisplayName(OperatorTypeEnum enumValue)
         {
-            return GetText(enumValue.ToString());
+            return GetDisplayName(enumValue.ToString());
         }
 
         // SpeakerSetup
 
         [NotNull]
-        public static string GetText([NotNull] SpeakerSetup entity)
+        public static string GetDisplayName([NotNull] SpeakerSetup entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             SpeakerSetupEnum dimensionEnum = (SpeakerSetupEnum)entity.ID;
 
-            return GetText(dimensionEnum);
+            return GetDisplayName(dimensionEnum);
         }
 
         [NotNull]
-        public static string GetText(SpeakerSetupEnum enumValue)
+        public static string GetDisplayName(SpeakerSetupEnum enumValue)
         {
-            return GetText(enumValue.ToString());
+            return GetDisplayName(enumValue.ToString());
         }
 
         // ResampleInterpolationType
 
         [NotNull]
-        public static string GetText(ResampleInterpolationTypeEnum enumValue)
+        public static string GetDisplayName(ResampleInterpolationTypeEnum enumValue)
         {
-            return GetText(enumValue.ToString());
+            return GetDisplayName(enumValue.ToString());
         }
 
         // CollectionRecalculation
 
         [NotNull]
-        public static string GetText(CollectionRecalculationEnum enumValue)
+        public static string GetDisplayName(CollectionRecalculationEnum enumValue)
         {
-            return GetText(enumValue.ToString());
+            return GetDisplayName(enumValue.ToString());
         }
 
         // ScaleType Singular
@@ -436,31 +436,31 @@ namespace JJ.Business.Synthesizer.Resources
         // TODO: For Scale implement overloads that take entity as such that unproxy is avoided.
 
         [NotNull]
-        public static string GetScaleTypeTextSingular([NotNull] Scale scale)
+        public static string GetScaleTypeDisplayNameSingular([NotNull] Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
 
-            return GetTextSingular(scale.ScaleType);
+            return GetDisplayNameSingular(scale.ScaleType);
         }
 
         [NotNull]
-        public static string GetTextSingular([NotNull] ScaleType entity)
+        public static string GetDisplayNameSingular([NotNull] ScaleType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             ScaleTypeEnum enumValue = (ScaleTypeEnum)entity.ID;
 
-            return GetTextSingular(enumValue);
+            return GetDisplayNameSingular(enumValue);
         }
 
         [NotNull]
-        public static string GetTextSingular(ScaleTypeEnum enumValue)
+        public static string GetDisplayNameSingular(ScaleTypeEnum enumValue)
         {
-            return GetText(enumValue.ToString());
+            return GetDisplayName(enumValue.ToString());
         }
 
         // TODO: Perhaps remove this overload.
-        internal static string GetScaleTypeTextSingular([NotNull] string scaleTypeName)
+        internal static string GetScaleTypeDisplayNameSingular([NotNull] string scaleTypeName)
         {
             return Resources.ResourceManager.GetString(scaleTypeName);
         }
@@ -468,48 +468,48 @@ namespace JJ.Business.Synthesizer.Resources
         // ScaleType Plural
 
         [NotNull]
-        public static string GetScaleTypeTextPlural([NotNull] Scale scale)
+        public static string GetScaleTypeDisplayNamePlural([NotNull] Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
 
-            return GetTextPlural(scale.ScaleType);
+            return GetDisplayNamePlural(scale.ScaleType);
         }
 
         [NotNull]
-        public static string GetTextPlural([NotNull] ScaleType entity)
+        public static string GetDisplayNamePlural([NotNull] ScaleType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             ScaleTypeEnum enumValue = (ScaleTypeEnum)entity.ID;
 
-            return GetTextPlural(enumValue);
+            return GetDisplayNamePlural(enumValue);
         }
 
         // Notice that the deepest overload has a different parameter than the singular variation.
         [NotNull]
-        public static string GetTextPlural(ScaleTypeEnum scaleTypeEnum)
+        public static string GetDisplayNamePlural(ScaleTypeEnum scaleTypeEnum)
         {
             switch (scaleTypeEnum)
             {
                 case ScaleTypeEnum.LiteralFrequency:
-                    return GetText(PropertyNames.LiteralFrequencies);
+                    return GetDisplayName(PropertyNames.LiteralFrequencies);
 
                 case ScaleTypeEnum.Factor:
-                    return GetText(PropertyNames.Factors);
+                    return GetDisplayName(PropertyNames.Factors);
 
                 case ScaleTypeEnum.Exponent:
-                    return GetText(PropertyNames.Exponents);
+                    return GetDisplayName(PropertyNames.Exponents);
 
                 case ScaleTypeEnum.SemiTone:
-                    return GetText(PropertyNames.SemiTones);
+                    return GetDisplayName(PropertyNames.SemiTones);
 
                 case ScaleTypeEnum.Cent:
-                    return GetText(PropertyNames.Cents);
+                    return GetDisplayName(PropertyNames.Cents);
 
                 case ScaleTypeEnum.Undefined:
                     // A direct call to ResourceManager.GetString does not crash if the key does not exist,
                     // so do not throw an exception here.
-                    return GetTextSingular(scaleTypeEnum);
+                    return GetDisplayNameSingular(scaleTypeEnum);
 
                 default:
                     throw new InvalidValueException(scaleTypeEnum);
@@ -518,10 +518,10 @@ namespace JJ.Business.Synthesizer.Resources
 
         // TODO: Perhaps remove this overload
         [NotNull]
-        internal static string GetScaleTypeTextPlural(string scaleTypeName)
+        internal static string GetScaleTypeDisplayNamePlural(string scaleTypeName)
         {
             ScaleTypeEnum scaleTypeEnum = EnumHelper.Parse<ScaleTypeEnum>(scaleTypeName);
-            return GetTextPlural(scaleTypeEnum);
+            return GetDisplayNamePlural(scaleTypeEnum);
         }
     }
 }

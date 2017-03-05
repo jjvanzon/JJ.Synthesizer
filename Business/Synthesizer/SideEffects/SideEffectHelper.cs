@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             string suggestedName;
             bool nameExists;
 
-            string entityDisplayName = ResourceFormatter.GetText(typeof(TEntity).Name);
+            string entityDisplayName = ResourceFormatter.GetDisplayName(typeof(TEntity).Name);
 
             do
             {

@@ -55,25 +55,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case SIGNAL_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Signal);
+                        string name = ResourceFormatter.GetDisplayName(() => Signal);
                         return name;
                     }
 
                 case TRANSITION_FREQUENCY_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => TransitionFrequency);
+                        string name = ResourceFormatter.GetDisplayName(() => TransitionFrequency);
                         return name;
                     }
 
                 case TRANSITION_SLOPE_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => TransitionSlope);
+                        string name = ResourceFormatter.GetDisplayName(() => TransitionSlope);
                         return name;
                     }
 
                 case DB_GAIN_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => DBGain);
+                        string name = ResourceFormatter.GetDisplayName(() => DBGain);
                         return name;
                     }
 

@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
-                return ResourceFormatter.GetText(dimensionEnum);
+                return ResourceFormatter.GetDisplayName(dimensionEnum);
             }
 
             // Use List Position (not ListIndex, becuase it does not have to be consecutive).
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
-                return ResourceFormatter.GetText(dimensionEnum);
+                return ResourceFormatter.GetDisplayName(dimensionEnum);
             }
 
             // Use List Position (not ListIndex, becuase it does not have to be consecutive).

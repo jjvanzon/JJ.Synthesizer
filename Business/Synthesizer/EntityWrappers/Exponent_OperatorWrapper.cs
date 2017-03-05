@@ -46,19 +46,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case LOW_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Low);
+                        string name = ResourceFormatter.GetDisplayName(() => Low);
                         return name;
                     }
 
                 case HIGH_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => High);
+                        string name = ResourceFormatter.GetDisplayName(() => High);
                         return name;
                     }
 
                 case RATIO_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Ratio);
+                        string name = ResourceFormatter.GetDisplayName(() => Ratio);
                         return name;
                     }
 

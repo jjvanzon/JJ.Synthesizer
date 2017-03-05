@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     Outlet outlet = sortedOutlets[i];
                     DimensionEnum expectedDimensionEnum = _expectedOutletDimensionEnums[i];
 
-                    string messagePrefix = ValidationHelper.GetMessagePrefix(outlet, i + 1);
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(outlet);
                     ExecuteValidator(new OutletValidator_NotForCustomOperator(outlet, i, expectedDimensionEnum), messagePrefix);
                 }
             }

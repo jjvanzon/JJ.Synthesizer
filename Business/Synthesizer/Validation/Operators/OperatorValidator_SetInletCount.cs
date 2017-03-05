@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             OperatorTypeEnum.SortOverInlets
         };
 
-        private static readonly IList<string> _allowedOperatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceFormatter.GetText(x)).ToArray();
+        private static readonly IList<string> _allowedOperatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceFormatter.GetDisplayName(x)).ToArray();
 
         private readonly int _newInletCount;
 

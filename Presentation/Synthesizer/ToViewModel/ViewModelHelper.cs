@@ -323,7 +323,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return ResourceFormatter.GetScaleTypeTextSingular(entity);
+            return ResourceFormatter.GetScaleTypeDisplayNameSingular(entity);
         }
 
         // Patch-Related
@@ -674,7 +674,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // Use OperatorTypeDisplayName
-            string caption = ResourceFormatter.GetText(op.GetOperatorTypeEnum());
+            string caption = ResourceFormatter.GetDisplayName(op.GetOperatorTypeEnum());
             return caption;
         }
 
@@ -712,7 +712,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Try Use Dimension
             else if (dimensionEnum != DimensionEnum.Undefined)
             {
-                sb.Append($": {ResourceFormatter.GetText(dimensionEnum)}");
+                sb.Append($": {ResourceFormatter.GetDisplayName(dimensionEnum)}");
             }
             // Try Use List Index
             else
@@ -749,7 +749,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Try Use Dimension
             else if (dimensionEnum != DimensionEnum.Undefined)
             {
-                sb.AppendFormat(": {0}", ResourceFormatter.GetText(dimensionEnum));
+                sb.AppendFormat(": {0}", ResourceFormatter.GetDisplayName(dimensionEnum));
             }
             // Try Use List Index
             else
@@ -799,12 +799,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string formattedOperatorTypeDisplayName;
             if (dimensionEnum != DimensionEnum.Undefined)
             {
-                string dimensionDisplayName = ResourceFormatter.GetText(dimensionEnum);
+                string dimensionDisplayName = ResourceFormatter.GetDisplayName(dimensionEnum);
                 formattedOperatorTypeDisplayName = string.Format(operatorTypeDisplayNameWithPlaceholder, dimensionDisplayName);
             }
             else
             {
-                formattedOperatorTypeDisplayName = ResourceFormatter.GetOperatorTypeText(op);
+                formattedOperatorTypeDisplayName = ResourceFormatter.GetOperatorTypeDisplayName(op);
             }
 
             // Use Operator.Name
@@ -821,7 +821,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_ForOtherOperators(Operator op)
         {
-            string operatorTypeDisplayName = ResourceFormatter.GetText(op.GetOperatorTypeEnum());
+            string operatorTypeDisplayName = ResourceFormatter.GetDisplayName(op.GetOperatorTypeEnum());
 
             // Use Operator.Name
             if (!string.IsNullOrWhiteSpace(op.Name))
@@ -1160,7 +1160,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
             if (standardDimensionEnum != DimensionEnum.Undefined)
             {
-                return ResourceFormatter.GetText(standardDimensionEnum);
+                return ResourceFormatter.GetDisplayName(standardDimensionEnum);
             }
 
             return null;

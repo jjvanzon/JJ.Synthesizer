@@ -37,13 +37,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case FREQUENCY_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Frequency);
+                        string name = ResourceFormatter.GetDisplayName(() => Frequency);
                         return name;
                     }
 
                 case WIDTH_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Width);
+                        string name = ResourceFormatter.GetDisplayName(() => Width);
                         return name;
                     }
 

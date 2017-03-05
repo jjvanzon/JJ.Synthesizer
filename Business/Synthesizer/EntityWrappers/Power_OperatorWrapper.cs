@@ -37,13 +37,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case BASE_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Base);
+                        string name = ResourceFormatter.GetDisplayName(() => Base);
                         return name;
                     }
 
                 case EXPONENT_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Exponent);
+                        string name = ResourceFormatter.GetDisplayName(() => Exponent);
                         return name;
                     }
 

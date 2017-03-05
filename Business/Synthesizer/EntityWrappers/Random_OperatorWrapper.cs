@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case RATE_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Rate);
+                        string name = ResourceFormatter.GetDisplayName(() => Rate);
                         return name;
                     }
 

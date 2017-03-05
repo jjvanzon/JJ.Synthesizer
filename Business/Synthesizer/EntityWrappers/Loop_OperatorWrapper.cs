@@ -66,37 +66,37 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case OperatorConstants.LOOP_SIGNAL_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Signal);
+                        string name = ResourceFormatter.GetDisplayName(() => Signal);
                         return name;
                     }
 
                 case OperatorConstants.LOOP_SKIP_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Skip);
+                        string name = ResourceFormatter.GetDisplayName(() => Skip);
                         return name;
                     }
 
                 case OperatorConstants.LOOP_LOOP_START_MARKER_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => LoopStartMarker);
+                        string name = ResourceFormatter.GetDisplayName(() => LoopStartMarker);
                         return name;
                     }
 
                 case OperatorConstants.LOOP_LOOP_END_MARKER_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => LoopEndMarker);
+                        string name = ResourceFormatter.GetDisplayName(() => LoopEndMarker);
                         return name;
                     }
 
                 case OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => ReleaseEndMarker);
+                        string name = ResourceFormatter.GetDisplayName(() => ReleaseEndMarker);
                         return name;
                     }
 
                 case OperatorConstants.LOOP_NOTE_DURATION_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => NoteDuration);
+                        string name = ResourceFormatter.GetDisplayName(() => NoteDuration);
                         return name;
                     }
 

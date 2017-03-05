@@ -46,19 +46,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case SIGNAL_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Signal);
+                        string name = ResourceFormatter.GetDisplayName(() => Signal);
                         return name;
                     }
 
                 case SLICE_LENGTH_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => SliceLength);
+                        string name = ResourceFormatter.GetDisplayName(() => SliceLength);
                         return name;
                     }
 
                 case SAMPLE_COUNT_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => SampleCount);
+                        string name = ResourceFormatter.GetDisplayName(() => SampleCount);
                         return name;
                     }
 

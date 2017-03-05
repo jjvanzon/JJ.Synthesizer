@@ -50,25 +50,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case OperatorConstants.SPECTRUM_SIGNAL_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Signal);
+                        string name = ResourceFormatter.GetDisplayName(() => Signal);
                         return name;
                     }
 
                 case OperatorConstants.SPECTRUM_START_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Start);
+                        string name = ResourceFormatter.GetDisplayName(() => Start);
                         return name;
                     }
 
                 case OperatorConstants.SPECTRUM_END_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => End);
+                        string name = ResourceFormatter.GetDisplayName(() => End);
                         return name;
                     }
 
                 case OperatorConstants.SPECTRUM_FREQUENCY_COUNT_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => FrequencyCount);
+                        string name = ResourceFormatter.GetDisplayName(() => FrequencyCount);
                         return name;
                     }
 

@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             if (listIndex == INPUT_INDEX)
             {
-                string name = ResourceFormatter.GetText(() => Input);
+                string name = ResourceFormatter.GetDisplayName(() => Input);
                 return name;
             }
             else

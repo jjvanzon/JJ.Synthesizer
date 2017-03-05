@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             {
                 case FREQUENCY_INDEX:
                     {
-                        string name = ResourceFormatter.GetText(() => Frequency);
+                        string name = ResourceFormatter.GetDisplayName(() => Frequency);
                         return name;
                     }
 
