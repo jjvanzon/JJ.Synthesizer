@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull : ValidatorBase_WithoutConstructorArgumentNullCheck<Operator>
+    internal class OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull : ValidatorBase<Operator>
     {
         private readonly Patch _patch;
 
