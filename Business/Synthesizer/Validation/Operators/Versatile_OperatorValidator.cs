@@ -8,7 +8,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Versatile_OperatorValidator : ValidatorBase<Operator>
+    internal class Versatile_OperatorValidator : ValidatorBase_WithoutConstructorArgumentNullCheck<Operator>
     {
         private readonly IPatchRepository _patchRepository;
 

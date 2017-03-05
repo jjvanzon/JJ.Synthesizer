@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     /// Makes sure that objects are only validated once to 
     /// prevent problems with circularities.
     /// </summary>
-    internal class OperatorValidator_Recursive : ValidatorBase<Operator>
+    internal class OperatorValidator_Recursive : ValidatorBase_WithoutConstructorArgumentNullCheck<Operator>
     {
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;

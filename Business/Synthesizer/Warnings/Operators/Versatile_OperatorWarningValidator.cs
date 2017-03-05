@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Versatile_OperatorWarningValidator : ValidatorBase<Operator>
+    internal class Versatile_OperatorWarningValidator : ValidatorBase_WithoutConstructorArgumentNullCheck<Operator>
     {
         private readonly Dictionary<OperatorTypeEnum, Type> _warningValidatorTypeDictionary = 
             new Dictionary<OperatorTypeEnum, Type>

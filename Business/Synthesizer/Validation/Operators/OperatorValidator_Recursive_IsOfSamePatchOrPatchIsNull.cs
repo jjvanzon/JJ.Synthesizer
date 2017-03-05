@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Exceptions;
+﻿using JetBrains.Annotations;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
@@ -6,11 +7,11 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull : ValidatorBase<Operator>
+    internal class OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull : ValidatorBase_WithoutConstructorArgumentNullCheck<Operator>
     {
         private readonly Patch _patch;
 
-        public OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(Operator op, Patch patch)
+        public OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(Operator op, [NotNull] Patch patch)
             : base(op, postponeExecute: true)
         {
             if (patch == null) throw new NullException(() => patch);
