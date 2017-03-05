@@ -136,9 +136,6 @@
   <data name="InletNames" xml:space="preserve">
     <value>Ingang namen</value>
   </data>
-  <data name="InletNotSet" xml:space="preserve">
-    <value>{2} is niet ingevuld voor {0} operator genaamd '{1}'.</value>
-  </data>
   <data name="OperatorIsCircularWithName" xml:space="preserve">
     <value>Operator genaamd '{0}' heeft een cirkelverwijzing.</value>
   </data>
@@ -163,10 +160,6 @@
   </data>
   <data name="CannotDeleteBecauseHasReferences" xml:space="preserve">
     <value>Het item kan niet worden verwijderd, omdat er nog verwijzingen naar bestaan.</value>
-  </data>
-  <data name="OperatorHasNoInletsFilledIn_WithOperatorName" xml:space="preserve">
-    <value>Er zijn geen ingangen ingevuld voor operator '{0}'.</value>
-    <comment>{0} = name or type of object</comment>
   </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Kan het aantal ingangen niet aanpassen, omdat ingang {0} nog ingevuld is.</value>

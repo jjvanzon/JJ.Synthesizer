@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
@@ -15,12 +15,18 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             Operator op = Obj;
 
-            bool anyItemsFilledIn = op.Inlets.Skip(1).Where(x => x.InputOutlet != null).Any();
+            bool anyItemsFilledIn = op.Inlets
+                                      // Skip the signal inlet,
+                                      // Only check the items. 
+                                      .Skip(1)
+                                      .Where(x => x.InputOutlet != null)
+                                      .Any();
+
             // ReSharper disable once InvertIf
             if (!anyItemsFilledIn)
             {
-                string operatorIdentifier = ValidationHelper.GetIdentifier(op);
-                ValidationMessages.Add(() => op.Inlets, ResourceFormatter.OperatorHasNoInletsFilledIn_WithOperatorName(operatorIdentifier));
+                // TODO: Lower priority: This message slightly lies, because the signal inlet may very wel be filled in.
+                ValidationMessages.AddIsEmptyMessage(PropertyNames.Inlets, ResourceFormatter.Inlets);
             }
         }
     }

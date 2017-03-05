@@ -294,11 +294,6 @@ namespace JJ.Business.Synthesizer.Resources
         [Obsolete("Replace with better delete validation messages.")]
         public static string DocumentIsDependentOnDocument(string dependentDocumentName, string dependentOnDocumentName) => string.Format(Resources.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
         public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
-        [Obsolete("Build up as follows instead: {operator}: {inlets} list is empty. Use MessagePrefix pattern and reusable resource strings.")]
-        public static string OperatorHasNoInletsFilledIn_WithOperatorName(string operatorName) => string.Format(Resources.OperatorHasNoInletsFilledIn_WithOperatorName, operatorName);
-        /// <summary> Note: When OperatorTypeEnum equals Undefined it will return a text like: "Undefined operator named '...' does not have ... filled in." </summary>
-        [Obsolete("Build up as follows instead: {operator} '{name}': {...} required. Use message prefix pattern and ValidationMessageFormatter.Required.")]
-        public static string InletNotSet(object operatorTypeEnumOrOperatorTypeName, string operatorName, string operandName) => string.Format(Resources.InletNotSet, operatorTypeEnumOrOperatorTypeName, operatorName, operandName);
         public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
         public static string MustBePowerOf2(string frequencyCount) => string.Format(Resources.MustBePowerOf2, frequencyCount);
         public static string OperatorIsCircularWithName(string name) => string.Format(Resources.OperatorIsCircularWithName, name);

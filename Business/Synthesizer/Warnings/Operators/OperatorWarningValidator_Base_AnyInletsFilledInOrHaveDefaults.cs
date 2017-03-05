@@ -1,7 +1,8 @@
 ﻿using System.Linq;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
@@ -22,8 +23,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             // ReSharper disable once InvertIf
             if (!anyInletsFilledIn)
             {
-                string operatorIdentifier = ValidationHelper.GetIdentifier(op);
-                ValidationMessages.Add(() => op.Inlets, ResourceFormatter.OperatorHasNoInletsFilledIn_WithOperatorName(operatorIdentifier));
+                ValidationMessages.AddIsEmptyMessage(PropertyNames.Inlets, ResourceFormatter.Inlets);
             }
         }
     }

@@ -40,6 +40,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Inlet = "Inlet";
         public const string InletCount = "InletCount";
         public const string Inlets = "Inlets";
+        public const string InputOutlet = "InputOutlet";
         public const string InterpolationType = "InterpolationType";
         public const string IsObsolete = "IsObsolete";
         public const string ListIndex = "ListIndex";

@@ -132,10 +132,6 @@
     <value>Document '{0}' is dependent on document '{1}'.</value>
     <comment>{0} = dependent document, {1} = dependent on document</comment>
   </data>
-  <data name="InletNotSet" xml:space="preserve">
-    <value>{0} operator named '{1}' does not have {2} filled in.</value>
-    <comment>{0} = Operator type name. {1} = Operator name. {2} = Operand name.</comment>
-  </data>
   <data name="OperatorIsCircularWithName" xml:space="preserve">
     <value>Operator named '{0}' has a circular reference.</value>
   </data>
@@ -160,10 +156,6 @@
   </data>
   <data name="CannotDeleteBecauseHasReferences" xml:space="preserve">
     <value>Cannot delete item, because there are things still linking to it.</value>
-  </data>
-  <data name="OperatorHasNoInletsFilledIn_WithOperatorName" xml:space="preserve">
-    <value>Operator '{0}' has no inlets filled in.</value>
-    <comment>{0} = name or type of object</comment>
   </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Cannot change the amount of inlets, because inlet {0} is still filled in.</value>

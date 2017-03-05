@@ -2,7 +2,9 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
@@ -32,13 +34,9 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 {
                     Inlet inlet = sortedInlets[indexToCheck];
 
-                    // ReSharper disable once InvertIf
-                    if (inlet.InputOutlet == null)
-                    {
-                        string operatorTypeDisplayName = ResourceFormatter.GetOperatorTypeText(Obj);
-                        string message = ResourceFormatter.InletNotSet(operatorTypeDisplayName, Obj.Name, inlet.Name);
-                        ValidationMessages.Add(() => inlet.InputOutlet, message);
-                    }
+                    string inletIdentifier = ValidationHelper.GetIdentifier(inlet);
+
+                    For(() => inlet.InputOutlet, inletIdentifier).NotNull();
                 }
             }
         }

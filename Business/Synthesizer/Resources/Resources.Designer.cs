@@ -1051,15 +1051,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} operator named &apos;{1}&apos; does not have {2} filled in..
-        /// </summary>
-        internal static string InletNotSet {
-            get {
-                return ResourceManager.GetString("InletNotSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} of inlet does not match with underlying patch..
         /// </summary>
         internal static string InletPropertyDoesNotMatchWithUnderlyingPatch {
@@ -1605,15 +1596,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Operator {
             get {
                 return ResourceManager.GetString("Operator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Operator &apos;{0}&apos; has no inlets filled in..
-        /// </summary>
-        internal static string OperatorHasNoInletsFilledIn_WithOperatorName {
-            get {
-                return ResourceManager.GetString("OperatorHasNoInletsFilledIn_WithOperatorName", resourceCulture);
             }
         }
         

@@ -3,6 +3,8 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using System.Linq;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
@@ -29,8 +31,11 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (inlet.InputOutlet == null && !inlet.DefaultValue.HasValue)
                 {
+                    string identifier = ValidationHelper.GetIdentifier(inlet);
+                    string message = ValidationResourceFormatter.NotFilledIn(identifier);
+
                     // ReSharper disable once AccessToModifiedClosure
-                    ValidationMessages.Add(() => Obj.Inlets[i].InputOutlet, ResourceFormatter.InletNotSet(Obj.GetOperatorTypeEnum(), Obj.Name, inlet.Name));
+                    ValidationMessages.Add(() => Obj.Inlets[i].InputOutlet, message);
                 }
                 i++;
             }

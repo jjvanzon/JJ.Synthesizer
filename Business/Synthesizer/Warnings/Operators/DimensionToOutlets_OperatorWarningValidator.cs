@@ -1,13 +1,15 @@
-﻿using JJ.Framework.Validation;
+﻿using System.Linq;
+using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class DimensionToOutlets_OperatorWarningValidator : VersatileValidator<Operator>
     {
-        public DimensionToOutlets_OperatorWarningValidator(Operator obj)
+        public DimensionToOutlets_OperatorWarningValidator([NotNull] Operator obj)
             : base(obj)
         { }
 
@@ -16,15 +18,14 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             Operator op = Obj;
 
             // ReSharper disable once InvertIf
-            if (op.Inlets.Count >= 1)
+            Inlet inlet = op.Inlets.FirstOrDefault();
+            if (inlet != null)
             {
                 // ReSharper disable once InvertIf
-                if (op.Inlets[0].InputOutlet == null)
+                if (inlet.InputOutlet == null)
                 {
-                    string operatorIdentifier = ValidationHelper.GetIdentifier(op);
-                    string message = ResourceFormatter.OperatorHasNoInletsFilledIn_WithOperatorName(operatorIdentifier);
-
-                    ValidationMessages.Add(() => op.Inlets[0].InputOutlet, message);
+                    string inletIdentifier = ValidationHelper.GetIdentifier(inlet);
+                    ValidationMessages.AddNotFilledInMessage(PropertyNames.Inlet, inletIdentifier);
                 }
             }
         }
