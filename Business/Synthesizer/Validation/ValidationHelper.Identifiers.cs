@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -216,7 +217,7 @@ namespace JJ.Business.Synthesizer.Validation
                 // ReSharper disable once InvertIf
                 if (number.HasValue)
                 {
-                    return $"'{number.Value:0.######}'";
+                    return $"'{FormatNumber(number.Value)}'";
                 }
             }
 
@@ -349,8 +350,47 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            // TODO: You could fall back to OriginalFileName.
-            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
+            if (!string.IsNullOrWhiteSpace(entity.Name))
+            {
+                return $"'{entity.Name}'";
+            }
+
+            if (!string.IsNullOrWhiteSpace(entity.OriginalLocation))
+            {
+                return $"'{entity.OriginalLocation}'";
+            }
+
+            // Message prefix would become something like: 
+            // Sample '16-Bit Mono 44100Hz WAV-File'
+            // ReSharper disable once UseStringInterpolation
+
+            var sb = new StringBuilder();
+
+            sb.Append('\'');
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            if (entity.SampleDataType != null)
+            {
+                sb.Append(ResourceFormatter.GetDisplayName(entity.SampleDataType));
+            }
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            if (entity.SpeakerSetup != null)
+            {
+                sb.Append(ResourceFormatter.GetDisplayName(entity.SpeakerSetup));
+            }
+
+            sb.Append($"{entity.SamplingRate}Hz");
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            if (entity.AudioFileFormat != null)
+            {
+                sb.Append(ResourceFormatter.GetDisplayName(entity.AudioFileFormat));
+            }
+
+            sb.Append('\'');
+
+            return sb.ToString();
         }
 
         [NotNull]
@@ -358,9 +398,18 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            // TODO: You could fall back to for instance ScaleType.
+            if (!string.IsNullOrWhiteSpace(entity.Name))
+            {
+                return $"'{entity.Name}'";
+            }
 
-            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (entity.ScaleType != null)
+            {
+                return $"'{ResourceFormatter.GetScaleTypeDisplayNamePlural(entity)}'";
+            }
+
+            return GetNoNameIdentifier();
         }
 
         [NotNull]
@@ -368,13 +417,30 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            // TODO: Make a better identifier.
-            // TODO: You could fall back to for instance ScaleType.
+            var sb = new StringBuilder();
 
-            return GetIdentifier_WithName_AndNoNameFallback(null);
+            sb.Append('\'');
+            sb.Append($"{ResourceFormatter.Octave} {entity.Octave}, ");
+
+            // ReSharper disable once ConstantConditionalAccessQualifier
+            if (entity.Scale?.ScaleType != null)
+            {
+                sb.Append($"{ResourceFormatter.GetScaleTypeDisplayNameSingular(entity.Scale)} ");
+            }
+
+            sb.Append($"{FormatNumber(entity.Number)}");
+            sb.Append('\'');
+
+            return sb.ToString();
         }
 
         // Helpers
+
+        [NotNull]
+        private static string FormatNumber(double number)
+        {
+            return $"{number:0.######}";
+        }
 
         [NotNull]
         private static string GetIdentifier_WithName_AndNoNameFallback([CanBeNull] string name)

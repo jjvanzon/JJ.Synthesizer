@@ -2471,12 +2471,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             patchManager.Patch = outlet.Operator.Patch;
-            IPatchCalculator patchCalculator = patchManager.CreateCalculator(
-                outlet,
-                audioOutput.SamplingRate,
-                audioOutput.GetChannelCount(), 
-                DEFAULT_CHANNEL_INDEX, 
-                new CalculatorCache());
+
+            //int i;
+            //Enumerable.Repeat(
+
+            var calculatorCache = new CalculatorCache();
+            int channelCount = audioOutput.GetChannelCount();
+            var patchCalculators = new IPatchCalculator[channelCount];
+            for (int i = 0; i < channelCount; i++)
+            {
+                patchCalculators[i] = patchManager.CreateCalculator(
+                    outlet,
+                    audioOutput.SamplingRate,
+                    channelCount,
+                    i,
+                    calculatorCache);
+            }
 
             // Infrastructure
             AudioFileOutput audioFileOutput = _audioFileOutputManager.Create();
@@ -2485,7 +2495,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             audioFileOutput.FilePath = _playOutputFilePath;
             audioFileOutput.Duration = DEFAULT_DURATION;
             audioFileOutput.LinkTo(outlet);
-            _audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+            _audioFileOutputManager.WriteFile(audioFileOutput, patchCalculators);
 
             // Successful
             userInput.Successful = true;
