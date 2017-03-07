@@ -339,7 +339,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             sb.Append(ResourceFormatter.InletPropertyDoesNotMatchWithUnderlyingPatch(propertyDisplayName));
 
-            string customOperatorInletIdentifier = ValidationHelper.GetIdentifier(customOperatorInlet);
+            string customOperatorInletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(customOperatorInlet);
             sb.AppendFormat(
                 " {0}: {1} {2}: {3} = '{4}'.",
                 ResourceFormatter.CustomOperator,
@@ -348,7 +348,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 propertyDisplayName,
                 customOperatorInletPropertyValue);
 
-            string patchInletIdentifier = ValidationHelper.GetIdentifier_ForPatchInlet(patchInlet);
+            string patchInletIdentifier = ValidationHelper.GetUserFriendlyIdentifier_ForPatchInlet(patchInlet);
 
             sb.AppendFormat(
                 "{0}: {1} {2}: {3} = '{4}'.",
@@ -376,7 +376,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             sb.Append(ResourceFormatter.OutletPropertyDoesNotMatchWithUnderlyingPatch(propertyDisplayName));
 
-            string customOperatorOutletIdentifier = ValidationHelper.GetIdentifier(customOperatorOutlet);
+            string customOperatorOutletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(customOperatorOutlet);
             sb.AppendFormat(
                 " {0}: {1} '{2}': {3} = '{4}'.",
                 ResourceFormatter.CustomOperator,
@@ -385,7 +385,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 propertyDisplayName,
                 customOperatorOutletPropertyValue);
 
-            string patchOutletIdentifier = ValidationHelper.GetIdentifier_ForPatchOutlet(patchOutlet);
+            string patchOutletIdentifier = ValidationHelper.GetUserFriendlyIdentifier_ForPatchOutlet(patchOutlet);
             sb.AppendFormat(
                 "{0}: {1} {2}: {3} = '{4}'.",
                 ResourceFormatter.UnderlyingPatch,

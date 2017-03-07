@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (inlet.InputOutlet == null && !inlet.DefaultValue.HasValue)
                 {
-                    string identifier = ValidationHelper.GetIdentifier(inlet);
+                    string identifier = ValidationHelper.GetUserFriendlyIdentifier(inlet);
                     string message = ValidationResourceFormatter.NotFilledIn(identifier);
 
                     // ReSharper disable once AccessToModifiedClosure

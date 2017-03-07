@@ -22,14 +22,14 @@ namespace JJ.Business.Synthesizer.Validation
         // Quotes are added around names, so are already part of the identifier.
 
         [NotNull]
-        public static string GetIdentifier([NotNull] AudioFileOutput entity)
+        public static string GetUserFriendlyIdentifier([NotNull] AudioFileOutput entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
+            return GetUserFriendlyIdentifier_WithName_AndNoNameFallback(entity.Name);
         }
 
         [CanBeNull]
-        public static string GetIdentifier([NotNull] AudioOutput entity)
+        public static string GetUserFriendlyIdentifier([NotNull] AudioOutput entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -38,17 +38,17 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        public static string GetIdentifier([NotNull] Curve entity)
+        public static string GetUserFriendlyIdentifier([NotNull] Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
+            return GetUserFriendlyIdentifier_WithName_AndNoNameFallback(entity.Name);
         }
 
         [NotNull]
-        public static string GetIdentifier([NotNull] Document entity)
+        public static string GetUserFriendlyIdentifier([NotNull] Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
+            return GetUserFriendlyIdentifier_WithName_AndNoNameFallback(entity.Name);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Validation
         /// 'no Name' (Alias '{1}')
         /// </summary>
         [NotNull]
-        public static string GetIdentifier_ForLowerDocumentReference([NotNull] DocumentReference lowerDocumentReference)
+        public static string GetUserFriendlyIdentifier_ForLowerDocumentReference([NotNull] DocumentReference lowerDocumentReference)
         {
             if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
 
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (lowerDocumentReference.LowerDocument != null)
             {
-                string lowerDocumentIdentifier = GetIdentifier(lowerDocumentReference.LowerDocument);
+                string lowerDocumentIdentifier = GetUserFriendlyIdentifier(lowerDocumentReference.LowerDocument);
                 sb.Append(lowerDocumentIdentifier);
             }
 
@@ -80,23 +80,23 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        public static string GetIdentifier([NotNull] Inlet inlet)
+        public static string GetUserFriendlyIdentifier([NotNull] Inlet inlet)
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            return GetIdentifier_WithName_DimensionEnum_AndListIndex(inlet.Name, inlet.GetDimensionEnum(), inlet.ListIndex);
+            return GetUserFriendlyIdentifier_WithName_DimensionEnum_AndListIndex(inlet.Name, inlet.GetDimensionEnum(), inlet.ListIndex);
         }
 
         /// <param name="number">1-based</param>
         [NotNull]
-        public static string GetIdentifier([NotNull] Node entity, int number)
+        public static string GetUserFriendlyIdentifier([NotNull] Node entity, int number)
         {
             if (entity == null) throw new NullException(() => entity);
             return number.ToString();
         }
 
         [NotNull]
-        public static string GetIdentifier(
+        public static string GetUserFriendlyIdentifier(
             [NotNull] Operator entity,
             [NotNull] ISampleRepository sampleRepository,
             [NotNull] ICurveRepository curveRepository,
@@ -109,33 +109,33 @@ namespace JJ.Business.Synthesizer.Validation
             switch (operatorTypeEnum)
             {
                 case OperatorTypeEnum.Curve:
-                    return GetIdentifier_ForCurveOperator(entity, curveRepository);
+                    return GetUserFriendlyIdentifier_ForCurveOperator(entity, curveRepository);
 
                 case OperatorTypeEnum.CustomOperator:
-                    return GetIdentifier_ForCustomOperator(entity, patchRepository);
+                    return GetUserFriendlyIdentifier_ForCustomOperator(entity, patchRepository);
 
                 case OperatorTypeEnum.Number:
-                    return GetIdentifier_ForNumberOperator(entity);
+                    return GetUserFriendlyIdentifier_ForNumberOperator(entity);
 
                 case OperatorTypeEnum.PatchInlet:
-                    return GetIdentifier_ForPatchInlet(entity);
+                    return GetUserFriendlyIdentifier_ForPatchInlet(entity);
 
                 case OperatorTypeEnum.PatchOutlet:
-                    return GetIdentifier_ForPatchOutlet(entity);
+                    return GetUserFriendlyIdentifier_ForPatchOutlet(entity);
 
                 case OperatorTypeEnum.Sample:
-                    return GetIdentifier_ForSampleOperator(entity, sampleRepository);
+                    return GetUserFriendlyIdentifier_ForSampleOperator(entity, sampleRepository);
 
                 //case OperatorTypeEnum.Undefined:
-                //    return GetIdentifier_ForUndefinedOperatorType(entity);
+                //    return GetUserFriendlyIdentifier_ForUndefinedOperatorType(entity);
 
                 default:
-                    return GetIdentifier_ForOtherOperartorType(entity);
+                    return GetUserFriendlyIdentifier_ForOtherOperartorType(entity);
             }
         }
 
         [NotNull]
-        private static string GetIdentifier_ForCurveOperator([NotNull] Operator entity, [NotNull] ICurveRepository curveRepository)
+        private static string GetUserFriendlyIdentifier_ForCurveOperator([NotNull] Operator entity, [NotNull] ICurveRepository curveRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Validation
                     Curve underlyingEntity = curveRepository.TryGet(underlyingEntityID.Value);
                     if (underlyingEntity != null)
                     {
-                        return GetIdentifier(underlyingEntity);
+                        return GetUserFriendlyIdentifier(underlyingEntity);
                     }
                 }
             }
@@ -167,7 +167,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        private static string GetIdentifier_ForCustomOperator([NotNull] Operator entity, [NotNull] IPatchRepository patchRepository)
+        private static string GetUserFriendlyIdentifier_ForCustomOperator([NotNull] Operator entity, [NotNull] IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (patchRepository == null) throw new NullException(() => patchRepository);
@@ -189,7 +189,7 @@ namespace JJ.Business.Synthesizer.Validation
                     Patch underlyingEntity = patchRepository.TryGet(underlyingEntityID.Value);
                     if (underlyingEntity != null)
                     {
-                        return GetIdentifier(underlyingEntity);
+                        return GetUserFriendlyIdentifier(underlyingEntity);
                     }
                 }
             }
@@ -199,7 +199,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        private static string GetIdentifier_ForNumberOperator([NotNull] Operator entity)
+        private static string GetUserFriendlyIdentifier_ForNumberOperator([NotNull] Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -226,7 +226,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        public static string GetIdentifier_ForPatchInlet([NotNull] Operator entity)
+        public static string GetUserFriendlyIdentifier_ForPatchInlet([NotNull] Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -255,7 +255,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        public static string GetIdentifier_ForPatchOutlet([NotNull] Operator entity)
+        public static string GetUserFriendlyIdentifier_ForPatchOutlet([NotNull] Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -284,7 +284,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        private static string GetIdentifier_ForSampleOperator([NotNull] Operator entity, [NotNull] ISampleRepository sampleRepository)
+        private static string GetUserFriendlyIdentifier_ForSampleOperator([NotNull] Operator entity, [NotNull] ISampleRepository sampleRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
@@ -306,7 +306,7 @@ namespace JJ.Business.Synthesizer.Validation
                     Sample underlyingEntity = sampleRepository.TryGet(underlyingEntityID.Value);
                     if (underlyingEntity != null)
                     {
-                        return GetIdentifier(underlyingEntity);
+                        return GetUserFriendlyIdentifier(underlyingEntity);
                     }
                 }
             }
@@ -316,7 +316,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        private static string GetIdentifier_ForOtherOperartorType([NotNull] Operator entity)
+        private static string GetUserFriendlyIdentifier_ForOtherOperartorType([NotNull] Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -332,21 +332,21 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        public static string GetIdentifier([NotNull] Outlet outlet)
+        public static string GetUserFriendlyIdentifier([NotNull] Outlet outlet)
         {
             if (outlet == null) throw new NullException(() => outlet);
-            return GetIdentifier_WithName_DimensionEnum_AndListIndex(outlet.Name, outlet.GetDimensionEnum(), outlet.ListIndex);
+            return GetUserFriendlyIdentifier_WithName_DimensionEnum_AndListIndex(outlet.Name, outlet.GetDimensionEnum(), outlet.ListIndex);
         }
 
         [NotNull]
-        public static string GetIdentifier([NotNull] Patch entity)
+        public static string GetUserFriendlyIdentifier([NotNull] Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
+            return GetUserFriendlyIdentifier_WithName_AndNoNameFallback(entity.Name);
         }
 
         [NotNull]
-        public static string GetIdentifier([NotNull] Sample entity)
+        public static string GetUserFriendlyIdentifier([NotNull] Sample entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -394,7 +394,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        public static string GetIdentifier([NotNull] Scale entity)
+        public static string GetUserFriendlyIdentifier([NotNull] Scale entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -413,7 +413,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        public static string GetIdentifier([NotNull] Tone entity)
+        public static string GetUserFriendlyIdentifier([NotNull] Tone entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -437,13 +437,7 @@ namespace JJ.Business.Synthesizer.Validation
         // Helpers
 
         [NotNull]
-        private static string FormatNumber(double number)
-        {
-            return $"{number:0.######}";
-        }
-
-        [NotNull]
-        private static string GetIdentifier_WithName_AndNoNameFallback([CanBeNull] string name)
+        private static string GetUserFriendlyIdentifier_WithName_AndNoNameFallback([CanBeNull] string name)
         {
             // ReSharper disable once ConvertIfStatementToReturnStatement
             if (!string.IsNullOrWhiteSpace(name))
@@ -458,13 +452,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        private static string GetNoNameIdentifier()
-        {
-            return $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
-        }
-
-        [NotNull]
-        private static string GetIdentifier_WithName_DimensionEnum_AndListIndex([CanBeNull] string name, DimensionEnum dimensionEnum, int listIndex)
+        private static string GetUserFriendlyIdentifier_WithName_DimensionEnum_AndListIndex([CanBeNull] string name, DimensionEnum dimensionEnum, int listIndex)
         {
             // Use Name
             if (!string.IsNullOrWhiteSpace(name))
@@ -483,6 +471,19 @@ namespace JJ.Business.Synthesizer.Validation
             // Use ListIndex
             string identifier = $"({ResourceFormatter.Number} = {listIndex + 1})";
             return identifier;
+        }
+
+
+        [NotNull]
+        private static string GetNoNameIdentifier()
+        {
+            return $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
+        }
+
+        [NotNull]
+        private static string FormatNumber(double number)
+        {
+            return $"{number:0.######}";
         }
     }
 }

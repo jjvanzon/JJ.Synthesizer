@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 {
                     Inlet inlet = sortedInlets[indexToCheck];
 
-                    string inletIdentifier = ValidationHelper.GetIdentifier(inlet);
+                    string inletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(inlet);
 
                     For(() => inlet.InputOutlet, inletIdentifier).NotNull();
                 }

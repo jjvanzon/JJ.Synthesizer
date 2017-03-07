@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 // ReSharper disable once InvertIf
                 if (inlet.InputOutlet == null)
                 {
-                    string inletIdentifier = ValidationHelper.GetIdentifier(inlet);
+                    string inletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(inlet);
                     ValidationMessages.AddNotFilledInMessage(PropertyNames.Inlet, inletIdentifier);
                 }
             }

@@ -891,8 +891,8 @@
     <Compile Include="Validation\Scales\ScaleValidator_Tones.cs" />
     <Compile Include="Validation\Scales\Versatile_ScaleValidator_WithoutTones.cs" />
     <Compile Include="Validation\ToneValidator.cs" />
-    <Compile Include="Validation\ValidationHelper.Identifiers.cs" />
-    <Compile Include="Validation\ValidationHelper.ValidationMessagePrefixes.cs" />
+    <Compile Include="Validation\ValidationHelper.UserFriendlyIdentifier.cs" />
+    <Compile Include="Validation\ValidationHelper.MessagePrefixes.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
     <Compile Include="Visitors\OperatorEntityToCalculatorDirectlyVisitor.cs" />
