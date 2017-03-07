@@ -95,26 +95,6 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        public static string GetIdentifier([NotNull] Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            if (!string.IsNullOrWhiteSpace(entity.Name))
-            {
-                return $"'{entity.Name}'";
-            }
-
-            // ReSharper disable once InvertIf
-            if (entity.OperatorType != null)
-            {
-                string operatorTypeDisplayName = ResourceFormatter.GetDisplayName(entity.OperatorType);
-                return $"'{operatorTypeDisplayName}'";
-            }
-
-            return entity.ID.ToString();
-        }
-
-        [NotNull]
         public static string GetIdentifier(
             [NotNull] Operator entity,
             [NotNull] ISampleRepository sampleRepository,
@@ -153,8 +133,6 @@ namespace JJ.Business.Synthesizer.Validation
             }
         }
 
-        // TODO: Repeated code in GetIdentifier_ForCurveOperator and GetIdentifier_ForCustomOperator and the one for sample probably too.
-
         [NotNull]
         private static string GetIdentifier_ForCurveOperator([NotNull] Operator entity, [NotNull] ICurveRepository curveRepository)
         {
@@ -184,7 +162,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
+            return GetNoNameIdentifier();
         }
 
         [NotNull]
@@ -216,7 +194,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
+            return GetNoNameIdentifier();
         }
 
         [NotNull]
@@ -243,11 +221,11 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
+            return GetNoNameIdentifier();
         }
 
         [NotNull]
-        private static string GetIdentifier_ForPatchInlet([NotNull] Operator entity)
+        public static string GetIdentifier_ForPatchInlet([NotNull] Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -272,11 +250,11 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
+            return GetNoNameIdentifier();
         }
 
         [NotNull]
-        private static string GetIdentifier_ForPatchOutlet([NotNull] Operator entity)
+        public static string GetIdentifier_ForPatchOutlet([NotNull] Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -301,7 +279,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
+            return GetNoNameIdentifier();
         }
 
         [NotNull]
@@ -333,7 +311,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
+            return GetNoNameIdentifier();
         }
 
         [NotNull]
@@ -373,7 +351,6 @@ namespace JJ.Business.Synthesizer.Validation
             return GetIdentifier_WithName(entity.Name);
         }
 
-
         [NotNull]
         public static string GetIdentifier([NotNull] Scale entity)
         {
@@ -395,7 +372,6 @@ namespace JJ.Business.Synthesizer.Validation
             return GetIdentifier_WithName(null);
         }
 
-
         // Helpers
 
         [NotNull]
@@ -409,8 +385,14 @@ namespace JJ.Business.Synthesizer.Validation
             // ReSharper disable once RedundantIfElseBlock
             else
             {
-                return $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
+                return GetNoNameIdentifier();
             }
+        }
+
+        [NotNull]
+        private static string GetNoNameIdentifier()
+        {
+            return $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
         }
 
         [NotNull]

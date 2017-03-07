@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
@@ -260,7 +261,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// Returns null if key does not exist.
         /// Will throw an exception if Data is not well-formed.
         /// </summary>
-        public static string TryGetString(string data, string key)
+        public static string TryGetString(string data, [CanBeNull] string key)
         {
             IList<ParsedKeyValuePair> results = Parse(data);
 
@@ -321,7 +322,8 @@ namespace JJ.Business.Synthesizer.Helpers
             return newData;
         }
 
-        private static IList<ParsedKeyValuePair> Parse(string data)
+        [NotNull]
+        private static IList<ParsedKeyValuePair> Parse([CanBeNull] string data)
         {
             if (string.IsNullOrEmpty(data))
             {

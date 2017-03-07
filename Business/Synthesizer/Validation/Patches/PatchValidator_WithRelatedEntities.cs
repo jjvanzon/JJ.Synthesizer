@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             ExecuteValidator(new PatchValidator_UniqueInletListIndexes(Obj));
             ExecuteValidator(new PatchValidator_UniqueOutletNames(Obj));
             ExecuteValidator(new PatchValidator_UniqueOutletListIndexes(Obj));
-            ExecuteValidator(new PatchValidator_IsOperatorsListComplete(Obj));
+            ExecuteValidator(new PatchValidator_IsOperatorsListComplete(Obj, _sampleRepository, _curveRepository, _patchRepository));
 
             foreach (Operator op in Obj.Operators)
             {
