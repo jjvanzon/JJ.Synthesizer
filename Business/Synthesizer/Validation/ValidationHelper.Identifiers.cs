@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation
         public static string GetIdentifier([NotNull] AudioFileOutput entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            return GetIdentifier_WithName(entity.Name);
+            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
         }
 
         [CanBeNull]
@@ -40,14 +40,14 @@ namespace JJ.Business.Synthesizer.Validation
         public static string GetIdentifier([NotNull] Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            return GetIdentifier_WithName(entity.Name);
+            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
         }
 
         [NotNull]
         public static string GetIdentifier([NotNull] Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            return GetIdentifier_WithName(entity.Name);
+            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
         }
 
         /// <summary>
@@ -125,8 +125,8 @@ namespace JJ.Business.Synthesizer.Validation
                 case OperatorTypeEnum.Sample:
                     return GetIdentifier_ForSampleOperator(entity, sampleRepository);
 
-                case OperatorTypeEnum.Undefined:
-                    return GetIdentifier_ForUndefinedOperatorType(entity);
+                //case OperatorTypeEnum.Undefined:
+                //    return GetIdentifier_ForUndefinedOperatorType(entity);
 
                 default:
                     return GetIdentifier_ForOtherOperartorType(entity);
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return GetNoNameIdentifier();
+            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
         }
 
         [NotNull]
@@ -194,7 +194,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return GetNoNameIdentifier();
+            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
         }
 
         [NotNull]
@@ -221,7 +221,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return GetNoNameIdentifier();
+            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
         }
 
         [NotNull]
@@ -250,7 +250,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return GetNoNameIdentifier();
+            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
         }
 
         [NotNull]
@@ -279,7 +279,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return GetNoNameIdentifier();
+            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
         }
 
         [NotNull]
@@ -311,21 +311,23 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return GetNoNameIdentifier();
-        }
-
-        [NotNull]
-        private static string GetIdentifier_ForUndefinedOperatorType([NotNull] Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            return GetIdentifier_WithName(entity.Name);
+            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
         }
 
         [NotNull]
         private static string GetIdentifier_ForOtherOperartorType([NotNull] Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            return GetIdentifier_WithName(entity.Name);
+
+            // Use Operator Name
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (!string.IsNullOrWhiteSpace(entity.Name))
+            {
+                return $"'{entity.Name}'";
+            }
+
+            // Mention 'no name' only
+            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
         }
 
         [NotNull]
@@ -339,7 +341,7 @@ namespace JJ.Business.Synthesizer.Validation
         public static string GetIdentifier([NotNull] Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            return GetIdentifier_WithName(entity.Name);
+            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
         }
 
         [NotNull]
@@ -348,7 +350,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (entity == null) throw new NullException(() => entity);
 
             // TODO: You could fall back to OriginalFileName.
-            return GetIdentifier_WithName(entity.Name);
+            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
         }
 
         [NotNull]
@@ -358,7 +360,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             // TODO: You could fall back to for instance ScaleType.
 
-            return GetIdentifier_WithName(entity.Name);
+            return GetIdentifier_WithName_AndNoNameFallback(entity.Name);
         }
 
         [NotNull]
@@ -369,13 +371,13 @@ namespace JJ.Business.Synthesizer.Validation
             // TODO: Make a better identifier.
             // TODO: You could fall back to for instance ScaleType.
 
-            return GetIdentifier_WithName(null);
+            return GetIdentifier_WithName_AndNoNameFallback(null);
         }
 
         // Helpers
 
         [NotNull]
-        private static string GetIdentifier_WithName([CanBeNull] string name)
+        private static string GetIdentifier_WithName_AndNoNameFallback([CanBeNull] string name)
         {
             // ReSharper disable once ConvertIfStatementToReturnStatement
             if (!string.IsNullOrWhiteSpace(name))

@@ -18,6 +18,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull] public static string GetMessagePrefix([NotNull] Inlet entity) => GetMessagePrefix(ResourceFormatter.Inlet, GetIdentifier(entity));
+        
         /// <param name="number">1-based</param>
         [NotNull] public static string GetMessagePrefix([NotNull] Node entity, int number) => GetMessagePrefix(ResourceFormatter.Node, GetIdentifier(entity, number));
 
@@ -28,9 +29,7 @@ namespace JJ.Business.Synthesizer.Validation
             [NotNull] ICurveRepository curveRepository,
             [NotNull] IPatchRepository patchRepository)
         {
-            string operatorTypeDisplayName = ResourceFormatter.GetOperatorTypeDisplayName(entity);
-            string identifier = GetIdentifier(entity, sampleRepository, curveRepository, patchRepository);
-            return GetMessagePrefix(operatorTypeDisplayName, identifier);
+            return GetMessagePrefix(ResourceFormatter.Operator, GetIdentifier(entity, sampleRepository, curveRepository, patchRepository));
         }
 
         [NotNull] public static string GetMessagePrefix([NotNull] Outlet entity) => GetMessagePrefix(ResourceFormatter.Outlet, GetIdentifier(entity));
