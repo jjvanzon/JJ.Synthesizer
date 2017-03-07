@@ -43,10 +43,10 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
             foreach (Operator operatorMissingInList in operatorsMissingInList)
             {
-                string operatorIdentifier = ValidationHelper.GetUserFriendlyIdentifier(operatorMissingInList, _sampleRepository, _curveRepository, _patchRepository);
-                string message = ResourceFormatter.OperatorIsInGraphButNotInList(operatorIdentifier);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(operatorMissingInList, _sampleRepository, _curveRepository, _patchRepository);
+                string message = ResourceFormatter.OperatorIsInGraphButNotInList;
 
-                ValidationMessages.Add(PropertyNames.Operators, message);
+                ValidationMessages.Add(PropertyNames.Operators, messagePrefix + message);
             }
         }
     }

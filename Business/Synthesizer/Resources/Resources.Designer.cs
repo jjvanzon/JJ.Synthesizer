@@ -448,6 +448,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Circular reference.
+        /// </summary>
+        internal static string CircularReference {
+            get {
+                return ResourceManager.GetString("CircularReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Closest.
         /// </summary>
         internal static string Closest {
@@ -1501,6 +1510,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not active.
+        /// </summary>
+        internal static string NotActive {
+            get {
+                return ResourceManager.GetString("NotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notch Filter.
         /// </summary>
         internal static string NotchFilter {
@@ -1533,6 +1551,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string NoteStart {
             get {
                 return ResourceManager.GetString("NoteStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not loaded.
+        /// </summary>
+        internal static string NotLoaded {
+            get {
+                return ResourceManager.GetString("NotLoaded", resourceCulture);
             }
         }
         
@@ -1600,16 +1627,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operator named &apos;{0}&apos; has a circular reference..
-        /// </summary>
-        internal static string OperatorIsCircularWithName {
-            get {
-                return ResourceManager.GetString("OperatorIsCircularWithName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Operator &apos;{0}&apos; is present in the graph, but not in the flat list..
+        ///   Looks up a localized string similar to Operator is present in the graph, but not in the flat list..
         /// </summary>
         internal static string OperatorIsInGraphButNotInList {
             get {
@@ -1974,24 +1992,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string SampleID {
             get {
                 return ResourceManager.GetString("SampleID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sample named &apos;{0}&apos; is not active..
-        /// </summary>
-        internal static string SampleNotActive {
-            get {
-                return ResourceManager.GetString("SampleNotActive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sample &apos;{0}&apos; is not loaded..
-        /// </summary>
-        internal static string SampleNotLoaded {
-            get {
-                return ResourceManager.GetString("SampleNotLoaded", resourceCulture);
             }
         }
         

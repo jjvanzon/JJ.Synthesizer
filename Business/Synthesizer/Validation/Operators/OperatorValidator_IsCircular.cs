@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (op.IsCircular())
             {
-                ValidationMessages.Add(() => op, ResourceFormatter.OperatorIsCircularWithName(op.Name));
+                ValidationMessages.Add(() => op, ResourceFormatter.CircularReference);
             }
 
             // TODO: Enable the UnderlyingPatchIsCircular check again, when it is corrected, so it works.

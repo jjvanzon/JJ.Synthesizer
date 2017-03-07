@@ -55,6 +55,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string ChangeTrigger => Resources.ChangeTrigger;
         public static string Channel => Resources.Channel;
         public static string Channels => Resources.Channels;
+        public static string CircularReference => Resources.CircularReference;
         public static string Closest => Resources.Closest;
         public static string ClosestExp => Resources.ClosestExp;
         public static string ClosestOverDimension => Resources.ClosestOverDimension;
@@ -166,10 +167,12 @@ namespace JJ.Business.Synthesizer.Resources
         public static string NodeType => Resources.NodeType;
         public static string Noise => Resources.Noise;
         public static string Not => Resources.Not;
+        public static string NotActive => Resources.NotActive;
         public static string NotchFilter => Resources.NotchFilter;
         public static string NoteDuration => Resources.NoteDuration;
         public static string NotEqual => Resources.NotEqual;
         public static string NoteStart => Resources.NoteStart;
+        public static string NotLoaded => Resources.NotLoaded;
         public static string Number => Resources.Number;
         public static string Octave => Resources.Octave;
         public static string Off => Resources.Off;
@@ -177,6 +180,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string OneOverX => Resources.OneOverX;
         public static string Operand => Resources.Operand;
         public static string Operator => Resources.Operator;
+        public static string OperatorIsInGraphButNotInList => Resources.OperatorIsInGraphButNotInList;
         public static string OperatorType => Resources.OperatorType;
         public static string OperatorTypeName => Resources.OperatorTypeName;
         public static string Or => Resources.Or;
@@ -295,13 +299,9 @@ namespace JJ.Business.Synthesizer.Resources
         [NotNull] public static string DocumentIsDependentOnDocument(string dependentDocumentName, string dependentOnDocumentName) => string.Format(Resources.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
         [NotNull] public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
         [NotNull] public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
-        [NotNull] public static string MustBePowerOf2(string frequencyCount) => string.Format(Resources.MustBePowerOf2, frequencyCount);
-        [NotNull] public static string OperatorIsCircularWithName(string name) => string.Format(Resources.OperatorIsCircularWithName, name);
-        [NotNull] public static string OperatorIsInGraphButNotInList(string operatorIdentifier) => string.Format(Resources.OperatorIsInGraphButNotInList, operatorIdentifier);
+        [NotNull] public static string MustBePowerOf2(string name) => string.Format(Resources.MustBePowerOf2, name);
         [NotNull] public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName) => string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
         [NotNull] public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
-        [NotNull] public static string SampleNotActive(string sampleName) => string.Format(Resources.SampleNotActive, sampleName);
-        [NotNull] public static string SampleNotLoaded(string sampleName) => string.Format(Resources.SampleNotLoaded, sampleName);
         [NotNull] public static string SetDimensionWithPlaceholder(string dimension) => string.Format(Resources.SetDimensionWithPlaceholder, dimension);
 
         // Generic methods that could return several different resource text

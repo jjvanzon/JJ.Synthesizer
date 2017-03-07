@@ -136,8 +136,8 @@
   <data name="InletNames" xml:space="preserve">
     <value>Ingang namen</value>
   </data>
-  <data name="OperatorIsCircularWithName" xml:space="preserve">
-    <value>Operator genaamd '{0}' heeft een cirkelverwijzing.</value>
+  <data name="CircularReference" xml:space="preserve">
+    <value>Cirkelverwijzing</value>
   </data>
   <data name="OperatorPatchIsNotTheExpectedPatch" xml:space="preserve">
     <value>De patch van operator '{0}' is ingevuld, maar het is niet de verwachte patch '{1}'.</value>
@@ -146,11 +146,11 @@
   <data name="SampleCount0" xml:space="preserve">
     <value>Geluidsfragment '{0}' heeft geen data.</value>
   </data>
-  <data name="SampleNotActive" xml:space="preserve">
-    <value>Geluidsfragment genaamd '{0}' is niet actief.</value>
+  <data name="NotActive" xml:space="preserve">
+    <value>Niet actief</value>
   </data>
-  <data name="SampleNotLoaded" xml:space="preserve">
-    <value>Geluidsfragment '{0} is niet ingeladen.</value>
+  <data name="NotLoaded" xml:space="preserve">
+    <value>Niet ingeladen</value>
   </data>
   <data name="InletListIndexes" xml:space="preserve">
     <value>Ingang volgnummers</value>
@@ -182,7 +182,7 @@
     <comment>{0} = name of the value</comment>
   </data>
   <data name="OperatorIsInGraphButNotInList" xml:space="preserve">
-    <value>Operator '{0}' is aanwezig in de graaf, but niet in de platte lijst.</value>
+    <value>Operator is aanwezig in de graaf, but niet in de platte lijst.</value>
   </data>
   <data name="A" xml:space="preserve">
     <value>A</value>
