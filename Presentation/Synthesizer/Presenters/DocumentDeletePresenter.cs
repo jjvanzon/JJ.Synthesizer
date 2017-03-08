@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary> return DocumentDeleteViewModel or DocumentCannotDeleteViewModel. </summary>
-        public object Show(int id)
+        public ViewModelBase Show(int id)
         {
             // GetEntity
             Document document = _documentRepository.Get(id);
@@ -38,6 +38,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DocumentCannotDeleteViewModel viewModel2 = presenter2.Show(id, result.Messages);
                 return viewModel2;
             }
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 // ToViewModel
@@ -54,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary> Can return DocumentDeletedViewModel or DocumentCannotDeletePresenter. </summary>
-        public object Confirm(DocumentDeleteViewModel userInput)
+        public ViewModelBase Confirm(DocumentDeleteViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 

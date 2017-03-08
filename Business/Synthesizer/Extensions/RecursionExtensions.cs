@@ -5,6 +5,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -165,7 +166,7 @@ namespace JJ.Business.Synthesizer.Extensions
             return enumerable;
         }
 
-        private static bool UnderlyingPatchIsMatch(Patch underlyingPatch, Operator customOperator, IPatchRepository patchRepository)
+        private static bool UnderlyingPatchIsMatch([NotNull] Patch underlyingPatch, Operator customOperator, IPatchRepository patchRepository)
         {
             var wrapper = new CustomOperator_OperatorWrapper(customOperator, patchRepository);
 

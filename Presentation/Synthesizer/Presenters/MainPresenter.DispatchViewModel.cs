@@ -12,11 +12,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     public partial class MainPresenter
     {
-        private readonly Dictionary<Type, Action<object>> _dispatchDelegateDictionary;
+        private readonly Dictionary<Type, Action<ViewModelBase>> _dispatchDelegateDictionary;
 
-        private Dictionary<Type, Action<object>> CreateDispatchDelegateDictionary()
+        private Dictionary<Type, Action<ViewModelBase>> CreateDispatchDelegateDictionary()
         {
-            var dictionary = new Dictionary<Type, Action<object>>
+            var dictionary = new Dictionary<Type, Action<ViewModelBase>>
             {
                 { typeof(AudioFileOutputGridViewModel), DispatchAudioFileOutputGridViewModel },
                 { typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
@@ -68,13 +68,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// but also for instance yielding over the validation message from a partial
         /// ViewModel to the MainViewModel, and showing and hiding views currently not on the foreground.
         /// </summary>
-        private void DispatchViewModel(object viewModel2)
+        private void DispatchViewModel(ViewModelBase viewModel2)
         {
             if (viewModel2 == null) throw new NullException(() => viewModel2);
 
             Type viewModelType = viewModel2.GetType();
 
-            Action<object> dispatchDelegate;
+            Action<ViewModelBase> dispatchDelegate;
             if (!_dispatchDelegateDictionary.TryGetValue(viewModelType, out dispatchDelegate))
             {
                 throw new UnexpectedViewModelTypeException(viewModel2);
@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             dispatchDelegate(viewModel2);
         }
 
-        private void DispatchAudioFileOutputGridViewModel(object viewModel2)
+        private void DispatchAudioFileOutputGridViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (AudioFileOutputGridViewModel)viewModel2;
 
@@ -95,12 +95,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
+
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchAudioFileOutputPropertiesViewModel(object viewModel2)
+        private void DispatchAudioFileOutputPropertiesViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (AudioFileOutputPropertiesViewModel)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.AudioFileOutputPropertiesDictionary;
             int id = castedViewModel.Entity.ID;
 
@@ -117,7 +120,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchAudioOutputPropertiesViewModel(object viewModel2)
+        private void DispatchAudioOutputPropertiesViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (AudioOutputPropertiesViewModel)viewModel2;
 
@@ -142,20 +145,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             detailsViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchCurrentPatchesViewModel(object viewModel2)
+        private void DispatchCurrentPatchesViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (CurrentPatchesViewModel)viewModel2;
 
             MainViewModel.Document.CurrentPatches = castedViewModel;
 
-            MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchCurveDetailsViewModel(object viewModel2)
+        private void DispatchCurveDetailsViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (CurveDetailsViewModel)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.CurveDetailsDictionary;
             dictionary[castedViewModel.CurveID] = castedViewModel;
 
@@ -166,11 +169,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleCurveDetails = castedViewModel;
             }
 
-            MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchCurveGridViewModel(object viewModel2)
+        private void DispatchCurveGridViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (CurveGridViewModel)viewModel2;
 
@@ -182,12 +184,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
+
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchCurvePropertiesViewModel(object viewModel2)
+        private void DispatchCurvePropertiesViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (CurvePropertiesViewModel)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.CurvePropertiesDictionary;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -198,18 +203,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleCurveProperties = castedViewModel;
             }
 
-            MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchDocumentCannotDeleteViewModel(object viewModel2)
+        private void DispatchDocumentCannotDeleteViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (DocumentCannotDeleteViewModel)viewModel2;
 
             MainViewModel.DocumentCannotDelete = castedViewModel;
+
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchDocumentDeletedViewModel(object viewModel2)
+        private void DispatchDocumentDeletedViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (DocumentDeletedViewModel)viewModel2;
 
@@ -224,15 +230,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Also: this might better be done in the action method.
                 DocumentGridRefresh();
             }
+
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchDocumentDeleteViewModel(object viewModel2)
+        private void DispatchDocumentDeleteViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (DocumentDeleteViewModel)viewModel2;
             MainViewModel.DocumentDelete = castedViewModel;
+
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchDocumentDetailsViewModel(object viewModel2)
+        private void DispatchDocumentDetailsViewModel(ViewModelBase viewModel2)
         {
             var documentDetailsViewModel = (DocumentDetailsViewModel)viewModel2;
 
@@ -248,7 +258,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             documentDetailsViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchDocumentGridViewModel(object viewModel2)
+        private void DispatchDocumentGridViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (DocumentGridViewModel)viewModel2;
 
@@ -260,9 +270,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
+
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchDocumentPropertiesViewModel(object viewModel2)
+        private void DispatchDocumentPropertiesViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (DocumentPropertiesViewModel)viewModel2;
 
@@ -278,22 +290,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchDocumentTreeViewModel(object viewModel2)
+        private void DispatchDocumentTreeViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (DocumentTreeViewModel)viewModel2;
             MainViewModel.Document.DocumentTree = castedViewModel;
+
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchMenuViewModel(object viewModel2)
+        private void DispatchMenuViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (MenuViewModel)viewModel2;
             MainViewModel.Menu = castedViewModel;
+
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchNodePropertiesViewModel(object viewModel2)
+        private void DispatchNodePropertiesViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (NodePropertiesViewModel)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var list = ViewModelSelector.GetNodePropertiesViewModelDictionary_ByCurveID(MainViewModel.Document, castedViewModel.CurveID);
             list[castedViewModel.Entity.ID] = castedViewModel;
 
@@ -308,10 +325,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -326,10 +344,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForCache(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_ForCache(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCache)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCaches;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -344,10 +363,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForCurve(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_ForCurve(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCurve)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCurves;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -362,10 +382,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForCustomOperator(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_ForCustomOperator(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCustomOperator)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCustomOperators;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -380,10 +401,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForInletsToDimension(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_ForInletsToDimension(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForInletsToDimension)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForInletsToDimension;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -398,10 +420,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForNumber(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_ForNumber(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForNumber)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForNumbers;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -416,10 +439,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForPatchInlet(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_ForPatchInlet(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchInlet)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForPatchInlets;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -434,10 +458,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForPatchOutlet(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_ForPatchOutlet(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchOutlet)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForPatchOutlets;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -452,10 +477,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForSample(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_ForSample(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForSample)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForSamples;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -470,10 +496,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_WithInterpolation(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_WithInterpolation(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithInterpolation)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -488,10 +515,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_WithCollectionRecalculation(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_WithCollectionRecalculation(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithCollectionRecalculation)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithCollectionRecalculation;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -506,10 +534,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_WithOutletCount(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_WithOutletCount(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithOutletCount)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -524,10 +553,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_WithInletCount(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_WithInletCount(ViewModelBase viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_WithInletCount)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithInletCount;
             dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -542,10 +572,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchPatchDetailsViewModel(object viewModel2)
+        private void DispatchPatchDetailsViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (PatchDetailsViewModel)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.PatchDetailsDictionary;
             dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
@@ -556,11 +587,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisiblePatchDetails = castedViewModel;
             }
 
-            MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchPatchGridViewModel(object viewModel2)
+        private void DispatchPatchGridViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (PatchGridViewModel)viewModel2;
 
@@ -579,10 +609,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchPatchPropertiesViewModel(object viewModel2)
+        private void DispatchPatchPropertiesViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (PatchPropertiesViewModel)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.PatchPropertiesDictionary;
             dictionary[castedViewModel.ID]= castedViewModel;
 
@@ -597,7 +628,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchSampleGridViewModel(object viewModel2)
+        private void DispatchSampleGridViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (SampleGridViewModel)viewModel2;
 
@@ -609,12 +640,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
+
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchSamplePropertiesViewModel(object viewModel2)
+        private void DispatchSamplePropertiesViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (SamplePropertiesViewModel)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.SamplePropertiesDictionary;
             dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
@@ -625,11 +659,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleSampleProperties = castedViewModel;
             }
 
-            MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchScaleGridViewModel(object viewModel2)
+        private void DispatchScaleGridViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (ScaleGridViewModel)viewModel2;
 
@@ -641,12 +674,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
+
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchScalePropertiesViewModel(object viewModel2)
+        private void DispatchScalePropertiesViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (ScalePropertiesViewModel)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.ScalePropertiesDictionary;
             dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
@@ -657,14 +693,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleScaleProperties = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchToneGridEditViewModel(object viewModel2)
+        private void DispatchToneGridEditViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (ToneGridEditViewModel)viewModel2;
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.ToneGridEditDictionary;
             dictionary[castedViewModel.ScaleID] = castedViewModel;
 
@@ -675,6 +711,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleToneGridEdit = castedViewModel;
             }
 
+            DispatchViewModelBase(castedViewModel);
+        }
+
+        private void DispatchViewModelBase(ViewModelBase castedViewModel)
+        {
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }

@@ -10,6 +10,7 @@ using JJ.Framework.Validation;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Curves
 {
@@ -31,11 +32,16 @@ namespace JJ.Business.Synthesizer.Validation.Curves
         {
             Curve curve = Obj;
 
-            bool hasOperators = EnumerateCurveOperators(curve).Any();
-            if (hasOperators)
+            string curveIdentifier = ResourceFormatter.Curve + " " + ValidationHelper.GetUserFriendlyIdentifier(curve);
+
+            foreach (Operator op in EnumerateCurveOperators(curve))
             {
-                // TODO: It might be handy to know what patch and possibly what operator still uses it.
-                ValidationMessages.Add(PropertyNames.Curve, ResourceFormatter.CannotDeleteCurveBecauseHasOperators(curve.Name));
+                string patchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
+                string operatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForCurveOperator(op, _curveRepository);
+
+                ValidationMessages.Add(
+                    PropertyNames.Sample,
+                    CommonResourceFormatter.CannotDelete_WithName_AndDependencies(curveIdentifier, patchPrefix + operatorIdentifier));
             }
         }
 

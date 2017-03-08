@@ -38,12 +38,12 @@ namespace JJ.Business.Synthesizer.Warnings
 
             if (!Obj.IsActive)
             {
-                ValidationMessages.Add(() => Obj.Amplifier, ResourceFormatter.SampleNotActive(Obj.Name));
+                ValidationMessages.Add(() => Obj.Amplifier, ResourceFormatter.NotActive);
             }
 
             if (_bytes == null)
             {
-                ValidationMessages.Add(() => _bytes, ResourceFormatter.SampleNotLoaded(Obj.Name));
+                ValidationMessages.Add(() => _bytes, ResourceFormatter.NotLoaded);
             }
             else if (_bytes.Length == 0)
             {

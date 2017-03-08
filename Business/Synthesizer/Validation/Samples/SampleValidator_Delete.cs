@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Samples
@@ -30,11 +31,16 @@ namespace JJ.Business.Synthesizer.Validation.Samples
 
         protected override void Execute()
         {
-            bool hasOperators = EnumerateSampleOperators(Obj).Any();
-            if (hasOperators)
+            string sampleIdentifier = ResourceFormatter.Sample + " " + ValidationHelper.GetUserFriendlyIdentifier(Obj);
+
+            foreach (Operator op in EnumerateSampleOperators(Obj))
             {
-                // TODO: It might be handy to know what patch and possibly what operator still uses it.
-                ValidationMessages.Add(PropertyNames.Sample, ResourceFormatter.CannotDeleteSampleBecauseHasOperators(Obj.Name));
+                string patchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
+                string operatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForSampleOperator(op, _sampleRepository);
+
+                ValidationMessages.Add(
+                    PropertyNames.Sample,
+                    CommonResourceFormatter.CannotDelete_WithName_AndDependencies(sampleIdentifier, patchPrefix + operatorIdentifier));
             }
         }
 

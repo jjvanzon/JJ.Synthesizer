@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        private static string GetUserFriendlyIdentifier_ForCurveOperator([NotNull] Operator entity, [NotNull] ICurveRepository curveRepository)
+        public static string GetUserFriendlyIdentifier_ForCurveOperator([NotNull] Operator entity, [NotNull] ICurveRepository curveRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -167,7 +167,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        private static string GetUserFriendlyIdentifier_ForCustomOperator([NotNull] Operator entity, [NotNull] IPatchRepository patchRepository)
+        public static string GetUserFriendlyIdentifier_ForCustomOperator([NotNull] Operator entity, [NotNull] IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (patchRepository == null) throw new NullException(() => patchRepository);
@@ -284,7 +284,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        private static string GetUserFriendlyIdentifier_ForSampleOperator([NotNull] Operator entity, [NotNull] ISampleRepository sampleRepository)
+        public static string GetUserFriendlyIdentifier_ForSampleOperator([NotNull] Operator entity, [NotNull] ISampleRepository sampleRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);

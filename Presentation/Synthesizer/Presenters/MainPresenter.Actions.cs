@@ -595,7 +595,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             gridViewModel.Successful = false;
 
             // Partial Action
-            object viewModel2 = _documentDeletePresenter.Show(id);
+            ViewModelBase viewModel2 = _documentDeletePresenter.Show(id);
 
             // Successful
             gridViewModel.Successful = true;
@@ -622,7 +622,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentDeleteViewModel viewModel = MainViewModel.DocumentDelete;
 
             // Partial Action
-            object viewModel2 = _documentDeletePresenter.Confirm(viewModel);
+            ViewModelBase viewModel2 = _documentDeletePresenter.Confirm(viewModel);
 
             // RefreshCounter
             viewModel.RefreshCounter++;
