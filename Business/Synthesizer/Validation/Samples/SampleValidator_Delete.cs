@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Validation.Samples
 
                 ValidationMessages.Add(
                     PropertyNames.Sample,
-                    CommonResourceFormatter.CannotDelete_WithName_AndDependencies(sampleIdentifier, patchPrefix + operatorIdentifier));
+                    CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(sampleIdentifier, patchPrefix + operatorIdentifier));
             }
         }
 

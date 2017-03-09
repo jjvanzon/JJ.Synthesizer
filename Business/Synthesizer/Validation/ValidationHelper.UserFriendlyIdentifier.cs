@@ -9,6 +9,7 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -77,6 +78,20 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             return sb.ToString();
+        }
+
+        [NotNull]
+        public static string GetUserFriendlyIdentifier_ForHigherDocumentReference([NotNull] DocumentReference higherDocumentReference)
+        {
+            if (higherDocumentReference == null) throw new NullException(() => higherDocumentReference);
+
+            if (higherDocumentReference.HigherDocument != null)
+            {
+                string higherDocumentIdentifier = GetUserFriendlyIdentifier(higherDocumentReference.HigherDocument);
+                return higherDocumentIdentifier;
+            }
+
+            return ValidationResourceFormatter.IsEmpty(ResourceFormatter.HigherDocument);
         }
 
         [NotNull]

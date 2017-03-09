@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
-            IValidator validator = new DocumentReferenceValidator_Delete(documentReference);
+            IValidator validator = new DocumentReferenceValidator_Delete(documentReference, _repositories.PatchRepository);
 
             // ReSharper disable once InvertIf
             if (validator.IsValid)

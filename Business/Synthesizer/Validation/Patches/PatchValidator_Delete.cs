@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
                 ValidationMessages.Add(
                     PropertyNames.Sample,
-                    CommonResourceFormatter.CannotDelete_WithName_AndDependencies(lowerPatchIdentifier, higherPatchPrefix + higherOperatorIdentifier));
+                    CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(lowerPatchIdentifier, higherPatchPrefix + higherOperatorIdentifier));
             }
         }
     }

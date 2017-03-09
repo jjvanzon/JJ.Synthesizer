@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
 
                 ValidationMessages.Add(
                     PropertyNames.Sample,
-                    CommonResourceFormatter.CannotDelete_WithName_AndDependencies(curveIdentifier, patchPrefix + operatorIdentifier));
+                    CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(curveIdentifier, patchPrefix + operatorIdentifier));
             }
         }
 

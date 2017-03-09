@@ -4,9 +4,12 @@ using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Collections;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
@@ -14,30 +17,41 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal class DocumentReferenceValidator_Delete : VersatileValidator<DocumentReference>
     {
-        public DocumentReferenceValidator_Delete([NotNull] DocumentReference obj) 
+        private readonly IPatchRepository _patchRepository;
+
+        public DocumentReferenceValidator_Delete([NotNull] DocumentReference obj, [NotNull] IPatchRepository patchRepository)
             : base(obj)
-        { }
+        {
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
+            _patchRepository = patchRepository;
+        }
 
         protected override void Execute()
         {
             DocumentReference documentReference = Obj;
 
-            HashSet<int> lowerPatchIDs = documentReference.LowerDocument.Patches.Select(x => x.ID).ToHashSet();
+            string documentReferenceIdentifier = ResourceFormatter.LowerDocument + " " + ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(documentReference);
 
-            IEnumerable<CustomOperator_OperatorWrapper> higherCustomOperatorWrappers =
-                documentReference.HigherDocument.Patches
-                                 .SelectMany(x => x.EnumerateOperatorWrappersOfType<CustomOperator_OperatorWrapper>())
-                                 .Where(x => lowerPatchIDs.Contains(x.UnderlyingPatchID ?? 0))
-                                 .ToArray();
+            HashSet<int> lowerPatchIDHashSet = documentReference.LowerDocument.Patches.Select(x => x.ID).ToHashSet();
 
-            foreach (CustomOperator_OperatorWrapper higherCustomOperatorWrapper in higherCustomOperatorWrappers)
+            IEnumerable<Operator> higherCustomOperators = documentReference.HigherDocument
+                                                                           .Patches
+                                                                           .SelectMany(x => x.EnumerateOperatorWrappersOfType<CustomOperator_OperatorWrapper>())
+                                                                           .Where(x => lowerPatchIDHashSet.Contains(x.UnderlyingPatchID ?? 0))
+                                                                           .Select(x => x.WrappedOperator);
+
+            foreach (Operator higherCustomOperator in higherCustomOperators)
             {
-                //string documentReferenceIdentifier = ResourceFormatter.DocumentReference + " " + ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(documentReference);
-                //string cannotDeleteMessagePrefix = CommonResourceFormatter.CannotDeleteObjectWithName( documentReferenceIdentifier) + ": ";
-                //string message = $"{)}";
-            }
+                string higherPatchPrefix = ValidationHelper.GetMessagePrefix(higherCustomOperator.Patch);
+                string higherCustomOperatorIdentifier = ValidationHelper.GetUserFriendlyIdentifier_ForCustomOperator(higherCustomOperator, _patchRepository);
 
-            throw new NotImplementedException();
+                string message = CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(
+                    documentReferenceIdentifier,
+                    higherPatchPrefix + higherCustomOperatorIdentifier);
+
+                ValidationMessages.Add(PropertyNames.DocumentReference, message);
+            }
         }
     }
 }

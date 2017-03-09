@@ -292,10 +292,6 @@ namespace JJ.Business.Synthesizer.Resources
         [NotNull] public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber) => string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
         [NotNull] public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber) => string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
         [Obsolete("Replace with better delete validation messages.")]
-        [NotNull] public static string CannotDeleteCurveBecauseHasOperators(string name) => string.Format(Resources.CannotDeleteCurveBecauseHasOperators, name);
-        [Obsolete("Replace with better delete validation messages.")]
-        [NotNull] public static string CannotDeleteSampleBecauseHasOperators(string name) => string.Format(Resources.CannotDeleteSampleBecauseHasOperators, name);
-        [Obsolete("Replace with better delete validation messages.")]
         [NotNull] public static string DocumentIsDependentOnDocument(string dependentDocumentName, string dependentOnDocumentName) => string.Format(Resources.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
         [NotNull] public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
         [NotNull] public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
