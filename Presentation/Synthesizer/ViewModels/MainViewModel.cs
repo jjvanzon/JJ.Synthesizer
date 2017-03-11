@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         // The Document List
 
         public DocumentGridViewModel DocumentGrid { get; set; }
+        /// <summary> Only for creating a new document. </summary>
         public DocumentDetailsViewModel DocumentDetails { get; set; }
         /// <summary> It is suggested you show this as a modal window. </summary>
         public DocumentCannotDeleteViewModel DocumentCannotDelete { get; set; }

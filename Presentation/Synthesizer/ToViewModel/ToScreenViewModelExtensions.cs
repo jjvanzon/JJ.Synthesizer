@@ -26,7 +26,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(this AudioFileOutput entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (entity.Document == null) throw new NullException(() => entity.Document);
 
             var viewModel = new AudioFileOutputPropertiesViewModel
             {
@@ -36,6 +35,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SpeakerSetupLookup = ViewModelHelper.GetSpeakerSetupLookupViewModel(),
                 ValidationMessages = new List<Message>()
             };
+
+            if (entity.Document == null) throw new NullException(() => entity.Document);
 
             // TODO: Delegate to something in ViewModelHelper_Lookups.cs?
             IList<Outlet> outlets = entity.Document.Patches
@@ -86,6 +87,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static CurveDetailsViewModel ToDetailsViewModel(this Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
+            if (entity.Document == null) throw new NullException(() => entity.Document);
 
             var viewModel = new CurveDetailsViewModel
             {
@@ -116,6 +118,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static CurvePropertiesViewModel ToPropertiesViewModel(this Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
+            if (entity.Document == null) throw new NullException(() => entity.Document);
 
             var viewModel = new CurvePropertiesViewModel
             {
@@ -264,6 +267,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 List = entities.Select(x => x.ToIDAndName()).ToList(),
                 ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        // DocumentReference
+
+        public static DocumentReferenceGridViewModel ToDocumentReferenceGridViewModel(this Document higherDocument)
+        {
+            if (higherDocument == null) throw new NullException(() => higherDocument);
+
+            var viewModel = new DocumentReferenceGridViewModel
+            {
+                HigherDocumentID = higherDocument.ID,
+                ValidationMessages = new List<Message>(),
+                LowerDocumentList = higherDocument.LowerDocumentReferences.ToListItemViewModels()
             };
 
             return viewModel;
@@ -732,6 +751,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static SamplePropertiesViewModel ToPropertiesViewModel(this Sample entity, SampleRepositories repositories)
         {
             if (entity == null) throw new NullException(() => entity);
+            if (entity.Document == null) throw new NullException(() => entity.Document);
             if (repositories == null) throw new NullException(() => repositories);
 
             var viewModel = new SamplePropertiesViewModel

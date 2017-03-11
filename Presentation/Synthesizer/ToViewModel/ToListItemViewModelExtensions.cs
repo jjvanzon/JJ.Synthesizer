@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using System;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -73,6 +74,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = dto.Entity.ID,
                 Name = dto.Entity.Name,
                 UsedIn = ViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
+            };
+
+            return viewModel;
+        }
+
+        // DocumentReferecnes
+
+        public static IList<DocumentReferenceListItemViewModel> ToListItemViewModels(this IList<DocumentReference> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            return entities.Select(x => x.ToListItemViewModel()).ToArray();
+        }
+
+        public static DocumentReferenceListItemViewModel ToListItemViewModel(this DocumentReference entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new DocumentReferenceListItemViewModel
+            { 
+                DocumentName = entity.LowerDocument.Name,
+                DocumentReferenceID = entity.ID,
+                Alias = entity.Alias
             };
 
             return viewModel;

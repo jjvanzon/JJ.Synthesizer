@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
@@ -22,13 +23,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             EntityPositionManager entityPositionManager)
         {
             if (document == null) throw new NullException(() => document);
+            if (grouplessPatchUsedInDtos == null) throw new NullException(() => grouplessPatchUsedInDtos);
+            if (patchGroupDtos_WithUsedIn == null) throw new NullException(() => patchGroupDtos_WithUsedIn);
             if (curveUsedInDtos == null) throw new NullException(() => curveUsedInDtos);
             if (sampleUsedInDtos == null) throw new NullException(() => sampleUsedInDtos);
             if (repositories == null) throw new NullException(() => repositories);
 
             var sampleRepositories = new SampleRepositories(repositories);
 
-            // TODO: This looks like a lot of stuff for a ToViewModel method.
             IList<Patch> grouplessPatches = grouplessPatchUsedInDtos.Select(x => x.Entity).ToArray();
             IList<PatchGroupDto> patchGroupDtos = patchGroupDtos_WithUsedIn.Select(x => new PatchGroupDto
             {
@@ -48,6 +50,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos),
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
+                DocumentReferenceGrid = document.ToDocumentReferenceGridViewModel(),
+                //DocumentReferenceSelectionPopup = document.ToDocumentReferenceSelectionPopupViewModel(),
+                //DocumentReferencePropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 DocumentTree = document.ToTreeViewModel(grouplessPatches, patchGroupDtos),
                 NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 OperatorPropertiesDictionary = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView()).ToDictionary(x => x.ID),

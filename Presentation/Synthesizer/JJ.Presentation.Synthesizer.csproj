@@ -98,7 +98,11 @@
     <Compile Include="Validators\ValidationHelper.cs" />
     <Compile Include="ViewModels\AudioOutputPropertiesViewModel.cs" />
     <Compile Include="ViewModels\CurrentPatchesViewModel.cs" />
+    <Compile Include="ViewModels\Items\DocumentReferenceListItemViewModel.cs" />
+    <Compile Include="ViewModels\DocumentReferenceSelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
+    <Compile Include="ViewModels\DocumentReferenceGridViewModel.cs" />
+    <Compile Include="ViewModels\DocumentReferencePropertiesViewModel.cs" />
     <Compile Include="ViewModels\Items\PatchListItemViewModel.cs" />
     <Compile Include="ViewModels\Items\CurveListItemViewModel.cs" />
     <Compile Include="ViewModels\Items\DimensionViewModel.cs" />
