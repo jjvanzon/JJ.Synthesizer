@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer;
@@ -13,7 +12,6 @@ using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Common;
-using JJ.Framework.Configuration;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
@@ -38,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithCollectionRecalculationPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
-        {
+                  {
             OperatorTypeEnum.AverageOverDimension,
             OperatorTypeEnum.ClosestOverDimension,
             OperatorTypeEnum.ClosestOverDimensionExp,
@@ -50,21 +48,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInterpolationPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
-        {
+                  {
             OperatorTypeEnum.Random,
             OperatorTypeEnum.Interpolate
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithOutletCountPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
-        {
+                  {
             OperatorTypeEnum.DimensionToOutlets,
             OperatorTypeEnum.RangeOverOutlets
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCountPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
-        {
+                  {
             OperatorTypeEnum.Add,
             OperatorTypeEnum.AverageOverInlets,
             OperatorTypeEnum.ClosestOverInlets,
@@ -77,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
-        {
+                  {
             OperatorTypeEnum.Cache,
             OperatorTypeEnum.Curve,
             OperatorTypeEnum.CustomOperator,
@@ -98,7 +96,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithHiddenInletNames { get; } =
                   new HashSet<OperatorTypeEnum>
-        {
+                  {
             OperatorTypeEnum.Add,
             //OperatorTypeEnum.Divide,
             //OperatorTypeEnum.MultiplyWithOrigin,
@@ -187,7 +185,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         // A list until it will have more items.
         public static IList<OperatorTypeEnum> OperatorTypeEnums_WithVisibleOutletNames { get; } =
                    new List<OperatorTypeEnum>
-        {
+                   {
             //OperatorTypeEnum.Absolute,
             //OperatorTypeEnum.Add,
             //OperatorTypeEnum.AllPassFilter,
@@ -288,7 +286,66 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        // Document
+        // Dimensions
+
+        public static string GetDimensionKey(Operator op)
+        {
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (!string.IsNullOrEmpty(op.CustomDimensionName))
+            {
+                return $"{CUSTOM_DIMENSION_KEY_PREFIX}{op.CustomDimensionName}";
+            }
+            // ReSharper disable once RedundantIfElseBlock
+            else
+            {
+                return GetDimensionKey(op.GetStandardDimensionEnum());
+            }
+        }
+
+        public static string GetDimensionKey(DimensionEnum standardDimensionEnum)
+        {
+            if (standardDimensionEnum != DimensionEnum.Undefined)
+            {
+                return $"{STANDARD_DIMENSION_KEY_PREFIX}{standardDimensionEnum}";
+            }
+
+            return DIMENSION_KEY_EMPTY;
+        }
+
+        public static string TryGetDimensionName(Operator op)
+        {
+            if (!string.IsNullOrEmpty(op.CustomDimensionName))
+            {
+                return op.CustomDimensionName;
+            }
+
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            if (standardDimensionEnum != DimensionEnum.Undefined)
+            {
+                return ResourceFormatter.GetDisplayName(standardDimensionEnum);
+            }
+
+            return null;
+        }
+
+        private static bool MustStyleDimension(Operator entity)
+        {
+            if (entity.OperatorType == null)
+            {
+                return false;
+            }
+
+            switch (entity.GetOperatorTypeEnum())
+            {
+                case OperatorTypeEnum.GetDimension:
+                case OperatorTypeEnum.SetDimension:
+                    return false;
+            }
+
+            return entity.OperatorType.HasDimension;
+        }
+        
+        // Document-Related
 
         public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
         {
@@ -298,6 +355,26 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        public static string GetLibraryCaption(DocumentReference lowerDocumentReference)
+        {
+            if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
+
+            var sb = new StringBuilder();
+
+            sb.Append(lowerDocumentReference.LowerDocument?.Name);
+
+            // ReSharper disable once InvertIf
+            if (!string.IsNullOrWhiteSpace(lowerDocumentReference.Alias))
+            {
+                sb.Append(" - ");
+                sb.Append('"');
+                sb.Append(lowerDocumentReference.Alias);
+                sb.Append('"');
+            }
+
+            return sb.ToString();
         }
 
         // Menu
@@ -318,7 +395,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        // Tone Grid
+        // Node
+   
+        public static string GetNodeCaption(Node entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return $"{entity.X:0.####}, {entity.Y:0.####}";
+        }
+
+        // Tone
 
         public static string GetToneGridEditNumberTitle(Scale entity)
         {
@@ -685,10 +771,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var wrapper = new Number_OperatorWrapper(op);
             string formattedValue = wrapper.Number.ToString("0.####");
 
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (string.IsNullOrWhiteSpace(op.Name))
             {
                 return formattedValue;
             }
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return $"{op.Name}: {formattedValue}";
@@ -814,6 +902,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 return $"{formattedOperatorTypeDisplayName}: {op.Name}";
             }
             // Use OperatorType DisplayName only.
+            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return formattedOperatorTypeDisplayName;
@@ -1082,7 +1171,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return text;
         }
 
-        // Other
+        // UsedIn
 
         public static string FormatUsedInDto(UsedInDto<Curve> dto)
         {
@@ -1127,68 +1216,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string concatinatedUsedIn = string.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
 
             return concatinatedUsedIn;
-        }
-
-        public static string GetDimensionKey(Operator op)
-        {
-            if (!string.IsNullOrEmpty(op.CustomDimensionName))
-            {
-                return $"{CUSTOM_DIMENSION_KEY_PREFIX}{op.CustomDimensionName}";
-            }
-            else
-            {
-                return GetDimensionKey(op.GetStandardDimensionEnum());
-            }
-        }
-
-        public static string GetDimensionKey(DimensionEnum standardDimensionEnum)
-        {
-            if (standardDimensionEnum != DimensionEnum.Undefined)
-            {
-                return $"{STANDARD_DIMENSION_KEY_PREFIX}{standardDimensionEnum}";
-            }
-
-            return DIMENSION_KEY_EMPTY;
-        }
-
-        public static string TryGetDimensionName(Operator op)
-        {
-            if (!string.IsNullOrEmpty(op.CustomDimensionName))
-            {
-                return op.CustomDimensionName;
-            }
-
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
-            if (standardDimensionEnum != DimensionEnum.Undefined)
-            {
-                return ResourceFormatter.GetDisplayName(standardDimensionEnum);
-            }
-
-            return null;
-        }
-
-        private static bool MustStyleDimension(Operator entity)
-        {
-            if (entity.OperatorType == null)
-            {
-                return false;
-            }
-
-            switch (entity.GetOperatorTypeEnum())
-            {
-                case OperatorTypeEnum.GetDimension:
-                case OperatorTypeEnum.SetDimension:
-                    return false;
-            }
-
-            return entity.OperatorType.HasDimension;
-        }
-
-        public static string GetNodeCaption(Node entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return $"{entity.X:0.####}, {entity.Y:0.####}";
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace JJ.Data.Synthesizer
+﻿using JetBrains.Annotations;
+
+namespace JJ.Data.Synthesizer
 {
     public class DocumentReference
     {
@@ -10,8 +12,13 @@
         /// so the user sees what he is picking, or in a type of persistence where
         /// we do reference by name, e.g. a readable XML format.
         /// </summary>
+        [CanBeNull]
         public virtual string Alias { get; set; }
+
+        [NotNull]
         public virtual Document HigherDocument { get; set; }
+
+        [NotNull]
         public virtual Document LowerDocument { get; set; }
     }
 }

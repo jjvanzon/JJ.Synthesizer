@@ -69,8 +69,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             var winFormsConfig = CustomConfigurationManager.GetSection<Configuration.ConfigurationSection>();
 
-            bool mustCreateEmptuPatchCalculatorContainer = !winFormsConfig.AudioOutputEnabled;
-            if (mustCreateEmptuPatchCalculatorContainer)
+            bool mustCreateEmptyPatchCalculatorContainer = !winFormsConfig.AudioOutputEnabled;
+            if (mustCreateEmptyPatchCalculatorContainer)
             {
                 PatchCalculatorContainer = new EmptyPatchCalculatorContainer();
             }

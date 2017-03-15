@@ -846,6 +846,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _documentTreePresenter.Close(userInput));
         }
 
+        // Libraries
+
+        public void LibraryGridShow()
+        {
+            //throw new NotImplementedException();
+        }
+
         // Node
 
         public void NodePropertiesShow(int id)

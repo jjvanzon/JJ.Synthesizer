@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
@@ -20,6 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler ShowAudioOutputRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
+        public event EventHandler ShowLibrariesRequested;
 
         private HashSet<TreeNode> _patchesTreeNodes;
         private HashSet<TreeNode> _patchTreeNodes;
@@ -28,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private TreeNode _scalesTreeNode;
         private TreeNode _audioOutputNode;
         private TreeNode _audioFileOutputListTreeNode;
+        private TreeNode _librariesTreeNode;
 
         public DocumentTreeUserControl()
         {
@@ -68,34 +72,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     return;
                 }
 
-                AddDocumentDescendantNodes(treeView.Nodes, ViewModel);
-
-                // TODO: Uncomment when the referenced documents functionality is programmed.
-                //var referencedDocumentsTreeNode = new TreeNode(ResourceFormatter.ReferencedDocuments);
-                //treeView.Nodes.Add(referencedDocumentsTreeNode);
-
-                //foreach (ReferencedDocumentViewModel referencedDocumentViewModel in _viewModel.ReferencedDocuments.List)
-                //{
-                //    var referencedDocumentTreeNode = new TreeNode(referencedDocumentViewModel.Name);
-                //    referencedDocumentsTreeNode.Nodes.Add(referencedDocumentTreeNode);
-
-                //    foreach (IDAndName instrumentViewModel in referencedDocumentViewModel.Instruments)
-                //    {
-                //        var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
-                //        referencedDocumentTreeNode.Nodes.Add(instrumentTreeNode);
-                //    }
-
-                //    foreach (IDAndName effectViewModel in referencedDocumentViewModel.Effects)
-                //    {
-                //        var effectTreeNode = new TreeNode(effectViewModel.Name);
-                //        referencedDocumentTreeNode.Nodes.Add(effectTreeNode);
-                //    }
-
-                //    referencedDocumentTreeNode.Expand();
-                //}
-
-                //referencedDocumentsTreeNode.Expand();
-
+                AddTopLevelNodesAndDescendants(treeView.Nodes, ViewModel);
             }
             finally
             {
@@ -104,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void AddDocumentDescendantNodes(TreeNodeCollection nodes, DocumentTreeViewModel documentTreeViewModel)
+        private void AddTopLevelNodesAndDescendants(TreeNodeCollection nodes, DocumentTreeViewModel documentTreeViewModel)
         {
             // Patches
             var patchesTreeNode = new TreeNode(documentTreeViewModel.PatchesNode.Text);
@@ -158,6 +135,33 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             _audioFileOutputListTreeNode = new TreeNode(documentTreeViewModel.AudioFileOutputListNode.Text);
             nodes.Add(_audioFileOutputListTreeNode);
+
+            _librariesTreeNode = new TreeNode(documentTreeViewModel.LibrariesNode.Text);
+            treeView.Nodes.Add(_librariesTreeNode);
+
+            foreach (LibraryViewModel libraryViewModel in documentTreeViewModel.LibrariesNode.List)
+            {
+                var libraryTreeNode = new TreeNode(libraryViewModel.Caption);
+                _librariesTreeNode.Nodes.Add(libraryTreeNode);
+
+                foreach (IDAndName patchViewModel in libraryViewModel.Patches)
+                {
+                    TreeNode patchTreeNode = ConvertLibraryPatchTreeNode(patchViewModel);
+                    _librariesTreeNode.Nodes.Add(patchTreeNode);
+                }
+
+                _librariesTreeNode.Expand();
+            }
+        }
+
+        private static TreeNode ConvertLibraryPatchTreeNode(IDAndName idAndName)
+        {
+            var libraryPatchTreeNode = new TreeNode(idAndName.Name)
+            {
+                Tag = idAndName.ID
+            };
+            
+            return libraryPatchTreeNode;
         }
 
         private TreeNode ConvertPatchTreeNode(PatchTreeNodeViewModel patchTreeNodeViewModel)
@@ -248,6 +252,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (node == _scalesTreeNode)
             {
                 ShowScalesRequested?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (node == _librariesTreeNode)
+            {
+                ShowLibrariesRequested?.Invoke(this, EventArgs.Empty);
             }
         }
     }

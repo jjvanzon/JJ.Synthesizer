@@ -112,44 +112,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return idAndName;
         }
-        
-        // Dimension
-
-        // TODO: Remove outcommented code.
-        //public static DimensionViewModel ToViewModel(this DimensionEnum dimensionEnum)
-        //{
-        //    var viewModel = new DimensionViewModel
-        //    {
-        //        Key = dimensionEnum
-        //    };
-
-        //    if (dimensionEnum != DimensionEnum.Undefined)
-        //    {
-        //        viewModel.Name = ResourceFormatter.GetDisplayName(dimensionEnum);
-        //    }
-        //    else
-        //    {
-        //        viewModel.Name = null;
-        //    }
-
-        //    return viewModel;
-        //}
-
-        // Document
-
-        public static ReferencedDocumentViewModel ToReferencedDocumentViewModelWithRelatedEntities(this Document entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = new ReferencedDocumentViewModel
-            {
-                ID = entity.ID,
-                Name = entity.Name,
-                Patches = entity.Patches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList()
-            };
-
-            return viewModel;
-        }
 
         // Inlet
 
@@ -216,6 +178,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.Dimension = ViewModelHelper.CreateEmptyIDAndName();
             }
+        }
+
+        // Library
+
+        public static LibraryViewModel ToLibraryViewModelWithRelatedEntities(this DocumentReference lowerDocumentReference)
+        {
+            if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
+
+            var viewModel = new LibraryViewModel
+            {
+                LowerDocumentReferenceID = lowerDocumentReference.ID,
+                Caption = ViewModelHelper.GetLibraryCaption(lowerDocumentReference),
+                Patches = lowerDocumentReference.LowerDocument.Patches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList()
+            };
+
+            return viewModel;
         }
 
         // Node

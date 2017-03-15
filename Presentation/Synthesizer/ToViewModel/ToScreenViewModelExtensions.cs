@@ -226,16 +226,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     Text = ViewModelHelper.GetTreeNodeText(ResourceFormatter.Patches, document.Patches.Count),
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
                 },
-                ReferencedDocumentNode = new ReferencedDocumentsTreeNodeViewModel
+                LibrariesNode = new LibrariesTreeNodeViewModel
                 {
-                    List = new List<ReferencedDocumentViewModel>()
+                    Text = ViewModelHelper.GetTreeNodeText(ResourceFormatter.LowerDocuments, document.LowerDocumentReferences.Count),
+                    List = new List<LibraryViewModel>()
                 }
             };
 
-            viewModel.ReferencedDocumentNode.List = document.LowerDocumentReferences.Select(x => x.LowerDocument)
-                                                                                     .Select(x => x.ToReferencedDocumentViewModelWithRelatedEntities())
-                                                                                     .OrderBy(x => x.Name)
-                                                                                     .ToList();
+            viewModel.LibrariesNode.List = document.LowerDocumentReferences.Select(x => x.ToLibraryViewModelWithRelatedEntities())
+                                                                           .OrderBy(x => x.Caption)
+                                                                           .ToList();
 
             viewModel.PatchesNode.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
                                                                .Select(x => x.ToPatchTreeNodeViewModel())

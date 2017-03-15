@@ -52,6 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowPatchGridRequested += documentTreeUserControl_ShowPatchGridRequested;
             documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
+            documentTreeUserControl.ShowLibrariesRequested += documentTreeUserControl_ShowLibrariesRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.ShowCurrentPatchesRequested += menuUserControl_ShowCurrentPatchesRequested;
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
@@ -381,6 +382,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.ScaleGridShow);
+        }
+
+        private void documentTreeUserControl_ShowLibrariesRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.LibraryGridShow);
         }
 
         // Document Properties

@@ -166,8 +166,8 @@
     <Compile Include="ViewModels\Partials\PatchTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
     <Compile Include="ViewModels\Items\MenuItemViewModel.cs" />
-    <Compile Include="ViewModels\Items\ReferencedDocumentViewModel.cs" />
-    <Compile Include="ViewModels\Partials\ReferencedDocumentsTreeNodeViewModel.cs" />
+    <Compile Include="ViewModels\Items\LibraryViewModel.cs" />
+    <Compile Include="ViewModels\Partials\LibrariesTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
     <Compile Include="ViewModels\CurvePropertiesViewModel.cs" />
     <Compile Include="ViewModels\SamplePropertiesViewModel.cs" />

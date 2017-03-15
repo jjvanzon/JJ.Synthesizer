@@ -3,11 +3,10 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
-    public sealed class ReferencedDocumentViewModel
+    public sealed class LibraryViewModel
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-
+        public int LowerDocumentReferenceID { get; set; }
+        public string Caption { get; set; }
         public IList<IDAndName> Patches { get; set; }
     }
 }

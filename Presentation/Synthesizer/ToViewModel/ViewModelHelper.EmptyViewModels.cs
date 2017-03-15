@@ -191,9 +191,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
                 AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, count: 0),
                 ValidationMessages = new List<Message>(),
-                ReferencedDocumentNode = new ReferencedDocumentsTreeNodeViewModel
+                LibrariesNode = new LibrariesTreeNodeViewModel
                 {
-                    List = new List<ReferencedDocumentViewModel>()
+                    List = new List<LibraryViewModel>()
                 }
             };
 
