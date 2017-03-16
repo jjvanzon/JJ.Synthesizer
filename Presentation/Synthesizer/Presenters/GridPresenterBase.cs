@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Exceptions;
+﻿using System;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -8,50 +9,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         public TViewModel Show(TViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            TViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return TemplateMethod(userInput, viewModel => viewModel.Visible = true);
         }
 
         public TViewModel Refresh(TViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            TViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return TemplateMethod(userInput, x => { });
         }
 
         public TViewModel Close(TViewModel userInput)
+        {
+            return TemplateMethod(userInput, viewModel => viewModel.Visible = false);
+        }
+
+        private TViewModel TemplateMethod(TViewModel userInput, Action<TViewModel> action)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -66,12 +37,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = false;
+
+            // Action
+            action(viewModel);
 
             // Successful
             viewModel.Successful = true;
 
             return viewModel;
+
         }
 
         protected abstract TViewModel CreateViewModel(TViewModel userInput);
