@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos),
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
-                DocumentReferenceGrid = document.ToDocumentReferenceGridViewModel(),
+                LibraryGrid = document.LowerDocumentReferences.ToLibraryGridViewModel(),
                 //DocumentReferenceSelectionPopup = document.ToDocumentReferenceSelectionPopupViewModel(),
                 //DocumentReferencePropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 DocumentTree = document.ToTreeViewModel(grouplessPatches, patchGroupDtos),

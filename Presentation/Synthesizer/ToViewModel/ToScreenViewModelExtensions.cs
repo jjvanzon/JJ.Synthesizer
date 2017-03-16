@@ -274,15 +274,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // DocumentReference
 
-        public static DocumentReferenceGridViewModel ToDocumentReferenceGridViewModel(this Document higherDocument)
+        public static LibraryGridViewModel ToLibraryGridViewModel(this IList<DocumentReference> documentReferences)
         {
-            if (higherDocument == null) throw new NullException(() => higherDocument);
+            if (documentReferences == null) throw new NullException(() => documentReferences);
 
-            var viewModel = new DocumentReferenceGridViewModel
+            var viewModel = new LibraryGridViewModel
             {
-                HigherDocumentID = higherDocument.ID,
+                List = documentReferences.ToListItemViewModels(),
                 ValidationMessages = new List<Message>(),
-                LowerDocumentList = higherDocument.LowerDocumentReferences.ToListItemViewModels()
             };
 
             return viewModel;

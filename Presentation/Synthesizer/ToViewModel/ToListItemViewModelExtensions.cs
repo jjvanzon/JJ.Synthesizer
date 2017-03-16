@@ -81,21 +81,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // DocumentReferecnes
 
-        public static IList<DocumentReferenceListItemViewModel> ToListItemViewModels(this IList<DocumentReference> entities)
+        public static IList<LibraryListItemViewModel> ToListItemViewModels(this IList<DocumentReference> entities)
         {
             if (entities == null) throw new NullException(() => entities);
 
             return entities.Select(x => x.ToListItemViewModel()).ToArray();
         }
 
-        public static DocumentReferenceListItemViewModel ToListItemViewModel(this DocumentReference entity)
+        public static LibraryListItemViewModel ToListItemViewModel(this DocumentReference entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = new DocumentReferenceListItemViewModel
-            { 
-                DocumentName = entity.LowerDocument.Name,
+            var viewModel = new LibraryListItemViewModel
+            {
                 DocumentReferenceID = entity.ID,
+                ReferencedDocumentName = entity.LowerDocument.Name,
                 Alias = entity.Alias
             };
 

@@ -81,6 +81,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvePropertiesDictionary = new Dictionary<int, CurvePropertiesViewModel>(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
+                LibraryGrid = CreateEmptyLibraryGridViewModel(),
                 NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),
                 OperatorPropertiesDictionary = new Dictionary<int, OperatorPropertiesViewModel>(),
                 OperatorPropertiesDictionary_ForCaches = new Dictionary<int, OperatorPropertiesViewModel_ForCache>(),
@@ -195,6 +196,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     List = new List<LibraryViewModel>()
                 }
+            };
+
+            return viewModel;
+        }
+
+        private static LibraryGridViewModel CreateEmptyLibraryGridViewModel()
+        {
+            var viewModel = new LibraryGridViewModel
+            {
+                ValidationMessages = new List<Message>(),
+                List = new List<LibraryListItemViewModel>()
             };
 
             return viewModel;

@@ -850,7 +850,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void LibraryGridShow()
         {
-            //throw new NotImplementedException();
+            // GetViewModel
+            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
+
+            throw new NotImplementedException();
+            // TemplateMethod
+            //TemplateActionMethod(userInput, () => _libraryGridPresenter.Show(userInput));
         }
 
         // Node
