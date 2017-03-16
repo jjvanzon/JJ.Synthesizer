@@ -41,6 +41,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
 
             // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
             viewModel.Visible = true;
 
             // Successful
@@ -66,7 +67,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
 
             // Non-Persisted
-            viewModel.Visible = userInput.Visible;
+            CopyNonPersistedProperties(userInput, viewModel);
 
             // Successful
             viewModel.Successful = true;
@@ -129,7 +130,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.ValidationMessages = result.Messages;
 
             // Non-Persisted
-            viewModel.Visible = userInput.Visible;
+            CopyNonPersistedProperties(userInput, viewModel);
 
             // Successful
             viewModel.Successful = result.Successful;

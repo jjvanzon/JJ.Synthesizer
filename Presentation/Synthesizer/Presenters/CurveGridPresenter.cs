@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurveGridPresenter : PresenterBase<CurveGridViewModel>
+    internal class CurveGridPresenter : GridPresenterBase<CurveGridViewModel>
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly DocumentManager _documentManager;
@@ -23,72 +23,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentManager = new DocumentManager(repositories);
         }
 
-        public CurveGridViewModel Show(CurveGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            CurveGridViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public CurveGridViewModel Refresh(CurveGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            CurveGridViewModel viewModel = CreateViewModel(userInput);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public CurveGridViewModel Close(CurveGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            CurveGridViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            viewModel.Visible = false;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
         // Helpers
 
-        private CurveGridViewModel CreateViewModel(CurveGridViewModel userInput)
+        protected override CurveGridViewModel CreateViewModel(CurveGridViewModel userInput)
         {
             // GetEntity
             Document document = _documentRepository.Get(userInput.DocumentID);
@@ -98,9 +35,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             CurveGridViewModel viewModel = dtos.ToGridViewModel(userInput.DocumentID);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
 
             return viewModel;
         }

@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class PatchGridPresenter : PresenterBase<PatchGridViewModel>
+    internal class PatchGridPresenter : GridPresenterBase<PatchGridViewModel>
     {
         private readonly PatchRepositories _repositories;
         private readonly DocumentManager _documentManager;
@@ -22,70 +22,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = new PatchRepositories(repositories);
         }
 
-        public PatchGridViewModel Show(PatchGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            PatchGridViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public PatchGridViewModel Refresh(PatchGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            PatchGridViewModel viewModel = CreateViewModel(userInput);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public PatchGridViewModel Close(PatchGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            PatchGridViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            viewModel.Visible = false;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        private PatchGridViewModel CreateViewModel(PatchGridViewModel userInput)
+        protected override PatchGridViewModel CreateViewModel(PatchGridViewModel userInput)
         {
             // GetEntity
             Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
@@ -97,9 +34,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             PatchGridViewModel viewModel = usedInDtos.ToPatchGridViewModel(userInput.DocumentID, userInput.Group);
-
-            // Non-Persisted
-            viewModel.Visible = userInput.Visible;
 
             return viewModel;
         }

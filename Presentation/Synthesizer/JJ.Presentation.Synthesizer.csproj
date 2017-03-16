@@ -50,6 +50,7 @@
     <Compile Include="Helpers\ViewModelNotFoundByIDException.cs" />
     <Compile Include="Presenters\AudioOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\CurrentPatchesPresenter.cs" />
+    <Compile Include="Presenters\GridPresenterBase.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithCollectionRecalculation.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithInletCount.cs" />

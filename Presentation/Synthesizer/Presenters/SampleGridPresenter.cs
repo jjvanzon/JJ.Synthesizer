@@ -10,7 +10,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class SampleGridPresenter : PresenterBase<SampleGridViewModel>
+    internal class SampleGridPresenter : GridPresenterBase<SampleGridViewModel>
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly DocumentManager _documentManager;
@@ -23,72 +23,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentManager = new DocumentManager(repositories);
         }
 
-        public SampleGridViewModel Show(SampleGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            SampleGridViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public SampleGridViewModel Refresh(SampleGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            SampleGridViewModel viewModel = CreateViewModel(userInput);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public SampleGridViewModel Close(SampleGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            SampleGridViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            viewModel.Visible = false;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        // Helpers
-
-        private SampleGridViewModel CreateViewModel(SampleGridViewModel userInput)
+        protected override SampleGridViewModel CreateViewModel(SampleGridViewModel userInput)
         {
             // GetEntity
             Document document = _documentRepository.Get(userInput.DocumentID);
@@ -98,9 +33,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             SampleGridViewModel viewModel = dtos.ToGridViewModel(document.ID);
-
-            // Non-Persisted
-            viewModel.Visible = userInput.Visible;
 
             return viewModel;
         }

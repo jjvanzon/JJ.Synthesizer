@@ -6,7 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ScaleGridPresenter : PresenterBase<ScaleGridViewModel>
+    internal class ScaleGridPresenter : GridPresenterBase<ScaleGridViewModel>
     {
         private readonly IDocumentRepository _documentRepository;
 
@@ -17,77 +17,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        public ScaleGridViewModel Show(ScaleGridViewModel userInput)
+        protected override ScaleGridViewModel CreateViewModel(ScaleGridViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
             // GetEntity
             Document document = _documentRepository.Get(userInput.DocumentID);
 
             // ToViewModel
             ScaleGridViewModel viewModel = document.Scales.ToGridViewModel(userInput.DocumentID);
-
-            // Non-Persisted
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public ScaleGridViewModel Refresh(ScaleGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Document document = _documentRepository.Get(userInput.DocumentID);
-
-            // ToViewModel
-            ScaleGridViewModel viewModel = document.Scales.ToGridViewModel(userInput.DocumentID);
-
-            // Non-Persisted
-            viewModel.Visible = userInput.Visible;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public ScaleGridViewModel Close(ScaleGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Document document = _documentRepository.Get(userInput.DocumentID);
-
-            // ToViewModel
-            ScaleGridViewModel viewModel = document.Scales.ToGridViewModel(userInput.DocumentID);
-
-            // Non-Persisted
-            viewModel.Visible = false;
-
-            // Successful
-            viewModel.Successful = true;
 
             return viewModel;
         }
