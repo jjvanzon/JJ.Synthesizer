@@ -13,11 +13,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             AllowUserToDeleteRows = false;
             AllowUserToResizeRows = false;
             AutoGenerateColumns = false;
-            BackgroundColor = SystemColors.Control;
+            BackgroundColor = SystemColors.Window;
             BorderStyle = BorderStyle.None;
             ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             Margin = new Padding(0);
+            RowHeadersVisible = false;
         }
 
         public new object DataSource

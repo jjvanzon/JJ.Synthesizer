@@ -31,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentGridUserControl.ViewModel = _presenter.MainViewModel.DocumentGrid;
             documentPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentProperties;
             documentTreeUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentTree;
+            libraryGridUserControl.ViewModel = _presenter.MainViewModel.Document.LibraryGrid;
             nodePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleNodeProperties;
             operatorPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties;
             operatorPropertiesUserControl_ForCache.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCache;

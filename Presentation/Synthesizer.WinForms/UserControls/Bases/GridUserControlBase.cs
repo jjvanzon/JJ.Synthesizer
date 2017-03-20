@@ -8,7 +8,7 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
-    internal abstract class GridUserControlBase : UserControlBase
+    internal class GridUserControlBase : UserControlBase
     {
         public event EventHandler CreateRequested;
         public event EventHandler<EventArgs<int>> DeleteRequested;
@@ -21,8 +21,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         public GridUserControlBase()
         {
-            SetTitles();
-
             _tableLayoutPanel = CreateTableLayoutPanel();
             Controls.Add(_tableLayoutPanel);
 
@@ -32,7 +30,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             _specializedDataGridView = CreateSpecializedDataGridView();
             _tableLayoutPanel.Controls.Add(_specializedDataGridView, 0, 1);
 
-            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            AutoScaleMode = AutoScaleMode.None;
+
+            SetTitles();
         }
 
         // Create Controls
@@ -50,8 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             tableLayoutPanel.Name = nameof(tableLayoutPanel);
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle());
 
             return tableLayoutPanel;
         }
@@ -83,23 +82,25 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 Name = nameof(_specializedDataGridView),
                 Dock = DockStyle.Fill,
-                RowHeadersVisible = RowHeadersVisible
+                ColumnHeadersVisible = ColumnHeadersVisible,
+                Visible = true
             };
 
             specializedDataGridView.DoubleClick += _specializedDataGridView_DoubleClick;
             specializedDataGridView.KeyDown += _specializedDataGridView_KeyDown;
-
-            //this._specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
             return specializedDataGridView;
         }
 
         // Gui
 
-        protected abstract string IDPropertyName { get; }
-        protected abstract string Title { get; }
-        protected abstract bool RowHeadersVisible { get; }
-        protected abstract void AddColumns();
+        // ReSharper disable once UnassignedGetOnlyAutoProperty
+        protected virtual string IDPropertyName { get; }
+        // ReSharper disable once UnassignedGetOnlyAutoProperty
+        protected virtual string Title { get; }
+        // ReSharper disable once UnassignedGetOnlyAutoProperty
+        protected virtual bool ColumnHeadersVisible { get; }
+        protected virtual void AddColumns() { }
 
         protected void AddColumn(string dataPropertyName, string title, int widthInPixels = 120, bool visible = true, bool autoSize = false)
         {
@@ -125,13 +126,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         private void SetTitles()
         {
-            _titleBarUserControl.Text = ResourceFormatter.AudioFileOutputList;
-
+            _titleBarUserControl.Text = Title;
         }
 
         // Binding
 
-        protected abstract object GetDataSource();
+        protected virtual object GetDataSource() => null;
 
         protected override void ApplyViewModelToControls()
         {
@@ -192,8 +192,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         private void Close()
         {
-            if (ViewModel == null)
-                return;
+            if (ViewModel == null) return;
 
             CloseRequested?.Invoke(this, EventArgs.Empty);
         }

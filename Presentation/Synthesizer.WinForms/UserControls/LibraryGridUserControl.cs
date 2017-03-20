@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using System;
 using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -16,7 +15,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override string IDPropertyName => PropertyNames.ID;
         protected override string Title => ResourceFormatter.LowerDocuments;
-        protected override bool RowHeadersVisible => false;
+        protected override bool ColumnHeadersVisible => false;
+        protected override object GetDataSource() => ViewModel?.List;
 
         protected override void AddColumns()
         {
@@ -28,12 +28,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddColumn(PropertyNames.SamplingRate, ResourceFormatter.SamplingRate);
         }
 
-        public new AudioFileOutputGridViewModel ViewModel
+        public new LibraryGridViewModel ViewModel
         {
-            get { return (AudioFileOutputGridViewModel)base.ViewModel; }
+            get { return (LibraryGridViewModel)base.ViewModel; }
             set { base.ViewModel = value; }
         }
-
-        protected override object GetDataSource() => ViewModel?.List;
     }
 }

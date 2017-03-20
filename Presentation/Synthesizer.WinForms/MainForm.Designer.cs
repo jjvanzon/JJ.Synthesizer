@@ -18,6 +18,7 @@
             this.splitContainerTree = new System.Windows.Forms.SplitContainer();
             this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
+            this.libraryGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.LibraryGridUserControl();
             this.curveDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveDetailsUserControl();
             this.toneGridEditUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ToneGridEditUserControl();
             this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
@@ -90,6 +91,7 @@
             this.documentTreeUserControl.Name = "documentTreeUserControl";
             this.documentTreeUserControl.Size = new System.Drawing.Size(265, 814);
             this.documentTreeUserControl.TabIndex = 0;
+            this.documentTreeUserControl.ViewModel = null;
             this.documentTreeUserControl.Visible = false;
             // 
             // splitContainerProperties
@@ -101,6 +103,7 @@
             // 
             // splitContainerProperties.Panel1
             // 
+            this.splitContainerProperties.Panel1.Controls.Add(this.libraryGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.curveDetailsUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.toneGridEditUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.scaleGridUserControl);
@@ -140,15 +143,30 @@
             this.splitContainerProperties.SplitterWidth = 5;
             this.splitContainerProperties.TabIndex = 2;
             // 
+            // libraryGridUserControl
+            // 
+            this.libraryGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.libraryGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.libraryGridUserControl.Name = "libraryGridUserControl";
+            this.libraryGridUserControl.Size = new System.Drawing.Size(851, 814);
+            this.libraryGridUserControl.TabIndex = 14;
+            this.libraryGridUserControl.ViewModel = null;
+            // 
             // curveDetailsUserControl
             // 
+            this.curveDetailsUserControl.AddButtonVisible = true;
+            this.curveDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.curveDetailsUserControl.CloseButtonVisible = true;
             this.curveDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.curveDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.curveDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.curveDetailsUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.curveDetailsUserControl.Name = "curveDetailsUserControl";
+            this.curveDetailsUserControl.RemoveButtonVisible = true;
             this.curveDetailsUserControl.Size = new System.Drawing.Size(851, 814);
-            this.curveDetailsUserControl.TabIndex = 12;
+            this.curveDetailsUserControl.TabIndex = 1;
+            this.curveDetailsUserControl.TitleBarText = "Curve Details";
+            this.curveDetailsUserControl.ViewModel = null;
             // 
             // toneGridEditUserControl
             // 
@@ -160,6 +178,7 @@
             this.toneGridEditUserControl.Name = "toneGridEditUserControl";
             this.toneGridEditUserControl.Size = new System.Drawing.Size(851, 814);
             this.toneGridEditUserControl.TabIndex = 1;
+            this.toneGridEditUserControl.ViewModel = null;
             // 
             // scaleGridUserControl
             // 
@@ -170,6 +189,7 @@
             this.scaleGridUserControl.Name = "scaleGridUserControl";
             this.scaleGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.scaleGridUserControl.TabIndex = 11;
+            this.scaleGridUserControl.ViewModel = null;
             // 
             // curveGridUserControl
             // 
@@ -180,6 +200,7 @@
             this.curveGridUserControl.Name = "curveGridUserControl";
             this.curveGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.curveGridUserControl.TabIndex = 6;
+            this.curveGridUserControl.ViewModel = null;
             this.curveGridUserControl.Visible = false;
             // 
             // audioFileOutputGridUserControl
@@ -191,6 +212,7 @@
             this.audioFileOutputGridUserControl.Name = "audioFileOutputGridUserControl";
             this.audioFileOutputGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.audioFileOutputGridUserControl.TabIndex = 5;
+            this.audioFileOutputGridUserControl.ViewModel = null;
             this.audioFileOutputGridUserControl.Visible = false;
             // 
             // patchGridUserControl
@@ -203,6 +225,7 @@
             this.patchGridUserControl.Name = "patchGridUserControl";
             this.patchGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.patchGridUserControl.TabIndex = 13;
+            this.patchGridUserControl.ViewModel = null;
             // 
             // documentDetailsUserControl
             // 
@@ -215,6 +238,7 @@
             this.documentDetailsUserControl.Name = "documentDetailsUserControl";
             this.documentDetailsUserControl.Size = new System.Drawing.Size(851, 814);
             this.documentDetailsUserControl.TabIndex = 1;
+            this.documentDetailsUserControl.ViewModel = null;
             this.documentDetailsUserControl.Visible = false;
             // 
             // documentGridUserControl
@@ -231,14 +255,19 @@
             // 
             // patchDetailsUserControl
             // 
+            this.patchDetailsUserControl.AddButtonVisible = false;
             this.patchDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.patchDetailsUserControl.CloseButtonVisible = true;
             this.patchDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.patchDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.patchDetailsUserControl.Name = "patchDetailsUserControl";
+            this.patchDetailsUserControl.RemoveButtonVisible = false;
             this.patchDetailsUserControl.Size = new System.Drawing.Size(851, 814);
-            this.patchDetailsUserControl.TabIndex = 10;
+            this.patchDetailsUserControl.TabIndex = 1;
+            this.patchDetailsUserControl.TitleBarText = "Patch Details";
+            this.patchDetailsUserControl.ViewModel = null;
             this.patchDetailsUserControl.Visible = false;
             // 
             // sampleGridUserControl
@@ -250,259 +279,364 @@
             this.sampleGridUserControl.Name = "sampleGridUserControl";
             this.sampleGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.sampleGridUserControl.TabIndex = 9;
+            this.sampleGridUserControl.ViewModel = null;
             this.sampleGridUserControl.Visible = false;
             // 
             // operatorPropertiesUserControl_ForNumber
             // 
+            this.operatorPropertiesUserControl_ForNumber.AddButtonVisible = false;
             this.operatorPropertiesUserControl_ForNumber.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_ForNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForNumber.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_ForNumber.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_ForNumber.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_ForNumber.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForNumber.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForNumber.Name = "operatorPropertiesUserControl_ForNumber";
+            this.operatorPropertiesUserControl_ForNumber.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForNumber.TabIndex = 1;
             this.operatorPropertiesUserControl_ForNumber.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForNumber.ViewModel = null;
             // 
             // operatorPropertiesUserControl_WithCollectionRecalculation
             // 
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.AddButtonVisible = false;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Name = "operatorPropertiesUserControl_WithCollectionRecalculation";
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithCollectionRecalculation.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = null;
             // 
             // operatorPropertiesUserControl_WithInletCount
             // 
+            this.operatorPropertiesUserControl_WithInletCount.AddButtonVisible = false;
             this.operatorPropertiesUserControl_WithInletCount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_WithInletCount.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithInletCount.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_WithInletCount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_WithInletCount.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_WithInletCount.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithInletCount.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_WithInletCount.Name = "operatorPropertiesUserControl_WithInletCount";
+            this.operatorPropertiesUserControl_WithInletCount.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_WithInletCount.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithInletCount.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithInletCount.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_WithInletCount.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForInletsToDimension
             // 
+            this.operatorPropertiesUserControl_ForInletsToDimension.AddButtonVisible = false;
             this.operatorPropertiesUserControl_ForInletsToDimension.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_ForInletsToDimension.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForInletsToDimension.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_ForInletsToDimension.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_ForInletsToDimension.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_ForInletsToDimension.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForInletsToDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_ForInletsToDimension.Name = "operatorPropertiesUserControl_ForInletsToDimension";
+            this.operatorPropertiesUserControl_ForInletsToDimension.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_ForInletsToDimension.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForInletsToDimension.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForInletsToDimension.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForInletsToDimension.ViewModel = null;
             // 
             // audioOutputPropertiesUserControl
             // 
+            this.audioOutputPropertiesUserControl.AddButtonVisible = false;
             this.audioOutputPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.audioOutputPropertiesUserControl.CloseButtonVisible = true;
             this.audioOutputPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.audioOutputPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.audioOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.audioOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.audioOutputPropertiesUserControl.Name = "audioOutputPropertiesUserControl";
+            this.audioOutputPropertiesUserControl.RemoveButtonVisible = false;
             this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.audioOutputPropertiesUserControl.TabIndex = 1;
+            this.audioOutputPropertiesUserControl.TitleBarText = "Audio Output Properties";
+            this.audioOutputPropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForCache
             // 
+            this.operatorPropertiesUserControl_ForCache.AddButtonVisible = false;
             this.operatorPropertiesUserControl_ForCache.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_ForCache.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForCache.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_ForCache.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_ForCache.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_ForCache.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCache.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_ForCache.Name = "operatorPropertiesUserControl_ForCache";
+            this.operatorPropertiesUserControl_ForCache.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForCache.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForCache.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForCache.ViewModel = null;
             // 
             // operatorPropertiesUserControl_WithInterpolation
             // 
+            this.operatorPropertiesUserControl_WithInterpolation.AddButtonVisible = false;
             this.operatorPropertiesUserControl_WithInterpolation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_WithInterpolation.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithInterpolation.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_WithInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_WithInterpolation.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_WithInterpolation.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithInterpolation.Margin = new System.Windows.Forms.Padding(4);
             this.operatorPropertiesUserControl_WithInterpolation.Name = "operatorPropertiesUserControl_WithInterpolation";
+            this.operatorPropertiesUserControl_WithInterpolation.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_WithInterpolation.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithInterpolation.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithInterpolation.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_WithInterpolation.ViewModel = null;
             // 
             // operatorPropertiesUserControl_WithOutletCount
             // 
+            this.operatorPropertiesUserControl_WithOutletCount.AddButtonVisible = false;
             this.operatorPropertiesUserControl_WithOutletCount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_WithOutletCount.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_WithOutletCount.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_WithOutletCount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_WithOutletCount.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_WithOutletCount.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithOutletCount.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_WithOutletCount.Name = "operatorPropertiesUserControl_WithOutletCount";
+            this.operatorPropertiesUserControl_WithOutletCount.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_WithOutletCount.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithOutletCount.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithOutletCount.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_WithOutletCount.ViewModel = null;
             // 
             // nodePropertiesUserControl
             // 
+            this.nodePropertiesUserControl.AddButtonVisible = false;
             this.nodePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.nodePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.nodePropertiesUserControl.CloseButtonVisible = true;
             this.nodePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.nodePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.nodePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.nodePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.nodePropertiesUserControl.Name = "nodePropertiesUserControl";
+            this.nodePropertiesUserControl.RemoveButtonVisible = false;
             this.nodePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.nodePropertiesUserControl.TabIndex = 1;
+            this.nodePropertiesUserControl.TitleBarText = "Node Properties";
+            this.nodePropertiesUserControl.ViewModel = null;
             // 
             // curvePropertiesUserControl
             // 
+            this.curvePropertiesUserControl.AddButtonVisible = false;
             this.curvePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.curvePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.curvePropertiesUserControl.CloseButtonVisible = true;
             this.curvePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.curvePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.curvePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.curvePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.curvePropertiesUserControl.Name = "curvePropertiesUserControl";
+            this.curvePropertiesUserControl.RemoveButtonVisible = false;
             this.curvePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.curvePropertiesUserControl.TabIndex = 1;
+            this.curvePropertiesUserControl.TitleBarText = "Curve Properties";
+            this.curvePropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForCurve
             // 
+            this.operatorPropertiesUserControl_ForCurve.AddButtonVisible = false;
             this.operatorPropertiesUserControl_ForCurve.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_ForCurve.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForCurve.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_ForCurve.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_ForCurve.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_ForCurve.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCurve.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForCurve.Name = "operatorPropertiesUserControl_ForCurve";
+            this.operatorPropertiesUserControl_ForCurve.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForCurve.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForCurve.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForCurve.ViewModel = null;
             // 
             // scalePropertiesUserControl
             // 
+            this.scalePropertiesUserControl.AddButtonVisible = false;
             this.scalePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.scalePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.scalePropertiesUserControl.CloseButtonVisible = true;
             this.scalePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scalePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.scalePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.scalePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.scalePropertiesUserControl.Name = "scalePropertiesUserControl";
+            this.scalePropertiesUserControl.RemoveButtonVisible = false;
             this.scalePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.scalePropertiesUserControl.TabIndex = 1;
+            this.scalePropertiesUserControl.TitleBarText = "Scale Properties";
+            this.scalePropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForPatchInlet
             // 
+            this.operatorPropertiesUserControl_ForPatchInlet.AddButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchInlet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_ForPatchInlet.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForPatchInlet.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_ForPatchInlet.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_ForPatchInlet.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_ForPatchInlet.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForPatchInlet.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForPatchInlet.Name = "operatorPropertiesUserControl_ForPatchInlet";
+            this.operatorPropertiesUserControl_ForPatchInlet.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForPatchInlet.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForPatchInlet.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForPatchInlet.ViewModel = null;
             // 
             // documentPropertiesUserControl
             // 
+            this.documentPropertiesUserControl.AddButtonVisible = false;
             this.documentPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.documentPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.documentPropertiesUserControl.CloseButtonVisible = true;
             this.documentPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.documentPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.documentPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.documentPropertiesUserControl.Name = "documentPropertiesUserControl";
+            this.documentPropertiesUserControl.RemoveButtonVisible = false;
             this.documentPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.documentPropertiesUserControl.TabIndex = 1;
+            this.documentPropertiesUserControl.TitleBarText = "Document Properties";
+            this.documentPropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl
             // 
+            this.operatorPropertiesUserControl.AddButtonVisible = false;
             this.operatorPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl.CloseButtonVisible = true;
             this.operatorPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl.Name = "operatorPropertiesUserControl";
+            this.operatorPropertiesUserControl.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl.TabIndex = 1;
+            this.operatorPropertiesUserControl.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl.ViewModel = null;
             // 
             // patchPropertiesUserControl
             // 
+            this.patchPropertiesUserControl.AddButtonVisible = false;
             this.patchPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.patchPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.patchPropertiesUserControl.CloseButtonVisible = true;
             this.patchPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.patchPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.patchPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.patchPropertiesUserControl.Name = "patchPropertiesUserControl";
+            this.patchPropertiesUserControl.RemoveButtonVisible = false;
             this.patchPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.patchPropertiesUserControl.TabIndex = 1;
+            this.patchPropertiesUserControl.TitleBarText = "Patch Properties";
+            this.patchPropertiesUserControl.ViewModel = null;
             // 
             // samplePropertiesUserControl
             // 
+            this.samplePropertiesUserControl.AddButtonVisible = false;
             this.samplePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.samplePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.samplePropertiesUserControl.CloseButtonVisible = true;
             this.samplePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.samplePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.samplePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.samplePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.samplePropertiesUserControl.Name = "samplePropertiesUserControl";
+            this.samplePropertiesUserControl.RemoveButtonVisible = false;
             this.samplePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.samplePropertiesUserControl.TabIndex = 1;
+            this.samplePropertiesUserControl.TitleBarText = "Sample Properties";
+            this.samplePropertiesUserControl.ViewModel = null;
             // 
             // audioFileOutputPropertiesUserControl
             // 
+            this.audioFileOutputPropertiesUserControl.AddButtonVisible = false;
             this.audioFileOutputPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.audioFileOutputPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.audioFileOutputPropertiesUserControl.CloseButtonVisible = true;
             this.audioFileOutputPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.audioFileOutputPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.audioFileOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.audioFileOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.audioFileOutputPropertiesUserControl.Name = "audioFileOutputPropertiesUserControl";
+            this.audioFileOutputPropertiesUserControl.RemoveButtonVisible = false;
             this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.audioFileOutputPropertiesUserControl.TabIndex = 1;
+            this.audioFileOutputPropertiesUserControl.TitleBarText = "Title";
+            this.audioFileOutputPropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForSample
             // 
+            this.operatorPropertiesUserControl_ForSample.AddButtonVisible = false;
             this.operatorPropertiesUserControl_ForSample.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_ForSample.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForSample.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_ForSample.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_ForSample.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_ForSample.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForSample.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForSample.Name = "operatorPropertiesUserControl_ForSample";
+            this.operatorPropertiesUserControl_ForSample.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForSample.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForSample.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForSample.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForCustomOperator
             // 
+            this.operatorPropertiesUserControl_ForCustomOperator.AddButtonVisible = false;
             this.operatorPropertiesUserControl_ForCustomOperator.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_ForCustomOperator.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForCustomOperator.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_ForCustomOperator.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_ForCustomOperator.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_ForCustomOperator.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCustomOperator.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForCustomOperator.Name = "operatorPropertiesUserControl_ForCustomOperator";
+            this.operatorPropertiesUserControl_ForCustomOperator.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_ForCustomOperator.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForCustomOperator.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForCustomOperator.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForCustomOperator.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForPatchOutlet
             // 
+            this.operatorPropertiesUserControl_ForPatchOutlet.AddButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchOutlet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.operatorPropertiesUserControl_ForPatchOutlet.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForPatchOutlet.CloseButtonVisible = true;
             this.operatorPropertiesUserControl_ForPatchOutlet.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatorPropertiesUserControl_ForPatchOutlet.Font = new System.Drawing.Font("Verdana", 10F);
             this.operatorPropertiesUserControl_ForPatchOutlet.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForPatchOutlet.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForPatchOutlet.Name = "operatorPropertiesUserControl_ForPatchOutlet";
+            this.operatorPropertiesUserControl_ForPatchOutlet.RemoveButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForPatchOutlet.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForPatchOutlet.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForPatchOutlet.ViewModel = null;
             // 
             // menuUserControl
             // 
@@ -523,6 +657,7 @@
             this.currentPatchesUserControl.Name = "currentPatchesUserControl";
             this.currentPatchesUserControl.Size = new System.Drawing.Size(1188, 30);
             this.currentPatchesUserControl.TabIndex = 14;
+            this.currentPatchesUserControl.ViewModel = null;
             // 
             // MainForm
             // 
@@ -587,5 +722,6 @@
         private UserControls.OperatorPropertiesUserControl_ForInletsToDimension operatorPropertiesUserControl_ForInletsToDimension;
         private UserControls.OperatorPropertiesUserControl_WithInletCount operatorPropertiesUserControl_WithInletCount;
         private UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation operatorPropertiesUserControl_WithCollectionRecalculation;
+        private UserControls.LibraryGridUserControl libraryGridUserControl;
     }
 }

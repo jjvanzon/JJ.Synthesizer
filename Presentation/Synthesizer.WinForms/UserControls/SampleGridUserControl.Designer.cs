@@ -47,7 +47,6 @@
             this.specializedDataGridView.AllowUserToAddRows = false;
             this.specializedDataGridView.AllowUserToDeleteRows = false;
             this.specializedDataGridView.AllowUserToResizeRows = false;
-            this.specializedDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.specializedDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.specializedDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
