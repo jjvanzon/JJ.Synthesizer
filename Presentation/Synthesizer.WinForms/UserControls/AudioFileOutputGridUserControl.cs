@@ -37,22 +37,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Binding
 
-        protected override void ApplyViewModelToControls()
-        {
-            specializedDataGridView.DataSource = ViewModel.List;
-        }
-
         public new AudioFileOutputGridViewModel ViewModel
         {
             get { return (AudioFileOutputGridViewModel)base.ViewModel; }
             set { base.ViewModel = value; }
         }
 
+        protected override void ApplyViewModelToControls()
+        {
+            if (ViewModel == null) return;
+
+            specializedDataGridView.DataSource = ViewModel.List;
+        }
+
         // Events
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
         {
-            CreateRequested?.Invoke(this, EventArgs.Empty);
+            Create();
         }
 
         private void titleBarUserControl_RemoveClicked(object sender, EventArgs e)
@@ -62,7 +64,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
-            CloseRequested?.Invoke(this, EventArgs.Empty);
+            Close();
         }
 
         private void specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
@@ -86,6 +88,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Actions
 
+        private void Create()
+        {
+            CreateRequested?.Invoke(this, EventArgs.Empty);
+        }
+
         private void Delete()
         {
             int? id = TryGetSelectedID();
@@ -93,6 +100,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 DeleteRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
+        }
+
+        private void Close()
+        {
+            if (ViewModel == null) return;
+
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void ShowProperties()

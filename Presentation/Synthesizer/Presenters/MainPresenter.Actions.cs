@@ -846,16 +846,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _documentTreePresenter.Close(userInput));
         }
 
-        // Libraries
+        // Library
 
         public void LibraryGridShow()
         {
             // GetViewModel
             LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
 
-            throw new NotImplementedException();
             // TemplateMethod
-            //TemplateActionMethod(userInput, () => _libraryGridPresenter.Show(userInput));
+            TemplateActionMethod(userInput, () => _libraryGridPresenter.Show(userInput));
+        }
+
+        public void LibraryGridClose()
+        {
+            // GetViewModel
+            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _libraryGridPresenter.Close(userInput));
         }
 
         // Node

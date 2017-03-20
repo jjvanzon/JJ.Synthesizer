@@ -5,6 +5,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class LibraryGridViewModel : ViewModelBase
     {
+        public int HigherDocumentID { get; set; }
         public IList<LibraryListItemViewModel> List { get; set; }
     }
 }

@@ -109,6 +109,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\LibraryGridUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\LibraryGridUserControl.Designer.cs">
+      <DependentUpon>LibraryGridUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\AudioFileOutputGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -116,6 +122,9 @@
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Bases\DetailsOrPropertiesUserControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Bases\GridUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\CurrentPatchesUserControl.cs">
@@ -358,6 +367,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\LibraryGridUserControl.resx">
+      <DependentUpon>LibraryGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputGridUserControl.resx">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>

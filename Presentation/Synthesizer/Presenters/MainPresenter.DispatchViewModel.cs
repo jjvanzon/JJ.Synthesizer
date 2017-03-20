@@ -32,6 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentGridViewModel), DispatchDocumentGridViewModel },
                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
+                { typeof(LibraryGridViewModel), DispatchLibraryGridViewModel },
                 { typeof(MenuViewModel), DispatchMenuViewModel },
                 { typeof(NodePropertiesViewModel), DispatchNodePropertiesViewModel },
                 { typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
@@ -294,6 +295,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (DocumentTreeViewModel)viewModel2;
             MainViewModel.Document.DocumentTree = castedViewModel;
+
+            DispatchViewModelBase(castedViewModel);
+        }
+
+        private void DispatchLibraryGridViewModel(ViewModelBase viewModel2)
+        {
+            var castedViewModel = (LibraryGridViewModel)viewModel2;
+
+            MainViewModel.Document.LibraryGrid = castedViewModel;
+
+            // ReSharper disable once InvertIf
+            if (castedViewModel.Visible)
+            {
+                HideAllGridAndDetailViewModels();
+                castedViewModel.Visible = true;
+            }
 
             DispatchViewModelBase(castedViewModel);
         }

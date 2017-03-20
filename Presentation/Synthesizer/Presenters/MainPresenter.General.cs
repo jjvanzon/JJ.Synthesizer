@@ -25,7 +25,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     public partial class MainPresenter
     {
         private const double DEFAULT_DURATION = 0.75;
-        private const int DEFAULT_CHANNEL_INDEX = 0;
 
         private static readonly string _playOutputFilePath = GetPlayOutputFilePath();
 
@@ -48,6 +47,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly DocumentGridPresenter _documentGridPresenter;
         private readonly DocumentPropertiesPresenter _documentPropertiesPresenter;
         private readonly DocumentTreePresenter _documentTreePresenter;
+        private readonly LibraryGridPresenter _libraryGridPresenter;
         private readonly MenuPresenter _menuPresenter;
         private readonly NodePropertiesPresenter _nodePropertiesPresenter;
         private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
@@ -122,6 +122,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentGridPresenter = new DocumentGridPresenter(_repositories.DocumentRepository);
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
             _documentTreePresenter = new DocumentTreePresenter(_patchRepositories);
+            _libraryGridPresenter = new LibraryGridPresenter(_repositories.DocumentRepository);
             _menuPresenter = new MenuPresenter();
             _nodePropertiesPresenter = new NodePropertiesPresenter(_curveRepositories);
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);

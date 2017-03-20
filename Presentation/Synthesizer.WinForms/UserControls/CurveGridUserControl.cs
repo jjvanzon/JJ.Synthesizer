@@ -47,39 +47,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             specializedDataGridView.DataSource = ViewModel.List;
         }
 
-        // Actions
-
-        private void Create()
-        {
-            CreateRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void Delete()
-        {
-            if (ViewModel == null) return;
-
-            int? id = TryGetSelectedID();
-            if (id.HasValue)
-            {
-                DeleteRequested?.Invoke(this, new EventArgs<int>(id.Value));
-            }
-        }
-
-        private void Close()
-        {
-            if (ViewModel == null) return;
-            CloseRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void ShowDetails()
-        {
-            int? id = TryGetSelectedID();
-            if (id.HasValue)
-            {
-                ShowDetailsRequested?.Invoke(this, new EventArgs<int>(id.Value));
-            }
-        }
-
         // Events
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
@@ -114,6 +81,40 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void specializedDataGridView_DoubleClick(object sender, EventArgs e)
         {
             ShowDetails();
+        }
+
+        // Actions
+
+        private void Create()
+        {
+            CreateRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void Delete()
+        {
+            if (ViewModel == null) return;
+
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
+            {
+                DeleteRequested?.Invoke(this, new EventArgs<int>(id.Value));
+            }
+        }
+
+        private void Close()
+        {
+            if (ViewModel == null) return;
+
+            CloseRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ShowDetails()
+        {
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
+            {
+                ShowDetailsRequested?.Invoke(this, new EventArgs<int>(id.Value));
+            }
         }
 
         // Helpers

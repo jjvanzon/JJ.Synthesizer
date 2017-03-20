@@ -19,6 +19,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         // Other
         public const string AudioFileOutputs = "AudioFileOutputs";
+        public const string AudioFileFormat = "AudioFileFormat";
         public const string Cents = "Cents";
         public const string CollectionRecalculation = "CollectionRecalculation";
         public const string Curve = "Curve";
@@ -58,6 +59,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string PatchOutlet = "PatchOutlet";
         public const string Sample = "Sample";
         public const string SampleCount = "SampleCount";
+        public const string SampleDataType = "SampleDataType";
         public const string SampleID = "SampleID";
         public const string Samples = "Samples";
         public const string Scales = "Scales";

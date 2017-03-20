@@ -9,16 +9,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     {
         public SpecializedDataGridView()
         {
-            base.AllowUserToAddRows = false;
-            base.AllowUserToDeleteRows = false;
-            base.AllowUserToResizeRows = false;
-            base.AutoGenerateColumns = false;
-            base.BackgroundColor = SystemColors.Control;
-            base.BorderStyle = BorderStyle.None;
-            base.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            base.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-
-            base.Margin = new Padding(0);
+            AllowUserToAddRows = false;
+            AllowUserToDeleteRows = false;
+            AllowUserToResizeRows = false;
+            AutoGenerateColumns = false;
+            BackgroundColor = SystemColors.Control;
+            BorderStyle = BorderStyle.None;
+            ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            Margin = new Padding(0);
         }
 
         public new object DataSource

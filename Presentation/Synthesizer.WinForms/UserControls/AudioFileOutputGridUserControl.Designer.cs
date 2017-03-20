@@ -31,12 +31,14 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.SpecializedDataGridView();
+
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AudioFileFormatColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SampleDataTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SpeakerSetupColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SamplingRateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).BeginInit();
             this.SuspendLayout();

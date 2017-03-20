@@ -110,10 +110,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         // Binding
 
         /// <summary> does nothing </summary>
-        protected virtual int GetID()
-        {
-            return default(int);
-        }
+        protected virtual int GetID() => default(int);
 
         /// <summary> does nothing </summary>
         protected virtual void ApplyControlsToViewModel()
@@ -140,7 +137,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         }
 
         // Events
-
 
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
