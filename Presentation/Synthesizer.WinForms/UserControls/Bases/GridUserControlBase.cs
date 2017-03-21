@@ -106,7 +106,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         /// <summary> does nothing </summary>
         protected virtual void AddColumns() { }
 
-        protected void AddColumn(string dataPropertyName, string title, int widthInPixels = 120, bool visible = true, bool autoSize = false)
+        protected void AddColumn([NotNull] string dataPropertyName, [CanBeNull] string title, int widthInPixels = 120, bool visible = true, bool autoSize = false)
         {
             if (string.IsNullOrEmpty(dataPropertyName)) throw new NullOrEmptyException(() => dataPropertyName);
 

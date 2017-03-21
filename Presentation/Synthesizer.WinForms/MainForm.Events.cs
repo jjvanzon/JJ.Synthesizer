@@ -100,7 +100,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
             patchGridUserControl.CreateRequested += patchGridUserControl_CreateRequested;
             patchGridUserControl.DeleteRequested += patchGridUserControl_DeleteRequested;
-            patchGridUserControl.ShowDetailsRequested += patchGridUserControl_ShowDetailsRequested;
+            patchGridUserControl.ShowItemRequested += patchGridUserControl_ShowItemRequested;
             patchPropertiesUserControl.AddCurrentPatchRequested += patchPropertiesUserControl_AddCurrentPatchRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
             patchPropertiesUserControl.LoseFocusRequested += patchPropertiesUserControl_LoseFocusRequested;
@@ -587,22 +587,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Patch
 
-        private void patchGridUserControl_CreateRequested(object sender, EventArgs<string> e)
+        private void patchGridUserControl_CreateRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.PatchCreate(e.Value));
+            TemplateEventHandler(() => _presenter.PatchCreate(patchGridUserControl.ViewModel.Group));
         }
 
-        private void patchGridUserControl_DeleteRequested(object sender, GroupAndPatchIDEventArgs e)
+        private void patchGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.PatchDelete(e.Group, e.PatchID));
+            TemplateEventHandler(() => _presenter.PatchDelete(patchGridUserControl.ViewModel.Group, e.Value));
         }
 
-        private void patchGridUserControl_CloseRequested(object sender, EventArgs<string> e)
+        private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(() => _presenter.PatchGridClose(e.Value));
+            TemplateEventHandler(() => _presenter.PatchGridClose(patchGridUserControl.ViewModel.Group));
         }
 
-        private void patchGridUserControl_ShowDetailsRequested(object sender, EventArgs<int> e)
+        private void patchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.PatchDetailsShow(e.Value));
         }
