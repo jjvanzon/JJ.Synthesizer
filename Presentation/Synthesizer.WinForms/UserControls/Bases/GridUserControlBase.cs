@@ -9,6 +9,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
     internal class GridUserControlBase : UserControlBase
     {
+        private const int DEFAULT_COLUMN_WIDTH_IN_PIXELS = 120;
+
         public event EventHandler CreateRequested;
         public event EventHandler<EventArgs<int>> DeleteRequested;
         public event EventHandler CloseRequested;
@@ -106,28 +108,51 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         /// <summary> does nothing </summary>
         protected virtual void AddColumns() { }
 
-        protected void AddColumn([NotNull] string dataPropertyName, [CanBeNull] string title, int widthInPixels = 120, bool visible = true, bool autoSize = false)
+        protected void AddHiddenColumn([NotNull] string dataPropertyName)
+        {
+            DataGridViewColumn dataGridViewColumn = CreateColumn(dataPropertyName);
+            dataGridViewColumn.Visible = false;
+        }
+
+        protected void AddAutoSizeColumn([NotNull] string dataPropertyName, string title)
+        {
+            if (string.IsNullOrWhiteSpace(title)) throw new NullOrEmptyException(() => title);
+
+            DataGridViewColumn dataGridViewColumn = CreateColumn(dataPropertyName);
+            dataGridViewColumn.HeaderText = title;
+            dataGridViewColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+
+        protected void AddColumnWithWidth([NotNull] string dataPropertyName, string title, int widthInPixels)
+        {
+            DataGridViewColumn dataGridViewColumn = CreateColumn(dataPropertyName);
+            dataGridViewColumn.HeaderText = title;
+            dataGridViewColumn.Width = widthInPixels;
+        }
+
+        protected void AddColumn([NotNull] string dataPropertyName, string title)
+        {
+            DataGridViewColumn dataGridViewColumn = CreateColumn(dataPropertyName);
+            dataGridViewColumn.HeaderText = title;
+            dataGridViewColumn.Width = DEFAULT_COLUMN_WIDTH_IN_PIXELS;
+        }
+
+        private DataGridViewColumn CreateColumn([NotNull] string dataPropertyName)
         {
             if (string.IsNullOrEmpty(dataPropertyName)) throw new NullOrEmptyException(() => dataPropertyName);
 
-            var dataGridViewColumn = new DataGridViewTextBoxColumn
+            DataGridViewColumn dataGridViewColumn = new DataGridViewTextBoxColumn
             {
                 DataPropertyName = dataPropertyName,
-                HeaderText = title,
                 Name = dataPropertyName + "Column",
                 ReadOnly = true,
-                Visible = visible,
-                Width = widthInPixels
+                Visible = true
             };
 
-            if (autoSize)
-            {
-                dataGridViewColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            }
-
             _specializedDataGridView.Columns.Add(dataGridViewColumn);
-        }
 
+            return dataGridViewColumn;
+        }
 
         // Binding
 

@@ -22,13 +22,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddColumns()
         {
-            AddColumn(nameof(SampleListItemViewModel.ID), CommonResourceFormatter.ID, visible: false);
-            AddColumn(nameof(SampleListItemViewModel.Name), CommonResourceFormatter.Name, autoSize: true);
+            AddHiddenColumn(nameof(SampleListItemViewModel.ID));
+            AddAutoSizeColumn(nameof(SampleListItemViewModel.Name), CommonResourceFormatter.Name);
             AddColumn(nameof(SampleListItemViewModel.SampleDataType), ResourceFormatter.SampleDataType);
             AddColumn(nameof(SampleListItemViewModel.SpeakerSetup), ResourceFormatter.SpeakerSetup);
             AddColumn(nameof(SampleListItemViewModel.SamplingRate), ResourceFormatter.SamplingRate);
             AddColumn(nameof(SampleListItemViewModel.IsActiveText), ResourceFormatter.IsActive);
-            AddColumn(nameof(SampleListItemViewModel.UsedIn), ResourceFormatter.UsedIn, widthInPixels: 180);
+            AddColumnWithWidth(nameof(SampleListItemViewModel.UsedIn), ResourceFormatter.UsedIn, 180);
         }
 
         // Binding

@@ -22,9 +22,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddColumns()
         {
-            AddColumn(nameof(LibraryListItemViewModel.DocumentReferenceID), null, visible: false);
-            AddColumn(nameof(LibraryListItemViewModel.ReferencedDocumentName), CommonResourceFormatter.Name, autoSize: true);
-            AddColumn(nameof(LibraryListItemViewModel.Alias), ResourceFormatter.Alias, widthInPixels: 180);
+            AddHiddenColumn(nameof(LibraryListItemViewModel.DocumentReferenceID));
+            AddAutoSizeColumn(nameof(LibraryListItemViewModel.ReferencedDocumentName), CommonResourceFormatter.Name);
+            AddColumnWithWidth(nameof(LibraryListItemViewModel.Alias), ResourceFormatter.Alias, 180);
         }
 
         public new LibraryGridViewModel ViewModel

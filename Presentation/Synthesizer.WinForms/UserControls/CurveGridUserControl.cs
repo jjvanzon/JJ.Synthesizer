@@ -22,9 +22,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddColumns()
         {
-            AddColumn(nameof(CurveListItemViewModel.ID), null, visible: false);
-            AddColumn(nameof(CurveListItemViewModel.Name), CommonResourceFormatter.Name, autoSize: true);
-            AddColumn(nameof(CurveListItemViewModel.UsedIn), ResourceFormatter.UsedIn, widthInPixels: 180);
+            AddHiddenColumn(nameof(CurveListItemViewModel.ID));
+            AddAutoSizeColumn(nameof(CurveListItemViewModel.Name), CommonResourceFormatter.Name);
+            AddColumnWithWidth(nameof(CurveListItemViewModel.UsedIn), ResourceFormatter.UsedIn, 180);
         }
 
         public new CurveGridViewModel ViewModel

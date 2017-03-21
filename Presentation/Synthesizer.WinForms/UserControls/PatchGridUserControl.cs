@@ -22,9 +22,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddColumns()
         {
-            AddColumn(nameof(PatchListItemViewModel.ID), null, visible: false);
-            AddColumn(nameof(PatchListItemViewModel.Name), CommonResourceFormatter.Name, autoSize: true);
-            AddColumn(nameof(PatchListItemViewModel.UsedIn), ResourceFormatter.UsedIn, widthInPixels: 180);
+            AddHiddenColumn(nameof(PatchListItemViewModel.ID));
+            AddAutoSizeColumn(nameof(PatchListItemViewModel.Name), CommonResourceFormatter.Name);
+            AddColumnWithWidth(nameof(PatchListItemViewModel.UsedIn), ResourceFormatter.UsedIn, 180);
         }
 
         public new PatchGridViewModel ViewModel

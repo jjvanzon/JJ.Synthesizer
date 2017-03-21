@@ -22,8 +22,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddColumns()
         {
-            AddColumn(nameof(IDAndName.ID), null, visible: false);
-            AddColumn(nameof(IDAndName.Name), CommonResourceFormatter.Name, autoSize: true);
+            AddHiddenColumn(nameof(IDAndName.ID));
+            AddAutoSizeColumn(nameof(IDAndName.Name), CommonResourceFormatter.Name);
         }
 
         public new DocumentGridViewModel ViewModel

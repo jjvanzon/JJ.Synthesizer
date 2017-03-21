@@ -22,8 +22,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddColumns()
         {
-            AddColumn(nameof(AudioFileOutputListItemViewModel.ID), null, visible: false);
-            AddColumn(nameof(AudioFileOutputListItemViewModel.Name), CommonResourceFormatter.Name, autoSize: true);
+            AddHiddenColumn(nameof(AudioFileOutputListItemViewModel.ID));
+            AddAutoSizeColumn(nameof(AudioFileOutputListItemViewModel.Name), CommonResourceFormatter.Name);
             AddColumn(nameof(AudioFileOutputListItemViewModel.AudioFileFormat), ResourceFormatter.AudioFileFormat);
             AddColumn(nameof(AudioFileOutputListItemViewModel.SampleDataType), ResourceFormatter.SampleDataType);
             AddColumn(nameof(AudioFileOutputListItemViewModel.SpeakerSetup), ResourceFormatter.SpeakerSetup);
