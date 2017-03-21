@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -21,9 +22,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddColumns()
         {
-            AddColumn(PropertyNames.ID, null, visible: false);
-            AddColumn(PropertyNames.Name, CommonResourceFormatter.Name, autoSize: true);
-            AddColumn(PropertyNames.UsedIn, ResourceFormatter.UsedIn, widthInPixels: 180);
+            AddColumn(nameof(PatchListItemViewModel.ID), null, visible: false);
+            AddColumn(nameof(PatchListItemViewModel.Name), CommonResourceFormatter.Name, autoSize: true);
+            AddColumn(nameof(PatchListItemViewModel.UsedIn), ResourceFormatter.UsedIn, widthInPixels: 180);
         }
 
         public new PatchGridViewModel ViewModel

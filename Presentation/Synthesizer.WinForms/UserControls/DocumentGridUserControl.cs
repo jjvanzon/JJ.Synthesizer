@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
@@ -21,8 +22,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddColumns()
         {
-            AddColumn(PropertyNames.ID, null, visible: false);
-            AddColumn(PropertyNames.Name, CommonResourceFormatter.Name, autoSize: true);
+            AddColumn(nameof(IDAndName.ID), null, visible: false);
+            AddColumn(nameof(IDAndName.Name), CommonResourceFormatter.Name, autoSize: true);
         }
 
         public new DocumentGridViewModel ViewModel

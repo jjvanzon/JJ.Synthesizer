@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             sampleGridUserControl.CloseRequested += sampleGridUserControl_CloseRequested;
             sampleGridUserControl.CreateRequested += sampleGridUserControl_CreateRequested;
             sampleGridUserControl.DeleteRequested += sampleGridUserControl_DeleteRequested;
-            sampleGridUserControl.ShowPropertiesRequested += sampleGridUserControl_ShowPropertiesRequested;
+            sampleGridUserControl.ShowItemRequested += sampleGridUserControl_ShowItemRequested;
             samplePropertiesUserControl.CloseRequested += samplePropertiesUserControl_CloseRequested;
             samplePropertiesUserControl.LoseFocusRequested += samplePropertiesUserControl_LoseFocusRequested;
             scaleGridUserControl.CloseRequested += scaleGridUserControl_CloseRequested;
@@ -694,7 +694,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.SampleGridClose);
         }
 
-        private void sampleGridUserControl_ShowPropertiesRequested(object sender, EventArgs<int> e)
+        private void sampleGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.SamplePropertiesShow(e.Value));
         }

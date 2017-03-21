@@ -6,6 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -149,6 +150,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new SampleListItemViewModel
             {
                 IsActive = entity.IsActive,
+                IsActiveText = entity.IsActive ? CommonResourceFormatter.Yes : CommonResourceFormatter.No,
                 Name = entity.Name,
                 SamplingRate = entity.SamplingRate,
                 ID = entity.ID,

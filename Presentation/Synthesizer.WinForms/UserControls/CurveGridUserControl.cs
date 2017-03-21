@@ -3,6 +3,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -21,9 +22,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddColumns()
         {
-            AddColumn(PropertyNames.ID, null, visible: false);
-            AddColumn(PropertyNames.Name, CommonResourceFormatter.Name, autoSize: true);
-            AddColumn(PropertyNames.UsedIn, ResourceFormatter.UsedIn, widthInPixels: 180);
+            AddColumn(nameof(CurveListItemViewModel.ID), null, visible: false);
+            AddColumn(nameof(CurveListItemViewModel.Name), CommonResourceFormatter.Name, autoSize: true);
+            AddColumn(nameof(CurveListItemViewModel.UsedIn), ResourceFormatter.UsedIn, widthInPixels: 180);
         }
 
         public new CurveGridViewModel ViewModel

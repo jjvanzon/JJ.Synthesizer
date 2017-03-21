@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -14,19 +15,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             Title = ResourceFormatter.LowerDocuments;
             IDPropertyName = PropertyNames.ID;
-            ColumnTitlesVisible = false;
+            ColumnTitlesVisible = true;
         }
 
         protected override object GetDataSource() => ViewModel?.List;
 
         protected override void AddColumns()
         {
-            AddColumn(PropertyNames.ID, CommonResourceFormatter.ID, visible: false);
-            AddColumn(PropertyNames.Name, CommonResourceFormatter.Name, autoSize: true);
-            AddColumn(PropertyNames.AudioFileFormat, ResourceFormatter.AudioFileFormat);
-            AddColumn(PropertyNames.SampleDataType, ResourceFormatter.SampleDataType);
-            AddColumn(PropertyNames.SpeakerSetup, ResourceFormatter.SpeakerSetup);
-            AddColumn(PropertyNames.SamplingRate, ResourceFormatter.SamplingRate);
+            AddColumn(nameof(LibraryListItemViewModel.DocumentReferenceID), null, visible: false);
+            AddColumn(nameof(LibraryListItemViewModel.ReferencedDocumentName), CommonResourceFormatter.Name, autoSize: true);
+            AddColumn(nameof(LibraryListItemViewModel.Alias), ResourceFormatter.Alias, widthInPixels: 180);
         }
 
         public new LibraryGridViewModel ViewModel
