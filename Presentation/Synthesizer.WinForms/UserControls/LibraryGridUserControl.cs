@@ -11,11 +11,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public LibraryGridUserControl()
         {
             InitializeComponent();
+
+            Title = ResourceFormatter.LowerDocuments;
+            IDPropertyName = PropertyNames.ID;
+            ColumnHeadersVisible = false;
         }
 
-        protected override string IDPropertyName => PropertyNames.ID;
-        protected override string Title => ResourceFormatter.LowerDocuments;
-        protected override bool ColumnHeadersVisible => false;
         protected override object GetDataSource() => ViewModel?.List;
 
         protected override void AddColumns()

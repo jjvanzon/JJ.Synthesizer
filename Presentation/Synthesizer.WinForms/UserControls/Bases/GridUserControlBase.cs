@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
-using JJ.Business.Synthesizer.Resources;
+using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
@@ -15,9 +15,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         public event EventHandler CloseRequested;
         public event EventHandler<EventArgs<int>> ShowDetailsRequested;
 
-        private readonly TitleBarUserControl _titleBarUserControl;
-        private readonly SpecializedDataGridView _specializedDataGridView;
-        private readonly TableLayoutPanel _tableLayoutPanel;
+        [NotNull] private readonly TitleBarUserControl _titleBarUserControl;
+        [NotNull] private readonly SpecializedDataGridView _specializedDataGridView;
+        [NotNull] private readonly TableLayoutPanel _tableLayoutPanel;
 
         public GridUserControlBase()
         {
@@ -32,7 +32,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
             AutoScaleMode = AutoScaleMode.None;
 
-            SetTitles();
             // ReSharper disable once VirtualMemberCallInConstructor
             AddColumns();
         }
@@ -66,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 RemoveButtonVisible = true,
                 Dock = DockStyle.Fill,
                 Margin = new Padding(0),
-                Name = nameof(_titleBarUserControl)
+                Name = nameof(_titleBarUserControl),
             };
 
             titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
@@ -82,7 +81,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             {
                 Name = nameof(_specializedDataGridView),
                 Dock = DockStyle.Fill,
-                ColumnHeadersVisible = ColumnHeadersVisible,
                 Visible = true
             };
 
@@ -94,12 +92,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         // Gui
 
-        // ReSharper disable once UnassignedGetOnlyAutoProperty
-        protected virtual string IDPropertyName { get; }
-        // ReSharper disable once UnassignedGetOnlyAutoProperty
-        protected virtual string Title { get; }
-        // ReSharper disable once UnassignedGetOnlyAutoProperty
-        protected virtual bool ColumnHeadersVisible { get; }
+        protected string Title
+        {
+            get { return _titleBarUserControl.Text; }
+            set { _titleBarUserControl.Text = value; }
+        }
+
+        protected bool ColumnHeadersVisible
+        {
+            get { return _specializedDataGridView.ColumnHeadersVisible; }
+            set { _specializedDataGridView.ColumnHeadersVisible = value; }
+        }
+
         protected virtual void AddColumns() { }
 
         protected void AddColumn(string dataPropertyName, string title, int widthInPixels = 120, bool visible = true, bool autoSize = false)
@@ -124,14 +128,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             _specializedDataGridView.Columns.Add(dataGridViewColumn);
         }
 
-        private void SetTitles()
-        {
-            _titleBarUserControl.Text = Title;
-        }
 
         // Binding
 
         protected virtual object GetDataSource() => null;
+
+        protected string IDPropertyName { get; set; }
 
         protected override void ApplyViewModelToControls()
         {
@@ -219,6 +221,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             if (_specializedDataGridView.CurrentRow == null)
             {
                 return null;
+            }
+
+            if (string.IsNullOrEmpty(IDPropertyName))
+            {
+                throw new NullException(() => IDPropertyName);
             }
 
             string idColumnName = $"{IDPropertyName}Column";

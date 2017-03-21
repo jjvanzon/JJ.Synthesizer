@@ -11,11 +11,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public CurveGridUserControl()
         {
             InitializeComponent();
+
+            Title = ResourceFormatter.Curves;
+            IDPropertyName = PropertyNames.ID;
+            ColumnHeadersVisible = true;
         }
 
-        protected override string IDPropertyName => PropertyNames.ID;
-        protected override string Title => ResourceFormatter.Curves;
-        protected override bool ColumnHeadersVisible => true;
         protected override object GetDataSource() => ViewModel?.List;
 
         protected override void AddColumns()
