@@ -117,7 +117,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 HeaderText = title,
                 Name = dataPropertyName + "Column",
                 ReadOnly = true,
-                Visible = visible
+                Visible = visible,
+                Width = widthInPixels
             };
 
             if (autoSize)
