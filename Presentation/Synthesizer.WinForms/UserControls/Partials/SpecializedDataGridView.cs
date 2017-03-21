@@ -19,6 +19,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             Margin = new Padding(0);
             RowHeadersVisible = false;
+            AdvancedCellBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
+            EnableHeadersVisualStyles = false;
+            AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
         }
 
         public new object DataSource
