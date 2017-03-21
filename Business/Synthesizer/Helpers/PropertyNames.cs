@@ -71,5 +71,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Till = "Till";
         public const string UnderlyingPatch = "UnderlyingPatch";
         public const string UnderlyingPatchID = "UnderlyingPatchID";
+        public const string UsedIn = "UsedIn";
     }
 }

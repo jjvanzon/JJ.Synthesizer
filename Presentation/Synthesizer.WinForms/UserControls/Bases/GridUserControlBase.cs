@@ -33,6 +33,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             AutoScaleMode = AutoScaleMode.None;
 
             SetTitles();
+            // ReSharper disable once VirtualMemberCallInConstructor
+            AddColumns();
         }
 
         // Create Controls
@@ -65,7 +67,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 Dock = DockStyle.Fill,
                 Margin = new Padding(0),
                 Name = nameof(_titleBarUserControl)
-                //BackColor = SystemColors.Control
             };
 
             titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
@@ -79,7 +80,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         {
             var specializedDataGridView = new SpecializedDataGridView
             {
-                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
                 Name = nameof(_specializedDataGridView),
                 Dock = DockStyle.Fill,
                 ColumnHeadersVisible = ColumnHeadersVisible,
@@ -178,11 +178,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         private void Create()
         {
+            if (ViewModel == null) return;
+
             CreateRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void Delete()
         {
+            if (ViewModel == null) return;
+
             int? id = TryGetSelectedID();
             if (id.HasValue)
             {
@@ -199,6 +203,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         private void ShowDetails()
         {
+            if (ViewModel == null) return;
+
             int? id = TryGetSelectedID();
             if (id.HasValue)
             {
