@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         public event EventHandler CreateRequested;
         public event EventHandler<EventArgs<int>> DeleteRequested;
         public event EventHandler CloseRequested;
-        public event EventHandler<EventArgs<int>> ShowDetailsRequested;
+        public event EventHandler<EventArgs<int>> ShowItemRequested;
 
         [NotNull] private readonly TitleBarUserControl _titleBarUserControl;
         [NotNull] private readonly SpecializedDataGridView _specializedDataGridView;
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set { _titleBarUserControl.Text = value; }
         }
 
-        protected bool ColumnHeadersVisible
+        protected bool ColumnTitlesVisible
         {
             get { return _specializedDataGridView.ColumnHeadersVisible; }
             set { _specializedDataGridView.ColumnHeadersVisible = value; }
@@ -166,14 +166,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                     break;
 
                 case Keys.Enter:
-                    ShowDetails();
+                    OpenItem();
                     break;
             }
         }
 
         private void _specializedDataGridView_DoubleClick(object sender, EventArgs e)
         {
-            ShowDetails();
+            OpenItem();
         }
 
         // Actions
@@ -203,14 +203,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void ShowDetails()
+        private void OpenItem()
         {
             if (ViewModel == null) return;
 
             int? id = TryGetSelectedID();
             if (id.HasValue)
             {
-                ShowDetailsRequested?.Invoke(this, new EventArgs<int>(id.Value));
+                ShowItemRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 

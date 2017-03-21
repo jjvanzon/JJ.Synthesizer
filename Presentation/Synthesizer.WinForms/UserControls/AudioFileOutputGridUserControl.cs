@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             Title = ResourceFormatter.AudioFileOutputList;
             IDPropertyName = PropertyNames.ID;
-            ColumnHeadersVisible = true;
+            ColumnTitlesVisible = true;
         }
 
         protected override object GetDataSource() => ViewModel?.List;
@@ -28,8 +28,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddColumn(PropertyNames.SpeakerSetup, ResourceFormatter.SpeakerSetup);
             AddColumn(PropertyNames.SamplingRate, ResourceFormatter.SamplingRate);
         }
-
-        // Binding
 
         public new AudioFileOutputGridViewModel ViewModel
         {

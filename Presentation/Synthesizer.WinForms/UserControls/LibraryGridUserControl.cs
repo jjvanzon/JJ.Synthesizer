@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             Title = ResourceFormatter.LowerDocuments;
             IDPropertyName = PropertyNames.ID;
-            ColumnHeadersVisible = false;
+            ColumnTitlesVisible = false;
         }
 
         protected override object GetDataSource() => ViewModel?.List;

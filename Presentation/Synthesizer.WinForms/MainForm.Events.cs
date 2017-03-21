@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioFileOutputGridUserControl.CloseRequested += audioFileOutputGridUserControl_CloseRequested;
             audioFileOutputGridUserControl.CreateRequested += audioFileOutputGridUserControl_CreateRequested;
             audioFileOutputGridUserControl.DeleteRequested += audioFileOutputGridUserControl_DeleteRequested;
-            audioFileOutputGridUserControl.ShowDetailsRequested += audioFileOutputGridUserControl_ShowDetailsRequested;
+            audioFileOutputGridUserControl.ShowItemRequested += audioFileOutputGridUserControl_ShowItemRequested;
             audioFileOutputPropertiesUserControl.CloseRequested += audioFileOutputPropertiesUserControl_CloseRequested;
             audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
             audioOutputPropertiesUserControl.CloseRequested += audioOutputPropertiesUserControl_CloseRequested;
@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveGridUserControl.CloseRequested += curveGridUserControl_CloseRequested;
             curveGridUserControl.CreateRequested += curveGridUserControl_CreateRequested;
             curveGridUserControl.DeleteRequested += curveGridUserControl_DeleteRequested;
-            curveGridUserControl.ShowDetailsRequested += curveGridUserControl_ShowDetailsRequested;
+            curveGridUserControl.ShowItemRequested += curveGridUserControl_ShowItemRequested;
             curvePropertiesUserControl.CloseRequested += curvePropertiesUserControl_CloseRequested;
             curvePropertiesUserControl.LoseFocusRequested += curvePropertiesUserControl_LoseFocusRequested;
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentGridUserControl.CloseRequested += documentGridUserControl_CloseRequested;
             documentGridUserControl.CreateRequested += documentGridUserControl_CreateRequested;
             documentGridUserControl.DeleteRequested += documentGridUserControl_DeleteRequested;
-            documentGridUserControl.OpenRequested += documentGridUserControl_OpenRequested;
+            documentGridUserControl.ShowItemRequested += documentGridUserControl_ShowItemRequested;
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
@@ -149,7 +149,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.AudioFileOutputGridClose);
         }
 
-        private void audioFileOutputGridUserControl_ShowDetailsRequested(object sender, EventArgs<int> e)
+        private void audioFileOutputGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.AudioFileOutputPropertiesShow(e.Value));
         }
@@ -236,7 +236,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.CurveGridClose);
         }
 
-        private void curveGridUserControl_ShowDetailsRequested(object sender, EventArgs<int> e)
+        private void curveGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.CurveDetailsShow(e.Value));
         }
@@ -303,7 +303,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.DocumentDetailsCreate);
         }
 
-        private void documentGridUserControl_OpenRequested(object sender, EventArgs<int> e)
+        private void documentGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() =>
             {
