@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
@@ -104,12 +103,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set { _specializedDataGridView.ColumnHeadersVisible = value; }
         }
 
+        /// <summary> does nothing </summary>
         protected virtual void AddColumns() { }
 
         protected void AddColumn(string dataPropertyName, string title, int widthInPixels = 120, bool visible = true, bool autoSize = false)
         {
             if (string.IsNullOrEmpty(dataPropertyName)) throw new NullOrEmptyException(() => dataPropertyName);
-            if (string.IsNullOrEmpty(title)) throw new NullOrEmptyException(() => title);
 
             var dataGridViewColumn = new DataGridViewTextBoxColumn
             {

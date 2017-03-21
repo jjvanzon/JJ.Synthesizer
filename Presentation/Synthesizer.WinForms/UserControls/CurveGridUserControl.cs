@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddColumns()
         {
-            AddColumn(PropertyNames.ID, CommonResourceFormatter.ID, visible: false);
+            AddColumn(PropertyNames.ID, null, visible: false);
             AddColumn(PropertyNames.Name, CommonResourceFormatter.Name, autoSize: true);
             AddColumn(PropertyNames.UsedIn, ResourceFormatter.UsedIn, widthInPixels: 180);
         }

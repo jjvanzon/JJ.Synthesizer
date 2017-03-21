@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioFileOutputGridUserControl.CloseRequested += audioFileOutputGridUserControl_CloseRequested;
             audioFileOutputGridUserControl.CreateRequested += audioFileOutputGridUserControl_CreateRequested;
             audioFileOutputGridUserControl.DeleteRequested += audioFileOutputGridUserControl_DeleteRequested;
-            audioFileOutputGridUserControl.ShowPropertiesRequested += audioFileOutputGridUserControl_ShowPropertiesRequested;
+            audioFileOutputGridUserControl.ShowDetailsRequested += audioFileOutputGridUserControl_ShowDetailsRequested;
             audioFileOutputPropertiesUserControl.CloseRequested += audioFileOutputPropertiesUserControl_CloseRequested;
             audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
             audioOutputPropertiesUserControl.CloseRequested += audioOutputPropertiesUserControl_CloseRequested;
@@ -149,7 +149,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.AudioFileOutputGridClose);
         }
 
-        private void audioFileOutputGridUserControl_ShowPropertiesRequested(object sender, EventArgs<int> e)
+        private void audioFileOutputGridUserControl_ShowDetailsRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.AudioFileOutputPropertiesShow(e.Value));
         }
