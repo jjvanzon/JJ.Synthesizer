@@ -146,6 +146,7 @@
             // libraryGridUserControl
             // 
             this.libraryGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.libraryGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.libraryGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.libraryGridUserControl.Name = "libraryGridUserControl";
             this.libraryGridUserControl.Size = new System.Drawing.Size(851, 814);
@@ -251,6 +252,7 @@
             this.documentGridUserControl.Name = "documentGridUserControl";
             this.documentGridUserControl.Size = new System.Drawing.Size(851, 814);
             this.documentGridUserControl.TabIndex = 0;
+            this.documentGridUserControl.ViewModel = null;
             this.documentGridUserControl.Visible = false;
             // 
             // patchDetailsUserControl

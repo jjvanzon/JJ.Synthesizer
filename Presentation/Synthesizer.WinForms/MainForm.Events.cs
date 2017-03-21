@@ -113,7 +113,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             scaleGridUserControl.CloseRequested += scaleGridUserControl_CloseRequested;
             scaleGridUserControl.CreateRequested += scaleGridUserControl_CreateRequested;
             scaleGridUserControl.DeleteRequested += scaleGridUserControl_DeleteRequested;
-            scaleGridUserControl.ShowDetailsRequested += scaleGridUserControl_ShowDetailsRequested;
+            scaleGridUserControl.ShowItemRequested += scaleGridUserControl_ShowItemRequested;
             scalePropertiesUserControl.CloseRequested += scalePropertiesUserControl_CloseRequested;
             scalePropertiesUserControl.LoseFocusRequested += scalePropertiesUserControl_LoseFocusRequested;
             toneGridEditUserControl.CloseRequested += toneGridEditUserControl_CloseRequested;
@@ -726,7 +726,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.ScaleGridClose);
         }
 
-        private void scaleGridUserControl_ShowDetailsRequested(object sender, EventArgs<int> e)
+        private void scaleGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.ScaleShow(e.Value));
         }
