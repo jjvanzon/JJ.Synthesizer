@@ -161,6 +161,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.AudioFileOutputGrid.Visible = false;
             MainViewModel.Document.CurveGrid.Visible = false;
             MainViewModel.Document.SampleGrid.Visible = false;
+            MainViewModel.Document.LibraryGrid.Visible = false;
             MainViewModel.Document.ScaleGrid.Visible = false;
 
             MainViewModel.Document.VisibleCurveDetails = null;

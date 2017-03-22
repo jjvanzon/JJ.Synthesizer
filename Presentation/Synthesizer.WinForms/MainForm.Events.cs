@@ -53,6 +53,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
             documentTreeUserControl.ShowLibrariesRequested += documentTreeUserControl_ShowLibrariesRequested;
+            libraryGridUserControl.CloseRequested += libraryGridUserControl_CloseRequested;
+            libraryGridUserControl.CreateRequested += libraryGridUserControl_CreateRequested;
+            libraryGridUserControl.DeleteRequested += libraryGridUserControl_DeleteRequested;
+            libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.ShowCurrentPatchesRequested += menuUserControl_ShowCurrentPatchesRequested;
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
@@ -399,6 +403,28 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.DocumentPropertiesLoseFocus);
+        }
+
+        // Library
+
+        private void libraryGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.LibraryGridClose);
+        }
+
+        private void libraryGridUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void libraryGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void libraryGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
+        {
+            throw new NotImplementedException();
         }
 
         // Menu
