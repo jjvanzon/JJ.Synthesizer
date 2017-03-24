@@ -6,6 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Data.Canonical;
 using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
@@ -80,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        // DocumentReferecnes
+        // Libraries
 
         public static IList<LibraryListItemViewModel> ToListItemViewModels(this IList<DocumentReference> entities)
         {
@@ -101,6 +102,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        public static IList<IDAndName> ToIDAndNameList(IList<Document> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            IList<IDAndName> viewModels = entities.Select(x => x.ToIDAndName())
+                                                  .OrderBy(x => x.Name)
+                                                  .ToList();
+
+            return viewModels;
         }
 
         // Patches

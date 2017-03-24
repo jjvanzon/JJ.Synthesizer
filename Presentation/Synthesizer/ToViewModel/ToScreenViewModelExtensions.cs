@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -272,7 +273,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        // DocumentReference
+        // Library
 
         public static LibraryGridViewModel ToLibraryGridViewModel(this Document higherDocument)
         {
@@ -283,6 +284,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 HigherDocumentID = higherDocument.ID,
                 List = higherDocument.LowerDocumentReferences.ToListItemViewModels(),
                 ValidationMessages = new List<Message>(),
+            };
+
+            return viewModel;
+        }
+
+        public static LibrarySelectionPopupViewModel ToLibrarySelectionPopupViewModel(
+            [NotNull] this Document higherDocument, 
+            [NotNull] IList<Document> lowerDocumentCandidates)
+        {
+            if (higherDocument == null) throw new NullException(() => higherDocument);
+            if (lowerDocumentCandidates == null) throw new NullException(() => lowerDocumentCandidates);
+
+            var viewModel = new LibrarySelectionPopupViewModel
+            {
+                HigherDocumentID = higherDocument.ID,
+                List = ToListItemViewModelExtensions.ToIDAndNameList(lowerDocumentCandidates)
             };
 
             return viewModel;

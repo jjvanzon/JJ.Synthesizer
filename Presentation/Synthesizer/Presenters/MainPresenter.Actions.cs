@@ -866,6 +866,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _libraryGridPresenter.Close(userInput));
         }
 
+        public void LibrarySelectionPopupShow()
+        {
+            // GetViewModel
+            LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
+
+            // Template Method
+            TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.Show(userInput));
+        }
+
+        public void LibrarySelectionPopupCancel()
+        {
+            // GetViewModel
+            LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
+
+            // Template Method
+            TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.Cancel(userInput));
+        }
+
+        public void LibrarySelectionPopupOK(int lowerDocumentID)
+        {
+            // GetViewModel
+            LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
+
+            // Template Method
+            LibrarySelectionPopupViewModel viewModel = TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.OK(userInput, lowerDocumentID));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
+            }
+        }
+
         // Node
 
         public void NodePropertiesShow(int id)

@@ -33,6 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(LibraryGridViewModel), DispatchLibraryGridViewModel },
+                { typeof(LibrarySelectionPopupViewModel), DispatchLibrarySelectionPopupViewModel },
                 { typeof(MenuViewModel), DispatchMenuViewModel },
                 { typeof(NodePropertiesViewModel), DispatchNodePropertiesViewModel },
                 { typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
@@ -311,6 +312,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
+
+            DispatchViewModelBase(castedViewModel);
+        }
+
+        private void DispatchLibrarySelectionPopupViewModel(ViewModelBase viewModel2)
+        {
+            var castedViewModel = (LibrarySelectionPopupViewModel)viewModel2;
+
+            MainViewModel.Document.LibrarySelectionPopup = castedViewModel;
 
             DispatchViewModelBase(castedViewModel);
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Canonical;
@@ -60,7 +61,7 @@ namespace JJ.Business.Synthesizer
         }
 
         [NotNull]
-        public DocumentReference CreateDocumentReference([NotNull] Document higherDocument, [CanBeNull] Document lowerDocument = null)
+        public Result<DocumentReference> CreateDocumentReference([NotNull] Document higherDocument, [CanBeNull] Document lowerDocument = null)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
 
@@ -69,7 +70,7 @@ namespace JJ.Business.Synthesizer
             documentReference.LinkToHigherDocument(higherDocument);
             documentReference.LinkToLowerDocument(lowerDocument);
 
-            return documentReference;
+            return new Result<DocumentReference> { Data = documentReference };
         }
 
         // Save
@@ -146,6 +147,19 @@ namespace JJ.Business.Synthesizer
         }
 
         // Other
+
+        public IList<Document> GetLowerDocumentCandidates([NotNull] Document higherDocument)
+        {
+            if (higherDocument == null) throw new NullException(() => higherDocument);
+
+            HashSet<int> idsToExcludeHashSet = higherDocument.LowerDocumentReferences.Select(x => x.LowerDocument.ID).ToHashSet();
+            idsToExcludeHashSet.Add(higherDocument.ID);
+
+            IList<Document> allDocuments = _repositories.DocumentRepository.GetAll();
+            IList<Document> lowerDocumentCandidates = allDocuments.Except(x => idsToExcludeHashSet.Contains(x.ID)).ToArray();
+
+            return lowerDocumentCandidates;
+        }
 
         [NotNull]
         public VoidResult GetWarningsRecursive([NotNull] Document entity)

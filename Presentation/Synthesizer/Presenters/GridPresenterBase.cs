@@ -45,7 +45,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = true;
 
             return viewModel;
-
         }
 
         protected abstract TViewModel CreateViewModel(TViewModel userInput);

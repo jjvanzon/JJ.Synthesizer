@@ -262,6 +262,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentPropertiesRefresh();
             DocumentTreeRefresh();
             LibraryGridRefresh();
+            LibrarySelectionPopupRefresh();
             NodePropertiesDictionaryRefresh();
             OperatorPropertiesDictionary_ForCaches_Refresh();
             OperatorPropertiesDictionary_ForCurves_Refresh();
@@ -290,10 +291,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Note that AutoPatchDetails cannot be refreshed.
         }
 
+
         private void LibraryGridRefresh()
         {
             LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
             LibraryGridViewModel viewModel = _libraryGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void LibrarySelectionPopupRefresh()
+        {
+            LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
+            LibrarySelectionPopupViewModel viewModel = _librarySelectionPopupPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 

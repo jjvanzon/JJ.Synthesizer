@@ -82,6 +82,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
                 LibraryGrid = CreateEmptyLibraryGridViewModel(),
+                LibrarySelectionPopup = CreateEmptyLibrarySelectionPopupViewModel(),
                 NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),
                 OperatorPropertiesDictionary = new Dictionary<int, OperatorPropertiesViewModel>(),
                 OperatorPropertiesDictionary_ForCaches = new Dictionary<int, OperatorPropertiesViewModel_ForCache>(),
@@ -201,12 +202,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static LibraryGridViewModel CreateEmptyLibraryGridViewModel()
+        public static LibraryGridViewModel CreateEmptyLibraryGridViewModel()
         {
             var viewModel = new LibraryGridViewModel
             {
                 ValidationMessages = new List<Message>(),
                 List = new List<LibraryListItemViewModel>()
+            };
+
+            return viewModel;
+        }
+
+        public static LibrarySelectionPopupViewModel CreateEmptyLibrarySelectionPopupViewModel()
+        {
+            var viewModel = new LibrarySelectionPopupViewModel
+            {
+                ValidationMessages = new List<Message>(),
+                List = new List<IDAndName>()
             };
 
             return viewModel;

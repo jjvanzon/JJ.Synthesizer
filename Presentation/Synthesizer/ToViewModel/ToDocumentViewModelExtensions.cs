@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
                 LibraryGrid = document.ToLibraryGridViewModel(),
-                //DocumentReferenceSelectionPopup = document.ToDocumentReferenceSelectionPopupViewModel(),
+                LibrarySelectionPopup = ViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel(),
                 //DocumentReferencePropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 DocumentTree = document.ToTreeViewModel(grouplessPatches, patchGroupDtos),
                 NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
