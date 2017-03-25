@@ -84,6 +84,12 @@
     <Compile Include="Forms\DocumentCannotDeleteForm.Designer.cs">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\LibrarySelectionPopupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LibrarySelectionPopupForm.Designer.cs">
+      <DependentUpon>LibrarySelectionPopupForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\PatchDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +147,12 @@
     </Compile>
     <Compile Include="UserControls\Bases\PropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\LibrarySelectionPopupUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\LibrarySelectionPopupUserControl.Designer.cs">
+      <DependentUpon>LibrarySelectionPopupUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithCollectionRecalculation.cs">
       <SubType>UserControl</SubType>
@@ -219,6 +231,9 @@
     </Compile>
     <Compile Include="UserControls\AudioOutputPropertiesUserControl.Designer.cs">
       <DependentUpon>AudioOutputPropertiesUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Partials\LibrarySelectionGridUserControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\ToneGridEditUserControl.cs">
       <SubType>UserControl</SubType>
@@ -361,6 +376,9 @@
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LibrarySelectionPopupForm.resx">
+      <DependentUpon>LibrarySelectionPopupForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\PatchDetailsForm.resx">
       <DependentUpon>PatchDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -382,6 +400,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurrentPatchesUserControl.resx">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\LibrarySelectionPopupUserControl.resx">
+      <DependentUpon>LibrarySelectionPopupUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithCollectionRecalculation.resx">
       <DependentUpon>OperatorPropertiesUserControl_WithCollectionRecalculation.cs</DependentUpon>

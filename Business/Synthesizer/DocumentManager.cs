@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer
             documentReference.LinkToHigherDocument(higherDocument);
             documentReference.LinkToLowerDocument(lowerDocument);
 
-            return new Result<DocumentReference> { Data = documentReference };
+            return new Result<DocumentReference> { Data = documentReference, Successful = true, Messages = new List<Message>() };
         }
 
         // Save

@@ -18,7 +18,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             menuUserControl.Show(_presenter.MainViewModel.Menu);
 
             _autoPatchDetailsForm.ViewModel = _presenter.MainViewModel.Document.AutoPatchDetails;
-            _autoPatchDetailsForm.Visible = _presenter.MainViewModel.Document.AutoPatchDetails.Visible;
             audioFileOutputGridUserControl.ViewModel = _presenter.MainViewModel.Document.AudioFileOutputGrid;
             audioFileOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleAudioFileOutputProperties;
             audioOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
@@ -32,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentProperties;
             documentTreeUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentTree;
             libraryGridUserControl.ViewModel = _presenter.MainViewModel.Document.LibraryGrid;
+            _librarySelectionPopupForm.ViewModel = _presenter.MainViewModel.Document.LibrarySelectionPopup;
             nodePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleNodeProperties;
             operatorPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties;
             operatorPropertiesUserControl_ForCache.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCache;
@@ -75,6 +75,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
             }
 
+            _autoPatchDetailsForm.Visible = _presenter.MainViewModel.Document.AutoPatchDetails.Visible;
+
             // Panel Visibility
             bool treePanelMustBeVisible = MustBecomeVisible(documentTreeUserControl);
             SetTreePanelVisible(treePanelMustBeVisible);
@@ -95,6 +97,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (_presenter.MainViewModel.DocumentCannotDelete.Visible)
             {
                 _documentCannotDeleteForm.ShowDialog(_presenter.MainViewModel.DocumentCannotDelete);
+            }
+
+            if (_presenter.MainViewModel.Document.LibrarySelectionPopup.Visible)
+            {
+                if (!_librarySelectionPopupForm.Visible)
+                {
+                    _librarySelectionPopupForm.ShowDialog();
+                }
+            }
+            else
+            {
+                _librarySelectionPopupForm.Visible = false;
             }
 
             if (_presenter.MainViewModel.ValidationMessages.Count != 0)

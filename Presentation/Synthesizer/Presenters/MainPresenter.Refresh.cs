@@ -291,7 +291,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Note that AutoPatchDetails cannot be refreshed.
         }
 
-
         private void LibraryGridRefresh()
         {
             LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;

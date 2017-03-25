@@ -61,10 +61,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             LibrarySelectionPopupViewModel viewModel = ViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
+            // HACK: Do it in ToViewModel
+            viewModel.HigherDocumentID = userInput.HigherDocumentID;
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
+            viewModel.Visible = false;
 
             // Successful
             viewModel.Successful = true;
@@ -72,8 +74,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public LibrarySelectionPopupViewModel OK(LibrarySelectionPopupViewModel userInput, int lowerDocumentID)
+        public LibrarySelectionPopupViewModel OK(LibrarySelectionPopupViewModel userInput, int? lowerDocumentID)
         {
+            // TODO: Handle with validation message.
+            if (!lowerDocumentID.HasValue) throw new NullException(() => lowerDocumentID);
+
             if (userInput == null) throw new NullException(() => userInput);
 
             // RefreshCounter
@@ -84,7 +89,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // GetEntities
             Document higherDocument = _documentRepository.Get(userInput.HigherDocumentID);
-            Document lowerDocument = _documentRepository.Get(lowerDocumentID);
+            Document lowerDocument = _documentRepository.Get(lowerDocumentID.Value);
 
             // Business
             Result<DocumentReference> result = _documentManager.CreateDocumentReference(higherDocument, lowerDocument);
@@ -94,6 +99,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToViewModel
                 viewModel = ViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
+                // HACK: Do it in ToViewModel
+                viewModel.HigherDocumentID = userInput.HigherDocumentID;
             }
             else
             {
@@ -131,6 +138,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToViewModel
                 viewModel = ViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
+                // HACK: Do it in ToViewModel
+                viewModel.HigherDocumentID = userInput.HigherDocumentID;
             }
             else
             {

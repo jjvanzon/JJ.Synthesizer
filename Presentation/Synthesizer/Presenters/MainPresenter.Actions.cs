@@ -866,7 +866,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _libraryGridPresenter.Close(userInput));
         }
 
-        public void LibrarySelectionPopupShow()
+        public void LibraryAdd()
         {
             // GetViewModel
             LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
@@ -884,7 +884,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.Cancel(userInput));
         }
 
-        public void LibrarySelectionPopupOK(int lowerDocumentID)
+        public void LibrarySelectionPopupOK(int? lowerDocumentID)
         {
             // GetViewModel
             LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;

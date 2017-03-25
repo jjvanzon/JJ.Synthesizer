@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
@@ -11,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
     {
         private const int DEFAULT_COLUMN_WIDTH_IN_PIXELS = 120;
 
-        public event EventHandler CreateRequested;
+        public event EventHandler AddRequested;
         public event EventHandler<EventArgs<int>> DeleteRequested;
         public event EventHandler CloseRequested;
         public event EventHandler<EventArgs<int>> ShowItemRequested;
@@ -103,6 +104,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         {
             get { return _specializedDataGridView.ColumnHeadersVisible; }
             set { _specializedDataGridView.ColumnHeadersVisible = value; }
+        }
+
+        [DefaultValue(true)]
+        protected bool AddButtonVisible
+        {
+            get { return _titleBarUserControl.AddButtonVisible; }
+            set { _titleBarUserControl.AddButtonVisible = value; }
+        }
+
+        [DefaultValue(true)]
+        protected bool RemoveButtonVisible
+        {
+            get { return _titleBarUserControl.RemoveButtonVisible; }
+            set { _titleBarUserControl.RemoveButtonVisible = value; }
+        }
+
+        [DefaultValue(true)]
+        protected bool CloseButtonVisible
+        {
+            get { return _titleBarUserControl.CloseButtonVisible; }
+            set { _titleBarUserControl.CloseButtonVisible = value; }
         }
 
         /// <summary> does nothing </summary>
@@ -207,7 +229,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         {
             if (ViewModel == null) return;
 
-            CreateRequested?.Invoke(this, EventArgs.Empty);
+            AddRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void Delete()
@@ -241,7 +263,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         // Helpers
 
-        private int? TryGetSelectedID()
+        protected int? TryGetSelectedID()
         {
             if (_specializedDataGridView.CurrentRow == null)
             {

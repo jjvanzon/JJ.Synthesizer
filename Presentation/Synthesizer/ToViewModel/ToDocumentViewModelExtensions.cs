@@ -79,6 +79,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID)
             };
 
+            // HACK: Do it in ToViewModel
+            viewModel.LibrarySelectionPopup.HigherDocumentID = document.ID;
+
             if (document.AudioOutput != null)
             {
                 viewModel.AudioOutputProperties = document.AudioOutput.ToPropertiesViewModel();
