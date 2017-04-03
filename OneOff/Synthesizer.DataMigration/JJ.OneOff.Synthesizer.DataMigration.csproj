@@ -104,10 +104,6 @@
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Data\Synthesizer.DefaultRepositories\JJ.Data.Synthesizer.DefaultRepositories.csproj">
-      <Project>{31660f5f-6141-4da5-b364-6c0717b8f0a9}</Project>
-      <Name>JJ.Data.Synthesizer.DefaultRepositories</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Data\Synthesizer.NHibernate\JJ.Data.Synthesizer.NHibernate.csproj">
       <Project>{afcf2122-db43-461c-9fdf-41adec10a375}</Project>
       <Name>JJ.Data.Synthesizer.NHibernate</Name>

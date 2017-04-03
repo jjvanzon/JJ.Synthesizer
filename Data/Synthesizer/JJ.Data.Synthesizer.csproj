@@ -43,6 +43,31 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultRepositories\AudioFileFormatRepository.cs" />
+    <Compile Include="DefaultRepositories\AudioFileOutputRepository.cs" />
+    <Compile Include="DefaultRepositories\AudioOutputRepository.cs" />
+    <Compile Include="DefaultRepositories\ChannelRepository.cs" />
+    <Compile Include="DefaultRepositories\CurveRepository.cs" />
+    <Compile Include="DefaultRepositories\DimensionRepository.cs" />
+    <Compile Include="DefaultRepositories\DocumentReferenceRepository.cs" />
+    <Compile Include="DefaultRepositories\DocumentRepository.cs" />
+    <Compile Include="DefaultRepositories\EntityPositionRepository.cs" />
+    <Compile Include="DefaultRepositories\IDRepository.cs" />
+    <Compile Include="DefaultRepositories\InletRepository.cs" />
+    <Compile Include="DefaultRepositories\InterpolationTypeRepository.cs" />
+    <Compile Include="DefaultRepositories\NodeRepository.cs" />
+    <Compile Include="DefaultRepositories\NodeTypeRepository.cs" />
+    <Compile Include="DefaultRepositories\OperatorRepository.cs" />
+    <Compile Include="DefaultRepositories\OperatorTypeRepository.cs" />
+    <Compile Include="DefaultRepositories\OutletRepository.cs" />
+    <Compile Include="DefaultRepositories\PatchRepository.cs" />
+    <Compile Include="DefaultRepositories\SampleDataTypeRepository.cs" />
+    <Compile Include="DefaultRepositories\SampleRepository.cs" />
+    <Compile Include="DefaultRepositories\ScaleRepository.cs" />
+    <Compile Include="DefaultRepositories\ScaleTypeRepository.cs" />
+    <Compile Include="DefaultRepositories\SpeakerSetupChannelRepository.cs" />
+    <Compile Include="DefaultRepositories\SpeakerSetupRepository.cs" />
+    <Compile Include="DefaultRepositories\ToneRepository.cs" />
     <Compile Include="Entities\AudioFileOutput.cs" />
     <Compile Include="Entities\AudioOutput.cs" />
     <Compile Include="Entities\Document.cs">
@@ -67,12 +92,41 @@
     <Compile Include="Entities\Operator.cs" />
     <Compile Include="Entities\Outlet.cs" />
     <Compile Include="Entities\Patch.cs" />
+    <Compile Include="Interfaces\IAudioFileFormatRepository.cs" />
+    <Compile Include="Interfaces\IAudioFileOutputRepository.cs" />
+    <Compile Include="Interfaces\IAudioOutputRepository.cs" />
+    <Compile Include="Interfaces\IChannelRepository.cs" />
+    <Compile Include="Interfaces\ICurveRepository.cs" />
+    <Compile Include="Interfaces\IDimensionRepository.cs" />
+    <Compile Include="Interfaces\IDocumentReferenceRepository.cs" />
+    <Compile Include="Interfaces\IDocumentRepository.cs" />
+    <Compile Include="Interfaces\IEntityPositionRepository.cs" />
+    <Compile Include="Interfaces\IIDRepository.cs" />
+    <Compile Include="Interfaces\IInletRepository.cs" />
+    <Compile Include="Interfaces\IInterpolationTypeRepository.cs" />
+    <Compile Include="Interfaces\INodeRepository.cs" />
+    <Compile Include="Interfaces\INodeTypeRepository.cs" />
+    <Compile Include="Interfaces\IOperatorRepository.cs" />
+    <Compile Include="Interfaces\IOperatorTypeRepository.cs" />
+    <Compile Include="Interfaces\IOutletRepository.cs" />
+    <Compile Include="Interfaces\IPatchRepository.cs" />
+    <Compile Include="Interfaces\ISampleDataTypeRepository.cs" />
+    <Compile Include="Interfaces\ISampleRepository.cs" />
+    <Compile Include="Interfaces\IScaleRepository.cs" />
+    <Compile Include="Interfaces\IScaleTypeRepository.cs" />
+    <Compile Include="Interfaces\ISpeakerSetupChannelRepository.cs" />
+    <Compile Include="Interfaces\ISpeakerSetupRepository.cs" />
+    <Compile Include="Interfaces\IToneRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Sample.cs" />
     <Compile Include="Entities\AudioFileFormat.cs" />
     <Compile Include="Entities\Tone.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Data\JJ.Framework.Data.csproj">
+      <Project>{7ADEDDCE-6903-4A58-94F5-D0B39B21330F}</Project>
+      <Name>JJ.Framework.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
       <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
       <Name>JJ.Framework.Exceptions</Name>

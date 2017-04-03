@@ -134,10 +134,6 @@
       <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>
       <Name>JJ.Framework.Validation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Data\Synthesizer.DefaultRepositories\JJ.Data.Synthesizer.DefaultRepositories.csproj">
-      <Project>{31660f5f-6141-4da5-b364-6c0717b8f0a9}</Project>
-      <Name>JJ.Data.Synthesizer.DefaultRepositories</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Data\Synthesizer.Memory\JJ.Data.Synthesizer.Memory.csproj">
       <Project>{bc3be171-ad84-4ee4-8356-06a581bdcdf7}</Project>
       <Name>JJ.Data.Synthesizer.Memory</Name>

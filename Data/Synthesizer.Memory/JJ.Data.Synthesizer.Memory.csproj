@@ -101,10 +101,6 @@
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
       <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Synthesizer.DefaultRepositories\JJ.Data.Synthesizer.DefaultRepositories.csproj">
-      <Project>{31660f5f-6141-4da5-b364-6c0717b8f0a9}</Project>
-      <Name>JJ.Data.Synthesizer.DefaultRepositories</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Synthesizer\JJ.Data.Synthesizer.csproj">
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Data.Synthesizer</Name>
