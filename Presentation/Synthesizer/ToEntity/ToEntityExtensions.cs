@@ -1,6 +1,5 @@
 ﻿using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.Extensions;
@@ -16,6 +15,7 @@ using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.ToEntity

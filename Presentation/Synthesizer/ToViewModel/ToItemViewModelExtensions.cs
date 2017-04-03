@@ -5,11 +5,11 @@ using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

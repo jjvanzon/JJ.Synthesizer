@@ -4,8 +4,8 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

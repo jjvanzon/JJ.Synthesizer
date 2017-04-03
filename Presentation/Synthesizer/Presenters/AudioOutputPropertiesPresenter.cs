@@ -4,8 +4,8 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters

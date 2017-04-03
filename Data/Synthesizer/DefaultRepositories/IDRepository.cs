@@ -1,6 +1,6 @@
-﻿using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Data;
+﻿using JJ.Framework.Data;
 using System;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {

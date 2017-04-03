@@ -1,7 +1,7 @@
 ﻿using JJ.Framework.Data;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {

@@ -4,8 +4,8 @@ using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

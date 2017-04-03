@@ -4,12 +4,12 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Data;
 using JJ.Data.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Testing;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Tests

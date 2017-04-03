@@ -1,7 +1,7 @@
 ﻿using JJ.Framework.Data;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Data.Synthesizer.Memory.Repositories;
 using System.Reflection;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Data.Synthesizer.Memory.Helpers

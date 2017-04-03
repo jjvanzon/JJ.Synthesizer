@@ -1,4 +1,4 @@
-﻿using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+﻿using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers

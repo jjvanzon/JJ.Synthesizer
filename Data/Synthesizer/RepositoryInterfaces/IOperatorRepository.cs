@@ -2,7 +2,7 @@
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Data;
 
-namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
+namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
     public interface IOperatorRepository : IRepository<Operator, int>
     {

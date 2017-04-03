@@ -1,6 +1,5 @@
 ﻿using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +9,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

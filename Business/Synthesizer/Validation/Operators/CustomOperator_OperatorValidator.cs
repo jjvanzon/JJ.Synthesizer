@@ -3,7 +3,6 @@ using System.Linq;
 using JJ.Framework.Validation;
 using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
@@ -13,6 +12,7 @@ using JJ.Framework.Exceptions;
 using System.Text;
 using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

@@ -1,4 +1,4 @@
-﻿namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
+﻿namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
     public interface IIDRepository
     {

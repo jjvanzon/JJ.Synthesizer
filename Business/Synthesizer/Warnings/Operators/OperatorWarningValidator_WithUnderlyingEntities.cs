@@ -2,11 +2,11 @@
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {

@@ -1,8 +1,8 @@
 ﻿using JJ.Framework.Data;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Data.Synthesizer.Memory.Helpers;
 using System.Linq;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {

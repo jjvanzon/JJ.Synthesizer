@@ -1,6 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Tests.Configuration;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Configuration;
 using JJ.Framework.Data;
 using JJ.Framework.Data.Memory;
