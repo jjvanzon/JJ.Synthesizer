@@ -60,9 +60,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // ToViewModel
-            LibrarySelectionPopupViewModel viewModel = ViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
-            // HACK: Do it in ToViewModel
-            viewModel.HigherDocumentID = userInput.HigherDocumentID;
+            LibrarySelectionPopupViewModel viewModel = CreateEmptyViewModel(userInput);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -98,9 +96,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (result.Successful)
             {
                 // ToViewModel
-                viewModel = ViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
-                // HACK: Do it in ToViewModel
-                viewModel.HigherDocumentID = userInput.HigherDocumentID;
+                viewModel = CreateEmptyViewModel(userInput);
             }
             else
             {
@@ -137,9 +133,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!userInput.Visible)
             {
                 // ToViewModel
-                viewModel = ViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
-                // HACK: Do it in ToViewModel
-                viewModel.HigherDocumentID = userInput.HigherDocumentID;
+                viewModel = CreateEmptyViewModel(userInput);
             }
             else
             {
@@ -153,6 +147,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Successful
             viewModel.Successful = true;
 
+            return viewModel;
+        }
+
+        private LibrarySelectionPopupViewModel CreateEmptyViewModel(LibrarySelectionPopupViewModel userInput)
+        {
+            // GetEntity
+            Document higherDocument = _documentRepository.Get(userInput.HigherDocumentID);
+
+            // ToViewModel
+            LibrarySelectionPopupViewModel viewModel = higherDocument.ToEmptyLibrarySelectionPopupViewModel();
             return viewModel;
         }
 

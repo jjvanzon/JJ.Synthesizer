@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
                 LibraryGrid = document.ToLibraryGridViewModel(),
-                LibrarySelectionPopup = ViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel(),
+                LibrarySelectionPopup = document.ToEmptyLibrarySelectionPopupViewModel(),
                 //DocumentReferencePropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 DocumentTree = document.ToTreeViewModel(grouplessPatches, patchGroupDtos),
                 NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
@@ -78,9 +78,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScalePropertiesDictionary = document.Scales.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID)
             };
-
-            // HACK: Do it in ToViewModel
-            viewModel.LibrarySelectionPopup.HigherDocumentID = document.ID;
 
             if (document.AudioOutput != null)
             {

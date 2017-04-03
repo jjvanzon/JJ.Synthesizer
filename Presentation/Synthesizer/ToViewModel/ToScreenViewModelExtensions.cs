@@ -305,6 +305,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        /// <summary> The list will be empty, but still the HigherDocumentID property will be filled in. </summary>
+        public static LibrarySelectionPopupViewModel ToEmptyLibrarySelectionPopupViewModel([NotNull] this Document higherDocument)
+        {
+            if (higherDocument == null) throw new NullException(() => higherDocument);
+
+            var viewModel = ViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
+            viewModel.HigherDocumentID = higherDocument.ID;
+
+            return viewModel;
+        }
+
         // Operator
 
         /// <summary> Converts to properties view models, the operators that do not have a specialized properties view. </summary>
