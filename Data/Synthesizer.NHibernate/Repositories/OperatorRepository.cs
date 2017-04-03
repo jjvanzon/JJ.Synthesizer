@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Data;
 using JJ.Framework.Data.NHibernate;
 

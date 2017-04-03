@@ -22,6 +22,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 // ReSharper disable InvertIf
 

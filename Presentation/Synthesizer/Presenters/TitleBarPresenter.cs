@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Configuration;
 using JJ.Presentation.Synthesizer.Helpers;
 

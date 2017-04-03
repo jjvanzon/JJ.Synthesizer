@@ -5,6 +5,7 @@ using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers

@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Common;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Exceptions;

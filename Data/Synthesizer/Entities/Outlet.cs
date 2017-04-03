@@ -1,11 +1,11 @@
-﻿using JJ.Data.Synthesizer.Helpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using JetBrains.Annotations;
+using JJ.Data.Synthesizer.Helpers;
 
 // ReSharper disable VirtualMemberCallInConstructor
 
-namespace JJ.Data.Synthesizer
+namespace JJ.Data.Synthesizer.Entities
 {
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public class Outlet

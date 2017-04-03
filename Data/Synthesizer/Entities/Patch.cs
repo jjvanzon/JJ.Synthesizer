@@ -3,7 +3,7 @@ using System.Diagnostics;
 using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Helpers;
 
-namespace JJ.Data.Synthesizer
+namespace JJ.Data.Synthesizer.Entities
 {
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public class Patch

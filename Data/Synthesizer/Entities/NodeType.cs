@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using JJ.Data.Synthesizer.Helpers;
 
-namespace JJ.Data.Synthesizer
+namespace JJ.Data.Synthesizer.Entities
 {
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-    public class Dimension
+    public class NodeType
     {
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }

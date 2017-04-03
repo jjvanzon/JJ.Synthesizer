@@ -1,4 +1,5 @@
 ﻿using FluentNHibernate.Mapping;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Data.Synthesizer.NHibernate.Mapping
 {

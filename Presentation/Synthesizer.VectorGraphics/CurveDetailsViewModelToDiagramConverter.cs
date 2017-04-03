@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
@@ -15,6 +16,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+using Curve = JJ.Data.Synthesizer.Entities.Curve;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -22,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
     {
         private class CurveInfo
         {
-            public JJ.Data.Synthesizer.Curve MockCurve { get; set; }
+            public Curve MockCurve { get; set; }
             public IList<NodeTuple> NodeTuples { get; set; }
         }
 
@@ -640,7 +642,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         {
             IList<NodeInfo> nodeInfoList = nodeViewModels.Select(x => CreateNodeInfo(x)).ToArray();
 
-            JJ.Data.Synthesizer.Curve mockCurve = CurveApi.Create(nodeInfoList);
+            Curve mockCurve = CurveApi.Create(nodeInfoList);
 
             IList<NodeTuple> nodeTuples = new List<NodeTuple>();
 

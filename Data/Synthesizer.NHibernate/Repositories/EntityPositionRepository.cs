@@ -1,4 +1,5 @@
-﻿using JJ.Data.Synthesizer.NHibernate.Helpers;
+﻿using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.NHibernate.Helpers;
 using JJ.Framework.Data;
 using JJ.Framework.Data.NHibernate;
 

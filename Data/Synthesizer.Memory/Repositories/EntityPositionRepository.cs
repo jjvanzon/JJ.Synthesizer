@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.Data;
 using JJ.Framework.Data.Memory;
 using System.Linq;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {

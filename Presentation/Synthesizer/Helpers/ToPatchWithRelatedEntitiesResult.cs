@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {

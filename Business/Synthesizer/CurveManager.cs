@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 

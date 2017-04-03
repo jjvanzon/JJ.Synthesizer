@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Data;
+﻿using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Data;
 using JJ.Data.Synthesizer.Memory.Helpers;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories

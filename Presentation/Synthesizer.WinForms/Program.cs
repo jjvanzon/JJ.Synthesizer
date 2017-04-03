@@ -9,6 +9,7 @@ using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {

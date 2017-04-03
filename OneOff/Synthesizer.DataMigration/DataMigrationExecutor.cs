@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {

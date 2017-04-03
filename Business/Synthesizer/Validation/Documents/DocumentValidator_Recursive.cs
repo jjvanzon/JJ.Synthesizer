@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Business.Synthesizer.Validation.Patches;
 using JJ.Business.Synthesizer.Validation.Samples;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {

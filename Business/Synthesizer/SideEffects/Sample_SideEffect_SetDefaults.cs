@@ -4,6 +4,7 @@ using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {

@@ -11,6 +11,7 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Visitors

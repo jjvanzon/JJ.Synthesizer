@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace JJ.Data.Synthesizer
+namespace JJ.Data.Synthesizer.Entities
 {
     public class DocumentReference
     {

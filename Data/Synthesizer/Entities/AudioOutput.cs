@@ -1,4 +1,4 @@
-﻿namespace JJ.Data.Synthesizer
+﻿namespace JJ.Data.Synthesizer.Entities
 {
     public class AudioOutput
     {

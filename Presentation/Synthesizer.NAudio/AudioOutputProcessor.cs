@@ -1,5 +1,6 @@
 ﻿using System;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using NAudio.Wave;
 

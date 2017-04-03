@@ -5,6 +5,7 @@ using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Extensions
 {

@@ -9,6 +9,7 @@ using JJ.Framework.Testing;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Tests

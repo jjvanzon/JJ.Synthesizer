@@ -43,34 +43,34 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioFileOutput.cs" />
-    <Compile Include="AudioOutput.cs" />
-    <Compile Include="Document.cs">
+    <Compile Include="Entities\AudioFileOutput.cs" />
+    <Compile Include="Entities\AudioOutput.cs" />
+    <Compile Include="Entities\Document.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DocumentReference.cs" />
-    <Compile Include="EntityPosition.cs" />
+    <Compile Include="Entities\DocumentReference.cs" />
+    <Compile Include="Entities\EntityPosition.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
-    <Compile Include="Dimension.cs" />
-    <Compile Include="OperatorType.cs" />
-    <Compile Include="Scale.cs" />
-    <Compile Include="ScaleType.cs" />
-    <Compile Include="SpeakerSetupChannel.cs" />
-    <Compile Include="Channel.cs" />
-    <Compile Include="SampleDataType.cs" />
-    <Compile Include="Curve.cs" />
-    <Compile Include="Inlet.cs" />
-    <Compile Include="InterpolationType.cs" />
-    <Compile Include="SpeakerSetup.cs" />
-    <Compile Include="Node.cs" />
-    <Compile Include="NodeType.cs" />
-    <Compile Include="Operator.cs" />
-    <Compile Include="Outlet.cs" />
-    <Compile Include="Patch.cs" />
+    <Compile Include="Entities\Dimension.cs" />
+    <Compile Include="Entities\OperatorType.cs" />
+    <Compile Include="Entities\Scale.cs" />
+    <Compile Include="Entities\ScaleType.cs" />
+    <Compile Include="Entities\SpeakerSetupChannel.cs" />
+    <Compile Include="Entities\Channel.cs" />
+    <Compile Include="Entities\SampleDataType.cs" />
+    <Compile Include="Entities\Curve.cs" />
+    <Compile Include="Entities\Inlet.cs" />
+    <Compile Include="Entities\InterpolationType.cs" />
+    <Compile Include="Entities\SpeakerSetup.cs" />
+    <Compile Include="Entities\Node.cs" />
+    <Compile Include="Entities\NodeType.cs" />
+    <Compile Include="Entities\Operator.cs" />
+    <Compile Include="Entities\Outlet.cs" />
+    <Compile Include="Entities\Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sample.cs" />
-    <Compile Include="AudioFileFormat.cs" />
-    <Compile Include="Tone.cs" />
+    <Compile Include="Entities\Sample.cs" />
+    <Compile Include="Entities\AudioFileFormat.cs" />
+    <Compile Include="Entities\Tone.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">

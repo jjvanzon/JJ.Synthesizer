@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 using JJ.Framework.Validation.Resources;

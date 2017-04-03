@@ -6,6 +6,7 @@ using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {

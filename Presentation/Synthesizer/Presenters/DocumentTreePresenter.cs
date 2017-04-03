@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

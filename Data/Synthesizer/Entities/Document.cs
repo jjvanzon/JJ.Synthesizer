@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using JJ.Data.Synthesizer.Helpers;
+
 // ReSharper disable VirtualMemberCallInConstructor
 
-namespace JJ.Data.Synthesizer
+namespace JJ.Data.Synthesizer.Entities
 {
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public class Document

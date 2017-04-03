@@ -6,6 +6,7 @@ using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Warnings
 {

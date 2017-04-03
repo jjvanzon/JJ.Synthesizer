@@ -1,6 +1,7 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters

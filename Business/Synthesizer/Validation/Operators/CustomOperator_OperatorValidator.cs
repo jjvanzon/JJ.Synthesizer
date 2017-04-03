@@ -12,6 +12,7 @@ using JJ.Framework.Validation.Resources;
 using JJ.Framework.Exceptions;
 using System.Text;
 using JetBrains.Annotations;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

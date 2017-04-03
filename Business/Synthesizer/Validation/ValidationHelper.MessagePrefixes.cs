@@ -2,6 +2,7 @@
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JetBrains.Annotations;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation
 {

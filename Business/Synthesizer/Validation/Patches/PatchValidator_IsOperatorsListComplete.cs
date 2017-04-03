@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation.Patches

@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Converters
 {

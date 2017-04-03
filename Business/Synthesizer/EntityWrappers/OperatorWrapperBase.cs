@@ -2,6 +2,7 @@
 using JJ.Data.Synthesizer;
 using System.Diagnostics;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

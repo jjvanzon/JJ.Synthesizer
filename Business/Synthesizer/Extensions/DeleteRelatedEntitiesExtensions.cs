@@ -4,6 +4,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Extensions
 {

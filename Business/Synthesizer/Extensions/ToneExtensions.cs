@@ -1,6 +1,7 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Extensions

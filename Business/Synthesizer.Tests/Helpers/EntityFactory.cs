@@ -2,6 +2,7 @@
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using System.Collections.Generic;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

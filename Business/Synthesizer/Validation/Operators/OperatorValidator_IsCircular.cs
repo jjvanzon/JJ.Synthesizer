@@ -5,6 +5,7 @@ using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

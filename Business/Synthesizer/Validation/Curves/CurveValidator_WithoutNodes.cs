@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Curves
 {

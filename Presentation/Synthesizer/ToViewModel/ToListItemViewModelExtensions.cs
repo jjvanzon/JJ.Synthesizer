@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Data.Canonical;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel

@@ -3,6 +3,7 @@ using JJ.Data.Synthesizer.SqlClient;
 using JJ.Framework.Data.NHibernate;
 using System.Collections.Generic;
 using System.Reflection;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Data.Synthesizer.NHibernate
 {

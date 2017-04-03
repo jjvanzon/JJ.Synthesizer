@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Data.Canonical;
 using System;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Tests
 {

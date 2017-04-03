@@ -4,6 +4,7 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

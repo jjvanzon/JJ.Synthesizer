@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using JJ.Data.Synthesizer.Helpers;
 
-namespace JJ.Data.Synthesizer
+namespace JJ.Data.Synthesizer.Entities
 {
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public class Node

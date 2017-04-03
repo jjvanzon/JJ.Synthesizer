@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers

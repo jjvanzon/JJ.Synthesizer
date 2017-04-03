@@ -8,6 +8,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Business.Canonical;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

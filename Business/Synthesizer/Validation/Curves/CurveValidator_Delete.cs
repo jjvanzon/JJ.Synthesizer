@@ -10,6 +10,7 @@ using JJ.Framework.Validation;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Curves

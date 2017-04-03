@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {

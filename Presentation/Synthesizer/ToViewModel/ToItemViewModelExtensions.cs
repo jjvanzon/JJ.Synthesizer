@@ -9,6 +9,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

@@ -15,6 +15,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Configuration;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters

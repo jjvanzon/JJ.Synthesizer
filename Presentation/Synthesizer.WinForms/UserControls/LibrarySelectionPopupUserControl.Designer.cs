@@ -78,7 +78,6 @@
             this.Name = "LibrarySelectionPopupUserControl";
             this.Size = new System.Drawing.Size(420, 244);
             this.Load += new System.EventHandler(this.Base_Load);
-            this.VisibleChanged += new System.EventHandler(this.LibrarySelectionPopupUserControl_VisibleChanged);
             this.Resize += new System.EventHandler(this.Base_Resize);
             this.ResumeLayout(false);
 

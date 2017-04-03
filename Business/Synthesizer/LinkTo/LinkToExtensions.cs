@@ -1,6 +1,8 @@
 ﻿using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.Entities;
+
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 // ReSharper disable InvertIf
 

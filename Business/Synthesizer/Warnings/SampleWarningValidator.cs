@@ -3,6 +3,7 @@ using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation.Resources;
 

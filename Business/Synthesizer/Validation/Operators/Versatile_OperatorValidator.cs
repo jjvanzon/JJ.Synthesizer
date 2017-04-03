@@ -5,6 +5,7 @@ using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

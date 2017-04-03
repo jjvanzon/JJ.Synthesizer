@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
 using JJ.Data.Canonical;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;

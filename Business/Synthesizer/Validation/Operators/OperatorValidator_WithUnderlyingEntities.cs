@@ -9,6 +9,7 @@ using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Business.Synthesizer.Validation.Samples;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

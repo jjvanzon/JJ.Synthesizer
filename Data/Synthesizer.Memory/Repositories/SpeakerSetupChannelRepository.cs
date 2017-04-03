@@ -2,6 +2,7 @@
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Data.Synthesizer.Memory.Helpers;
 using System.Collections.Generic;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {

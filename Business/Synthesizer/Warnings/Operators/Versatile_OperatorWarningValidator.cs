@@ -4,6 +4,7 @@ using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {

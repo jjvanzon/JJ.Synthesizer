@@ -4,6 +4,7 @@ using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using System.Linq;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators

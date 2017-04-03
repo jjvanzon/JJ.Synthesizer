@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Data.Synthesizer.Helpers

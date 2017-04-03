@@ -1,26 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Helpers;
+
 // ReSharper disable VirtualMemberCallInConstructor
 
-namespace JJ.Data.Synthesizer
+namespace JJ.Data.Synthesizer.Entities
 {
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-    public class Curve
+    public class Channel
     {
-        public Curve()
+        public Channel()
         {
-            Nodes = new List<Node>();
+            SpeakerSetupChannels = new List<SpeakerSetupChannel>();
         }
 
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
-        public virtual IList<Node> Nodes { get; set; }
 
-        /// <summary> nullable </summary>
-        [CanBeNull]
-        public virtual Document Document { get; set; }
+        /// <summary> bridge entity </summary>
+        public virtual IList<SpeakerSetupChannel> SpeakerSetupChannels { get; set; }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }

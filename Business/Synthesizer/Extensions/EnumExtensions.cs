@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Extensions
 {

@@ -24,6 +24,7 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Business.Synthesizer.Roslyn;
 using JJ.Business.Synthesizer.Roslyn.Calculation;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer
 {

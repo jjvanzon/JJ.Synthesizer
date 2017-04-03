@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Api
 {

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
 using System.Linq;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer
 {

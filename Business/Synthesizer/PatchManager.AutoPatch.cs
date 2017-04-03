@@ -8,6 +8,8 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
+using JJ.Data.Synthesizer.Entities;
+
 // ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer

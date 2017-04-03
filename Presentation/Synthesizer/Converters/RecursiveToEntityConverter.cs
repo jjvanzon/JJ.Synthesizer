@@ -7,6 +7,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Business.Synthesizer;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {

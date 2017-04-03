@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings.Operators;
+using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
