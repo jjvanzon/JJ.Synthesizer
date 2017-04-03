@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls

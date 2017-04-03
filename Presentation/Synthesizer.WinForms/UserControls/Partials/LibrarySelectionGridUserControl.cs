@@ -12,14 +12,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     {
         public new int? TryGetSelectedID() => base.TryGetSelectedID();
 
-        //// WinForms designer will not show base event handlers,
-        //// so define new ones here.
-        //public new event EventHandler<EventArgs<int>> ShowItemRequested
-        //{
-        //    add { base.ShowItemRequested += value; }
-        //    remove { base.ShowItemRequested -= value; }
-        //}
-
         public LibrarySelectionGridUserControl()
         {
             Title = CommonResourceFormatter.Select_WithName(ResourceFormatter.LowerDocument);
@@ -34,8 +26,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         protected override void AddColumns()
         {
-            AddHiddenColumn(nameof(IDAndName.ID));
             AddAutoSizeColumn(nameof(IDAndName.Name), CommonResourceFormatter.Name);
+
+            // NOTE: Add ID column last. If the ID column is the first column, WinForms will make the column visible,
+            // when the DataGrid becomes invisible and then visible again, 
+            // even when it is due to its parent becoming visible and then invisible again.
+            // Thanks, WinForms.
+            // Source of solution:
+            // http://stackoverflow.com/questions/6359234/datagridview-id-column-will-not-hide 
+            AddHiddenColumn(nameof(IDAndName.ID));
         }
 
         public new LibrarySelectionPopupViewModel ViewModel

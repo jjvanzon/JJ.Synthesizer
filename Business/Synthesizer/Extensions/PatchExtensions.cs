@@ -107,8 +107,7 @@ namespace JJ.Business.Synthesizer.Extensions
             where TOperatorWrapper : OperatorWrapperBase
         {
             Type operatorWrapperType = typeof(TOperatorWrapper);
-            OperatorTypeEnum operatorTypeEnum;
-            if (!_operatorWrapperType_To_OperatorTypeEnum_Dictionary.TryGetValue(operatorWrapperType, out operatorTypeEnum))
+            if (!_operatorWrapperType_To_OperatorTypeEnum_Dictionary.TryGetValue(operatorWrapperType, out OperatorTypeEnum operatorTypeEnum))
             {
                 throw new NotSupportedException($"OperatorWrapper Type '{typeof(TOperatorWrapper)}' not supported.");
             }

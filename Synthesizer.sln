@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{72857B67-3003-486C-9BB3-34AF5748BE95}"
 EndProject
@@ -1301,7 +1301,12 @@ Global
 		{CDA729CD-CD5E-4700-8308-B4B916C8EAB9} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{5D06A212-5459-47F3-8109-E012C5FC9E3A} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{E150EBF6-16F7-4299-B4BD-791757D6CC9E} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{58794EC8-775B-4EA6-A12C-F330AB03B0F8} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{FA44ABA2-8E13-402C-A5A0-8D73C74B5181} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{71694F33-A9C9-4C84-B21A-1F5488784167} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{934FDD6D-60BA-4478-975C-0C692C1AC4BB} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{4D7EE000-E58D-4EB8-8DB3-B3BFED50CFFB} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{06933DCA-EB38-4766-9794-A4EC0F5DA135} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{C3E382BA-94E2-4AB5-855B-17BF0C10ACCB} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -1492,18 +1497,23 @@ Global
 		SccProjectName49 = Framework/Reflection.Tests
 		SccLocalPath49 = Framework\\Reflection.Tests
 		SccProjectUniqueName50 = Business\\SynthesizerPrototype.Tests\\JJ.Business.SynthesizerPrototype.Tests.csproj
+		SccProjectTopLevelParentUniqueName50 = Synthesizer.sln
 		SccProjectName50 = Business/SynthesizerPrototype.Tests
 		SccLocalPath50 = Business\\SynthesizerPrototype.Tests
 		SccProjectUniqueName51 = Business\\SynthesizerPrototype\\JJ.Business.SynthesizerPrototype.csproj
+		SccProjectTopLevelParentUniqueName51 = Synthesizer.sln
 		SccProjectName51 = Business/SynthesizerPrototype
 		SccLocalPath51 = Business\\SynthesizerPrototype
 		SccProjectUniqueName52 = Business\\SynthesizerPrototype.Roslyn\\JJ.Business.SynthesizerPrototype.Roslyn.csproj
+		SccProjectTopLevelParentUniqueName52 = Synthesizer.sln
 		SccProjectName52 = Business/SynthesizerPrototype.Roslyn
 		SccLocalPath52 = Business\\SynthesizerPrototype.Roslyn
 		SccProjectUniqueName53 = Business\\SynthesizerPrototype.WithInheritance\\JJ.Business.SynthesizerPrototype.WithInheritance.csproj
+		SccProjectTopLevelParentUniqueName53 = Synthesizer.sln
 		SccProjectName53 = Business/SynthesizerPrototype.WithInheritance
 		SccLocalPath53 = Business\\SynthesizerPrototype.WithInheritance
 		SccProjectUniqueName54 = Business\\SynthesizerPrototype.WithStructs\\JJ.Business.SynthesizerPrototype.WithStructs.csproj
+		SccProjectTopLevelParentUniqueName54 = Synthesizer.sln
 		SccProjectName54 = Business/SynthesizerPrototype.WithStructs
 		SccLocalPath54 = Business\\SynthesizerPrototype.WithStructs
 		SccProjectUniqueName55 = Framework\\IO.Tests\\JJ.Framework.IO.Tests.csproj
