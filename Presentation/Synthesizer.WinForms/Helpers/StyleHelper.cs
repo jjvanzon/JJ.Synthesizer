@@ -10,12 +10,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
     internal static class StyleHelper
     {
-        const int LABEL_COLUMN_INDEX = 0;
+        private const int LABEL_COLUMN_INDEX = 0;
 
         public static Font DefaultFont { get; } = new Font("Verdana", 12);
         public static int DefaultSpacing { get; } = 4;
         public static int IconButtonSize { get; } = 24;
         public static int DefaultMargin { get; } = 2;
+        public static int ButtonHeight { get; } = 32;
 
         /// <summary>
         /// Sets the first column of the TableLayoutPanel to accommodate the width of all its Labels' Texts.

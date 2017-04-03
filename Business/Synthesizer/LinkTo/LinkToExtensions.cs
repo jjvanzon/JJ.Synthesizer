@@ -102,16 +102,13 @@ namespace JJ.Business.Synthesizer.LinkTo
 
         public static void LinkToHigherDocument([NotNull] this DocumentReference documentReference, [CanBeNull] Document higherDocument)
         {
-            // DocumentReference -> HigherDocument
-            // Document -> HigherDocuments
-
             if (documentReference == null) throw new NullException(() => documentReference);
 
             if (documentReference.HigherDocument != null)
             {
-                if (documentReference.HigherDocument.HigherDocumentReferences.Contains(documentReference))
+                if (documentReference.HigherDocument.LowerDocumentReferences.Contains(documentReference))
                 {
-                    documentReference.HigherDocument.HigherDocumentReferences.Remove(documentReference);
+                    documentReference.HigherDocument.LowerDocumentReferences.Remove(documentReference);
                 }
             }
 
@@ -119,25 +116,22 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             if (documentReference.HigherDocument != null)
             {
-                if (!documentReference.HigherDocument.HigherDocumentReferences.Contains(documentReference))
+                if (!documentReference.HigherDocument.LowerDocumentReferences.Contains(documentReference))
                 {
-                    documentReference.HigherDocument.HigherDocumentReferences.Add(documentReference);
+                    documentReference.HigherDocument.LowerDocumentReferences.Add(documentReference);
                 }
             }
         }
 
         public static void LinkToLowerDocument([NotNull] this DocumentReference documentReference, [CanBeNull] Document lowerDocument)
         {
-            // DocumentReference -> LowerDocument
-            // Document -> LowerDocuments
-
             if (documentReference == null) throw new NullException(() => documentReference);
 
             if (documentReference.LowerDocument != null)
             {
-                if (documentReference.LowerDocument.LowerDocumentReferences.Contains(documentReference))
+                if (documentReference.LowerDocument.HigherDocumentReferences.Contains(documentReference))
                 {
-                    documentReference.LowerDocument.LowerDocumentReferences.Remove(documentReference);
+                    documentReference.LowerDocument.HigherDocumentReferences.Remove(documentReference);
                 }
             }
 
@@ -145,9 +139,9 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             if (documentReference.LowerDocument != null)
             {
-                if (!documentReference.LowerDocument.LowerDocumentReferences.Contains(documentReference))
+                if (!documentReference.LowerDocument.HigherDocumentReferences.Contains(documentReference))
                 {
-                    documentReference.LowerDocument.LowerDocumentReferences.Add(documentReference);
+                    documentReference.LowerDocument.HigherDocumentReferences.Add(documentReference);
                 }
             }
         }

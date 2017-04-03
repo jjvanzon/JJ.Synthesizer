@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         private const int DEFAULT_COLUMN_WIDTH_IN_PIXELS = 120;
 
         public event EventHandler AddRequested;
-        public event EventHandler<EventArgs<int>> DeleteRequested;
+        public event EventHandler<EventArgs<int>> RemoveRequested;
         public event EventHandler CloseRequested;
         public event EventHandler<EventArgs<int>> ShowItemRequested;
 
@@ -191,12 +191,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         private void _titleBarUserControl_AddClicked(object sender, EventArgs e)
         {
-            Create();
+            Add();
         }
 
         private void _titleBarUserControl_RemoveClicked(object sender, EventArgs e)
         {
-            Delete();
+            Remove();
         }
 
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e)
@@ -209,7 +209,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             switch (e.KeyCode)
             {
                 case Keys.Delete:
-                    Delete();
+                    Remove();
                     break;
 
                 case Keys.Enter:
@@ -225,21 +225,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         // Actions
 
-        private void Create()
+        private void Add()
         {
             if (ViewModel == null) return;
 
             AddRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void Delete()
+        private void Remove()
         {
             if (ViewModel == null) return;
 
             int? id = TryGetSelectedID();
             if (id.HasValue)
             {
-                DeleteRequested?.Invoke(this, new EventArgs<int>(id.Value));
+                RemoveRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 

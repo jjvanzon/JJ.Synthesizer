@@ -848,6 +848,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Library
 
+        public void LibraryAdd()
+        {
+            // GetViewModel
+            LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
+
+            // Template Method
+            TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.Show(userInput));
+        }
+
         public void LibraryGridShow()
         {
             // GetViewModel
@@ -866,13 +875,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _libraryGridPresenter.Close(userInput));
         }
 
-        public void LibraryAdd()
+        public void LibraryRemove(int documentReferenceID)
         {
             // GetViewModel
-            LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
+            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
 
             // Template Method
-            TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.Show(userInput));
+            LibraryGridViewModel viewModel = TemplateActionMethod(userInput, () => _libraryGridPresenter.Remove(userInput, documentReferenceID));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
+            }
         }
 
         public void LibrarySelectionPopupCancel()

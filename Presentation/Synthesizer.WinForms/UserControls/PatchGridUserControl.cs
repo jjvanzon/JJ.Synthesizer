@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             InitializeComponent();
 
-            IDPropertyName = PropertyNames.ID;
+            IDPropertyName = nameof(PatchListItemViewModel.ID);
             Title = ResourceFormatter.Patches;
             ColumnTitlesVisible = true;
         }

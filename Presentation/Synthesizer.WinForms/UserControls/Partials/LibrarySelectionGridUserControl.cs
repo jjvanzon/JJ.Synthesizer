@@ -1,10 +1,10 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -12,10 +12,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     {
         public new int? TryGetSelectedID() => base.TryGetSelectedID();
 
+        //// WinForms designer will not show base event handlers,
+        //// so define new ones here.
+        //public new event EventHandler<EventArgs<int>> ShowItemRequested
+        //{
+        //    add { base.ShowItemRequested += value; }
+        //    remove { base.ShowItemRequested -= value; }
+        //}
+
         public LibrarySelectionGridUserControl()
         {
             Title = CommonResourceFormatter.Select_WithName(ResourceFormatter.LowerDocument);
-            IDPropertyName = PropertyNames.ID;
+            IDPropertyName = nameof(IDAndName.ID);
             ColumnTitlesVisible = true;
             AddButtonVisible = false;
             RemoveButtonVisible = false;

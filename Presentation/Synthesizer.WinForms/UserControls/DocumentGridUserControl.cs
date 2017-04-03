@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             InitializeComponent();
 
-            IDPropertyName = PropertyNames.ID;
+            IDPropertyName = nameof(IDAndName.ID);
             Title = ResourceFormatter.Documents;
             ColumnTitlesVisible = false;
         }

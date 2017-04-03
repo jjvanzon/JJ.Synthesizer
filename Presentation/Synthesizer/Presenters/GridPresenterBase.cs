@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return TemplateMethod(userInput, viewModel => viewModel.Visible = false);
         }
 
-        private TViewModel TemplateMethod(TViewModel userInput, Action<TViewModel> action)
+        protected TViewModel TemplateMethod(TViewModel userInput, Action<TViewModel> action)
         {
             if (userInput == null) throw new NullException(() => userInput);
 

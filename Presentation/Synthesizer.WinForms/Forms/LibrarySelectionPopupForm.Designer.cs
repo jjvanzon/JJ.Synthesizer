@@ -50,6 +50,7 @@
             this.ClientSize = new System.Drawing.Size(917, 549);
             this.Controls.Add(this.librarySelectionPopupUserControl);
             this.Name = "LibrarySelectionPopupForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "LibrarySelectionPopupForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LibrarySelectionPopupForm_FormClosing);
             this.ResumeLayout(false);

@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             InitializeComponent();
 
-            IDPropertyName = PropertyNames.ID;
+            IDPropertyName = nameof(SampleListItemViewModel.ID);
             Title = ResourceFormatter.Samples;
             ColumnTitlesVisible = true;
         }

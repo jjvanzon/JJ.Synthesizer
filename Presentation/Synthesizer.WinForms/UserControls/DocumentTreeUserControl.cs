@@ -147,11 +147,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 foreach (IDAndName patchViewModel in libraryViewModel.Patches)
                 {
                     TreeNode patchTreeNode = ConvertLibraryPatchTreeNode(patchViewModel);
-                    _librariesTreeNode.Nodes.Add(patchTreeNode);
+                    libraryTreeNode.Nodes.Add(patchTreeNode);
                 }
 
-                _librariesTreeNode.Expand();
+                libraryTreeNode.Expand();
             }
+
+            _librariesTreeNode.Expand();
         }
 
         private static TreeNode ConvertLibraryPatchTreeNode(IDAndName idAndName)

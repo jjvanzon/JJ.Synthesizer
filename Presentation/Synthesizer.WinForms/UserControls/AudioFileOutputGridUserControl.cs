@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             InitializeComponent();
 
             Title = ResourceFormatter.AudioFileOutputList;
-            IDPropertyName = PropertyNames.ID;
+            IDPropertyName = nameof(AudioFileOutputListItemViewModel.ID);
             ColumnTitlesVisible = true;
         }
 

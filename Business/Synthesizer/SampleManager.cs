@@ -29,9 +29,7 @@ namespace JJ.Business.Synthesizer
 
         public SampleManager([NotNull] SampleRepositories repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _repositories = repositories;
+            _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
         // Validate

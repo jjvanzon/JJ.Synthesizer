@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             audioFileOutputGridUserControl.CloseRequested += audioFileOutputGridUserControl_CloseRequested;
             audioFileOutputGridUserControl.AddRequested += audioFileOutputGridUserControl_AddRequested;
-            audioFileOutputGridUserControl.DeleteRequested += audioFileOutputGridUserControl_DeleteRequested;
+            audioFileOutputGridUserControl.RemoveRequested += audioFileOutputGridUserControl_RemoveRequested;
             audioFileOutputGridUserControl.ShowItemRequested += audioFileOutputGridUserControl_ShowItemRequested;
             audioFileOutputPropertiesUserControl.CloseRequested += audioFileOutputPropertiesUserControl_CloseRequested;
             audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveDetailsUserControl.ShowNodePropertiesRequested += curveDetailsUserControl_ShowNodePropertiesRequested;
             curveGridUserControl.CloseRequested += curveGridUserControl_CloseRequested;
             curveGridUserControl.AddRequested += curveGridUserControl_AddRequested;
-            curveGridUserControl.DeleteRequested += curveGridUserControl_DeleteRequested;
+            curveGridUserControl.RemoveRequested += curveGridUserControl_RemoveRequested;
             curveGridUserControl.ShowItemRequested += curveGridUserControl_ShowItemRequested;
             curvePropertiesUserControl.CloseRequested += curvePropertiesUserControl_CloseRequested;
             curvePropertiesUserControl.LoseFocusRequested += curvePropertiesUserControl_LoseFocusRequested;
@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
             documentGridUserControl.CloseRequested += documentGridUserControl_CloseRequested;
             documentGridUserControl.AddRequested += documentGridUserControl_AddRequested;
-            documentGridUserControl.DeleteRequested += documentGridUserControl_DeleteRequested;
+            documentGridUserControl.RemoveRequested += documentGridUserControl_RemoveRequested;
             documentGridUserControl.ShowItemRequested += documentGridUserControl_ShowItemRequested;
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowLibrariesRequested += documentTreeUserControl_ShowLibrariesRequested;
             libraryGridUserControl.CloseRequested += libraryGridUserControl_CloseRequested;
             libraryGridUserControl.AddRequested += libraryGridUserControl_AddRequested;
-            libraryGridUserControl.DeleteRequested += libraryGridUserControl_DeleteRequested;
+            libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
             libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.ShowCurrentPatchesRequested += menuUserControl_ShowCurrentPatchesRequested;
@@ -103,20 +103,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.ShowPatchPropertiesRequested += patchDetailsUserControl_ShowPatchPropertiesRequested;
             patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
             patchGridUserControl.AddRequested += patchGridUserControl_AddRequested;
-            patchGridUserControl.DeleteRequested += patchGridUserControl_DeleteRequested;
+            patchGridUserControl.RemoveRequested += patchGridUserControl_RemoveRequested;
             patchGridUserControl.ShowItemRequested += patchGridUserControl_ShowItemRequested;
             patchPropertiesUserControl.AddCurrentPatchRequested += patchPropertiesUserControl_AddCurrentPatchRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
             patchPropertiesUserControl.LoseFocusRequested += patchPropertiesUserControl_LoseFocusRequested;
             sampleGridUserControl.CloseRequested += sampleGridUserControl_CloseRequested;
             sampleGridUserControl.AddRequested += sampleGridUserControl_AddRequested;
-            sampleGridUserControl.DeleteRequested += sampleGridUserControl_DeleteRequested;
+            sampleGridUserControl.RemoveRequested += sampleGridUserControl_RemoveRequested;
             sampleGridUserControl.ShowItemRequested += sampleGridUserControl_ShowItemRequested;
             samplePropertiesUserControl.CloseRequested += samplePropertiesUserControl_CloseRequested;
             samplePropertiesUserControl.LoseFocusRequested += samplePropertiesUserControl_LoseFocusRequested;
             scaleGridUserControl.CloseRequested += scaleGridUserControl_CloseRequested;
             scaleGridUserControl.AddRequested += scaleGridUserControl_AddRequested;
-            scaleGridUserControl.DeleteRequested += scaleGridUserControl_DeleteRequested;
+            scaleGridUserControl.RemoveRequested += scaleGridUserControl_RemoveRequested;
             scaleGridUserControl.ShowItemRequested += scaleGridUserControl_ShowItemRequested;
             scalePropertiesUserControl.CloseRequested += scalePropertiesUserControl_CloseRequested;
             scalePropertiesUserControl.LoseFocusRequested += scalePropertiesUserControl_LoseFocusRequested;
@@ -145,7 +145,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.AudioFileOutputCreate);
         }
 
-        private void audioFileOutputGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
+        private void audioFileOutputGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.AudioFileOutputDelete(e.Value));
         }
@@ -232,7 +232,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.CurveCreate);
         }
 
-        private void curveGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
+        private void curveGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.CurveDelete(e.Value));
         }
@@ -321,7 +321,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        private void documentGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
+        private void documentGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.DocumentDeleteShow(e.Value));
         }
@@ -419,9 +419,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.LibraryAdd);
         }
 
-        private void libraryGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
+        private void libraryGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
-            throw new NotImplementedException();
+            TemplateEventHandler(() => _presenter.LibraryRemove(e.Value));
         }
 
         private void libraryGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
@@ -630,7 +630,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.PatchCreate(patchGridUserControl.ViewModel.Group));
         }
 
-        private void patchGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
+        private void patchGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.PatchDelete(patchGridUserControl.ViewModel.Group, e.Value));
         }
@@ -722,7 +722,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.SampleCreate);
         }
 
-        private void sampleGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
+        private void sampleGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.SampleDelete(e.Value));
         }
@@ -754,7 +754,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.ScaleCreate);
         }
 
-        private void scaleGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
+        private void scaleGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.ScaleDelete(e.Value));
         }

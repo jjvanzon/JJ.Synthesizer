@@ -11,19 +11,6 @@ using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
-    /// <summary>
-    /// The MessageBoxes are shown 'async',
-    /// because the MessageBox is a response to an action,
-    /// around which an _actionIsBusy flag is maintained.
-    /// The response to the dialog result would make another action go off,
-    /// but the _actionIsBusy boolean is true,
-    /// so the presenter action would not go off.
-    ///
-    /// (See _actionIsBusy summary for why that flag is maintained.)
-    ///
-    /// Because the ApplyViewModel is performed, while the persenter action is not.
-    /// you end up seeing the same MessageBox being shown over and over again.
-    /// </summary>
     internal static class MessageBoxHelper
     {
         private static readonly object _dummySender = new object();
@@ -38,7 +25,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             if (parentForm == null) throw new NullException(() => parentForm);
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            // Class summary explains why this is 'async'.
             parentForm.BeginInvoke(new Action(() =>
             {
                 string message = CommonResourceFormatter.AreYouSureYouWishToDelete_WithTypeName_AndName(ResourceFormatter.Document, viewModel.Document.Name);
@@ -69,7 +55,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         {
             if (parentForm == null) throw new NullException(() => parentForm);
 
-            // Class summary explains why this is 'async'.
             parentForm.BeginInvoke(new Action(() =>
             {
                 MessageBox.Show(CommonResourceFormatter.IsDeleted_WithName(ResourceFormatter.Document));
@@ -83,7 +68,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             if (parentForm == null) throw new NullException(() => parentForm);
             if (popupMessages == null) throw new NullException(() => popupMessages);
 
-            // Class summary explains why this is 'async'.
             parentForm.BeginInvoke(new Action(() =>
             {
                 MessageBox.Show(string.Join(Environment.NewLine, popupMessages.Select(x => x.Text)));
@@ -96,7 +80,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         {
             if (parentForm == null) throw new NullException(() => parentForm);
 
-            // Class summary explains why this is 'async'.
             parentForm.BeginInvoke(new Action(() =>
             {
                 MessageBox.Show(text);

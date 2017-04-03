@@ -4,7 +4,6 @@ using System.Linq;
 using GeneratedCSharp;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Framework.Business;
 using JJ.Data.Synthesizer;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;

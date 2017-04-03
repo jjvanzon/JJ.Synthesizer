@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             InitializeComponent();
 
             Title = ResourceFormatter.Curves;
-            IDPropertyName = PropertyNames.ID;
+            IDPropertyName = nameof(CurveListItemViewModel.ID);
             ColumnTitlesVisible = true;
         }
 

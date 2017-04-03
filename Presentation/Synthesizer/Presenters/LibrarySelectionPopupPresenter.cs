@@ -149,7 +149,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
 
             // Successful
             viewModel.Successful = true;

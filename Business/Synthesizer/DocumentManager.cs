@@ -129,6 +129,13 @@ namespace JJ.Business.Synthesizer
             return validator.ToResult();
         }
 
+        public VoidResult DeleteDocumentReference(int documentReferenceID)
+        {
+            DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(documentReferenceID);
+            VoidResult result = DeleteDocumentReference(documentReference);
+            return result;
+        }
+
         public VoidResult DeleteDocumentReference([NotNull] DocumentReference documentReference)
         {
             if (documentReference == null) throw new NullException(() => documentReference);
