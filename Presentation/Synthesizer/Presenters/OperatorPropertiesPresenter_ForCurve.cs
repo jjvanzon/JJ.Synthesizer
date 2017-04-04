@@ -1,5 +1,4 @@
-﻿using JJ.Data.Synthesizer;
-using JJ.Presentation.Synthesizer.ViewModels;
+﻿using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -13,9 +12,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             : base(repositories)
         { }
 
-        protected override OperatorPropertiesViewModel_ForCurve ToViewModel(Operator op)
+        protected override OperatorPropertiesViewModel_ForCurve ToViewModel(Operator entity)
         {
-            return op.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
+            return entity.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
@@ -21,49 +20,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositories;
         }
 
-        // Action Methods
-
-        public TViewModel Show(TViewModel userInput)
-        {
-            return TemplateMethod(userInput, viewModel => viewModel.Visible = true);
-        }
-
-        public TViewModel Refresh(TViewModel userInput)
-        {
-            return TemplateMethod(userInput, x => { });
-        }
-
-        public TViewModel Close(TViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            TViewModel viewModel = Update(userInput);
-
-            if (viewModel.Successful)
-            {
-                viewModel.Visible = false;
-            }
-
-            return viewModel;
-        }
-
-        public TViewModel LoseFocus(TViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            TViewModel viewModel = Update(userInput);
-
-            return viewModel;
-        }
-
-        // Non-Public Members
-
         protected abstract TViewModel ToViewModel(Operator op);
 
-        protected virtual TViewModel Update(TViewModel userInput)
+        protected sealed override TViewModel CreateViewModel(TViewModel userInput)
+        {
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+            // ToViewModel
+            TViewModel viewModel = ToViewModel(entity);
+
+            return viewModel;
+        }
+
+        protected override TViewModel Update(TViewModel userInput)
         {
             return TemplateMethod(userInput, viewModel =>
             {
+                // ToEntity: was already done by the MainPresenter.
+
                 // GetEntity
                 Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
@@ -73,43 +48,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 viewModel.ValidationMessages.AddRange(result.Messages);
+                viewModel.Successful = result.Successful;
             });
-        }
-
-        private TViewModel TemplateMethod(TViewModel userInput, Action<TViewModel> action)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            TViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Action
-            action(viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        private TViewModel CreateViewModel(TViewModel userInput)
-        {
-            // GetEntity
-            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
-
-            // ToViewModel
-            TViewModel viewModel = ToViewModel(entity);
-
-            return viewModel;
         }
     }
 }

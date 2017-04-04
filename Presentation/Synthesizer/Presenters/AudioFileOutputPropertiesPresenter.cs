@@ -1,5 +1,4 @@
-﻿using JJ.Data.Synthesizer;
-using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;

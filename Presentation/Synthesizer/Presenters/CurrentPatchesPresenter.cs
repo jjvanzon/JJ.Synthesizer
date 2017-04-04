@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;

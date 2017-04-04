@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using JetBrains.Annotations;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;

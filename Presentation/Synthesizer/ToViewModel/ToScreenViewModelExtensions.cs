@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
-using JJ.Data.Synthesizer;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;

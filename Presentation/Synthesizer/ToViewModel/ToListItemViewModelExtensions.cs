@@ -1,6 +1,4 @@
-﻿using System;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;

@@ -1,5 +1,4 @@
 ﻿using JJ.Data.Canonical;
-using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;

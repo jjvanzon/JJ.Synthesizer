@@ -1,5 +1,4 @@
 ﻿using JJ.Data.Canonical;
-using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer;
@@ -19,8 +18,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override OperatorPropertiesViewModel_ForInletsToDimension ToViewModel(Operator op)
         {
-            OperatorPropertiesViewModel_ForInletsToDimension viewModel = op.ToPropertiesViewModel_ForInletsToDimension();
-            return viewModel;
+            return op.ToPropertiesViewModel_ForInletsToDimension();
         }
 
         protected override OperatorPropertiesViewModel_ForInletsToDimension Update(OperatorPropertiesViewModel_ForInletsToDimension userInput)

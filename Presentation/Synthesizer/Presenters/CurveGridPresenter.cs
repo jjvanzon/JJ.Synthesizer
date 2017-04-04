@@ -1,5 +1,4 @@
 ﻿using JJ.Framework.Exceptions;
-using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using System.Collections.Generic;

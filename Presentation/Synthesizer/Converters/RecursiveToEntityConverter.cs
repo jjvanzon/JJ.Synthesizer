@@ -1,5 +1,4 @@
 ﻿using JJ.Framework.Exceptions;
-using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.LinkTo;
 using System.Collections.Generic;
@@ -40,8 +39,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private Operator ToEntityRecursive(OperatorViewModel viewModel)
         {
-            Operator op;
-            if (_operatorDictionary.TryGetValue(viewModel.ID, out op))
+            if (_operatorDictionary.TryGetValue(viewModel.ID, out Operator op))
             {
                 return op;
             }
@@ -121,8 +119,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private Outlet ToEntityRecursive(OutletViewModel outletViewModel)
         {
-            Outlet outlet;
-            if (_outletDictionary.TryGetValue(outletViewModel.ID, out outlet))
+            if (_outletDictionary.TryGetValue(outletViewModel.ID, out Outlet outlet))
             {
                 return outlet;
             }
