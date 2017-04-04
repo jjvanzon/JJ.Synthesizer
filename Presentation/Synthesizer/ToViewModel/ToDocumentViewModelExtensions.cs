@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentProperties = document.ToPropertiesViewModel(),
                 LibraryGrid = document.ToLibraryGridViewModel(),
                 LibrarySelectionPopup = document.ToEmptyLibrarySelectionPopupViewModel(),
-                //DocumentReferencePropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
+                LibraryPropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.DocumentReferenceID),
                 DocumentTree = document.ToTreeViewModel(grouplessPatches, patchGroupDtos),
                 NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 OperatorPropertiesDictionary = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView()).ToDictionary(x => x.ID),

@@ -23,8 +23,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public DocumentPropertiesViewModel DocumentProperties { get; set; }
         public LibraryGridViewModel LibraryGrid { get; set; }
         public LibrarySelectionPopupViewModel LibrarySelectionPopup { get; set; }
-        public Dictionary<int, DocumentReferencePropertiesViewModel> DocumentReferencePropertiesDictionary { get; set; }
-        public DocumentReferencePropertiesViewModel VisibleDocumentReferencePropertiesViewModel { get; set; }
+        public Dictionary<int, LibraryPropertiesViewModel> LibraryPropertiesDictionary { get; set; }
+        public LibraryPropertiesViewModel VisibleLibraryPropertiesViewModel { get; set; }
         public DocumentTreeViewModel DocumentTree { get; set; }
         public NodePropertiesViewModel VisibleNodeProperties { get; set; }
         public Dictionary<int, NodePropertiesViewModel> NodePropertiesDictionary { get; set; }

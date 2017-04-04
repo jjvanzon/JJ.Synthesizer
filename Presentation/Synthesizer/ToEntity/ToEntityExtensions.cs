@@ -1,11 +1,11 @@
 ﻿using JJ.Framework.Exceptions;
-using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
@@ -374,6 +374,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             // TODO: Low priority: It is not tidy to not have a plural variation that also does the delete operations,
             // even though the CurveDetailsList ToEntity already covers deletion.
             userInput.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
+            userInput.LibraryPropertiesDictionary.Values.ToEntities(destDocument, repositories);
             userInput.SamplePropertiesDictionary.Values.ToEntities(destDocument, new SampleRepositories(repositories));
             userInput.ScalePropertiesDictionary.Values.ToEntities(scaleRepositories, destDocument);
             userInput.ToneGridEditDictionary.Values.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
@@ -493,7 +494,66 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        // Nodes
+        // Library
+
+        public static void ToEntities(this IEnumerable<LibraryPropertiesViewModel> viewModels, Document destDocument, RepositoryWrapper repositories)
+        {
+            if (viewModels == null) throw new NullException(() => viewModels);
+            if (destDocument == null) throw new NullException(() => destDocument);
+
+            var idsToKeep = new HashSet<int>();
+
+            foreach (LibraryPropertiesViewModel viewModel in viewModels)
+            {
+                DocumentReference entity = viewModel.ToEntity(repositories.DocumentReferenceRepository, repositories.DocumentRepository);
+                entity.LinkToHigherDocument(destDocument);
+
+                if (!idsToKeep.Contains(entity.ID))
+                {
+                    idsToKeep.Add(entity.ID);
+                }
+            }
+
+            var documentManager = new DocumentManager(repositories);
+
+            IList<int> existingIDs = destDocument.LowerDocumentReferences.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                IResult result = documentManager.DeleteDocumentReference(idToDelete);
+
+                ResultHelper.Assert(result);
+            }
+        }
+
+        public static DocumentReference ToEntity(
+            [NotNull] this LibraryPropertiesViewModel viewModel,
+            [NotNull] IDocumentReferenceRepository documentReferenceRepository,
+            [NotNull] IDocumentRepository documentRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (documentReferenceRepository == null) throw new NullException(() => documentReferenceRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+
+            DocumentReference entity = documentReferenceRepository.TryGet(viewModel.DocumentReferenceID);
+            if (entity == null)
+            {
+                entity = new DocumentReference { ID = viewModel.DocumentReferenceID };
+                documentReferenceRepository.Insert(entity);
+            }
+
+            Document higherDocument = documentRepository.Get(viewModel.HigherDocumentID);
+            entity.LinkToHigherDocument(higherDocument);
+
+            Document lowerDocument = documentRepository.Get(viewModel.LowerDocumentID);
+            entity.LinkToLowerDocument(lowerDocument);
+
+            entity.Alias = viewModel.Alias;
+
+            return entity;
+        }
+
+        // Node
 
         public static void ToEntities(
             this IEnumerable<NodeViewModel> viewModelList, 
@@ -692,8 +752,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             // TODO: Low Priority: ViewModel validator to detect, that it is not a valid integer number.
             var wrapper = new Number_OperatorWrapper(entity);
-            double number;
-            if (double.TryParse(viewModel.Number, out number))
+
+            if (double.TryParse(viewModel.Number, out double number))
             {
                 wrapper.Number = number;
             }
@@ -722,8 +782,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (!string.IsNullOrEmpty(viewModel.DefaultValue))
             {
                 // Tolerance, to make ToEntity not fail, before view model validation goes off.
-                double defaultValue;
-                if (double.TryParse(viewModel.DefaultValue, out defaultValue))
+                if (double.TryParse(viewModel.DefaultValue, out double defaultValue))
                 {
                     inlet.DefaultValue = defaultValue;
                 }
@@ -1201,14 +1260,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 toneRepository.Insert(entity);
             }
 
-            double number;
-            if (double.TryParse(viewModel.Number, out number))
+            if (double.TryParse(viewModel.Number, out double number))
             {
                 entity.Number = number;
             }
 
-            int octave;
-            if (int.TryParse(viewModel.Octave, out octave))
+            if (int.TryParse(viewModel.Octave, out int octave))
             {
                 entity.Octave = octave;
             }

@@ -290,6 +290,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static LibraryPropertiesViewModel ToPropertiesViewModel([NotNull] this DocumentReference documentReference)
+        {
+            if (documentReference == null) throw new NullException(() => documentReference);
+
+            var viewModel = new LibraryPropertiesViewModel
+            {
+                DocumentReferenceID = documentReference.ID,
+                HigherDocumentID = documentReference.HigherDocument.ID,
+                LowerDocumentID = documentReference.LowerDocument.ID,
+                Name = documentReference.LowerDocument.Name,
+                Alias = documentReference.Alias
+            };
+
+            return viewModel;
+        }
+
         public static LibrarySelectionPopupViewModel ToLibrarySelectionPopupViewModel(
             [NotNull] this Document higherDocument, 
             [NotNull] IList<Document> lowerDocumentCandidates)
