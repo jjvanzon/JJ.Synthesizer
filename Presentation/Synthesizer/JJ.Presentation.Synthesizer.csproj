@@ -78,6 +78,7 @@
     <Compile Include="Presenters\CurvePropertiesPresenter.cs" />
     <Compile Include="Presenters\NodePropertiesPresenter.cs" />
     <Compile Include="Presenters\PresenterBase.cs" />
+    <Compile Include="Presenters\PropertiesPresenterBase.cs" />
     <Compile Include="Presenters\ScalePropertiesPresenter.cs" />
     <Compile Include="Presenters\TitleBarPresenter.cs" />
     <Compile Include="Presenters\ToneGridEditPresenter.cs" />
