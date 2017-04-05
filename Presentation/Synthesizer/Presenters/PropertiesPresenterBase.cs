@@ -8,6 +8,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal abstract class PropertiesPresenterBase<TViewModel> : PresenterBase<TViewModel>
         where TViewModel : ViewModelBase
     {
+        protected abstract TViewModel CreateViewModel(TViewModel userInput);
+        protected abstract TViewModel UpdateEntity(TViewModel userInput);
+
         public TViewModel Show(TViewModel userInput)
         {
             return TemplateMethod(userInput, viewModel => viewModel.Visible = true);
@@ -22,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            TViewModel viewModel = Update(userInput);
+            TViewModel viewModel = UpdateEntity(userInput);
 
             if (viewModel.Successful)
             {
@@ -36,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            TViewModel viewModel = Update(userInput);
+            TViewModel viewModel = UpdateEntity(userInput);
 
             return viewModel;
         }
@@ -71,8 +74,5 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             return viewModel;
         }
-
-        protected abstract TViewModel Update(TViewModel userInput);
-        protected abstract TViewModel CreateViewModel(TViewModel userInput);
     }
 }

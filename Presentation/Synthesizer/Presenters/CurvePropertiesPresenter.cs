@@ -5,122 +5,54 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurvePropertiesPresenter : PresenterBase<CurvePropertiesViewModel>
+    internal class CurvePropertiesPresenter 
+        : PropertiesPresenterBase<CurvePropertiesViewModel>
     {
-        private readonly CurveRepositories _repositories;
+        private readonly ICurveRepository _curveRepository;
         private readonly CurveManager _curveManager;
 
         public CurvePropertiesPresenter(CurveRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
-            _repositories = repositories;
-            _curveManager = new CurveManager(_repositories);
+            _curveRepository = repositories.CurveRepository;
+            _curveManager = new CurveManager(repositories);
         }
 
-        public CurvePropertiesViewModel Show(CurvePropertiesViewModel userInput)
+        protected override CurvePropertiesViewModel CreateViewModel(CurvePropertiesViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
             // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.ID);
+            Curve entity = _curveRepository.Get(userInput.ID);
 
             // ToViewModel
             CurvePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
 
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
             return viewModel;
         }
 
-        public CurvePropertiesViewModel Refresh(CurvePropertiesViewModel userInput)
+        protected override CurvePropertiesViewModel UpdateEntity(CurvePropertiesViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.ID);
-
-            // ToViewModel
-            CurvePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public CurvePropertiesViewModel Close(CurvePropertiesViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            CurvePropertiesViewModel viewModel = Update(userInput);
-
-            if (viewModel.Successful)
+            return TemplateMethod(userInput, viewModel =>
             {
-                viewModel.Visible = false;
-            }
+                // ToEntity: was already done by the MainPresenter.
+             
+                // GetEntity
+                Curve entity = _curveRepository.Get(userInput.ID);
 
-            return viewModel;
-        }
+                // Business
+                VoidResult result = _curveManager.SaveCurveWithRelatedEntities(entity);
 
-        public CurvePropertiesViewModel LoseFocus(CurvePropertiesViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
+                // Non-Persisted
+                viewModel.ValidationMessages.AddRange(result.Messages);
 
-            CurvePropertiesViewModel viewModel = Update(userInput);
-
-            return viewModel;
-        }
-
-        private CurvePropertiesViewModel Update(CurvePropertiesViewModel userInput)
-        {
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.ID);
-
-            // Business
-            VoidResult result = _curveManager.SaveCurveWithRelatedEntities(entity);
-
-            // ToViewModel
-            CurvePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages);
-
-            // Successful?
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
+                // Successful?
+                viewModel.Successful = result.Successful;
+            });
         }
     }
 }

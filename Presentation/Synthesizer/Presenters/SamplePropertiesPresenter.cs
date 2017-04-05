@@ -8,114 +8,45 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class SamplePropertiesPresenter : PresenterBase<SamplePropertiesViewModel>
+    internal class SamplePropertiesPresenter : PropertiesPresenterBase<SamplePropertiesViewModel>
     {
         private readonly SampleRepositories _repositories;
         private readonly SampleManager _sampleManager;
 
         public SamplePropertiesPresenter(SampleRepositories repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
+            _repositories = repositories ?? throw new NullException(() => repositories);
 
-            _repositories = repositories;
             _sampleManager = new SampleManager(repositories);
         }
 
-        public SamplePropertiesViewModel Show(SamplePropertiesViewModel userInput)
+        protected override SamplePropertiesViewModel CreateViewModel(SamplePropertiesViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
             // GetEntity
             Sample sample = _repositories.SampleRepository.Get(userInput.Entity.ID);
 
             // ToViewModel
             SamplePropertiesViewModel viewModel = sample.ToPropertiesViewModel(_repositories);
 
-            // Non-Persisted
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
             return viewModel;
         }
 
-        public SamplePropertiesViewModel Refresh(SamplePropertiesViewModel userInput)
+        protected override SamplePropertiesViewModel UpdateEntity(SamplePropertiesViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
-
-            // ToViewModel
-            SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories);
-
-            // Non-Persisted
-            viewModel.Visible = userInput.Visible;
-
-            // Successfule
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public SamplePropertiesViewModel Close(SamplePropertiesViewModel userInput)
-        {
-            SamplePropertiesViewModel viewModel = Update(userInput);
-
-            if (viewModel.Successful)
+            return TemplateMethod(userInput, viewModel =>
             {
-                viewModel.Visible = false;
-            }
+                // GetEntity
+                Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
 
-            return viewModel;
-        }
+                // Business
+                VoidResult result = _sampleManager.Save(entity);
 
-        public SamplePropertiesViewModel LoseFocus(SamplePropertiesViewModel userInput)
-        {
-            SamplePropertiesViewModel viewModel = Update(userInput);
-            return viewModel;
-        }
+                // Non-Persisted
+                viewModel.ValidationMessages = result.Messages;
 
-        private SamplePropertiesViewModel Update(SamplePropertiesViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
-
-            // Business
-            VoidResult result = _sampleManager.Save(entity);
-
-            // ToViewModel
-            SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories);
-
-            // Non-Persisted
-            viewModel.Visible = userInput.Visible;
-            viewModel.ValidationMessages = result.Messages;
-
-            // Successful?
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
+                // Successful?
+                viewModel.Successful = result.Successful;
+            });
         }
     }
 }

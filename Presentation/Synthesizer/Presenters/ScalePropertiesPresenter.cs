@@ -8,7 +8,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ScalePropertiesPresenter : PresenterBase<ScalePropertiesViewModel>
+    internal class ScalePropertiesPresenter : PropertiesPresenterBase<ScalePropertiesViewModel>
     {
         private readonly ScaleRepositories _repositories;
         private readonly ScaleManager _scaleManager;
@@ -21,101 +21,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _scaleManager = new ScaleManager(_repositories);
         }
 
-        public ScalePropertiesViewModel Show(ScalePropertiesViewModel userInput)
+        protected override ScalePropertiesViewModel CreateViewModel(ScalePropertiesViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
             // GetEntity
             Scale scale = _repositories.ScaleRepository.Get(userInput.Entity.ID);
 
             // ToViewModel
             ScalePropertiesViewModel viewModel = scale.ToPropertiesViewModel();
 
-            // Non-Persisted
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
             return viewModel;
         }
 
-        public ScalePropertiesViewModel Refresh(ScalePropertiesViewModel userInput)
+        protected override ScalePropertiesViewModel UpdateEntity(ScalePropertiesViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Scale entity = _repositories.ScaleRepository.Get(userInput.Entity.ID);
-
-            // ToViewModel
-            ScalePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
-
-            // Non-Persisted
-            viewModel.Visible = userInput.Visible;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public ScalePropertiesViewModel Close(ScalePropertiesViewModel userInput)
-        {
-            ScalePropertiesViewModel viewModel = Update(userInput);
-
-            if (viewModel.Successful)
+            return TemplateMethod(userInput, viewModel =>
             {
-                viewModel.Visible = false;
-            }
+                // GetEntity
+                Scale entity = _repositories.ScaleRepository.Get(userInput.Entity.ID);
 
-            return viewModel;
-        }
+                // Business
+                VoidResult result = _scaleManager.SaveWithoutTones(entity);
 
-        public ScalePropertiesViewModel LoseFocus(ScalePropertiesViewModel userInput)
-        {
-            ScalePropertiesViewModel viewModel = Update(userInput);
-            return viewModel;
-        }
+                // Non-Persisted
+                viewModel.ValidationMessages = result.Messages;
 
-        private ScalePropertiesViewModel Update(ScalePropertiesViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Scale entity = _repositories.ScaleRepository.Get(userInput.Entity.ID);
-
-            // Business
-            VoidResult result = _scaleManager.SaveWithoutTones(entity);
-
-            // ToViewModel
-            ScalePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
-
-            // Non-Persisted
-            viewModel.ValidationMessages = result.Messages;
-            viewModel.Visible = userInput.Visible;
-
-            // Successful
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
+                // Successful?
+                viewModel.Successful = result.Successful;
+            });
         }
     }
 }

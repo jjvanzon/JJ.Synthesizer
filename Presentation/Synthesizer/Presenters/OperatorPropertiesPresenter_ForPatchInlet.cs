@@ -24,43 +24,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return op.ToPropertiesViewModel_ForPatchInlet();
         }
 
-        protected override OperatorPropertiesViewModel_ForPatchInlet Update(OperatorPropertiesViewModel_ForPatchInlet userInput)
+        protected override OperatorPropertiesViewModel_ForPatchInlet UpdateEntity(OperatorPropertiesViewModel_ForPatchInlet userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            return TemplateMethod(userInput, viewModel =>
+            { 
+                // ViewModel Validator
+                IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(userInput);
+                if (!validator.IsValid)
+                {
+                    userInput.ValidationMessages.AddRange(validator.ValidationMessages.ToCanonical());
+                    userInput.Successful = false;
+                    return;
+                }
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
+                // GetEntity
+                Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
-            // Set !Successful
-            userInput.Successful = false;
+                // Business
+                var patchManager = new PatchManager(entity.Patch, _repositories);
+                VoidResult result = patchManager.SaveOperator(entity);
+                
+                // Non-Persisted
+                viewModel.ValidationMessages.AddRange(result.Messages);
 
-            // ViewModel Validator
-            IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(userInput);
-            if (!validator.IsValid)
-            {
-                userInput.Successful = validator.IsValid;
-                userInput.ValidationMessages.AddRange(validator.ValidationMessages.ToCanonical());
-                return userInput;
-            }
-
-            // GetEntity
-            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
-
-            // Business
-            var patchManager = new PatchManager(entity.Patch, _repositories);
-            VoidResult result = patchManager.SaveOperator(entity);
-
-            // ToViewModel
-            OperatorPropertiesViewModel_ForPatchInlet viewModel = entity.ToPropertiesViewModel_ForPatchInlet();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages);
-
-            // Successful?
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
+                // Successful?
+                viewModel.Successful = result.Successful;
+            });
         }
     }
 }

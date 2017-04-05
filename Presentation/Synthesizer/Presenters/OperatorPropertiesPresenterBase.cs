@@ -15,9 +15,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public OperatorPropertiesPresenterBase(PatchRepositories repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _repositories = repositories;
+            _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
         protected abstract TViewModel ToViewModel(Operator op);
@@ -33,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override TViewModel Update(TViewModel userInput)
+        protected override TViewModel UpdateEntity(TViewModel userInput)
         {
             return TemplateMethod(userInput, viewModel =>
             {
@@ -48,6 +46,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 viewModel.ValidationMessages.AddRange(result.Messages);
+
+                // Successful?
                 viewModel.Successful = result.Successful;
             });
         }

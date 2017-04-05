@@ -21,58 +21,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return op.ToPropertiesViewModel_ForInletsToDimension();
         }
 
-        protected override OperatorPropertiesViewModel_ForInletsToDimension Update(OperatorPropertiesViewModel_ForInletsToDimension userInput)
+        protected override OperatorPropertiesViewModel_ForInletsToDimension UpdateEntity(OperatorPropertiesViewModel_ForInletsToDimension userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
-
-            // Business
-            var patchManager = new PatchManager(entity.Patch, _repositories);
-
-            VoidResult result1 = patchManager.SetOperatorInletCount(entity, userInput.InletCount);
-            if (!result1.Successful)
+            return TemplateMethod(userInput, viewModel =>
             {
-                // ToViewModel
-                OperatorPropertiesViewModel_ForInletsToDimension viewModel = entity.ToPropertiesViewModel_ForInletsToDimension();
+                // GetEntity
+                Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
-                // Non-Persisted
-                CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.AddRange(result1.Messages);
+                // Business
+                var patchManager = new PatchManager(entity.Patch, _repositories);
 
-                return viewModel;
-            }
+                VoidResult result1 = patchManager.SetOperatorInletCount(entity, userInput.InletCount);
+                if (!result1.Successful)
+                {
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result1.Messages);
 
-            VoidResult result2 = patchManager.SaveOperator(entity);
-            if (!result2.Successful)
-            {
-                // ToViewModel
-                OperatorPropertiesViewModel_ForInletsToDimension viewModel = entity.ToPropertiesViewModel_ForInletsToDimension();
+                    // Successful?
+                    viewModel.Successful = result1.Successful;
 
-                // Non-Persisted
-                CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.AddRange(result2.Messages);
+                    return;
+                }
 
-                return viewModel;
-            }
+                VoidResult result2 = patchManager.SaveOperator(entity);
+                // ReSharper disable once InvertIf
+                if (!result2.Successful)
+                {
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result2.Messages);
 
-            // ToViewModel
-            OperatorPropertiesViewModel_ForInletsToDimension viewModel2 = entity.ToPropertiesViewModel_ForInletsToDimension();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel2);
-
-            // Successful
-            viewModel2.Successful = true;
-
-            return viewModel2;
+                    // Successful?
+                    viewModel.Successful = result2.Successful;
+                }
+            });
         }
     }
 }

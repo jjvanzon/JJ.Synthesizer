@@ -6,123 +6,54 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
+using System;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class AudioFileOutputPropertiesPresenter : PresenterBase<AudioFileOutputPropertiesViewModel>
+    internal class AudioFileOutputPropertiesPresenter 
+        : PropertiesPresenterBase<AudioFileOutputPropertiesViewModel>
     {
-        private readonly AudioFileOutputRepositories _repositories;
+        private readonly IAudioFileOutputRepository _audioFileOutputRepository;
         private readonly AudioFileOutputManager _audioFileOutputManager;
 
         public AudioFileOutputPropertiesPresenter(AudioFileOutputRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
-            _repositories = repositories;
-            _audioFileOutputManager = new AudioFileOutputManager(_repositories);
+            _audioFileOutputRepository = repositories.AudioFileOutputRepository;
+            _audioFileOutputManager = new AudioFileOutputManager(repositories);
         }
 
-        public AudioFileOutputPropertiesViewModel Show(AudioFileOutputPropertiesViewModel userInput)
+        protected override AudioFileOutputPropertiesViewModel CreateViewModel(AudioFileOutputPropertiesViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
             // GetEntity
-            AudioFileOutput entity = _repositories.AudioFileOutputRepository.Get(userInput.Entity.ID);
+            AudioFileOutput entity = _audioFileOutputRepository.Get(userInput.Entity.ID);
 
             // ToViewModel
             AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel();
 
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
             return viewModel;
         }
 
-        public AudioFileOutputPropertiesViewModel Refresh(AudioFileOutputPropertiesViewModel userInput)
+        protected override AudioFileOutputPropertiesViewModel UpdateEntity(AudioFileOutputPropertiesViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            AudioFileOutput entity = _repositories.AudioFileOutputRepository.Get(userInput.Entity.ID);
-
-            // ToViewModel
-            AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public AudioFileOutputPropertiesViewModel Close(AudioFileOutputPropertiesViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            AudioFileOutputPropertiesViewModel viewModel = Update(userInput);
-
-            if (viewModel.Successful)
+            return TemplateMethod(userInput, viewModel =>
             {
-                viewModel.Visible = false;
-            }
+                // ToEntity: was already done by the MainPresenter.
 
-            return viewModel;
-        }
+                // GetEntity
+                AudioFileOutput entity = _audioFileOutputRepository.Get(userInput.Entity.ID);
 
-        public AudioFileOutputPropertiesViewModel LoseFocus(AudioFileOutputPropertiesViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
+                // Business
+                VoidResult result = _audioFileOutputManager.Save(entity);
 
-            AudioFileOutputPropertiesViewModel viewModel = Update(userInput);
+                // Non-Persisted
+                viewModel.ValidationMessages.AddRange(result.Messages);
 
-            return viewModel;
-        }
-
-        private AudioFileOutputPropertiesViewModel Update(AudioFileOutputPropertiesViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            AudioFileOutput entity = _repositories.AudioFileOutputRepository.Get(userInput.Entity.ID);
-
-            // Business
-            VoidResult result = _audioFileOutputManager.Save(entity);
-
-            // ToViewModel
-            AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages);
-
-            // Successful?
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
+                // Successful?
+                viewModel.Successful = result.Successful;
+            });
         }
     }
 }
