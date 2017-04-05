@@ -542,9 +542,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 documentReferenceRepository.Insert(entity);
             }
 
-            Document higherDocument = documentRepository.Get(viewModel.HigherDocumentID);
-            entity.LinkToHigherDocument(higherDocument);
-
             Document lowerDocument = documentRepository.Get(viewModel.LowerDocumentID);
             entity.LinkToLowerDocument(lowerDocument);
 

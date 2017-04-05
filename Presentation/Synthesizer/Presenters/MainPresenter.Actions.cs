@@ -875,6 +875,53 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _libraryGridPresenter.Close(userInput));
         }
 
+        public void LibraryPropertiesShow(int documentReferenceID)
+        {
+            // GetViewModel
+            LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
+
+            // Template Method
+            LibraryPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Show(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
+            }
+        }
+
+        public void LibraryPropertiesClose(int documentReferenceID)
+        {
+            // GetViewModel
+            LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
+
+            // Template Method
+            LibraryPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Close(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleLibraryProperties = null;
+
+                DocumentViewModelRefresh();
+            }
+        }
+
+        public void LibraryPropertiesLoseFocus(int documentReferenceID)
+        {
+            // GetViewModel
+            LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
+
+            // Template Method
+            LibraryPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.LoseFocus(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
+            }
+        }
+
         public void LibraryRemove(int documentReferenceID)
         {
             // GetViewModel

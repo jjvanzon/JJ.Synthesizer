@@ -6,7 +6,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.WinForms.Forms;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;

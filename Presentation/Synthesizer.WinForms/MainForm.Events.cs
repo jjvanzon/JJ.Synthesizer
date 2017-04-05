@@ -57,6 +57,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryGridUserControl.AddRequested += libraryGridUserControl_AddRequested;
             libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
             libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
+            libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
+            libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.ShowCurrentPatchesRequested += menuUserControl_ShowCurrentPatchesRequested;
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
@@ -426,7 +428,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void libraryGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
-            throw new NotImplementedException();
+            TemplateEventHandler(() => _presenter.LibraryPropertiesShow(e.Value));
+        }
+
+        private void libraryPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.LibraryPropertiesLoseFocus(e.Value));
+        }
+
+        private void libraryPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.LibraryPropertiesClose(e.Value));
         }
 
         private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e)

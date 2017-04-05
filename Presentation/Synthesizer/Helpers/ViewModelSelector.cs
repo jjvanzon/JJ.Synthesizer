@@ -98,6 +98,29 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
+        // Library
+
+        public static LibraryPropertiesViewModel GetLibraryPropertiesViewModel(DocumentViewModel documentViewModel, int documentReferenceID)
+        {
+            LibraryPropertiesViewModel propertiesViewModel = TryGetLibraryPropertiesViewModel(documentViewModel, documentReferenceID);
+
+            if (propertiesViewModel == null)
+            {
+                throw new NotFoundException<LibraryPropertiesViewModel>(documentReferenceID);
+            }
+
+            return propertiesViewModel;
+        }
+
+        public static LibraryPropertiesViewModel TryGetLibraryPropertiesViewModel(DocumentViewModel documentViewModel, int libraryID)
+        {
+            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+            documentViewModel.LibraryPropertiesDictionary.TryGetValue(libraryID, out LibraryPropertiesViewModel viewModel);
+
+            return viewModel;
+        }
+
         // Node
 
         public static NodePropertiesViewModel GetNodePropertiesViewModel(DocumentViewModel documentViewModel, int nodeID)

@@ -52,6 +52,7 @@
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentPatchesUserControl();
+            this.libraryPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.LibraryPropertiesUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -117,6 +118,7 @@
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.libraryPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForNumber);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithCollectionRecalculation);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithInletCount);
@@ -661,6 +663,22 @@
             this.currentPatchesUserControl.TabIndex = 14;
             this.currentPatchesUserControl.ViewModel = null;
             // 
+            // libraryPropertiesUserControl
+            // 
+            this.libraryPropertiesUserControl.AddButtonVisible = false;
+            this.libraryPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.libraryPropertiesUserControl.CloseButtonVisible = true;
+            this.libraryPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.libraryPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.libraryPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
+            this.libraryPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.libraryPropertiesUserControl.Name = "libraryPropertiesUserControl";
+            this.libraryPropertiesUserControl.RemoveButtonVisible = false;
+            this.libraryPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
+            this.libraryPropertiesUserControl.TabIndex = 1;
+            this.libraryPropertiesUserControl.TitleBarText = "Library Properties";
+            this.libraryPropertiesUserControl.ViewModel = null;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -725,5 +743,6 @@
         private UserControls.OperatorPropertiesUserControl_WithInletCount operatorPropertiesUserControl_WithInletCount;
         private UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation operatorPropertiesUserControl_WithCollectionRecalculation;
         private UserControls.LibraryGridUserControl libraryGridUserControl;
+        private UserControls.LibraryPropertiesUserControl libraryPropertiesUserControl;
     }
 }

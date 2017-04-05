@@ -49,6 +49,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly DocumentTreePresenter _documentTreePresenter;
         private readonly LibraryGridPresenter _libraryGridPresenter;
         private readonly LibrarySelectionPopupPresenter _librarySelectionPopupPresenter;
+        private readonly LibraryPropertiesPresenter _libraryPropertiesPresenter;
         private readonly MenuPresenter _menuPresenter;
         private readonly NodePropertiesPresenter _nodePropertiesPresenter;
         private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
@@ -124,6 +125,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
             _documentTreePresenter = new DocumentTreePresenter(_patchRepositories);
             _libraryGridPresenter = new LibraryGridPresenter(_repositories);
+            _libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
             _librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
             _menuPresenter = new MenuPresenter();
             _nodePropertiesPresenter = new NodePropertiesPresenter(_curveRepositories);
@@ -187,6 +189,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.DocumentProperties.Visible = false;
             MainViewModel.Document.VisibleNodeProperties = null;
             MainViewModel.Document.NodePropertiesDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleLibraryProperties = null;
+            MainViewModel.Document.LibraryPropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleOperatorProperties = null;
             MainViewModel.Document.OperatorPropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleOperatorProperties_ForCache = null;

@@ -296,10 +296,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new LibraryPropertiesViewModel
             {
                 DocumentReferenceID = documentReference.ID,
-                HigherDocumentID = documentReference.HigherDocument.ID,
                 LowerDocumentID = documentReference.LowerDocument.ID,
                 Name = documentReference.LowerDocument.Name,
-                Alias = documentReference.Alias
+                Alias = documentReference.Alias,
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;

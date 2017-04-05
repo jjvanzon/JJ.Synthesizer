@@ -42,10 +42,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // labelNodeType
             // 
             this.labelNodeType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelNodeType.Location = new System.Drawing.Point(0, 48);
+            this.labelNodeType.Location = new System.Drawing.Point(0, 0);
             this.labelNodeType.Margin = new System.Windows.Forms.Padding(0);
             this.labelNodeType.Name = "labelNodeType";
-            this.labelNodeType.Size = new System.Drawing.Size(120, 24);
+            this.labelNodeType.Size = new System.Drawing.Size(13, 12);
             this.labelNodeType.TabIndex = 15;
             this.labelNodeType.Text = "labelNodeType";
             this.labelNodeType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -55,19 +55,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxNodeType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxNodeType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxNodeType.FormattingEnabled = true;
-            this.comboBoxNodeType.Location = new System.Drawing.Point(120, 48);
+            this.comboBoxNodeType.Location = new System.Drawing.Point(0, 0);
             this.comboBoxNodeType.Margin = new System.Windows.Forms.Padding(0);
             this.comboBoxNodeType.Name = "comboBoxNodeType";
-            this.comboBoxNodeType.Size = new System.Drawing.Size(10, 21);
+            this.comboBoxNodeType.Size = new System.Drawing.Size(13, 24);
             this.comboBoxNodeType.TabIndex = 16;
             // 
             // labelY
             // 
             this.labelY.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelY.Location = new System.Drawing.Point(0, 24);
+            this.labelY.Location = new System.Drawing.Point(0, 0);
             this.labelY.Margin = new System.Windows.Forms.Padding(0);
             this.labelY.Name = "labelY";
-            this.labelY.Size = new System.Drawing.Size(120, 24);
+            this.labelY.Size = new System.Drawing.Size(13, 12);
             this.labelY.TabIndex = 2;
             this.labelY.Text = "labelName";
             this.labelY.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -81,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             0,
             0,
             65536});
-            this.numericUpDownX.Location = new System.Drawing.Point(120, 0);
+            this.numericUpDownX.Location = new System.Drawing.Point(0, 0);
             this.numericUpDownX.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownX.Maximum = new decimal(new int[] {
             1000000000,
@@ -94,7 +94,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             0,
             -2147483648});
             this.numericUpDownX.Name = "numericUpDownX";
-            this.numericUpDownX.Size = new System.Drawing.Size(10, 20);
+            this.numericUpDownX.Size = new System.Drawing.Size(13, 22);
             this.numericUpDownX.TabIndex = 21;
             // 
             // numericUpDownY
@@ -106,7 +106,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             0,
             0,
             65536});
-            this.numericUpDownY.Location = new System.Drawing.Point(120, 24);
+            this.numericUpDownY.Location = new System.Drawing.Point(0, 0);
             this.numericUpDownY.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownY.Maximum = new decimal(new int[] {
             1000000000,
@@ -119,7 +119,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             0,
             -2147483648});
             this.numericUpDownY.Name = "numericUpDownY";
-            this.numericUpDownY.Size = new System.Drawing.Size(10, 20);
+            this.numericUpDownY.Size = new System.Drawing.Size(13, 22);
             this.numericUpDownY.TabIndex = 22;
             // 
             // labelX
@@ -128,25 +128,32 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelX.Location = new System.Drawing.Point(0, 0);
             this.labelX.Margin = new System.Windows.Forms.Padding(0);
             this.labelX.Name = "labelX";
-            this.labelX.Size = new System.Drawing.Size(120, 24);
+            this.labelX.Size = new System.Drawing.Size(13, 12);
             this.labelX.TabIndex = 23;
             this.labelX.Text = "labelX";
             this.labelX.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NodePropertiesUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.comboBoxNodeType);
             this.Controls.Add(this.labelY);
             this.Controls.Add(this.numericUpDownX);
             this.Controls.Add(this.numericUpDownY);
             this.Controls.Add(this.labelNodeType);
             this.Controls.Add(this.labelX);
-            this.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "NodePropertiesUserControl";
-            this.Size = new System.Drawing.Size(10, 10);
+            this.Size = new System.Drawing.Size(13, 12);
+            this.Controls.SetChildIndex(this.labelX, 0);
+            this.Controls.SetChildIndex(this.labelNodeType, 0);
+            this.Controls.SetChildIndex(this.numericUpDownY, 0);
+            this.Controls.SetChildIndex(this.numericUpDownX, 0);
+            this.Controls.SetChildIndex(this.labelY, 0);
+            this.Controls.SetChildIndex(this.comboBoxNodeType, 0);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).EndInit();
             this.ResumeLayout(false);

@@ -35,14 +35,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new NodePropertiesViewModel ViewModel
         {
-            get { return (NodePropertiesViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (NodePropertiesViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
-        protected override int GetID()
-        {
-            return ViewModel.Entity.ID;
-        }
+        protected override int GetID() => ViewModel.Entity.ID;
 
         protected override void ApplyViewModelToControls()
         {

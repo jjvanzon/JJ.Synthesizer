@@ -148,6 +148,12 @@
     <Compile Include="UserControls\Bases\PropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControls\LibraryPropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\LibraryPropertiesUserControl.Designer.cs">
+      <DependentUpon>LibraryPropertiesUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\LibrarySelectionPopupUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -400,6 +406,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurrentPatchesUserControl.resx">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\LibraryPropertiesUserControl.resx">
+      <DependentUpon>LibraryPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\LibrarySelectionPopupUserControl.resx">
       <DependentUpon>LibrarySelectionPopupUserControl.cs</DependentUpon>

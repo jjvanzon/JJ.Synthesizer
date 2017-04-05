@@ -33,6 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(LibraryGridViewModel), DispatchLibraryGridViewModel },
+                { typeof(LibraryPropertiesViewModel), DispatchLibraryPropertiesViewModel },
                 { typeof(LibrarySelectionPopupViewModel), DispatchLibrarySelectionPopupViewModel },
                 { typeof(MenuViewModel), DispatchMenuViewModel },
                 { typeof(NodePropertiesViewModel), DispatchNodePropertiesViewModel },
@@ -76,8 +77,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Type viewModelType = viewModel2.GetType();
 
-            Action<ViewModelBase> dispatchDelegate;
-            if (!_dispatchDelegateDictionary.TryGetValue(viewModelType, out dispatchDelegate))
+            if (!_dispatchDelegateDictionary.TryGetValue(viewModelType, out Action<ViewModelBase> dispatchDelegate))
             {
                 throw new UnexpectedViewModelTypeException(viewModel2);
             }
@@ -316,6 +316,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModelBase(castedViewModel);
         }
 
+        private void DispatchLibraryPropertiesViewModel(ViewModelBase viewModel2)
+        {
+            var castedViewModel = (LibraryPropertiesViewModel)viewModel2;
+
+            // ReSharper disable once SuggestVarOrType_Elsewhere
+            var dictionary = MainViewModel.Document.LibraryPropertiesDictionary;
+            dictionary[castedViewModel.DocumentReferenceID] = castedViewModel;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleLibraryProperties = castedViewModel;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
         private void DispatchLibrarySelectionPopupViewModel(ViewModelBase viewModel2)
         {
             var castedViewModel = (LibrarySelectionPopupViewModel)viewModel2;
@@ -338,8 +357,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (NodePropertiesViewModel)viewModel2;
 
             // ReSharper disable once SuggestVarOrType_Elsewhere
-            var list = ViewModelSelector.GetNodePropertiesViewModelDictionary_ByCurveID(MainViewModel.Document, castedViewModel.CurveID);
-            list[castedViewModel.Entity.ID] = castedViewModel;
+            var dictionary = ViewModelSelector.GetNodePropertiesViewModelDictionary_ByCurveID(MainViewModel.Document, castedViewModel.CurveID);
+            dictionary[castedViewModel.Entity.ID] = castedViewModel;
 
             if (castedViewModel.Visible)
             {

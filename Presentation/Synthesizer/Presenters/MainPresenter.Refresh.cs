@@ -177,6 +177,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void CurvePropertiesDictionaryRefresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.CurvePropertiesDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -262,6 +263,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentPropertiesRefresh();
             DocumentTreeRefresh();
             LibraryGridRefresh();
+            LibraryPropertiesDictionaryRefresh();
             LibrarySelectionPopupRefresh();
             NodePropertiesDictionaryRefresh();
             OperatorPropertiesDictionary_ForCaches_Refresh();
@@ -295,6 +297,50 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
             LibraryGridViewModel viewModel = _libraryGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void LibraryPropertiesDictionaryRefresh()
+        {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
+            var viewModelDictionary = MainViewModel.Document.LibraryPropertiesDictionary;
+
+            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+            IList<DocumentReference> entities = document.LowerDocumentReferences;
+
+            foreach (DocumentReference entity in entities)
+            {
+                LibraryPropertiesViewModel viewModel = ViewModelSelector.TryGetLibraryPropertiesViewModel(MainViewModel.Document, entity.ID);
+                if (viewModel == null)
+                {
+                    viewModel = entity.ToPropertiesViewModel();
+                    viewModel.Successful = true;
+                    viewModelDictionary[entity.ID] = viewModel;
+                }
+                else
+                {
+                    LibraryPropertiesRefresh(viewModel);
+                }
+            }
+
+            IEnumerable<int> existingIDs = viewModelDictionary.Keys;
+            IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                viewModelDictionary.Remove(idToDelete);
+
+                if (MainViewModel.Document.VisibleLibraryProperties?.DocumentReferenceID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleLibraryProperties = null;
+                }
+            }
+        }
+
+        private void LibraryPropertiesRefresh(LibraryPropertiesViewModel userInput)
+        {
+            LibraryPropertiesViewModel viewModel = _libraryPropertiesPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
