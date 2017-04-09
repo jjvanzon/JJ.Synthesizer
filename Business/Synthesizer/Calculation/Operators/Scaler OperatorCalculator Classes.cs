@@ -25,17 +25,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 targetValueACalculator,
                 targetValueBCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (sourceValueACalculator == null) throw new NullException(() => sourceValueACalculator);
-            if (sourceValueBCalculator == null) throw new NullException(() => sourceValueBCalculator);
-            if (targetValueACalculator == null) throw new NullException(() => targetValueACalculator);
-            if (targetValueBCalculator == null) throw new NullException(() => targetValueBCalculator);
-
-            _signalCalculator = signalCalculator;
-            _sourceValueACalculator = sourceValueACalculator;
-            _sourceValueBCalculator = sourceValueBCalculator;
-            _targetValueACalculator = targetValueACalculator;
-            _targetValueBCalculator = targetValueBCalculator;
+            _signalCalculator = signalCalculator ?? throw new NullException(() => signalCalculator);
+            _sourceValueACalculator = sourceValueACalculator ?? throw new NullException(() => sourceValueACalculator);
+            _sourceValueBCalculator = sourceValueBCalculator ?? throw new NullException(() => sourceValueBCalculator);
+            _targetValueACalculator = targetValueACalculator ?? throw new NullException(() => targetValueACalculator);
+            _targetValueBCalculator = targetValueBCalculator ?? throw new NullException(() => targetValueBCalculator);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -68,9 +62,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double targetValueB)
             : base(new[] { signalCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-
-            _signalCalculator = signalCalculator;
+            _signalCalculator = signalCalculator ?? throw new NullException(() => signalCalculator);
             _sourceValueA = sourceValueA;
             _targetValueA = targetValueA;
 

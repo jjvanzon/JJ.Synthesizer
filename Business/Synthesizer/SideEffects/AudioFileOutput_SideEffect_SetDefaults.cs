@@ -26,15 +26,10 @@ namespace JJ.Business.Synthesizer.SideEffects
             ISpeakerSetupRepository speakerSetupRepository,
             IAudioFileFormatRepository audioFileFormatRepository)
         {
-            if (entity == null) throw new NullException(() => entity);
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
-
-            _entity = entity;
-            _sampleDataTypeRepository = sampleDataTypeRepository;
-            _speakerSetupRepository = speakerSetupRepository;
-            _audioFileFormatRepository = audioFileFormatRepository;
+            _entity = entity ?? throw new NullException(() => entity);
+            _sampleDataTypeRepository = sampleDataTypeRepository ?? throw new NullException(() => sampleDataTypeRepository);
+            _speakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
+            _audioFileFormatRepository = audioFileFormatRepository ?? throw new NullException(() => audioFileFormatRepository);
         }
 
         public void Execute()

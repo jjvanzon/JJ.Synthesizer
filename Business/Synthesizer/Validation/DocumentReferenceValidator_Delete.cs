@@ -21,11 +21,12 @@ namespace JJ.Business.Synthesizer.Validation
         private readonly IPatchRepository _patchRepository;
 
         public DocumentReferenceValidator_Delete([NotNull] DocumentReference obj, [NotNull] IPatchRepository patchRepository)
-            : base(obj)
+            : base(obj, postponeExecute: true)
         {
-            if (patchRepository == null) throw new NullException(() => patchRepository);
+            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
 
-            _patchRepository = patchRepository;
+            // ReSharper disable once VirtualMemberCallInConstructor
+            Execute();
         }
 
         protected override void Execute()
@@ -38,7 +39,8 @@ namespace JJ.Business.Synthesizer.Validation
 
             IEnumerable<Operator> higherCustomOperators = documentReference.HigherDocument
                                                                            .Patches
-                                                                           .SelectMany(x => x.EnumerateOperatorWrappersOfType<CustomOperator_OperatorWrapper>())
+                                                                           .SelectMany(x => x.Operators)
+                                                                           .Select(x => new CustomOperator_OperatorWrapper(x, _patchRepository))
                                                                            .Where(x => lowerPatchIDHashSet.Contains(x.UnderlyingPatchID ?? 0))
                                                                            .Select(x => x.WrappedOperator);
 

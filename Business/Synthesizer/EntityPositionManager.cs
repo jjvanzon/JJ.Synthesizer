@@ -24,11 +24,8 @@ namespace JJ.Business.Synthesizer
 
         public EntityPositionManager(IEntityPositionRepository entityPositionRepository, IIDRepository idRepository)
         {
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
-
-            _entityPositionRepository = entityPositionRepository;
-            _idRepository = idRepository;
+            _entityPositionRepository = entityPositionRepository ?? throw new NullException(() => entityPositionRepository);
+            _idRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
         public EntityPosition GetOperatorPosition(int operatorID)

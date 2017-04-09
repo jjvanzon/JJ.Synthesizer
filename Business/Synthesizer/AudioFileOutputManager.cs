@@ -25,9 +25,7 @@ namespace JJ.Business.Synthesizer
 
         public AudioFileOutputManager(AudioFileOutputRepositories repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _repositories = repositories;
+            _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
         /// <summary> Create an AudioFileOutput and initializes it with defaults. </summary>

@@ -63,21 +63,14 @@ namespace JJ.Business.Synthesizer.Visitors
             IPatchRepository patchRepository,
             ISpeakerSetupRepository speakerSetupRepository)
         {
-            if (topLevelOutlet == null) throw new NullException(() => topLevelOutlet);
-            if (calculatorCache == null) throw new NullException(() => calculatorCache);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-
-            _topLevelOutlet = topLevelOutlet;
+            _topLevelOutlet = topLevelOutlet ?? throw new NullException(() => topLevelOutlet);
             _targetSamplingRate = targetSamplingRate;
             _targetChannelCount = targetChannelCount;
-            _calculatorCache = calculatorCache;
-            _curveRepository = curveRepository;
-            _sampleRepository = sampleRepository;
-            _patchRepository = patchRepository;
-            _speakerSetupRepository = speakerSetupRepository;
+            _calculatorCache = calculatorCache ?? throw new NullException(() => calculatorCache);
+            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
+            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
+            _speakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
 
             _nyquistFrequency = _targetSamplingRate / 2.0;
 

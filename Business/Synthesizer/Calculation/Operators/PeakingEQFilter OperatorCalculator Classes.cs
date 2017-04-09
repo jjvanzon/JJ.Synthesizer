@@ -33,15 +33,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            if (centerFrequencyCalculator == null) throw new NullException(() => centerFrequencyCalculator);
-            if (bandWidthCalculator == null) throw new NullException(() => bandWidthCalculator);
-            if (dbGainCalculator == null) throw new NullException(() => dbGainCalculator);
             if (samplesBetweenApplyFilterVariables < 1) throw new LessThanException(() => samplesBetweenApplyFilterVariables, 1);
 
             _signalCalculator = signalCalculator;
-            _centerFrequencyCalculator = centerFrequencyCalculator;
-            _bandWidthCalculator = bandWidthCalculator;
-            _dbGainCalculator = dbGainCalculator;
+            _centerFrequencyCalculator = centerFrequencyCalculator ?? throw new NullException(() => centerFrequencyCalculator);
+            _bandWidthCalculator = bandWidthCalculator ?? throw new NullException(() => bandWidthCalculator);
+            _dbGainCalculator = dbGainCalculator ?? throw new NullException(() => dbGainCalculator);
             _samplingRate = samplingRate;
             _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
             _biQuadFilter = new BiQuadFilter();

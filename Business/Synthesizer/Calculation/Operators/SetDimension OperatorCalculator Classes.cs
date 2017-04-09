@@ -81,11 +81,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(new[] { passThroughCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(passThroughCalculator, () => passThroughCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
 
             _value = value;
             _passThroughCalculator = passThroughCalculator;
-            _dimensionStack = dimensionStack;
+            _dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
             _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 

@@ -19,10 +19,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public Patch_SideEffect_UpdateDependentCustomOperators(Patch underlyingPatch, PatchRepositories repositories)
         {
-            if (underlyingPatch == null) throw new NullException(() => underlyingPatch);
             if (repositories == null) throw new NullException(() => repositories);
 
-            _underlyingPatch = underlyingPatch;
+            _underlyingPatch = underlyingPatch ?? throw new NullException(() => underlyingPatch);
             _patchRepository = repositories.PatchRepository;
 
             _patchToOperatorConverter = new PatchToOperatorConverter(repositories);

@@ -64,14 +64,12 @@ namespace JJ.Business.Synthesizer
         public PatchManager(Patch patch, PatchRepositories repositories)
             : this(repositories)
         {
-            if (patch == null) throw new NullException(() => patch);
-            Patch = patch;
+            Patch = patch ?? throw new NullException(() => patch);
         }
 
         public PatchManager(PatchRepositories repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-            _repositories = repositories;
+            _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
         // Create

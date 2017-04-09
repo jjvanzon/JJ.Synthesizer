@@ -18,11 +18,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             IList<OperatorCalculatorBase> itemCalculators)
             : base(new List<OperatorCalculatorBase>(itemCalculators) { inputCalculator })
         {
-            if (inputCalculator == null) throw new NullException(() => inputCalculator);
             if (itemCalculators == null) throw new NullException(() => itemCalculators);
             if (itemCalculators.Count < 1) throw new LessThanException(() => itemCalculators.Count, 1);
 
-            _inputCalculator = inputCalculator;
+            _inputCalculator = inputCalculator ?? throw new NullException(() => inputCalculator);
             _firstItemCalculators = itemCalculators.First();
             _remainingItemCalculators = itemCalculators.Skip(1).ToArray();
             _remainingItemCalculatorsCount = _remainingItemCalculators.Length;
@@ -67,11 +66,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             IList<double> items)
             : base(new[] { inputCalculator })
         {
-            if (inputCalculator == null) throw new NullException(() => inputCalculator);
             if (items == null) throw new NullException(() => items);
             if (items.Count < 1) throw new LessThanException(() => items.Count, 1);
 
-            _inputCalculator = inputCalculator;
+            _inputCalculator = inputCalculator ?? throw new NullException(() => inputCalculator);
             _firstItem = items[0];
             _remainingItems = items.Skip(1).ToArray();
             _remainingItemsCount = _remainingItems.Length;
@@ -99,9 +97,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double item2)
             : base(new[] { inputCalculator })
         {
-            if (inputCalculator == null) throw new NullException(() => inputCalculator);
-
-            _inputCalculator = inputCalculator;
+            _inputCalculator = inputCalculator ?? throw new NullException(() => inputCalculator);
             _item1 = item1;
             _item2 = item2;
         }

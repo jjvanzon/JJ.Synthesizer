@@ -16,9 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public OperatorValidator_IsCircular(Operator op, IPatchRepository patchRepository)
             : base(op, postponeExecute: true)
         {
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-
-            _patchRepository = patchRepository;
+            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
 
             Execute();
         }

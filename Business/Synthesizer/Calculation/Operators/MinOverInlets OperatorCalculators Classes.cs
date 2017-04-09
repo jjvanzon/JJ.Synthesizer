@@ -14,9 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public MinOverInlets_OperatorCalculator_Vars_1Const(IList<OperatorCalculatorBase> operandCalculators, double constValue)
             : base(operandCalculators)
         {
-            if (operandCalculators == null) throw new NullException(() => operandCalculators);
-
-            _varOperandCalculators = operandCalculators.ToArray();
+            _varOperandCalculators = operandCalculators?.ToArray() ?? throw new NullException(() => operandCalculators);
             _varOperandCalculatorsCount = _varOperandCalculators.Length;
             _constValue = constValue;
         }
@@ -84,9 +82,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public MinOverInlets_OperatorCalculator_1Var_1Const(OperatorCalculatorBase varCalculator, double constValue)
             : base(new[] { varCalculator })
         {
-            if (varCalculator == null) throw new NullException(() => varCalculator);
-
-            _varCalculator = varCalculator;
+            _varCalculator = varCalculator ?? throw new NullException(() => varCalculator);
             _constValue = constValue;
         }
 
@@ -116,11 +112,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase bCalculator)
             : base(new[] { aCalculator, bCalculator })
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
-            if (bCalculator == null) throw new NullException(() => bCalculator);
-
-            _aCalculator = aCalculator;
-            _bCalculator = bCalculator;
+            _aCalculator = aCalculator ?? throw new NullException(() => aCalculator);
+            _bCalculator = bCalculator ?? throw new NullException(() => bCalculator);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

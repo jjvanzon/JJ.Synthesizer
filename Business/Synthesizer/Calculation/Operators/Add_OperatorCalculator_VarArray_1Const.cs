@@ -15,9 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Add_OperatorCalculator_VarArray_1Const(IList<OperatorCalculatorBase> varOperandCalculators, double constValue)
             : base(varOperandCalculators)
         {
-            if (varOperandCalculators == null) throw new NullException(() => varOperandCalculators);
-
-            _varOperandCalculators = varOperandCalculators.ToArray();
+            _varOperandCalculators = varOperandCalculators?.ToArray() ?? throw new NullException(() => varOperandCalculators);
             _varOperandCalculatorsCount = _varOperandCalculators.Length;
             _constValue = constValue;
         }

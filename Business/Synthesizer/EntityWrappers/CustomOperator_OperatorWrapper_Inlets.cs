@@ -14,9 +14,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         internal CustomOperator_OperatorWrapper_Inlets(Operator op)
         {
-            if (op == null) throw new NullException(() => op);
-
-            _operator = op;
+            _operator = op ?? throw new NullException(() => op);
         }
 
         public Inlet this[string name] => OperatorHelper.GetInlet(_operator, name);

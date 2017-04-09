@@ -17,5 +17,16 @@ namespace JJ.Business.Synthesizer.Extensions
                                            .ToArray();
             return patches;
         }
+
+        public static IList<Patch> GetPatchesAndHigherDocumentPatches(this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            IList<Patch> patches = document.HigherDocumentReferences
+                                           .SelectMany(x => x.HigherDocument.Patches)
+                                           .Union(document.Patches)
+                                           .ToArray();
+            return patches;
+        }
     }
 }

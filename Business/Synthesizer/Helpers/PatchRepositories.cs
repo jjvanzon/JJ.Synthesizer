@@ -54,33 +54,19 @@ namespace JJ.Business.Synthesizer.Helpers
             IEntityPositionRepository entityPositionRepository,
             IIDRepository idRepository)
         {
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
-
-            PatchRepository = patchRepository;
-            OperatorRepository = operatorRepository;
-            OperatorTypeRepository = operatorTypeRepository;
-            InletRepository = inletRepository;
-            OutletRepository = outletRepository;
-            CurveRepository = curveRepository;
-            SampleRepository = sampleRepository;
-            DocumentRepository = documentRepository;
-            DimensionRepository = dimensionRepository;
-            SpeakerSetupRepository = speakerSetupRepository;
-            InterpolationTypeRepository = interpolationTypeRepository;
-            EntityPositionRepository = entityPositionRepository;
-            IDRepository = idRepository;
+            PatchRepository = patchRepository ?? throw new NullException(() => patchRepository);
+            OperatorRepository = operatorRepository ?? throw new NullException(() => operatorRepository);
+            OperatorTypeRepository = operatorTypeRepository ?? throw new NullException(() => operatorTypeRepository);
+            InletRepository = inletRepository ?? throw new NullException(() => inletRepository);
+            OutletRepository = outletRepository ?? throw new NullException(() => outletRepository);
+            CurveRepository = curveRepository ?? throw new NullException(() => curveRepository);
+            SampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+            DocumentRepository = documentRepository ?? throw new NullException(() => documentRepository);
+            DimensionRepository = dimensionRepository ?? throw new NullException(() => dimensionRepository);
+            SpeakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
+            InterpolationTypeRepository = interpolationTypeRepository ?? throw new NullException(() => interpolationTypeRepository);
+            EntityPositionRepository = entityPositionRepository ?? throw new NullException(() => entityPositionRepository);
+            IDRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
         public void Commit()

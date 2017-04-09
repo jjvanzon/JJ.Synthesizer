@@ -26,13 +26,9 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             [NotNull] IPatchRepository patchRepository)
             : base(obj)
         {
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-
-            _sampleRepository = sampleRepository;
-            _curveRepository = curveRepository;
-            _patchRepository = patchRepository;
+            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
+            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
         }
 
         protected override void Execute()

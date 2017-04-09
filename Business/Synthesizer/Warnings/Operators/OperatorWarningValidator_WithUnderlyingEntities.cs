@@ -31,9 +31,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             [CanBeNull] HashSet<object> alreadyDone = null)
             : base(obj, postponeExecute: true)
         {
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-
-            _sampleRepository = sampleRepository;
+            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
             _alreadyDone = alreadyDone ?? new HashSet<object>();
 
             // ReSharper disable once VirtualMemberCallInConstructor

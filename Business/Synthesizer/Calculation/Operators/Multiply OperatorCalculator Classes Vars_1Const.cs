@@ -18,8 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					operandCalculator1
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
 				_constValue = constValue;
 			}
 			 
@@ -45,10 +44,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator2
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
 				_constValue = constValue;
 			}
 			 
@@ -78,12 +75,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator3
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
 				_constValue = constValue;
 			}
 			 
@@ -117,14 +111,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator4
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
 				_constValue = constValue;
 			}
 			 
@@ -162,16 +152,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator5
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
-					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
-					_operandCalculator5 = operandCalculator5;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
 				_constValue = constValue;
 			}
 			 
@@ -213,18 +198,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator6
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
-					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
-					_operandCalculator5 = operandCalculator5;
-					if (operandCalculator6 == null) throw new NullException(() => operandCalculator6);
-					_operandCalculator6 = operandCalculator6;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
+			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
 				_constValue = constValue;
 			}
 			 
@@ -270,20 +249,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator7
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
-					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
-					_operandCalculator5 = operandCalculator5;
-					if (operandCalculator6 == null) throw new NullException(() => operandCalculator6);
-					_operandCalculator6 = operandCalculator6;
-					if (operandCalculator7 == null) throw new NullException(() => operandCalculator7);
-					_operandCalculator7 = operandCalculator7;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
+			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
+			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
 				_constValue = constValue;
 			}
 			 
@@ -333,22 +305,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator8
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
-					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
-					_operandCalculator5 = operandCalculator5;
-					if (operandCalculator6 == null) throw new NullException(() => operandCalculator6);
-					_operandCalculator6 = operandCalculator6;
-					if (operandCalculator7 == null) throw new NullException(() => operandCalculator7);
-					_operandCalculator7 = operandCalculator7;
-					if (operandCalculator8 == null) throw new NullException(() => operandCalculator8);
-					_operandCalculator8 = operandCalculator8;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
+			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
+			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
+			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
 				_constValue = constValue;
 			}
 			 
@@ -402,24 +366,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator9
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
-					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
-					_operandCalculator5 = operandCalculator5;
-					if (operandCalculator6 == null) throw new NullException(() => operandCalculator6);
-					_operandCalculator6 = operandCalculator6;
-					if (operandCalculator7 == null) throw new NullException(() => operandCalculator7);
-					_operandCalculator7 = operandCalculator7;
-					if (operandCalculator8 == null) throw new NullException(() => operandCalculator8);
-					_operandCalculator8 = operandCalculator8;
-					if (operandCalculator9 == null) throw new NullException(() => operandCalculator9);
-					_operandCalculator9 = operandCalculator9;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
+			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
+			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
+			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
+			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
 				_constValue = constValue;
 			}
 			 
@@ -477,26 +432,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator10
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
-					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
-					_operandCalculator5 = operandCalculator5;
-					if (operandCalculator6 == null) throw new NullException(() => operandCalculator6);
-					_operandCalculator6 = operandCalculator6;
-					if (operandCalculator7 == null) throw new NullException(() => operandCalculator7);
-					_operandCalculator7 = operandCalculator7;
-					if (operandCalculator8 == null) throw new NullException(() => operandCalculator8);
-					_operandCalculator8 = operandCalculator8;
-					if (operandCalculator9 == null) throw new NullException(() => operandCalculator9);
-					_operandCalculator9 = operandCalculator9;
-					if (operandCalculator10 == null) throw new NullException(() => operandCalculator10);
-					_operandCalculator10 = operandCalculator10;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
+			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
+			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
+			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
+			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
+			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
 				_constValue = constValue;
 			}
 			 
@@ -558,28 +503,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator11
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
-					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
-					_operandCalculator5 = operandCalculator5;
-					if (operandCalculator6 == null) throw new NullException(() => operandCalculator6);
-					_operandCalculator6 = operandCalculator6;
-					if (operandCalculator7 == null) throw new NullException(() => operandCalculator7);
-					_operandCalculator7 = operandCalculator7;
-					if (operandCalculator8 == null) throw new NullException(() => operandCalculator8);
-					_operandCalculator8 = operandCalculator8;
-					if (operandCalculator9 == null) throw new NullException(() => operandCalculator9);
-					_operandCalculator9 = operandCalculator9;
-					if (operandCalculator10 == null) throw new NullException(() => operandCalculator10);
-					_operandCalculator10 = operandCalculator10;
-					if (operandCalculator11 == null) throw new NullException(() => operandCalculator11);
-					_operandCalculator11 = operandCalculator11;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
+			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
+			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
+			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
+			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
+			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
+			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
 				_constValue = constValue;
 			}
 			 
@@ -645,30 +579,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator12
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
-					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
-					_operandCalculator5 = operandCalculator5;
-					if (operandCalculator6 == null) throw new NullException(() => operandCalculator6);
-					_operandCalculator6 = operandCalculator6;
-					if (operandCalculator7 == null) throw new NullException(() => operandCalculator7);
-					_operandCalculator7 = operandCalculator7;
-					if (operandCalculator8 == null) throw new NullException(() => operandCalculator8);
-					_operandCalculator8 = operandCalculator8;
-					if (operandCalculator9 == null) throw new NullException(() => operandCalculator9);
-					_operandCalculator9 = operandCalculator9;
-					if (operandCalculator10 == null) throw new NullException(() => operandCalculator10);
-					_operandCalculator10 = operandCalculator10;
-					if (operandCalculator11 == null) throw new NullException(() => operandCalculator11);
-					_operandCalculator11 = operandCalculator11;
-					if (operandCalculator12 == null) throw new NullException(() => operandCalculator12);
-					_operandCalculator12 = operandCalculator12;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
+			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
+			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
+			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
+			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
+			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
+			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
+			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
 				_constValue = constValue;
 			}
 			 
@@ -738,32 +660,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator13
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
-					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
-					_operandCalculator5 = operandCalculator5;
-					if (operandCalculator6 == null) throw new NullException(() => operandCalculator6);
-					_operandCalculator6 = operandCalculator6;
-					if (operandCalculator7 == null) throw new NullException(() => operandCalculator7);
-					_operandCalculator7 = operandCalculator7;
-					if (operandCalculator8 == null) throw new NullException(() => operandCalculator8);
-					_operandCalculator8 = operandCalculator8;
-					if (operandCalculator9 == null) throw new NullException(() => operandCalculator9);
-					_operandCalculator9 = operandCalculator9;
-					if (operandCalculator10 == null) throw new NullException(() => operandCalculator10);
-					_operandCalculator10 = operandCalculator10;
-					if (operandCalculator11 == null) throw new NullException(() => operandCalculator11);
-					_operandCalculator11 = operandCalculator11;
-					if (operandCalculator12 == null) throw new NullException(() => operandCalculator12);
-					_operandCalculator12 = operandCalculator12;
-					if (operandCalculator13 == null) throw new NullException(() => operandCalculator13);
-					_operandCalculator13 = operandCalculator13;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
+			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
+			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
+			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
+			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
+			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
+			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
+			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
+			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
 				_constValue = constValue;
 			}
 			 
@@ -837,34 +746,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator14
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
-					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
-					_operandCalculator5 = operandCalculator5;
-					if (operandCalculator6 == null) throw new NullException(() => operandCalculator6);
-					_operandCalculator6 = operandCalculator6;
-					if (operandCalculator7 == null) throw new NullException(() => operandCalculator7);
-					_operandCalculator7 = operandCalculator7;
-					if (operandCalculator8 == null) throw new NullException(() => operandCalculator8);
-					_operandCalculator8 = operandCalculator8;
-					if (operandCalculator9 == null) throw new NullException(() => operandCalculator9);
-					_operandCalculator9 = operandCalculator9;
-					if (operandCalculator10 == null) throw new NullException(() => operandCalculator10);
-					_operandCalculator10 = operandCalculator10;
-					if (operandCalculator11 == null) throw new NullException(() => operandCalculator11);
-					_operandCalculator11 = operandCalculator11;
-					if (operandCalculator12 == null) throw new NullException(() => operandCalculator12);
-					_operandCalculator12 = operandCalculator12;
-					if (operandCalculator13 == null) throw new NullException(() => operandCalculator13);
-					_operandCalculator13 = operandCalculator13;
-					if (operandCalculator14 == null) throw new NullException(() => operandCalculator14);
-					_operandCalculator14 = operandCalculator14;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
+			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
+			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
+			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
+			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
+			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
+			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
+			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
+			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
+			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
 				_constValue = constValue;
 			}
 			 
@@ -942,36 +837,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					operandCalculator15
 			})
 			{
-					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
-					_operandCalculator1 = operandCalculator1;
-					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
-					_operandCalculator2 = operandCalculator2;
-					if (operandCalculator3 == null) throw new NullException(() => operandCalculator3);
-					_operandCalculator3 = operandCalculator3;
-					if (operandCalculator4 == null) throw new NullException(() => operandCalculator4);
-					_operandCalculator4 = operandCalculator4;
-					if (operandCalculator5 == null) throw new NullException(() => operandCalculator5);
-					_operandCalculator5 = operandCalculator5;
-					if (operandCalculator6 == null) throw new NullException(() => operandCalculator6);
-					_operandCalculator6 = operandCalculator6;
-					if (operandCalculator7 == null) throw new NullException(() => operandCalculator7);
-					_operandCalculator7 = operandCalculator7;
-					if (operandCalculator8 == null) throw new NullException(() => operandCalculator8);
-					_operandCalculator8 = operandCalculator8;
-					if (operandCalculator9 == null) throw new NullException(() => operandCalculator9);
-					_operandCalculator9 = operandCalculator9;
-					if (operandCalculator10 == null) throw new NullException(() => operandCalculator10);
-					_operandCalculator10 = operandCalculator10;
-					if (operandCalculator11 == null) throw new NullException(() => operandCalculator11);
-					_operandCalculator11 = operandCalculator11;
-					if (operandCalculator12 == null) throw new NullException(() => operandCalculator12);
-					_operandCalculator12 = operandCalculator12;
-					if (operandCalculator13 == null) throw new NullException(() => operandCalculator13);
-					_operandCalculator13 = operandCalculator13;
-					if (operandCalculator14 == null) throw new NullException(() => operandCalculator14);
-					_operandCalculator14 = operandCalculator14;
-					if (operandCalculator15 == null) throw new NullException(() => operandCalculator15);
-					_operandCalculator15 = operandCalculator15;
+			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
+			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
+			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
+			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
+			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
+			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
+			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
+			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
+			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
+			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
+			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
+			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
 				_constValue = constValue;
 			}
 			 

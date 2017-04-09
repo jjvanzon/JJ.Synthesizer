@@ -25,15 +25,10 @@ namespace JJ.Business.Synthesizer.Warnings
             [NotNull] HashSet<object> alreadyDone)
             : base(document, postponeExecute: true)
         {
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (alreadyDone == null) throw new AlreadyDoneIsNullException();
-
-            _sampleRepository = sampleRepository;
-            _alreadyDone = alreadyDone;
-            _patchRepository = patchRepository;
-            _curveRepository = curveRepository;
+            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+            _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
+            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
+            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
 
             // ReSharper disable once VirtualMemberCallInConstructor
             Execute();

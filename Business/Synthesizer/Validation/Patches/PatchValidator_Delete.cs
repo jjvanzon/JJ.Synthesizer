@@ -20,9 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
         public PatchValidator_Delete([NotNull] Patch obj, [NotNull] IPatchRepository patchRepository)
             : base(obj, postponeExecute: true)
         {
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-
-            _patchRepository = patchRepository;
+            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
 
             // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
@@ -41,7 +39,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
                 string higherOperatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForCustomOperator(op, _patchRepository);
 
                 ValidationMessages.Add(
-                    PropertyNames.Sample,
+                    nameof(Patch),
                     CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(lowerPatchIdentifier, higherPatchPrefix + higherOperatorIdentifier));
             }
         }

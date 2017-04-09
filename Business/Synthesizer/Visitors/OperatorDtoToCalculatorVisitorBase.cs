@@ -32,12 +32,11 @@ namespace JJ.Business.Synthesizer.Visitors
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository)
         {
-            if (calculatorCache == null) throw new NullException(() => calculatorCache);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             _targetSamplingRate = targetSamplingRate;
-            _calculatorCache = calculatorCache;
+            _calculatorCache = calculatorCache ?? throw new NullException(() => calculatorCache);
 
             _samplesBetweenApplyFilterVariables = VisitorHelper.GetSamplesBetweenApplyFilterVariables(secondsBetweenApplyFilterVariables, targetSamplingRate);
         }

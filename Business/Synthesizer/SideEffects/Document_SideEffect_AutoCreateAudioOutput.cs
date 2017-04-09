@@ -17,9 +17,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             ISpeakerSetupRepository speakerSetupRepository,
             IIDRepository idRepository)
         {
-            if (document == null) throw new NullException(() => document);
-
-            _document = document;
+            _document = document ?? throw new NullException(() => document);
 
             _audioOutputManager = new AudioOutputManager(
                 audioOutputRepository, 

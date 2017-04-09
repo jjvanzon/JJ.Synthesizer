@@ -26,15 +26,10 @@ namespace JJ.Business.Synthesizer.Helpers
             IScaleTypeRepository scaleTypeRepository,
             IIDRepository idRepository)
         {
-            if (scaleRepository == null) throw new NullException(() => scaleRepository);
-            if (toneRepository == null) throw new NullException(() => toneRepository);
-            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
-
-            ScaleRepository = scaleRepository;
-            ToneRepository = toneRepository;
-            ScaleTypeRepository = scaleTypeRepository;
-            IDRepository = idRepository;
+            ScaleRepository = scaleRepository ?? throw new NullException(() => scaleRepository);
+            ToneRepository = toneRepository ?? throw new NullException(() => toneRepository);
+            ScaleTypeRepository = scaleTypeRepository ?? throw new NullException(() => scaleTypeRepository);
+            IDRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
         public void Commit()

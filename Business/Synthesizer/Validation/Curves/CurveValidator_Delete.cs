@@ -22,9 +22,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
         public CurveValidator_Delete([NotNull] Curve curve, [NotNull] ICurveRepository curveRepository)
             : base(curve, postponeExecute: true)
         {
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-
-            _curveRepository = curveRepository;
+            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
 
             Execute();
         }

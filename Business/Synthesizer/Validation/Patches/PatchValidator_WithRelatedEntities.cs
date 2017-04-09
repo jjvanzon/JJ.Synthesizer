@@ -26,15 +26,10 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             [NotNull] HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)
         {
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (alreadyDone == null) throw new AlreadyDoneIsNullException();
-
-            _curveRepository = curveRepository;
-            _sampleRepository = sampleRepository;
-            _patchRepository = patchRepository;
-            _alreadyDone = alreadyDone;
+            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
+            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
+            _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
 
             // ReSharper disable once VirtualMemberCallInConstructor
             Execute();

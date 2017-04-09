@@ -25,9 +25,7 @@ namespace JJ.Business.Synthesizer
 
         public CurveManager(CurveRepositories repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _repositories = repositories;
+            _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
         // Create

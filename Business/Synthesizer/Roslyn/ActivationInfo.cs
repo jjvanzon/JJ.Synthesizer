@@ -8,10 +8,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         public ActivationInfo([NotNull] Type type, [NotNull] object[] args)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
-            if (args == null) throw new ArgumentNullException(nameof(args));
 
             Type = type;
-            Args = args;
+            Args = args ?? throw new ArgumentNullException(nameof(args));
         }
 
         [NotNull] public Type Type { get; }

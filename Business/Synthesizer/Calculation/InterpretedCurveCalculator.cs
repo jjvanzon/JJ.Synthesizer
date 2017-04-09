@@ -24,8 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
         public InterpretedCurveCalculator(Curve curve)
         {
-            if (curve == null) throw new NullException(() => curve);
-            _curve = curve;
+            _curve = curve ?? throw new NullException(() => curve);
 
             IValidator validator1 = new CurveValidator_WithoutNodes(_curve);
             validator1.Assert();

@@ -37,17 +37,11 @@ namespace JJ.Business.Synthesizer.Visitors
             [NotNull] ISampleRepository sampleRepository,
             [NotNull] ISpeakerSetupRepository speakerSetupRepository)
         {
-            if (calculatorCache == null) throw new ArgumentNullException(nameof(calculatorCache));
-            if (curveRepository == null) throw new ArgumentNullException(nameof(curveRepository));
-            if (patchRepository == null) throw new ArgumentNullException(nameof(patchRepository));
-            if (sampleRepository == null) throw new ArgumentNullException(nameof(sampleRepository));
-            if (speakerSetupRepository == null) throw new ArgumentNullException(nameof(speakerSetupRepository));
-
-            _calculatorCache = calculatorCache;
-            _curveRepository = curveRepository;
-            _patchRepository = patchRepository;
-            _sampleRepository = sampleRepository;
-            _speakerSetupRepository = speakerSetupRepository;
+            _calculatorCache = calculatorCache ?? throw new ArgumentNullException(nameof(calculatorCache));
+            _curveRepository = curveRepository ?? throw new ArgumentNullException(nameof(curveRepository));
+            _patchRepository = patchRepository ?? throw new ArgumentNullException(nameof(patchRepository));
+            _sampleRepository = sampleRepository ?? throw new ArgumentNullException(nameof(sampleRepository));
+            _speakerSetupRepository = speakerSetupRepository ?? throw new ArgumentNullException(nameof(speakerSetupRepository));
         }
 
         public IOperatorDto Execute(Operator op)

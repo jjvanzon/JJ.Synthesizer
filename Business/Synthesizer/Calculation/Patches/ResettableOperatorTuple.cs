@@ -7,12 +7,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     {
         public ResettableOperatorTuple(OperatorCalculatorBase operatorCalculator, string name, int? listIndex)
         {
-            if (operatorCalculator == null) throw new NullException(() => operatorCalculator);
             // Name is optional.
 
             Name = name;
             ListIndex = listIndex;
-            OperatorCalculator = operatorCalculator;
+            OperatorCalculator = operatorCalculator ?? throw new NullException(() => operatorCalculator);
         }
 
         public OperatorCalculatorBase OperatorCalculator { get; }

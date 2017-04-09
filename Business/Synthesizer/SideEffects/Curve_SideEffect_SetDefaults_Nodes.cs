@@ -22,15 +22,10 @@ namespace JJ.Business.Synthesizer.SideEffects
             INodeTypeRepository nodeTypeRepository, 
             IIDRepository idRepository)
         {
-            if (curve == null) throw new NullException(() => curve);
-            if (nodeRepository == null) throw new NullException(() => nodeRepository);
-            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
-
-            _curve = curve;
-            _nodeRepository = nodeRepository;
-            _nodeTypeRepository = nodeTypeRepository;
-            _idRepository = idRepository;
+            _curve = curve ?? throw new NullException(() => curve);
+            _nodeRepository = nodeRepository ?? throw new NullException(() => nodeRepository);
+            _nodeTypeRepository = nodeTypeRepository ?? throw new NullException(() => nodeTypeRepository);
+            _idRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
         public void Execute()

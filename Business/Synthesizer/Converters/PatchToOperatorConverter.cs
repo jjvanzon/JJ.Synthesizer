@@ -35,9 +35,7 @@ namespace JJ.Business.Synthesizer.Converters
 
         public PatchToOperatorConverter(PatchRepositories repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _repositories = repositories;
+            _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
         /// <param name="sourceUnderlyingPatch">nullable</param>

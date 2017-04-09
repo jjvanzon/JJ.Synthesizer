@@ -15,11 +15,8 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public Sample_SideEffect_SetDefaults(Sample entity, SampleRepositories repositories)
         {
-            if (entity == null) throw new NullException(() => entity);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _entity = entity;
-            _repositories = repositories;
+            _entity = entity ?? throw new NullException(() => entity);
+            _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
         public void Execute()

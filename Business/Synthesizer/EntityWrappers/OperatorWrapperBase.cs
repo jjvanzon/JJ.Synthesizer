@@ -11,9 +11,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         public OperatorWrapperBase(Operator wrappedOperator)
         {
-            if (wrappedOperator == null) throw new NullException(() => wrappedOperator);
-
-            WrappedOperator = wrappedOperator;
+            WrappedOperator = wrappedOperator ?? throw new NullException(() => wrappedOperator);
         }
 
         public Operator WrappedOperator { get; }

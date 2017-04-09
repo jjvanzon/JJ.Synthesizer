@@ -15,9 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull([NotNull] Operator op, [NotNull] Patch patch)
             : base(op, postponeExecute: true)
         {
-            if (patch == null) throw new NullException(() => patch);
-
-            _patch = patch;
+            _patch = patch ?? throw new NullException(() => patch);
 
             Execute();
         }

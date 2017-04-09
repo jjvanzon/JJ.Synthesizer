@@ -16,9 +16,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public CustomOperator_OperatorWrapper(Operator op, IPatchRepository patchRepository)
             : base(op)
         {
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-
-            _patchRepository = patchRepository;
+            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
 
             Operands = new CustomOperator_OperatorWrapper_Operands(op);
             Inlets = new CustomOperator_OperatorWrapper_Inlets(op);

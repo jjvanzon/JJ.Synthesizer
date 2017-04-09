@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Validation
                 sb.Append(lowerDocumentIdentifier);
             }
 
-            if (string.IsNullOrWhiteSpace(lowerDocumentReference.Alias))
+            if (!string.IsNullOrWhiteSpace(lowerDocumentReference.Alias))
             {
                 sb.Append($" ({ResourceFormatter.Alias} '{lowerDocumentReference.Alias}')");
             }

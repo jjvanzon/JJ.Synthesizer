@@ -15,8 +15,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         internal CustomOperator_OperatorWrapper_Operands(Operator op)
         {
-            if (op == null) throw new NullException(() => op);
-            _operator = op;
+            _operator = op ?? throw new NullException(() => op);
         }
 
         public Outlet this[string name]

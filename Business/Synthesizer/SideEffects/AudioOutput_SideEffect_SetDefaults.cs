@@ -21,11 +21,8 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public AudioOutput_SideEffect_SetDefaults(AudioOutput entity, ISpeakerSetupRepository speakerSetupRepository)
         {
-            if (entity == null) throw new NullException(() => entity);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-
-            _entity = entity;
-            _speakerSetupRepository = speakerSetupRepository;
+            _entity = entity ?? throw new NullException(() => entity);
+            _speakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
         }
 
         public void Execute()

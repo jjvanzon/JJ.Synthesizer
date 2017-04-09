@@ -18,9 +18,7 @@ namespace JJ.Business.Synthesizer.Warnings
         public SampleWarningValidator(Sample obj, byte[] bytes, HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)
         {
-            if (alreadyDone == null) throw new AlreadyDoneIsNullException();
-
-            _alreadyDone = alreadyDone;
+            _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
             _bytes = bytes;
 
             // ReSharper disable once VirtualMemberCallInConstructor

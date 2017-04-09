@@ -17,11 +17,8 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public Operator_SideEffect_ApplyUnderlyingPatch(Operator entity, PatchRepositories repositories)
         {
-            if (entity == null) throw new NullException(() => entity);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _entity = entity;
-            _repositories = repositories;
+            _entity = entity ?? throw new NullException(() => entity);
+            _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
         public void Execute()

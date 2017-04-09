@@ -158,8 +158,9 @@ namespace JJ.Business.Synthesizer.Extensions
             }
 
             // We cannot use an SQL query, because that only operates on flushed / committed data.
-            IEnumerable<Operator> enumerable = 
-                patch.Document.Patches
+            IEnumerable<Operator> enumerable =
+                patch.Document
+                     .GetPatchesAndHigherDocumentPatches()
                      .SelectMany(x => x.Operators)
                      .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator &&
                                  UnderlyingPatchIsMatch(patch, x, patchRepository));

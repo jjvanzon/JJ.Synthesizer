@@ -14,8 +14,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Curve_OperatorWrapper(Operator op, ICurveRepository curveRepository)
             : base(op)
         {
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            _curveRepository = curveRepository;
+            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
         }
 
         public int? CurveID

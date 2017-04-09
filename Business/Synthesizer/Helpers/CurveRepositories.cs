@@ -29,17 +29,11 @@ namespace JJ.Business.Synthesizer.Helpers
             IDimensionRepository dimensionRepository,
             IIDRepository idRepository)
         {
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (nodeRepository == null) throw new NullException(() => nodeRepository);
-            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
-            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
-
-            CurveRepository = curveRepository;
-            NodeRepository = nodeRepository;
-            NodeTypeRepository = nodeTypeRepository;
-            DimensionRepository = dimensionRepository;
-            IDRepository = idRepository;
+            CurveRepository = curveRepository ?? throw new NullException(() => curveRepository);
+            NodeRepository = nodeRepository ?? throw new NullException(() => nodeRepository);
+            NodeTypeRepository = nodeTypeRepository ?? throw new NullException(() => nodeTypeRepository);
+            DimensionRepository = dimensionRepository ?? throw new NullException(() => dimensionRepository);
+            IDRepository = idRepository ?? throw new NullException(() => idRepository);
         }
     }
 }

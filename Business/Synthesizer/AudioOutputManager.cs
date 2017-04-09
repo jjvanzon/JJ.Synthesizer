@@ -22,13 +22,9 @@ namespace JJ.Business.Synthesizer
             ISpeakerSetupRepository speakerSetupRepository,
             IIDRepository idRepository)
         {
-            if (audioOutputRepository == null) throw new NullException(() => audioOutputRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
-
-            _audioOutputRepository = audioOutputRepository;
-            _speakerSetupRepository = speakerSetupRepository;
-            _idRepository = idRepository;
+            _audioOutputRepository = audioOutputRepository ?? throw new NullException(() => audioOutputRepository);
+            _speakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
+            _idRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
         public AudioOutput Create(Document document)

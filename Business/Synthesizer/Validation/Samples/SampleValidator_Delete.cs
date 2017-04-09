@@ -22,9 +22,7 @@ namespace JJ.Business.Synthesizer.Validation.Samples
         public SampleValidator_Delete([NotNull] Sample obj, [NotNull] ISampleRepository sampleRepository)
             : base(obj, postponeExecute: true)
         {
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-
-            _sampleRepository = sampleRepository;
+            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
 
             // ReSharper disable once VirtualMemberCallInConstructor
             Execute();

@@ -20,11 +20,8 @@ namespace JJ.Business.Synthesizer.SideEffects
         /// <summary> Sets the scale properties to practical defaults, also slightly dependent on the scale type. </summary>
         public Scale_SideEffect_SetDefaults(Scale scale, IScaleTypeRepository scaleTypeRepository)
         {
-            if (scale == null) throw new NullException(() => scale);
-            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
-
-            _scale = scale;
-            _scaleTypeRepository = scaleTypeRepository;
+            _scale = scale ?? throw new NullException(() => scale);
+            _scaleTypeRepository = scaleTypeRepository ?? throw new NullException(() => scaleTypeRepository);
         }
 
         public void Execute()

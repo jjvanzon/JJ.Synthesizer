@@ -16,8 +16,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public Operator_SideEffect_GeneratePatchInletListIndex(Operator entity)
         {
-            if (entity == null) throw new NullException(() => entity);
-            _entity = entity;
+            _entity = entity ?? throw new NullException(() => entity);
         }
 
         public void Execute()

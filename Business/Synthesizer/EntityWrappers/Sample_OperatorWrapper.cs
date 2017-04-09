@@ -13,9 +13,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Sample_OperatorWrapper(Operator op, ISampleRepository sampleRepository)
             : base(op)
         {
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-
-            _sampleRepository = sampleRepository;
+            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
         }
 
         public int? SampleID

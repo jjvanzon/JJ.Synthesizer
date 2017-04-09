@@ -59,58 +59,31 @@ namespace JJ.Business.Synthesizer.Helpers
 
             IIDRepository idRepository)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
-            if (audioOutputRepository == null) throw new NullException(() => audioOutputRepository);
-            if (documentReferenceRepository == null) throw new NullException(() => documentReferenceRepository);
-            if (nodeRepository == null) throw new NullException(() => nodeRepository);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (scaleRepository == null) throw new NullException(() => scaleRepository);
-            if (toneRepository == null) throw new NullException(() => toneRepository);
+            DocumentRepository = documentRepository ?? throw new NullException(() => documentRepository);
+            CurveRepository = curveRepository ?? throw new NullException(() => curveRepository);
+            PatchRepository = patchRepository ?? throw new NullException(() => patchRepository);
+            SampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+            AudioFileOutputRepository = audioFileOutputRepository ?? throw new NullException(() => audioFileOutputRepository);
+            AudioOutputRepository = audioOutputRepository ?? throw new NullException(() => audioOutputRepository);
+            DocumentReferenceRepository = documentReferenceRepository ?? throw new NullException(() => documentReferenceRepository);
+            NodeRepository = nodeRepository ?? throw new NullException(() => nodeRepository);
+            OperatorRepository = operatorRepository ?? throw new NullException(() => operatorRepository);
+            OperatorTypeRepository = operatorTypeRepository ?? throw new NullException(() => operatorTypeRepository);
+            InletRepository = inletRepository ?? throw new NullException(() => inletRepository);
+            OutletRepository = outletRepository ?? throw new NullException(() => outletRepository);
+            EntityPositionRepository = entityPositionRepository ?? throw new NullException(() => entityPositionRepository);
+            ScaleRepository = scaleRepository ?? throw new NullException(() => scaleRepository);
+            ToneRepository = toneRepository ?? throw new NullException(() => toneRepository);
 
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
+            AudioFileFormatRepository = audioFileFormatRepository ?? throw new NullException(() => audioFileFormatRepository);
+            InterpolationTypeRepository = interpolationTypeRepository ?? throw new NullException(() => interpolationTypeRepository);
+            NodeTypeRepository = nodeTypeRepository ?? throw new NullException(() => nodeTypeRepository);
+            SampleDataTypeRepository = sampleDataTypeRepository ?? throw new NullException(() => sampleDataTypeRepository);
+            SpeakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
+            ScaleTypeRepository = scaleTypeRepository ?? throw new NullException(() => scaleTypeRepository);
+            DimensionRepository = dimensionRepository ?? throw new NullException(() => dimensionRepository);
 
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
-            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
-            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
-            if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
-
-            if (idRepository == null) throw new NullException(() => idRepository);
-
-            DocumentRepository = documentRepository;
-            CurveRepository = curveRepository;
-            PatchRepository = patchRepository;
-            SampleRepository = sampleRepository;
-            AudioFileOutputRepository = audioFileOutputRepository;
-            AudioOutputRepository = audioOutputRepository;
-            DocumentReferenceRepository = documentReferenceRepository;
-            NodeRepository = nodeRepository;
-            OperatorRepository = operatorRepository;
-            OperatorTypeRepository = operatorTypeRepository;
-            InletRepository = inletRepository;
-            OutletRepository = outletRepository;
-            EntityPositionRepository = entityPositionRepository;
-            ScaleRepository = scaleRepository;
-            ToneRepository = toneRepository;
-
-            AudioFileFormatRepository = audioFileFormatRepository;
-            InterpolationTypeRepository = interpolationTypeRepository;
-            NodeTypeRepository = nodeTypeRepository;
-            SampleDataTypeRepository = sampleDataTypeRepository;
-            SpeakerSetupRepository = speakerSetupRepository;
-            ScaleTypeRepository = scaleTypeRepository;
-            DimensionRepository = dimensionRepository;
-
-            IDRepository = idRepository;
+            IDRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
         public void Commit()

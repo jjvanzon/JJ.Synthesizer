@@ -14,15 +14,10 @@ namespace JJ.Business.Synthesizer.Visitors
             IList<VariableInput_OperatorCalculator> input_OperatorCalculators,
             IList<ResettableOperatorTuple> resettableOperatorTuples)
         {
-            if (output_OperatorCalculator == null) throw new NullException(() => output_OperatorCalculator);
-            if (dimensionStackCollection == null) throw new NullException(() => dimensionStackCollection);
-            if (input_OperatorCalculators == null) throw new NullException(() => input_OperatorCalculators);
-            if (resettableOperatorTuples == null) throw new NullException(() => resettableOperatorTuples);
-
-            Output_OperatorCalculator = output_OperatorCalculator;
-            DimensionStackCollection = dimensionStackCollection;
-            Input_OperatorCalculators = input_OperatorCalculators;
-            ResettableOperatorTuples = resettableOperatorTuples;
+            Output_OperatorCalculator = output_OperatorCalculator ?? throw new NullException(() => output_OperatorCalculator);
+            DimensionStackCollection = dimensionStackCollection ?? throw new NullException(() => dimensionStackCollection);
+            Input_OperatorCalculators = input_OperatorCalculators ?? throw new NullException(() => input_OperatorCalculators);
+            ResettableOperatorTuples = resettableOperatorTuples ?? throw new NullException(() => resettableOperatorTuples);
         }
 
         public OperatorCalculatorBase Output_OperatorCalculator { get; }

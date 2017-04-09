@@ -41,25 +41,15 @@ namespace JJ.Business.Synthesizer.Helpers
             IPatchRepository patchRepository,
             IIDRepository idRepository)
         {
-            if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
-
-            AudioFileOutputRepository = audioFileOutputRepository;
-            AudioFileFormatRepository = audioFileFormatRepository;
-            SampleDataTypeRepository = sampleDataTypeRepository;
-            SpeakerSetupRepository = speakerSetupRepository;
-            OutletRepository = outletRepository;
-            CurveRepository = curveRepository;
-            SampleRepository = sampleRepository;
-            PatchRepository = patchRepository;
-            IDRepository = idRepository;
+            AudioFileOutputRepository = audioFileOutputRepository ?? throw new NullException(() => audioFileOutputRepository);
+            AudioFileFormatRepository = audioFileFormatRepository ?? throw new NullException(() => audioFileFormatRepository);
+            SampleDataTypeRepository = sampleDataTypeRepository ?? throw new NullException(() => sampleDataTypeRepository);
+            SpeakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
+            OutletRepository = outletRepository ?? throw new NullException(() => outletRepository);
+            CurveRepository = curveRepository ?? throw new NullException(() => curveRepository);
+            SampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+            PatchRepository = patchRepository ?? throw new NullException(() => patchRepository);
+            IDRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
         public void Commit()

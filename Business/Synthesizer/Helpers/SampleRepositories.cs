@@ -35,21 +35,13 @@ namespace JJ.Business.Synthesizer.Helpers
             IInterpolationTypeRepository interpolationTypeRepository,
             IIDRepository idRepository)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
-
-            DocumentRepository = documentRepository;
-            SampleRepository = sampleRepository;
-            AudioFileFormatRepository = audioFileFormatRepository;
-            SampleDataTypeRepository = sampleDataTypeRepository;
-            SpeakerSetupRepository = speakerSetupRepository;
-            InterpolationTypeRepository = interpolationTypeRepository;
-            IDRepository = idRepository;
+            DocumentRepository = documentRepository ?? throw new NullException(() => documentRepository);
+            SampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+            AudioFileFormatRepository = audioFileFormatRepository ?? throw new NullException(() => audioFileFormatRepository);
+            SampleDataTypeRepository = sampleDataTypeRepository ?? throw new NullException(() => sampleDataTypeRepository);
+            SpeakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
+            InterpolationTypeRepository = interpolationTypeRepository ?? throw new NullException(() => interpolationTypeRepository);
+            IDRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
         public void Commit()
