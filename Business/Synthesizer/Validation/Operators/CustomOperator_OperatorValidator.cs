@@ -2,7 +2,6 @@
 using System.Linq;
 using JJ.Framework.Validation;
 using JJ.Framework.Presentation.Resources;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
@@ -26,9 +25,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public CustomOperator_OperatorValidator([NotNull] Operator op, [NotNull] IPatchRepository patchRepository)
             : base(op, postponeExecute: true)
         {
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-
-            _patchRepository = patchRepository;
+            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
 
             Execute();
         }
@@ -51,8 +48,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             For(() => underlyingPatchIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.UnderlyingPatch)).IsInteger();
 
-            int underlyingPatchID;
-            if (!int.TryParse(underlyingPatchIDString, out underlyingPatchID))
+            if (!int.TryParse(underlyingPatchIDString, out int underlyingPatchID))
             {
                 return;
             }
@@ -78,6 +74,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                                      .ToArray();
 
             bool namesAreUnique = names.Distinct().Count() == names.Count;
+            // ReSharper disable once InvertIf
             if (!namesAreUnique)
             {
                 string message = ResourceFormatter.Inlets + ": " + ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names);
@@ -92,6 +89,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                                                 .ToArray();
 
             bool namesAreUnique = names.Distinct().Count() == names.Count;
+            // ReSharper disable once InvertIf
             if (!namesAreUnique)
             {
                 string message = ResourceFormatter.Outlets + ": " + ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names);
@@ -110,7 +108,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            bool isInList = op.Patch.Document.Patches.Any(x => x.ID == underlyingPatch.ID);
+            bool isInList = op.Patch.Document.GetPatchesAndLowerDocumentPatches().Any(x => x.ID == underlyingPatch.ID);
             if (!isInList)
             {
                 ValidationMessages.AddNotInListMessage(PropertyNames.UnderlyingPatch, ResourceFormatter.UnderlyingPatch, underlyingPatch.ID);

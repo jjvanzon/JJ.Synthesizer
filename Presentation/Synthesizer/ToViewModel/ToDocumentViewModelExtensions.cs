@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.Helpers;
 
@@ -87,7 +88,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.AudioOutputProperties = ViewModelHelper.CreateEmptyAudioOutputPropertiesViewModel();
             }
 
-            viewModel.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(document.Patches);
+            IList<Patch> patches = document.GetPatchesAndLowerDocumentPatches();
+            viewModel.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(patches);
 
             return viewModel;
         }

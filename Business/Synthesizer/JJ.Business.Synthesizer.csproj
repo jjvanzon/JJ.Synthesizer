@@ -176,6 +176,7 @@
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts_WithBandWidth.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_VarSignal.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts.cs" />
+    <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\2017-02-18 Backup of CurveArrayInfo.cs" />

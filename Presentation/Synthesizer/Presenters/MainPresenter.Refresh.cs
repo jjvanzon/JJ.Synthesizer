@@ -1360,7 +1360,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void UnderylingPatchLookupRefresh()
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            IList<Patch> patches = document.Patches.ToArray();
+            IList<Patch> patches = document.GetPatchesAndLowerDocumentPatches();
             MainViewModel.Document.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(patches);
         }
     }
