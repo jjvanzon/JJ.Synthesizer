@@ -17,6 +17,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
+        public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
         public event EventHandler ShowCurvesRequested;
         public event EventHandler ShowSamplesRequested;
         public event EventHandler ShowAudioOutputRequested;
@@ -26,6 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private HashSet<TreeNode> _patchesTreeNodes;
         private HashSet<TreeNode> _patchTreeNodes;
+        private HashSet<TreeNode> _libraryTreeNodes;
         private TreeNode _samplesTreeNode;
         private TreeNode _curvesTreeNode;
         private TreeNode _scalesTreeNode;
@@ -63,6 +65,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 _patchesTreeNodes = new HashSet<TreeNode>();
                 _patchTreeNodes = new HashSet<TreeNode>();
+                _libraryTreeNodes = new HashSet<TreeNode>();
 
                 treeView.Nodes.Clear();
 
@@ -139,15 +142,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _librariesTreeNode = new TreeNode(documentTreeViewModel.LibrariesNode.Text);
             treeView.Nodes.Add(_librariesTreeNode);
 
+            // Library Nodes
             foreach (LibraryViewModel libraryViewModel in documentTreeViewModel.LibrariesNode.List)
             {
-                var libraryTreeNode = new TreeNode(libraryViewModel.Caption);
+                var libraryTreeNode = new TreeNode(libraryViewModel.Caption)
+                {
+                    Tag = libraryViewModel.LowerDocumentReferenceID
+                };
                 _librariesTreeNode.Nodes.Add(libraryTreeNode);
+                _libraryTreeNodes.Add(libraryTreeNode);
 
                 foreach (IDAndName patchViewModel in libraryViewModel.Patches)
                 {
                     TreeNode patchTreeNode = ConvertLibraryPatchTreeNode(patchViewModel);
                     libraryTreeNode.Nodes.Add(patchTreeNode);
+
                 }
 
                 libraryTreeNode.Expand();
@@ -185,10 +194,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
-        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
 
         private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -235,6 +241,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 ShowCurvesRequested?.Invoke(this, EventArgs.Empty);
             }
 
+            if (node == _librariesTreeNode)
+            {
+                ShowLibrariesRequested?.Invoke(this, EventArgs.Empty);
+            }
+
             if (_patchesTreeNodes.Contains(node))
             {
                 ShowPatchGridRequested?.Invoke(this, new EventArgs<string>((string)node.Tag));
@@ -256,9 +267,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 ShowScalesRequested?.Invoke(this, EventArgs.Empty);
             }
 
-            if (node == _librariesTreeNode)
+            if (_libraryTreeNodes.Contains(node))
             {
-                ShowLibrariesRequested?.Invoke(this, EventArgs.Empty);
+                int id = (int)node.Tag;
+                ShowLibraryPropertiesRequested(this, new EventArgs<int>(id));
             }
         }
     }

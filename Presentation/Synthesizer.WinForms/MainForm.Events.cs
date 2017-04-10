@@ -48,11 +48,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
+            documentTreeUserControl.ShowLibrariesRequested += documentTreeUserControl_ShowLibrariesRequested;
+            documentTreeUserControl.ShowLibraryPropertiesRequested += documentTreeUserControl_ShowLibraryPropertiesRequested;
             documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
             documentTreeUserControl.ShowPatchGridRequested += documentTreeUserControl_ShowPatchGridRequested;
             documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
-            documentTreeUserControl.ShowLibrariesRequested += documentTreeUserControl_ShowLibrariesRequested;
             libraryGridUserControl.CloseRequested += libraryGridUserControl_CloseRequested;
             libraryGridUserControl.AddRequested += libraryGridUserControl_AddRequested;
             libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
@@ -372,6 +373,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.CurveGridShow);
         }
 
+        private void documentTreeUserControl_ShowLibrariesRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.LibraryGridShow);
+        }
+
+        private void documentTreeUserControl_ShowLibraryPropertiesRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.LibraryPropertiesShow(e.Value));
+        }
+
         private void documentTreeUserControl_ShowPatchGridRequested(object sender, EventArgs<string> e)
         {
             TemplateEventHandler(() => _presenter.PatchGridShow(e.Value));
@@ -390,11 +401,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(_presenter.ScaleGridShow);
-        }
-
-        private void documentTreeUserControl_ShowLibrariesRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.LibraryGridShow);
         }
 
         // Document Properties

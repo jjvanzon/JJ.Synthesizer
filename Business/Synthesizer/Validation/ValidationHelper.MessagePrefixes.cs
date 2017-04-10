@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer;
 using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -16,6 +15,12 @@ namespace JJ.Business.Synthesizer.Validation
         [NotNull] public static string GetMessagePrefix_ForLowerDocumentReference([NotNull] DocumentReference lowerDocumentReference)
         {
             return GetMessagePrefix(ResourceFormatter.LowerDocument, GetUserFriendlyIdentifier_ForLowerDocumentReference(lowerDocumentReference));
+        }
+
+        [NotNull]
+        public static string GetMessagePrefix_ForHigherDocumentReference([NotNull] DocumentReference higherDocumentReference)
+        {
+            return GetMessagePrefix(ResourceFormatter.HigherDocument, GetUserFriendlyIdentifier_ForHigherDocumentReference(higherDocumentReference));
         }
 
         [NotNull] public static string GetMessagePrefix([NotNull] Inlet entity) => GetMessagePrefix(ResourceFormatter.Inlet, GetUserFriendlyIdentifier(entity));
