@@ -1,6 +1,6 @@
 ﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class CurrentPatchesUserControl
+    partial class CurrentInstrumentUserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -67,7 +67,7 @@
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
-            // CurrentPatchesUserControl
+            // CurrentInstrumentUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -75,9 +75,9 @@
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.flowLayoutPanel);
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "CurrentPatchesUserControl";
+            this.Name = "CurrentInstrumentUserControl";
             this.Size = new System.Drawing.Size(523, 220);
-            this.SizeChanged += new System.EventHandler(this.CurrentPatchesUserControl_SizeChanged);
+            this.SizeChanged += new System.EventHandler(this.CurrentInstrumentUserControl_SizeChanged);
             this.ResumeLayout(false);
 
         }

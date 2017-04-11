@@ -136,11 +136,11 @@
     <Compile Include="UserControls\Bases\GridUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\CurrentPatchesUserControl.cs">
+    <Compile Include="UserControls\CurrentInstrumentUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\CurrentPatchesUserControl.Designer.cs">
-      <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\CurrentInstrumentUserControl.Designer.cs">
+      <DependentUpon>CurrentInstrumentUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Bases\OperatorPropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
@@ -184,11 +184,11 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForInletsToDimension.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForInletsToDimension.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Partials\CurrentPatchItemUserControl.cs">
+    <Compile Include="UserControls\Partials\CurrentInstrumentItemUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\Partials\CurrentPatchItemUserControl.Designer.cs">
-      <DependentUpon>CurrentPatchItemUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\Partials\CurrentInstrumentItemUserControl.Designer.cs">
+      <DependentUpon>CurrentInstrumentItemUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CurveDetailsUserControl.cs">
       <SubType>UserControl</SubType>
@@ -410,8 +410,8 @@
     <EmbeddedResource Include="UserControls\Bases\PropertiesUserControlBase.resx">
       <DependentUpon>PropertiesUserControlBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CurrentPatchesUserControl.resx">
-      <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\CurrentInstrumentUserControl.resx">
+      <DependentUpon>CurrentInstrumentUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\LibraryPatchPropertiesUserControl.resx">
       <DependentUpon>LibraryPatchPropertiesUserControl.cs</DependentUpon>
@@ -431,8 +431,8 @@
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForInletsToDimension.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForInletsToDimension.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\CurrentPatchItemUserControl.resx">
-      <DependentUpon>CurrentPatchItemUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\Partials\CurrentInstrumentItemUserControl.resx">
+      <DependentUpon>CurrentInstrumentItemUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsUserControl.resx">
       <DependentUpon>CurveDetailsUserControl.cs</DependentUpon>

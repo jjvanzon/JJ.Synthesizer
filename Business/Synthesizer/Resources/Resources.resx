@@ -917,8 +917,8 @@
   <data name="Y" xml:space="preserve">
     <value>y</value>
   </data>
-  <data name="AddToCurrentPatches" xml:space="preserve">
-    <value>Add to Current Patches</value>
+  <data name="AddToInstrument" xml:space="preserve">
+    <value>Add to Instrument</value>
   </data>
   <data name="Average" xml:space="preserve">
     <value>Average</value>
@@ -929,8 +929,8 @@
   <data name="ClosestExp" xml:space="preserve">
     <value>Closest Exp</value>
   </data>
-  <data name="CurrentPatches" xml:space="preserve">
-    <value>Current Patches</value>
+  <data name="CurrentInstrument" xml:space="preserve">
+    <value>Current Instrument</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>

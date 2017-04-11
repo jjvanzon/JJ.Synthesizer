@@ -53,7 +53,7 @@
             this.operatorPropertiesUserControl_ForCustomOperator = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCustomOperator();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-            this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentPatchesUserControl();
+            this.currentInstrumentUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentInstrumentUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -685,17 +685,17 @@
             this.menuUserControl.Size = new System.Drawing.Size(1459, 24);
             this.menuUserControl.TabIndex = 3;
             // 
-            // currentPatchesUserControl
+            // currentInstrumentUserControl
             // 
-            this.currentPatchesUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.currentInstrumentUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.currentPatchesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.currentPatchesUserControl.Location = new System.Drawing.Point(271, 0);
-            this.currentPatchesUserControl.Margin = new System.Windows.Forms.Padding(0);
-            this.currentPatchesUserControl.Name = "currentPatchesUserControl";
-            this.currentPatchesUserControl.Size = new System.Drawing.Size(1188, 30);
-            this.currentPatchesUserControl.TabIndex = 14;
-            this.currentPatchesUserControl.ViewModel = null;
+            this.currentInstrumentUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.currentInstrumentUserControl.Location = new System.Drawing.Point(271, 0);
+            this.currentInstrumentUserControl.Margin = new System.Windows.Forms.Padding(0);
+            this.currentInstrumentUserControl.Name = "currentInstrumentUserControl";
+            this.currentInstrumentUserControl.Size = new System.Drawing.Size(1188, 30);
+            this.currentInstrumentUserControl.TabIndex = 14;
+            this.currentInstrumentUserControl.ViewModel = null;
             // 
             // MainForm
             // 
@@ -703,7 +703,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(1459, 838);
-            this.Controls.Add(this.currentPatchesUserControl);
+            this.Controls.Add(this.currentInstrumentUserControl);
             this.Controls.Add(this.splitContainerTree);
             this.Controls.Add(this.menuUserControl);
             this.IsMdiContainer = true;
@@ -753,7 +753,7 @@
         private UserControls.CurvePropertiesUserControl curvePropertiesUserControl;
         private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_WithOutletCount operatorPropertiesUserControl_WithOutletCount;
-        private UserControls.CurrentPatchesUserControl currentPatchesUserControl;
+        private UserControls.CurrentInstrumentUserControl currentInstrumentUserControl;
         private UserControls.OperatorPropertiesUserControl_WithInterpolation operatorPropertiesUserControl_WithInterpolation;
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
         private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;

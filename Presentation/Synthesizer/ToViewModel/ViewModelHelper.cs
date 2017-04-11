@@ -271,13 +271,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 //OperatorTypeEnum.Triangle,
             };
 
-        // CurrentPatches
+        // CurrentInstrument
 
-        public static CurrentPatchesViewModel CreateCurrentPatchesViewModel(IList<Patch> patches)
+        public static CurrentInstrumentViewModel CreateCurrentInstrumentViewModel(IList<Patch> patches)
         {
             if (patches == null) throw new NullException(() => patches);
 
-            var viewModel = new CurrentPatchesViewModel
+            var viewModel = new CurrentInstrumentViewModel
             {
                 List = patches.Select(x => x.ToIDAndName()).ToList(),
                 ValidationMessages = new List<Message>()
@@ -379,7 +379,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentTree = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentClose = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentSave = new MenuItemViewModel { Visible = documentIsOpen },
-                CurrentPatches = new MenuItemViewModel { Visible = documentIsOpen },
+                CurrentInstrument = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentProperties = new MenuItemViewModel { Visible = documentIsOpen },
                 ValidationMessages = new List<Message>()
             };

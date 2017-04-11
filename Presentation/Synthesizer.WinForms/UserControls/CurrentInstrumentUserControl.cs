@@ -12,28 +12,28 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurrentPatchesUserControl : UserControlBase
+    internal partial class CurrentInstrumentUserControl : UserControlBase
     {
         public event EventHandler<EventArgs<int>> RemoveRequested;
         public event EventHandler CloseRequested;
         public event EventHandler ShowAutoPatchRequested;
 
-        public CurrentPatchesUserControl()
+        public CurrentInstrumentUserControl()
         {
             InitializeComponent();
         }
 
         // Binding
 
-        public new CurrentPatchesViewModel ViewModel
+        public new CurrentInstrumentViewModel ViewModel
         {
-            get => (CurrentPatchesViewModel)base.ViewModel;
+            get => (CurrentInstrumentViewModel)base.ViewModel;
             set => base.ViewModel = value;
         }
 
         protected override void ApplyViewModelToControls()
         {
-            IList<CurrentPatchItemUserControl> itemUserControls = flowLayoutPanel.Controls.OfType<CurrentPatchItemUserControl>().ToArray();
+            IList<CurrentInstrumentItemUserControl> itemUserControls = flowLayoutPanel.Controls.OfType<CurrentInstrumentItemUserControl>().ToArray();
 
             if (itemUserControls.Count != flowLayoutPanel.Controls.Count)
             {
@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             for (int i = 0; i < minCount; i++)
             {
                 IDAndName itemViewModel = ViewModel.List[i];
-                CurrentPatchItemUserControl itemUserControl = itemUserControls[i];
+                CurrentInstrumentItemUserControl itemUserControl = itemUserControls[i];
                 itemUserControl.ViewModel = itemViewModel;
             }
 
@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             for (int i = itemUserControls.Count; i < ViewModel.List.Count; i++)
             {
                 IDAndName itemViewModel = ViewModel.List[i];
-                var itemUserControl = new CurrentPatchItemUserControl
+                var itemUserControl = new CurrentInstrumentItemUserControl
                 {
                     Margin = new Padding(0)
                 };
@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Delete
             for (int i = itemUserControls.Count - 1; i >= ViewModel.List.Count; i--)
             {
-                CurrentPatchItemUserControl itemUserControl = itemUserControls[i];
+                CurrentInstrumentItemUserControl itemUserControl = itemUserControls[i];
                 itemUserControl.RemoveRequested -= ItemUserControl_RemoveRequested;
                 flowLayoutPanel.Controls.RemoveAt(i);
             }
@@ -104,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             buttonClose.Height = StyleHelper.IconButtonSize;
         }
 
-        private void CurrentPatchesUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
+        private void CurrentInstrumentUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
 
         private void ItemUserControl_RemoveRequested(object sender, EventArgs<int> e) => RemoveRequested?.Invoke(sender, e);
 

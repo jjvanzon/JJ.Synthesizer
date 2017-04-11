@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         public event EventHandler ShowDocumentTreeRequested;
         public event EventHandler DocumentCloseRequested;
         public event EventHandler DocumentSaveRequested;
-        public event EventHandler ShowCurrentPatchesRequested;
+        public event EventHandler ShowCurrentInstrumentRequested;
         public event EventHandler ShowDocumentPropertiesRequested;
 
         public MenuUserControl()
@@ -66,11 +66,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
             }
 
-            // CurrentPatches
-            if (viewModel.CurrentPatches.Visible)
+            // CurrentInstrument
+            if (viewModel.CurrentInstrument.Visible)
             {
-                toolStripMenuItem = CreateCurrentPatchesToolStripMenuItem();
-                toolStripMenuItem.Click += currentPatchesToolStripMenuItem_Click;
+                toolStripMenuItem = CreateCurrentInstrumentToolStripMenuItem();
+                toolStripMenuItem.Click += currentInstrumentToolStripMenuItem_Click;
                 menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
             }
 
@@ -132,13 +132,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             return toolStripMenuItem;
         }
 
-        private ToolStripMenuItem CreateCurrentPatchesToolStripMenuItem()
+        private ToolStripMenuItem CreateCurrentInstrumentToolStripMenuItem()
         {
             var toolStripMenuItem = new ToolStripMenuItem
             {
-                Name = "currentPatchesToolStripMenuItem",
+                Name = "currentInstrumentToolStripMenuItem",
                 // ReSharper disable once LocalizableElement
-                Text = "&" + ResourceFormatter.CurrentPatches
+                Text = "&" + ResourceFormatter.CurrentInstrument
             };
 
             return toolStripMenuItem;
@@ -199,9 +199,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             ShowDocumentTreeRequested?.Invoke(sender, EventArgs.Empty);
         }
 
-        private void currentPatchesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void currentInstrumentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ShowCurrentPatchesRequested?.Invoke(sender, EventArgs.Empty);
+            ShowCurrentInstrumentRequested?.Invoke(sender, EventArgs.Empty);
         }
 
         private void documentSaveToolStripMenuItem_Click(object sender, EventArgs e)

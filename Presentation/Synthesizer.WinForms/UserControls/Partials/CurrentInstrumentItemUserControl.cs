@@ -6,7 +6,7 @@ using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
-    internal partial class CurrentPatchItemUserControl : UserControl
+    internal partial class CurrentInstrumentItemUserControl : UserControl
     {
         private const int SPACING = 1;
 
@@ -14,12 +14,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         private IDAndName _viewModel;
 
-        public CurrentPatchItemUserControl()
+        public CurrentInstrumentItemUserControl()
         {
             InitializeComponent();
         }
 
-        private void CurrentPatchItemUserControl_Load(object sender, EventArgs e)
+        private void CurrentInstrumentItemUserControl_Load(object sender, EventArgs e)
         {
             PositionControls();
         }
@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IDAndName ViewModel
         {
-            get { return _viewModel; }
+            get => _viewModel;
             set
             {
                 _viewModel = value;

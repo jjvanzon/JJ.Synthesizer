@@ -44,9 +44,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static CurrentPatchesViewModel CreateEmptyCurrentPatchesViewModel()
+        public static CurrentInstrumentViewModel CreateEmptyCurrentInstrumentViewModel()
         {
-            var viewModel = new CurrentPatchesViewModel
+            var viewModel = new CurrentInstrumentViewModel
             {
                 List = new List<IDAndName>(),
                 ValidationMessages = new List<Message>()
@@ -74,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileOutputPropertiesDictionary = new Dictionary<int, AudioFileOutputPropertiesViewModel>(),
                 AudioOutputProperties = CreateEmptyAudioOutputPropertiesViewModel(),
                 AutoPatchDetails = CreateEmptyPatchDetailsViewModel(),
-                CurrentPatches = CreateEmptyCurrentPatchesViewModel(),
+                CurrentInstrument = CreateEmptyCurrentInstrumentViewModel(),
                 CurveDetailsDictionary = new Dictionary<int, CurveDetailsViewModel>(),
                 CurveGrid = CreateEmptyCurveGridViewModel(),
                 CurveLookup = new List<IDAndName>(),

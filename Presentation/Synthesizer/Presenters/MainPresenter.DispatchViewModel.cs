@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(AudioFileOutputGridViewModel), DispatchAudioFileOutputGridViewModel },
                 { typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
                 { typeof(AudioOutputPropertiesViewModel), DispatchAudioOutputPropertiesViewModel },
-                { typeof(CurrentPatchesViewModel), DispatchCurrentPatchesViewModel },
+                { typeof(CurrentInstrumentViewModel), DispatchCurrentInstrumentViewModel },
                 { typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
                 { typeof(CurveGridViewModel), DispatchCurveGridViewModel },
                 { typeof(CurvePropertiesViewModel), DispatchCurvePropertiesViewModel },
@@ -148,11 +148,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             detailsViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchCurrentPatchesViewModel(ViewModelBase viewModel2)
+        private void DispatchCurrentInstrumentViewModel(ViewModelBase viewModel2)
         {
-            var castedViewModel = (CurrentPatchesViewModel)viewModel2;
+            var castedViewModel = (CurrentInstrumentViewModel)viewModel2;
 
-            MainViewModel.Document.CurrentPatches = castedViewModel;
+            MainViewModel.Document.CurrentInstrument = castedViewModel;
 
             DispatchViewModelBase(castedViewModel);
         }

@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
         private readonly AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
         private readonly AudioOutputPropertiesPresenter _audioOutputPropertiesPresenter;
-        private readonly CurrentPatchesPresenter _currentPatchesPresenter;
+        private readonly CurrentInstrumentPresenter _currentInstrumentPresenter;
         private readonly CurveDetailsPresenter _curveDetailsPresenter;
         private readonly CurveGridPresenter _curveGridPresenter;
         private readonly CurvePropertiesPresenter _curvePropertiesPresenter;
@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.AudioOutputRepository,
                 _repositories.SpeakerSetupRepository, 
                 _repositories.IDRepository);
-            _currentPatchesPresenter = new CurrentPatchesPresenter(_repositories.PatchRepository);
+            _currentInstrumentPresenter = new CurrentInstrumentPresenter(_repositories.PatchRepository);
             _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
             _curveGridPresenter = new CurveGridPresenter(_repositories);
             _curvePropertiesPresenter = new CurvePropertiesPresenter(_curveRepositories);

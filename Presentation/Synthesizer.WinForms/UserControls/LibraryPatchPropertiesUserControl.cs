@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class LibraryPatchPropertiesUserControl : PropertiesUserControlBase
     {
-        public event EventHandler<EventArgs<int>> AddCurrentPatchRequested;
+        public event EventHandler<EventArgs<int>> AddToInstrumentRequested;
 
         public LibraryPatchPropertiesUserControl() => InitializeComponent();
 
@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelNameTitle, labelNameValue);
             AddProperty(labelGroupTitle, textBoxGroupValue);
             AddProperty(labelLibraryNameTitle, labelLibraryNameValue);
-            AddProperty(null, buttonAddToCurrentPatches);
+            AddProperty(null, buttonAddToInstrument);
         }
 
         protected override void SetTitles()
@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelNameTitle.Text = CommonResourceFormatter.Name + ":";
             labelGroupTitle.Text = ResourceFormatter.Group + ":";
             labelLibraryNameTitle.Text = ResourceFormatter.LowerDocument + ":";
-            buttonAddToCurrentPatches.Text = ResourceFormatter.AddToCurrentPatches;
+            buttonAddToInstrument.Text = ResourceFormatter.AddToInstrument;
         }
 
         // Binding
@@ -51,6 +51,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
-        private void buttonAddToCurrentPatches_Click(object sender, EventArgs e) => AddCurrentPatchRequested?.Invoke(this, new EventArgs<int>(ViewModel.PatchID));
+        private void buttonAddToInstrument_Click(object sender, EventArgs e) => AddToInstrumentRequested?.Invoke(this, new EventArgs<int>(ViewModel.PatchID));
     }
 }

@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string A => Resources.A;
         public static string Absolute => Resources.Absolute;
         public static string Add => Resources.Add;
-        public static string AddToCurrentPatches => Resources.AddToCurrentPatches;
+        public static string AddToInstrument => Resources.AddToInstrument;
         public static string Alias => Resources.Alias;
         public static string AllPassFilter => Resources.AllPassFilter;
         public static string Amplifier => Resources.Amplifier;
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string CubicAbruptSlope => Resources.CubicAbruptSlope;
         public static string CubicEquidistant => Resources.CubicEquidistant;
         public static string CubicSmoothSlope => Resources.CubicSmoothSlope;
-        public static string CurrentPatches => Resources.CurrentPatches;
+        public static string CurrentInstrument => Resources.CurrentInstrument;
         public static string Curve => Resources.Curve;
         public static string Curves => Resources.Curves;
         public static string Custom => Resources.Custom;

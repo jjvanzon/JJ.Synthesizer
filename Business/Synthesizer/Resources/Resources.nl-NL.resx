@@ -919,8 +919,8 @@
   <data name="Y" xml:space="preserve">
     <value>y</value>
   </data>
-  <data name="AddToCurrentPatches" xml:space="preserve">
-    <value>Toevoegen aan huidige schakelingen</value>
+  <data name="AddToInstrument" xml:space="preserve">
+    <value>Toevoegen aan instrument</value>
   </data>
   <data name="Average" xml:space="preserve">
     <value>Gemiddeld</value>
@@ -931,8 +931,8 @@
   <data name="ClosestExp" xml:space="preserve">
     <value>Dichtstbijzijnd exp</value>
   </data>
-  <data name="CurrentPatches" xml:space="preserve">
-    <value>Huidige schakelingen</value>
+  <data name="CurrentInstrument" xml:space="preserve">
+    <value>Huidig instrument</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Afwijkend</value>

@@ -9,18 +9,16 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurrentPatchesPresenter : PresenterBase<CurrentPatchesViewModel>
+    internal class CurrentInstrumentPresenter : PresenterBase<CurrentInstrumentViewModel>
     {
         private readonly IPatchRepository _patchRepository;
 
-        public CurrentPatchesPresenter(IPatchRepository patchRepository)
+        public CurrentInstrumentPresenter(IPatchRepository patchRepository)
         {
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-
-            _patchRepository = patchRepository;
+            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
         }
 
-        public CurrentPatchesViewModel Show(CurrentPatchesViewModel userInput)
+        public CurrentInstrumentViewModel Show(CurrentInstrumentViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -35,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entities);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -47,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public CurrentPatchesViewModel Close(CurrentPatchesViewModel userInput)
+        public CurrentInstrumentViewModel Close(CurrentInstrumentViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -62,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entities);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -74,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public CurrentPatchesViewModel Add(CurrentPatchesViewModel userInput, int patchID)
+        public CurrentInstrumentViewModel Add(CurrentInstrumentViewModel userInput, int patchID)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -93,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             entities.Add(entity);
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entities);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -104,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public CurrentPatchesViewModel Remove(CurrentPatchesViewModel userInput, int patchID)
+        public CurrentInstrumentViewModel Remove(CurrentInstrumentViewModel userInput, int patchID)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -122,7 +120,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             entities.RemoveFirst(x => x.ID == patchID);
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entities);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -133,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public CurrentPatchesViewModel Move(CurrentPatchesViewModel userInput, int patchID, int newPosition)
+        public CurrentInstrumentViewModel Move(CurrentInstrumentViewModel userInput, int patchID, int newPosition)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -154,7 +152,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             entities.Insert(newPosition, entity);
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entities);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -166,7 +164,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary> No new view model is created. Just the child view models are replaced. </summary>
-        public CurrentPatchesViewModel Refresh(CurrentPatchesViewModel userInput)
+        public CurrentInstrumentViewModel Refresh(CurrentInstrumentViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -178,7 +176,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Patch> entites = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // ToViewModel
-            CurrentPatchesViewModel viewModel = ViewModelHelper.CreateCurrentPatchesViewModel(entites);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entites);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

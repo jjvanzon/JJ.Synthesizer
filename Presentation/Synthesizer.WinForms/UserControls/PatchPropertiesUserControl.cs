@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchPropertiesUserControl : PropertiesUserControlBase
     {
-        public event EventHandler<EventArgs<int>> AddCurrentPatchRequested;
+        public event EventHandler<EventArgs<int>> AddToInstrumentRequested;
 
         public PatchPropertiesUserControl() => InitializeComponent();
 
@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             AddProperty(labelName, textBoxName);
             AddProperty(labelGroup, textBoxGroup);
-            AddProperty(null, buttonAddToCurrentPatches);
+            AddProperty(null, buttonAddToInstrument);
         }
 
         protected override void SetTitles()
@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Patch);
             labelName.Text = CommonResourceFormatter.Name;
             labelGroup.Text = ResourceFormatter.Group;
-            buttonAddToCurrentPatches.Text = ResourceFormatter.AddToCurrentPatches;
+            buttonAddToInstrument.Text = ResourceFormatter.AddToInstrument;
         }
 
         // Binding
@@ -54,6 +54,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
-        private void buttonAddToCurrentPatches_Click(object sender, EventArgs e) => AddCurrentPatchRequested?.Invoke(this, new EventArgs<int>(ViewModel.ID));
+        private void buttonAddToInstrument_Click(object sender, EventArgs e) => AddToInstrumentRequested?.Invoke(this, new EventArgs<int>(ViewModel.ID));
     }
 }

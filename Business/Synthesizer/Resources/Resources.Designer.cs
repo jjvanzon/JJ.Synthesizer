@@ -88,11 +88,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add to Current Patches.
+        ///   Looks up a localized string similar to Add to Instrument.
         /// </summary>
-        internal static string AddToCurrentPatches {
+        internal static string AddToInstrument {
             get {
-                return ResourceManager.GetString("AddToCurrentPatches", resourceCulture);
+                return ResourceManager.GetString("AddToInstrument", resourceCulture);
             }
         }
         
@@ -556,11 +556,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Current Patches.
+        ///   Looks up a localized string similar to Current Instrument.
         /// </summary>
-        internal static string CurrentPatches {
+        internal static string CurrentInstrument {
             get {
-                return ResourceManager.GetString("CurrentPatches", resourceCulture);
+                return ResourceManager.GetString("CurrentInstrument", resourceCulture);
             }
         }
         

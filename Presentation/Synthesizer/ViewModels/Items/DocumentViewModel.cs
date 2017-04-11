@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, AudioFileOutputPropertiesViewModel> AudioFileOutputPropertiesDictionary { get; set; }
         public AudioOutputPropertiesViewModel AudioOutputProperties { get; set; }
         public PatchDetailsViewModel AutoPatchDetails { get; set; }
-        public CurrentPatchesViewModel CurrentPatches { get; set; }
+        public CurrentInstrumentViewModel CurrentInstrument { get; set; }
         public CurveDetailsViewModel VisibleCurveDetails { get; set; }
         public Dictionary<int, CurveDetailsViewModel> CurveDetailsDictionary { get; set; }
         public CurveGridViewModel CurveGrid { get; set; }

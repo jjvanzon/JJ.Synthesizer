@@ -1,6 +1,6 @@
 ﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
-    partial class CurrentPatchItemUserControl
+    partial class CurrentInstrumentItemUserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -54,16 +54,16 @@
             this.buttonRemove.UseVisualStyleBackColor = true;
             this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
-            // CurrentPatchItemUserControl
+            // CurrentInstrumentItemUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.buttonRemove);
             this.Controls.Add(this.labelName);
-            this.Name = "CurrentPatchItemUserControl";
+            this.Name = "CurrentInstrumentItemUserControl";
             this.Size = new System.Drawing.Size(96, 24);
-            this.Load += new System.EventHandler(this.CurrentPatchItemUserControl_Load);
+            this.Load += new System.EventHandler(this.CurrentInstrumentItemUserControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -145,9 +145,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        // CurrentPatches
+        // CurrentInstrument
 
-        public static IList<Patch> ToEntities(this CurrentPatchesViewModel viewModel, IPatchRepository patchRepository)
+        public static IList<Patch> ToEntities(this CurrentInstrumentViewModel viewModel, IPatchRepository patchRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (patchRepository == null) throw new NullException(() => patchRepository);

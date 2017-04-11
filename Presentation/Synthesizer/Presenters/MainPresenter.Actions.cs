@@ -227,69 +227,69 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _audioOutputPropertiesPresenter.LoseFocus(userInput));
         }
 
-        // CurrentPatches
+        // CurrentInstrument
 
-        public void CurrentPatchesShow()
+        public void CurrentInstrumentShow()
         {
             // GetViewModel
-            CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
+            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _currentPatchesPresenter.Show(userInput));
+            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Show(userInput));
         }
 
-        public void CurrentPatchesClose()
+        public void CurrentInstrumentClose()
         {
             // GetViewModel
-            CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
+            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _currentPatchesPresenter.Close(userInput));
+            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Close(userInput));
         }
 
-        public void CurrentPatchAdd(int patchID)
+        public void AddToInstrument(int patchID)
         {
             // GetViewModel
-            CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
+            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _currentPatchesPresenter.Add(userInput, patchID));
+            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Add(userInput, patchID));
         }
 
-        public void CurrentPatchRemove(int patchID)
+        public void RemoveFromInstrument(int patchID)
         {
             // GetViewModel
-            CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
+            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _currentPatchesPresenter.Remove(userInput, patchID));
+            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Remove(userInput, patchID));
         }
 
-        public void CurrentPatchMove(int patchID, int newPosition)
+        public void CurrentInstrumentMovePatch(int patchID, int newPosition)
         {
             // GetViewModel
-            CurrentPatchesViewModel userInput = MainViewModel.Document.CurrentPatches;
+            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _currentPatchesPresenter.Move(userInput, patchID, newPosition));
+            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Move(userInput, patchID, newPosition));
         }
 
-        public void CurrentPatchesShowAutoPatch()
+        public void CurrentInstrumentShowAutoPatch()
         {
             // GetViewModel
-            CurrentPatchesViewModel currentPatchesViewModel = MainViewModel.Document.CurrentPatches;
+            CurrentInstrumentViewModel currentInstrumentViewModel = MainViewModel.Document.CurrentInstrument;
 
             // RefreshCounter
-            currentPatchesViewModel.RefreshCounter++;
+            currentInstrumentViewModel.RefreshCounter++;
 
             // Set !Successful
-            currentPatchesViewModel.Successful = false;
+            currentInstrumentViewModel.Successful = false;
 
             // ToEntity
             Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Get Entities
-            IList<Patch> underlyingPatches = currentPatchesViewModel.ToEntities(_repositories.PatchRepository);
+            IList<Patch> underlyingPatches = currentInstrumentViewModel.ToEntities(_repositories.PatchRepository);
 
             // Business
             var patchManager = new PatchManager(_patchRepositories);
@@ -300,10 +300,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!validationResult.Successful)
             {
                 // Non-Persisted
-                currentPatchesViewModel.ValidationMessages.AddRange(validationResult.Messages);
+                currentInstrumentViewModel.ValidationMessages.AddRange(validationResult.Messages);
 
                 // DispatchViewModel
-                DispatchViewModel(currentPatchesViewModel);
+                DispatchViewModel(currentInstrumentViewModel);
 
                 return;
             }
@@ -319,7 +319,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             detailsViewModel.Visible = true;
 
             // Successful
-            currentPatchesViewModel.Successful = true;
+            currentInstrumentViewModel.Successful = true;
             detailsViewModel.Successful = true;
 
             // DispatchViewModel
@@ -706,7 +706,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.AudioFileOutputPropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.AudioOutputProperties.Successful = true;
             viewModel.AutoPatchDetails.Successful = true;
-            viewModel.CurrentPatches.Successful = true;
+            viewModel.CurrentInstrument.Successful = true;
             viewModel.CurveDetailsDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.CurveGrid.Successful = true;
             viewModel.CurvePropertiesDictionary.Values.ForEach(x => x.Successful = true);
@@ -746,7 +746,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Redirections
             MainViewModel.DocumentGrid.Visible = false;
-            CurrentPatchesShow();
+            CurrentInstrumentShow();
             if (document.Patches.Count == 1)
             {
                 PatchDetailsShow(document.Patches[0].ID);
@@ -2557,7 +2557,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             // NOTE:
             // Cannot use partial presenter, because this action uses both
-            // ToneGridEditViewModel and CurrentPatches view model.
+            // ToneGridEditViewModel and CurrentInstrument view model.
 
             // GetEntity
             ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
@@ -2582,8 +2582,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Tone tone = _repositories.ToneRepository.Get(toneID);
             AudioOutput audioOutput = document.AudioOutput;
 
-            var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentPatches.List.Count);
-            foreach (IDAndName itemViewModel in MainViewModel.Document.CurrentPatches.List)
+            var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentInstrument.List.Count);
+            foreach (IDAndName itemViewModel in MainViewModel.Document.CurrentInstrument.List)
             {
                 Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.ID);
                 underlyingPatches.Add(underlyingPatch);

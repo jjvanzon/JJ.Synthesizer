@@ -34,7 +34,7 @@
             this.labelGroupTitle = new System.Windows.Forms.Label();
             this.labelLibraryNameValue = new System.Windows.Forms.Label();
             this.labelLibraryNameTitle = new System.Windows.Forms.Label();
-            this.buttonAddToCurrentPatches = new System.Windows.Forms.Button();
+            this.buttonAddToInstrument = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelNameTitle
@@ -85,25 +85,26 @@
             this.labelLibraryNameTitle.TabIndex = 8;
             this.labelLibraryNameTitle.Text = "labelLibraryNameTitle";
             // 
-            // buttonAddToCurrentPatches
+            // buttonAddToInstrument
             // 
-            this.buttonAddToCurrentPatches.FlatAppearance.BorderSize = 0;
-            this.buttonAddToCurrentPatches.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAddToCurrentPatches.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
-            this.buttonAddToCurrentPatches.Location = new System.Drawing.Point(44, 142);
-            this.buttonAddToCurrentPatches.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonAddToCurrentPatches.Name = "buttonAddToCurrentPatches";
-            this.buttonAddToCurrentPatches.Size = new System.Drawing.Size(10, 10);
-            this.buttonAddToCurrentPatches.TabIndex = 10;
-            this.buttonAddToCurrentPatches.Text = "buttonAddToCurrentPatches";
-            this.buttonAddToCurrentPatches.UseVisualStyleBackColor = true;
-            this.buttonAddToCurrentPatches.Click += new System.EventHandler(this.buttonAddToCurrentPatches_Click);
+            this.buttonAddToInstrument.FlatAppearance.BorderSize = 0;
+            this.buttonAddToInstrument.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAddToInstrument.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
+            this.buttonAddToInstrument.Location = new System.Drawing.Point(44, 142);
+            this.buttonAddToInstrument.Padding = new System.Windows.Forms.Padding(0);
+            this.buttonAddToInstrument.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonAddToInstrument.Name = "buttonAddToInstrument";
+            this.buttonAddToInstrument.Size = new System.Drawing.Size(10, 10);
+            this.buttonAddToInstrument.TabIndex = 10;
+            this.buttonAddToInstrument.Text = "buttonAddToInstrument";
+            this.buttonAddToInstrument.UseVisualStyleBackColor = true;
+            this.buttonAddToInstrument.Click += new System.EventHandler(this.buttonAddToInstrument_Click);
             // 
             // LibraryPatchPropertiesUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.buttonAddToCurrentPatches);
+            this.Controls.Add(this.buttonAddToInstrument);
             this.Controls.Add(this.labelLibraryNameValue);
             this.Controls.Add(this.labelLibraryNameTitle);
             this.Controls.Add(this.textBoxGroupValue);
@@ -118,7 +119,7 @@
             this.Controls.SetChildIndex(this.textBoxGroupValue, 0);
             this.Controls.SetChildIndex(this.labelLibraryNameTitle, 0);
             this.Controls.SetChildIndex(this.labelLibraryNameValue, 0);
-            this.Controls.SetChildIndex(this.buttonAddToCurrentPatches, 0);
+            this.Controls.SetChildIndex(this.buttonAddToInstrument, 0);
             this.ResumeLayout(false);
 
         }
@@ -131,6 +132,6 @@
         private System.Windows.Forms.Label labelGroupTitle;
         private System.Windows.Forms.Label labelLibraryNameValue;
         private System.Windows.Forms.Label labelLibraryNameTitle;
-        private System.Windows.Forms.Button buttonAddToCurrentPatches;
+        private System.Windows.Forms.Button buttonAddToInstrument;
     }
 }

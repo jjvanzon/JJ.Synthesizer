@@ -17,9 +17,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
             audioOutputPropertiesUserControl.CloseRequested += audioOutputPropertiesUserControl_CloseRequested;
             audioOutputPropertiesUserControl.LoseFocusRequested += audioOutputPropertiesUserControl_LoseFocusRequested;
-            currentPatchesUserControl.CloseRequested += currentPatchesUserControl_CloseRequested;
-            currentPatchesUserControl.RemoveRequested += currentPatchesUserControl_RemoveRequested;
-            currentPatchesUserControl.ShowAutoPatchRequested += currentPatchesUserControl_ShowAutoPatchRequested;
+            currentInstrumentUserControl.CloseRequested += currentInstrumentUserControl_CloseRequested;
+            currentInstrumentUserControl.RemoveRequested += currentInstrumentUserControl_RemoveRequested;
+            currentInstrumentUserControl.ShowAutoPatchRequested += currentInstrumentUserControl_ShowAutoPatchRequested;
             curveDetailsUserControl.ChangeSelectedNodeTypeRequested += curveDetailsUserControl_ChangeSelectedNodeTypeRequested;
             curveDetailsUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
@@ -60,11 +60,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
             libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
             libraryPatchPropertiesUserControl.CloseRequested += libraryPatchPropertiesUserControl_CloseRequested;
-            libraryPatchPropertiesUserControl.AddCurrentPatchRequested += libraryPatchPropertiesUserControl_AddCurrentPatchRequested;
+            libraryPatchPropertiesUserControl.AddToInstrumentRequested += libraryPatchPropertiesUserControl_AddToInstrument;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
-            menuUserControl.ShowCurrentPatchesRequested += menuUserControl_ShowCurrentPatchesRequested;
+            menuUserControl.ShowCurrentInstrumentRequested += menuUserControl_ShowCurrentInstrumentRequested;
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
             menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
             menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
@@ -111,7 +111,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchGridUserControl.AddRequested += patchGridUserControl_AddRequested;
             patchGridUserControl.RemoveRequested += patchGridUserControl_RemoveRequested;
             patchGridUserControl.ShowItemRequested += patchGridUserControl_ShowItemRequested;
-            patchPropertiesUserControl.AddCurrentPatchRequested += patchPropertiesUserControl_AddCurrentPatchRequested;
+            patchPropertiesUserControl.AddToInstrumentRequested += patchPropertiesUserControl_AddToInstrumentRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
             patchPropertiesUserControl.LoseFocusRequested += patchPropertiesUserControl_LoseFocusRequested;
             sampleGridUserControl.CloseRequested += sampleGridUserControl_CloseRequested;
@@ -196,34 +196,34 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        // CurrentPatches
+        // CurrentInstrument
 
-        private void patchPropertiesUserControl_AddCurrentPatchRequested(object sender, EventArgs<int> e)
+        private void patchPropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() =>
             {
-                _presenter.CurrentPatchAdd(e.Value);
+                _presenter.AddToInstrument(e.Value);
                 RecreatePatchCalculator();
             });
         }
 
-        private void currentPatchesUserControl_CloseRequested(object sender, EventArgs e)
+        private void currentInstrumentUserControl_CloseRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.CurrentPatchesClose);
+            TemplateEventHandler(_presenter.CurrentInstrumentClose);
         }
 
-        private void currentPatchesUserControl_RemoveRequested(object sender, EventArgs<int> e)
+        private void currentInstrumentUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() =>
             {
-                _presenter.CurrentPatchRemove(e.Value);
+                _presenter.RemoveFromInstrument(e.Value);
                 RecreatePatchCalculator();
             });
         }
 
-        private void currentPatchesUserControl_ShowAutoPatchRequested(object sender, EventArgs e)
+        private void currentInstrumentUserControl_ShowAutoPatchRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.CurrentPatchesShowAutoPatch);
+            TemplateEventHandler(_presenter.CurrentInstrumentShowAutoPatch);
         }
 
         private void _autoPatchDetailsForm_CloseRequested(object sender, EventArgs e)
@@ -445,11 +445,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.LibraryPropertiesShow(e.Value));
         }
 
-        private void libraryPatchPropertiesUserControl_AddCurrentPatchRequested(object sender, EventArgs<int> e)
+        private void libraryPatchPropertiesUserControl_AddToInstrument(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() =>
             {
-                _presenter.CurrentPatchAdd(e.Value);
+                _presenter.AddToInstrument(e.Value);
                 RecreatePatchCalculator();
             });
         }
@@ -509,9 +509,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        private void menuUserControl_ShowCurrentPatchesRequested(object sender, EventArgs e)
+        private void menuUserControl_ShowCurrentInstrumentRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(_presenter.CurrentPatchesShow);
+            TemplateEventHandler(_presenter.CurrentInstrumentShow);
         }
 
         private void MenuUserControl_ShowDocumentPropertiesRequested(object sender, EventArgs e)
