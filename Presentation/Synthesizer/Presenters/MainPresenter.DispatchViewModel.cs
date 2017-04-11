@@ -33,6 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(LibraryGridViewModel), DispatchLibraryGridViewModel },
+                { typeof(LibraryPatchPropertiesViewModel), DispatchLibraryPatchPropertiesViewModel },
                 { typeof(LibraryPropertiesViewModel), DispatchLibraryPropertiesViewModel },
                 { typeof(LibrarySelectionPopupViewModel), DispatchLibrarySelectionPopupViewModel },
                 { typeof(MenuViewModel), DispatchMenuViewModel },
@@ -314,6 +315,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             DispatchViewModelBase(castedViewModel);
+        }
+
+        private void DispatchLibraryPatchPropertiesViewModel(ViewModelBase viewModel2)
+        {
+            var castedViewModel = (LibraryPatchPropertiesViewModel)viewModel2;
+
+            // ReSharper disable once SuggestVarOrType_Elsewhere
+            var dictionary = MainViewModel.Document.LibraryPatchPropertiesDictionary;
+            dictionary[castedViewModel.PatchID] = castedViewModel;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleLibraryPatchProperties = castedViewModel;
+            }
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchLibraryPropertiesViewModel(ViewModelBase viewModel2)

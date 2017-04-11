@@ -1851,6 +1851,109 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Patch
 
+        public void LibraryPatchPropertiesShow(int patchID)
+        {
+            // GetViewModel
+            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
+
+            // Template Method
+            LibraryPatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Show(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleLibraryPatchProperties = viewModel;
+            }
+        }
+
+        public void LibraryPatchPropertiesClose(int patchID)
+        {
+            // GetViewModel
+            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
+
+            // Template Method
+            LibraryPatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Close(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleLibraryPatchProperties = null;
+            }
+        }
+
+        /// <param name="group">nullable</param>
+        public void PatchCreate(string group)
+        {
+            // GetViewModel
+            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
+
+            // Template Method
+            PatchGridViewModel viewModel = TemplateActionMethod(userInput, () =>
+            {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
+                // Set !Successful
+                userInput.Successful = false;
+
+                // GetEntity
+                Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+
+                // Business
+                var patchManager = new PatchManager(_patchRepositories);
+                patchManager.CreatePatch(document, mustGenerateName: true);
+                Patch patch = patchManager.Patch;
+                patch.GroupName = group;
+
+                // Successful
+                userInput.Successful = true;
+
+                return userInput;
+            });
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
+            }
+        }
+
+        public void PatchDelete(string group, int patchID)
+        {
+            // GetViewModel
+            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
+
+            // Template Method
+            PatchGridViewModel viewModel = TemplateActionMethod(userInput, () =>
+            {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
+                // Set !Successful
+                userInput.Successful = false;
+
+                // Businesss
+                var patchManager = new PatchManager(_patchRepositories)
+                {
+                    PatchID = patchID
+                };
+
+                IResult result = patchManager.DeletePatchWithRelatedEntities();
+
+                // Non-Persisted
+                userInput.ValidationMessages.AddRange(result.Messages);
+
+                // Successful?
+                userInput.Successful = result.Successful;
+
+                return userInput;
+            });
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
+            }
+        }
+
         public void PatchDetailsShow(int id)
         {
             // GetViewModel
@@ -1977,81 +2080,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Template Method
             PatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _patchPropertiesPresenter.LoseFocus(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
-        }
-
-        /// <param name="group">nullable</param>
-        public void PatchCreate(string group)
-        {
-            // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
-
-            // Template Method
-            PatchGridViewModel viewModel = TemplateActionMethod(userInput, () =>
-            {
-                // RefreshCounter
-                userInput.RefreshCounter++;
-
-                // Set !Successful
-                userInput.Successful = false;
-
-                // GetEntity
-                Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-                // Business
-                var patchManager = new PatchManager(_patchRepositories);
-                patchManager.CreatePatch(document, mustGenerateName: true);
-                Patch patch = patchManager.Patch;
-                patch.GroupName = group;
-
-                // Successful
-                userInput.Successful = true;
-
-                return userInput;
-            });
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
-        }
-
-        public void PatchDelete(string group, int patchID)
-        {
-            // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
-
-            // Template Method
-            PatchGridViewModel viewModel = TemplateActionMethod(userInput, () =>
-            {
-                // RefreshCounter
-                userInput.RefreshCounter++;
-
-                // Set !Successful
-                userInput.Successful = false;
-
-                // Businesss
-                var patchManager = new PatchManager(_patchRepositories)
-                {
-                    PatchID = patchID
-                };
-
-                IResult result = patchManager.DeletePatchWithRelatedEntities();
-
-                // Non-Persisted
-                userInput.ValidationMessages.AddRange(result.Messages);
-
-                // Successful?
-                userInput.Successful = result.Successful;
-
-                return userInput;
-            });
 
             // Refresh
             if (viewModel.Successful)

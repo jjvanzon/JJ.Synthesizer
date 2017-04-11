@@ -27,8 +27,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new CurrentPatchesViewModel ViewModel
         {
-            get { return (CurrentPatchesViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (CurrentPatchesViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override void ApplyViewModelToControls()
@@ -104,24 +104,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             buttonClose.Height = StyleHelper.IconButtonSize;
         }
 
-        private void CurrentPatchesUserControl_SizeChanged(object sender, EventArgs e)
-        {
-            PositionControls();
-        }
+        private void CurrentPatchesUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
 
-        private void ItemUserControl_RemoveRequested(object sender, EventArgs<int> e)
-        {
-            RemoveRequested?.Invoke(sender, e);
-        }
+        private void ItemUserControl_RemoveRequested(object sender, EventArgs<int> e) => RemoveRequested?.Invoke(sender, e);
 
-        private void buttonClose_Click(object sender, EventArgs e)
-        {
-            CloseRequested?.Invoke(sender, EventArgs.Empty);
-        }
+        private void buttonClose_Click(object sender, EventArgs e) => CloseRequested?.Invoke(sender, EventArgs.Empty);
 
-        private void buttonShowAutoPatch_Click(object sender, EventArgs e)
-        {
-            ShowAutoPatchRequested?.Invoke(sender, EventArgs.Empty);
-        }
+        private void buttonShowAutoPatch_Click(object sender, EventArgs e) => ShowAutoPatchRequested?.Invoke(sender, EventArgs.Empty);
     }
 }

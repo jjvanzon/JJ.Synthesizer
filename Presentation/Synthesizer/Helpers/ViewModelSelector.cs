@@ -433,6 +433,29 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Patch
 
+        public static LibraryPatchPropertiesViewModel GetLibraryPatchPropertiesViewModel(DocumentViewModel documentViewModel, int patchID)
+        {
+            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+            LibraryPatchPropertiesViewModel viewModel = TryGetLibraryPatchPropertiesViewModel(documentViewModel, patchID);
+
+            if (viewModel == null)
+            {
+                throw new NotFoundException<PatchPropertiesViewModel>(new { patchID });
+            }
+
+            return viewModel;
+        }
+
+        public static LibraryPatchPropertiesViewModel TryGetLibraryPatchPropertiesViewModel(DocumentViewModel documentViewModel, int patchID)
+        {
+            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+            documentViewModel.LibraryPatchPropertiesDictionary.TryGetValue(patchID, out LibraryPatchPropertiesViewModel viewModel);
+
+            return viewModel;
+        }
+
         public static PatchDetailsViewModel GetPatchDetailsViewModel(DocumentViewModel documentViewModel, int patchID)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);

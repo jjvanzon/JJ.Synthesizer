@@ -182,94 +182,94 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             //OperatorTypeEnum.HighShelfFilter
         };
 
-        // A list until it will have more items.
+        // A list until it will have more items. Then it might be made a HashSet for performance.
         public static IList<OperatorTypeEnum> OperatorTypeEnums_WithVisibleOutletNames { get; } =
-                   new List<OperatorTypeEnum>
-                   {
-            //OperatorTypeEnum.Absolute,
-            //OperatorTypeEnum.Add,
-            //OperatorTypeEnum.AllPassFilter,
-            //OperatorTypeEnum.And,
-            //OperatorTypeEnum.AverageOverInlets,
-            //OperatorTypeEnum.AverageFollower,
-            //OperatorTypeEnum.AverageOverDimension,
-            //OperatorTypeEnum.BandPassFilterConstantPeakGain,
-            //OperatorTypeEnum.BandPassFilterConstantTransitionGain,
-            //OperatorTypeEnum.Cache,
-            OperatorTypeEnum.ChangeTrigger,
-            //OperatorTypeEnum.ClosestOverInlets,
-            //OperatorTypeEnum.ClosestOverInletsExp,
-            //OperatorTypeEnum.ClosestOverDimension,
-            //OperatorTypeEnum.ClosestOverDimensionExp,
-            //OperatorTypeEnum.Curve,
-            OperatorTypeEnum.CustomOperator,
-            //OperatorTypeEnum.Divide,
-            //OperatorTypeEnum.Equal,
-            //OperatorTypeEnum.Exponent,
-            //OperatorTypeEnum.GetDimension,
-            //OperatorTypeEnum.GreaterThan,
-            //OperatorTypeEnum.GreaterThanOrEqual,
-            //OperatorTypeEnum.HighPassFilter,
-            //OperatorTypeEnum.HighShelfFilter,
-            //OperatorTypeEnum.Hold,
-            //OperatorTypeEnum.If,
-            //OperatorTypeEnum.Interpolate,
-            //OperatorTypeEnum.LessThan,
-            //OperatorTypeEnum.LessThanOrEqual,
-            //OperatorTypeEnum.Loop,
-            //OperatorTypeEnum.LowPassFilter,
-            //OperatorTypeEnum.LowShelfFilter,
-            //OperatorTypeEnum.InletsToDimension,
-            //OperatorTypeEnum.DimensionToOutlets,
-            //OperatorTypeEnum.MaxOverInlets,
-            //OperatorTypeEnum.MaxFollower,
-            //OperatorTypeEnum.MaxOverDimension,
-            //OperatorTypeEnum.MinOverInlets,
-            //OperatorTypeEnum.MinFollower,
-            //OperatorTypeEnum.MinOverDimension,
-            //OperatorTypeEnum.Multiply,
-            //OperatorTypeEnum.MultiplyWithOrigin,
-            //OperatorTypeEnum.Negative,
-            //OperatorTypeEnum.Noise,
-            //OperatorTypeEnum.Not,
-            //OperatorTypeEnum.NotchFilter,
-            //OperatorTypeEnum.NotEqual,
-            //OperatorTypeEnum.Number,
-            //OperatorTypeEnum.OneOverX,
-            //OperatorTypeEnum.Or,
-            //OperatorTypeEnum.PatchInlet,
-            //OperatorTypeEnum.PatchOutlet,
-            //OperatorTypeEnum.PeakingEQFilter,
-            //OperatorTypeEnum.Power,
-            //OperatorTypeEnum.Pulse,
-            OperatorTypeEnum.PulseTrigger,
-            //OperatorTypeEnum.Random,
-            //OperatorTypeEnum.RangeOverDimension,
-            //OperatorTypeEnum.RangeOverOutlets,
-            OperatorTypeEnum.Reset,
-            //OperatorTypeEnum.Reverse,
-            //OperatorTypeEnum.Round,
-            //OperatorTypeEnum.Sample,
-            //OperatorTypeEnum.SawDown,
-            //OperatorTypeEnum.SawUp,
-            //OperatorTypeEnum.Scaler,
-            //OperatorTypeEnum.Select,
-            OperatorTypeEnum.SetDimension,
-            //OperatorTypeEnum.Shift,
-            //OperatorTypeEnum.Sine,
-            //OperatorTypeEnum.SortOverInlets,
-            //OperatorTypeEnum.SortOverDimension,
-            //OperatorTypeEnum.Spectrum,
-            //OperatorTypeEnum.Square,
-            //OperatorTypeEnum.Squash,
-            //OperatorTypeEnum.Stretch,
-            //OperatorTypeEnum.Subtract,
-            //OperatorTypeEnum.SumFollower,
-            //OperatorTypeEnum.SumOverDimension,
-            //OperatorTypeEnum.TimePower,
-            OperatorTypeEnum.ToggleTrigger,
-            //OperatorTypeEnum.Triangle,
-        };
+            new List<OperatorTypeEnum>
+            {
+                //OperatorTypeEnum.Absolute,
+                //OperatorTypeEnum.Add,
+                //OperatorTypeEnum.AllPassFilter,
+                //OperatorTypeEnum.And,
+                //OperatorTypeEnum.AverageOverInlets,
+                //OperatorTypeEnum.AverageFollower,
+                //OperatorTypeEnum.AverageOverDimension,
+                //OperatorTypeEnum.BandPassFilterConstantPeakGain,
+                //OperatorTypeEnum.BandPassFilterConstantTransitionGain,
+                //OperatorTypeEnum.Cache,
+                OperatorTypeEnum.ChangeTrigger,
+                //OperatorTypeEnum.ClosestOverInlets,
+                //OperatorTypeEnum.ClosestOverInletsExp,
+                //OperatorTypeEnum.ClosestOverDimension,
+                //OperatorTypeEnum.ClosestOverDimensionExp,
+                //OperatorTypeEnum.Curve,
+                OperatorTypeEnum.CustomOperator,
+                //OperatorTypeEnum.Divide,
+                //OperatorTypeEnum.Equal,
+                //OperatorTypeEnum.Exponent,
+                //OperatorTypeEnum.GetDimension,
+                //OperatorTypeEnum.GreaterThan,
+                //OperatorTypeEnum.GreaterThanOrEqual,
+                //OperatorTypeEnum.HighPassFilter,
+                //OperatorTypeEnum.HighShelfFilter,
+                //OperatorTypeEnum.Hold,
+                //OperatorTypeEnum.If,
+                //OperatorTypeEnum.Interpolate,
+                //OperatorTypeEnum.LessThan,
+                //OperatorTypeEnum.LessThanOrEqual,
+                //OperatorTypeEnum.Loop,
+                //OperatorTypeEnum.LowPassFilter,
+                //OperatorTypeEnum.LowShelfFilter,
+                //OperatorTypeEnum.InletsToDimension,
+                //OperatorTypeEnum.DimensionToOutlets,
+                //OperatorTypeEnum.MaxOverInlets,
+                //OperatorTypeEnum.MaxFollower,
+                //OperatorTypeEnum.MaxOverDimension,
+                //OperatorTypeEnum.MinOverInlets,
+                //OperatorTypeEnum.MinFollower,
+                //OperatorTypeEnum.MinOverDimension,
+                //OperatorTypeEnum.Multiply,
+                //OperatorTypeEnum.MultiplyWithOrigin,
+                //OperatorTypeEnum.Negative,
+                //OperatorTypeEnum.Noise,
+                //OperatorTypeEnum.Not,
+                //OperatorTypeEnum.NotchFilter,
+                //OperatorTypeEnum.NotEqual,
+                //OperatorTypeEnum.Number,
+                //OperatorTypeEnum.OneOverX,
+                //OperatorTypeEnum.Or,
+                //OperatorTypeEnum.PatchInlet,
+                //OperatorTypeEnum.PatchOutlet,
+                //OperatorTypeEnum.PeakingEQFilter,
+                //OperatorTypeEnum.Power,
+                //OperatorTypeEnum.Pulse,
+                OperatorTypeEnum.PulseTrigger,
+                //OperatorTypeEnum.Random,
+                //OperatorTypeEnum.RangeOverDimension,
+                //OperatorTypeEnum.RangeOverOutlets,
+                OperatorTypeEnum.Reset,
+                //OperatorTypeEnum.Reverse,
+                //OperatorTypeEnum.Round,
+                //OperatorTypeEnum.Sample,
+                //OperatorTypeEnum.SawDown,
+                //OperatorTypeEnum.SawUp,
+                //OperatorTypeEnum.Scaler,
+                //OperatorTypeEnum.Select,
+                OperatorTypeEnum.SetDimension,
+                //OperatorTypeEnum.Shift,
+                //OperatorTypeEnum.Sine,
+                //OperatorTypeEnum.SortOverInlets,
+                //OperatorTypeEnum.SortOverDimension,
+                //OperatorTypeEnum.Spectrum,
+                //OperatorTypeEnum.Square,
+                //OperatorTypeEnum.Squash,
+                //OperatorTypeEnum.Stretch,
+                //OperatorTypeEnum.Subtract,
+                //OperatorTypeEnum.SumFollower,
+                //OperatorTypeEnum.SumOverDimension,
+                //OperatorTypeEnum.TimePower,
+                OperatorTypeEnum.ToggleTrigger,
+                //OperatorTypeEnum.Triangle,
+            };
 
         // CurrentPatches
 
@@ -357,24 +357,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static string GetLibraryCaption(DocumentReference lowerDocumentReference)
+        public static string GetLibraryDescription(DocumentReference lowerDocumentReference)
         {
             if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
 
-            var sb = new StringBuilder();
-
-            sb.Append(lowerDocumentReference.LowerDocument?.Name);
-
-            // ReSharper disable once InvertIf
             if (!string.IsNullOrWhiteSpace(lowerDocumentReference.Alias))
             {
-                sb.Append(" - ");
-                sb.Append('"');
-                sb.Append(lowerDocumentReference.Alias);
-                sb.Append('"');
+                return lowerDocumentReference.Alias;
             }
 
-            return sb.ToString();
+            return lowerDocumentReference.LowerDocument?.Name;
         }
 
         // Menu

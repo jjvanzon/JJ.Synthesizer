@@ -230,11 +230,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 LibrariesNode = new LibrariesTreeNodeViewModel
                 {
                     Text = ViewModelHelper.GetTreeNodeText(ResourceFormatter.LowerDocuments, document.LowerDocumentReferences.Count),
-                    List = new List<LibraryViewModel>()
+                    List = new List<LibraryTreeNodeViewModel>()
                 }
             };
 
-            viewModel.LibrariesNode.List = document.LowerDocumentReferences.Select(x => x.ToLibraryViewModelWithRelatedEntities())
+            viewModel.LibrariesNode.List = document.LowerDocumentReferences.Select(x => x.ToTreeNodeViewModelWithRelatedEntities())
                                                                            .OrderBy(x => x.Caption)
                                                                            .ToList();
 
@@ -763,8 +763,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = patch.ID,
                 Name = patch.Name,
                 Group = patch.GroupName,
-                ValidationMessages = new List<Message>(),
-                CanAddToCurrentPatches = true
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -788,6 +787,49 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        public static IList<LibraryPatchPropertiesViewModel> ToLibraryPatchPropertiesViewModelList([NotNull] this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            var viewModels = new List<LibraryPatchPropertiesViewModel>();
+
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (DocumentReference lowerDocumentReference in document.LowerDocumentReferences)
+            {
+                // ReSharper disable once InvertIf
+                if (lowerDocumentReference.LowerDocument != null)
+                {
+                    // ReSharper disable once LoopCanBeConvertedToQuery
+                    foreach (Patch patch in lowerDocumentReference.LowerDocument.Patches)
+                    {
+                        LibraryPatchPropertiesViewModel viewModel = patch.ToLibraryPatchPropertiesViewModel(lowerDocumentReference);
+                        viewModels.Add(viewModel);
+                    }
+                }
+            }
+
+            return viewModels;
+        }
+
+        public static LibraryPatchPropertiesViewModel ToLibraryPatchPropertiesViewModel(this Patch patch, DocumentReference lowerDocumentReference)
+        {
+            if (patch == null) throw new NullException(() => patch);
+            if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
+
+            var viewModel = new LibraryPatchPropertiesViewModel
+            {
+                DocumentReferenceID = lowerDocumentReference.ID,
+                PatchID = patch.ID,
+                Name = patch.Name,
+                Group = patch.GroupName,
+                Library = ViewModelHelper.GetLibraryDescription(lowerDocumentReference),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+
         }
 
         // Sample

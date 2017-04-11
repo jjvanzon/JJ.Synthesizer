@@ -26,6 +26,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, LibraryPropertiesViewModel> LibraryPropertiesDictionary { get; set; }
         public LibraryPropertiesViewModel VisibleLibraryProperties { get; set; }
         public DocumentTreeViewModel DocumentTree { get; set; }
+        public LibraryPatchPropertiesViewModel VisibleLibraryPatchProperties { get; set; }
+        public Dictionary<int, LibraryPatchPropertiesViewModel> LibraryPatchPropertiesDictionary { get; set; }
         public NodePropertiesViewModel VisibleNodeProperties { get; set; }
         public Dictionary<int, NodePropertiesViewModel> NodePropertiesDictionary { get; set; }
         public OperatorPropertiesViewModel VisibleOperatorProperties { get; set; }

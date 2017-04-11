@@ -83,6 +83,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
                 LibraryGrid = CreateEmptyLibraryGridViewModel(),
                 LibrarySelectionPopup = CreateEmptyLibrarySelectionPopupViewModel(),
+                LibraryPatchPropertiesDictionary = new Dictionary<int, LibraryPatchPropertiesViewModel>(),
                 NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),
                 OperatorPropertiesDictionary = new Dictionary<int, OperatorPropertiesViewModel>(),
                 OperatorPropertiesDictionary_ForCaches = new Dictionary<int, OperatorPropertiesViewModel_ForCache>(),
@@ -195,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<Message>(),
                 LibrariesNode = new LibrariesTreeNodeViewModel
                 {
-                    List = new List<LibraryViewModel>()
+                    List = new List<LibraryTreeNodeViewModel>()
                 }
             };
 

@@ -30,6 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void AudioFileOutputPropertiesDictionaryRefresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.AudioFileOutputPropertiesDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -100,6 +101,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void CurveDetailsDictionaryRefresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.CurveDetailsDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -263,6 +265,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentPropertiesRefresh();
             DocumentTreeRefresh();
             LibraryGridRefresh();
+            LibraryPatchPropertiesDictionaryRefresh();
             LibraryPropertiesDictionaryRefresh();
             LibrarySelectionPopupRefresh();
             NodePropertiesDictionaryRefresh();
@@ -297,6 +300,57 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
             LibraryGridViewModel viewModel = _libraryGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void LibraryPatchPropertiesDictionaryRefresh()
+        {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
+            var viewModelDictionary = MainViewModel.Document.LibraryPatchPropertiesDictionary;
+
+            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+
+            foreach (DocumentReference lowerDocumentReference in document.LowerDocumentReferences)
+            {
+                // ReSharper disable once InvertIf
+                if (lowerDocumentReference.LowerDocument != null)
+                {
+                    foreach (Patch patch in lowerDocumentReference.LowerDocument.Patches)
+                    {
+                        LibraryPatchPropertiesViewModel viewModel = ViewModelSelector.TryGetLibraryPatchPropertiesViewModel(MainViewModel.Document, patch.ID);
+                        if (viewModel == null)
+                        {
+                            viewModel = patch.ToLibraryPatchPropertiesViewModel(lowerDocumentReference);
+
+                            viewModel.Successful = true;
+                            viewModelDictionary[patch.ID] = viewModel;
+                        }
+                        else
+                        {
+                            LibraryPatchPropertiesRefresh(viewModel);
+                        }
+                    }
+                }
+            }
+
+            IEnumerable<int> existingIDs = viewModelDictionary.Keys;
+            IEnumerable<int> idsToKeep = document.LowerDocumentReferences.SelectMany(x => x.LowerDocument.Patches).Select(x => x.ID);
+            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+            foreach (int idToDelete in idsToDelete.ToArray())
+            {
+                viewModelDictionary.Remove(idToDelete);
+
+                if (MainViewModel.Document.VisibleLibraryPatchProperties?.PatchID == idToDelete)
+                {
+                    MainViewModel.Document.VisibleLibraryPatchProperties = null;
+                }
+            }
+        }
+
+        private void LibraryPatchPropertiesRefresh(LibraryPatchPropertiesViewModel userInput)
+        {
+            LibraryPatchPropertiesViewModel viewModel = _libraryPatchPropertiesPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
@@ -353,6 +407,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void NodePropertiesDictionaryRefresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.NodePropertiesDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -480,6 +535,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionaryRefresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -519,6 +575,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_ForCaches_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCaches;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -558,6 +615,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_ForCurves_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCurves;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -636,6 +694,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_ForInletsToDimension_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForInletsToDimension;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -674,6 +733,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_ForNumbers_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForNumbers;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -712,6 +772,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_ForPatchInlets_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForPatchInlets;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -750,6 +811,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_ForPatchOutlets_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForPatchOutlets;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -788,6 +850,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_ForSamples_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForSamples;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -826,6 +889,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_WithInterpolation_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -868,6 +932,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_WithCollectionRecalculation_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithCollectionRecalculation;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -910,6 +975,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_WithInletCount_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithInletCount;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -951,6 +1017,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesDictionary_WithOutletCount_Refresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -1044,6 +1111,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void PatchDetailsDictionaryRefresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.PatchDetailsDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -1147,6 +1215,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void PatchPropertiesDictionaryRefresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.PatchPropertiesDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -1204,6 +1273,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void SamplePropertiesDictionaryRefresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.SamplePropertiesDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -1259,6 +1329,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void ScalePropertiesDictionaryRefresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.ScalePropertiesDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -1310,6 +1381,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void ToneGridEditDictionaryRefresh()
         {
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var viewModelDictionary = MainViewModel.Document.ToneGridEditDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);

@@ -49,6 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
             documentTreeUserControl.ShowLibrariesRequested += documentTreeUserControl_ShowLibrariesRequested;
+            documentTreeUserControl.ShowLibraryPatchPropertiesRequested += documentTreeUserControl_ShowLibraryPatchPropertiesRequested;
             documentTreeUserControl.ShowLibraryPropertiesRequested += documentTreeUserControl_ShowLibraryPropertiesRequested;
             documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
             documentTreeUserControl.ShowPatchGridRequested += documentTreeUserControl_ShowPatchGridRequested;
@@ -58,6 +59,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryGridUserControl.AddRequested += libraryGridUserControl_AddRequested;
             libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
             libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
+            libraryPatchPropertiesUserControl.CloseRequested += libraryPatchPropertiesUserControl_CloseRequested;
+            libraryPatchPropertiesUserControl.AddCurrentPatchRequested += libraryPatchPropertiesUserControl_AddCurrentPatchRequested;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
@@ -378,6 +381,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(_presenter.LibraryGridShow);
         }
 
+        private void documentTreeUserControl_ShowLibraryPatchPropertiesRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.LibraryPatchPropertiesShow(e.Value));
+        }
+
         private void documentTreeUserControl_ShowLibraryPropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.LibraryPropertiesShow(e.Value));
@@ -435,6 +443,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void libraryGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.LibraryPropertiesShow(e.Value));
+        }
+
+        private void libraryPatchPropertiesUserControl_AddCurrentPatchRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() =>
+            {
+                _presenter.CurrentPatchAdd(e.Value);
+                RecreatePatchCalculator();
+            });
+        }
+
+        private void libraryPatchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.LibraryPatchPropertiesClose(e.Value));
         }
 
         private void libraryPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)

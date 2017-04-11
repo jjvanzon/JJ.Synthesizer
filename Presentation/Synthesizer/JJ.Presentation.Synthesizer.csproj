@@ -56,6 +56,7 @@
     <Compile Include="Presenters\CurrentPatchesPresenter.cs" />
     <Compile Include="Presenters\GridPresenterBase.cs" />
     <Compile Include="Presenters\LibraryGridPresenter.cs" />
+    <Compile Include="Presenters\LibraryPatchPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibraryPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibrarySelectionPopupPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="ViewModels\AudioOutputPropertiesViewModel.cs" />
     <Compile Include="ViewModels\CurrentPatchesViewModel.cs" />
     <Compile Include="ViewModels\Items\LibraryListItemViewModel.cs" />
+    <Compile Include="ViewModels\LibraryPatchPropertiesViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
     <Compile Include="ViewModels\LibraryGridViewModel.cs" />
@@ -175,7 +177,7 @@
     <Compile Include="ViewModels\Partials\PatchTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
     <Compile Include="ViewModels\Items\MenuItemViewModel.cs" />
-    <Compile Include="ViewModels\Items\LibraryViewModel.cs" />
+    <Compile Include="ViewModels\Partials\LibraryTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\LibrariesTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
     <Compile Include="ViewModels\CurvePropertiesViewModel.cs" />

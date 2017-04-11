@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
@@ -19,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             IList<PatchGroupDto_WithUsedIn> patchGroupDtos_WithUsedIn,
             IList<UsedInDto<Curve>> curveUsedInDtos,
             IList<UsedInDto<Sample>> sampleUsedInDtos,
-            RepositoryWrapper repositories, 
+            RepositoryWrapper repositories,
             EntityPositionManager entityPositionManager)
         {
             if (document == null) throw new NullException(() => document);
@@ -50,10 +51,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos),
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
+                DocumentTree = document.ToTreeViewModel(grouplessPatches, patchGroupDtos),
                 LibraryGrid = document.ToLibraryGridViewModel(),
                 LibrarySelectionPopup = document.ToEmptyLibrarySelectionPopupViewModel(),
+                LibraryPatchPropertiesDictionary = document.ToLibraryPatchPropertiesViewModelList().ToDictionary(x => x.PatchID),
                 LibraryPropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.DocumentReferenceID),
-                DocumentTree = document.ToTreeViewModel(grouplessPatches, patchGroupDtos),
                 NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 OperatorPropertiesDictionary = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForCaches = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.InterpolationTypeRepository)).ToDictionary(x => x.ID),
@@ -78,6 +80,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScalePropertiesDictionary = document.Scales.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID)
             };
+
 
             if (document.AudioOutput != null)
             {

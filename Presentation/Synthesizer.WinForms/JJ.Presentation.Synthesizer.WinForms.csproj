@@ -148,6 +148,12 @@
     <Compile Include="UserControls\Bases\PropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControls\LibraryPatchPropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\LibraryPatchPropertiesUserControl.Designer.cs">
+      <DependentUpon>LibraryPatchPropertiesUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\LibraryPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -406,6 +412,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurrentPatchesUserControl.resx">
       <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\LibraryPatchPropertiesUserControl.resx">
+      <DependentUpon>LibraryPatchPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\LibraryPropertiesUserControl.resx">
       <DependentUpon>LibraryPropertiesUserControl.cs</DependentUpon>

@@ -11,10 +11,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler<EventArgs<int>> AddCurrentPatchRequested;
 
-        public PatchPropertiesUserControl()
-        {
-            InitializeComponent();
-        }
+        public PatchPropertiesUserControl() => InitializeComponent();
 
         // Gui
 
@@ -22,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             AddProperty(labelName, textBoxName);
             AddProperty(labelGroup, textBoxGroup);
-            AddProperty(null, buttonAddToCurentPatches);
+            AddProperty(null, buttonAddToCurrentPatches);
         }
 
         protected override void SetTitles()
@@ -30,28 +27,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Patch);
             labelName.Text = CommonResourceFormatter.Name;
             labelGroup.Text = ResourceFormatter.Group;
-            buttonAddToCurentPatches.Text = ResourceFormatter.AddToCurrentPatches;
+            buttonAddToCurrentPatches.Text = ResourceFormatter.AddToCurrentPatches;
         }
 
         // Binding
 
         public new PatchPropertiesViewModel ViewModel
         {
-            get { return (PatchPropertiesViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (PatchPropertiesViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
-        protected override int GetID()
-        {
-            return ViewModel.ID;
-        }
+        protected override int GetID() => ViewModel.ID;
 
         protected override void ApplyViewModelToControls()
         {
             textBoxName.Text = ViewModel.Name;
             textBoxGroup.Text = ViewModel.Group;
-
-            buttonAddToCurentPatches.Enabled = ViewModel.CanAddToCurrentPatches;
         }
 
         protected override void ApplyControlsToViewModel()
@@ -62,9 +54,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
-        private void buttonAddToCurentPatches_Click(object sender, EventArgs e)
-        {
-            AddCurrentPatchRequested?.Invoke(this, new EventArgs<int>(ViewModel.ID));
-        }
+        private void buttonAddToCurrentPatches_Click(object sender, EventArgs e) => AddCurrentPatchRequested?.Invoke(this, new EventArgs<int>(ViewModel.ID));
     }
 }

@@ -182,14 +182,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Library
 
-        public static LibraryViewModel ToLibraryViewModelWithRelatedEntities(this DocumentReference lowerDocumentReference)
+        public static LibraryTreeNodeViewModel ToTreeNodeViewModelWithRelatedEntities(this DocumentReference lowerDocumentReference)
         {
             if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
 
-            var viewModel = new LibraryViewModel
+            var viewModel = new LibraryTreeNodeViewModel
             {
                 LowerDocumentReferenceID = lowerDocumentReference.ID,
-                Caption = ViewModelHelper.GetLibraryCaption(lowerDocumentReference),
+                Caption = ViewModelHelper.GetLibraryDescription(lowerDocumentReference),
                 Patches = lowerDocumentReference.LowerDocument.Patches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList()
             };
 
