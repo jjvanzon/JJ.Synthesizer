@@ -239,7 +239,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                                            .ToList();
 
             viewModel.PatchesNode.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
-                                                               .Select(x => x.ToPatchTreeNodeViewModel())
+                                                               .Select(x => x.ToIDAndName())
                                                                .ToList();
 
             viewModel.PatchesNode.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.GroupName)
@@ -248,16 +248,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static PatchGroupTreeNodeViewModel ToTreeNodeViewModel(this PatchGroupDto patchGroupDto)
+        public static PatchGroupTreeNodeViewModel ToTreeNodeViewModel([NotNull] this PatchGroupDto patchGroupDto)
         {
-            return new PatchGroupTreeNodeViewModel
+            if (patchGroupDto == null) throw new NullException(() => patchGroupDto);
+
+            var viewModel = new PatchGroupTreeNodeViewModel
             {
                 GroupName = patchGroupDto.GroupName,
-                Text = ViewModelHelper.GetTreeNodeText(patchGroupDto.GroupName, patchGroupDto.Patches.Count),
+                Caption = ViewModelHelper.GetTreeNodeText(patchGroupDto.GroupName, patchGroupDto.Patches.Count),
                 PatchNodes = patchGroupDto.Patches.OrderBy(x => x.Name)
-                                                  .Select(x => x.ToPatchTreeNodeViewModel())
-                                                  .ToList()
+                                          .Select(x => x.ToIDAndName())
+                                          .ToList()
             };
+
+            return viewModel;
         }
 
         public static DocumentGridViewModel ToGridViewModel(this IList<Document> entities)

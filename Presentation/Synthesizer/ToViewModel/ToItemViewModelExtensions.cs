@@ -4,11 +4,11 @@ using JJ.Business.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -336,14 +336,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Patch
 
-        public static PatchTreeNodeViewModel ToPatchTreeNodeViewModel(this Patch patch)
+        public static IDAndName ToPatchTreeNodeViewModel(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            var viewModel = new PatchTreeNodeViewModel
+            var viewModel = new IDAndName
             {
-                PatchID = patch.ID,
-                Text = patch.Name,
+                ID = patch.ID,
+                Name = patch.Name,
             };
 
             return viewModel;
@@ -431,7 +431,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 Name = entity.Name,
                 BaseFrequency = entity.BaseFrequency,
-                ScaleType = new IDAndName()
             };
 
             if (entity.ScaleType != null)

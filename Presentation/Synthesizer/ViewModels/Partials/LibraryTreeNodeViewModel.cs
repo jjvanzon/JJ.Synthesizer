@@ -1,7 +1,7 @@
-﻿using JJ.Data.Canonical;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using JJ.Data.Canonical;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Items
+namespace JJ.Presentation.Synthesizer.ViewModels.Partials
 {
     public sealed class LibraryTreeNodeViewModel
     {

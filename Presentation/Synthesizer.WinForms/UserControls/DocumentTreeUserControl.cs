@@ -97,14 +97,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // PatchGroups
             foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in documentTreeViewModel.PatchesNode.PatchGroupNodes)
             {
-                var patchGroupTreeNode = new TreeNode(patchGroupViewModel.Text)
+                var patchGroupTreeNode = new TreeNode(patchGroupViewModel.Caption)
                 {
                     Tag = patchGroupViewModel.GroupName
                 };
                 patchesTreeNode.Nodes.Add(patchGroupTreeNode);
                 _patchesTreeNodes.Add(patchGroupTreeNode);
 
-                foreach (PatchTreeNodeViewModel patchViewModel in patchGroupViewModel.PatchNodes)
+                foreach (IDAndName patchViewModel in patchGroupViewModel.PatchNodes)
                 {
                     TreeNode patchTreeNode = ConvertPatchTreeNode(patchViewModel);
                     patchGroupTreeNode.Nodes.Add(patchTreeNode);
@@ -115,7 +115,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             // Patches (Groupless)
-            foreach (PatchTreeNodeViewModel patchViewModel in documentTreeViewModel.PatchesNode.PatchNodes)
+            foreach (IDAndName patchViewModel in documentTreeViewModel.PatchesNode.PatchNodes)
             {
                 TreeNode patchTreeNode = ConvertPatchTreeNode(patchViewModel);
                 patchesTreeNode.Nodes.Add(patchTreeNode);
@@ -179,11 +179,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             return libraryPatchTreeNode;
         }
 
-        private TreeNode ConvertPatchTreeNode(PatchTreeNodeViewModel patchTreeNodeViewModel)
+        private TreeNode ConvertPatchTreeNode(IDAndName idAndName)
         {
-            var patchTreeNode = new TreeNode(patchTreeNodeViewModel.Text)
+            var patchTreeNode = new TreeNode(idAndName.Name)
             {
-                Tag = patchTreeNodeViewModel.PatchID
+                Tag = idAndName.ID
             };
 
             return patchTreeNode;

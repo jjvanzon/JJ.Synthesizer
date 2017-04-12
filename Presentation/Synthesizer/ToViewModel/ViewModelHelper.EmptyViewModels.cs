@@ -185,7 +185,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchesNode = new PatchesTreeNodeViewModel
                 {
                     Text = GetTreeNodeText(ResourceFormatter.Patches, count: 0),
-                    PatchNodes = new List<PatchTreeNodeViewModel>(),
+                    PatchNodes = new List<IDAndName>(),
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
                 },
                 CurvesNode = CreateTreeLeafViewModel(ResourceFormatter.Curves, count: 0),
