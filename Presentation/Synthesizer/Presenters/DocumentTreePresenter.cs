@@ -16,9 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public DocumentTreePresenter(PatchRepositories repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _repositories = repositories;
+            _repositories = repositories ?? throw new NullException(() => repositories);
 
             _patchManager = new PatchManager(_repositories);
         }

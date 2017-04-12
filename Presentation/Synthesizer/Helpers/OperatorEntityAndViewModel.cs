@@ -8,14 +8,11 @@ namespace JJ.Presentation.Synthesizer.Helpers
     {
         public OperatorEntityAndViewModel(Operator op, OperatorViewModel operatorViewModel)
         {
-            if (op == null) throw new NullException(() => op);
-            if (operatorViewModel == null) throw new NullException(() => operatorViewModel);
-
-            Operator = op;
-            OperatorViewModel = operatorViewModel;
+            Operator = op ?? throw new NullException(() => op);
+            OperatorViewModel = operatorViewModel ?? throw new NullException(() => operatorViewModel);
         }
 
-        public Operator Operator { get; private set; }
-        public OperatorViewModel OperatorViewModel { get; private set; }
+        public Operator Operator { get; }
+        public OperatorViewModel OperatorViewModel { get; }
     }
 }
