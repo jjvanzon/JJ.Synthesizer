@@ -89,40 +89,50 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void AddTopLevelNodesAndDescendants(TreeNodeCollection nodes, DocumentTreeViewModel documentTreeViewModel)
         {
-            // Patches
-            var patchesTreeNode = new TreeNode(documentTreeViewModel.PatchesNode.Text);
-            nodes.Add(patchesTreeNode);
-            _patchesTreeNodes.Add(patchesTreeNode);
-
-            // PatchGroups
-            foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in documentTreeViewModel.PatchesNode.PatchGroupNodes)
             {
-                var patchGroupTreeNode = new TreeNode(patchGroupViewModel.Caption)
-                {
-                    Tag = patchGroupViewModel.GroupName
-                };
-                patchesTreeNode.Nodes.Add(patchGroupTreeNode);
-                _patchesTreeNodes.Add(patchGroupTreeNode);
+                // Patches
+                var patchesTreeNode = new TreeNode(documentTreeViewModel.PatchesNode.Text);
+                nodes.Add(patchesTreeNode);
+                _patchesTreeNodes.Add(patchesTreeNode);
 
-                foreach (IDAndName patchViewModel in patchGroupViewModel.PatchNodes)
+                // Patches (Groupless)
+                foreach (IDAndName patchViewModel in documentTreeViewModel.PatchesNode.PatchNodes)
                 {
-                    TreeNode patchTreeNode = ConvertPatchTreeNode(patchViewModel);
-                    patchGroupTreeNode.Nodes.Add(patchTreeNode);
+                    var patchTreeNode1 = new TreeNode(patchViewModel.Name)
+                    {
+                        Tag = patchViewModel.ID
+                    };
+                    TreeNode patchTreeNode = patchTreeNode1;
+                    patchesTreeNode.Nodes.Add(patchTreeNode);
                     _patchTreeNodes.Add(patchTreeNode);
                 }
 
-                patchGroupTreeNode.Expand();
-            }
+                // PatchGroups
+                foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in documentTreeViewModel.PatchesNode.PatchGroupNodes)
+                {
+                    var patchGroupTreeNode = new TreeNode(patchGroupViewModel.Caption)
+                    {
+                        Tag = patchGroupViewModel.GroupName
+                    };
+                    patchesTreeNode.Nodes.Add(patchGroupTreeNode);
+                    _patchesTreeNodes.Add(patchGroupTreeNode);
 
-            // Patches (Groupless)
-            foreach (IDAndName patchViewModel in documentTreeViewModel.PatchesNode.PatchNodes)
-            {
-                TreeNode patchTreeNode = ConvertPatchTreeNode(patchViewModel);
-                patchesTreeNode.Nodes.Add(patchTreeNode);
-                _patchTreeNodes.Add(patchTreeNode);
-            }
+                    foreach (IDAndName patchViewModel in patchGroupViewModel.PatchNodes)
+                    {
+                        var patchTreeNode1 = new TreeNode(patchViewModel.Name)
+                        {
+                            Tag = patchViewModel.ID
+                        };
+                        TreeNode patchTreeNode = patchTreeNode1;
+                        patchGroupTreeNode.Nodes.Add(patchTreeNode);
+                        _patchTreeNodes.Add(patchTreeNode);
+                    }
 
-            patchesTreeNode.Expand();
+                    patchGroupTreeNode.Expand();
+                }
+
+                patchesTreeNode.Expand();
+            }
 
             // Other Nodes
             var samplesTreeNode = new TreeNode(documentTreeViewModel.SamplesNode.Text);
@@ -155,38 +165,47 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _librariesTreeNode.Nodes.Add(libraryTreeNode);
                 _libraryTreeNodes.Add(libraryTreeNode);
 
-                foreach (IDAndName patchViewModel in libraryViewModel.Patches)
-                {
-                    TreeNode libraryPatchTreeNode = ConvertLibraryPatchTreeNode(patchViewModel);
-                    libraryTreeNode.Nodes.Add(libraryPatchTreeNode);
-                    _libraryPatchTreeNodes.Add(libraryPatchTreeNode);
+                // TODO: Repeated code: Looks a lot like a when you scroll up a bit.
 
+                // Patches (Groupless)
+                foreach (IDAndName libraryPatchViewModel in libraryViewModel.PatchNodes)
+                {
+                    var patchTreeNode1 = new TreeNode(libraryPatchViewModel.Name)
+                    {
+                        Tag = libraryPatchViewModel.ID
+                    };
+                    TreeNode patchTreeNode = patchTreeNode1;
+                    libraryTreeNode.Nodes.Add(patchTreeNode);
+                    _libraryPatchTreeNodes.Add(patchTreeNode);
                 }
 
+                // PatchGroups
+                foreach (PatchGroupTreeNodeViewModel libraryPatchGroupViewModel in libraryViewModel.PatchGroupNodes)
+                {
+                    var patchGroupTreeNode = new TreeNode(libraryPatchGroupViewModel.Caption)
+                    {
+                        Tag = libraryPatchGroupViewModel.GroupName
+                    };
+                    libraryTreeNode.Nodes.Add(patchGroupTreeNode);
+
+                    foreach (IDAndName patchViewModel in libraryPatchGroupViewModel.PatchNodes)
+                    {
+                        var patchTreeNode1 = new TreeNode(patchViewModel.Name)
+                        {
+                            Tag = patchViewModel.ID
+                        };
+                        TreeNode patchTreeNode = patchTreeNode1;
+                        patchGroupTreeNode.Nodes.Add(patchTreeNode);
+                        _libraryPatchTreeNodes.Add(patchTreeNode);
+                    }
+
+                    patchGroupTreeNode.Expand();
+                }
+                
                 libraryTreeNode.Expand();
             }
 
             _librariesTreeNode.Expand();
-        }
-
-        private static TreeNode ConvertLibraryPatchTreeNode(IDAndName idAndName)
-        {
-            var libraryPatchTreeNode = new TreeNode(idAndName.Name)
-            {
-                Tag = idAndName.ID
-            };
-            
-            return libraryPatchTreeNode;
-        }
-
-        private TreeNode ConvertPatchTreeNode(IDAndName idAndName)
-        {
-            var patchTreeNode = new TreeNode(idAndName.Name)
-            {
-                Tag = idAndName.ID
-            };
-
-            return patchTreeNode;
         }
 
         // Actions

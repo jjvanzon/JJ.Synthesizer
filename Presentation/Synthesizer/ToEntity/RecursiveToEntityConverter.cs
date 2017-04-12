@@ -1,14 +1,13 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Business.Synthesizer.LinkTo;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
-namespace JJ.Presentation.Synthesizer.Converters
+namespace JJ.Presentation.Synthesizer.ToEntity
 {
     /// <summary>
     /// Handles the recursive conversion of viewmodels of operators and their inlets and outlets
@@ -23,9 +22,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         public RecursiveToEntityConverter(PatchRepositories repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _repositories = repositories;
+            _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
         public Operator Convert(OperatorViewModel operatorViewModel)
@@ -56,6 +53,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             return op;
         }
 
+        // ReSharper disable once SuggestBaseTypeForParameter
         private void ConvertToInletsRecursive(IList<InletViewModel> sourceInletViewModels, Operator destOperator)
         {
             var idsToKeep = new List<int>(sourceInletViewModels.Count + 1);
@@ -78,6 +76,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             }
         }
 
+        // ReSharper disable once SuggestBaseTypeForParameter
         private void ConvertToOutletsRecursive(IList<OutletViewModel> sourceOutletViewModels, Operator destOperator)
         {
             var idsToKeep = new List<int>(sourceOutletViewModels.Count + 1);

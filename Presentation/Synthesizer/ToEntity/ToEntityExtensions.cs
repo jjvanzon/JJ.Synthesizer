@@ -10,7 +10,6 @@ using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Presentation.Synthesizer.Converters;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Canonical;

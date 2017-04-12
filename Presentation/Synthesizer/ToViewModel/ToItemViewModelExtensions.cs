@@ -180,21 +180,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
         }
 
-        // Library
-
-        public static LibraryTreeNodeViewModel ToTreeNodeViewModelWithRelatedEntities(this DocumentReference lowerDocumentReference)
-        {
-            if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
-
-            var viewModel = new LibraryTreeNodeViewModel
-            {
-                LowerDocumentReferenceID = lowerDocumentReference.ID,
-                Caption = ViewModelHelper.GetLibraryDescription(lowerDocumentReference),
-                Patches = lowerDocumentReference.LowerDocument.Patches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList()
-            };
-
-            return viewModel;
-        }
 
         // Node
 

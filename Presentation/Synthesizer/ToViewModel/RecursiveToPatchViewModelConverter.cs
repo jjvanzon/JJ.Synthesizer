@@ -7,23 +7,22 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Collections;
 using JJ.Framework.Common;
-using JJ.Framework.Mathematics;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Mathematics;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Framework.Collections;
 
-namespace JJ.Presentation.Synthesizer.Converters
+namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     /// <summary>
     /// Handles the recursive conversion of viewmodels of operators and their inlets and outlets
     /// to entities. It delegates to the 'singular' forms of those conversions: the extension methods
     /// that do not convert anything other than the entity itself without any related entities.
     /// </summary>
-    internal class RecursiveToViewModelConverter
+    internal class RecursiveToPatchViewModelConverter
     {
         private static readonly string _timeDimensionKey = ViewModelHelper.GetDimensionKey(DimensionEnum.Time);
         private static readonly IList<StyleGradeEnum> _styleGradesNonNeutral = GetStyleGradesNonNeutral();
@@ -35,21 +34,16 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private Dictionary<Operator, OperatorViewModel> _dictionary;
 
-        public RecursiveToViewModelConverter(
+        public RecursiveToPatchViewModelConverter(
             ISampleRepository sampleRepository, 
             ICurveRepository curveRepository,
             IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
-
-            _sampleRepository = sampleRepository;
-            _curveRepository = curveRepository;
-            _patchRepository = patchRepository;
-            _entityPositionManager = entityPositionManager;
+            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
+            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
+            _entityPositionManager = entityPositionManager ?? throw new NullException(() => entityPositionManager);
         }
 
         public PatchDetailsViewModel ConvertToDetailsViewModel(Patch patch)
@@ -105,8 +99,7 @@ namespace JJ.Presentation.Synthesizer.Converters
                         continue;
                     }
 
-                    StyleGradeEnum styleGradeEnum;
-                    if (dimensionKey_To_StyleGrade_Dictionary.TryGetValue(operatorViewModel.Dimension.Key, out styleGradeEnum))
+                    if (dimensionKey_To_StyleGrade_Dictionary.TryGetValue(operatorViewModel.Dimension.Key, out StyleGradeEnum styleGradeEnum))
                     {
                         operatorViewModel.StyleGrade = styleGradeEnum;
                     }
@@ -155,8 +148,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private OperatorViewModel ConvertToViewModelRecursive(Operator op)
         {
-            OperatorViewModel viewModel;
-            if (_dictionary.TryGetValue(op, out viewModel))
+            if (_dictionary.TryGetValue(op, out OperatorViewModel viewModel))
             {
                 return viewModel;
             }

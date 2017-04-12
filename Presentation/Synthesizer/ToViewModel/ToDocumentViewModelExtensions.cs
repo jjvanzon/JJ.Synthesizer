@@ -32,13 +32,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var sampleRepositories = new SampleRepositories(repositories);
 
-            IList<Patch> grouplessPatches = grouplessPatchUsedInDtos.Select(x => x.Entity).ToArray();
-            IList<PatchGroupDto> patchGroupDtos = patchGroupDtos_WithUsedIn.Select(x => new PatchGroupDto
-            {
-                GroupName = x.GroupName,
-                Patches = x.PatchUsedInDtos.Select(y => y.Entity).ToArray()
-            }).ToArray();
-
             var viewModel = new DocumentViewModel
             {
                 ID = document.ID,
@@ -51,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos),
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
-                DocumentTree = document.ToTreeViewModel(grouplessPatches, patchGroupDtos),
                 LibraryGrid = document.ToLibraryGridViewModel(),
                 LibrarySelectionPopup = document.ToEmptyLibrarySelectionPopupViewModel(),
                 LibraryPatchPropertiesDictionary = document.ToLibraryPatchPropertiesViewModelList().ToDictionary(x => x.PatchID),
@@ -81,6 +73,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID)
             };
 
+            var converter = new RecursiveToDocumentTreeViewModelConverter();
+            viewModel.DocumentTree = converter.ToTreeViewModel(document, new PatchRepositories(repositories));
 
             if (document.AudioOutput != null)
             {

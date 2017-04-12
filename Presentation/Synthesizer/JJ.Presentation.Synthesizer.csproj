@@ -84,7 +84,7 @@
     <Compile Include="Presenters\TitleBarPresenter.cs" />
     <Compile Include="Presenters\ToneGridEditPresenter.cs" />
     <Compile Include="Presenters\ScaleGridPresenter.cs" />
-    <Compile Include="Converters\RecursiveToEntityConverter.cs" />
+    <Compile Include="ToEntity\RecursiveToEntityConverter.cs" />
     <Compile Include="Helpers\ViewModelSelector.cs" />
     <Compile Include="Presenters\AudioFileOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\AudioFileOutputGridPresenter.cs" />
@@ -96,7 +96,7 @@
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
     <Compile Include="Presenters\MainPresenter.General.cs" />
     <Compile Include="ToEntity\ToEntityHelper.cs" />
-    <Compile Include="ToViewModel\RecursiveToViewModelConverter.cs" />
+    <Compile Include="ToViewModel\RecursiveToDocumentTreeViewModelConverter.cs" />
     <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />
@@ -142,7 +142,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
     <Compile Include="ToViewModel\ToIDAndNameExtensions.cs" />
-    <Compile Include="Converters\RecursiveToViewModelConverter.cs" />
+    <Compile Include="ToViewModel\RecursiveToPatchViewModelConverter.cs" />
     <Compile Include="ToViewModel\ToItemViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.EmptyViewModels.cs" />
     <Compile Include="ViewModels\AudioFileOutputPropertiesViewModel.cs" />
@@ -262,6 +262,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

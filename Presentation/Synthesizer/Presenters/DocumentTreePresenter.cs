@@ -91,12 +91,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetEntity
             Document document = _repositories.DocumentRepository.Get(userInput.ID);
 
-            // Business
-            IList<Patch> grouplessPatches = _patchManager.GetGrouplessPatches(document.Patches);
-            IList<PatchGroupDto> patchGroupDtos = _patchManager.GetPatchGroupDtos(document.Patches);
-
             // ToViewModel
-            DocumentTreeViewModel viewModel = document.ToTreeViewModel(grouplessPatches, patchGroupDtos);
+            var converter = new RecursiveToDocumentTreeViewModelConverter();
+            DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _repositories);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

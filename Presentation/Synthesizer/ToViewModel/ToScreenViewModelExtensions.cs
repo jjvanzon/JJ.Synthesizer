@@ -203,49 +203,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentTreeViewModel ToTreeViewModel(
-            this Document document, 
-            IList<Patch> grouplessPatches,
-            IList<PatchGroupDto> patchGroupDtos)
-        {
-            if (document == null) throw new NullException(() => document);
-            if (grouplessPatches == null) throw new NullException(() => grouplessPatches);
-            if (patchGroupDtos == null) throw new NullException(() => patchGroupDtos);
-
-            var viewModel = new DocumentTreeViewModel
-            {
-                ID = document.ID,
-                CurvesNode = ViewModelHelper.CreateTreeLeafViewModel(ResourceFormatter.Curves, document.Curves.Count),
-                SamplesNode = ViewModelHelper.CreateTreeLeafViewModel(ResourceFormatter.Samples, document.Samples.Count),
-                ScalesNode = ViewModelHelper.CreateTreeLeafViewModel(ResourceFormatter.Scales, document.Scales.Count),
-                AudioOutputNode = ViewModelHelper.CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
-                AudioFileOutputListNode = ViewModelHelper.CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, document.AudioFileOutputs.Count),
-                ValidationMessages = new List<Message>(),
-                PatchesNode = new PatchesTreeNodeViewModel
-                {
-                    Text = ViewModelHelper.GetTreeNodeText(ResourceFormatter.Patches, document.Patches.Count),
-                    PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
-                },
-                LibrariesNode = new LibrariesTreeNodeViewModel
-                {
-                    Text = ViewModelHelper.GetTreeNodeText(ResourceFormatter.LowerDocuments, document.LowerDocumentReferences.Count),
-                    List = new List<LibraryTreeNodeViewModel>()
-                }
-            };
-
-            viewModel.LibrariesNode.List = document.LowerDocumentReferences.Select(x => x.ToTreeNodeViewModelWithRelatedEntities())
-                                                                           .OrderBy(x => x.Caption)
-                                                                           .ToList();
-
-            viewModel.PatchesNode.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
-                                                               .Select(x => x.ToIDAndName())
-                                                               .ToList();
-
-            viewModel.PatchesNode.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.GroupName)
-                                                                  .Select(x => x.ToTreeNodeViewModel())
-                                                                  .ToList();
-            return viewModel;
-        }
 
         public static PatchGroupTreeNodeViewModel ToTreeNodeViewModel([NotNull] this PatchGroupDto patchGroupDto)
         {
@@ -748,7 +705,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
-            var converter = new RecursiveToViewModelConverter(
+            var converter = new RecursiveToPatchViewModelConverter(
                 sampleRepository,
                 curveRepository,
                 patchRepository,
