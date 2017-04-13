@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Collections;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -11,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
             if (destViewModel == null) throw new NullException(() => destViewModel);
 
-            destViewModel.ValidationMessages = sourceViewModel.ValidationMessages;
+            destViewModel.ValidationMessages.AddRange(sourceViewModel.ValidationMessages);
             destViewModel.Visible = sourceViewModel.Visible;
             destViewModel.Successful = sourceViewModel.Successful;
             destViewModel.RefreshCounter = sourceViewModel.RefreshCounter;

@@ -256,7 +256,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new LibrarySelectionPopupViewModel
             {
                 HigherDocumentID = higherDocument.ID,
-                List = ToListItemViewModelExtensions.ToIDAndNameList(lowerDocumentCandidates)
+                List = ToListItemViewModelExtensions.ToIDAndNameList(lowerDocumentCandidates),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;

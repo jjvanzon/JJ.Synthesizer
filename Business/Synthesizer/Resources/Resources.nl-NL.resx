@@ -999,4 +999,7 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>Synthesizer</value>
   </data>
+  <data name="SelectALibraryFirst" xml:space="preserve">
+    <value>Kies eerst een bibliotheek.</value>
+  </data>
 </root>

@@ -257,8 +257,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 documentDetailsViewModel.Visible = true;
             }
 
-            MainViewModel.PopupMessages.AddRange(documentDetailsViewModel.ValidationMessages);
-            documentDetailsViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(documentDetailsViewModel);
         }
 
         private void DispatchDocumentGridViewModel(ViewModelBase viewModel2)
@@ -289,8 +288,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchDocumentTreeViewModel(ViewModelBase viewModel2)
@@ -332,8 +330,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleLibraryPatchProperties = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchLibraryPropertiesViewModel(ViewModelBase viewModel2)
@@ -351,8 +348,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleLibraryProperties = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchLibrarySelectionPopupViewModel(ViewModelBase viewModel2)
@@ -387,8 +383,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleNodeProperties = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel(ViewModelBase viewModel2)
@@ -406,8 +401,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForCache(ViewModelBase viewModel2)
@@ -425,8 +419,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForCache = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForCurve(ViewModelBase viewModel2)
@@ -444,8 +437,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForCurve = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForCustomOperator(ViewModelBase viewModel2)
@@ -463,8 +455,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForInletsToDimension(ViewModelBase viewModel2)
@@ -482,8 +473,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForNumber(ViewModelBase viewModel2)
@@ -500,9 +490,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
                 MainViewModel.Document.VisibleOperatorProperties_ForNumber = castedViewModel;
             }
-            
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForPatchInlet(ViewModelBase viewModel2)
@@ -520,8 +509,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForPatchOutlet(ViewModelBase viewModel2)
@@ -539,8 +527,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForSample(ViewModelBase viewModel2)
@@ -558,8 +545,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForSample = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_WithInterpolation(ViewModelBase viewModel2)
@@ -577,8 +563,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_WithInterpolation = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_WithCollectionRecalculation(ViewModelBase viewModel2)
@@ -596,8 +581,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_WithOutletCount(ViewModelBase viewModel2)
@@ -615,8 +599,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_WithInletCount(ViewModelBase viewModel2)
@@ -634,8 +617,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_WithInletCount = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchPatchDetailsViewModel(ViewModelBase viewModel2)
@@ -671,8 +653,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisiblePatchGrid = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchPatchPropertiesViewModel(ViewModelBase viewModel2)
@@ -690,8 +671,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisiblePatchProperties = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchSampleGridViewModel(ViewModelBase viewModel2)

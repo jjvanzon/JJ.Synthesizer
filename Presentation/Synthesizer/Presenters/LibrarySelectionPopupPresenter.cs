@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -72,9 +73,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public LibrarySelectionPopupViewModel OK(LibrarySelectionPopupViewModel userInput, int? lowerDocumentID)
         {
-            // TODO: Handle with validation message.
-            if (!lowerDocumentID.HasValue) throw new NullException(() => lowerDocumentID);
-
             if (userInput == null) throw new NullException(() => userInput);
 
             // RefreshCounter
@@ -83,31 +81,46 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Set !Successful
             userInput.Successful = false;
 
-            // GetEntities
-            Document higherDocument = _documentRepository.Get(userInput.HigherDocumentID);
-            Document lowerDocument = _documentRepository.Get(lowerDocumentID.Value);
-
-            // Business
-            Result<DocumentReference> result = _documentManager.CreateDocumentReference(higherDocument, lowerDocument);
-
             LibrarySelectionPopupViewModel viewModel;
-            if (result.Successful)
-            {
-                // ToViewModel
-                viewModel = CreateEmptyViewModel(userInput);
-            }
-            else
+
+            // UserInput Validation
+            if (!lowerDocumentID.HasValue)
             {
                 // CreateViewModel
                 viewModel = CreateViewModel(userInput);
+
+                // Non-Persisted
+                viewModel.ValidationMessages.Add(new Message { PropertyKey = PropertyNames.LowerDocument, Text = ResourceFormatter.SelectALibraryFirst });
+            }
+            else
+            {
+                // GetEntities
+                Document higherDocument = _documentRepository.Get(userInput.HigherDocumentID);
+                Document lowerDocument = _documentRepository.Get(lowerDocumentID.Value);
+
+                // Business
+                Result<DocumentReference> result = _documentManager.CreateDocumentReference(higherDocument, lowerDocument);
+
+                if (result.Successful)
+                {
+                    // ToViewModel
+                    viewModel = CreateEmptyViewModel(userInput);
+                }
+                else
+                {
+                    // CreateViewModel
+                    viewModel = CreateViewModel(userInput);
+                }
+
+                // Non-Persisted
+                viewModel.ValidationMessages.AddRange(result.Messages);
+
+                // Successful?
+                viewModel.Successful = result.Successful;
             }
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages);
-
-            // Successful?
-            viewModel.Successful = result.Successful;
 
             if (viewModel.Successful)
             {

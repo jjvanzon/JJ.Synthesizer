@@ -46,6 +46,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string IsObsolete = "IsObsolete";
         public const string ListIndex = "ListIndex";
         public const string LiteralFrequencies = "LiteralFrequencies";
+        public const string LowerDocument = "LowerDocument";
         public const string Name = "Name";
         public const string Number = "Number";
         public const string Operators = "Operators";

@@ -225,6 +225,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Scaler => Resources.Scaler;
         public static string Scales => Resources.Scales;
         public static string ScaleType => Resources.ScaleType;
+        public static string SelectALibraryFirst => Resources.SelectALibraryFirst;
         public static string SelectANodeFirst => Resources.SelectANodeFirst;
         public static string SelectAnOperatorFirst => Resources.SelectAnOperatorFirst;
         public static string SelectAnOperatorWithASingleOutlet => Resources.SelectAnOperatorWithASingleOutlet;
