@@ -96,7 +96,7 @@
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
     <Compile Include="Presenters\MainPresenter.General.cs" />
     <Compile Include="ToEntity\ToEntityHelper.cs" />
-    <Compile Include="ToViewModel\RecursiveToDocumentTreeViewModelConverter.cs" />
+    <Compile Include="ToViewModel\RecursiveToDocumentTreeViewModelFactory.cs" />
     <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />

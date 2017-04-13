@@ -92,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _repositories.DocumentRepository.Get(userInput.ID);
 
             // ToViewModel
-            var converter = new RecursiveToDocumentTreeViewModelConverter();
+            var converter = new RecursiveToDocumentTreeViewModelFactory();
             DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _repositories);
 
             // Non-Persisted

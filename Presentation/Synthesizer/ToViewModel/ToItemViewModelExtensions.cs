@@ -321,19 +321,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Patch
 
-        public static IDAndName ToPatchTreeNodeViewModel(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            var viewModel = new IDAndName
-            {
-                ID = patch.ID,
-                Name = patch.Name,
-            };
-
-            return viewModel;
-        }
-
         public static PatchViewModel ToViewModel(this Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);

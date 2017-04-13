@@ -1129,40 +1129,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return aggregate;
         }
 
-        // TreeLeaf
-
-        public static TreeLeafViewModel CreateTreeLeafViewModel(string displayName)
-        {
-            var viewModel = new TreeLeafViewModel
-            {
-                Text = displayName
-            };
-
-            return viewModel;
-        }
-
-        public static TreeLeafViewModel CreateTreeLeafViewModel(string displayName, int count)
-        {
-            var viewModel = new TreeLeafViewModel
-            {
-                Text = GetTreeNodeText(displayName, count)
-            };
-
-            return viewModel;
-        }
-
-        public static string GetTreeNodeText(string displayName, int count)
-        {
-            string text = displayName;
-
-            if (count != 0)
-            {
-                text += $" ({count})";
-            }
-
-            return text;
-        }
-
         // UsedIn
 
         public static string FormatUsedInDto(UsedInDto<Curve> dto)

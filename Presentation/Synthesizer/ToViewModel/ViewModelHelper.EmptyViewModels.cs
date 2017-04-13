@@ -80,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveLookup = new List<IDAndName>(),
                 CurvePropertiesDictionary = new Dictionary<int, CurvePropertiesViewModel>(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
-                DocumentTree = CreateEmptyDocumentTreeViewModel(),
+                DocumentTree = new RecursiveToDocumentTreeViewModelFactory().CreateEmptyDocumentTreeViewModel(),
                 LibraryGrid = CreateEmptyLibraryGridViewModel(),
                 LibrarySelectionPopup = CreateEmptyLibrarySelectionPopupViewModel(),
                 LibraryPatchPropertiesDictionary = new Dictionary<int, LibraryPatchPropertiesViewModel>(),
@@ -173,31 +173,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = new IDAndName(),
                 ValidationMessages = new List<Message>()
-            };
-
-            return viewModel;
-        }
-
-        public static DocumentTreeViewModel CreateEmptyDocumentTreeViewModel()
-        {
-            var viewModel = new DocumentTreeViewModel
-            {
-                PatchesNode = new PatchesTreeNodeViewModel
-                {
-                    Text = GetTreeNodeText(ResourceFormatter.Patches, count: 0),
-                    PatchNodes = new List<IDAndName>(),
-                    PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
-                },
-                CurvesNode = CreateTreeLeafViewModel(ResourceFormatter.Curves, count: 0),
-                SamplesNode = CreateTreeLeafViewModel(ResourceFormatter.Samples, count: 0),
-                ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, count: 0),
-                AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
-                AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, count: 0),
-                ValidationMessages = new List<Message>(),
-                LibrariesNode = new LibrariesTreeNodeViewModel
-                {
-                    List = new List<LibraryTreeNodeViewModel>()
-                }
             };
 
             return viewModel;

@@ -11,8 +11,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -198,23 +196,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Document = entity.ToIDAndName(),
                 ValidationMessages = messages
-            };
-
-            return viewModel;
-        }
-
-
-        public static PatchGroupTreeNodeViewModel ToTreeNodeViewModel([NotNull] this PatchGroupDto patchGroupDto)
-        {
-            if (patchGroupDto == null) throw new NullException(() => patchGroupDto);
-
-            var viewModel = new PatchGroupTreeNodeViewModel
-            {
-                GroupName = patchGroupDto.GroupName,
-                Caption = ViewModelHelper.GetTreeNodeText(patchGroupDto.GroupName, patchGroupDto.Patches.Count),
-                PatchNodes = patchGroupDto.Patches.OrderBy(x => x.Name)
-                                          .Select(x => x.ToIDAndName())
-                                          .ToList()
             };
 
             return viewModel;
