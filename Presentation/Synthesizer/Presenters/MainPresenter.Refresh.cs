@@ -1181,7 +1181,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     viewModel = usedInDtos.ToPatchGridViewModel(document.ID, group);
                     viewModel.Successful = true;
-                    viewModelDictionary[group] = viewModel;
+
+                    string canonicalGroup = NameHelper.ToCanonical(group);
+
+                    viewModelDictionary[canonicalGroup] = viewModel;
                 }
                 else
                 {
