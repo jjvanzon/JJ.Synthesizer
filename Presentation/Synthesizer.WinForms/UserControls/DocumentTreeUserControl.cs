@@ -165,41 +165,36 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _librariesTreeNode.Nodes.Add(libraryTreeNode);
                 _libraryTreeNodes.Add(libraryTreeNode);
 
-                // TODO: Repeated code: Looks a lot like a when you scroll up a bit.
-
                 // Patches (Groupless)
                 foreach (IDAndName libraryPatchViewModel in libraryViewModel.PatchNodes)
                 {
-                    var patchTreeNode1 = new TreeNode(libraryPatchViewModel.Name)
+                    var libraryPatchTreeNode = new TreeNode(libraryPatchViewModel.Name)
                     {
                         Tag = libraryPatchViewModel.ID
                     };
-                    TreeNode patchTreeNode = patchTreeNode1;
-                    libraryTreeNode.Nodes.Add(patchTreeNode);
-                    _libraryPatchTreeNodes.Add(patchTreeNode);
+                    libraryTreeNode.Nodes.Add(libraryPatchTreeNode);
+                    _libraryPatchTreeNodes.Add(libraryPatchTreeNode);
                 }
 
                 // PatchGroups
                 foreach (PatchGroupTreeNodeViewModel libraryPatchGroupViewModel in libraryViewModel.PatchGroupNodes)
                 {
-                    var patchGroupTreeNode = new TreeNode(libraryPatchGroupViewModel.Caption)
+                    var libraryPatchGroupTreeNode = new TreeNode(libraryPatchGroupViewModel.Caption)
                     {
                         Tag = libraryPatchGroupViewModel.GroupName
                     };
-                    libraryTreeNode.Nodes.Add(patchGroupTreeNode);
+                    libraryTreeNode.Nodes.Add(libraryPatchGroupTreeNode);
 
                     foreach (IDAndName patchViewModel in libraryPatchGroupViewModel.PatchNodes)
                     {
-                        var patchTreeNode1 = new TreeNode(patchViewModel.Name)
+                        var patchTreeNode = new TreeNode(patchViewModel.Name)
                         {
                             Tag = patchViewModel.ID
                         };
-                        TreeNode patchTreeNode = patchTreeNode1;
-                        patchGroupTreeNode.Nodes.Add(patchTreeNode);
                         _libraryPatchTreeNodes.Add(patchTreeNode);
                     }
 
-                    patchGroupTreeNode.Expand();
+                    libraryPatchGroupTreeNode.Expand();
                 }
                 
                 libraryTreeNode.Expand();
