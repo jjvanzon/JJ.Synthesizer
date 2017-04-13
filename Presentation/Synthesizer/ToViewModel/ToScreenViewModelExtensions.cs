@@ -766,7 +766,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchID = patch.ID,
                 Name = patch.Name,
                 Group = patch.GroupName,
-                Library = ViewModelHelper.GetLibraryDescription(lowerDocumentReference),
+                Library = lowerDocumentReference.GetAliasOrName(),
                 ValidationMessages = new List<Message>()
             };
 

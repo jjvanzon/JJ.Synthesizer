@@ -28,9 +28,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (patchGroupDtos_WithUsedIn == null) throw new NullException(() => patchGroupDtos_WithUsedIn);
             if (curveUsedInDtos == null) throw new NullException(() => curveUsedInDtos);
             if (sampleUsedInDtos == null) throw new NullException(() => sampleUsedInDtos);
+            // ReSharper disable once ImplicitlyCapturedClosure
             if (repositories == null) throw new NullException(() => repositories);
 
             var sampleRepositories = new SampleRepositories(repositories);
+            var patchRepositories = new PatchRepositories(repositories);
 
             var viewModel = new DocumentViewModel
             {
@@ -74,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             var converter = new RecursiveToDocumentTreeViewModelFactory();
-            viewModel.DocumentTree = converter.ToTreeViewModel(document, new PatchRepositories(repositories));
+            viewModel.DocumentTree = converter.ToTreeViewModel(document, patchRepositories);
 
             if (document.AudioOutput != null)
             {
@@ -85,8 +87,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.AudioOutputProperties = ViewModelHelper.CreateEmptyAudioOutputPropertiesViewModel();
             }
 
-            IList<Patch> patches = document.GetPatchesAndLowerDocumentPatches();
-            viewModel.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(patches);
+            viewModel.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(document, patchRepositories);
 
             return viewModel;
         }

@@ -3,10 +3,13 @@ using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 
@@ -234,14 +237,47 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // UnderlyingPatch
 
-        public static IList<IDAndName> CreateUnderlyingPatchLookupViewModel(IList<Patch> underlyingPatches)
+        public static IList<IDAndName> CreateUnderlyingPatchLookupViewModel(Document document, PatchRepositories patchRepositories)
         {
-            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
+            if (document == null) throw new NullException(() => document);
 
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var list = new List<IDAndName>(underlyingPatches.Count + 1);
-            list.Add(new IDAndName { ID = 0, Name = null });
-            list.AddRange(underlyingPatches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
+            var patchManager = new PatchManager(patchRepositories);
+
+            var list = new List<IDAndName>
+            {
+                new IDAndName { ID = 0, Name = null }
+            };
+
+            list.AddRange(
+                patchManager.GetGrouplessPatches(document.Patches)
+                            .OrderBy(x => x.Name)
+                            .Select(x => x.ToIDAndName()));
+
+            list.AddRange(
+                from patchGroupDto in patchManager.GetPatchGroupDtos(document.Patches)
+                orderby patchGroupDto.GroupName
+                from patch in patchGroupDto.Patches
+                let name = $"{patch.Name} | {patchGroupDto.GroupName}"
+                select new IDAndName { ID = patch.ID, Name = name });
+
+            IEnumerable<DocumentReference> lowerDocumentReferences = document.LowerDocumentReferences.OrderBy(x => x.GetAliasOrName());
+            foreach (DocumentReference lowerDocumentReference in lowerDocumentReferences)
+            {
+                string lowerDocumentReferenceAliasOrName = lowerDocumentReference.GetAliasOrName();
+
+                list.AddRange(
+                    from patch in patchManager.GetGrouplessPatches(lowerDocumentReference.LowerDocument.Patches)
+                    orderby patch.Name
+                    let name = $"{patch.Name} | {lowerDocumentReferenceAliasOrName}"
+                    select new IDAndName { ID = patch.ID, Name = name });
+
+                list.AddRange(
+                    from patchGroupDto in patchManager.GetPatchGroupDtos(lowerDocumentReference.LowerDocument.Patches)
+                    orderby patchGroupDto.GroupName
+                    from patch in patchGroupDto.Patches
+                    let name = $"{patch.Name} | {patchGroupDto.GroupName} | {lowerDocumentReferenceAliasOrName}"
+                    select new IDAndName { ID = patch.ID, Name = name });
+            }
 
             return list;
         }

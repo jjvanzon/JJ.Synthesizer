@@ -345,7 +345,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return entity.OperatorType.HasDimension;
         }
         
-        // Document-Related
+        // Document
 
         public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
         {
@@ -355,18 +355,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
-        }
-
-        public static string GetLibraryDescription(DocumentReference lowerDocumentReference)
-        {
-            if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
-
-            if (!string.IsNullOrWhiteSpace(lowerDocumentReference.Alias))
-            {
-                return lowerDocumentReference.Alias;
-            }
-
-            return lowerDocumentReference.LowerDocument?.Name;
         }
 
         // Menu
