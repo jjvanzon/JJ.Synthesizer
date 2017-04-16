@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new AudioOutputPropertiesViewModel ViewModel
         {
-            get { return (AudioOutputPropertiesViewModel)base.ViewModel; }
+            get => (AudioOutputPropertiesViewModel)base.ViewModel;
             set { base.ViewModel = value; }
         }
 

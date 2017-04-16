@@ -29,8 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new PatchGridViewModel ViewModel
         {
-            get { return (PatchGridViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (PatchGridViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
     }
 }

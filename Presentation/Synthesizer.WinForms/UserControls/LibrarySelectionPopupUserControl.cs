@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public LibrarySelectionPopupViewModel ViewModel
         {
-            get { return librarySelectionGridUserControl.ViewModel; }
+            get => librarySelectionGridUserControl.ViewModel;
             set { librarySelectionGridUserControl.ViewModel = value; }
         }
 

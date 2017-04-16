@@ -28,8 +28,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new DocumentGridViewModel ViewModel
         {
-            get { return (DocumentGridViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (DocumentGridViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
     }
 }

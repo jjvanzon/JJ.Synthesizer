@@ -35,8 +35,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new OperatorPropertiesViewModel_ForCustomOperator ViewModel
         {
-            get { return (OperatorPropertiesViewModel_ForCustomOperator)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (OperatorPropertiesViewModel_ForCustomOperator)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override void ApplyViewModelToControls()

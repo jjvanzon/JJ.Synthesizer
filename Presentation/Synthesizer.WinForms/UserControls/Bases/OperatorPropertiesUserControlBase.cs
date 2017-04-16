@@ -50,8 +50,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         public new OperatorPropertiesViewModelBase ViewModel
         {
-            get { return (OperatorPropertiesViewModelBase)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (OperatorPropertiesViewModelBase)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override int GetID()

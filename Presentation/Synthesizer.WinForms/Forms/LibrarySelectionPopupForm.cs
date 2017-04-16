@@ -23,8 +23,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
         public LibrarySelectionPopupViewModel ViewModel
         {
-            get { return librarySelectionPopupUserControl.ViewModel; }
-            set { librarySelectionPopupUserControl.ViewModel = value; }
+            get => librarySelectionPopupUserControl.ViewModel;
+            set => librarySelectionPopupUserControl.ViewModel = value;
         }
 
         private void SetTitles()

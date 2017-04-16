@@ -37,8 +37,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new OperatorPropertiesViewModel_ForCurve ViewModel
         {
-            get { return (OperatorPropertiesViewModel_ForCurve)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (OperatorPropertiesViewModel_ForCurve)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override void ApplyViewModelToControls()

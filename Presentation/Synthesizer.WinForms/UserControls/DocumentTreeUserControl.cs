@@ -56,8 +56,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new DocumentTreeViewModel ViewModel
         {
-            get { return (DocumentTreeViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (DocumentTreeViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override void ApplyViewModelToControls()

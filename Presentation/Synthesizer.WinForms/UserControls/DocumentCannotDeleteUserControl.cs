@@ -46,8 +46,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new DocumentCannotDeleteViewModel ViewModel
         {
-            get { return (DocumentCannotDeleteViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (DocumentCannotDeleteViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override void ApplyViewModelToControls()

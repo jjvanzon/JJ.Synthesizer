@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public new object DataSource
         {
-            get { return base.DataSource; }
+            get => base.DataSource;
             set
             {
                 // DataGridView screws up if you do assign a data source that has 0 items.

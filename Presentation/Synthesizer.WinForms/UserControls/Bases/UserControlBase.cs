@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ViewModelBase ViewModel
         {
-            get { return _viewModel; }
+            get => _viewModel;
             set
             {
                 bool mustApplyViewModel = value != null &&

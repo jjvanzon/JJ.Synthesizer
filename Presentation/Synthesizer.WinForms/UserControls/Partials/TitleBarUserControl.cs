@@ -24,13 +24,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public override string Text
         {
-            get { return labelTitle.Text; }
+            get => labelTitle.Text;
             set { labelTitle.Text = value; }
         }
 
         public bool AddButtonVisible
         {
-            get { return pictureBoxAdd.Visible; }
+            get => pictureBoxAdd.Visible;
             set
             {
                 if (pictureBoxAdd.Visible == value) return;
@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public bool RemoveButtonVisible
         {
-            get { return pictureBoxRemove.Visible; }
+            get => pictureBoxRemove.Visible;
             set
             {
                 if (pictureBoxRemove.Visible == value) return;
@@ -56,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public bool CloseButtonVisible
         {
-            get { return pictureBoxClose.Visible; }
+            get => pictureBoxClose.Visible;
             set
             {
                 if (pictureBoxClose.Visible == value) return;

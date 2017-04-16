@@ -29,8 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new CurveGridViewModel ViewModel
         {
-            get { return (CurveGridViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (CurveGridViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
     }
 }

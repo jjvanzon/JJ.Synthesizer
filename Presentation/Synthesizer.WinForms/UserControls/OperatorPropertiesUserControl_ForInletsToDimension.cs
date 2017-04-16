@@ -39,8 +39,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new OperatorPropertiesViewModel_ForInletsToDimension ViewModel
         {
-            get { return (OperatorPropertiesViewModel_ForInletsToDimension)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (OperatorPropertiesViewModel_ForInletsToDimension)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override void ApplyViewModelToControls()

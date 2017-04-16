@@ -68,8 +68,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new PatchDetailsViewModel ViewModel
         {
-            get { return (PatchDetailsViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (PatchDetailsViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override int GetID()

@@ -75,26 +75,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         public string TitleBarText
         {
-            get { return _titleBarUserControl.Text; }
-            set { _titleBarUserControl.Text = value; }
+            get => _titleBarUserControl.Text;
+            set => _titleBarUserControl.Text = value;
         }
 
         public bool CloseButtonVisible
         {
-            get { return _titleBarUserControl.CloseButtonVisible; }
-            set { _titleBarUserControl.CloseButtonVisible = value; }
+            get => _titleBarUserControl.CloseButtonVisible;
+            set => _titleBarUserControl.CloseButtonVisible = value;
         }
 
         public bool RemoveButtonVisible
         {
-            get { return _titleBarUserControl.RemoveButtonVisible; }
-            set { _titleBarUserControl.RemoveButtonVisible = value; }
+            get => _titleBarUserControl.RemoveButtonVisible;
+            set => _titleBarUserControl.RemoveButtonVisible = value;
         }
 
         public bool AddButtonVisible
         {
-            get { return _titleBarUserControl.AddButtonVisible; }
-            set { _titleBarUserControl.AddButtonVisible = value; }
+            get => _titleBarUserControl.AddButtonVisible;
+            set => _titleBarUserControl.AddButtonVisible = value;
         }
 
         protected virtual void PositionControls()

@@ -28,8 +28,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new DocumentDetailsViewModel ViewModel
         {
-            get { return (DocumentDetailsViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (DocumentDetailsViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         private void SetTitles()

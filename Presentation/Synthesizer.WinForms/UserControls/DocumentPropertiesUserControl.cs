@@ -29,8 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new DocumentPropertiesViewModel ViewModel
         {
-            get { return (DocumentPropertiesViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (DocumentPropertiesViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override int GetID()

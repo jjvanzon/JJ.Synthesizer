@@ -96,35 +96,35 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         protected string Title
         {
-            get { return _titleBarUserControl.Text; }
-            set { _titleBarUserControl.Text = value; }
+            get => _titleBarUserControl.Text;
+            set => _titleBarUserControl.Text = value;
         }
 
         protected bool ColumnTitlesVisible
         {
-            get { return _specializedDataGridView.ColumnHeadersVisible; }
-            set { _specializedDataGridView.ColumnHeadersVisible = value; }
+            get => _specializedDataGridView.ColumnHeadersVisible;
+            set => _specializedDataGridView.ColumnHeadersVisible = value;
         }
 
         [DefaultValue(true)]
         protected bool AddButtonVisible
         {
-            get { return _titleBarUserControl.AddButtonVisible; }
-            set { _titleBarUserControl.AddButtonVisible = value; }
+            get => _titleBarUserControl.AddButtonVisible;
+            set => _titleBarUserControl.AddButtonVisible = value;
         }
 
         [DefaultValue(true)]
         protected bool RemoveButtonVisible
         {
-            get { return _titleBarUserControl.RemoveButtonVisible; }
-            set { _titleBarUserControl.RemoveButtonVisible = value; }
+            get => _titleBarUserControl.RemoveButtonVisible;
+            set => _titleBarUserControl.RemoveButtonVisible = value;
         }
 
         [DefaultValue(true)]
         protected bool CloseButtonVisible
         {
-            get { return _titleBarUserControl.CloseButtonVisible; }
-            set { _titleBarUserControl.CloseButtonVisible = value; }
+            get => _titleBarUserControl.CloseButtonVisible;
+            set => _titleBarUserControl.CloseButtonVisible = value;
         }
 
         /// <summary> does nothing </summary>

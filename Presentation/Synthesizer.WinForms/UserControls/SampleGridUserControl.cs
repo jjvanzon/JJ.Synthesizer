@@ -35,8 +35,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new SampleGridViewModel ViewModel
         {
-            get { return (SampleGridViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (SampleGridViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
     }
 }

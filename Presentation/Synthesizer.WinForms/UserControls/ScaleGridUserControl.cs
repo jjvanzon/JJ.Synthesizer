@@ -29,8 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new ScaleGridViewModel ViewModel
         {
-            get { return (ScaleGridViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (ScaleGridViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
     }
 }

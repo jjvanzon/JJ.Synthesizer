@@ -39,8 +39,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public new LibrarySelectionPopupViewModel ViewModel
         {
-            get { return (LibrarySelectionPopupViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (LibrarySelectionPopupViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
     }
 }

@@ -29,8 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new CurvePropertiesViewModel ViewModel
         {
-            get { return (CurvePropertiesViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (CurvePropertiesViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override int GetID()

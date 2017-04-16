@@ -12,8 +12,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new OperatorPropertiesViewModel ViewModel
         {
-            get { return (OperatorPropertiesViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (OperatorPropertiesViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override void AddProperties()

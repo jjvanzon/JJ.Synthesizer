@@ -28,8 +28,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new LibraryGridViewModel ViewModel
         {
-            get { return (LibraryGridViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (LibraryGridViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
     }
 }

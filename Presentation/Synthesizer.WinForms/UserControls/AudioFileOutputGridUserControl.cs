@@ -32,8 +32,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public new AudioFileOutputGridViewModel ViewModel
         {
-            get { return (AudioFileOutputGridViewModel)base.ViewModel; }
-            set { base.ViewModel = value; }
+            get => (AudioFileOutputGridViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
     }
 }
