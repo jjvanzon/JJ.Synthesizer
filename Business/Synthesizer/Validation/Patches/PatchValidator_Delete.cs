@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             foreach (Operator op in customOperators)
             {
                 Patch higherPatch = op.Patch;
-                string higherDocumentPrefix = TryGetHigherDocumentPrefix(lowerPatch, higherPatch);
+                string higherDocumentPrefix = ValidationHelper.TryGetHigherDocumentPrefix(lowerPatch, higherPatch);
                 string higherPatchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
                 string higherOperatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForCustomOperator(op, _patchRepository);
 
@@ -42,23 +42,6 @@ namespace JJ.Business.Synthesizer.Validation.Patches
                     nameof(Patch),
                     CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(lowerPatchIdentifier, higherDocumentPrefix + higherPatchPrefix + higherOperatorIdentifier));
             }
-        }
-
-        private static string TryGetHigherDocumentPrefix(Patch lowerPatch, Patch higherPatch)
-        {
-            if (lowerPatch.Document == higherPatch.Document)
-            {
-                return null;
-            }
-
-            DocumentReference documentReference = higherPatch.Document
-                                                             .LowerDocumentReferences
-                                                             .Where(x => x.LowerDocument.ID == lowerPatch.Document.ID)
-                                                             .FirstOrDefault();
-
-            string higherDocumentPrefix = ValidationHelper.GetMessagePrefix_ForHigherDocumentReference(documentReference);
-
-            return higherDocumentPrefix;
         }
     }
 }

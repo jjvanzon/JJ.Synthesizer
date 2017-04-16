@@ -144,7 +144,6 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        /// <summary> Note that dependencies caused by library references (The DocumentReference entity) are not checked. </summary>
         public static IEnumerable<Operator> EnumerateDependentCustomOperators(this Patch patch, IPatchRepository patchRepository)
         {
             // ReSharper disable once ImplicitlyCapturedClosure
@@ -176,7 +175,7 @@ namespace JJ.Business.Synthesizer.Extensions
             return wrapper.UnderlyingPatch?.ID == underlyingPatch.ID;
         }
 
-        /// <summary>  Should be same as patch.Operators, but in case of an invalid entity structure it might not be. </summary>
+        /// <summary> Should be same as patch.Operators, but in case of an invalid entity structure it might not be. </summary>
         public static IList<Operator> GetOperatorsRecursive(this Patch patch)
         {
             return EnumerateOperatorsRecursive(patch).ToArray();

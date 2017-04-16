@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using System.Linq;
+using JJ.Business.Synthesizer.Resources;
 using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -21,6 +22,25 @@ namespace JJ.Business.Synthesizer.Validation
         public static string GetMessagePrefix_ForHigherDocumentReference([NotNull] DocumentReference higherDocumentReference)
         {
             return GetMessagePrefix(ResourceFormatter.HigherDocument, GetUserFriendlyIdentifier_ForHigherDocumentReference(higherDocumentReference));
+        }
+
+        /// <summary> Only returns a prefix if higherPatch is actually in another document than lowerPatch. </summary>
+        [CanBeNull]
+        public static string TryGetHigherDocumentPrefix(Patch lowerPatch, Patch higherPatch)
+        {
+            if (lowerPatch.Document == higherPatch.Document)
+            {
+                return null;
+            }
+
+            DocumentReference documentReference = higherPatch.Document
+                                                             .LowerDocumentReferences
+                                                             .Where(x => x.LowerDocument.ID == lowerPatch.Document.ID)
+                                                             .FirstOrDefault();
+
+            string higherDocumentPrefix = GetMessagePrefix_ForHigherDocumentReference(documentReference);
+
+            return higherDocumentPrefix;
         }
 
         [NotNull] public static string GetMessagePrefix([NotNull] Inlet entity) => GetMessagePrefix(ResourceFormatter.Inlet, GetUserFriendlyIdentifier(entity));
