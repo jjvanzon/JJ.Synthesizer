@@ -367,11 +367,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot delete item, because there are things still linking to it..
+        ///   Looks up a localized string similar to Cannot hide {0}, because it is still used by the following: {1}..
         /// </summary>
-        internal static string CannotDeleteBecauseHasReferences {
+        internal static string CannotHide_WithName_AndDependentItem {
             get {
-                return ResourceManager.GetString("CannotDeleteBecauseHasReferences", resourceCulture);
+                return ResourceManager.GetString("CannotHide_WithName_AndDependentItem", resourceCulture);
             }
         }
         

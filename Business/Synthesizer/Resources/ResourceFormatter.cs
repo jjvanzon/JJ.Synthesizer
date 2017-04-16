@@ -48,8 +48,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Byte => Resources.Byte;
         public static string BytesToSkip => Resources.BytesToSkip;
         public static string Cache => Resources.Cache;
-        [Obsolete("Replace with better delete validation messages.")]
-        public static string CannotDeleteBecauseHasReferences => Resources.CannotDeleteBecauseHasReferences;
+        public static string CannotHide_WithName_AndDependentItem(string name, string dependentItem) => string.Format(Resources.CannotHide_WithName_AndDependentItem, name, dependentItem);
         public static string Cent => Resources.Cent;
         public static string CenterFrequency => Resources.CenterFrequency;
         public static string Cents => Resources.Cents;

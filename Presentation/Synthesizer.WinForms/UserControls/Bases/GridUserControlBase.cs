@@ -163,7 +163,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         {
             if (string.IsNullOrEmpty(dataPropertyName)) throw new NullOrEmptyException(() => dataPropertyName);
 
-            DataGridViewColumn dataGridViewColumn = new DataGridViewTextBoxColumn
+            var dataGridViewColumn = new DataGridViewTextBoxColumn
             {
                 DataPropertyName = dataPropertyName,
                 Name = dataPropertyName + "Column",
@@ -179,30 +179,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         // Binding
 
         protected virtual object GetDataSource() => null;
-
         protected string IDPropertyName { get; set; }
-
-        protected override void ApplyViewModelToControls()
-        {
-            _specializedDataGridView.DataSource = GetDataSource();
-        }
+        protected override void ApplyViewModelToControls() => _specializedDataGridView.DataSource = GetDataSource();
 
         // Events
 
-        private void _titleBarUserControl_AddClicked(object sender, EventArgs e)
-        {
-            Add();
-        }
-
-        private void _titleBarUserControl_RemoveClicked(object sender, EventArgs e)
-        {
-            Remove();
-        }
-
-        private void _titleBarUserControl_CloseClicked(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void _titleBarUserControl_AddClicked(object sender, EventArgs e) => Add();
+        private void _titleBarUserControl_RemoveClicked(object sender, EventArgs e) => Remove();
+        private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
+        private void _specializedDataGridView_DoubleClick(object sender, EventArgs e) => OpenItem();
 
         private void _specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
         {
@@ -216,11 +201,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                     OpenItem();
                     break;
             }
-        }
-
-        private void _specializedDataGridView_DoubleClick(object sender, EventArgs e)
-        {
-            OpenItem();
         }
 
         // Actions

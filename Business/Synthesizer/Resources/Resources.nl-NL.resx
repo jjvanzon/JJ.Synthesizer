@@ -150,9 +150,6 @@
   <data name="ListIndexes" xml:space="preserve">
     <value>Volgnummers</value>
   </data>
-  <data name="CannotDeleteBecauseHasReferences" xml:space="preserve">
-    <value>Het item kan niet worden verwijderd, omdat er nog verwijzingen naar bestaan.</value>
-  </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Kan het aantal ingangen niet aanpassen, omdat ingang {0} nog ingevuld is.</value>
     <comment>{0} = number</comment>
@@ -1004,5 +1001,9 @@
   </data>
   <data name="Hidden" xml:space="preserve">
     <value>Verbergen</value>
+  </data>
+  <data name="CannotHide_WithName_AndDependentItem" xml:space="preserve">
+    <value>Kan {0} niet verbergen, want het wordt nog gebruikt door het volgende: {1}.</value>
+    <comment>{0} = name, {1} = dependent item</comment>
   </data>
 </root>

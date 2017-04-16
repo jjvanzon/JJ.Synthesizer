@@ -1,6 +1,5 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
@@ -148,7 +147,9 @@ namespace JJ.Business.Synthesizer.Extensions
         /// <summary> Note that dependencies caused by library references (The DocumentReference entity) are not checked. </summary>
         public static IEnumerable<Operator> EnumerateDependentCustomOperators(this Patch patch, IPatchRepository patchRepository)
         {
+            // ReSharper disable once ImplicitlyCapturedClosure
             if (patch == null) throw new NullException(() => patch);
+            // ReSharper disable once ImplicitlyCapturedClosure
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
             // In case of no document, there are no dependent custom operators.

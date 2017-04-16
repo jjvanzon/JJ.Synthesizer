@@ -146,9 +146,6 @@
   <data name="ListIndexes" xml:space="preserve">
     <value>Numbers</value>
   </data>
-  <data name="CannotDeleteBecauseHasReferences" xml:space="preserve">
-    <value>Cannot delete item, because there are things still linking to it.</value>
-  </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Cannot change the amount of inlets, because inlet {0} is still filled in.</value>
     <comment>{0} = number</comment>
@@ -1002,5 +999,9 @@
   </data>
   <data name="Hidden" xml:space="preserve">
     <value>Hidden</value>
+  </data>
+  <data name="CannotHide_WithName_AndDependentItem" xml:space="preserve">
+    <value>Cannot hide {0}, because it is still used by the following: {1}.</value>
+    <comment>{0} = name, {1} = dependent item(s)</comment>
   </data>
 </root>

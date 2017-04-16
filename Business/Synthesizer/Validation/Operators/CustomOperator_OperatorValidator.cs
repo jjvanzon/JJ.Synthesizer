@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            bool isInList = op.Patch.Document.GetPatchesAndLowerDocumentPatches().Any(x => x.ID == underlyingPatch.ID);
+            bool isInList = op.Patch.Document.GetPatchesAndVisibleLowerDocumentPatches().Any(x => x.ID == underlyingPatch.ID);
             if (!isInList)
             {
                 ValidationMessages.AddNotInListMessage(PropertyNames.UnderlyingPatch, ResourceFormatter.UnderlyingPatch, underlyingPatch.ID);
