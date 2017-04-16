@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(_repositories);
-            IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_IncludingGroupless(document.Patches, userInput.Group);
+            IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, userInput.Group);
             IList<UsedInDto<Patch>> usedInDtos = _documentManager.GetUsedIn(patchesInGroup);
 
             // ToViewModel

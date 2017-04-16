@@ -1176,7 +1176,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchGridViewModel viewModel = ViewModelSelector.TryGetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
                 if (viewModel == null)
                 {
-                    IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_IncludingGroupless(document.Patches, group);
+                    IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, group);
                     IList<UsedInDto<Patch>> usedInDtos = _documentManager.GetUsedIn(patchesInGroup);
 
                     viewModel = usedInDtos.ToPatchGridViewModel(document.ID, group);

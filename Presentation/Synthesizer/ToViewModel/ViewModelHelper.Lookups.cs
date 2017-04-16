@@ -266,13 +266,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 string lowerDocumentReferenceAliasOrName = lowerDocumentReference.GetAliasOrName();
 
                 list.AddRange(
-                    from patch in patchManager.GetGrouplessPatches(lowerDocumentReference.LowerDocument.Patches)
+                    from patch in patchManager.GetGrouplessPatches(lowerDocumentReference.LowerDocument.Patches, hidden: false)
                     orderby patch.Name
                     let name = $"{patch.Name} | {lowerDocumentReferenceAliasOrName}"
                     select new IDAndName { ID = patch.ID, Name = name });
 
                 list.AddRange(
-                    from patchGroupDto in patchManager.GetPatchGroupDtos(lowerDocumentReference.LowerDocument.Patches)
+                    from patchGroupDto in patchManager.GetPatchGroupDtos(lowerDocumentReference.LowerDocument.Patches, hidden: false)
                     orderby patchGroupDto.GroupName
                     from patch in patchGroupDto.Patches
                     let name = $"{patch.Name} | {patchGroupDto.GroupName} | {lowerDocumentReferenceAliasOrName}"

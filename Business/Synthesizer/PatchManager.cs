@@ -4,7 +4,6 @@ using System.Linq;
 using GeneratedCSharp;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Data.Synthesizer;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -335,21 +334,21 @@ namespace JJ.Business.Synthesizer
 
         // Grouping
 
-        public IList<PatchGroupDto> GetPatchGroupDtos_IncludingGroupless(IList<Patch> patchesInDocument)
+        public IList<PatchGroupDto> GetPatchGroupDtos_IncludingGroupless(IList<Patch> patchesInDocument, bool? hidden = null)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
             var dtos = new List<PatchGroupDto>();
 
-            IList<Patch> grouplessPatches = GetGrouplessPatches(patchesInDocument);
+            IList<Patch> grouplessPatches = GetGrouplessPatches(patchesInDocument, hidden);
             dtos.Add(new PatchGroupDto { GroupName = null, Patches = grouplessPatches });
 
-            dtos.AddRange(GetPatchGroupDtos(patchesInDocument));
+            dtos.AddRange(GetPatchGroupDtos(patchesInDocument, hidden));
 
             return dtos;
         }
 
-        public IList<PatchGroupDto> GetPatchGroupDtos(IList<Patch> patchesInDocument)
+        public IList<PatchGroupDto> GetPatchGroupDtos(IList<Patch> patchesInDocument, bool? hidden = null)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
@@ -361,52 +360,55 @@ namespace JJ.Business.Synthesizer
 
             var dtos = new List<PatchGroupDto>();
 
-            IList<string> groupNames = GetPatchGroupNames(patchesInDocument);
+            IList<string> groupNames = GetPatchGroupNames(patchesInDocument, hidden);
 
             foreach (string groupName in groupNames)
             {
-                IList<Patch> patchesInGroup = GetPatchesInGroup(patchesInDocument, groupName);
+                IList<Patch> patchesInGroup = GetPatchesInGroup(patchesInDocument, groupName, hidden);
                 dtos.Add(new PatchGroupDto { GroupName = groupName, Patches = patchesInGroup });
             }
 
             return dtos;
         }
 
-        public IList<string> GetPatchGroupNames(IList<Patch> patchesInDocument)
+        public IList<string> GetPatchGroupNames(IList<Patch> patchesInDocument, bool? hidden = null)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
-            IList<string> groupNames = patchesInDocument.Where(x => NameHelper.IsFilledIn(x.GroupName))
+            IList<string> groupNames = patchesInDocument.Where(x => !hidden.HasValue || x.Hidden == hidden.Value)
+                                                        .Where(x => NameHelper.IsFilledIn(x.GroupName))
                                                         .Distinct(x => NameHelper.ToCanonical(x.GroupName))
                                                         .Select(x => x.GroupName)
                                                         .ToList();
             return groupNames;
         }
 
-        public IList<Patch> GetPatchesInGroup_IncludingGroupless(IList<Patch> patchesInDocument, string groupName)
+        public IList<Patch> GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(IList<Patch> patchesInDocument, string groupName, bool? hidden = null)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
             if (string.IsNullOrWhiteSpace(groupName))
             {
-                return GetGrouplessPatches(patchesInDocument);
+                return GetGrouplessPatches(patchesInDocument, hidden);
             }
             else
             {
-                return GetPatchesInGroup(patchesInDocument, groupName);
+                return GetPatchesInGroup(patchesInDocument, groupName, hidden);
             }
         }
 
-        public IList<Patch> GetGrouplessPatches(IList<Patch> patchesInDocument)
+        public IList<Patch> GetGrouplessPatches(IList<Patch> patchesInDocument, bool? hidden = null)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
-            IList<Patch> list = patchesInDocument.Where(x => string.IsNullOrWhiteSpace(x.GroupName)).ToArray();
+            IList<Patch> list = patchesInDocument.Where(x => !hidden.HasValue || x.Hidden == hidden.Value)
+                                                 .Where(x => string.IsNullOrWhiteSpace(x.GroupName))
+                                                 .ToArray();
 
             return list;
         }
 
-        public IList<Patch> GetPatchesInGroup(IList<Patch> patchesInDocument, string groupName)
+        public IList<Patch> GetPatchesInGroup(IList<Patch> patchesInDocument, string groupName, bool? hidden = null)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
             if (string.IsNullOrWhiteSpace(groupName)) throw new NullOrWhiteSpaceException(() => groupName);
@@ -414,7 +416,8 @@ namespace JJ.Business.Synthesizer
             string canonicalGroupName = NameHelper.ToCanonical(groupName);
 
             IList<Patch> patchesInGroup =
-                patchesInDocument.Where(x => NameHelper.IsFilledIn(x.GroupName))
+                patchesInDocument.Where(x => !hidden.HasValue || x.Hidden == hidden.Value)
+                                 .Where(x => NameHelper.IsFilledIn(x.GroupName))
                                  .Where(x => string.Equals(NameHelper.ToCanonical(x.GroupName), canonicalGroupName))
                                  .ToArray();
 

@@ -101,8 +101,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             // Business
             var patchManager = new PatchManager(repositories);
-            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches);
-            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos(document.Patches);
+            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, hidden: false);
+            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos(document.Patches, hidden: false);
 
             // ToViewModel
             viewModel.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
