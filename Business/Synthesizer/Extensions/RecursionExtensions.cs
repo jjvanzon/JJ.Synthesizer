@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 
@@ -161,25 +160,16 @@ namespace JJ.Business.Synthesizer.Extensions
             IEnumerable<Operator> enumerable =
                 patch.Document
                      .GetPatchesAndHigherDocumentPatches()
-                     .SelectMany(x => x.Operators)
-                     .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator &&
-                                 UnderlyingPatchIsMatch(patch, x, patchRepository));
+                     .SelectMany(x => x.EnumerateOperatorsOfType(OperatorTypeEnum.CustomOperator))
+                     .Select(x => new CustomOperator_OperatorWrapper(x, patchRepository))
+                     .Where(x => x.UnderlyingPatchID == patch.ID)
+                     .Select(x => x.WrappedOperator);
 
             return enumerable;
         }
 
-        private static bool UnderlyingPatchIsMatch([NotNull] Patch underlyingPatch, Operator customOperator, IPatchRepository patchRepository)
-        {
-            var wrapper = new CustomOperator_OperatorWrapper(customOperator, patchRepository);
-
-            return wrapper.UnderlyingPatch?.ID == underlyingPatch.ID;
-        }
-
         /// <summary> Should be same as patch.Operators, but in case of an invalid entity structure it might not be. </summary>
-        public static IList<Operator> GetOperatorsRecursive(this Patch patch)
-        {
-            return EnumerateOperatorsRecursive(patch).ToArray();
-        }
+        public static IList<Operator> GetOperatorsRecursive(this Patch patch) => EnumerateOperatorsRecursive(patch).ToArray();
 
         /// <summary>  Should be same as patch.Operators, but in case of an invalid entity structure it might not be. </summary>
         public static IEnumerable<Operator> EnumerateOperatorsRecursive(this Patch patch)

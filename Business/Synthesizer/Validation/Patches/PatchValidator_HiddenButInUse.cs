@@ -34,17 +34,15 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             {
                 string lowerPatchIdentifier = ResourceFormatter.Patch + " " + ValidationHelper.GetUserFriendlyIdentifier(lowerPatch);
 
-                IEnumerable<Operator> dependentExternalOperators =
-                    lowerPatch.Document
-                              .HigherDocumentReferences
-                              .SelectMany(x => x.HigherDocument.Patches)
-                              .SelectMany(x => x.EnumerateOperatorsOfType(OperatorTypeEnum.CustomOperator))
-                              .Select(x => new CustomOperator_OperatorWrapper(x, _patchRepository))
-                              .Where(x => x.UnderlyingPatchID == lowerPatch.ID)
-                              .Select(x => x.WrappedOperator);
-
-                foreach (Operator op in dependentExternalOperators)
+                IEnumerable<Operator> customOperators = lowerPatch.EnumerateDependentCustomOperators(_patchRepository);
+                foreach (Operator op in customOperators)
                 {
+                    bool isExternal = op.Patch.Document != lowerPatch.Document;
+                    if (!isExternal)
+                    {
+                        continue;
+                    }
+
                     Patch higherPatch = op.Patch;
                     string higherDocumentPrefix = ValidationHelper.TryGetHigherDocumentPrefix(lowerPatch, higherPatch);
                     string higherPatchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
