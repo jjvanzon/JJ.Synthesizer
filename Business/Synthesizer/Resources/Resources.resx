@@ -1000,4 +1000,7 @@
   <data name="SelectALibraryFirst" xml:space="preserve">
     <value>Select a library first.</value>
   </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
 </root>

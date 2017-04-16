@@ -113,6 +113,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string GroupName => Resources.GroupName;
         public static string Harmonic => Resources.Harmonic;
         public static string Hermite => Resources.Hermite;
+        public static string Hidden => Resources.Hidden;
         public static string High => Resources.High;
         public static string HigherDocument => Resources.HigherDocument;
         public static string HighPassFilter => Resources.HighPassFilter;

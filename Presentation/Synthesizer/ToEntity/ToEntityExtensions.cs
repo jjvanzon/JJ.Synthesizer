@@ -1034,6 +1034,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
             patch.Name = viewModel.Name;
             patch.GroupName = viewModel.Group;
+            patch.Hidden = viewModel.Hidden;
 
             return patch;
         }

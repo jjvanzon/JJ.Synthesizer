@@ -705,6 +705,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = patch.ID,
                 Name = patch.Name,
                 Group = patch.GroupName,
+                Hidden = patch.Hidden,
                 ValidationMessages = new List<Message>()
             };
 

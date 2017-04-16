@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             AddProperty(labelName, textBoxName);
             AddProperty(labelGroup, textBoxGroup);
+            AddProperty(labelHidden, checkBoxHidden);
             AddProperty(null, buttonAddToInstrument);
         }
 
@@ -27,6 +28,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Patch);
             labelName.Text = CommonResourceFormatter.Name;
             labelGroup.Text = ResourceFormatter.Group;
+            labelHidden.Text = ResourceFormatter.Hidden;
+            checkBoxHidden.Text = null;
             buttonAddToInstrument.Text = ResourceFormatter.AddToInstrument;
         }
 
@@ -44,12 +47,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             textBoxName.Text = ViewModel.Name;
             textBoxGroup.Text = ViewModel.Group;
+            checkBoxHidden.Checked = ViewModel.Hidden;
         }
 
         protected override void ApplyControlsToViewModel()
         {
             ViewModel.Name = textBoxName.Text;
             ViewModel.Group = textBoxGroup.Text;
+            ViewModel.Hidden = checkBoxHidden.Checked;
         }
 
         // Events

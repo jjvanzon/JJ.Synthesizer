@@ -1,0 +1,1 @@
+alter table Patch add Hidden bit null;

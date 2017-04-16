@@ -348,6 +348,8 @@
     <Content Include="2016-09-10 030 SynthesizerDB OperarorType rename MakeDiscrete to DimensionToOutlets.sql" />
     <Content Include="2016-09-10 020 SynthesizerDB OperarorType rename Resample to Interpolate.sql" />
     <Content Include="2016-09-10 010 SynthesizerDB OperatorType update Name of OperatorTypes OverInlets.sql" />
+    <Content Include="2017-04-14 020 SynthesizerDB Patch.Hidden not null.sql" />
+    <Content Include="2017-04-14 010 SynthesizerDB Patch.Hidden.sql" />
     <Content Include="2017-03-03 010 SynthesizerDB DocumentReference column renames.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -979,6 +979,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hidden.
+        /// </summary>
+        internal static string Hidden {
+            get {
+                return ResourceManager.GetString("Hidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to High.
         /// </summary>
         internal static string High {

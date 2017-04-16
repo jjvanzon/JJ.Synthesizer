@@ -11,6 +11,7 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
         public virtual string GroupName { get; set; }
+        public virtual bool Hidden { get; set; }
         public virtual IList<Operator> Operators { get; set; } = new List<Operator>();
 
         /// <summary> nullable </summary>

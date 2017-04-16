@@ -90,6 +90,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel = CreateViewModel(userInput);
 
                 // Non-Persisted
+                CopyNonPersistedProperties(userInput, viewModel);
                 viewModel.ValidationMessages.Add(new Message { PropertyKey = PropertyNames.LowerDocument, Text = ResourceFormatter.SelectALibraryFirst });
             }
             else
@@ -113,14 +114,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 // Non-Persisted
+                CopyNonPersistedProperties(userInput, viewModel);
                 viewModel.ValidationMessages.AddRange(result.Messages);
 
                 // Successful?
                 viewModel.Successful = result.Successful;
             }
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
 
             if (viewModel.Successful)
             {

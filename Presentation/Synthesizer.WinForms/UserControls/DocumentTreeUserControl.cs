@@ -191,6 +191,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                         {
                             Tag = patchViewModel.ID
                         };
+                        libraryPatchGroupTreeNode.Nodes.Add(patchTreeNode);
                         _libraryPatchTreeNodes.Add(patchTreeNode);
                     }
 
