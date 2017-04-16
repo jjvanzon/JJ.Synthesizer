@@ -1,5 +1,4 @@
-﻿using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Helpers
 {

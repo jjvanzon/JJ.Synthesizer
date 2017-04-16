@@ -1,6 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Data;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

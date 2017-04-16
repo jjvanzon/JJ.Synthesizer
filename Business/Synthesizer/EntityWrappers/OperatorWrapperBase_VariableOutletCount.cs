@@ -1,5 +1,4 @@
-﻿using JJ.Data.Synthesizer;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Canonical;
@@ -14,7 +13,6 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Documents;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Data.Canonical;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;

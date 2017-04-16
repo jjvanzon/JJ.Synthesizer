@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Logging;

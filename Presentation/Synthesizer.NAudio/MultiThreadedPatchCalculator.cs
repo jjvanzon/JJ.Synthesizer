@@ -6,7 +6,6 @@ using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Calculation;
 using System.Threading.Tasks;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;

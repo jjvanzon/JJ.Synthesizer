@@ -3,7 +3,6 @@ using NAudio.Wave;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using System.Threading;
 using JJ.Framework.Exceptions;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 

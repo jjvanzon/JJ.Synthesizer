@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Visitors

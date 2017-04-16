@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 

@@ -2,7 +2,6 @@
 using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Business.Synthesizer.Resources;

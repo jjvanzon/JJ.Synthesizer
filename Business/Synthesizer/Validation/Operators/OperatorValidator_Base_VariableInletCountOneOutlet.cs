@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
 using JJ.Data.Synthesizer.Entities;

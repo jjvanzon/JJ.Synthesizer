@@ -1,5 +1,4 @@
 ﻿using JJ.Framework.Exceptions;
-using JJ.Data.Synthesizer;
 using System;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;

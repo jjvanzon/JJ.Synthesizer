@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Data;
-using JJ.Data.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Framework.Testing;
 using JJ.Business.Synthesizer.Helpers;

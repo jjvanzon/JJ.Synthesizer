@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Api.Helpers;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Data.Synthesizer.Entities;
 

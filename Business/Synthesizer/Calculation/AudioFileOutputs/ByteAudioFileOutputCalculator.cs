@@ -1,5 +1,4 @@
-﻿using JJ.Data.Synthesizer;
-using System.IO;
+﻿using System.IO;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using System.Collections.Generic;
 using JJ.Data.Synthesizer.Entities;

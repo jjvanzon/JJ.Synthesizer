@@ -1,7 +1,4 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Exceptions;
-using JJ.Data.Synthesizer;
+﻿using JJ.Framework.Exceptions;
 using System.Linq;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;

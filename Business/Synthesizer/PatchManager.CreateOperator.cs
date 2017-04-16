@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Framework.Business;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Exceptions;

@@ -6,7 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Framework.Common;
 using JJ.Framework.Data;
 using JJ.Framework.IO;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Calculation.Patches;

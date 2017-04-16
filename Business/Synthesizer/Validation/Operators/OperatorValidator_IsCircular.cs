@@ -1,6 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Data.Synthesizer;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Enums;

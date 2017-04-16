@@ -1,6 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Validation;
-using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;

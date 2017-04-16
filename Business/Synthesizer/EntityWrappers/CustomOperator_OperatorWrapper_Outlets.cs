@@ -1,5 +1,4 @@
-﻿using JJ.Data.Synthesizer;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;

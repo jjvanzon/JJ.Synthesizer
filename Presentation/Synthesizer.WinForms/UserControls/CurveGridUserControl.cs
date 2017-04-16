@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.ViewModels;
+﻿using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using JJ.Framework.Presentation.Resources;

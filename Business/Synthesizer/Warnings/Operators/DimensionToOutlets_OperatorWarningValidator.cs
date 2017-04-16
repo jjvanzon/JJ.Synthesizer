@@ -2,7 +2,6 @@
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Validation;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 

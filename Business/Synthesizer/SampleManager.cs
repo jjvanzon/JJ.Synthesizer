@@ -16,7 +16,6 @@ using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Samples;
 using JJ.Data.Canonical;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;

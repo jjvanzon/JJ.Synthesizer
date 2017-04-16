@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;

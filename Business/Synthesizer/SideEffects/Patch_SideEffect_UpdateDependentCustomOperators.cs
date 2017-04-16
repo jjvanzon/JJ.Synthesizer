@@ -2,7 +2,6 @@
 using System.Linq;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Helpers;

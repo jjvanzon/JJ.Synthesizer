@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs

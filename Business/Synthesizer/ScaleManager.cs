@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -9,9 +8,7 @@ using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Data.Canonical;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;

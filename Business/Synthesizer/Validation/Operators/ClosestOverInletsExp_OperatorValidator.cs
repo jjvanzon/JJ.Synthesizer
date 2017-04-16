@@ -1,5 +1,4 @@
-﻿using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;

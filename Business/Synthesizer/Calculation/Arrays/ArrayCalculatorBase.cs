@@ -1,5 +1,4 @@
 ﻿using System;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays

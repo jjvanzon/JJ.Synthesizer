@@ -1,15 +1,10 @@
-﻿using System;
-using JJ.Business.Synthesizer.Extensions;
+﻿using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Data.Synthesizer;
 using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;

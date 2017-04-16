@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Data;
-using JJ.Data.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using JJ.Business.Synthesizer.Helpers;

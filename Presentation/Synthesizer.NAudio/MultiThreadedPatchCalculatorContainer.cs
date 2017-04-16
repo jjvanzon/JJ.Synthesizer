@@ -3,7 +3,6 @@ using System.Threading;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 

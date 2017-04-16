@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using JJ.Framework.Data;
 using JJ.Framework.Exceptions;
-using JJ.Data.Synthesizer;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;

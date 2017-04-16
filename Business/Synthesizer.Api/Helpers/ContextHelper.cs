@@ -1,5 +1,4 @@
-﻿using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Memory.Mappings;
 using JJ.Framework.Data;
 using JJ.Framework.Data.Memory;

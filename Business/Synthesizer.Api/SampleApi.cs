@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Business.Synthesizer.Calculation;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Api
