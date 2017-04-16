@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
@@ -7,6 +8,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -96,13 +98,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _patchesTreeNodes.Add(patchesTreeNode);
 
                 // Patches (Groupless)
-                foreach (IDAndName patchViewModel in documentTreeViewModel.PatchesNode.PatchNodes)
+                foreach (PatchTreeNodeViewModel patchTreeNodeViewModel in documentTreeViewModel.PatchesNode.PatchNodes)
                 {
-                    var patchTreeNode1 = new TreeNode(patchViewModel.Name)
-                    {
-                        Tag = patchViewModel.ID
-                    };
-                    TreeNode patchTreeNode = patchTreeNode1;
+                    TreeNode patchTreeNode = ConvertPatchNode(patchTreeNodeViewModel);
                     patchesTreeNode.Nodes.Add(patchTreeNode);
                     _patchTreeNodes.Add(patchTreeNode);
                 }
@@ -117,13 +115,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     patchesTreeNode.Nodes.Add(patchGroupTreeNode);
                     _patchesTreeNodes.Add(patchGroupTreeNode);
 
-                    foreach (IDAndName patchViewModel in patchGroupViewModel.PatchNodes)
+                    foreach (PatchTreeNodeViewModel patchTreeNodeViewModel in patchGroupViewModel.PatchNodes)
                     {
-                        var patchTreeNode1 = new TreeNode(patchViewModel.Name)
-                        {
-                            Tag = patchViewModel.ID
-                        };
-                        TreeNode patchTreeNode = patchTreeNode1;
+                        TreeNode patchTreeNode = ConvertPatchNode(patchTreeNodeViewModel);
                         patchGroupTreeNode.Nodes.Add(patchTreeNode);
                         _patchTreeNodes.Add(patchTreeNode);
                     }
@@ -166,12 +160,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _libraryTreeNodes.Add(libraryTreeNode);
 
                 // Patches (Groupless)
-                foreach (IDAndName libraryPatchViewModel in libraryViewModel.PatchNodes)
+                foreach (PatchTreeNodeViewModel libraryPatchTreeViewModel in libraryViewModel.PatchNodes)
                 {
-                    var libraryPatchTreeNode = new TreeNode(libraryPatchViewModel.Name)
-                    {
-                        Tag = libraryPatchViewModel.ID
-                    };
+                    TreeNode libraryPatchTreeNode = ConvertPatchNode(libraryPatchTreeViewModel);
                     libraryTreeNode.Nodes.Add(libraryPatchTreeNode);
                     _libraryPatchTreeNodes.Add(libraryPatchTreeNode);
                 }
@@ -185,14 +176,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     };
                     libraryTreeNode.Nodes.Add(libraryPatchGroupTreeNode);
 
-                    foreach (IDAndName patchViewModel in libraryPatchGroupViewModel.PatchNodes)
+                    foreach (PatchTreeNodeViewModel libraryPatchTreeNodeViewModel in libraryPatchGroupViewModel.PatchNodes)
                     {
-                        var patchTreeNode = new TreeNode(patchViewModel.Name)
-                        {
-                            Tag = patchViewModel.ID
-                        };
-                        libraryPatchGroupTreeNode.Nodes.Add(patchTreeNode);
-                        _libraryPatchTreeNodes.Add(patchTreeNode);
+                        TreeNode libraryPatchTreeNode = ConvertPatchNode(libraryPatchTreeNodeViewModel);
+                        libraryPatchGroupTreeNode.Nodes.Add(libraryPatchTreeNode);
+                        _libraryPatchTreeNodes.Add(libraryPatchTreeNode);
                     }
 
                     libraryPatchGroupTreeNode.Expand();
@@ -202,6 +190,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             _librariesTreeNode.Expand();
+        }
+
+        private TreeNode ConvertPatchNode(PatchTreeNodeViewModel patchViewModel)
+        {
+            var patchTreeNode = new TreeNode(patchViewModel.Name)
+            {
+                Tag = patchViewModel.ID
+            };
+
+            if (patchViewModel.HasLighterStyle)
+            {
+                patchTreeNode.ForeColor = StyleHelper.LightGray;
+            }
+
+            return patchTreeNode;
         }
 
         // Actions

@@ -9,6 +9,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Partials
         public string Caption { get; set; }
         /// <summary> not visible </summary>
         public string GroupName { get; set; }
-        public IList<IDAndName> PatchNodes { get; set; }
+        public IList<PatchTreeNodeViewModel> PatchNodes { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchesNode = new PatchesTreeNodeViewModel
                 {
                     Text = GetTreeNodeText(ResourceFormatter.Patches, count: 0),
-                    PatchNodes = new List<IDAndName>(),
+                    PatchNodes = new List<PatchTreeNodeViewModel>(),
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
                 },
                 CurvesNode = CreateTreeLeafViewModel(ResourceFormatter.Curves, count: 0),
@@ -80,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             // ToViewModel
             viewModel.PatchesNode.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
-                                                               .Select(x => x.ToIDAndName())
+                                                               .Select(x => ToTreeNodeViewModel(x))
                                                                .ToList();
 
             viewModel.PatchesNode.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.GroupName)
@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             // ToViewModel
             viewModel.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
-                                                   .Select(x => x.ToIDAndName())
+                                                   .Select(x => ToTreeNodeViewModel(x))
                                                    .ToList();
 
             viewModel.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.GroupName)
@@ -141,17 +141,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private PatchGroupTreeNodeViewModel ToTreeNodeViewModel([NotNull] PatchGroupDto patchGroupDto)
+        private PatchGroupTreeNodeViewModel ToTreeNodeViewModel(PatchGroupDto patchGroupDto)
         {
-            if (patchGroupDto == null) throw new NullException(() => patchGroupDto);
-
             var viewModel = new PatchGroupTreeNodeViewModel
             {
                 GroupName = patchGroupDto.GroupName,
                 Caption = GetTreeNodeText(patchGroupDto.GroupName, patchGroupDto.Patches.Count),
-                PatchNodes = patchGroupDto.Patches.OrderBy(x => x.Name)
-                                          .Select(x => x.ToIDAndName())
+                PatchNodes = patchGroupDto.Patches
+                                          .OrderBy(x => x.Name)
+                                          .Select(x => ToTreeNodeViewModel(x))
                                           .ToList()
+            };
+
+            return viewModel;
+        }
+
+        private PatchTreeNodeViewModel ToTreeNodeViewModel(Patch entity)
+        {
+            var viewModel = new PatchTreeNodeViewModel
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                HasLighterStyle = entity.Hidden
             };
 
             return viewModel;

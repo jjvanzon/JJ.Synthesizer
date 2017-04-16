@@ -127,6 +127,7 @@
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithInterpolation.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCache.cs" />
     <Compile Include="ViewModels\Items\TreeLeafViewModel.cs" />
+    <Compile Include="ViewModels\Partials\PatchTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchPropertiesViewModel.cs" />
     <Compile Include="ViewModels\PatchGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
