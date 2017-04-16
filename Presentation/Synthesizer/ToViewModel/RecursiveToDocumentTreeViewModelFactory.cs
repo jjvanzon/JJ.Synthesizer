@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             viewModel.LibrariesNode.List = document.LowerDocumentReferences
-                                                   .Select(x => ConvertToTreeNodeViewModelWithRelatedEntities(x, repositories))
+                                                   .Select(x => ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(x, repositories))
                                                    .OrderBy(x => x.Caption)
                                                    .ToList();
 
@@ -89,15 +89,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private LibraryTreeNodeViewModel ConvertToTreeNodeViewModelWithRelatedEntities(DocumentReference lowerDocumentReference, PatchRepositories repositories)
+        private LibraryTreeNodeViewModel ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(DocumentReference lowerDocumentReference, PatchRepositories repositories)
         {
             Document document = lowerDocumentReference.LowerDocument;
 
             var viewModel = new LibraryTreeNodeViewModel
             {
                 LowerDocumentReferenceID = lowerDocumentReference.ID,
-                Caption = lowerDocumentReference.GetAliasOrName(),
             };
+
+
 
             // Business
             var patchManager = new PatchManager(repositories);
@@ -112,6 +113,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.GroupName)
                                                       .Select(x => ToTreeNodeViewModel(x))
                                                       .ToList();
+
+            string aliasOrName = lowerDocumentReference.GetAliasOrName();
+            int visiblePatchCount = document.Patches.Where(x => !x.Hidden).Count();
+            viewModel.Caption = GetTreeNodeText(aliasOrName, visiblePatchCount);
 
             return viewModel;
         }
