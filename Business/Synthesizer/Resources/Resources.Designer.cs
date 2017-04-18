@@ -736,6 +736,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Document cannot reference itself..
+        /// </summary>
+        internal static string DocumentCannotReferenceItself {
+            get {
+                return ResourceManager.GetString("DocumentCannotReferenceItself", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Document &apos;{0}&apos; is dependent on document &apos;{1}&apos;..
         /// </summary>
         internal static string DocumentIsDependentOnDocument {
@@ -1195,6 +1204,33 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Libraries.
+        /// </summary>
+        internal static string Libraries {
+            get {
+                return ResourceManager.GetString("Libraries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Library.
+        /// </summary>
+        internal static string Library {
+            get {
+                return ResourceManager.GetString("Library", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Library {0} was already added..
+        /// </summary>
+        internal static string LibraryAlreadyAdded_WithName {
+            get {
+                return ResourceManager.GetString("LibraryAlreadyAdded_WithName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Line.
         /// </summary>
         internal static string Line {
@@ -1272,24 +1308,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Low {
             get {
                 return ResourceManager.GetString("Low", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Library.
-        /// </summary>
-        internal static string LowerDocument {
-            get {
-                return ResourceManager.GetString("LowerDocument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Libraries.
-        /// </summary>
-        internal static string LowerDocuments {
-            get {
-                return ResourceManager.GetString("LowerDocuments", resourceCulture);
             }
         }
         

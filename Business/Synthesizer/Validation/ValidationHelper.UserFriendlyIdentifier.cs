@@ -12,15 +12,16 @@ using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation
 {
+    /// <summary>
+    /// Identifiers in this case are user-friendly identifications of an entity.
+    /// They are used in places where the data might not be valid yet,
+    /// so contains fallbacks to other means of identification.
+    /// It can happen that the identification is non-unique.
+    /// But they attempt to be the clearest identification to the user.
+    /// Quotes are added around names, so are already part of the identifier.
+    /// </summary>
     internal static partial class ValidationHelper
     {
-        // Identifiers in this case are user-friendly identifications of an entity.
-        // They are used in places where the data might not be valid yet,
-        // so contains fallbacks to other means of identification.
-        // It can happen that the identification is non-unique.
-        // But they attempt to be the clearest identification to the user.
-        // Quotes are added around names, so are already part of the identifier.
-
         [NotNull]
         public static string GetUserFriendlyIdentifier([NotNull] AudioFileOutput entity)
         {

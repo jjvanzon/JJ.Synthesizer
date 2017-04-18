@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             InitializeComponent();
 
-            Title = ResourceFormatter.LowerDocuments;
+            Title = ResourceFormatter.Libraries;
             IDPropertyName = nameof(LibraryListItemViewModel.DocumentReferenceID);
             ColumnTitlesVisible = true;
         }

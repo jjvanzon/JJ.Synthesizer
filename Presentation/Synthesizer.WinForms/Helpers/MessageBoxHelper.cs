@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 
             parentForm.BeginInvoke(new Action(() =>
             {
-                string message = CommonResourceFormatter.AreYouSureYouWishToDelete_WithTypeName_AndName(ResourceFormatter.Document, viewModel.Document.Name);
+                string message = CommonResourceFormatter.AreYouSureYouWishToDelete_WithType_AndName(ResourceFormatter.Document, viewModel.Document.Name);
 
                 DialogResult dialogResult = MessageBox.Show(message, ResourceFormatter.ApplicationName, MessageBoxButtons.YesNo);
                 switch (dialogResult)

@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Patch);
             labelNameTitle.Text = CommonResourceFormatter.Name + ":";
             labelGroupTitle.Text = ResourceFormatter.Group + ":";
-            labelLibraryNameTitle.Text = ResourceFormatter.LowerDocument + ":";
+            labelLibraryNameTitle.Text = ResourceFormatter.Library + ":";
             buttonAddToInstrument.Text = ResourceFormatter.AddToInstrument;
         }
 

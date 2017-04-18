@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Canonical;
@@ -8,14 +9,17 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Validation.DocumentReferences;
 using JJ.Business.Synthesizer.Validation.Documents;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
@@ -58,16 +62,33 @@ namespace JJ.Business.Synthesizer
         }
 
         [NotNull]
-        public Result<DocumentReference> CreateDocumentReference([NotNull] Document higherDocument, [CanBeNull] Document lowerDocument = null)
+        public Result<DocumentReference> CreateDocumentReference([NotNull] Document higherDocument, [NotNull] Document lowerDocument)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
+            if (lowerDocument == null) throw new ArgumentNullException(nameof(lowerDocument));
 
             DocumentReference documentReference = _repositories.DocumentReferenceRepository.Create();
             documentReference.ID = _repositories.IDRepository.GetID();
             documentReference.LinkToHigherDocument(higherDocument);
             documentReference.LinkToLowerDocument(lowerDocument);
 
-            return new Result<DocumentReference> { Data = documentReference, Successful = true, Messages = new List<Message>() };
+            var result = new Result<DocumentReference>
+            {
+                Successful = true,
+                Messages = new List<Message>(),
+                Data = documentReference
+            };
+
+            var validators = new IValidator[]
+            {
+                new DocumentReferenceValidator_Basic(documentReference),
+                new DocumentReferenceValidator_DoesNotReferenceItself(documentReference),
+                new DocumentReferenceValidator_IsUnique(documentReference)
+            };
+
+            validators.ToResult(result);
+
+            return result;
         }
 
         // Save
@@ -88,7 +109,7 @@ namespace JJ.Business.Synthesizer
 
         public VoidResult SaveDocumentReference([NotNull] DocumentReference documentReference)
         {
-            IValidator validator = new DocumentReferenceValidator(documentReference);
+            IValidator validator = new DocumentReferenceValidator_Basic(documentReference);
 
             return validator.ToResult();
         }

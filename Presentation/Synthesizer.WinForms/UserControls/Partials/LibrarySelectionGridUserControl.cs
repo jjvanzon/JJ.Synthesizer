@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public LibrarySelectionGridUserControl()
         {
-            Title = CommonResourceFormatter.Select_WithName(ResourceFormatter.LowerDocument);
+            Title = CommonResourceFormatter.Select_WithName(ResourceFormatter.Library);
             IDPropertyName = nameof(IDAndName.ID);
             ColumnTitlesVisible = true;
             AddButtonVisible = false;

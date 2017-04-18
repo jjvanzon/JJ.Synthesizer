@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         [NotNull] public static string GetMessagePrefix_ForLowerDocumentReference([NotNull] DocumentReference lowerDocumentReference)
         {
-            return GetMessagePrefix(ResourceFormatter.LowerDocument, GetUserFriendlyIdentifier_ForLowerDocumentReference(lowerDocumentReference));
+            return GetMessagePrefix(ResourceFormatter.Library, GetUserFriendlyIdentifier_ForLowerDocumentReference(lowerDocumentReference));
         }
 
         [NotNull]

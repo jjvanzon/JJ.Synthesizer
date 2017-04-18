@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void SetTitles()
         {
-            TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.LowerDocument);
+            TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Library);
             labelNameTitle.Text = CommonResourceFormatter.Name;
             labelAlias.Text = ResourceFormatter.Alias;
         }

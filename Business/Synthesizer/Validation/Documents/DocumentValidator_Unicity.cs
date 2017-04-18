@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -20,6 +21,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             ValidatePatchNamesUnique();
             ValidateSampleNamesUnique();
             ValidateScaleNamesUnique();
+            ValidateDocumentReferencesUnique();
         }
 
         private void ValidateAudioFileOutputNamesUnique()
@@ -71,6 +73,19 @@ namespace JJ.Business.Synthesizer.Validation.Documents
                 string messagePrefix = ResourceFormatter.Scales + ": ";
                 string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
                 ValidationMessages.Add(PropertyNames.Scales, messagePrefix + message);
+            }
+        }
+
+        private void ValidateDocumentReferencesUnique()
+        {
+            IList<DocumentReference> duplicates = ValidationHelper.GetDuplicateDocumentReferences(Obj);
+
+            // ReSharper disable once InvertIf
+            if (duplicates.Count > 0)
+            {
+                IList<string> duplicateIdentifiers = duplicates.Select(x => ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(x)).ToArray();
+                string message = ValidationResourceFormatter.NotUniquePlural(ResourceFormatter.Libraries, duplicateIdentifiers);
+                ValidationMessages.Add(PropertyNames.Scales, message);
             }
         }
     }

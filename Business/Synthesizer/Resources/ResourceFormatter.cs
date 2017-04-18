@@ -87,6 +87,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string DimensionToOutlets => Resources.DimensionToOutlets;
         public static string Divide => Resources.Divide;
         public static string Document => Resources.Document;
+        public static string DocumentCannotReferenceItself => Resources.DocumentCannotReferenceItself;
         public static string DocumentList => Resources.DocumentList;
         public static string DocumentName => Resources.DocumentName;
         public static string Documents => Resources.Documents;
@@ -134,6 +135,9 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Left => Resources.Left;
         public static string LessThan => Resources.LessThan;
         public static string LessThanOrEqual => Resources.LessThanOrEqual;
+        public static string Library => Resources.Library;
+        public static string LibraryAlreadyAdded_WithName(string name) => string.Format(Resources.LibraryAlreadyAdded_WithName, name);
+        public static string Libraries => Resources.Libraries;
         public static string Line => Resources.Line;
         public static string ListIndex => Resources.ListIndex;
         public static string ListIndexes => Resources.ListIndexes;
@@ -143,8 +147,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string LoopEndMarker => Resources.LoopEndMarker;
         public static string LoopStartMarker => Resources.LoopStartMarker;
         public static string Low => Resources.Low;
-        public static string LowerDocument => Resources.LowerDocument;
-        public static string LowerDocuments => Resources.LowerDocuments;
         public static string LowPassFilter => Resources.LowPassFilter;
         public static string LowShelfFilter => Resources.LowShelfFilter;
         public static string Max => Resources.Max;

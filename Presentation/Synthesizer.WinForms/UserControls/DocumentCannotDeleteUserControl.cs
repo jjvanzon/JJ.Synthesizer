@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            labelCannotDeleteObject.Text = CommonResourceFormatter.CannotDelete_WithTypeName_AndName(ResourceFormatter.Document, ViewModel.Document.Name);
+            labelCannotDeleteObject.Text = CommonResourceFormatter.CannotDelete_WithType_AndName(ResourceFormatter.Document, ViewModel.Document.Name);
 
             string formattedMessages = MessageHelper.FormatMessages(ViewModel.ValidationMessages);
             labelMessageList.Text = formattedMessages;

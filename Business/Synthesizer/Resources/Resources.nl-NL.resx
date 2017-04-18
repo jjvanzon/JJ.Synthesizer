@@ -516,10 +516,10 @@
   <data name="Low" xml:space="preserve">
     <value>Laag</value>
   </data>
-  <data name="LowerDocument" xml:space="preserve">
+  <data name="Library" xml:space="preserve">
     <value>Bibliotheek</value>
   </data>
-  <data name="LowerDocuments" xml:space="preserve">
+  <data name="Libraries" xml:space="preserve">
     <value>Bibliotheken</value>
   </data>
   <data name="LowPassFilter" xml:space="preserve">
@@ -1005,5 +1005,11 @@
   <data name="CannotHide_WithName_AndDependentItem" xml:space="preserve">
     <value>Kan {0} niet verbergen, want het wordt nog gebruikt door het volgende: {1}.</value>
     <comment>{0} = name, {1} = dependent item</comment>
+  </data>
+  <data name="DocumentCannotReferenceItself" xml:space="preserve">
+    <value>Document kan niet naar zichzelf wijzen.</value>
+  </data>
+  <data name="LibraryAlreadyAdded_WithName" xml:space="preserve">
+    <value>Bibliotheek {0} was al toegevoegd.</value>
   </data>
 </root>

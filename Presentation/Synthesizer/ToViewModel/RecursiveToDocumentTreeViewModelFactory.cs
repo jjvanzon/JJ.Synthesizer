@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 },
                 LibrariesNode = new LibrariesTreeNodeViewModel
                 {
-                    Text = GetTreeNodeText(ResourceFormatter.LowerDocuments, document.LowerDocumentReferences.Count),
+                    Text = GetTreeNodeText(ResourceFormatter.Libraries, document.LowerDocumentReferences.Count),
                     List = new List<LibraryTreeNodeViewModel>()
                 }
             };

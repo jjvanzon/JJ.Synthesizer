@@ -4,6 +4,7 @@ using JJ.Framework.Validation;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Business.Synthesizer.Validation.Curves;
+using JJ.Business.Synthesizer.Validation.DocumentReferences;
 using JJ.Business.Synthesizer.Validation.Patches;
 using JJ.Business.Synthesizer.Validation.Samples;
 using JJ.Data.Synthesizer.Entities;
@@ -46,6 +47,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
             ExecuteValidator(new DocumentValidator_Basic(document));
             ExecuteValidator(new DocumentValidator_Unicity(document));
+            ExecuteValidator(new DocumentValidator_DoesNotReferenceItself(document));
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {
@@ -98,7 +100,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             foreach (DocumentReference lowerDocumentReference in document.LowerDocumentReferences)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix_ForLowerDocumentReference(lowerDocumentReference);
-                ExecuteValidator(new DocumentReferenceValidator(lowerDocumentReference), messagePrefix);
+                ExecuteValidator(new DocumentReferenceValidator_Basic(lowerDocumentReference), messagePrefix);
             }
         }
     }

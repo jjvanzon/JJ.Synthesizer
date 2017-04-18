@@ -2,11 +2,11 @@
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
-    internal class DocumentReferenceValidator : VersatileValidator<DocumentReference>
+    internal class DocumentReferenceValidator_Basic : VersatileValidator<DocumentReference>
     {
-        public DocumentReferenceValidator(DocumentReference obj) 
+        public DocumentReferenceValidator_Basic(DocumentReference obj) 
             : base(obj)
         { }
 
@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
             ExecuteValidator(new NameValidator(documentReference.Alias, ResourceFormatter.Alias, required: false));
 
             For(() => documentReference.HigherDocument, ResourceFormatter.HigherDocument).NotNull();
-            For(() => documentReference.LowerDocument, ResourceFormatter.LowerDocument).NotNull();
+            For(() => documentReference.LowerDocument, ResourceFormatter.Library).NotNull();
         }
     }
 }

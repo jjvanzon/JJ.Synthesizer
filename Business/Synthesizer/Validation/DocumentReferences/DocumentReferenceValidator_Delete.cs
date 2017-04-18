@@ -11,7 +11,7 @@ using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
     internal class DocumentReferenceValidator_Delete : VersatileValidator<DocumentReference>
     {
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             DocumentReference documentReference = Obj;
 
-            string documentReferenceIdentifier = ResourceFormatter.LowerDocument + " " + ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(documentReference);
+            string documentReferenceIdentifier = ResourceFormatter.Library + " " + ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(documentReference);
 
             HashSet<int> lowerPatchIDHashSet = documentReference.LowerDocument.Patches.Select(x => x.ID).ToHashSet();
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -36,6 +37,48 @@ namespace JJ.Business.Synthesizer.Validation
             IList<string> duplicateNames = GetDuplicateNames(document.AudioFileOutputs.Select(x => x.Name));
 
             return duplicateNames;
+        }
+
+        // DocumentReference
+
+        public static bool DocumentReferenceIsUnique(DocumentReference documentReference)
+        {
+            if (documentReference == null) throw new NullException(() => documentReference);
+
+            if (documentReference.HigherDocument == null)
+            {
+                return true;
+            }
+
+            bool isUnique = DocumentReferenceIsUnique(documentReference.HigherDocument, documentReference.LowerDocument);
+
+            return isUnique;
+        }
+
+        public static bool DocumentReferenceIsUnique(Document higherDocument, [CanBeNull] Document lowerDocument)
+        {
+            if (higherDocument == null) throw new NullException(() => higherDocument);
+
+            int count = higherDocument.LowerDocumentReferences
+                                      .Where(x => x.LowerDocument?.ID == lowerDocument?.ID)
+                                      .Take(2)
+                                      .Count();
+
+            bool isUnique = count <= 1;
+
+            return isUnique;
+        }
+
+        public static IList<DocumentReference> GetDuplicateDocumentReferences(Document higherDocument)
+        {
+            if (higherDocument == null) throw new NullException(() => higherDocument);
+
+            IList<DocumentReference> duplicates = higherDocument.LowerDocumentReferences
+                                                                .GroupBy(x => x.LowerDocument)
+                                                                .Where(x => x.Count() > 1)
+                                                                .Select(x => x.First())
+                                                                .ToArray();
+            return duplicates;
         }
 
         // Operator
@@ -182,6 +225,8 @@ namespace JJ.Business.Synthesizer.Validation
 
             return duplicateNames;
         }
+
+        // General
 
         private static IList<string> GetDuplicateNames(IEnumerable<string> nameEnumerable)
         {
