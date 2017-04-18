@@ -1,4 +1,8 @@
-﻿using JJ.Data.Synthesizer.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Extensions
@@ -16,6 +20,15 @@ namespace JJ.Business.Synthesizer.Extensions
             }
 
             return lowerDocumentReference.LowerDocument?.Name;
+        }
+
+        public static IList<string> GetFilledInAliases([NotNull] this IEnumerable<DocumentReference> documentReferences)
+        {
+            if (documentReferences == null) throw new NullException(() => documentReferences);
+
+            IList<string> aliases = documentReferences.Select(x => x.Alias).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+
+            return aliases;
         }
     }
 }

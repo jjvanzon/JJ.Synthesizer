@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         // DocumentReference
 
-        public static bool DocumentReferenceIsUnique(DocumentReference documentReference)
+        public static bool DocumentReference_LowerDocument_IsUnique(DocumentReference documentReference)
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
@@ -50,12 +50,12 @@ namespace JJ.Business.Synthesizer.Validation
                 return true;
             }
 
-            bool isUnique = DocumentReferenceIsUnique(documentReference.HigherDocument, documentReference.LowerDocument);
+            bool isUnique = DocumentReference_LowerDocument_IsUnique(documentReference.HigherDocument, documentReference.LowerDocument);
 
             return isUnique;
         }
 
-        public static bool DocumentReferenceIsUnique(Document higherDocument, [CanBeNull] Document lowerDocument)
+        public static bool DocumentReference_LowerDocument_IsUnique(Document higherDocument, [CanBeNull] Document lowerDocument)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
 
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Validation
             return isUnique;
         }
 
-        public static IList<DocumentReference> GetDuplicateDocumentReferences(Document higherDocument)
+        public static IList<DocumentReference> GetDuplicateLowerDocumentReferences(Document higherDocument)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
 
@@ -79,6 +79,38 @@ namespace JJ.Business.Synthesizer.Validation
                                                                 .Select(x => x.First())
                                                                 .ToArray();
             return duplicates;
+        }
+
+        public static bool DocumentReferenceAliasIsUnique(DocumentReference documentReference)
+        {
+            if (documentReference == null) throw new NullException(() => documentReference);
+
+            if (documentReference.HigherDocument == null)
+            {
+                return true;
+            }
+
+            bool isUnique = DocumentReferenceAliasIsUnique(documentReference.HigherDocument, documentReference.Alias);
+
+            return isUnique;
+        }
+
+        public static bool DocumentReferenceAliasIsUnique(Document document, string alias)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            bool isUnique = NameIsUnique(document.LowerDocumentReferences.GetFilledInAliases(), alias);
+
+            return isUnique;
+        }
+
+        public static IList<string> GetDuplicateLowerDocumentReferenceAliases(Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            IList<string> duplicateAliases = GetDuplicateNames(document.LowerDocumentReferences.GetFilledInAliases());
+
+            return duplicateAliases;
         }
 
         // Operator

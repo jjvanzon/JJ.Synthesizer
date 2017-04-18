@@ -339,7 +339,8 @@
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Basic.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Delete.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_DoesNotReferenceItself.cs" />
-    <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_IsUnique.cs" />
+    <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_UniqueAlias.cs" />
+    <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_UniqueLowerDocument.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_DoesNotReferenceItself.cs" />
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />

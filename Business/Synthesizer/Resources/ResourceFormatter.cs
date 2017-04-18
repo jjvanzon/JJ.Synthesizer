@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Add => Resources.Add;
         public static string AddToInstrument => Resources.AddToInstrument;
         public static string Alias => Resources.Alias;
+        public static string Aliases => Resources.Aliases;
         public static string AllPassFilter => Resources.AllPassFilter;
         public static string Amplifier => Resources.Amplifier;
         public static string And => Resources.And;

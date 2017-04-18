@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             ValidateSampleNamesUnique();
             ValidateScaleNamesUnique();
             ValidateDocumentReferencesUnique();
+            ValidateDocumentReferenceAliasesUnique();
         }
 
         private void ValidateAudioFileOutputNamesUnique()
@@ -59,7 +60,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             {
                 string messagePrefix = ResourceFormatter.Samples + ": ";
                 string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
-                ValidationMessages.Add(PropertyNames.Samples, messagePrefix + message);
+                ValidationMessages.Add(nameof(Document.Samples), messagePrefix + message);
             }
         }
 
@@ -72,20 +73,33 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             {
                 string messagePrefix = ResourceFormatter.Scales + ": ";
                 string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
-                ValidationMessages.Add(PropertyNames.Scales, messagePrefix + message);
+                ValidationMessages.Add(nameof(Document.Scales), messagePrefix + message);
             }
         }
 
         private void ValidateDocumentReferencesUnique()
         {
-            IList<DocumentReference> duplicates = ValidationHelper.GetDuplicateDocumentReferences(Obj);
+            IList<DocumentReference> duplicates = ValidationHelper.GetDuplicateLowerDocumentReferences(Obj);
 
             // ReSharper disable once InvertIf
             if (duplicates.Count > 0)
             {
                 IList<string> duplicateIdentifiers = duplicates.Select(x => ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(x)).ToArray();
                 string message = ValidationResourceFormatter.NotUniquePlural(ResourceFormatter.Libraries, duplicateIdentifiers);
-                ValidationMessages.Add(PropertyNames.Scales, message);
+                ValidationMessages.Add(nameof(Document.LowerDocumentReferences), message);
+            }
+        }
+
+        private void ValidateDocumentReferenceAliasesUnique()
+        {
+            IList<string> duplicates = ValidationHelper.GetDuplicateLowerDocumentReferenceAliases(Obj);
+
+            // ReSharper disable once InvertIf
+            if (duplicates.Count > 0)
+            {
+                string messagePrefix = ResourceFormatter.Libraries + ": ";
+                string message = ValidationResourceFormatter.NotUniquePlural(ResourceFormatter.Aliases, duplicates);
+                ValidationMessages.Add(nameof(Document.LowerDocumentReferences), messagePrefix + message);
             }
         }
     }

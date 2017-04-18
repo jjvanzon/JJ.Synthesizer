@@ -5,15 +5,15 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
-    internal class DocumentReferenceValidator_IsUnique : VersatileValidator<DocumentReference>
+    internal class DocumentReferenceValidator_UniqueLowerDocument : VersatileValidator<DocumentReference>
     {
-        public DocumentReferenceValidator_IsUnique([NotNull] DocumentReference obj) 
+        public DocumentReferenceValidator_UniqueLowerDocument([NotNull] DocumentReference obj) 
             : base(obj)
         { }
 
         protected override void Execute()
         {
-            bool isUnique = ValidationHelper.DocumentReferenceIsUnique(Obj);
+            bool isUnique = ValidationHelper.DocumentReference_LowerDocument_IsUnique(Obj);
 
             // ReSharper disable once InvertIf
             if (!isUnique)

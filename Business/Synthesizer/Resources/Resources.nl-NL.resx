@@ -1012,4 +1012,7 @@
   <data name="LibraryAlreadyAdded_WithName" xml:space="preserve">
     <value>Bibliotheek {0} was al toegevoegd.</value>
   </data>
+  <data name="Aliases" xml:space="preserve">
+    <value>Vervangende namen</value>
+  </data>
 </root>

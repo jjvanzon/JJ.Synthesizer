@@ -83,7 +83,8 @@ namespace JJ.Business.Synthesizer
             {
                 new DocumentReferenceValidator_Basic(documentReference),
                 new DocumentReferenceValidator_DoesNotReferenceItself(documentReference),
-                new DocumentReferenceValidator_IsUnique(documentReference)
+                new DocumentReferenceValidator_UniqueLowerDocument(documentReference),
+                new DocumentReferenceValidator_UniqueAlias(documentReference)
             };
 
             validators.ToResult(result);
