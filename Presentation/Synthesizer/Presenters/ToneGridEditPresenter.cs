@@ -18,9 +18,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public ToneGridEditPresenter(ScaleRepositories repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _repositories = repositories;
+            _repositories = repositories ?? throw new NullException(() => repositories);
             _scaleManager = new ScaleManager(_repositories);
         }
 

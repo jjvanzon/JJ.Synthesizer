@@ -19,22 +19,22 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Input
         {
-            get { return Inlet.InputOutlet; }
-            set { Inlet.LinkTo(value); }
+            get => Inlet.InputOutlet;
+            set => Inlet.LinkTo(value);
         }
 
         public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
 
         public int? ListIndex
         {
-            get { return DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value); }
+            get => DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value);
         }
 
         public Dimension Dimension
         {
-            get { return Result.Dimension; }
-            set { Result.LinkTo(value); }
+            get => Result.Dimension;
+            set => Result.LinkTo(value);
         }
 
         public DimensionEnum DimensionEnum => Result.GetDimensionEnum();

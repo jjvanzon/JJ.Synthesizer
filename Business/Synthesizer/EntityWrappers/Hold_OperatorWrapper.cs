@@ -16,8 +16,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return SignalInlet.InputOutlet; }
-            set { SignalInlet.LinkTo(value); }
+            get => SignalInlet.InputOutlet;
+            set => SignalInlet.LinkTo(value);
         }
 
         public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);

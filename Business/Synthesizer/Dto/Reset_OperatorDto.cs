@@ -13,8 +13,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { PassThroughInputOperatorDto }; }
-            set { PassThroughInputOperatorDto = value[0]; }
+            get => new[] { PassThroughInputOperatorDto };
+            set => PassThroughInputOperatorDto = value[0];
         }
     }
 }

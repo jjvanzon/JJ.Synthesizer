@@ -20,8 +20,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Input
         {
-            get { return Inlet.InputOutlet; }
-            set { Inlet.LinkTo(value); }
+            get => Inlet.InputOutlet;
+            set => Inlet.LinkTo(value);
         }
 
         [NotNull]
@@ -29,14 +29,14 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? ListIndex
         {
-            get { return DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value); }
+            get => DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value);
         }
 
         public Dimension Dimension
         {
-            get { return Inlet.Dimension; }
-            set { Inlet.LinkTo(value); }
+            get => Inlet.Dimension;
+            set => Inlet.LinkTo(value);
         }
 
         public DimensionEnum DimensionEnum => Inlet.GetDimensionEnum();
@@ -44,8 +44,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public double? DefaultValue
         {
-            get { return Inlet.DefaultValue; }
-            set { Inlet.DefaultValue = value; }
+            get => Inlet.DefaultValue;
+            set => Inlet.DefaultValue = value;
         }
 
         public override string GetInletDisplayName(int listIndex)

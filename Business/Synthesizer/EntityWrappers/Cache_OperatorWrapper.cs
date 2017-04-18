@@ -16,46 +16,46 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return SignalInlet.InputOutlet; }
-            set { SignalInlet.LinkTo(value); }
+            get => SignalInlet.InputOutlet;
+            set => SignalInlet.LinkTo(value);
         }
 
         public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SIGNAL_INDEX);
 
         public Outlet Start
         {
-            get { return StartInlet.InputOutlet; }
-            set { StartInlet.LinkTo(value); }
+            get => StartInlet.InputOutlet;
+            set => StartInlet.LinkTo(value);
         }
 
         public Inlet StartInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_START_INDEX);
 
         public Outlet End
         {
-            get { return EndInlet.InputOutlet; }
-            set { EndInlet.LinkTo(value); }
+            get => EndInlet.InputOutlet;
+            set => EndInlet.LinkTo(value);
         }
 
         public Inlet EndInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_END_INDEX);
 
         public Outlet SamplingRate
         {
-            get { return SamplingRateInlet.InputOutlet; }
-            set { SamplingRateInlet.LinkTo(value); }
+            get => SamplingRateInlet.InputOutlet;
+            set => SamplingRateInlet.LinkTo(value);
         }
 
         public Inlet SamplingRateInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SAMPLING_RATE_INDEX);
 
         public InterpolationTypeEnum InterpolationType
         {
-            get { return DataPropertyParser.GetEnum<InterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value); }
+            get => DataPropertyParser.GetEnum<InterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value);
         }
 
         public SpeakerSetupEnum SpeakerSetup
         {
-            get { return DataPropertyParser.GetEnum<SpeakerSetupEnum>(WrappedOperator, PropertyNames.SpeakerSetup); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.SpeakerSetup, value); }
+            get => DataPropertyParser.GetEnum<SpeakerSetupEnum>(WrappedOperator, PropertyNames.SpeakerSetup);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.SpeakerSetup, value);
         }
 
         public int GetChannelCount(ISpeakerSetupRepository speakerSetupRepository)

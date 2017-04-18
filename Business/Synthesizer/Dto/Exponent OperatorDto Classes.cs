@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { LowOperatorDto, HighOperatorDto, RatioOperatorDto }; }
+            get => new[] { LowOperatorDto, HighOperatorDto, RatioOperatorDto };
             set { LowOperatorDto = value[0]; HighOperatorDto = value[1]; RatioOperatorDto = value[2]; }
         }
     }
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { LowOperatorDto, HighOperatorDto }; }
+            get => new[] { LowOperatorDto, HighOperatorDto };
             set { LowOperatorDto = value[0]; HighOperatorDto = value[1]; }
         }
     }
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { LowOperatorDto, RatioOperatorDto }; }
+            get => new[] { LowOperatorDto, RatioOperatorDto };
             set { LowOperatorDto = value[0]; RatioOperatorDto = value[1]; }
         }
     }
@@ -61,8 +61,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { LowOperatorDto }; }
-            set { LowOperatorDto = value[0]; }
+            get => new[] { LowOperatorDto };
+            set => LowOperatorDto = value[0];
         }
     }
 
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { HighOperatorDto, RatioOperatorDto }; }
+            get => new[] { HighOperatorDto, RatioOperatorDto };
             set { HighOperatorDto = value[0]; RatioOperatorDto = value[1]; }
         }
     }
@@ -91,8 +91,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { HighOperatorDto }; }
-            set { HighOperatorDto = value[0]; }
+            get => new[] { HighOperatorDto };
+            set => HighOperatorDto = value[0];
         }
     }
 
@@ -106,8 +106,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { RatioOperatorDto }; }
-            set { RatioOperatorDto = value[0]; }
+            get => new[] { RatioOperatorDto };
+            set => RatioOperatorDto = value[0];
         }
     }
 

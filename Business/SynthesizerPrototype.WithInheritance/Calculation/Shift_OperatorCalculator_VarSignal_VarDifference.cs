@@ -15,13 +15,9 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
             OperatorCalculatorBase distanceCalculator,
             DimensionStack dimensionStack)
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (distanceCalculator == null) throw new NullException(() => distanceCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
-
-            _signalCalculator = signalCalculator;
-            _distanceCalculator = distanceCalculator;
-            _dimensionStack = dimensionStack;
+            _signalCalculator = signalCalculator ?? throw new NullException(() => signalCalculator);
+            _distanceCalculator = distanceCalculator ?? throw new NullException(() => distanceCalculator);
+            _dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

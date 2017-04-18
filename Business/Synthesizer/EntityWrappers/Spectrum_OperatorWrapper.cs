@@ -14,32 +14,32 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return SignalInlet.InputOutlet; }
-            set { SignalInlet.LinkTo(value); }
+            get => SignalInlet.InputOutlet;
+            set => SignalInlet.LinkTo(value);
         }
 
         public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_SIGNAL_INDEX);
 
         public Outlet Start
         {
-            get { return StartInlet.InputOutlet; }
-            set { StartInlet.LinkTo(value); }
+            get => StartInlet.InputOutlet;
+            set => StartInlet.LinkTo(value);
         }
 
         public Inlet StartInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_START_INDEX);
 
         public Outlet End
         {
-            get { return EndInlet.InputOutlet; }
-            set { EndInlet.LinkTo(value); }
+            get => EndInlet.InputOutlet;
+            set => EndInlet.LinkTo(value);
         }
 
         public Inlet EndInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_END_INDEX);
 
         public Outlet FrequencyCount
         {
-            get { return FrequencyCountInlet.InputOutlet; }
-            set { FrequencyCountInlet.LinkTo(value); }
+            get => FrequencyCountInlet.InputOutlet;
+            set => FrequencyCountInlet.LinkTo(value);
         }
 
         public Inlet FrequencyCountInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.SPECTRUM_FREQUENCY_COUNT_INDEX);

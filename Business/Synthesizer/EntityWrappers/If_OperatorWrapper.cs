@@ -18,24 +18,24 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Condition
         {
-            get { return ConditionInlet.InputOutlet; }
-            set { ConditionInlet.LinkTo(value); }
+            get => ConditionInlet.InputOutlet;
+            set => ConditionInlet.LinkTo(value);
         }
 
         public Inlet ConditionInlet => OperatorHelper.GetInlet(WrappedOperator, CONDITION_INDEX);
 
         public Outlet Then
         {
-            get { return ThenInlet.InputOutlet; }
-            set { ThenInlet.LinkTo(value); }
+            get => ThenInlet.InputOutlet;
+            set => ThenInlet.LinkTo(value);
         }
 
         public Inlet ThenInlet => OperatorHelper.GetInlet(WrappedOperator, THEN_INDEX);
 
         public Outlet Else
         {
-            get { return ElseInlet.InputOutlet; }
-            set { ElseInlet.LinkTo(value); }
+            get => ElseInlet.InputOutlet;
+            set => ElseInlet.LinkTo(value);
         }
 
         public Inlet ElseInlet => OperatorHelper.GetInlet(WrappedOperator, ELSE_INDEX);

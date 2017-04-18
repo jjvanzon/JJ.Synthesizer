@@ -8,8 +8,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { FrequencyOperatorDto }; }
-            set { FrequencyOperatorDto = value[0]; }
+            get => new[] { FrequencyOperatorDto };
+            set => FrequencyOperatorDto = value[0];
         }
     }
 }

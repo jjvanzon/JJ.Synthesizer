@@ -11,9 +11,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.EventArg
 
         public ToolTipTextEventArgs(Element element)
         {
-            if (element == null) throw new NullException(() => element);
-
-            Element = element;
+            Element = element ?? throw new NullException(() => element);
         }
     }
 }

@@ -21,48 +21,48 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Input
         {
-            get { return InputInlet.InputOutlet; }
-            set { InputInlet.LinkTo(value); }
+            get => InputInlet.InputOutlet;
+            set => InputInlet.LinkTo(value);
         }
 
         public Inlet InputInlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
 
         public Outlet Collection
         {
-            get { return CollectionInlet.InputOutlet; }
-            set { CollectionInlet.LinkTo(value); }
+            get => CollectionInlet.InputOutlet;
+            set => CollectionInlet.LinkTo(value);
         }
 
         public Inlet CollectionInlet => OperatorHelper.GetInlet(WrappedOperator, COLLECTION_INDEX);
 
         public Outlet From
         {
-            get { return FromInlet.InputOutlet; }
-            set { FromInlet.LinkTo(value); }
+            get => FromInlet.InputOutlet;
+            set => FromInlet.LinkTo(value);
         }
 
         public Inlet FromInlet => OperatorHelper.GetInlet(WrappedOperator, FROM_INDEX);
 
         public Outlet Till
         {
-            get { return TillInlet.InputOutlet; }
-            set { TillInlet.LinkTo(value); }
+            get => TillInlet.InputOutlet;
+            set => TillInlet.LinkTo(value);
         }
 
         public Inlet TillInlet => OperatorHelper.GetInlet(WrappedOperator, TILL_INDEX);
 
         public Outlet Step
         {
-            get { return StepInlet.InputOutlet; }
-            set { StepInlet.LinkTo(value); }
+            get => StepInlet.InputOutlet;
+            set => StepInlet.LinkTo(value);
         }
 
         public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, STEP_INDEX);
 
         public CollectionRecalculationEnum CollectionRecalculation
         {
-            get { return DataPropertyParser.GetEnum<CollectionRecalculationEnum>(WrappedOperator, PropertyNames.CollectionRecalculation); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.CollectionRecalculation, value); }
+            get => DataPropertyParser.GetEnum<CollectionRecalculationEnum>(WrappedOperator, PropertyNames.CollectionRecalculation);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.CollectionRecalculation, value);
         }
 
         public override string GetInletDisplayName(int listIndex)

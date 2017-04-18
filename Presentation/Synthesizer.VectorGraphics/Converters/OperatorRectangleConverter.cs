@@ -27,15 +27,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             SelectOperatorGesture selectOperatorGesture,
             ShowOperatorPropertiesMouseGesture showOperatorPropertiesMouseGesture)
         {
-            if (diagram == null) throw new NullException(() => diagram);
-            if (moveGesture == null) throw new NullException(() => moveGesture);
-            if (selectOperatorGesture == null) throw new NullException(() => selectOperatorGesture);
-            if (showOperatorPropertiesMouseGesture == null) throw new NullException(() => showOperatorPropertiesMouseGesture);
-
-            _diagram = diagram;
-            _moveGesture = moveGesture;
-            _selectOperatorGesture = selectOperatorGesture;
-            _showOperatorPropertiesMouseGesture = showOperatorPropertiesMouseGesture;
+            _diagram = diagram ?? throw new NullException(() => diagram);
+            _moveGesture = moveGesture ?? throw new NullException(() => moveGesture);
+            _selectOperatorGesture = selectOperatorGesture ?? throw new NullException(() => selectOperatorGesture);
+            _showOperatorPropertiesMouseGesture = showOperatorPropertiesMouseGesture ?? throw new NullException(() => showOperatorPropertiesMouseGesture);
         }
 
         public Rectangle ConvertToOperatorRectangle(OperatorViewModel sourceOperatorViewModel)

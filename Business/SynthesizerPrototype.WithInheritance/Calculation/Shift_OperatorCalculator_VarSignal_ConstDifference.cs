@@ -15,12 +15,9 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
             double distance,
             DimensionStack dimensionStack)
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
-
-            _signalCalculator = signalCalculator;
+            _signalCalculator = signalCalculator ?? throw new NullException(() => signalCalculator);
             _distance = distance;
-            _dimensionStack = dimensionStack;
+            _dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

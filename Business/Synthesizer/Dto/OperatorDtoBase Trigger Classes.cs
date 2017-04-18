@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { PassThroughInputOperatorDto, ResetOperatorDto }; }
+            get => new[] { PassThroughInputOperatorDto, ResetOperatorDto };
             set { PassThroughInputOperatorDto = value[0]; ResetOperatorDto = value[1]; }
         }
     }
@@ -21,8 +21,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { PassThroughInputOperatorDto }; }
-            set { PassThroughInputOperatorDto = value[0]; }
+            get => new[] { PassThroughInputOperatorDto };
+            set => PassThroughInputOperatorDto = value[0];
         }
     }
 
@@ -33,8 +33,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { ResetOperatorDto }; }
-            set { ResetOperatorDto = value[0]; }
+            get => new[] { ResetOperatorDto };
+            set => ResetOperatorDto = value[0];
         }
     }
 

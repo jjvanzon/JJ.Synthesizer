@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer
 
         public int? PatchID
         {
-            get { return Patch?.ID; }
+            get => Patch?.ID;
             set
             {
                 if (!value.HasValue)

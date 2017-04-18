@@ -21,8 +21,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public ResampleInterpolationTypeEnum InterpolationType
         {
-            get { return DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value); }
+            get => DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value);
         }
 
         public override string GetInletDisplayName(int listIndex)

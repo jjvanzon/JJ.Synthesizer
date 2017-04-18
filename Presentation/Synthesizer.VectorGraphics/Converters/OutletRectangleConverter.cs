@@ -18,11 +18,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public OutletRectangleConverter(DragLineGesture dragLineGesture, ToolTipGesture outletToolTipGesture)
         {
-            if (dragLineGesture == null) throw new NullException(() => dragLineGesture);
-            if (outletToolTipGesture == null) throw new NullException(() => outletToolTipGesture);
-            
-            _dragLineGesture = dragLineGesture;
-            _outletToolTipGesture = outletToolTipGesture;
+            _dragLineGesture = dragLineGesture ?? throw new NullException(() => dragLineGesture);
+            _outletToolTipGesture = outletToolTipGesture ?? throw new NullException(() => outletToolTipGesture);
         }
 
         public IList<Rectangle> ConvertToOutletRectangles(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)

@@ -42,8 +42,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 				for (int j = 1; j <= i; j++)
 				{
 #>
-					if (operandCalculator<#= j #> == null) throw new NullException(() => operandCalculator<#= j #>);
-					_operandCalculator<#= j #> = operandCalculator<#= j #>;
+					_operandCalculator<#= j #> = operandCalculator<#= j #> ?? throw new NullException(() => operandCalculator<#= j #>);
 <#
 				}
 #>

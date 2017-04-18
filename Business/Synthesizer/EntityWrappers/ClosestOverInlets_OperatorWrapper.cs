@@ -19,8 +19,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Input
         {
-            get { return InputInlet.InputOutlet; }
-            set { InputInlet.LinkTo(value); }
+            get => InputInlet.InputOutlet;
+            set => InputInlet.LinkTo(value);
         }
 
         public Inlet InputInlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);

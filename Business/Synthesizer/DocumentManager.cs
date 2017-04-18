@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.DocumentReferences;
@@ -19,7 +18,6 @@ using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
@@ -302,16 +300,44 @@ namespace JJ.Business.Synthesizer
             // ReSharper disable once ImplicitlyCapturedClosure
             if (patch.Document == null) throw new NullException(() => patch.Document);
 
-            IEnumerable<Patch> patches =
+            IList<Operator> internalOperators =
                 patch.Document
                      .Patches
                      .SelectMany(x => x.Operators)
                      .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator &&
                                  new CustomOperator_OperatorWrapper(x, _repositories.PatchRepository).UnderlyingPatchID == patch.ID)
-                     .Select(x => x.Patch)
-                     .Distinct(x => x.ID);
+                     .ToArray();
 
-            IList<IDAndName> idAndNames = patches.Select(x => new IDAndName { ID = x.ID, Name = x.Name }).ToArray();
+            IList<Operator> flushedOperators = _repositories.OperatorRepository.GetManyByOperatorTypeID_AndSingleDataKeyAndValue(
+                (int)OperatorTypeEnum.CustomOperator,
+                PropertyNames.UnderlyingPatchID,
+                patch.ID.ToString());
+
+            IList<Operator> externalOperators = flushedOperators.Where(x => x.Patch.Document.ID != patch.Document.ID).ToArray();
+
+            var idAndNames = new List<IDAndName>();
+
+            IList<Patch> internalHigherPatches = internalOperators.Select(x => x.Patch)
+                                                                  .Distinct(x => x.ID)
+                                                                  .OrderBy(x => x.Name)
+                                                                  .ToArray();
+
+            foreach (Patch internalHigherPatch in internalHigherPatches)
+            {
+                idAndNames.Add(new IDAndName { ID = internalHigherPatch.ID, Name = internalHigherPatch.Name });
+            }
+
+            IList<Patch> externalHigherPatches = externalOperators.Select(x => x.Patch)
+                                                                  .Distinct(x => x.ID)
+                                                                  .OrderBy(x => x.Document.Name)
+                                                                  .ThenBy(x => x.Name)
+                                                                  .ToArray();
+
+            foreach (Patch externalHigherPatch in externalHigherPatches)
+            {
+                string name = externalHigherPatch.Document.Name + ": " + externalHigherPatch.Name;
+                idAndNames.Add(new IDAndName { ID = externalHigherPatch.ID, Name = name});
+            }
 
             return idAndNames;
         }

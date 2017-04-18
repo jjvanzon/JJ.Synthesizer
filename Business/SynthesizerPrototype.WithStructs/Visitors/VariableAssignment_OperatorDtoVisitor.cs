@@ -16,8 +16,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 
         public VariableAssignment_OperatorDtoVisitor(DimensionStack dimensionStack)
         {
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
-            _dimensionStack = dimensionStack;
+            _dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
         }
 
         // Execute

@@ -17,16 +17,16 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return SignalInlet.InputOutlet; }
-            set { SignalInlet.LinkTo(value); }
+            get => SignalInlet.InputOutlet;
+            set => SignalInlet.LinkTo(value);
         }
 
         public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet Difference
         {
-            get { return DifferenceInlet.InputOutlet; }
-            set { DifferenceInlet.LinkTo(value); }
+            get => DifferenceInlet.InputOutlet;
+            set => DifferenceInlet.LinkTo(value);
         }
 
         public Inlet DifferenceInlet => OperatorHelper.GetInlet(WrappedOperator, DIFFERENCE_INDEX);

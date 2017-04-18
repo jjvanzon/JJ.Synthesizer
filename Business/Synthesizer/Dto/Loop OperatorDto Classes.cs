@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { SignalOperatorDto, NoteDurationOperatorDto }; }
+            get => new[] { SignalOperatorDto, NoteDurationOperatorDto };
             set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
         }
     }
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { SignalOperatorDto, NoteDurationOperatorDto }; }
+            get => new[] { SignalOperatorDto, NoteDurationOperatorDto };
             set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
         }
     }
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { SignalOperatorDto, ReleaseEndMarkerOperatorDto }; }
+            get => new[] { SignalOperatorDto, ReleaseEndMarkerOperatorDto };
             set { SignalOperatorDto = value[0]; ReleaseEndMarkerOperatorDto = value[1]; }
         }
     }
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { SignalOperatorDto, LoopEndMarkerOperatorDto, ReleaseEndMarkerOperatorDto, }; }
+            get => new[] { SignalOperatorDto, LoopEndMarkerOperatorDto, ReleaseEndMarkerOperatorDto, };
             set { SignalOperatorDto = value[0]; LoopEndMarkerOperatorDto = value[1]; ReleaseEndMarkerOperatorDto = value[2]; }
         }
     }
@@ -88,16 +88,13 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get
+            get => new[]
             {
-                return new[]
-                {
-                    SignalOperatorDto,
-                    LoopStartMarkerOperatorDto,
-                    LoopEndMarkerOperatorDto,
-                    NoteDurationOperatorDto
-                };
-            }
+                SignalOperatorDto,
+                LoopStartMarkerOperatorDto,
+                LoopEndMarkerOperatorDto,
+                NoteDurationOperatorDto
+            };
             set
             {
                 SignalOperatorDto = value[0];
@@ -121,18 +118,15 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get
+            get => new[]
             {
-                return new[]
-                {
-                    SignalOperatorDto,
-                    SkipOperatorDto,
-                    LoopStartMarkerOperatorDto,
-                    LoopEndMarkerOperatorDto,
-                    ReleaseEndMarkerOperatorDto,
-                    NoteDurationOperatorDto
-                };
-            }
+                SignalOperatorDto,
+                SkipOperatorDto,
+                LoopStartMarkerOperatorDto,
+                LoopEndMarkerOperatorDto,
+                ReleaseEndMarkerOperatorDto,
+                NoteDurationOperatorDto
+            };
             set
             {
                 SignalOperatorDto = value[0];

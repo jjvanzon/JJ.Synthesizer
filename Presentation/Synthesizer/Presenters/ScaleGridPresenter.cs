@@ -12,9 +12,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public ScaleGridPresenter(IDocumentRepository documentRepository)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-
-            _documentRepository = documentRepository;
+            _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
         }
 
         protected override ScaleGridViewModel CreateViewModel(ScaleGridViewModel userInput)

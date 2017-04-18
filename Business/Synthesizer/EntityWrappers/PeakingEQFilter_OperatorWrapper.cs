@@ -19,32 +19,32 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return SignalInlet.InputOutlet; }
-            set { SignalInlet.LinkTo(value); }
+            get => SignalInlet.InputOutlet;
+            set => SignalInlet.LinkTo(value);
         }
 
         public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet CenterFrequency
         {
-            get { return CenterFrequencyInlet.InputOutlet; }
-            set { CenterFrequencyInlet.LinkTo(value); }
+            get => CenterFrequencyInlet.InputOutlet;
+            set => CenterFrequencyInlet.LinkTo(value);
         }
 
         public Inlet CenterFrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, CENTER_FREQUENCY_INDEX);
 
         public Outlet BandWidth
         {
-            get { return BandWidthInlet.InputOutlet; }
-            set { BandWidthInlet.LinkTo(value); }
+            get => BandWidthInlet.InputOutlet;
+            set => BandWidthInlet.LinkTo(value);
         }
 
         public Inlet BandWidthInlet => OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX);
 
         public Outlet DBGain
         {
-            get { return DBGainInlet.InputOutlet; }
-            set { DBGainInlet.LinkTo(value); }
+            get => DBGainInlet.InputOutlet;
+            set => DBGainInlet.LinkTo(value);
         }
 
         public Inlet DBGainInlet => OperatorHelper.GetInlet(WrappedOperator, DB_GAIN_INDEX);

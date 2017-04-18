@@ -19,20 +19,20 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet this[string name]
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, name); }
-            set { OperatorHelper.GetInlet(_operator, name).LinkTo(value); }
+            get => OperatorHelper.GetInputOutlet(_operator, name);
+            set => OperatorHelper.GetInlet(_operator, name).LinkTo(value);
         }
 
         public Outlet this[int index]
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, index); }
-            set { OperatorHelper.GetInlet(_operator, index).LinkTo(value); }
+            get => OperatorHelper.GetInputOutlet(_operator, index);
+            set => OperatorHelper.GetInlet(_operator, index).LinkTo(value);
         }
 
         public Outlet this[DimensionEnum dimensionEnum]
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, dimensionEnum); }
-            set { OperatorHelper.GetInlet(_operator, dimensionEnum).LinkTo(value); }
+            get => OperatorHelper.GetInputOutlet(_operator, dimensionEnum);
+            set => OperatorHelper.GetInlet(_operator, dimensionEnum).LinkTo(value);
         }
 
         public IEnumerator<Outlet> GetEnumerator()

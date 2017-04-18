@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.NHibernate.Helpers;
 using JJ.Framework.Data;
 using JJ.Framework.Data.NHibernate;
 
@@ -20,6 +22,19 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             return _context.Session.QueryOver<Operator>()
                                    .Where(x => x.OperatorType.ID == operatorTypeID)
                                    .List();
+        }
+
+        public override IList<Operator> GetManyByOperatorTypeID_AndSingleDataKeyAndValue(int operatorTypeID, string dataKey, string dataValue)
+        {
+            var sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
+            
+            int[] ids = sqlExecutor.Operator_GetIDs_ByOperatorTypeID_AndSingleDataKeyAndValue(operatorTypeID, dataKey, dataValue).ToArray();
+
+            IList<Operator> entities = _context.Session.QueryOver<Operator>()
+                                               .WhereRestrictionOn(x => x.ID)
+                                               .IsIn(ids)
+                                               .List();
+            return entities;
         }
     }
 }

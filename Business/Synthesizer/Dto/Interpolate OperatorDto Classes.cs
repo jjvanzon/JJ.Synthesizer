@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { SignalOperatorDto, SamplingRateOperatorDto }; }
+            get => new[] { SignalOperatorDto, SamplingRateOperatorDto };
             set { SignalOperatorDto = value[0]; SamplingRateOperatorDto = value[1]; }
         }
     }

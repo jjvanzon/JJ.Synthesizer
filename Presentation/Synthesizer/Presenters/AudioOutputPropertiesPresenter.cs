@@ -20,11 +20,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ISpeakerSetupRepository speakerSetupRepository,
             IIDRepository idRepository)
         {
-            if (audioOutputRepository == null) throw new NullException(() => audioOutputRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
 
-            _audioOutputRepository = audioOutputRepository;
+            _audioOutputRepository = audioOutputRepository ?? throw new NullException(() => audioOutputRepository);
 
             _audioOutputManager = new AudioOutputManager(_audioOutputRepository, speakerSetupRepository, idRepository);
         }

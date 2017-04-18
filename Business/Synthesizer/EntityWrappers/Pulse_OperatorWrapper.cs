@@ -17,16 +17,16 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Frequency
         {
-            get { return FrequencyInlet.InputOutlet; }
-            set { FrequencyInlet.LinkTo(value); }
+            get => FrequencyInlet.InputOutlet;
+            set => FrequencyInlet.LinkTo(value);
         }
 
         public Inlet FrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX);
 
         public Outlet Width
         {
-            get { return WidthInlet.InputOutlet; }
-            set { WidthInlet.LinkTo(value); }
+            get => WidthInlet.InputOutlet;
+            set => WidthInlet.LinkTo(value);
         }
 
         public Inlet WidthInlet => OperatorHelper.GetInlet(WrappedOperator, WIDTH_INDEX);

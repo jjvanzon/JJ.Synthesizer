@@ -20,40 +20,40 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return SignalInlet.InputOutlet; }
-            set { SignalInlet.LinkTo(value); }
+            get => SignalInlet.InputOutlet;
+            set => SignalInlet.LinkTo(value);
         }
 
         public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet SourceValueA
         {
-            get { return SourceValueAInlet.InputOutlet; }
-            set { SourceValueAInlet.LinkTo(value); }
+            get => SourceValueAInlet.InputOutlet;
+            set => SourceValueAInlet.LinkTo(value);
         }
 
         public Inlet SourceValueAInlet => OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_A_INDEX);
 
         public Outlet SourceValueB
         {
-            get { return SourceValueBInlet.InputOutlet; }
-            set { SourceValueBInlet.LinkTo(value); }
+            get => SourceValueBInlet.InputOutlet;
+            set => SourceValueBInlet.LinkTo(value);
         }
 
         public Inlet SourceValueBInlet => OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_B_INDEX);
 
         public Outlet TargetValueA
         {
-            get { return TargetValueAInlet.InputOutlet; }
-            set { TargetValueAInlet.LinkTo(value); }
+            get => TargetValueAInlet.InputOutlet;
+            set => TargetValueAInlet.LinkTo(value);
         }
 
         public Inlet TargetValueAInlet => OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_A_INDEX);
 
         public Outlet TargetValueB
         {
-            get { return TargetValueBInlet.InputOutlet; }
-            set { TargetValueBInlet.LinkTo(value); }
+            get => TargetValueBInlet.InputOutlet;
+            set => TargetValueBInlet.LinkTo(value);
         }
 
         public Inlet TargetValueBInlet => OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_B_INDEX);

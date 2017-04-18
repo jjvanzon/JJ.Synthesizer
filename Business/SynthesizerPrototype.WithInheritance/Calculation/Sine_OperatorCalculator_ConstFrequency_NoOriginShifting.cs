@@ -13,10 +13,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
             double frequency,
             DimensionStack dimensionStack)
         {
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
-
             _frequency = frequency;
-            _dimensionStack = dimensionStack;
+            _dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

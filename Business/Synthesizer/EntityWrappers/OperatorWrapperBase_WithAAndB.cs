@@ -17,16 +17,16 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet A
         {
-            get { return AInlet.InputOutlet; }
-            set { AInlet.LinkTo(value); }
+            get => AInlet.InputOutlet;
+            set => AInlet.LinkTo(value);
         }
 
         public Inlet AInlet => OperatorHelper.GetInlet(WrappedOperator, A_INDEX);
 
         public Outlet B
         {
-            get { return BInlet.InputOutlet; }
-            set { BInlet.LinkTo(value); }
+            get => BInlet.InputOutlet;
+            set => BInlet.LinkTo(value);
         }
 
         public Inlet BInlet => OperatorHelper.GetInlet(WrappedOperator, B_INDEX);

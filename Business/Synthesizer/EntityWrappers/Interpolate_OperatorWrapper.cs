@@ -18,24 +18,24 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return SignalInlet.InputOutlet; }
-            set { SignalInlet.LinkTo(value); }
+            get => SignalInlet.InputOutlet;
+            set => SignalInlet.LinkTo(value);
         }
 
         public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet SamplingRate
         {
-            get { return SamplingRateInlet.InputOutlet; }
-            set { SamplingRateInlet.LinkTo(value); }
+            get => SamplingRateInlet.InputOutlet;
+            set => SamplingRateInlet.LinkTo(value);
         }
 
         public Inlet SamplingRateInlet => OperatorHelper.GetInlet(WrappedOperator, SAMPLING_RATE_INDEX);
 
         public ResampleInterpolationTypeEnum InterpolationType
         {
-            get { return DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value); }
+            get => DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value);
         }
 
         public override string GetInletDisplayName(int listIndex)

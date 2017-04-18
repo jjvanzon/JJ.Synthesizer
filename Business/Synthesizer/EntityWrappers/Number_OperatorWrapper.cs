@@ -12,8 +12,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public double Number
         {
-            get { return DataPropertyParser.GetDouble(WrappedOperator, PropertyNames.Number); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Number, value); }
+            get => DataPropertyParser.GetDouble(WrappedOperator, PropertyNames.Number);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Number, value);
         }
 
         public override string GetInletDisplayName(int listIndex)

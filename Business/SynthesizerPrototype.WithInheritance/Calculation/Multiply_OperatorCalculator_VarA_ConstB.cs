@@ -13,9 +13,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
             OperatorCalculatorBase aCalculator,
             double b)
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
-
-            _aCalculator = aCalculator;
+            _aCalculator = aCalculator ?? throw new NullException(() => aCalculator);
             _b = b;
         }
 

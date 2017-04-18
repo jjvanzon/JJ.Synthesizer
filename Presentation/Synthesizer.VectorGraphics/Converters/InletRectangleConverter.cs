@@ -19,11 +19,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         public InletRectangleConverter(DropLineGesture dropLineGesture, ToolTipGesture inletToolTipGesture)
         {
-            if (dropLineGesture == null) throw new NullException(() => dropLineGesture);
-            if (inletToolTipGesture == null) throw new NullException(() => inletToolTipGesture);
-
-            _dropLineGesture = dropLineGesture;
-            _inletToolTipGesture = inletToolTipGesture;
+            _dropLineGesture = dropLineGesture ?? throw new NullException(() => dropLineGesture);
+            _inletToolTipGesture = inletToolTipGesture ?? throw new NullException(() => inletToolTipGesture);
         }
 
         public IList<Rectangle> ConvertToInletRectangles(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)

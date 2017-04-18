@@ -17,8 +17,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? SampleID
         {
-            get { return DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.SampleID); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.SampleID, value); }
+            get => DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.SampleID);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.SampleID, value);
         }
 
         /// <summary> nullable </summary>

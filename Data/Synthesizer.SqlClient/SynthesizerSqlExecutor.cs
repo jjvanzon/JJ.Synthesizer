@@ -1,6 +1,8 @@
 ﻿using JJ.Framework.Data.SqlClient;
 using JJ.Framework.Exceptions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Data.Synthesizer.SqlClient
 {
@@ -10,8 +12,7 @@ namespace JJ.Data.Synthesizer.SqlClient
 
         public SynthesizerSqlExecutor(ISqlExecutor sqlExecutor)
         {
-            if (sqlExecutor == null) throw new NullException(() => sqlExecutor);
-            _sqlExecutor = sqlExecutor;
+            _sqlExecutor = sqlExecutor ?? throw new NullException(() => sqlExecutor);
         }
 
         public int EntityPosition_DeleteOrphans()
@@ -23,6 +24,15 @@ namespace JJ.Data.Synthesizer.SqlClient
         {
             int id = (int)_sqlExecutor.ExecuteScalar(SqlEnum.GetID);
             return id;
+        }
+
+        public IList<int> Operator_GetIDs_ByOperatorTypeID_AndSingleDataKeyAndValue(int operatorTypeID, string dataKey, string dataValue)
+        {
+            return _sqlExecutor.ExecuteReader<int>(
+                                   SqlEnum.Operator_GetIDs_ByOperatorTypeID_AndSingleDataKeyAndValue,
+                                   new { operatorTypeID, dataKey, dataValue })
+                               .ToArray();
+
         }
 
         /// <summary>

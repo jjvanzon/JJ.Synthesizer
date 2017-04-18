@@ -13,11 +13,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
             OperatorCalculatorBase frequencyCalculator,
             DimensionStack dimensionStack)
         {
-            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
-
-            _frequencyCalculator = frequencyCalculator;
-            _dimensionStack = dimensionStack;
+            _frequencyCalculator = frequencyCalculator ?? throw new NullException(() => frequencyCalculator);
+            _dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

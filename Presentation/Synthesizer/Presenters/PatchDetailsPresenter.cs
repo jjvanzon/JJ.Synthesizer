@@ -40,11 +40,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public PatchDetailsPresenter(PatchRepositories repositories, EntityPositionManager entityPositionManager)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
-
-            _repositories = repositories;
-            _entityPositionManager = entityPositionManager;
+            _repositories = repositories ?? throw new NullException(() => repositories);
+            _entityPositionManager = entityPositionManager ?? throw new NullException(() => entityPositionManager);
         }
 
         public PatchDetailsViewModel Show(PatchDetailsViewModel userInput)

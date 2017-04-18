@@ -39,9 +39,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             bool preferShowOnBottom = false,
             int zIndex = int.MaxValue / 2)
         {
-            if (diagram == null) throw new NullException(() => diagram);
-
-            _diagram = diagram;
+            _diagram = diagram ?? throw new NullException(() => diagram);
             _backStyle = backStyle;
             _lineStyle = lineStyle;
             _textStyle = textStyle;

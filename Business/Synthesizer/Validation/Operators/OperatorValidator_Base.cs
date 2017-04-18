@@ -30,8 +30,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(obj, postponeExecute: true)
         {
             if (expectedDataKeys == null) throw new NullException(() => expectedDataKeys);
-            if (expectedInletDimensionEnums == null) throw new NullException(() => expectedInletDimensionEnums);
-            if (expectedOutletDimensionEnums == null) throw new NullException(() => expectedOutletDimensionEnums);
 
             int uniqueExpectedDataPropertyKeyCount = expectedDataKeys.Distinct().Count();
             if (uniqueExpectedDataPropertyKeyCount != expectedDataKeys.Count)
@@ -40,8 +38,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
 
             _expectedOperatorTypeEnum = expectedOperatorTypeEnum;
-            _expectedInletDimensionEnums = expectedInletDimensionEnums;
-            _expectedOutletDimensionEnums = expectedOutletDimensionEnums;
+            _expectedInletDimensionEnums = expectedInletDimensionEnums ?? throw new NullException(() => expectedInletDimensionEnums);
+            _expectedOutletDimensionEnums = expectedOutletDimensionEnums ?? throw new NullException(() => expectedOutletDimensionEnums);
             _expectedDataKeys = expectedDataKeys;
             _expectedInletCount = _expectedInletDimensionEnums.Count;
             _expectedOutletCount = _expectedOutletDimensionEnums.Count;

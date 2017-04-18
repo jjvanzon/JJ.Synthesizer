@@ -17,8 +17,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public string Name
         {
-            get { return WrappedOperator.Name; }
-            set { WrappedOperator.Name = value; }
+            get => WrappedOperator.Name;
+            set => WrappedOperator.Name = value;
         }
 
         public abstract string GetInletDisplayName(int listIndex);

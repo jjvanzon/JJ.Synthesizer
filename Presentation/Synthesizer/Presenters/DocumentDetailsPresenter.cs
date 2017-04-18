@@ -17,9 +17,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public DocumentDetailsPresenter(RepositoryWrapper repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _repositories = repositories;
+            _repositories = repositories ?? throw new NullException(() => repositories);
             _documentManager = new DocumentManager(repositories);
         }
 

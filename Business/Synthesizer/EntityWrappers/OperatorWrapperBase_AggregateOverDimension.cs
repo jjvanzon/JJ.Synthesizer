@@ -21,40 +21,40 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return SignalInlet.InputOutlet; }
-            set { SignalInlet.LinkTo(value); }
+            get => SignalInlet.InputOutlet;
+            set => SignalInlet.LinkTo(value);
         }
 
         public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
 
         public Outlet From
         {
-            get { return FromInlet.InputOutlet; }
-            set { FromInlet.LinkTo(value); }
+            get => FromInlet.InputOutlet;
+            set => FromInlet.LinkTo(value);
         }
 
         public Inlet FromInlet => OperatorHelper.GetInlet(WrappedOperator, FROM_INDEX);
 
         public Outlet Till
         {
-            get { return TillInlet.InputOutlet; }
-            set { TillInlet.LinkTo(value); }
+            get => TillInlet.InputOutlet;
+            set => TillInlet.LinkTo(value);
         }
 
         public Inlet TillInlet => OperatorHelper.GetInlet(WrappedOperator, TILL_INDEX);
 
         public Outlet Step
         {
-            get { return StepInlet.InputOutlet; }
-            set { StepInlet.LinkTo(value); }
+            get => StepInlet.InputOutlet;
+            set => StepInlet.LinkTo(value);
         }
 
         public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, STEP_INDEX);
 
         public CollectionRecalculationEnum CollectionRecalculation
         {
-            get { return DataPropertyParser.GetEnum<CollectionRecalculationEnum>(WrappedOperator, PropertyNames.CollectionRecalculation); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.CollectionRecalculation, value); }
+            get => DataPropertyParser.GetEnum<CollectionRecalculationEnum>(WrappedOperator, PropertyNames.CollectionRecalculation);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.CollectionRecalculation, value);
         }
 
         public override string GetInletDisplayName(int listIndex)

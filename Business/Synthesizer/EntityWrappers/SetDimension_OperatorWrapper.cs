@@ -18,16 +18,16 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet PassThroughInput
         {
-            get { return PassThroughInlet.InputOutlet; }
-            set { PassThroughInlet.LinkTo(value); }
+            get => PassThroughInlet.InputOutlet;
+            set => PassThroughInlet.LinkTo(value);
         }
 
         public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INLET_INDEX);
 
         public Outlet Value
         {
-            get { return ValueInlet.InputOutlet; }
-            set { ValueInlet.LinkTo(value); }
+            get => ValueInlet.InputOutlet;
+            set => ValueInlet.LinkTo(value);
         }
 
         public Inlet ValueInlet => OperatorHelper.GetInlet(WrappedOperator, VALUE_INDEX);

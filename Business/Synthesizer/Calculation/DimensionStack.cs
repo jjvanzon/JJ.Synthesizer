@@ -36,13 +36,13 @@ namespace JJ.Business.Synthesizer.Calculation
         public int Count
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return _count; }
+            get => _count; 
         }
 
         public int CurrentIndex
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return _count - 1; }
+            get => _count - 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -17,16 +17,16 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Rate
         {
-            get { return RateInlet.InputOutlet; }
-            set { RateInlet.LinkTo(value); }
+            get => RateInlet.InputOutlet;
+            set => RateInlet.LinkTo(value);
         }
 
         public Inlet RateInlet => OperatorHelper.GetInlet(WrappedOperator, RATE_INDEX);
 
         public ResampleInterpolationTypeEnum InterpolationType
         {
-            get { return DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value); }
+            get => DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value);
         }
 
         public override string GetInletDisplayName(int listIndex)

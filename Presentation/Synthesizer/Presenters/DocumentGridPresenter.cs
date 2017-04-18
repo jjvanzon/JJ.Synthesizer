@@ -13,9 +13,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public DocumentGridPresenter(IDocumentRepository documentRepository)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-
-            _documentRepository = documentRepository;
+            _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
         }
 
         protected override DocumentGridViewModel CreateViewModel(DocumentGridViewModel userInput)

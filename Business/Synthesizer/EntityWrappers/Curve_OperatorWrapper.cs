@@ -18,8 +18,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? CurveID
         {
-            get { return DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.CurveID); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.CurveID, value); }
+            get => DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.CurveID);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.CurveID, value);
         }
 
         /// <summary> nullable </summary>

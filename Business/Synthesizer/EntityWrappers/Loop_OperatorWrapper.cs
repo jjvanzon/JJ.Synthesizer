@@ -14,48 +14,48 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return SignalInlet.InputOutlet; }
-            set { SignalInlet.LinkTo(value); }
+            get => SignalInlet.InputOutlet;
+            set => SignalInlet.LinkTo(value);
         }
 
         public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SIGNAL_INDEX);
 
         public Outlet Skip
         {
-            get { return SkipInlet.InputOutlet; }
-            set { SkipInlet.LinkTo(value); }
+            get => SkipInlet.InputOutlet;
+            set => SkipInlet.LinkTo(value);
         }
 
         public Inlet SkipInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SKIP_INDEX);
 
         public Outlet LoopStartMarker
         {
-            get { return LoopStartMarkerInlet.InputOutlet; }
-            set { LoopStartMarkerInlet.LinkTo(value); }
+            get => LoopStartMarkerInlet.InputOutlet;
+            set => LoopStartMarkerInlet.LinkTo(value);
         }
 
         public Inlet LoopStartMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_START_MARKER_INDEX);
 
         public Outlet LoopEndMarker
         {
-            get { return LoopEndMarkerInlet.InputOutlet; }
-            set { LoopEndMarkerInlet.LinkTo(value); }
+            get => LoopEndMarkerInlet.InputOutlet;
+            set => LoopEndMarkerInlet.LinkTo(value);
         }
 
         public Inlet LoopEndMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_END_MARKER_INDEX);
 
         public Outlet ReleaseEndMarker
         {
-            get { return ReleaseEndMarkerInlet.InputOutlet; }
-            set { ReleaseEndMarkerInlet.LinkTo(value); }
+            get => ReleaseEndMarkerInlet.InputOutlet;
+            set => ReleaseEndMarkerInlet.LinkTo(value);
         }
 
         public Inlet ReleaseEndMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX);
 
         public Outlet NoteDuration
         {
-            get { return NoteDurationInlet.InputOutlet; }
-            set { NoteDurationInlet.LinkTo(value); }
+            get => NoteDurationInlet.InputOutlet;
+            set => NoteDurationInlet.LinkTo(value);
         }
 
         public Inlet NoteDurationInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX);

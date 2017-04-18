@@ -17,8 +17,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet PassThroughInput
         {
-            get { return OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INLET_INDEX).InputOutlet; }
-            set { PassThroughInlet.LinkTo(value); }
+            get => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INLET_INDEX).InputOutlet;
+            set => PassThroughInlet.LinkTo(value);
         }
 
         public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INLET_INDEX);
@@ -27,8 +27,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? ListIndex
         {
-            get { return DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex); }
-            set { DataPropertyParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value); }
+            get => DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex);
+            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value);
         }
 
         public override string GetInletDisplayName(int listIndex)

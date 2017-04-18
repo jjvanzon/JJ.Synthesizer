@@ -23,8 +23,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { SampleCountOperatorDto }; }
-            set { SampleCountOperatorDto = value[0]; }
+            get => new[] { SampleCountOperatorDto };
+            set => SampleCountOperatorDto = value[0];
         }
     }
 

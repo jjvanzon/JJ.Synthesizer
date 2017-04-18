@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { AOperatorDto, BOperatorDto, OriginOperatorDto }; }
+            get => new[] { AOperatorDto, BOperatorDto, OriginOperatorDto };
             set { AOperatorDto = value[0]; BOperatorDto = value[1]; OriginOperatorDto = value[2]; }
         }
     }
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { AOperatorDto, OriginOperatorDto }; }
+            get => new[] { AOperatorDto, OriginOperatorDto };
             set { AOperatorDto = value[0]; OriginOperatorDto = value[1]; }
         }
     }
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { BOperatorDto, OriginOperatorDto }; }
+            get => new[] { BOperatorDto, OriginOperatorDto };
             set { BOperatorDto = value[0]; OriginOperatorDto = value[1]; }
         }
     }
@@ -71,8 +71,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { OriginOperatorDto }; }
-            set { OriginOperatorDto = value[0]; }
+            get => new[] { OriginOperatorDto };
+            set => OriginOperatorDto = value[0];
         }
     }
 

@@ -14,9 +14,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public DocumentCannotDeletePresenter(IDocumentRepository documentRepository)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-
-            _documentRepository = documentRepository;
+            _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
         }
 
         public DocumentCannotDeleteViewModel Show(int id, IList<Message> messages)

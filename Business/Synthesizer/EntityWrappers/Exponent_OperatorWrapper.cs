@@ -18,24 +18,24 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Low
         {
-            get { return LowInlet.InputOutlet; }
-            set { LowInlet.LinkTo(value); }
+            get => LowInlet.InputOutlet;
+            set => LowInlet.LinkTo(value);
         }
 
         public Inlet LowInlet => OperatorHelper.GetInlet(WrappedOperator, LOW_INDEX);
 
         public Outlet High
         {
-            get { return HighInlet.InputOutlet; }
-            set { HighInlet.LinkTo(value); }
+            get => HighInlet.InputOutlet;
+            set => HighInlet.LinkTo(value);
         }
 
         public Inlet HighInlet => OperatorHelper.GetInlet(WrappedOperator, HIGH_INDEX);
 
         public Outlet Ratio
         {
-            get { return RatioInlet.InputOutlet; }
-            set { RatioInlet.LinkTo(value); }
+            get => RatioInlet.InputOutlet;
+            set => RatioInlet.LinkTo(value);
         }
 
         public Inlet RatioInlet => OperatorHelper.GetInlet(WrappedOperator, RATIO_INDEX);

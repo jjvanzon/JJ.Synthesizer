@@ -13,11 +13,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
             OperatorCalculatorBase aCalculator,
             OperatorCalculatorBase bCalculator)
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
-            if (bCalculator == null) throw new NullException(() => bCalculator);
-
-            _aCalculator = aCalculator;
-            _bCalculator = bCalculator;
+            _aCalculator = aCalculator ?? throw new NullException(() => aCalculator);
+            _bCalculator = bCalculator ?? throw new NullException(() => bCalculator);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

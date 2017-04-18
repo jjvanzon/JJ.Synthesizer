@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return InputOperatorDto.Union(ItemOperatorDtos).ToArray(); }
+            get => InputOperatorDto.Union(ItemOperatorDtos).ToArray();
             set { InputOperatorDto = value[0]; ItemOperatorDtos = value.Skip(1).ToArray(); }
         }
     }
@@ -39,8 +39,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] {InputOperatorDto}; }
-            set { InputOperatorDto = value[0]; }
+            get => new[] { InputOperatorDto };
+            set => InputOperatorDto = value[0];
         }
     }
 
@@ -55,8 +55,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { InputOperatorDto }; }
-            set { InputOperatorDto = value[0]; }
+            get => new[] { InputOperatorDto };
+            set => InputOperatorDto = value[0];
         }
     }
 }
