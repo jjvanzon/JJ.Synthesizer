@@ -73,16 +73,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap AddIconThinner {
-            get {
-                object obj = ResourceManager.GetObject("AddIconThinner", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap CloseIcon {
             get {
                 object obj = ResourceManager.GetObject("CloseIcon", resourceCulture);
@@ -93,9 +83,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap CloseIconThinner {
+        internal static System.Drawing.Bitmap OpenWindowIcon {
             get {
-                object obj = ResourceManager.GetObject("CloseIconThinner", resourceCulture);
+                object obj = ResourceManager.GetObject("OpenWindowIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +93,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap OpenWindowIconThinner {
+        internal static System.Drawing.Bitmap PlayIcon {
             get {
-                object obj = ResourceManager.GetObject("OpenWindowIconThinner", resourceCulture);
+                object obj = ResourceManager.GetObject("PlayIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +113,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RemoveIconThinner {
+        internal static System.Drawing.Bitmap SaveIcon {
             get {
-                object obj = ResourceManager.GetObject("RemoveIconThinner", resourceCulture);
+                object obj = ResourceManager.GetObject("SaveIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

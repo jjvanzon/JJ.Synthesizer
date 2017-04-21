@@ -45,7 +45,7 @@
             // 
             this.buttonRemove.FlatAppearance.BorderSize = 0;
             this.buttonRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIconThinner;
+            this.buttonRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
             this.buttonRemove.Location = new System.Drawing.Point(66, 0);
             this.buttonRemove.Margin = new System.Windows.Forms.Padding(0);
             this.buttonRemove.Name = "buttonRemove";

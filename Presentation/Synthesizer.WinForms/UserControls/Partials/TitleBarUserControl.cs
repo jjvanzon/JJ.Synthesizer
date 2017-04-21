@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -6,26 +7,48 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
     internal partial class TitleBarUserControl : UserControl
     {
+        public event EventHandler PlayClicked;
+        public event EventHandler SaveClicked;
         public event EventHandler CloseClicked;
         public event EventHandler RemoveClicked;
         public event EventHandler AddClicked;
 
-        public TitleBarUserControl()
-        {
-            InitializeComponent();
-        }
+        public TitleBarUserControl() => InitializeComponent();
 
-        private void TitleBarUserControl_Load(object sender, EventArgs e)
-        {
-            PositionControls();
-        }
+        private void TitleBarUserControl_Load(object sender, EventArgs e) => PositionControls();
 
         // Properties
 
         public override string Text
         {
             get => labelTitle.Text;
-            set { labelTitle.Text = value; }
+            set => labelTitle.Text = value;
+        }
+
+        public bool PlayButtonVisible
+        {
+            get => pictureBoxPlay.Visible;
+            set
+            {
+                if (pictureBoxPlay.Visible == value) return;
+
+                pictureBoxPlay.Visible = value;
+
+                PositionControls();
+            }
+        }
+
+        public bool SaveButtonVisible
+        {
+            get => pictureBoxSave.Visible;
+            set
+            {
+                if (pictureBoxSave.Visible == value) return;
+
+                pictureBoxSave.Visible = value;
+
+                PositionControls();
+            }
         }
 
         public bool AddButtonVisible
@@ -82,60 +105,36 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         private void PositionControls()
         {
-            
             int x = Width;
 
             x -= BUTTON_SPACING;
             x -= BUTTON_SIZE;
 
-            if (CloseButtonVisible)
-            {
-                pictureBoxClose.Location = new Point(x, BUTTON_SPACING);
-                pictureBoxClose.Size = new Size(BUTTON_SIZE, BUTTON_SIZE);
-                x -= BUTTON_SPACING;
-                x -= BUTTON_SIZE;
-            }
+            var pictureBoxesInReverseOrder = new Control[] { pictureBoxClose, pictureBoxRemove, pictureBoxAdd, pictureBoxSave, pictureBoxPlay };
 
-            if (RemoveButtonVisible)
+            foreach (Control pictureBox in pictureBoxesInReverseOrder)
             {
-                pictureBoxRemove.Location = new Point(x, BUTTON_SPACING);
-                pictureBoxRemove.Size = new Size(BUTTON_SIZE, BUTTON_SIZE);
-                x -= BUTTON_SPACING;
-                x -= BUTTON_SIZE;
-            }
-
-            if (AddButtonVisible)
-            {
-                pictureBoxAdd.Location = new Point(x, BUTTON_SPACING);
-                pictureBoxAdd.Size = new Size(BUTTON_SIZE, BUTTON_SIZE);
-                x -= BUTTON_SPACING;
-                x -= BUTTON_SIZE;
+                if (pictureBox.Visible)
+                {
+                    pictureBox.Location = new Point(x, BUTTON_SPACING);
+                    pictureBox.Size = new Size(BUTTON_SIZE, BUTTON_SIZE);
+                    x -= BUTTON_SPACING;
+                    x -= BUTTON_SIZE;
+                }
             }
 
             labelTitle.Location = new Point(0, 0);
             labelTitle.Size = new Size(x, Height);
         }
 
-        private void TitleBarUserControl_Resize(object sender, EventArgs e)
-        {
-            PositionControls();
-        }
+        private void TitleBarUserControl_Resize(object sender, EventArgs e) => PositionControls();
 
         // Events
 
-        private void pictureBoxAdd_MouseDown(object sender, MouseEventArgs e)
-        {
-            AddClicked?.Invoke(sender, EventArgs.Empty);
-        }
-
-        private void pictureBoxRemove_MouseDown(object sender, MouseEventArgs e)
-        {
-            RemoveClicked?.Invoke(sender, EventArgs.Empty);
-        }
-
-        private void pictureBoxClose_MouseDown(object sender, MouseEventArgs e)
-        {
-            CloseClicked?.Invoke(sender, EventArgs.Empty);
-        }
+        private void pictureBoxPlay_MouseDown(object sender, MouseEventArgs e) => PlayClicked?.Invoke(sender, EventArgs.Empty);
+        private void pictureBoxSave_MouseDown(object sender, MouseEventArgs e) => SaveClicked?.Invoke(sender, EventArgs.Empty);
+        private void pictureBoxAdd_MouseDown(object sender, MouseEventArgs e) => AddClicked?.Invoke(sender, EventArgs.Empty);
+        private void pictureBoxRemove_MouseDown(object sender, MouseEventArgs e) => RemoveClicked?.Invoke(sender, EventArgs.Empty);
+        private void pictureBoxClose_MouseDown(object sender, MouseEventArgs e) => CloseClicked?.Invoke(sender, EventArgs.Empty);
     }
 }

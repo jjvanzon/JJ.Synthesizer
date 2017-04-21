@@ -448,6 +448,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
+            destViewModel.CanSave = sourceViewModel.CanSave;
+            
             if (sourceViewModel.SelectedOperator != null)
             {
                 SetSelectedOperator(destViewModel, sourceViewModel.SelectedOperator.ID);

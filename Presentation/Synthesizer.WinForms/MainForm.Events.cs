@@ -135,6 +135,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
             _autoPatchDetailsForm.CloseRequested += _autoPatchDetailsForm_CloseRequested;
+            _autoPatchDetailsForm.SaveRequested += _autoPatchDetailsForm_SaveRequested;
             _librarySelectionPopupForm.CancelRequested += _librarySelectionPopupForm_CancelRequested;
             _librarySelectionPopupForm.OKRequested += _librarySelectionPopupForm_OKRequested;
 
@@ -207,10 +208,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        private void currentInstrumentUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.CurrentInstrumentClose);
-        }
+        private void currentInstrumentUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.CurrentInstrumentClose);
 
         private void currentInstrumentUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
@@ -221,32 +219,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        private void currentInstrumentUserControl_ShowAutoPatchRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.CurrentInstrumentShowAutoPatch);
-        }
+        private void currentInstrumentUserControl_ShowAutoPatchRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.AutoPatchShow);
 
-        private void _autoPatchDetailsForm_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.AutoPatchDetailsClose);
-        }
+        private void _autoPatchDetailsForm_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.AutoPatchDetailsClose);
+
+        private void _autoPatchDetailsForm_SaveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(_presenter.AutoPatchSave);
 
         // Curve
 
-        private void curveGridUserControl_AddRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.CurveCreate);
-        }
+        private void curveGridUserControl_AddRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.CurveCreate);
 
-        private void curveGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
-        {
-            TemplateEventHandler(() => _presenter.CurveDelete(e.Value));
-        }
+        private void curveGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.CurveDelete(e.Value));
 
-        private void curveGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.CurveGridClose);
-        }
+        private void curveGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.CurveGridClose);
 
         private void curveGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
@@ -310,10 +295,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document Grid
 
-        private void documentGridUserControl_AddRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.DocumentDetailsCreate);
-        }
+        private void documentGridUserControl_AddRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentDetailsCreate);
 
         private void documentGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
@@ -332,34 +314,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.DocumentDeleteShow(e.Value));
         }
 
-        private void documentGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.DocumentGridClose);
-        }
+        private void documentGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentGridClose);
 
         // Document Details
 
-        private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.DocumentDetailsSave);
-        }
+        private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentDetailsSave);
 
         private void documentDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.DocumentDeleteShow(e.Value));
         }
 
-        private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.DocumentDetailsClose);
-        }
+        private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentDetailsClose);
 
         // Document Tree
 
-        private void documentTreeUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(_presenter.DocumentTreeClose);
-        }
+        private void documentTreeUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentTreeClose);
 
         private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
         {

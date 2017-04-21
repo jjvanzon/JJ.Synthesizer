@@ -45,7 +45,7 @@
             // 
             this.buttonShowAutoPatch.FlatAppearance.BorderSize = 0;
             this.buttonShowAutoPatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonShowAutoPatch.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIconThinner;
+            this.buttonShowAutoPatch.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIcon;
             this.buttonShowAutoPatch.Location = new System.Drawing.Point(254, 7);
             this.buttonShowAutoPatch.Margin = new System.Windows.Forms.Padding(4);
             this.buttonShowAutoPatch.Name = "buttonShowAutoPatch";
@@ -58,7 +58,7 @@
             // 
             this.buttonClose.FlatAppearance.BorderSize = 0;
             this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClose.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.CloseIconThinner;
+            this.buttonClose.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.CloseIcon;
             this.buttonClose.Location = new System.Drawing.Point(294, 4);
             this.buttonClose.Margin = new System.Windows.Forms.Padding(4);
             this.buttonClose.Name = "buttonClose";

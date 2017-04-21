@@ -6,10 +6,16 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
-    public partial class PatchDetailsForm : Form
+    internal partial class PatchDetailsForm : Form
     {
         public event EventHandler CloseRequested;
 
+        public event EventHandler<EventArgs<int>> SaveRequested
+        {
+            add => patchDetailsUserControl.SaveRequested += value;
+            remove => patchDetailsUserControl.SaveRequested += value;
+        }
+        
         public PatchDetailsViewModel ViewModel
         {
             get => patchDetailsUserControl.ViewModel;

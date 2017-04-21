@@ -65,6 +65,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 AddButtonVisible = true,
                 CloseButtonVisible = true,
                 RemoveButtonVisible = true,
+                SaveButtonVisible = false,
+                PlayButtonVisible = false,
                 Dock = DockStyle.Fill,
                 Margin = new Padding(0),
                 Name = nameof(_titleBarUserControl),

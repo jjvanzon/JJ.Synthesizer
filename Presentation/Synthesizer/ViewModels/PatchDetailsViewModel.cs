@@ -9,5 +9,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public PatchViewModel Entity { get; set; }
         public IList<IDAndName> OperatorToolboxItems { get; set; }
         public OperatorViewModel SelectedOperator { get; set; }
+        public bool CanSave { get; set; }
     }
 }

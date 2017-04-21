@@ -121,22 +121,19 @@
   <data name="AddIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="AddIconThinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AddIconThinner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="CloseIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CloseIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CloseIconThinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CloseIconThinner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="OpenWindowIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OpenWindowIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="OpenWindowIconThinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\OpenWindowIconThinner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="PlayIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PlayIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="RemoveIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RemoveIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RemoveIconThinner" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RemoveIconThinner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SaveIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SaveIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

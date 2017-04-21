@@ -61,7 +61,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
+            this.titleBarUserControl.PlayButtonVisible = false;
             this.titleBarUserControl.RemoveButtonVisible = false;
+            this.titleBarUserControl.SaveButtonVisible = false;
             this.titleBarUserControl.Size = new System.Drawing.Size(269, 26);
             this.titleBarUserControl.TabIndex = 3;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);

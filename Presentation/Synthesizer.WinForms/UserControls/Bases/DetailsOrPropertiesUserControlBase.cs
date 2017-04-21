@@ -15,17 +15,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         public event EventHandler<EventArgs<int>> CloseRequested;
         public event EventHandler<EventArgs<int>> LoseFocusRequested;
+        public event EventHandler<EventArgs<int>> SaveRequested;
 
         public event EventHandler AddClicked
         {
-            add { _titleBarUserControl.AddClicked += value ; }
-            remove { _titleBarUserControl.AddClicked -= value; }
+            add => _titleBarUserControl.AddClicked += value;
+            remove => _titleBarUserControl.AddClicked -= value;
         }
 
         public event EventHandler RemoveClicked
         {
-            add { _titleBarUserControl.RemoveClicked += value; }
-            remove { _titleBarUserControl.RemoveClicked -= value; }
+            add => _titleBarUserControl.RemoveClicked += value;
+            remove => _titleBarUserControl.RemoveClicked -= value;
         }
 
         public DetailsOrPropertiesUserControlBase()
@@ -38,13 +39,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             _titleBarUserControl = CreateTitleBarUserControl();
             Controls.Add(_titleBarUserControl);
             _titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
+            _titleBarUserControl.SaveClicked += titleBarUserControl_SaveClicked;
         }
+
 
         ~DetailsOrPropertiesUserControlBase()
         {
             if (_titleBarUserControl != null)
             {
                 _titleBarUserControl.CloseClicked -= _titleBarUserControl_CloseClicked;
+                _titleBarUserControl.SaveClicked -= titleBarUserControl_SaveClicked;
             }
         }
 
@@ -62,10 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         // Gui
 
-        protected virtual void ApplyStyling()
-        {
-            BackColor = SystemColors.ButtonFace;
-        }
+        protected virtual void ApplyStyling() => BackColor = SystemColors.ButtonFace;
 
         /// <summary> does nothing </summary>
         protected virtual void SetTitles()
@@ -79,16 +80,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => _titleBarUserControl.Text = value;
         }
 
-        public bool CloseButtonVisible
+        public bool SaveButtonVisible
         {
-            get => _titleBarUserControl.CloseButtonVisible;
-            set => _titleBarUserControl.CloseButtonVisible = value;
-        }
-
-        public bool RemoveButtonVisible
-        {
-            get => _titleBarUserControl.RemoveButtonVisible;
-            set => _titleBarUserControl.RemoveButtonVisible = value;
+            get => _titleBarUserControl.SaveButtonVisible;
+            set => _titleBarUserControl.SaveButtonVisible = value;
         }
 
         public bool AddButtonVisible
@@ -97,15 +92,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => _titleBarUserControl.AddButtonVisible = value;
         }
 
-        protected virtual void PositionControls()
+        public bool RemoveButtonVisible
         {
-            _titleBarUserControl.Width = Width;
+            get => _titleBarUserControl.RemoveButtonVisible;
+            set => _titleBarUserControl.RemoveButtonVisible = value;
         }
 
-        private void Base_Resize(object sender, EventArgs e)
+        public bool CloseButtonVisible
         {
-            PositionControls();
+            get => _titleBarUserControl.CloseButtonVisible;
+            set => _titleBarUserControl.CloseButtonVisible = value;
         }
+
+        protected virtual void PositionControls() => _titleBarUserControl.Width = Width;
+
+        private void Base_Resize(object sender, EventArgs e) => PositionControls();
 
         // Binding
 
@@ -138,10 +139,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         // Events
 
-        private void _titleBarUserControl_CloseClicked(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
+
+        private void titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
         private void Base_Leave(object sender, EventArgs e)
@@ -166,6 +166,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 CloseButtonVisible = true,
                 RemoveButtonVisible = false,
                 AddButtonVisible = false,
+                PlayButtonVisible = false,
+                SaveButtonVisible = false,
                 Margin = new Padding(0, 0, 0, 0),
                 Height = TITLE_BAR_HEIGHT,
                 Left = 0,

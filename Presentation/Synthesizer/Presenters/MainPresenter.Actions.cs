@@ -274,7 +274,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Move(userInput, patchID, newPosition));
         }
 
-        public void CurrentInstrumentShowAutoPatch()
+        public void AutoPatchShow()
         {
             // GetViewModel
             CurrentInstrumentViewModel currentInstrumentViewModel = MainViewModel.Document.CurrentInstrument;
@@ -309,26 +309,74 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // ToViewModel
-            PatchDetailsViewModel detailsViewModel = patchManager.Patch.ToDetailsViewModel(
+            PatchDetailsViewModel patchDetailsViewModel = patchManager.Patch.ToDetailsViewModel(
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _repositories.PatchRepository,
                 _entityPositionManager);
 
             // Non-Persisted
-            detailsViewModel.Visible = true;
+            patchDetailsViewModel.Visible = true;
+            patchDetailsViewModel.CanSave = true;
 
             // Successful
             currentInstrumentViewModel.Successful = true;
-            detailsViewModel.Successful = true;
+            patchDetailsViewModel.Successful = true;
 
             // DispatchViewModel
-            DispatchAutoPatchDetailsViewModel(detailsViewModel);
+            DispatchAutoPatchDetailsViewModel(patchDetailsViewModel);
         }
 
         public void AutoPatchDetailsClose()
         {
             MainViewModel.Document.AutoPatchDetails.Visible = false;
+        }
+
+        public void AutoPatchSave()
+        {
+            PatchDetailsViewModel userInput = MainViewModel.Document.AutoPatchDetails;
+
+            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, partialAction);
+
+            PatchDetailsViewModel partialAction()
+            {
+                // Get Entities
+                Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+
+                // ToEntity
+                // TODO: This returns result. This is weird.
+                Patch patch = userInput.Entity.ToEntityWithRelatedEntities(_patchRepositories).Patch;
+                // TODO: Generate a unique name.
+                patch.Name = "DUMMY NAME";
+
+                // Business
+                patch.LinkTo(document);
+                var patchManager = new PatchManager(patch, _patchRepositories);
+                IResult result = patchManager.SavePatch();
+
+                // ToViewModel
+                PatchDetailsViewModel patchDetailsViewModel = patch.ToDetailsViewModel(
+                    _repositories.SampleRepository,
+                    _repositories.CurveRepository,
+                    _repositories.PatchRepository,
+                    _entityPositionManager);
+
+                // Non-Persisted
+                patchDetailsViewModel.ValidationMessages.AddRange(result.Messages);
+
+                // Sucessdful?
+                patchDetailsViewModel.Successful = result.Successful;
+
+                return patchDetailsViewModel;
+            }
+
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
+                PatchDetailsShow(userInput.Entity.ID);
+                PatchPropertiesShow(userInput.Entity.ID);
+                AutoPatchDetailsClose();
+            }
         }
 
         // Curve
@@ -2661,9 +2709,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// provide a delegate to the sub-presenter's action method
         /// and possibly do some refreshing of other view models afterwards.
         /// </summary>
-        private TViewModel TemplateActionMethod<TViewModel>(
-            TViewModel userInput,
-            Func<TViewModel> partialAction)
+        private TViewModel TemplateActionMethod<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
             where TViewModel : ViewModelBase
         {
             if (userInput == null) throw new NullException(() => userInput);

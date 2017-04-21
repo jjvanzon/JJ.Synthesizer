@@ -41,10 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Constructors
 
-        public PatchDetailsUserControl()
-        {
-            InitializeComponent();
-        }
+        public PatchDetailsUserControl() => InitializeComponent();
 
         // Gui
 
@@ -72,13 +69,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set => base.ViewModel = value;
         }
 
-        protected override int GetID()
-        {
-            return ViewModel.Entity.ID;
-        }
+        protected override int GetID() => ViewModel.Entity.ID;
 
         protected override void ApplyViewModelToControls()
         {
+            SaveButtonVisible = ViewModel.CanSave;
+
+            ApplyOperatorToolboxItemsViewModel(ViewModel.OperatorToolboxItems);
+
             UnbindVectorGraphicsEvents();
 
             if (_converterResult == null)
@@ -97,8 +95,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             BindVectorGraphicsEvents();
 
             diagramControl1.Diagram = _converterResult.Diagram;
-
-            ApplyOperatorToolboxItemsViewModel(ViewModel.OperatorToolboxItems);
         }
 
         private void BindVectorGraphicsEvents()
