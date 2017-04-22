@@ -500,7 +500,7 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary>
-        /// Does work shared for creating multiple calculators only once.
+        /// Does work, shared for creating multiple calculators only once.
         /// In particular in compiled mode, this means it compiles the calculation only once.
         /// Note that you are still going to have to call it once for each channel, unfortunately,
         /// due to the inherent behavior of sample mixing inside the PatchCalculators.
@@ -520,22 +520,6 @@ namespace JJ.Business.Synthesizer
                 case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
                 case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
                 {
-                    IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
-                                                                                   calculatorCount,
-                                                                                   () =>
-                                                                                       CreateCalculator(
-                                                                                           outlet,
-                                                                                           samplingRate,
-                                                                                           channelCount,
-                                                                                           channelIndex,
-                                                                                           calculatorCache,
-                                                                                           mustSubstituteSineForUnfilledInSignalPatchInlets))
-                                                                               .ToArray();
-
-                    return patchCalculators;
-                }
-                default:
-                {
                     var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
                         calculatorCache,
                         _repositories.CurveRepository,
@@ -553,6 +537,23 @@ namespace JJ.Business.Synthesizer
                     IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
                         calculatorCount,
                         () => (IPatchCalculator)Activator.CreateInstance(activationInfo.Type, activationInfo.Args)).ToArray();
+
+                    return patchCalculators;
+                }
+                default:
+                {
+                    IList<IPatchCalculator> patchCalculators =
+                        CollectionHelper.Repeat(
+                                            calculatorCount,
+                                            () =>
+                                                CreateCalculator(
+                                                    outlet,
+                                                    samplingRate,
+                                                    channelCount,
+                                                    channelIndex,
+                                                    calculatorCache,
+                                                    mustSubstituteSineForUnfilledInSignalPatchInlets))
+                                        .ToArray();
 
                     return patchCalculators;
                 }

@@ -34,12 +34,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             if (patch == null) throw new NullException(() => patch);
             if (audioOutput == null) throw new NullException(() => audioOutput);
-            if (noteRecycler == null) throw new NullException(() => noteRecycler);
             if (repositories == null) throw new NullException(() => repositories);
 
             AssertAudioOutput(audioOutput, repositories);
 
-            _noteRecycler = noteRecycler;
+            _noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
 
             _maxConcurrentNotes = audioOutput.MaxConcurrentNotes;
 
