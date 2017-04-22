@@ -305,16 +305,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 var patchManager = new PatchManager(patch, _patchRepositories);
                 IResult result = patchManager.SavePatch();
 
-                // ToViewModel
-                AutoPatchViewModel autoPatchViewModel = patch.ToAutoPatchViewModel(
-                    _repositories.SampleRepository,
-                    _repositories.CurveRepository,
-                    _repositories.PatchRepository,
-                    _repositories.InterpolationTypeRepository,
-                    _entityPositionManager);
+                AutoPatchViewModel autoPatchViewModel;
+                if (result.Successful)
+                {
+                    // If successful, don't bother creating a new view model,
+                    // because it will be discarded immediately afterwards anyway.
+                    autoPatchViewModel = userInput;
+                }
+                else
+                {
+                    // ToViewModel
+                    autoPatchViewModel = patch.ToAutoPatchViewModel(
+                        _repositories.SampleRepository,
+                        _repositories.CurveRepository,
+                        _repositories.PatchRepository,
+                        _repositories.InterpolationTypeRepository,
+                        _entityPositionManager);
 
-                // Non-Persisted
-                autoPatchViewModel.ValidationMessages.AddRange(result.Messages);
+                    // Non-Persisted
+                    autoPatchViewModel.ValidationMessages.AddRange(result.Messages);
+                    autoPatchViewModel.Visible = userInput.Visible;
+                }
 
                 // Successful?
                 autoPatchViewModel.Successful = result.Successful;
