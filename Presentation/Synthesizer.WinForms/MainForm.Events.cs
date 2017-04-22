@@ -221,7 +221,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void currentInstrumentUserControl_ShowAutoPatchRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.AutoPatchShow);
 
-        private void _autoPatchDetailsForm_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.AutoPatchDetailsClose);
+        private void _autoPatchDetailsForm_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.AutoPatchClose);
 
         private void _autoPatchDetailsForm_SaveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(_presenter.AutoPatchSave);
 

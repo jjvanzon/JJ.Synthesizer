@@ -227,6 +227,110 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _audioOutputPropertiesPresenter.LoseFocus(userInput));
         }
 
+        // AutoPatch
+
+        public void AutoPatchShow()
+        {
+            // GetViewModel
+            CurrentInstrumentViewModel currentInstrumentViewModel = MainViewModel.Document.CurrentInstrument;
+
+            // RefreshCounter
+            currentInstrumentViewModel.RefreshCounter++;
+
+            // Set !Successful
+            currentInstrumentViewModel.Successful = false;
+
+            // ToEntity
+            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Get Entities
+            IList<Patch> underlyingPatches = currentInstrumentViewModel.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
+
+            // Business
+            var patchManager = new PatchManager(_patchRepositories);
+            patchManager.AutoPatch(underlyingPatches);
+            Patch autoPatch = patchManager.Patch;
+
+            // Business
+            IResult validationResult = _documentManager.Save(document);
+            if (!validationResult.Successful)
+            {
+                // Non-Persisted
+                currentInstrumentViewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+                // DispatchViewModel
+                DispatchViewModel(currentInstrumentViewModel);
+
+                return;
+            }
+
+            // ToViewModel
+            AutoPatchViewModel autoPatchViewModel = autoPatch.ToAutoPatchViewModel(
+                _repositories.SampleRepository,
+                _repositories.CurveRepository,
+                _repositories.PatchRepository,
+                _repositories.InterpolationTypeRepository,
+                _entityPositionManager);
+
+            // Non-Persisted
+            autoPatchViewModel.Visible = true;
+
+            // Successful
+            currentInstrumentViewModel.Successful = true;
+            autoPatchViewModel.Successful = true;
+
+            // DispatchViewModel
+            DispatchViewModel(autoPatchViewModel);
+        }
+
+        public void AutoPatchClose() => MainViewModel.Document.AutoPatch = ViewModelHelper.CreateEmptyAutoPatchViewModel();
+
+        public void AutoPatchSave()
+        {
+            AutoPatchViewModel userInput = MainViewModel.Document.AutoPatch;
+
+            AutoPatchViewModel viewModel = TemplateActionMethod(userInput, partialAction);
+
+            AutoPatchViewModel partialAction()
+            {
+                // Get Entities
+                Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+
+                // ToEntity
+                Patch patch = userInput.ToEntityWithRelatedEntities(_patchRepositories);
+
+                // Business
+                patch.Name = "DUMMY NAME"; // TODO: Generate a unique name.
+                patch.LinkTo(document);
+                var patchManager = new PatchManager(patch, _patchRepositories);
+                IResult result = patchManager.SavePatch();
+
+                // ToViewModel
+                AutoPatchViewModel autoPatchViewModel = patch.ToAutoPatchViewModel(
+                    _repositories.SampleRepository,
+                    _repositories.CurveRepository,
+                    _repositories.PatchRepository,
+                    _repositories.InterpolationTypeRepository,
+                    _entityPositionManager);
+
+                // Non-Persisted
+                autoPatchViewModel.ValidationMessages.AddRange(result.Messages);
+
+                // Successful?
+                autoPatchViewModel.Successful = result.Successful;
+
+                return autoPatchViewModel;
+            }
+
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
+                PatchDetailsShow(userInput.PatchDetails.Entity.ID);
+                PatchPropertiesShow(userInput.PatchDetails.Entity.ID);
+                AutoPatchClose();
+            }
+        }
+
         // CurrentInstrument
 
         public void CurrentInstrumentShow()
@@ -272,111 +376,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Move(userInput, patchID, newPosition));
-        }
-
-        public void AutoPatchShow()
-        {
-            // GetViewModel
-            CurrentInstrumentViewModel currentInstrumentViewModel = MainViewModel.Document.CurrentInstrument;
-
-            // RefreshCounter
-            currentInstrumentViewModel.RefreshCounter++;
-
-            // Set !Successful
-            currentInstrumentViewModel.Successful = false;
-
-            // ToEntity
-            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Get Entities
-            IList<Patch> underlyingPatches = currentInstrumentViewModel.ToEntities(_repositories.PatchRepository);
-
-            // Business
-            var patchManager = new PatchManager(_patchRepositories);
-            patchManager.AutoPatch(underlyingPatches);
-
-            // Business
-            IResult validationResult = _documentManager.Save(document);
-            if (!validationResult.Successful)
-            {
-                // Non-Persisted
-                currentInstrumentViewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-                // DispatchViewModel
-                DispatchViewModel(currentInstrumentViewModel);
-
-                return;
-            }
-
-            // ToViewModel
-            PatchDetailsViewModel patchDetailsViewModel = patchManager.Patch.ToDetailsViewModel(
-                _repositories.SampleRepository,
-                _repositories.CurveRepository,
-                _repositories.PatchRepository,
-                _entityPositionManager);
-
-            // Non-Persisted
-            patchDetailsViewModel.Visible = true;
-            patchDetailsViewModel.CanSave = true;
-
-            // Successful
-            currentInstrumentViewModel.Successful = true;
-            patchDetailsViewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchAutoPatchDetailsViewModel(patchDetailsViewModel);
-        }
-
-        public void AutoPatchDetailsClose()
-        {
-            MainViewModel.Document.AutoPatchDetails.Visible = false;
-        }
-
-        public void AutoPatchSave()
-        {
-            PatchDetailsViewModel userInput = MainViewModel.Document.AutoPatchDetails;
-
-            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, partialAction);
-
-            PatchDetailsViewModel partialAction()
-            {
-                // Get Entities
-                Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-                // ToEntity
-                // TODO: This returns result. This is weird.
-                Patch patch = userInput.Entity.ToEntityWithRelatedEntities(_patchRepositories).Patch;
-                // TODO: Generate a unique name.
-                patch.Name = "DUMMY NAME";
-
-                // Business
-                patch.LinkTo(document);
-                var patchManager = new PatchManager(patch, _patchRepositories);
-                IResult result = patchManager.SavePatch();
-
-                // ToViewModel
-                PatchDetailsViewModel patchDetailsViewModel = patch.ToDetailsViewModel(
-                    _repositories.SampleRepository,
-                    _repositories.CurveRepository,
-                    _repositories.PatchRepository,
-                    _entityPositionManager);
-
-                // Non-Persisted
-                patchDetailsViewModel.ValidationMessages.AddRange(result.Messages);
-
-                // Sucessdful?
-                patchDetailsViewModel.Successful = result.Successful;
-
-                return patchDetailsViewModel;
-            }
-
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-                PatchDetailsShow(userInput.Entity.ID);
-                PatchPropertiesShow(userInput.Entity.ID);
-                AutoPatchDetailsClose();
-            }
         }
 
         // Curve
@@ -753,7 +752,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.AudioFileOutputGrid.Successful = true;
             viewModel.AudioFileOutputPropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.AudioOutputProperties.Successful = true;
-            viewModel.AutoPatchDetails.Successful = true;
+            viewModel.AutoPatch.PatchDetails.Successful = true;
+            viewModel.AutoPatch.PatchProperties.Successful = true;
+            viewModel.AutoPatch.OperatorPropertiesDictionary.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_ForInletsToDimension.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_ForNumbers.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_ForPatchOutlets.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_WithCollectionRecalculation.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_WithOutletCount.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatch.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Successful = true);
             viewModel.CurrentInstrument.Successful = true;
             viewModel.CurveDetailsDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.CurveGrid.Successful = true;
@@ -1931,7 +1944,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void PatchCreate(string group)
         {
             // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
+            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
 
             // Template Method
             PatchGridViewModel viewModel = TemplateActionMethod(userInput, () =>
@@ -2042,7 +2055,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void PatchGridShow(string group)
         {
             // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
+            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
 
             // Template Method
             PatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _patchGridPresenter.Show(userInput));
@@ -2056,7 +2069,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void PatchGridClose(string group)
         {
             // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
+            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
 
             // Template Method
             PatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _patchGridPresenter.Close(userInput));

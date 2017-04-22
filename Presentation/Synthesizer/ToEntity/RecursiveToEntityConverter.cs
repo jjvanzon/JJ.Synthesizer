@@ -5,6 +5,8 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
@@ -25,16 +27,107 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
-        public Operator Convert(OperatorViewModel operatorViewModel)
+        public void ConvertToEntitiesWithRelatedEntities(
+            IEnumerable<PatchDetailsViewModel> patchDetailsViewModelCollection,
+            IEnumerable<PatchPropertiesViewModel> patchPropertiesViewModelCollection,
+            Document destDocument)
         {
-            if (operatorViewModel == null) throw new NullException(() => operatorViewModel);
+            if (patchDetailsViewModelCollection == null) throw new NullException(() => patchDetailsViewModelCollection);
+            if (patchPropertiesViewModelCollection == null) throw new NullException(() => patchPropertiesViewModelCollection);
+            if (destDocument == null) throw new NullException(() => destDocument);
 
-            Operator op = ToEntityRecursive(operatorViewModel);
+            var idsToKeep = new HashSet<int>();
 
-            return op;
+            var tuples = from patchDetailsViewModel in patchDetailsViewModelCollection
+                         join patchPropertiesViewModel in patchPropertiesViewModelCollection
+                         on patchDetailsViewModel.Entity.ID equals patchPropertiesViewModel.ID
+                         select new { patchDetailsViewModel, patchPropertiesViewModel };
+
+            foreach (var tuple in tuples)
+            {
+                Patch patch = ConvertToEntityWithRelatedEntities(
+                    tuple.patchDetailsViewModel,
+                    tuple.patchPropertiesViewModel);
+
+                patch.LinkTo(destDocument);
+
+                idsToKeep.Add(patch.ID);
+            }
+
+            var patchManager = new PatchManager(_repositories);
+
+            IList<int> existingIDs = destDocument.Patches.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                patchManager.PatchID = idToDelete;
+                patchManager.DeletePatchWithRelatedEntities();
+            }
         }
 
-        private Operator ToEntityRecursive(OperatorViewModel viewModel)
+        public Patch ConvertToEntityWithRelatedEntities(
+            PatchDetailsViewModel patchDetailsViewModel,
+            PatchPropertiesViewModel patchPropertiesViewModel)
+        {
+            if (patchDetailsViewModel == null) throw new NullException(() => patchDetailsViewModel);
+            if (patchPropertiesViewModel == null) throw new NullException(() => patchPropertiesViewModel);
+
+            ToPatchWithRelatedEntitiesResult result = ConvertToEntityWithRelatedEntities(patchDetailsViewModel);
+            Patch patch = result.Patch;
+            IList<Operator> operatorsToDelete = result.OperatorsToDelete;
+
+            patchPropertiesViewModel.ToEntity(_repositories.PatchRepository);
+
+            // Order-Dependence: 
+            // Deleting operators is deferred from converting PatchDetails to after converting operator property boxes,
+            // because deleting an operator has the side-effect of updating the dependent CustomOperators,
+            // which requires data from the PatchInlet and PatchOutlet PropertiesViewModels to be
+            // converted first.
+            var patchManager = new PatchManager(patch, _repositories);
+
+            foreach (Operator op in operatorsToDelete)
+            {
+                patchManager.DeleteOperatorWithRelatedEntities(op);
+            }
+
+            return patch;
+        }
+
+        private ToPatchWithRelatedEntitiesResult ConvertToEntityWithRelatedEntities(PatchDetailsViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            ToPatchWithRelatedEntitiesResult result = ConvertToEntityWithRelatedEntities(viewModel.Entity);
+
+            return result;
+        }
+
+        private ToPatchWithRelatedEntitiesResult ConvertToEntityWithRelatedEntities(PatchViewModel viewModel)
+        {
+            var convertedOperators = new HashSet<Operator>();
+
+            Patch patch = viewModel.ToEntity(_repositories.PatchRepository);
+
+            foreach (OperatorViewModel operatorViewModel in viewModel.OperatorDictionary.Values)
+            {
+                Operator op = ConvertToEntityRecursive(operatorViewModel);
+                op.LinkTo(patch);
+
+                convertedOperators.Add(op);
+            }
+
+            IList<Operator> operatorsToDelete = patch.Operators.Except(convertedOperators).ToArray();
+
+            var result = new ToPatchWithRelatedEntitiesResult
+            {
+                Patch = patch,
+                OperatorsToDelete = operatorsToDelete
+            };
+
+            return result;
+        }
+
+        private Operator ConvertToEntityRecursive(OperatorViewModel viewModel)
         {
             if (_operatorDictionary.TryGetValue(viewModel.ID, out Operator op))
             {
@@ -60,7 +153,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (InletViewModel inletViewModel in sourceInletViewModels)
             {
-                Inlet inlet = ToEntityRecursive(inletViewModel);
+                Inlet inlet = ConvertToEntityRecursive(inletViewModel);
                 inlet.LinkTo(destOperator);
                 idsToKeep.Add(inlet.ID);
             }
@@ -83,7 +176,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OutletViewModel outletViewModel in sourceOutletViewModels)
             {
-                Outlet outlet = ToEntityRecursive(outletViewModel);
+                Outlet outlet = ConvertToEntityRecursive(outletViewModel);
                 outlet.LinkTo(destOperator);
                 idsToKeep.Add(outlet.ID);
             }
@@ -99,7 +192,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        private Inlet ToEntityRecursive(InletViewModel inletViewModel)
+        private Inlet ConvertToEntityRecursive(InletViewModel inletViewModel)
         {
             Inlet inlet = inletViewModel.ToEntity(_repositories.InletRepository, _repositories.DimensionRepository);
 
@@ -109,14 +202,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
             else
             {
-                Outlet inputOutlet = ToEntityRecursive(inletViewModel.InputOutlet);
+                Outlet inputOutlet = ConvertToEntityRecursive(inletViewModel.InputOutlet);
                 inlet.LinkTo(inputOutlet);
             }
 
             return inlet;
         }
 
-        private Outlet ToEntityRecursive(OutletViewModel outletViewModel)
+        private Outlet ConvertToEntityRecursive(OutletViewModel outletViewModel)
         {
             if (_outletDictionary.TryGetValue(outletViewModel.ID, out Outlet outlet))
             {
@@ -130,7 +223,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             {
                 throw new NullException(() => outletViewModel.Operator);
             }
-            Operator op = ToEntityRecursive(outletViewModel.Operator);
+            Operator op = ConvertToEntityRecursive(outletViewModel.Operator);
 
             // I have a chicken and egg problem. I converted the operator, in there the operator
             // is first converted without related entities, then added to the dictionary,

@@ -44,6 +44,31 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static AutoPatchViewModel CreateEmptyAutoPatchViewModel()
+        {
+            var viewModel = new AutoPatchViewModel
+            {
+                PatchDetails = CreateEmptyPatchDetailsViewModel(),
+                PatchProperties = CreateEmptyPatchPropertiesViewModel(),
+                OperatorPropertiesDictionary = new Dictionary<int, OperatorPropertiesViewModel>(),
+                OperatorPropertiesDictionary_ForCaches = new Dictionary<int, OperatorPropertiesViewModel_ForCache>(),
+                OperatorPropertiesDictionary_ForCurves = new Dictionary<int, OperatorPropertiesViewModel_ForCurve>(),
+                OperatorPropertiesDictionary_ForCustomOperators = new Dictionary<int, OperatorPropertiesViewModel_ForCustomOperator>(),
+                OperatorPropertiesDictionary_ForInletsToDimension = new Dictionary<int, OperatorPropertiesViewModel_ForInletsToDimension>(),
+                OperatorPropertiesDictionary_ForNumbers = new Dictionary<int, OperatorPropertiesViewModel_ForNumber>(),
+                OperatorPropertiesDictionary_ForPatchInlets = new Dictionary<int, OperatorPropertiesViewModel_ForPatchInlet>(),
+                OperatorPropertiesDictionary_ForPatchOutlets = new Dictionary<int, OperatorPropertiesViewModel_ForPatchOutlet>(),
+                OperatorPropertiesDictionary_ForSamples = new Dictionary<int, OperatorPropertiesViewModel_ForSample>(),
+                OperatorPropertiesDictionary_WithInterpolation = new Dictionary<int, OperatorPropertiesViewModel_WithInterpolation>(),
+                OperatorPropertiesDictionary_WithCollectionRecalculation = new Dictionary<int, OperatorPropertiesViewModel_WithCollectionRecalculation>(),
+                OperatorPropertiesDictionary_WithOutletCount = new Dictionary<int, OperatorPropertiesViewModel_WithOutletCount>(),
+                OperatorPropertiesDictionary_WithInletCount = new Dictionary<int, OperatorPropertiesViewModel_WithInletCount>(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
         public static CurrentInstrumentViewModel CreateEmptyCurrentInstrumentViewModel()
         {
             var viewModel = new CurrentInstrumentViewModel
@@ -73,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesDictionary = new Dictionary<int, AudioFileOutputPropertiesViewModel>(),
                 AudioOutputProperties = CreateEmptyAudioOutputPropertiesViewModel(),
-                AutoPatchDetails = CreateEmptyPatchDetailsViewModel(),
+                AutoPatch = CreateEmptyAutoPatchViewModel(),
                 CurrentInstrument = CreateEmptyCurrentInstrumentViewModel(),
                 CurveDetailsDictionary = new Dictionary<int, CurveDetailsViewModel>(),
                 CurveGrid = CreateEmptyCurveGridViewModel(),
@@ -272,6 +297,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = CreateEmptyPatchViewModel(),
                 OperatorToolboxItems = new List<IDAndName>(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        public static PatchPropertiesViewModel CreateEmptyPatchPropertiesViewModel()
+        {
+            var viewModel = new PatchPropertiesViewModel
+            {
                 ValidationMessages = new List<Message>()
             };
 

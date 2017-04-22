@@ -95,7 +95,7 @@
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
     <Compile Include="Presenters\MainPresenter.General.cs" />
-    <Compile Include="ToEntity\ToEntityHelper.cs" />
+    <Compile Include="ToEntity\2017-04-22 Backup of ToEntityHelper.cs" />
     <Compile Include="ToViewModel\RecursiveToDocumentTreeViewModelFactory.cs" />
     <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
@@ -109,6 +109,7 @@
     <Compile Include="Validators\ValidationHelper.cs" />
     <Compile Include="ViewModels\AudioOutputPropertiesViewModel.cs" />
     <Compile Include="ViewModels\CurrentInstrumentViewModel.cs" />
+    <Compile Include="ViewModels\Items\AutoPatchViewModel.cs" />
     <Compile Include="ViewModels\Items\LibraryListItemViewModel.cs" />
     <Compile Include="ViewModels\LibraryPatchPropertiesViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />

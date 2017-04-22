@@ -29,31 +29,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        // PatchDocument
-
-        public static PatchGridViewModel GetPatchGridViewModel_ByGroup(DocumentViewModel documentViewModel, string group)
-        {
-            PatchGridViewModel viewModel = TryGetPatchGridViewModel_ByGroup(documentViewModel, group);
-
-            if (viewModel == null)
-            {
-                throw new NotFoundException<PatchGridViewModel>(new { group });
-            }
-
-            return viewModel;
-        }
-
-        public static PatchGridViewModel TryGetPatchGridViewModel_ByGroup(DocumentViewModel documentViewModel, string group)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            string key = NameHelper.ToCanonical(group);
-
-            documentViewModel.PatchGridDictionary.TryGetValue(key, out PatchGridViewModel viewModel);
-
-            return viewModel;
-        }
-
         // Curve
 
         public static CurveDetailsViewModel GetCurveDetailsViewModel(DocumentViewModel documentViewModel, int curveID)
@@ -198,9 +173,20 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary.TryGetValue(operatorID, out OperatorPropertiesViewModel viewModel);
+            OperatorPropertiesViewModel viewModel;
 
-            return viewModel;
+            if (documentViewModel.OperatorPropertiesDictionary.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            return null;
         }
 
         public static OperatorPropertiesViewModel_ForCache GetOperatorPropertiesViewModel_ForCache(DocumentViewModel documentViewModel, int operatorID)
@@ -217,9 +203,20 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_ForCaches.TryGetValue(operatorID, out OperatorPropertiesViewModel_ForCache viewModel);
+            OperatorPropertiesViewModel_ForCache viewModel;
 
-            return viewModel;
+            if (documentViewModel.OperatorPropertiesDictionary_ForCaches.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForCaches.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            return null;
         }
 
         public static OperatorPropertiesViewModel_ForCurve GetOperatorPropertiesViewModel_ForCurve(DocumentViewModel documentViewModel, int operatorID)
@@ -236,7 +233,18 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_ForCurves.TryGetValue(operatorID, out OperatorPropertiesViewModel_ForCurve viewModel);
+            OperatorPropertiesViewModel_ForCurve viewModel;
+
+            if (documentViewModel.OperatorPropertiesDictionary_ForCurves.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForCurves.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
 
             return viewModel;
         }
@@ -255,7 +263,17 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_ForCustomOperators.TryGetValue(operatorID, out OperatorPropertiesViewModel_ForCustomOperator viewModel);
+            OperatorPropertiesViewModel_ForCustomOperator viewModel;
+
+            if (documentViewModel.OperatorPropertiesDictionary_ForCustomOperators.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForCustomOperators.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
 
             return viewModel;
         }
@@ -274,9 +292,20 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_ForInletsToDimension.TryGetValue(operatorID, out OperatorPropertiesViewModel_ForInletsToDimension viewModel);
+            OperatorPropertiesViewModel_ForInletsToDimension viewModel;
 
-            return viewModel;
+            if (documentViewModel.OperatorPropertiesDictionary_ForInletsToDimension.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForInletsToDimension.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            return null;
         }
 
         public static OperatorPropertiesViewModel_ForNumber GetOperatorPropertiesViewModel_ForNumber(DocumentViewModel documentViewModel, int operatorID)
@@ -293,9 +322,20 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_ForNumbers.TryGetValue(operatorID, out OperatorPropertiesViewModel_ForNumber viewModel);
+            OperatorPropertiesViewModel_ForNumber viewModel;
 
-            return viewModel;
+            if (documentViewModel.OperatorPropertiesDictionary_ForNumbers.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForNumbers.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            return null;
         }
 
         public static OperatorPropertiesViewModel_ForPatchInlet GetOperatorPropertiesViewModel_ForPatchInlet(DocumentViewModel documentViewModel, int operatorID)
@@ -312,7 +352,17 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_ForPatchInlets.TryGetValue(operatorID, out OperatorPropertiesViewModel_ForPatchInlet viewModel);
+            OperatorPropertiesViewModel_ForPatchInlet viewModel;
+
+            if (documentViewModel.OperatorPropertiesDictionary_ForPatchInlets.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForPatchInlets.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
 
             return viewModel;
         }
@@ -331,9 +381,20 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_ForPatchOutlets.TryGetValue(operatorID, out OperatorPropertiesViewModel_ForPatchOutlet viewModel);
+            OperatorPropertiesViewModel_ForPatchOutlet viewModel;
 
-            return viewModel;
+            if (documentViewModel.OperatorPropertiesDictionary_ForPatchOutlets.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForPatchOutlets.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            return null;
         }
 
         public static OperatorPropertiesViewModel_ForSample GetOperatorPropertiesViewModel_ForSample(DocumentViewModel documentViewModel, int operatorID)
@@ -350,9 +411,19 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_ForSamples.TryGetValue(operatorID, out OperatorPropertiesViewModel_ForSample viewModel);
+            OperatorPropertiesViewModel_ForSample viewModel;
 
-            return viewModel;
+            if (documentViewModel.OperatorPropertiesDictionary_ForSamples.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForSamples.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            return null;
         }
 
         public static OperatorPropertiesViewModel_WithInterpolation GetOperatorPropertiesViewModel_WithInterpolation(DocumentViewModel documentViewModel, int operatorID)
@@ -369,9 +440,19 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_WithInterpolation.TryGetValue(operatorID, out OperatorPropertiesViewModel_WithInterpolation viewModel);
+            OperatorPropertiesViewModel_WithInterpolation viewModel;
 
-            return viewModel;
+            if (documentViewModel.OperatorPropertiesDictionary_WithInterpolation.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_WithInterpolation.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            return null;
         }
 
         public static OperatorPropertiesViewModel_WithCollectionRecalculation GetOperatorPropertiesViewModel_WithCollectionRecalculation(DocumentViewModel documentViewModel, int operatorID)
@@ -388,9 +469,19 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_WithCollectionRecalculation.TryGetValue(operatorID, out OperatorPropertiesViewModel_WithCollectionRecalculation viewModel);
+            OperatorPropertiesViewModel_WithCollectionRecalculation viewModel;
 
-            return viewModel;
+            if (documentViewModel.OperatorPropertiesDictionary_WithCollectionRecalculation.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_WithCollectionRecalculation.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            return null;
         }
 
         public static OperatorPropertiesViewModel_WithOutletCount GetOperatorPropertiesViewModel_WithOutletCount(DocumentViewModel documentViewModel, int operatorID)
@@ -407,9 +498,19 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_WithOutletCount.TryGetValue(operatorID, out OperatorPropertiesViewModel_WithOutletCount viewModel);
+            OperatorPropertiesViewModel_WithOutletCount viewModel;
 
-            return viewModel;
+            if (documentViewModel.OperatorPropertiesDictionary_WithOutletCount.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_WithOutletCount.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            return null;
         }
 
         public static OperatorPropertiesViewModel_WithInletCount GetOperatorPropertiesViewModel_WithInletCount(DocumentViewModel documentViewModel, int operatorID)
@@ -426,7 +527,17 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.OperatorPropertiesDictionary_WithInletCount.TryGetValue(operatorID, out OperatorPropertiesViewModel_WithInletCount viewModel);
+            OperatorPropertiesViewModel_WithInletCount viewModel;
+
+            if (documentViewModel.OperatorPropertiesDictionary_WithInletCount.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
+
+            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_WithInletCount.TryGetValue(operatorID, out viewModel))
+            {
+                return viewModel;
+            }
 
             return viewModel;
         }
@@ -472,9 +583,18 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.PatchDetailsDictionary.TryGetValue(patchID, out PatchDetailsViewModel viewModel);
+            if (documentViewModel.PatchDetailsDictionary.TryGetValue(patchID, out PatchDetailsViewModel viewModel))
+            {
+                return viewModel;
+            }
 
-            return viewModel;
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (documentViewModel.AutoPatch.PatchDetails.Entity.ID == patchID)
+            {
+                return documentViewModel.AutoPatch.PatchDetails;
+            }
+
+            return null;
         }
 
         public static PatchPropertiesViewModel GetPatchPropertiesViewModel(DocumentViewModel documentViewModel, int patchID)
@@ -495,24 +615,42 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            documentViewModel.PatchPropertiesDictionary.TryGetValue(patchID, out PatchPropertiesViewModel viewModel);
+            if (documentViewModel.PatchPropertiesDictionary.TryGetValue(patchID, out PatchPropertiesViewModel viewModel))
+            {
+                return viewModel;
+            }
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (documentViewModel.AutoPatch.PatchProperties.ID == patchID)
+            {
+                return documentViewModel.AutoPatch.PatchProperties;
+            }
+
+            return null;
+        }
+
+        public static PatchGridViewModel GetPatchGridViewModel(DocumentViewModel documentViewModel, string group)
+        {
+            PatchGridViewModel viewModel = TryGetPatchGridViewModel(documentViewModel, group);
+
+            if (viewModel == null)
+            {
+                throw new NotFoundException<PatchGridViewModel>(new { group });
+            }
 
             return viewModel;
         }
 
-        public static PatchGridViewModel GetPatchGridViewModel(DocumentViewModel documentViewModel, string group)
+        public static PatchGridViewModel TryGetPatchGridViewModel(DocumentViewModel documentViewModel, string group)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
             string key = NameHelper.ToCanonical(group);
 
-            if (documentViewModel.PatchGridDictionary.TryGetValue(key, out PatchGridViewModel viewModel))
-            {
-                return viewModel;
-            }
+            documentViewModel.PatchGridDictionary.TryGetValue(key, out PatchGridViewModel viewModel);
 
-            throw new NotFoundException<PatchGridViewModel>(new { group });
-        } 
+            return viewModel;
+        }
 
         // Sample
 

@@ -686,18 +686,6 @@
     <None Include="Resources\CloseIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AddIconThinner.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CloseIconThinner.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\OpenWindowIconThinner.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\RemoveIconThinner.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\OpenWindowIcon.png" />
   </ItemGroup>
   <ItemGroup>

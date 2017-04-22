@@ -1173,7 +1173,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (string group in groups)
             {
-                PatchGridViewModel viewModel = ViewModelSelector.TryGetPatchGridViewModel_ByGroup(MainViewModel.Document, group);
+                PatchGridViewModel viewModel = ViewModelSelector.TryGetPatchGridViewModel(MainViewModel.Document, group);
                 if (viewModel == null)
                 {
                     IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, group);

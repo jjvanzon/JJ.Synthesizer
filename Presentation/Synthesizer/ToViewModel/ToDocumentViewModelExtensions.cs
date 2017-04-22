@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Extensions;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = document.ID,
                 AudioFileOutputGrid = document.ToAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesDictionary = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
-                AutoPatchDetails = ViewModelHelper.CreateEmptyPatchDetailsViewModel(),
+                AutoPatch = ViewModelHelper.CreateEmptyAutoPatchViewModel(),
                 CurrentInstrument = ViewModelHelper.CreateEmptyCurrentInstrumentViewModel(),
                 CurveDetailsDictionary = document.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.CurveID),
                 CurveGrid = curveUsedInDtos.ToGridViewModel(document.ID),
@@ -88,6 +88,46 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             viewModel.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(document, patchRepositories);
+
+            return viewModel;
+        }
+
+        public static AutoPatchViewModel ToAutoPatchViewModel(
+            this Patch patch,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository,
+            IInterpolationTypeRepository interpolationTypeRepository,
+            EntityPositionManager entityPositionManager)
+        {
+            if (patch == null) throw new NullException(() => patch);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
+            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
+
+            var viewModel = new AutoPatchViewModel
+            {
+                OperatorPropertiesDictionary = patch.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForCaches = patch.ToPropertiesViewModelList_ForCaches(interpolationTypeRepository).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForCurves = patch.ToPropertiesViewModelList_ForCurves(curveRepository).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForCustomOperators = patch.ToPropertiesViewModelList_ForCustomOperators(patchRepository).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForInletsToDimension = patch.ToPropertiesViewModelList_ForInletsToDimension().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForNumbers = patch.ToPropertiesViewModelList_ForNumbers().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForPatchInlets = patch.ToPropertiesViewModelList_ForPatchInlets().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForPatchOutlets = patch.ToPropertiesViewModelList_ForPatchOutlets().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForSamples = patch.ToPropertiesViewModelList_ForSamples(sampleRepository).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithCollectionRecalculation = patch.ToPropertiesViewModelList_WithCollectionRecalculation().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithInterpolation = patch.ToPropertiesViewModelList_WithInterpolation().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithOutletCount = patch.ToPropertiesViewModelList_WithOutletCount().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithInletCount = patch.ToPropertiesViewModelList_WithInletCount().ToDictionary(x => x.ID),
+                PatchDetails = patch.ToDetailsViewModel(sampleRepository, curveRepository, patchRepository, entityPositionManager),
+                PatchProperties = patch.ToPropertiesViewModel(),
+                ValidationMessages = new List<Message>()
+            };
+
+            viewModel.PatchDetails.CanSave = true;
 
             return viewModel;
         }

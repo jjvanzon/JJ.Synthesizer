@@ -7,6 +7,7 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Framework.Collections;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -21,6 +22,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(AudioFileOutputGridViewModel), DispatchAudioFileOutputGridViewModel },
                 { typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
                 { typeof(AudioOutputPropertiesViewModel), DispatchAudioOutputPropertiesViewModel },
+                { typeof(AutoPatchViewModel), DispatchAutoPatchViewModel },
                 { typeof(CurrentInstrumentViewModel), DispatchCurrentInstrumentViewModel },
                 { typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
                 { typeof(CurveGridViewModel), DispatchCurveGridViewModel },
@@ -139,18 +141,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        /// <summary> Not called through DispatchViewModel. Can only be called explicitly. </summary>
-        private void DispatchAutoPatchDetailsViewModel(PatchDetailsViewModel detailsViewModel)
+        private void DispatchAutoPatchViewModel(ViewModelBase viewModel)
         {
-            MainViewModel.Document.AutoPatchDetails = detailsViewModel;
+            var castedViewModel = (AutoPatchViewModel)viewModel;
 
-            MainViewModel.ValidationMessages.AddRange(detailsViewModel.ValidationMessages);
-            detailsViewModel.ValidationMessages.Clear();
+            MainViewModel.Document.AutoPatch = castedViewModel;
+
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchCurrentInstrumentViewModel(ViewModelBase viewModel2)
+        private void DispatchCurrentInstrumentViewModel(ViewModelBase viewModel)
         {
-            var castedViewModel = (CurrentInstrumentViewModel)viewModel2;
+            var castedViewModel = (CurrentInstrumentViewModel)viewModel;
 
             MainViewModel.Document.CurrentInstrument = castedViewModel;
 

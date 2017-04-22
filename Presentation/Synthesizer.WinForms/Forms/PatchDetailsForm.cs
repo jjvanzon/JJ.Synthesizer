@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
@@ -15,11 +15,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             add => patchDetailsUserControl.SaveRequested += value;
             remove => patchDetailsUserControl.SaveRequested += value;
         }
-        
-        public PatchDetailsViewModel ViewModel
+
+        private AutoPatchViewModel _viewModel;
+        public AutoPatchViewModel ViewModel
         {
-            get => patchDetailsUserControl.ViewModel;
-            set => patchDetailsUserControl.ViewModel = value;
+            get => _viewModel;
+            set
+            {
+                _viewModel = value;
+                patchDetailsUserControl.ViewModel = _viewModel.PatchDetails;
+            }
         }
 
         public PatchDetailsForm()
@@ -29,20 +34,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
         }
 
-        private void PatchDetailsForm_Load(object sender, EventArgs e)
-        {
-            SetTitles();
-        }
+        private void PatchDetailsForm_Load(object sender, EventArgs e) => SetTitles();
 
-        private void SetTitles()
-        {
-            Text = ResourceFormatter.ApplicationName;
-        }
+        private void SetTitles() => Text = ResourceFormatter.ApplicationName;
 
-        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            Close();
-        }
+        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => Close();
 
         private void PatchDetailsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
