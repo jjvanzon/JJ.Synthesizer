@@ -93,11 +93,11 @@
     <Compile Include="Forms\LibrarySelectionPopupForm.Designer.cs">
       <DependentUpon>LibrarySelectionPopupForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\PatchDetailsForm.cs">
+    <Compile Include="Forms\AutoPatchPopupForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\PatchDetailsForm.Designer.cs">
-      <DependentUpon>PatchDetailsForm.cs</DependentUpon>
+    <Compile Include="Forms\AutoPatchPopupForm.Designer.cs">
+      <DependentUpon>AutoPatchPopupForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\MessageBoxHelper.cs" />
     <Compile Include="MainForm.ApplyViewModel.cs">
@@ -394,8 +394,8 @@
     <EmbeddedResource Include="Forms\LibrarySelectionPopupForm.resx">
       <DependentUpon>LibrarySelectionPopupForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PatchDetailsForm.resx">
-      <DependentUpon>PatchDetailsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AutoPatchPopupForm.resx">
+      <DependentUpon>AutoPatchPopupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

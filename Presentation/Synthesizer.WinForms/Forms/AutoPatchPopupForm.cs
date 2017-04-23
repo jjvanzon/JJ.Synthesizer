@@ -6,7 +6,7 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
-    internal partial class PatchDetailsForm : Form
+    internal partial class AutoPatchPopupForm : Form
     {
         public event EventHandler CloseRequested;
 
@@ -16,8 +16,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             remove => patchDetailsUserControl.SaveRequested += value;
         }
 
-        private AutoPatchViewModel _viewModel;
-        public AutoPatchViewModel ViewModel
+        private AutoPatchPopupViewModel _viewModel;
+        public AutoPatchPopupViewModel ViewModel
         {
             get => _viewModel;
             set
@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             }
         }
 
-        public PatchDetailsForm()
+        public AutoPatchPopupForm()
         {
             InitializeComponent();
 
@@ -36,7 +36,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
         private void PatchDetailsForm_Load(object sender, EventArgs e) => SetTitles();
 
-        private void SetTitles() => Text = ResourceFormatter.ApplicationName;
+        private void SetTitles()
+        {
+            Text = ResourceFormatter.AutoPatch + " - " + ResourceFormatter.ApplicationName;
+        }
 
         private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => Close();
 

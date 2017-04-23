@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             menuUserControl.Show(_presenter.MainViewModel.Menu);
 
-            _autoPatchDetailsForm.ViewModel = _presenter.MainViewModel.Document.AutoPatch;
+            _autoPatchPopupForm.ViewModel = _presenter.MainViewModel.Document.AutoPatchPopup;
             audioFileOutputGridUserControl.ViewModel = _presenter.MainViewModel.Document.AudioFileOutputGrid;
             audioFileOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleAudioFileOutputProperties;
             audioOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
             }
 
-            _autoPatchDetailsForm.Visible = _presenter.MainViewModel.Document.AutoPatch.Visible;
+            _autoPatchPopupForm.Visible = _presenter.MainViewModel.Document.AutoPatchPopup.Visible;
 
             // Panel Visibility
             bool treePanelMustBeVisible = MustBecomeVisible(documentTreeUserControl);

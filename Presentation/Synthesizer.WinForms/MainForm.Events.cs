@@ -134,8 +134,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             toneGridEditUserControl.PlayToneRequested += toneGridEditUserControl_PlayToneRequested;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
-            _autoPatchDetailsForm.CloseRequested += _autoPatchDetailsForm_CloseRequested;
-            _autoPatchDetailsForm.SaveRequested += _autoPatchDetailsForm_SaveRequested;
+            _autoPatchPopupForm.CloseRequested += _autoPatchPopupForm_CloseRequested;
+            _autoPatchPopupForm.SaveRequested += _autoPatchPopupForm_SaveRequested;
+            _autoPatchPopupForm.patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
+            _autoPatchPopupForm.patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
             _librarySelectionPopupForm.CancelRequested += _librarySelectionPopupForm_CancelRequested;
             _librarySelectionPopupForm.OKRequested += _librarySelectionPopupForm_OKRequested;
 
@@ -219,11 +221,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-        private void currentInstrumentUserControl_ShowAutoPatchRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.AutoPatchShow);
+        private void currentInstrumentUserControl_ShowAutoPatchRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.AutoPatchPopupShow);
 
-        private void _autoPatchDetailsForm_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.AutoPatchClose);
+        private void _autoPatchPopupForm_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.AutoPatchPopupClose);
 
-        private void _autoPatchDetailsForm_SaveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(_presenter.AutoPatchSave);
+        private void _autoPatchPopupForm_SaveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(_presenter.AutoPatchPopupSave);
 
         // Curve
 

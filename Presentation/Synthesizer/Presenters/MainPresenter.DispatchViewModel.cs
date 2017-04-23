@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(AudioFileOutputGridViewModel), DispatchAudioFileOutputGridViewModel },
                 { typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
                 { typeof(AudioOutputPropertiesViewModel), DispatchAudioOutputPropertiesViewModel },
-                { typeof(AutoPatchViewModel), DispatchAutoPatchViewModel },
+                { typeof(AutoPatchPopupViewModel), DispatchAutoPatchViewModel },
                 { typeof(CurrentInstrumentViewModel), DispatchCurrentInstrumentViewModel },
                 { typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
                 { typeof(CurveGridViewModel), DispatchCurveGridViewModel },
@@ -143,9 +143,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchAutoPatchViewModel(ViewModelBase viewModel)
         {
-            var castedViewModel = (AutoPatchViewModel)viewModel;
+            var castedViewModel = (AutoPatchPopupViewModel)viewModel;
 
-            MainViewModel.Document.AutoPatch = castedViewModel;
+            MainViewModel.Document.AutoPatchPopup = castedViewModel;
 
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();

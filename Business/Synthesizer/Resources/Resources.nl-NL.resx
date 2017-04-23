@@ -1015,4 +1015,7 @@
   <data name="Aliases" xml:space="preserve">
     <value>Vervangende namen</value>
   </data>
+  <data name="AutoPatch" xml:space="preserve">
+    <value>Automatische schakeling</value>
+  </data>
 </root>

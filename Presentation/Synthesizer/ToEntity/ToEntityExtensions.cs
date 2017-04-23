@@ -146,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // AutoPatch
 
-        public static Patch ToEntityWithRelatedEntities([NotNull] this AutoPatchViewModel viewModel, [NotNull] PatchRepositories repositories)
+        public static Patch ToEntityWithRelatedEntities([NotNull] this AutoPatchPopupViewModel viewModel, [NotNull] PatchRepositories repositories)
         {
             if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
             if (repositories == null) throw new ArgumentNullException(nameof(repositories));
@@ -455,6 +455,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             viewModel.SamplePropertiesDictionary.Values.ToEntities(destDocument, new SampleRepositories(repositories));
             viewModel.ScalePropertiesDictionary.Values.ToEntities(scaleRepositories, destDocument);
             viewModel.ToneGridEditDictionary.Values.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
+
+            viewModel.AutoPatchPopup?.ToEntityWithRelatedEntities(patchRepositories);
 
             return destDocument;
         }

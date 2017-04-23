@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = document.ID,
                 AudioFileOutputGrid = document.ToAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesDictionary = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
-                AutoPatch = ViewModelHelper.CreateEmptyAutoPatchViewModel(),
+                AutoPatchPopup = ViewModelHelper.CreateEmptyAutoPatchViewModel(),
                 CurrentInstrument = ViewModelHelper.CreateEmptyCurrentInstrumentViewModel(),
                 CurveDetailsDictionary = document.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.CurveID),
                 CurveGrid = curveUsedInDtos.ToGridViewModel(document.ID),
@@ -92,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static AutoPatchViewModel ToAutoPatchViewModel(
+        public static AutoPatchPopupViewModel ToAutoPatchViewModel(
             this Patch patch,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
             if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
 
-            var viewModel = new AutoPatchViewModel
+            var viewModel = new AutoPatchPopupViewModel
             {
                 OperatorPropertiesDictionary = patch.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView().ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForCaches = patch.ToPropertiesViewModelList_ForCaches(interpolationTypeRepository).ToDictionary(x => x.ID),

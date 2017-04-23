@@ -30,6 +30,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string AudioFileOutput => Resources.AudioFileOutput;
         public static string AudioFileOutputList => Resources.AudioFileOutputList;
         public static string AudioOutput => Resources.AudioOutput;
+        public static string AutoPatch => Resources.AutoPatch;
         public static string Average => Resources.Average;
         public static string AverageFollower => Resources.AverageFollower;
         public static string AverageOverDimension => Resources.AverageOverDimension;

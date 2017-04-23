@@ -196,6 +196,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto-Patch.
+        /// </summary>
+        internal static string AutoPatch {
+            get {
+                return ResourceManager.GetString("AutoPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Average.
         /// </summary>
         internal static string Average {

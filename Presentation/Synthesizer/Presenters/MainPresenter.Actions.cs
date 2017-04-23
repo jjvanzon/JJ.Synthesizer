@@ -229,7 +229,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // AutoPatch
 
-        public void AutoPatchShow()
+        public void AutoPatchPopupShow()
         {
             // GetViewModel
             CurrentInstrumentViewModel currentInstrumentViewModel = MainViewModel.Document.CurrentInstrument;
@@ -265,7 +265,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // ToViewModel
-            AutoPatchViewModel autoPatchViewModel = autoPatch.ToAutoPatchViewModel(
+            AutoPatchPopupViewModel autoPatchPopupViewModel = autoPatch.ToAutoPatchViewModel(
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _repositories.PatchRepository,
@@ -273,25 +273,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _entityPositionManager);
 
             // Non-Persisted
-            autoPatchViewModel.Visible = true;
+            autoPatchPopupViewModel.Visible = true;
 
             // Successful
             currentInstrumentViewModel.Successful = true;
-            autoPatchViewModel.Successful = true;
+            autoPatchPopupViewModel.Successful = true;
 
             // DispatchViewModel
-            DispatchViewModel(autoPatchViewModel);
+            DispatchViewModel(autoPatchPopupViewModel);
         }
 
-        public void AutoPatchClose() => MainViewModel.Document.AutoPatch = ViewModelHelper.CreateEmptyAutoPatchViewModel();
+        public void AutoPatchPopupClose() => MainViewModel.Document.AutoPatchPopup = ViewModelHelper.CreateEmptyAutoPatchViewModel();
 
-        public void AutoPatchSave()
+        public void AutoPatchPopupSave()
         {
-            AutoPatchViewModel userInput = MainViewModel.Document.AutoPatch;
+            AutoPatchPopupViewModel userInput = MainViewModel.Document.AutoPatchPopup;
 
-            AutoPatchViewModel viewModel = TemplateActionMethod(userInput, partialAction);
+            AutoPatchPopupViewModel viewModel = TemplateActionMethod(userInput, partialAction);
 
-            AutoPatchViewModel partialAction()
+            AutoPatchPopupViewModel partialAction()
             {
                 // Get Entities
                 Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
@@ -300,22 +300,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = userInput.ToEntityWithRelatedEntities(_patchRepositories);
 
                 // Business
-                patch.Name = "DUMMY NAME"; // TODO: Generate a unique name.
                 patch.LinkTo(document);
                 var patchManager = new PatchManager(patch, _patchRepositories);
                 IResult result = patchManager.SavePatch();
 
-                AutoPatchViewModel autoPatchViewModel;
+                AutoPatchPopupViewModel autoPatchPopupViewModel;
                 if (result.Successful)
                 {
                     // If successful, don't bother creating a new view model,
                     // because it will be discarded immediately afterwards anyway.
-                    autoPatchViewModel = userInput;
+                    autoPatchPopupViewModel = userInput;
                 }
                 else
                 {
                     // ToViewModel
-                    autoPatchViewModel = patch.ToAutoPatchViewModel(
+                    autoPatchPopupViewModel = patch.ToAutoPatchViewModel(
                         _repositories.SampleRepository,
                         _repositories.CurveRepository,
                         _repositories.PatchRepository,
@@ -323,14 +322,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         _entityPositionManager);
 
                     // Non-Persisted
-                    autoPatchViewModel.ValidationMessages.AddRange(result.Messages);
-                    autoPatchViewModel.Visible = userInput.Visible;
+                    autoPatchPopupViewModel.ValidationMessages.AddRange(result.Messages);
+                    autoPatchPopupViewModel.Visible = userInput.Visible;
                 }
 
                 // Successful?
-                autoPatchViewModel.Successful = result.Successful;
+                autoPatchPopupViewModel.Successful = result.Successful;
 
-                return autoPatchViewModel;
+                return autoPatchPopupViewModel;
             }
 
             if (viewModel.Successful)
@@ -338,7 +337,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DocumentViewModelRefresh();
                 PatchDetailsShow(userInput.PatchDetails.Entity.ID);
                 PatchPropertiesShow(userInput.PatchDetails.Entity.ID);
-                AutoPatchClose();
+                AutoPatchPopupClose();
             }
         }
 
@@ -763,21 +762,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.AudioFileOutputGrid.Successful = true;
             viewModel.AudioFileOutputPropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.AudioOutputProperties.Successful = true;
-            viewModel.AutoPatch.PatchDetails.Successful = true;
-            viewModel.AutoPatch.PatchProperties.Successful = true;
-            viewModel.AutoPatch.OperatorPropertiesDictionary.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_ForInletsToDimension.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_ForNumbers.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_ForPatchOutlets.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_WithCollectionRecalculation.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_WithOutletCount.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatch.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.PatchDetails.Successful = true;
+            viewModel.AutoPatchPopup.PatchProperties.Successful = true;
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForInletsToDimension.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForNumbers.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForPatchOutlets.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithCollectionRecalculation.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithOutletCount.Values.ForEach(x => x.Successful = true);
+            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Successful = true);
             viewModel.CurrentInstrument.Successful = true;
             viewModel.CurveDetailsDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.CurveGrid.Successful = true;
@@ -828,7 +827,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void DocumentSave()
         {
             // ToEntity
-            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // Get rid of AutoPatch view model temporarily from the DocumentViewModel.
+            // It should not be saved and this is the only action upon which it should not be converted to Entity.
+            Document document;
+            AutoPatchPopupViewModel originalAutoPatchPopup = null;
+            try
+            {
+                originalAutoPatchPopup = MainViewModel.Document.AutoPatchPopup;
+                MainViewModel.Document.AutoPatchPopup = null;
+
+                document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            }
+            finally
+            {
+                if (originalAutoPatchPopup != null)
+                {
+                    MainViewModel.Document.AutoPatchPopup = originalAutoPatchPopup;
+                }
+            }
 
             // Business
             IResult validationResult = _documentManager.Save(document);

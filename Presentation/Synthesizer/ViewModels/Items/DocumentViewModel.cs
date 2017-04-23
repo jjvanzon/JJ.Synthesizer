@@ -1,5 +1,6 @@
 ﻿using JJ.Data.Canonical;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
@@ -11,7 +12,10 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public AudioFileOutputPropertiesViewModel VisibleAudioFileOutputProperties { get; set; }
         public Dictionary<int, AudioFileOutputPropertiesViewModel> AudioFileOutputPropertiesDictionary { get; set; }
         public AudioOutputPropertiesViewModel AudioOutputProperties { get; set; }
-        public AutoPatchViewModel AutoPatch { get; set; }
+
+        /// <summary> nullable </summary>
+        [CanBeNull]
+        public AutoPatchPopupViewModel AutoPatchPopup { get; set; }
         public CurrentInstrumentViewModel CurrentInstrument { get; set; }
         public CurveDetailsViewModel VisibleCurveDetails { get; set; }
         public Dictionary<int, CurveDetailsViewModel> CurveDetailsDictionary { get; set; }

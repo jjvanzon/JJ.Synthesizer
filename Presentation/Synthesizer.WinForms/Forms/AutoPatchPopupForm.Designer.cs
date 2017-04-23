@@ -1,8 +1,6 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels;
-
-namespace JJ.Presentation.Synthesizer.WinForms.Forms
+﻿namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
-    partial class PatchDetailsForm
+    partial class AutoPatchPopupForm
     {
         /// <summary>
         /// Required designer variable.
@@ -35,23 +33,30 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             // 
             // patchDetailsUserControl
             // 
+            this.patchDetailsUserControl.AddButtonVisible = false;
             this.patchDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.patchDetailsUserControl.CloseButtonVisible = true;
             this.patchDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.patchDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
-            this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(4);
+            this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.patchDetailsUserControl.Name = "patchDetailsUserControl";
-            this.patchDetailsUserControl.Size = new System.Drawing.Size(1052, 610);
+            this.patchDetailsUserControl.RemoveButtonVisible = false;
+            this.patchDetailsUserControl.SaveButtonVisible = false;
+            this.patchDetailsUserControl.Size = new System.Drawing.Size(1403, 751);
             this.patchDetailsUserControl.TabIndex = 1;
+            this.patchDetailsUserControl.TitleBarText = "Patch Details";
+            this.patchDetailsUserControl.ViewModel = null;
             // 
-            // PatchDetailsForm
+            // AutoPatchPopupForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1052, 610);
+            this.ClientSize = new System.Drawing.Size(1403, 751);
             this.Controls.Add(this.patchDetailsUserControl);
-            this.Name = "PatchDetailsForm";
-            this.Text = "PatchDetailsForm";
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Name = "AutoPatchPopupForm";
+            this.Text = "AutoPatchPopupForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PatchDetailsForm_FormClosing);
             this.Load += new System.EventHandler(this.PatchDetailsForm_Load);
             this.ResumeLayout(false);
@@ -60,6 +65,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
         #endregion
 
-        private UserControls.PatchDetailsUserControl patchDetailsUserControl;
+        internal UserControls.PatchDetailsUserControl patchDetailsUserControl;
     }
 }

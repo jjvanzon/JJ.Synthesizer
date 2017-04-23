@@ -181,7 +181,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -211,7 +211,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForCaches.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCaches.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -241,7 +241,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForCurves.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCurves.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -270,7 +270,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 return viewModel;
             }
 
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForCustomOperators.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCustomOperators.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -300,7 +300,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForInletsToDimension.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForInletsToDimension.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -330,7 +330,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForNumbers.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForNumbers.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -359,7 +359,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 return viewModel;
             }
 
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForPatchInlets.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForPatchInlets.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -389,7 +389,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForPatchOutlets.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForPatchOutlets.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -418,7 +418,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 return viewModel;
             }
 
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_ForSamples.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForSamples.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -447,7 +447,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 return viewModel;
             }
 
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_WithInterpolation.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithInterpolation.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -476,7 +476,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 return viewModel;
             }
 
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_WithCollectionRecalculation.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithCollectionRecalculation.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -505,7 +505,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 return viewModel;
             }
 
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_WithOutletCount.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithOutletCount.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -534,7 +534,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 return viewModel;
             }
 
-            if (documentViewModel.AutoPatch.OperatorPropertiesDictionary_WithInletCount.TryGetValue(operatorID, out viewModel))
+            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithInletCount.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }
@@ -571,7 +571,9 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-            if (!documentViewModel.PatchDetailsDictionary.TryGetValue(patchID, out PatchDetailsViewModel viewModel))
+            PatchDetailsViewModel viewModel = TryGetPatchDetailsViewModel(documentViewModel, patchID);
+
+            if (viewModel == null)
             {
                 throw new NotFoundException<PatchDetailsViewModel>(new { patchID });
             }
@@ -589,9 +591,9 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (documentViewModel.AutoPatch.PatchDetails.Entity.ID == patchID)
+            if (documentViewModel.AutoPatchPopup.PatchDetails.Entity.ID == patchID)
             {
-                return documentViewModel.AutoPatch.PatchDetails;
+                return documentViewModel.AutoPatchPopup.PatchDetails;
             }
 
             return null;
@@ -621,9 +623,9 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (documentViewModel.AutoPatch.PatchProperties.ID == patchID)
+            if (documentViewModel.AutoPatchPopup.PatchProperties.ID == patchID)
             {
-                return documentViewModel.AutoPatch.PatchProperties;
+                return documentViewModel.AutoPatchPopup.PatchProperties;
             }
 
             return null;
