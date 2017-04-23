@@ -232,19 +232,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void AutoPatchPopupShow()
         {
             // GetViewModel
-            CurrentInstrumentViewModel currentInstrumentViewModel = MainViewModel.Document.CurrentInstrument;
+            CurrentInstrumentViewModel currentInstrumentUserInput = MainViewModel.Document.CurrentInstrument;
+            AutoPatchPopupViewModel autoPatchPopupUserInput = MainViewModel.Document.AutoPatchPopup;
 
             // RefreshCounter
-            currentInstrumentViewModel.RefreshCounter++;
+            currentInstrumentUserInput.RefreshCounter++;
+            autoPatchPopupUserInput.RefreshCounter++;
 
             // Set !Successful
-            currentInstrumentViewModel.Successful = false;
+            currentInstrumentUserInput.Successful = false;
 
             // ToEntity
             Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Get Entities
-            IList<Patch> underlyingPatches = currentInstrumentViewModel.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
+            IList<Patch> underlyingPatches = currentInstrumentUserInput.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
 
             // Business
             var patchManager = new PatchManager(_patchRepositories);
@@ -256,10 +258,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!validationResult.Successful)
             {
                 // Non-Persisted
-                currentInstrumentViewModel.ValidationMessages.AddRange(validationResult.Messages);
+                currentInstrumentUserInput.ValidationMessages.AddRange(validationResult.Messages);
 
                 // DispatchViewModel
-                DispatchViewModel(currentInstrumentViewModel);
+                DispatchViewModel(currentInstrumentUserInput);
 
                 return;
             }
@@ -274,9 +276,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             autoPatchPopupViewModel.Visible = true;
+            autoPatchPopupViewModel.RefreshCounter = autoPatchPopupUserInput.RefreshCounter;
 
             // Successful
-            currentInstrumentViewModel.Successful = true;
+            currentInstrumentUserInput.Successful = true;
             autoPatchPopupViewModel.Successful = true;
 
             // DispatchViewModel
@@ -289,10 +292,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AutoPatchPopupViewModel userInput = MainViewModel.Document.AutoPatchPopup;
 
-            AutoPatchPopupViewModel viewModel = TemplateActionMethod(userInput, partialAction);
-
-            AutoPatchPopupViewModel partialAction()
+            AutoPatchPopupViewModel viewModel = TemplateActionMethod(userInput, () =>
             {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+                
+                // Set !Successful
+                userInput.Successful = false;
+
                 // Get Entities
                 Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
@@ -304,40 +311,40 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 var patchManager = new PatchManager(patch, _patchRepositories);
                 IResult result = patchManager.SavePatch();
 
-                AutoPatchPopupViewModel autoPatchPopupViewModel;
+                AutoPatchPopupViewModel viewModel2;
                 if (result.Successful)
                 {
-                    // If successful, don't bother creating a new view model,
-                    // because it will be discarded immediately afterwards anyway.
-                    autoPatchPopupViewModel = userInput;
+                    // ToViewModel
+                    viewModel2 = ViewModelHelper.CreateEmptyAutoPatchViewModel();
                 }
                 else
                 {
                     // ToViewModel
-                    autoPatchPopupViewModel = patch.ToAutoPatchViewModel(
+                    viewModel2 = patch.ToAutoPatchViewModel(
                         _repositories.SampleRepository,
                         _repositories.CurveRepository,
                         _repositories.PatchRepository,
                         _repositories.InterpolationTypeRepository,
                         _entityPositionManager);
 
-                    // Non-Persisted
-                    autoPatchPopupViewModel.ValidationMessages.AddRange(result.Messages);
-                    autoPatchPopupViewModel.Visible = userInput.Visible;
+                    viewModel2.Visible = userInput.Visible;
                 }
 
-                // Successful?
-                autoPatchPopupViewModel.Successful = result.Successful;
+                // Non-Persisted
+                viewModel2.ValidationMessages.AddRange(result.Messages);
+                viewModel2.RefreshCounter = userInput.RefreshCounter;
 
-                return autoPatchPopupViewModel;
-            }
+                // Successful?
+                viewModel2.Successful = result.Successful;
+
+                return viewModel2;
+            });
 
             if (viewModel.Successful)
             {
                 DocumentViewModelRefresh();
                 PatchDetailsShow(userInput.PatchDetails.Entity.ID);
                 PatchPropertiesShow(userInput.PatchDetails.Entity.ID);
-                AutoPatchPopupClose();
             }
         }
 

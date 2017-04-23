@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -35,12 +37,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private static readonly double _patchPlayDuration = GetPatchPlayDuration();
         private static readonly string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
 
-        private readonly PatchRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
+        private readonly PatchRepositories _patchRepositories;
         private readonly EntityPositionManager _entityPositionManager;
 
-        public PatchDetailsPresenter(PatchRepositories repositories, EntityPositionManager entityPositionManager)
+        public PatchDetailsPresenter([NotNull] RepositoryWrapper repositories, EntityPositionManager entityPositionManager)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
+            _patchRepositories = new PatchRepositories(_repositories);
             _entityPositionManager = entityPositionManager ?? throw new NullException(() => entityPositionManager);
         }
 
@@ -132,7 +136,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
-            var patchManager = new PatchManager(entity, _repositories);
+            var patchManager = new PatchManager(entity, _patchRepositories);
             VoidResult result = patchManager.SavePatch();
 
             // ToViewModel
@@ -214,9 +218,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // RefreshCounter
             userInput.RefreshCounter++;
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
             // Set !Successful
             userInput.Successful = false;
 
@@ -268,7 +269,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             else
             {
                 // Business
-                var patchManager = new PatchManager(entity, _repositories);
+                var patchManager = new PatchManager(entity, _patchRepositories);
                 patchManager.DeleteOwnedNumberOperators(userInput.SelectedOperator.ID);
                 patchManager.DeleteOperatorWithRelatedEntities(userInput.SelectedOperator.ID);
 
@@ -300,7 +301,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
-            var patchManager = new PatchManager(entity, _repositories);
+            var patchManager = new PatchManager(entity, _patchRepositories);
             var operatorTypeEnum = (OperatorTypeEnum)operatorTypeID;
             int variableInletOrOutletCount = GetVariableInletOrOutletCount(operatorTypeEnum);
             Operator op = patchManager.CreateOperator(operatorTypeEnum, variableInletOrOutletCount);
@@ -363,9 +364,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // GetEntities
             Outlet outlet = selectedOperator.Outlets.Single();
-            AudioOutput audioOutput = outlet.Operator.Patch.Document.AudioOutput;
+            AudioOutput audioOutput = outlet.Operator.Patch.Document?.AudioOutput;
 
             // Business
+            if (audioOutput == null)
+            {
+                // PatchDetails can be used outside of a document, 
+                // in case of which we need to instantiate a default AudioOutput.
+                // In particular in the AutoPatchPopup view, the patch does not have a link with the document.
+                var audioOutputManager = new AudioOutputManager(_repositories.AudioOutputRepository, _repositories.SpeakerSetupRepository, _repositories.IDRepository);
+                audioOutput = audioOutputManager.CreateWithDefaults();
+            }
+
             var patchManager = new PatchManager(outlet.Operator.Patch, new PatchRepositories(repositories));
             var calculatorCache = new CalculatorCache();
             int channelCount = audioOutput.GetChannelCount();

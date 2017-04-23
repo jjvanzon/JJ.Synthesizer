@@ -26,19 +26,19 @@ namespace JJ.Business.Synthesizer
             _idRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
-        public AudioOutput Create(Document document)
+        public AudioOutput CreateWithDefaults(Document document)
         {
             if (document == null) throw new NullException(() => document);
             if (document.AudioOutput != null) throw new NotNullException(() => document.AudioOutput);
 
-            AudioOutput audioOutput = Create();
+            AudioOutput audioOutput = CreateWithDefaults();
 
             document.LinkTo(audioOutput);
 
             return audioOutput;
         }
 
-        public AudioOutput Create()
+        public AudioOutput CreateWithDefaults()
         {
             var audioOutput = new AudioOutput { ID = _idRepository.GetID() };
             _audioOutputRepository.Insert(audioOutput);

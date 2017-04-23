@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Api
 
         public static AudioOutput Create()
         {
-            return _audioOutputManager.Create();
+            return _audioOutputManager.CreateWithDefaults();
         }
     }
 }

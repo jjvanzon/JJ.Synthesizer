@@ -138,6 +138,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _autoPatchPopupForm.SaveRequested += _autoPatchPopupForm_SaveRequested;
             _autoPatchPopupForm.patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
             _autoPatchPopupForm.patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
+            _autoPatchPopupForm.patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
             _librarySelectionPopupForm.CancelRequested += _librarySelectionPopupForm_CancelRequested;
             _librarySelectionPopupForm.OKRequested += _librarySelectionPopupForm_OKRequested;
 

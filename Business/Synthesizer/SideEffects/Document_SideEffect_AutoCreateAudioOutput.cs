@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.SideEffects
         {
             if (_document.AudioOutput == null)
             {
-                _audioOutputManager.Create(_document);
+                _audioOutputManager.CreateWithDefaults(_document);
             }
         }
     }

@@ -13,8 +13,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, AudioFileOutputPropertiesViewModel> AudioFileOutputPropertiesDictionary { get; set; }
         public AudioOutputPropertiesViewModel AudioOutputProperties { get; set; }
 
-        /// <summary> nullable </summary>
-        [CanBeNull]
+        /// <summary> nullable, but only temporarily in the DocumentSave action. </summary>
         public AutoPatchPopupViewModel AutoPatchPopup { get; set; }
         public CurrentInstrumentViewModel CurrentInstrument { get; set; }
         public CurveDetailsViewModel VisibleCurveDetails { get; set; }
