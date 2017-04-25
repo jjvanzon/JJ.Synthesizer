@@ -13,6 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class DocumentTreeUserControl : UserControlBase
     {
         public event EventHandler CloseRequested;
+        public event EventHandler SaveRequested;
 
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
@@ -204,21 +205,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             return patchTreeNode;
         }
 
-        // Actions
-
-        private void Close()
-        {
-            CloseRequested?.Invoke(this, EventArgs.Empty);
-        }
-
         // Events
 
-        private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
+        private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested?.Invoke(this, EventArgs.Empty);
 
-        private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            HandleNodeKeyEnterOrDoubleClick(e.Node);
-        }
+        private void titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, EventArgs.Empty);
+
+        private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => HandleNodeKeyEnterOrDoubleClick(e.Node);
 
         protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, Keys keyData)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -25,66 +26,76 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set => labelTitle.Text = value;
         }
 
+        /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
+        private bool _playButtonVisible;
         public bool PlayButtonVisible
         {
-            get => pictureBoxPlay.Visible;
+            get => _playButtonVisible;
             set
             {
-                if (pictureBoxPlay.Visible == value) return;
+                _playButtonVisible = value;
 
-                pictureBoxPlay.Visible = value;
+                buttonPlay.Visible = _playButtonVisible;
 
                 PositionControls();
             }
         }
 
+        /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
+        private bool _saveButtonVisible;
         public bool SaveButtonVisible
         {
-            get => pictureBoxSave.Visible;
+            get => _saveButtonVisible;
             set
             {
-                if (pictureBoxSave.Visible == value) return;
+                _saveButtonVisible = value;
 
-                pictureBoxSave.Visible = value;
+                buttonSave.Visible = _saveButtonVisible;
 
                 PositionControls();
             }
         }
 
+        /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
+        private bool _addButtonVisible;
         public bool AddButtonVisible
         {
-            get => pictureBoxAdd.Visible;
+            get => _addButtonVisible;
             set
             {
-                if (pictureBoxAdd.Visible == value) return;
+                _addButtonVisible = value;
 
-                pictureBoxAdd.Visible = value;
+                buttonAdd.Visible = _addButtonVisible;
 
                 PositionControls();
             }
         }
 
+        /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
+        private bool _removeButtonVisible;
         public bool RemoveButtonVisible
         {
-            get => pictureBoxRemove.Visible;
+            get => _removeButtonVisible;
             set
             {
-                if (pictureBoxRemove.Visible == value) return;
+                _removeButtonVisible = value;
 
-                pictureBoxRemove.Visible = value;
+                buttonRemove.Visible = _removeButtonVisible;
 
                 PositionControls();
             }
         }
 
+        /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
+        private bool _closeButtonVisible;
         public bool CloseButtonVisible
         {
-            get => pictureBoxClose.Visible;
+            get => _closeButtonVisible;
             set
             {
-                if (pictureBoxClose.Visible == value) return;
+                _closeButtonVisible = value;
 
-                pictureBoxClose.Visible = value;
+                buttonClose.Visible = _closeButtonVisible;
 
                 PositionControls();
             }
@@ -100,8 +111,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         // I also want to make some buttons visible or invisible,
         // which you cannot do with the TableLayoutPanel.
         
-        private const int BUTTON_SPACING = 5;
-        private const int BUTTON_SIZE = 16;
+        private const int BUTTON_SPACING = 0;
+        private const int BUTTON_SIZE = 22;
 
         private void PositionControls()
         {
@@ -110,14 +121,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             x -= BUTTON_SPACING;
             x -= BUTTON_SIZE;
 
-            var pictureBoxesInReverseOrder = new Control[] { pictureBoxClose, pictureBoxRemove, pictureBoxAdd, pictureBoxSave, pictureBoxPlay };
-
-            foreach (Control pictureBox in pictureBoxesInReverseOrder)
+            var buttonTuplesInReverseOrder = new (Control Control, bool Visible)[]
             {
-                if (pictureBox.Visible)
+                (buttonClose, CloseButtonVisible),
+                (buttonRemove, RemoveButtonVisible),
+                (buttonAdd, AddButtonVisible),
+                (buttonSave, SaveButtonVisible),
+                (buttonPlay, PlayButtonVisible)
+            };
+
+            foreach ((Control Control, bool Visible) buttonTuple in buttonTuplesInReverseOrder)
+            {
+                if (buttonTuple.Visible)
                 {
-                    pictureBox.Location = new Point(x, BUTTON_SPACING);
-                    pictureBox.Size = new Size(BUTTON_SIZE, BUTTON_SIZE);
+                    buttonTuple.Control.Location = new Point(x, BUTTON_SPACING);
+                    buttonTuple.Control.Size = new Size(BUTTON_SIZE, BUTTON_SIZE);
                     x -= BUTTON_SPACING;
                     x -= BUTTON_SIZE;
                 }
@@ -131,10 +149,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         // Events
 
-        private void pictureBoxPlay_MouseDown(object sender, MouseEventArgs e) => PlayClicked?.Invoke(sender, EventArgs.Empty);
-        private void pictureBoxSave_MouseDown(object sender, MouseEventArgs e) => SaveClicked?.Invoke(sender, EventArgs.Empty);
-        private void pictureBoxAdd_MouseDown(object sender, MouseEventArgs e) => AddClicked?.Invoke(sender, EventArgs.Empty);
-        private void pictureBoxRemove_MouseDown(object sender, MouseEventArgs e) => RemoveClicked?.Invoke(sender, EventArgs.Empty);
-        private void pictureBoxClose_MouseDown(object sender, MouseEventArgs e) => CloseClicked?.Invoke(sender, EventArgs.Empty);
+        private void buttonPlay_Click(object sender, EventArgs e) => PlayClicked?.Invoke(sender, EventArgs.Empty);
+        private void buttonSave_Click(object sender, EventArgs e) => SaveClicked?.Invoke(sender, EventArgs.Empty);
+        private void buttonAdd_Click(object sender, EventArgs e) => AddClicked?.Invoke(sender, EventArgs.Empty);
+        private void buttonRemove_Click(object sender, EventArgs e) => RemoveClicked?.Invoke(sender, EventArgs.Empty);
+        private void buttonClose_Click(object sender, EventArgs e) => CloseClicked?.Invoke(sender, EventArgs.Empty);
     }
 }

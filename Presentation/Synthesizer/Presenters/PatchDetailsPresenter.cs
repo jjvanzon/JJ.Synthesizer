@@ -371,7 +371,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // PatchDetails can be used outside of a document, 
                 // in case of which we need to instantiate a default AudioOutput.
-                // In particular in the AutoPatchPopup view, the patch does not have a link with the document.
+                // In particular in the AutoPatchPopup view, the patch does not have a link with the document right now.
                 var audioOutputManager = new AudioOutputManager(_repositories.AudioOutputRepository, _repositories.SpeakerSetupRepository, _repositories.IDRepository);
                 audioOutput = audioOutputManager.CreateWithDefaults();
             }

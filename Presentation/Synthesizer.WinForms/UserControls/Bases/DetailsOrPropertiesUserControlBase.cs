@@ -16,14 +16,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         public event EventHandler<EventArgs<int>> CloseRequested;
         public event EventHandler<EventArgs<int>> LoseFocusRequested;
         public event EventHandler<EventArgs<int>> SaveRequested;
+        public event EventHandler<EventArgs<int>> PlayRequested;
 
-        public event EventHandler AddClicked
+        public event EventHandler AddRequested
         {
             add => _titleBarUserControl.AddClicked += value;
             remove => _titleBarUserControl.AddClicked -= value;
         }
 
-        public event EventHandler RemoveClicked
+        public event EventHandler RemoveRequested
         {
             add => _titleBarUserControl.RemoveClicked += value;
             remove => _titleBarUserControl.RemoveClicked -= value;
@@ -39,16 +40,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             _titleBarUserControl = CreateTitleBarUserControl();
             Controls.Add(_titleBarUserControl);
             _titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
-            _titleBarUserControl.SaveClicked += titleBarUserControl_SaveClicked;
-        }
+            _titleBarUserControl.SaveClicked += _titleBarUserControl_SaveClicked;
+            _titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
 
+        }
 
         ~DetailsOrPropertiesUserControlBase()
         {
             if (_titleBarUserControl != null)
             {
                 _titleBarUserControl.CloseClicked -= _titleBarUserControl_CloseClicked;
-                _titleBarUserControl.SaveClicked -= titleBarUserControl_SaveClicked;
+                _titleBarUserControl.SaveClicked -= _titleBarUserControl_SaveClicked;
             }
         }
 
@@ -78,6 +80,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         {
             get => _titleBarUserControl.Text;
             set => _titleBarUserControl.Text = value;
+        }
+
+        public bool PlayButtonVisible
+        {
+            get => _titleBarUserControl.PlayButtonVisible;
+            set => _titleBarUserControl.PlayButtonVisible = value;
         }
 
         public bool SaveButtonVisible
@@ -137,11 +145,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             LoseFocusRequested?.Invoke(this, new EventArgs<int>(GetID()));
         }
 
+        private void Play()
+        {
+            if (ViewModel == null) return;
+
+            ApplyControlsToViewModel();
+
+            PlayRequested?.Invoke(this, new EventArgs<int>(GetID()));
+        }
+
         // Events
 
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
-
-        private void titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));
+        private void _titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));
+        private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
         private void Base_Leave(object sender, EventArgs e)

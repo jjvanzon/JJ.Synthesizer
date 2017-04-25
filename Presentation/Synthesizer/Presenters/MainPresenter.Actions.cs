@@ -238,6 +238,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // RefreshCounter
             currentInstrumentUserInput.RefreshCounter++;
             autoPatchPopupUserInput.RefreshCounter++;
+            autoPatchPopupUserInput.PatchDetails.RefreshCounter++;
 
             // Set !Successful
             currentInstrumentUserInput.Successful = false;
@@ -277,6 +278,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             autoPatchPopupViewModel.Visible = true;
             autoPatchPopupViewModel.RefreshCounter = autoPatchPopupUserInput.RefreshCounter;
+            autoPatchPopupViewModel.PatchDetails.RefreshCounter = autoPatchPopupUserInput.PatchDetails.RefreshCounter;
 
             // Successful
             currentInstrumentUserInput.Successful = true;
@@ -286,7 +288,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(autoPatchPopupViewModel);
         }
 
-        public void AutoPatchPopupClose() => MainViewModel.Document.AutoPatchPopup = ViewModelHelper.CreateEmptyAutoPatchViewModel();
+        public void AutoPatchPopupClose()
+        {
+            AutoPatchPopupViewModel userInput = MainViewModel.Document.AutoPatchPopup;
+
+            TemplateActionMethod(userInput, () =>
+            {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+                userInput.PatchDetails.RefreshCounter++;
+
+                // Set !Successful
+                userInput.Successful = false;
+
+                // Action
+                AutoPatchPopupViewModel viewModel = ViewModelHelper.CreateEmptyAutoPatchViewModel();
+
+                // Non-Persisted
+                viewModel.RefreshCounter = userInput.RefreshCounter;
+                viewModel.PatchDetails.RefreshCounter = userInput.PatchDetails.RefreshCounter;
+
+                // Succesful
+                viewModel.Successful = true;
+
+                return viewModel;
+            });
+        }
 
         public void AutoPatchPopupSave()
         {
@@ -296,7 +323,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // RefreshCounter
                 userInput.RefreshCounter++;
-                
+                userInput.PatchDetails.RefreshCounter++;
+
                 // Set !Successful
                 userInput.Successful = false;
 
@@ -333,6 +361,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Non-Persisted
                 viewModel2.ValidationMessages.AddRange(result.Messages);
                 viewModel2.RefreshCounter = userInput.RefreshCounter;
+                viewModel2.PatchDetails.RefreshCounter = userInput.PatchDetails.RefreshCounter;
 
                 // Successful?
                 viewModel2.Successful = result.Successful;

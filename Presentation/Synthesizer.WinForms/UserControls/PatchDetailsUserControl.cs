@@ -31,7 +31,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
         public event EventHandler<SelectOperatorEventArgs> SelectOperatorRequested;
-        public event EventHandler<EventArgs<int>> PlayRequested;
         public event EventHandler<EventArgs<int>> ShowOperatorPropertiesRequested;
         public event EventHandler<EventArgs<int>> ShowPatchPropertiesRequested;
 
@@ -45,11 +44,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
-        protected override void SetTitles()
-        {
-            TitleBarText = CommonResourceFormatter.Details_WithName(ResourceFormatter.Patch);
-            buttonPlay.Text = ResourceFormatter.Play;
-        }
+        protected override void SetTitles() => TitleBarText = CommonResourceFormatter.Details_WithName(ResourceFormatter.Patch);
 
         protected override void PositionControls()
         {
@@ -251,12 +246,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
         {
             ShowOperatorPropertiesRequested?.Invoke(this, new EventArgs<int>(e.ID));
-        }
-
-        private void buttonPlay_Click(object sender, EventArgs e)
-        {
-            if (ViewModel == null) return;
-            PlayRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ID));
         }
 
         // TODO: Lower priority: You might want to use the presenter for the the following 3 things.

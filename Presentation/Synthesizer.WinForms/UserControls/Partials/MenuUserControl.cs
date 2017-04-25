@@ -16,10 +16,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         public event EventHandler ShowCurrentInstrumentRequested;
         public event EventHandler ShowDocumentPropertiesRequested;
 
-        public MenuUserControl()
-        {
-            InitializeComponent();
-        }
+        public MenuUserControl() => InitializeComponent();
 
         // Overrides
 
@@ -71,14 +68,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 toolStripMenuItem = CreateCurrentInstrumentToolStripMenuItem();
                 toolStripMenuItem.Click += currentInstrumentToolStripMenuItem_Click;
-                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
-            }
-
-            // DocumentSave
-            if (viewModel.DocumentSave.Visible)
-            {
-                toolStripMenuItem = CreateDocumentSaveToolStripMenuItem();
-                toolStripMenuItem.Click += documentSaveToolStripMenuItem_Click;
                 menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
             }
 
@@ -144,18 +133,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             return toolStripMenuItem;
         }
 
-        private ToolStripMenuItem CreateDocumentSaveToolStripMenuItem()
-        {
-            var toolStripMenuItem = new ToolStripMenuItem
-            {
-                Name = "documentSaveToolStripMenuItem",
-                // ReSharper disable once LocalizableElement
-                Text = "&" + CommonResourceFormatter.Save_WithName(ResourceFormatter.Document)
-            };
-
-            return toolStripMenuItem;
-        }
-
         private ToolStripMenuItem CreateDocumentCloseToolStripMenuItem()
         {
             var toolStripMenuItem = new ToolStripMenuItem
@@ -194,34 +171,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         // Events
 
-        private void documentTreeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowDocumentTreeRequested?.Invoke(sender, EventArgs.Empty);
-        }
-
-        private void currentInstrumentToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowCurrentInstrumentRequested?.Invoke(sender, EventArgs.Empty);
-        }
-
-        private void documentSaveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DocumentSaveRequested?.Invoke(sender, EventArgs.Empty);
-        }
-
-        private void documentCloseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DocumentCloseRequested?.Invoke(sender, EventArgs.Empty);
-        }
-
-        private void documentListToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowDocumentGridRequested?.Invoke(sender, EventArgs.Empty);
-        }
-
-        private void documentPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowDocumentPropertiesRequested?.Invoke(sender, EventArgs.Empty);
-        }
+        private void documentTreeToolStripMenuItem_Click(object sender, EventArgs e) => ShowDocumentTreeRequested?.Invoke(sender, EventArgs.Empty);
+        private void currentInstrumentToolStripMenuItem_Click(object sender, EventArgs e) => ShowCurrentInstrumentRequested?.Invoke(sender, EventArgs.Empty);
+        private void documentCloseToolStripMenuItem_Click(object sender, EventArgs e) => DocumentCloseRequested?.Invoke(sender, EventArgs.Empty);
+        private void documentListToolStripMenuItem_Click(object sender, EventArgs e) => ShowDocumentGridRequested?.Invoke(sender, EventArgs.Empty);
+        private void documentPropertiesToolStripMenuItem_Click(object sender, EventArgs e) => ShowDocumentPropertiesRequested?.Invoke(sender, EventArgs.Empty);
     }
 }

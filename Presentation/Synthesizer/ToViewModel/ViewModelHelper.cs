@@ -366,7 +366,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentList = new MenuItemViewModel { Visible = true },
                 DocumentTree = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentClose = new MenuItemViewModel { Visible = documentIsOpen },
-                DocumentSave = new MenuItemViewModel { Visible = documentIsOpen },
                 CurrentInstrument = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentProperties = new MenuItemViewModel { Visible = documentIsOpen },
                 ValidationMessages = new List<Message>()

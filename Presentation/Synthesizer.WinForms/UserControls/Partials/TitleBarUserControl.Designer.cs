@@ -28,58 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TitleBarUserControl));
-            this.pictureBoxClose = new System.Windows.Forms.PictureBox();
-            this.pictureBoxRemove = new System.Windows.Forms.PictureBox();
-            this.pictureBoxAdd = new System.Windows.Forms.PictureBox();
             this.labelTitle = new System.Windows.Forms.Label();
-            this.pictureBoxPlay = new System.Windows.Forms.PictureBox();
-            this.pictureBoxSave = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemove)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlay)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSave)).BeginInit();
+            this.buttonClose = new System.Windows.Forms.Button();
+            this.buttonRemove = new System.Windows.Forms.Button();
+            this.buttonAdd = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonPlay = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // pictureBoxClose
-            // 
-            this.pictureBoxClose.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxClose.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxClose.Image")));
-            this.pictureBoxClose.Location = new System.Drawing.Point(196, 8);
-            this.pictureBoxClose.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBoxClose.Name = "pictureBoxClose";
-            this.pictureBoxClose.Size = new System.Drawing.Size(16, 16);
-            this.pictureBoxClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxClose.TabIndex = 8;
-            this.pictureBoxClose.TabStop = false;
-            this.pictureBoxClose.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxClose_MouseDown);
-            // 
-            // pictureBoxRemove
-            // 
-            this.pictureBoxRemove.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxRemove.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxRemove.Image")));
-            this.pictureBoxRemove.Location = new System.Drawing.Point(176, 8);
-            this.pictureBoxRemove.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBoxRemove.Name = "pictureBoxRemove";
-            this.pictureBoxRemove.Size = new System.Drawing.Size(16, 16);
-            this.pictureBoxRemove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxRemove.TabIndex = 9;
-            this.pictureBoxRemove.TabStop = false;
-            this.pictureBoxRemove.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxRemove_MouseDown);
-            // 
-            // pictureBoxAdd
-            // 
-            this.pictureBoxAdd.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxAdd.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxAdd.Image")));
-            this.pictureBoxAdd.Location = new System.Drawing.Point(156, 8);
-            this.pictureBoxAdd.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBoxAdd.Name = "pictureBoxAdd";
-            this.pictureBoxAdd.Size = new System.Drawing.Size(16, 16);
-            this.pictureBoxAdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxAdd.TabIndex = 10;
-            this.pictureBoxAdd.TabStop = false;
-            this.pictureBoxAdd.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxAdd_MouseDown);
             // 
             // labelTitle
             // 
@@ -93,61 +48,94 @@
             this.labelTitle.Text = "Title";
             this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // pictureBoxPlay
+            // buttonClose
             // 
-            this.pictureBoxPlay.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxPlay.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PlayIcon;
-            this.pictureBoxPlay.Location = new System.Drawing.Point(104, 8);
-            this.pictureBoxPlay.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBoxPlay.Name = "pictureBoxPlay";
-            this.pictureBoxPlay.Size = new System.Drawing.Size(16, 16);
-            this.pictureBoxPlay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxPlay.TabIndex = 11;
-            this.pictureBoxPlay.TabStop = false;
-            this.pictureBoxPlay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxPlay_MouseDown);
+            this.buttonClose.FlatAppearance.BorderSize = 0;
+            this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonClose.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.CloseIcon;
+            this.buttonClose.Location = new System.Drawing.Point(250, 8);
+            this.buttonClose.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonClose.Name = "buttonClose";
+            this.buttonClose.Size = new System.Drawing.Size(21, 23);
+            this.buttonClose.TabIndex = 13;
+            this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
-            // pictureBoxSave
+            // buttonRemove
             // 
-            this.pictureBoxSave.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxSave.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.SaveIcon;
-            this.pictureBoxSave.Location = new System.Drawing.Point(131, 8);
-            this.pictureBoxSave.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBoxSave.Name = "pictureBoxSave";
-            this.pictureBoxSave.Size = new System.Drawing.Size(16, 16);
-            this.pictureBoxSave.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxSave.TabIndex = 12;
-            this.pictureBoxSave.TabStop = false;
-            this.pictureBoxSave.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxSave_MouseDown);
+            this.buttonRemove.FlatAppearance.BorderSize = 0;
+            this.buttonRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
+            this.buttonRemove.Location = new System.Drawing.Point(221, 8);
+            this.buttonRemove.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonRemove.Name = "buttonRemove";
+            this.buttonRemove.Size = new System.Drawing.Size(21, 23);
+            this.buttonRemove.TabIndex = 14;
+            this.buttonRemove.UseVisualStyleBackColor = true;
+            this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
+            // 
+            // buttonAdd
+            // 
+            this.buttonAdd.FlatAppearance.BorderSize = 0;
+            this.buttonAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAdd.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.AddIcon;
+            this.buttonAdd.Location = new System.Drawing.Point(192, 8);
+            this.buttonAdd.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonAdd.Name = "buttonAdd";
+            this.buttonAdd.Size = new System.Drawing.Size(21, 23);
+            this.buttonAdd.TabIndex = 15;
+            this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.FlatAppearance.BorderSize = 0;
+            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSave.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.SaveIcon;
+            this.buttonSave.Location = new System.Drawing.Point(158, 31);
+            this.buttonSave.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(21, 23);
+            this.buttonSave.TabIndex = 16;
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // buttonPlay
+            // 
+            this.buttonPlay.FlatAppearance.BorderSize = 0;
+            this.buttonPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonPlay.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PlayIcon;
+            this.buttonPlay.Location = new System.Drawing.Point(119, 31);
+            this.buttonPlay.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonPlay.Name = "buttonPlay";
+            this.buttonPlay.Size = new System.Drawing.Size(21, 23);
+            this.buttonPlay.TabIndex = 17;
+            this.buttonPlay.UseVisualStyleBackColor = true;
+            this.buttonPlay.Click += new System.EventHandler(this.buttonPlay_Click);
             // 
             // TitleBarUserControl
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.Controls.Add(this.pictureBoxSave);
-            this.Controls.Add(this.pictureBoxPlay);
-            this.Controls.Add(this.pictureBoxClose);
-            this.Controls.Add(this.pictureBoxRemove);
-            this.Controls.Add(this.pictureBoxAdd);
+            this.Controls.Add(this.buttonPlay);
+            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.buttonAdd);
+            this.Controls.Add(this.buttonRemove);
+            this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.labelTitle);
             this.Name = "TitleBarUserControl";
             this.Size = new System.Drawing.Size(337, 85);
             this.Load += new System.EventHandler(this.TitleBarUserControl_Load);
             this.Resize += new System.EventHandler(this.TitleBarUserControl_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRemove)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAdd)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlay)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSave)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox pictureBoxClose;
-        private System.Windows.Forms.PictureBox pictureBoxRemove;
-        private System.Windows.Forms.PictureBox pictureBoxAdd;
         private System.Windows.Forms.Label labelTitle;
-        private System.Windows.Forms.PictureBox pictureBoxPlay;
-        private System.Windows.Forms.PictureBox pictureBoxSave;
+        private System.Windows.Forms.Button buttonClose;
+        private System.Windows.Forms.Button buttonRemove;
+        private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonPlay;
     }
 }
