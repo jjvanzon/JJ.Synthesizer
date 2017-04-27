@@ -9,16 +9,27 @@ using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
+using System.Media;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Configuration;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal partial class MainForm : Form
     {
+        private static readonly double _patchPlayDuration = CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayDurationInSeconds;
+        private static readonly string _patchPlayOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
+
         private readonly IContext _context;
         private readonly RepositoryWrapper _repositories;
         private readonly MainPresenter _presenter;
@@ -97,6 +108,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.Focus();
         }
 
+        private readonly IList<UserControlBase> _userControls;
+
+        private IList<UserControlBase> CreateUserControlsCollection()
+        {
+            IList<UserControlBase> userControls = this.GetDescendantsOfType<UserControlBase>();
+            return userControls;
+        }
+
         // Audio
 
         private void SetAudioOutputIfNeeded()
@@ -161,12 +180,49 @@ namespace JJ.Presentation.Synthesizer.WinForms
             return x.Patch;
         }
 
-        private readonly IList<UserControlBase> _userControls;
-
-        private IList<UserControlBase> CreateUserControlsCollection()
+        private void PlayOutletIfNeeded()
         {
-            IList<UserControlBase> userControls = this.GetDescendantsOfType<UserControlBase>();
-            return userControls;
+            int? outletIDToPlay = _presenter.MainViewModel.Document.OutletIDToPlay;
+            if (!outletIDToPlay.HasValue)
+            {
+                return;
+            }
+
+            // Get Entities
+            Outlet outlet = _repositories.OutletRepository.Get(outletIDToPlay.Value);
+            Document document = _repositories.DocumentRepository.Get(_presenter.MainViewModel.Document.ID);
+            AudioOutput audioOutput = document.AudioOutput;
+
+            // Calculate
+            var patchManager = new PatchManager(outlet.Operator.Patch, new PatchRepositories(_repositories));
+            var calculatorCache = new CalculatorCache();
+            int channelCount = audioOutput.GetChannelCount();
+            var patchCalculators = new IPatchCalculator[channelCount];
+            for (int i = 0; i < channelCount; i++)
+            {
+                patchCalculators[i] = patchManager.CreateCalculator(
+                    outlet,
+                    audioOutput.SamplingRate,
+                    channelCount,
+                    i,
+                    calculatorCache);
+            }
+
+            // Write Output File
+            var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(_repositories));
+            AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
+            audioFileOutput.LinkTo(audioOutput.SpeakerSetup);
+            audioFileOutput.SamplingRate = audioOutput.SamplingRate;
+            audioFileOutput.FilePath = _patchPlayOutputFilePath;
+            audioFileOutput.Duration = _patchPlayDuration;
+            audioFileOutput.LinkTo(outlet);
+
+            // Infrastructure
+            audioFileOutputManager.WriteFile(audioFileOutput, patchCalculators);
+            var soundPlayer = new SoundPlayer(_patchPlayOutputFilePath);
+            soundPlayer.Play();
+
+            _presenter.MainViewModel.Document.OutletIDToPlay = null;
         }
     }
 }

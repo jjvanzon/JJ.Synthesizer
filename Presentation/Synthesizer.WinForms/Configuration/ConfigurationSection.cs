@@ -15,5 +15,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
 
         [XmlAttribute]
         public bool ExecuteOperatorMoveActionWhileDragging { get; set; }
+
+        [XmlAttribute]
+        public string PatchPlayHackedAudioFileOutputFilePath { get; set; }
+
+        [XmlAttribute]
+        public double PatchPlayDurationInSeconds { get; set; }
     }
 }

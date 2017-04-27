@@ -333,6 +333,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleLibraryPatchProperties = castedViewModel;
             }
 
+            if (castedViewModel.OutletIDToPlay.HasValue)
+            {
+                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
+                castedViewModel.OutletIDToPlay = null;
+            }
+
             DispatchViewModelBase(castedViewModel);
         }
 
@@ -647,6 +653,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
+            if (castedViewModel.OutletIDToPlay.HasValue)
+            {
+                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
+                castedViewModel.OutletIDToPlay = null;
+            }
+
             DispatchViewModelBase(castedViewModel);
         }
 
@@ -681,6 +693,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
                 MainViewModel.Document.VisiblePatchProperties = castedViewModel;
+            }
+
+            if (castedViewModel.OutletIDToPlay.HasValue)
+            {
+                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
+                castedViewModel.OutletIDToPlay = null;
             }
 
             DispatchViewModelBase(castedViewModel);

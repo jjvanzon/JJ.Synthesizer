@@ -20,9 +20,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class LibraryPatchPropertiesPresenter : PropertiesPresenterBase<LibraryPatchPropertiesViewModel>
     {
-        private static readonly double _patchPlayDuration = CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayDurationInSeconds;
-        private static readonly string _patchPlayOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
-
         private readonly IPatchRepository _patchRepository;
         private readonly IDocumentReferenceRepository _documentReferenceRepository;
 
@@ -50,74 +47,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return TemplateMethod(userInput, viewModel => CreateViewModel(userInput));
         }
 
-        public string Play(LibraryPatchPropertiesViewModel userInput, [NotNull] RepositoryWrapper repositories)
+        public LibraryPatchPropertiesViewModel Play(LibraryPatchPropertiesViewModel userInput, [NotNull] RepositoryWrapper repositories)
         {
-            if (userInput == null) throw new NullException(() => userInput);
             if (repositories == null) throw new NullException(() => repositories);
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Patch patch = repositories.PatchRepository.Get(userInput.PatchID);
-
-            // Business
-
-            // Auto-Patch
-            var patchManager = new PatchManager(patch, new PatchRepositories(repositories));
-            Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch);
-
-            userInput.ValidationMessages.AddRange(result.Messages);
-            if (!result.Successful)
+            return TemplateMethod(userInput, viewModel =>
             {
-                return null;
-            }
-            Outlet outlet = result.Data;
+                // GetEntity
+                Patch patch = repositories.PatchRepository.Get(userInput.PatchID);
 
-            // Determine AudioOutput
-            AudioOutput audioOutput = patch.Document?.AudioOutput;
-            if (audioOutput == null)
-            {
-                // PatchDetails can be used outside of a document, 
-                // in case of which we need to instantiate a default AudioOutput.
-                // In particular in the AutoPatchPopup view, the patch does not have a link with the document right now.
-                var audioOutputManager = new AudioOutputManager(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository, repositories.IDRepository);
-                audioOutput = audioOutputManager.CreateWithDefaults();
-            }
+                // Business
+                var patchManager = new PatchManager(patch, new PatchRepositories(repositories));
+                Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch);
+                Outlet outlet = result.Data;
 
-            // Calculate
-            var calculatorCache = new CalculatorCache();
-            int channelCount = audioOutput.GetChannelCount();
-            var patchCalculators = new IPatchCalculator[channelCount];
-            for (int i = 0; i < channelCount; i++)
-            {
-                patchCalculators[i] = patchManager.CreateCalculator(
-                    outlet,
-                    audioOutput.SamplingRate,
-                    channelCount,
-                    i,
-                    calculatorCache);
-            }
-
-            // Write Output File
-            var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
-            AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
-            audioFileOutput.LinkTo(audioOutput.SpeakerSetup);
-            audioFileOutput.SamplingRate = audioOutput.SamplingRate;
-            audioFileOutput.FilePath = _patchPlayOutputFilePath;
-            audioFileOutput.Duration = _patchPlayDuration;
-            audioFileOutput.LinkTo(outlet);
-
-            // Infrastructure
-            audioFileOutputManager.WriteFile(audioFileOutput, patchCalculators);
-
-            // Successful
-            userInput.Successful = true;
-
-            return _patchPlayOutputFilePath;
+                // Non-Persisted
+                viewModel.OutletIDToPlay = outlet?.ID;
+                userInput.ValidationMessages.AddRange(result.Messages);
+                userInput.Successful = true;
+            });
         }
     }
 }

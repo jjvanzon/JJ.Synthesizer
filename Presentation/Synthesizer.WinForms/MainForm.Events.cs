@@ -405,14 +405,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             TemplateEventHandler(() =>
             {
-                string outputFilePath = _presenter.LibraryPatchPropertiesPlay(e.Value);
-                if (outputFilePath == null)
-                {
-                    return;
-                }
-
-                var soundPlayer = new SoundPlayer(outputFilePath);
-                soundPlayer.Play();
+                _presenter.LibraryPatchPropertiesPlay(e.Value);
+                PlayOutletIfNeeded();
             });
         }
 
@@ -609,47 +603,24 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.PatchCreate(patchGridUserControl.ViewModel.Group));
         }
 
-        private void patchGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
-        {
-            TemplateEventHandler(() => _presenter.PatchDelete(patchGridUserControl.ViewModel.Group, e.Value));
-        }
-
         private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
         {
             TemplateEventHandler(() => _presenter.PatchGridClose(patchGridUserControl.ViewModel.Group));
         }
 
+        private void patchGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.PatchDelete(patchGridUserControl.ViewModel.Group, e.Value));
+        }
+
         private void patchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.PatchDetailsShow(e.Value));
-
-        private void patchDetailsUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateEventHandler(() =>
-            {
-                string outputFilePath = _presenter.PatchDetailsPlay(e.Value);
-                if (outputFilePath == null)
-                {
-                    return;
-                }
-
-                var soundPlayer = new SoundPlayer(outputFilePath);
-                soundPlayer.Play();
-            });
-        }
-
-        private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
-        {
-            TemplateEventHandler(() => _presenter.OperatorSelect(e.PatchID, e.OperatorID));
-        }
 
         private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
         {
             TemplateEventHandler(() => _presenter.OperatorChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID));
         }
 
-        private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
-        {
-            TemplateEventHandler(() => _presenter.OperatorMove(e.PatchID, e.OperatorID, e.X, e.Y));
-        }
+        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.PatchDetailsClose(e.Value));
 
         private void patchDetailsUserControl_CreateOperatorRequested(object sender, CreateOperatorEventArgs e)
         {
@@ -666,6 +637,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.PatchDetailsLoseFocus(e.Value));
         }
 
+        private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
+        {
+            TemplateEventHandler(() => _presenter.OperatorMove(e.PatchID, e.OperatorID, e.X, e.Y));
+        }
+
+        private void patchDetailsUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() =>
+            {
+                _presenter.PatchDetailsPlay(e.Value);
+                PlayOutletIfNeeded();
+            });
+        }
+
+        private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
+        {
+            TemplateEventHandler(() => _presenter.OperatorSelect(e.PatchID, e.OperatorID));
+        }
+
         private void patchDetailsUserControl_ShowOperatorPropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.OperatorPropertiesShow(e.Value));
@@ -675,8 +665,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             TemplateEventHandler(() => _presenter.PatchPropertiesShow(e.Value));
         }
-
-        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.PatchDetailsClose(e.Value));
 
         private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.PatchPropertiesClose(e.Value));
 
@@ -689,14 +677,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             TemplateEventHandler(() =>
             {
-                string outputFilePath = _presenter.PatchPropertiesPlay(e.Value);
-                if (outputFilePath == null)
-                {
-                    return;
-                }
-
-                var soundPlayer = new SoundPlayer(outputFilePath);
-                soundPlayer.Play();
+                _presenter.PatchPropertiesPlay(e.Value);
+                PlayOutletIfNeeded();
             });
         }
 

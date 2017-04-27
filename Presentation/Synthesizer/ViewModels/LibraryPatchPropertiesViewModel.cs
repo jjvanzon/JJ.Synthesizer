@@ -10,5 +10,7 @@
         public string Group { get; set; }
         /// <summary> not editable </summary>
         public string Library { get; set; }
+
+        public int? OutletIDToPlay { get; set; }
     }
 }

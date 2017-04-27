@@ -2003,21 +2003,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
         
-        /// <summary> Returns output file path if ViewModel.Successful. </summary>
-        public string LibraryPatchPropertiesPlay(int id)
+        public void LibraryPatchPropertiesPlay(int patchID)
         {
             // GetViewModel
-            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, id);
+            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
 
             // TemplateMethod
-            string outputFilePath = null;
-            TemplateActionMethod(userInput, () =>
-            {
-                outputFilePath = _libraryPatchPropertiesPresenter.Play(userInput, _repositories);
-                return userInput;
-            });
-
-            return outputFilePath;
+            TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Play(userInput, _repositories));
         }
 
         /// <param name="group">nullable</param>
@@ -2161,26 +2153,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary> Returns output file path if ViewModel.Successful. </summary>
-        public string PatchDetailsPlay(int id)
+        public void PatchDetailsPlay(int id)
         {
             // GetViewModel
             PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 
-            // TemplateMethod
-            string outputFilePath = null;
-            TemplateActionMethod(userInput, () =>
-            {
-                outputFilePath = _patchDetailsPresenter.Play(userInput);
-                return userInput;
-            });
-
-            // Non-Persisted
-            // Move messages to popup messages, because the default
-            // dispatching for PatchDetailsViewModel moves it to the ValidationMessages.
-            MainViewModel.PopupMessages.AddRange(userInput.ValidationMessages);
-            userInput.ValidationMessages.Clear();
-
-            return outputFilePath;
+            // Template Method
+            TemplateActionMethod(userInput, () => _patchDetailsPresenter.Play(userInput));
         }
 
         public void PatchPropertiesShow(int id)
@@ -2230,20 +2209,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary> Returns output file path if ViewModel.Successful. </summary>
-        public string PatchPropertiesPlay(int id)
+        public void PatchPropertiesPlay(int id)
         {
             // GetViewModel
             PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            string outputFilePath = null;
-            TemplateActionMethod(userInput, () =>
-            {
-                outputFilePath = _patchPropertiesPresenter.Play(userInput);
-                return userInput;
-            });
-
-            return outputFilePath;
+            TemplateActionMethod(userInput, () => _patchPropertiesPresenter.Play(userInput));
         }
 
         // Sample
@@ -2772,9 +2744,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             patchManager.Patch = outlet.Operator.Patch;
-
-            //int i;
-            //Enumerable.Repeat(
 
             var calculatorCache = new CalculatorCache();
             int channelCount = audioOutput.GetChannelCount();

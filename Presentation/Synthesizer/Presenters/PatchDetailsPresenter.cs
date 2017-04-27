@@ -32,8 +32,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         // TODO: These two constants do not belong here, because they should be determined by the vector graphics.
         private const float ESTIMATED_OPERATOR_WIDTH = 50f;
         private const float OPERATOR_HEIGHT = 30f;
-        private static readonly double _patchPlayDuration = CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayDurationInSeconds;
-        private static readonly string _patchPlayOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
 
         private readonly RepositoryWrapper _repositories;
         private readonly PatchRepositories _patchRepositories;
@@ -323,7 +321,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
         /// Instead of writing to a file it had better write to a stream.
         /// </summary>
-        public string Play(PatchDetailsViewModel userInput)
+        public PatchDetailsViewModel Play(PatchDetailsViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -337,59 +335,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
-
-            // Auto-Patch
             var patchManager = new PatchManager(patch, _patchRepositories);
             Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch, userInput.SelectedOperator?.ID);
-
-            userInput.ValidationMessages.AddRange(result.Messages);
-            if (!result.Successful)
-            {
-                return null;
-            }
             Outlet outlet = result.Data;
 
-            // Determine AudioOutput
-            AudioOutput audioOutput = patch.Document?.AudioOutput;
-            if (audioOutput == null)
-            {
-                // PatchDetails can be used outside of a document, 
-                // in case of which we need to instantiate a default AudioOutput.
-                // In particular in the AutoPatchPopup view, the patch does not have a link with the document right now.
-                var audioOutputManager = new AudioOutputManager(_repositories.AudioOutputRepository, _repositories.SpeakerSetupRepository, _repositories.IDRepository);
-                audioOutput = audioOutputManager.CreateWithDefaults();
-            }
+            // ToViewModel
+            PatchDetailsViewModel viewModel = CreateViewModel(patch);
 
-            // Calculate
-            var calculatorCache = new CalculatorCache();
-            int channelCount = audioOutput.GetChannelCount();
-            var patchCalculators = new IPatchCalculator[channelCount];
-            for (int i = 0; i < channelCount; i++)
-            {
-                patchCalculators[i] = patchManager.CreateCalculator(
-                    outlet, 
-                    audioOutput.SamplingRate, 
-                    channelCount, 
-                    i, 
-                    calculatorCache);
-            }
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.OutletIDToPlay = outlet?.ID;
+            viewModel.ValidationMessages.AddRange(result.Messages);
 
-            // Write Output File
-            var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(_repositories));
-            AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
-            audioFileOutput.LinkTo(audioOutput.SpeakerSetup);
-            audioFileOutput.SamplingRate = audioOutput.SamplingRate;
-            audioFileOutput.FilePath = _patchPlayOutputFilePath;
-            audioFileOutput.Duration = _patchPlayDuration;
-            audioFileOutput.LinkTo(outlet);
+            // Successful?
+            viewModel.Successful = result.Successful;
 
-            // Infrastructure
-            audioFileOutputManager.WriteFile(audioFileOutput, patchCalculators);
-
-            // Successful
-            userInput.Successful = true;
-
-            return _patchPlayOutputFilePath;
+            return viewModel;
         }
 
         // Helpers
