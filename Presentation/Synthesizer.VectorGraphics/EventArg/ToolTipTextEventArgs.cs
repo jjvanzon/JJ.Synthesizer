@@ -6,7 +6,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.EventArg
 {
     public class ToolTipTextEventArgs : EventArgs
     {
-        public Element Element { get; private set; }
+        public Element Element { get; }
         public string ToolTipText { get; set; }
 
         public ToolTipTextEventArgs(Element element)

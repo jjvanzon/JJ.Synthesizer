@@ -5,11 +5,11 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class CurveRepositories
     {
-        public ICurveRepository CurveRepository { get; private set; }
-        public INodeRepository NodeRepository { get; private set; }
-        public INodeTypeRepository NodeTypeRepository { get; private set; }
-        public IDimensionRepository DimensionRepository { get; private set; }
-        public IIDRepository IDRepository { get; private set; }
+        public ICurveRepository CurveRepository { get; }
+        public INodeRepository NodeRepository { get; }
+        public INodeTypeRepository NodeTypeRepository { get; }
+        public IDimensionRepository DimensionRepository { get; }
+        public IIDRepository IDRepository { get; }
 
         public CurveRepositories(RepositoryWrapper repositories)
         {

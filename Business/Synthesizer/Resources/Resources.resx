@@ -988,9 +988,6 @@
   <data name="SelectAnOperatorFirst" xml:space="preserve">
     <value>Select an operator first.</value>
   </data>
-  <data name="SelectAnOperatorWithASingleOutlet" xml:space="preserve">
-    <value>Please select an operator with a single outlet.</value>
-  </data>
   <data name="ApplicationName" xml:space="preserve">
     <value>Synthesizer</value>
   </data>
@@ -1015,5 +1012,11 @@
   </data>
   <data name="AutoPatch" xml:space="preserve">
     <value>Auto-Patch</value>
+  </data>
+  <data name="PatchHasNoOutlets" xml:space="preserve">
+    <value>Patch has no outlets.</value>
+  </data>
+  <data name="SelectedOperatorHasNoOutlets" xml:space="preserve">
+    <value>Selected operator has no outlets.</value>
   </data>
 </root>

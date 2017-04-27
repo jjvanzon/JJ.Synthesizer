@@ -4,11 +4,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.EventArg
 {
     public class IDEventArgs : EventArgs
     {
-        public int ID { get; private set; }
+        public int ID { get; }
 
-        public IDEventArgs(int id)
-        {
-            ID = id;
-        }
+        public IDEventArgs(int id) => ID = id;
     }
 }

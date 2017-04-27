@@ -14,24 +14,24 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 {
     internal class DataMigrationExecutor
     {
-        private class InletOrOutletTuple
-        {
-            public InletOrOutletTuple(
-                OperatorTypeEnum operatorTypeEnum,
-                int listIndex,
-                DimensionEnum dimensionEnum)
-            {
-                OperatorTypeEnum = operatorTypeEnum;
-                ListIndex = listIndex;
-                DimensionEnum = dimensionEnum;
-            }
+        //private class InletOrOutletTuple
+        //{
+        //    public InletOrOutletTuple(
+        //        OperatorTypeEnum operatorTypeEnum,
+        //        int listIndex,
+        //        DimensionEnum dimensionEnum)
+        //    {
+        //        OperatorTypeEnum = operatorTypeEnum;
+        //        ListIndex = listIndex;
+        //        DimensionEnum = dimensionEnum;
+        //    }
 
-            public OperatorTypeEnum OperatorTypeEnum { get; set; }
-            public int ListIndex { get; set; }
-            public DimensionEnum DimensionEnum { get; set; }
-        }
+        //    public OperatorTypeEnum OperatorTypeEnum { get; }
+        //    public int ListIndex { get; }
+        //    public DimensionEnum DimensionEnum { get; }
+        //}
 
-        private const int DEFAULT_FREQUENCY = 440;
+        //private const int DEFAULT_FREQUENCY = 440;
 
         public static void AssertAllDocuments(Action<string> progressCallback)
         {

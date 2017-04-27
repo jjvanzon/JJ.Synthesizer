@@ -1780,6 +1780,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Patch has no outlets..
+        /// </summary>
+        internal static string PatchHasNoOutlets {
+            get {
+                return ResourceManager.GetString("PatchHasNoOutlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inlet.
         /// </summary>
         internal static string PatchInlet {
@@ -2122,11 +2131,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select an operator with a single outlet..
+        ///   Looks up a localized string similar to Selected operator has no outlets..
         /// </summary>
-        internal static string SelectAnOperatorWithASingleOutlet {
+        internal static string SelectedOperatorHasNoOutlets {
             get {
-                return ResourceManager.GetString("SelectAnOperatorWithASingleOutlet", resourceCulture);
+                return ResourceManager.GetString("SelectedOperatorHasNoOutlets", resourceCulture);
             }
         }
         

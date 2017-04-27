@@ -91,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.Add(new Message { PropertyKey = PropertyNames.LowerDocument, Text = ResourceFormatter.SelectALibraryFirst });
+                viewModel.ValidationMessages.Add(new Message { Key = PropertyNames.LowerDocument, Text = ResourceFormatter.SelectALibraryFirst });
             }
             else
             {

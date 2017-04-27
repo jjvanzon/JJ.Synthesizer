@@ -990,9 +990,6 @@
   <data name="SelectAnOperatorFirst" xml:space="preserve">
     <value>Selecteer eerst een operator.</value>
   </data>
-  <data name="SelectAnOperatorWithASingleOutlet" xml:space="preserve">
-    <value>De geselecteerde operator moet precies één uitgang hebben.</value>
-  </data>
   <data name="ApplicationName" xml:space="preserve">
     <value>Synthesizer</value>
   </data>
@@ -1017,5 +1014,11 @@
   </data>
   <data name="AutoPatch" xml:space="preserve">
     <value>Automatische schakeling</value>
+  </data>
+  <data name="PatchHasNoSOutlets" xml:space="preserve">
+    <value>De schakeling heeft geen uitgangen.</value>
+  </data>
+  <data name="SelectedOperatorHasNoOutlets" xml:space="preserve">
+    <value>De geselecteerde operator heeft geen uitgangen.</value>
   </data>
 </root>

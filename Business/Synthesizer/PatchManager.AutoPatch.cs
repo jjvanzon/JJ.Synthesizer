@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Data.Canonical;
+using JJ.Framework.Business;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using Canonicals = JJ.Data.Canonical;
 // ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer
@@ -74,33 +74,38 @@ namespace JJ.Business.Synthesizer
         /// If outlets to combine were found, PatchManager's Patch property will reference the a patch.
         /// Also the outlet that returns the sound is returned through the result.
         /// </summary>
-        public Result<Outlet> AutoPatch_TryCombineSignals(Patch sourcePatch, int? selectedOperatorID)
+        public Canonicals.Result<Outlet> AutoPatch_TryCombineSignals(Patch sourcePatch, int? selectedOperatorID)
         {
             CreatePatch();
             Patch.Name = "Auto-Generated Patch";
 
-            IList<Outlet> signalOutlets = TryGetSignalOutlets(sourcePatch, selectedOperatorID);
+            IList<Outlet> signalOutlets;
+
+            if (selectedOperatorID.HasValue)
+            {
+                signalOutlets = GetSignalOutletsFromOperator(selectedOperatorID.Value);
+                if (signalOutlets.Count == 0)
+                {
+                    var result = new Result<Outlet> { Successful = false };
+                    result.Messages.Add(nameof(signalOutlets), ResourceFormatter.SelectedOperatorHasNoOutlets);
+                    return result.ToCanonical();
+                }
+            }
+            // ReSharper disable once RedundantIfElseBlock
+            else
+            {
+                signalOutlets = GetSignalOutletsFromPatch(sourcePatch);
+                if (signalOutlets.Count == 0)
+                {
+                    var result = new Result<Outlet> { Successful = false };
+                    result.Messages.Add(nameof(signalOutlets), ResourceFormatter.PatchHasNoOutlets);
+                    return result.ToCanonical();
+                }
+            }
 
             switch (signalOutlets.Count)
             {
-                case 0:
-                {
-                    var result = new Result<Outlet>
-                    {
-                        Successful = false,
-                        Messages = new[]
-                        {
-                            new Message
-                            {
-                                PropertyKey = nameof(signalOutlets),
-                                // TODO: Use more generic message, like: "No signals or other outlets found in selected operator or patch."
-                                Text = ResourceFormatter.SelectAnOperatorFirst
-                            }
-                        }
-                    };
-                    
-                    return result;
-                }
+                // case 0 already handled above.
 
                 case 1:
                 {
@@ -109,11 +114,10 @@ namespace JJ.Business.Synthesizer
                     var result = new Result<Outlet>
                     {
                         Successful = true,
-                        Messages = new Message[0],
                         Data = patchOutlet
                     };
 
-                    return result;
+                    return result.ToCanonical();
                 }
 
                 default:
@@ -123,31 +127,16 @@ namespace JJ.Business.Synthesizer
                     var result = new Result<Outlet>
                     {
                         Successful = true,
-                        Messages = new Message[0],
                         Data = add
                     };
                     
-                    return result;
+                    return result.ToCanonical();
                 }
             }
         }
 
-        private IList<Outlet> TryGetSignalOutlets(Patch sourcePatch, int? selectedOperatorID)
-        {
-            // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (selectedOperatorID.HasValue)
-            {
-                return TryGetSignalOutletsFromOperator(selectedOperatorID.Value);
-            }
-            // ReSharper disable once RedundantIfElseBlock
-            else
-            {
-                return TryGetSignalOutletsFromPatch(sourcePatch);
-            }
-        }
-
         /// <summary> In case no signal outlets are present, all outlets are returned. </summary>
-        private IList<Outlet> TryGetSignalOutletsFromOperator(int selectedOperatorID)
+        private IList<Outlet> GetSignalOutletsFromOperator(int selectedOperatorID)
         {
             Operator selectedOperator = _repositories.OperatorRepository.Get(selectedOperatorID);
 
@@ -182,7 +171,7 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary> In case no signal outlets are presents, all patch outlets are returned. </summary>
-        private static IList<Outlet> TryGetSignalOutletsFromPatch(Patch sourcePatch)
+        private static IList<Outlet> GetSignalOutletsFromPatch(Patch sourcePatch)
         {
             IList<Outlet> signalPatchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
                                                           .Where(x => x.DimensionEnum == DimensionEnum.Signal)
@@ -326,7 +315,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // This is sensitive, error prone code, so verify its result with the validators.
-            VoidResult result = ValidatePatchWithRelatedEntities();
+            JJ.Data.Canonical.VoidResult result = ValidatePatchWithRelatedEntities();
             ResultHelper.Assert(result);
         }
 

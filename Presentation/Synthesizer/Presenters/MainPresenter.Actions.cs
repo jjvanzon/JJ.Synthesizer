@@ -1207,7 +1207,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 MainViewModel.ValidationMessages.Add(new Message
                 {
-                    PropertyKey = PresentationPropertyNames.SelectedNodeID,
+                    Key = PresentationPropertyNames.SelectedNodeID,
                     Text = ResourceFormatter.SelectANodeFirst
                 });
                 return;

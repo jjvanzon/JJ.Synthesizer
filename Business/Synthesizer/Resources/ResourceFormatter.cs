@@ -196,6 +196,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string PassThrough => Resources.PassThrough;
         public static string Patch => Resources.Patch;
         public static string Patches => Resources.Patches;
+        public static string PatchHasNoOutlets => Resources.PatchHasNoOutlets;
         public static string PatchInlet => Resources.PatchInlet;
         public static string PatchOutlet => Resources.PatchOutlet;
         public static string PeakingEQFilter => Resources.PeakingEQFilter;
@@ -231,7 +232,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string SelectALibraryFirst => Resources.SelectALibraryFirst;
         public static string SelectANodeFirst => Resources.SelectANodeFirst;
         public static string SelectAnOperatorFirst => Resources.SelectAnOperatorFirst;
-        public static string SelectAnOperatorWithASingleOutlet => Resources.SelectAnOperatorWithASingleOutlet;
+        public static string SelectedOperatorHasNoOutlets => Resources.SelectedOperatorHasNoOutlets;
         public static string SemiTone => Resources.SemiTone;
         public static string SemiTones => Resources.SemiTones;
         public static string SetDimension => Resources.SetDimension;

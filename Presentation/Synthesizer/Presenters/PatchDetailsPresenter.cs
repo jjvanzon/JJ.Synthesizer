@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -261,7 +258,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Non-Persisted
                 userInput.ValidationMessages.Add(new Message
                 {
-                    PropertyKey = PresentationPropertyNames.SelectedOperator,
+                    Key = PresentationPropertyNames.SelectedOperator,
                     Text = ResourceFormatter.SelectAnOperatorFirst
                 });
 
