@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
@@ -336,37 +337,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Set !Successful
             userInput.Successful = false;
 
-            // ViewModel Validation
-            if (userInput.SelectedOperator == null)
-            {
-                // Non-Persisted
-                userInput.ValidationMessages.Add(new Message
-                {
-                    PropertyKey = PresentationPropertyNames.SelectedOperator,
-                    Text = ResourceFormatter.SelectAnOperatorFirst
-                });
-
-                return null;
-            }
-
-            Operator selectedOperator = _repositories.OperatorRepository.Get(userInput.SelectedOperator.ID);
-            if (selectedOperator.Outlets.Count != 1)
-            {
-                // Non-Persisted
-                userInput.ValidationMessages.Add(new Message
-                {
-                    PropertyKey = PresentationPropertyNames.SelectedOperator,
-                    Text = ResourceFormatter.SelectAnOperatorWithASingleOutlet
-                });
-
-                return null;
-            }
-
-            // GetEntities
-            Outlet outlet = selectedOperator.Outlets.Single();
-            AudioOutput audioOutput = outlet.Operator.Patch.Document?.AudioOutput;
+            // GetEntity
+            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
+
+            // Auto-Patch
+            var patchManager = new PatchManager(patch, new PatchRepositories(repositories));
+            Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch, userInput.SelectedOperator?.ID);
+
+            userInput.ValidationMessages.AddRange(result.Messages);
+            if (!result.Successful)
+            {
+                return null;
+            }
+            Outlet outlet = result.Data;
+
+            // Determine AudioOutput
+            AudioOutput audioOutput = patch.Document?.AudioOutput;
             if (audioOutput == null)
             {
                 // PatchDetails can be used outside of a document, 
@@ -376,7 +364,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 audioOutput = audioOutputManager.CreateWithDefaults();
             }
 
-            var patchManager = new PatchManager(outlet.Operator.Patch, new PatchRepositories(repositories));
+            // Calculate
             var calculatorCache = new CalculatorCache();
             int channelCount = audioOutput.GetChannelCount();
             var patchCalculators = new IPatchCalculator[channelCount];
@@ -390,6 +378,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     calculatorCache);
             }
 
+            // Write Output File
             var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
             AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
             audioFileOutput.LinkTo(audioOutput.SpeakerSetup);
