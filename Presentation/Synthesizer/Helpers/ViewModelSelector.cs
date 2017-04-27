@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Exceptions;
+﻿using System;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
@@ -157,6 +158,39 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new NotFoundException<OperatorViewModel>(new { patchID, operatorID });
+        }
+
+        public static OperatorPropertiesViewModelBase GetOperatorPropertiesViewModelPolymorphic(DocumentViewModel documentViewModel, int operatorID)
+        {
+            OperatorPropertiesViewModelBase viewModel = TryGetOperatorPropertiesViewModelPolymorphic(documentViewModel, operatorID);
+
+            if (viewModel == null)
+            {
+                throw new NotFoundException<OperatorPropertiesViewModelBase>(new { operatorID });
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModelBase TryGetOperatorPropertiesViewModelPolymorphic(DocumentViewModel documentViewModel, int operatorID)
+        {
+            OperatorPropertiesViewModelBase viewModel =
+                TryGetOperatorPropertiesViewModel(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_ForCache(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_ForCurve(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_ForCustomOperator(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_ForInletsToDimension(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_ForNumber(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_ForPatchInlet(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_ForPatchOutlet(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_ForSample(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_WithInterpolation(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_WithOutletCount(documentViewModel, operatorID) ??
+                (OperatorPropertiesViewModelBase)TryGetOperatorPropertiesViewModel_WithInletCount(documentViewModel, operatorID);
+
+            return viewModel;
+
         }
 
         public static OperatorPropertiesViewModel GetOperatorPropertiesViewModel(DocumentViewModel documentViewModel, int operatorID)

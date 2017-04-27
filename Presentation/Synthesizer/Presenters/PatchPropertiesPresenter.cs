@@ -33,38 +33,42 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override PatchPropertiesViewModel UpdateEntity(PatchPropertiesViewModel userInput)
         {
-            return TemplateMethod(userInput, viewModel =>
-            {
-                // GetEntity
-                Patch patch = _repositories.PatchRepository.Get(userInput.ID);
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    Patch patch = _repositories.PatchRepository.Get(userInput.ID);
 
-                // Business
-                var patchManager = new PatchManager(patch, _patchRepositories);
-                VoidResult result = patchManager.SavePatch();
+                    // Business
+                    var patchManager = new PatchManager(patch, _patchRepositories);
+                    VoidResult result = patchManager.SavePatch();
 
-                // Non-Persisted
-                viewModel.ValidationMessages = result.Messages;
-                viewModel.Successful = result.Successful;
-            });
+                    // Non-Persisted
+                    viewModel.ValidationMessages = result.Messages;
+                    viewModel.Successful = result.Successful;
+                });
         }
 
         public PatchPropertiesViewModel Play(PatchPropertiesViewModel userInput)
         {
-            return TemplateMethod(userInput, viewModel =>
-            { 
-                // GetEntity
-                Patch patch = _repositories.PatchRepository.Get(userInput.ID);
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    Patch patch = _repositories.PatchRepository.Get(userInput.ID);
 
-                // Business
-                var patchManager = new PatchManager(patch, _patchRepositories);
-                Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch);
-                Outlet outlet = result.Data;
+                    // Business
+                    var patchManager = new PatchManager(patch, _patchRepositories);
+                    Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch);
+                    Outlet outlet = result.Data;
 
-                // Non-Persisted
-                viewModel.OutletIDToPlay = outlet?.ID;
-                viewModel.ValidationMessages.AddRange(result.Messages);
-                viewModel.Successful = result.Successful;
-            });
+                    // Non-Persisted
+                    viewModel.OutletIDToPlay = outlet?.ID;
+                    viewModel.ValidationMessages.AddRange(result.Messages);
+                    viewModel.Successful = result.Successful;
+                });
         }
     }
 }

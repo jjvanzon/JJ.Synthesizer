@@ -1333,167 +1333,52 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Operator
 
-        public void OperatorPropertiesShow(int id)
+        public void OperatorChangeInputOutlet(int patchID, int inletID, int inputOutletID)
         {
-            // GetViewModel & Partial Action
-            {
-                OperatorPropertiesViewModel userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_ForCache viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCache.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_ForCache = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_ForCurve viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_ForCurve = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForCustomOperator userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_ForCustomOperator viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCustomOperator.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForInletsToDimension userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_ForInletsToDimension viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForInletsToDimension.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForNumber userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_ForNumber viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForNumber.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_ForNumber = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForPatchInlet userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_ForPatchInlet viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForPatchOutlet userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_ForPatchOutlet viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForSample userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_ForSample viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForSample.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_ForSample = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_WithInterpolation userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_WithInterpolation viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInterpolation.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_WithInterpolation = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_WithCollectionRecalculation userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithCollectionRecalculation.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_WithInletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_WithInletCount viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInletCount.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_WithInletCount = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_WithOutletCount viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithOutletCount.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = viewModel;
-                    }
-                    return;
-                }
-            }
+            // GetViewModel
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
-            throw new Exception($"Properties ViewModel not found for Operator with ID '{id}'.");
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _patchDetailsPresenter.ChangeInputOutlet(userInput, inletID, inputOutletID));
+        }
+
+        public void OperatorCreate(int patchID, int operatorTypeID)
+        {
+            // GetViewModel
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
+
+            // TemplateMethod
+            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.CreateOperator(userInput, operatorTypeID));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
+            }
+        }
+
+        public void OperatorDeleteSelected(int patchID)
+        {
+            // GetViewModel
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
+
+            // Template Method
+            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.DeleteOperator(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
+            }
+        }
+
+        public void OperatorMove(int patchID, int operatorID, float centerX, float centerY)
+        {
+            // GetViewModel
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _patchDetailsPresenter.MoveOperator(userInput, operatorID, centerX, centerY));
         }
 
         public void OperatorPropertiesClose(int id)
@@ -1916,52 +1801,278 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void OperatorCreate(int patchID, int operatorTypeID)
+        public void OperatorPropertiesPlay(int id)
         {
-            // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
-
-            // TemplateMethod
-            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.CreateOperator(userInput, operatorTypeID));
-
-            // Refresh
-            if (viewModel.Successful)
+            // GetViewModel & Partial Action
             {
-                DocumentViewModelRefresh();
+                OperatorPropertiesViewModel userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter.Play(userInput));
+                    return;
+                }
             }
-        }
-
-        public void OperatorDeleteSelected(int patchID)
-        {
-            // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
-
-            // Template Method
-            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.DeleteOperator(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
             {
-                DocumentViewModelRefresh();
+                OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCache.Play(userInput));
+                    return;
+                }
             }
+            {
+                OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.Play(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForCustomOperator userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCustomOperator.Play(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForInletsToDimension userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForInletsToDimension.Play(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForNumber userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForNumber.Play(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForPatchInlet userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.Play(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForPatchOutlet userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.Play(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForSample userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForSample.Play(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_WithInterpolation userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInterpolation.Play(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_WithCollectionRecalculation userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithCollectionRecalculation.Play(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_WithInletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInletCount.Play(userInput));
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithOutletCount.Play(userInput));
+                    return;
+                }
+            }
+
+            throw new NotFoundException<OperatorPropertiesViewModelBase>(new { OperatorID = id });
         }
 
-        public void OperatorMove(int patchID, int operatorID, float centerX, float centerY)
+        public void OperatorPropertiesShow(int id)
         {
-            // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
+            // GetViewModel & Partial Action
+            {
+                OperatorPropertiesViewModel userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_ForCache viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCache.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForCache = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_ForCurve viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForCurve = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForCustomOperator userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_ForCustomOperator viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCustomOperator.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForInletsToDimension userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_ForInletsToDimension viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForInletsToDimension.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForNumber userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_ForNumber viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForNumber.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForNumber = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForPatchInlet userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_ForPatchInlet viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForPatchOutlet userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_ForPatchOutlet viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_ForSample userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_ForSample viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForSample.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_ForSample = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_WithInterpolation userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_WithInterpolation viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInterpolation.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_WithInterpolation = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_WithCollectionRecalculation userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithCollectionRecalculation.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_WithInletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_WithInletCount viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInletCount.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_WithInletCount = viewModel;
+                    }
+                    return;
+                }
+            }
+            {
+                OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
+                if (userInput != null)
+                {
+                    OperatorPropertiesViewModel_WithOutletCount viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithOutletCount.Show(userInput));
+                    if (viewModel.Successful)
+                    {
+                        MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = viewModel;
+                    }
+                    return;
+                }
+            }
 
-            // TemplateMethod
-            TemplateActionMethod(userInput, () => _patchDetailsPresenter.MoveOperator(userInput, operatorID, centerX, centerY));
-        }
-
-        public void OperatorChangeInputOutlet(int patchID, int inletID, int inputOutletID)
-        {
-            // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
-
-            // TemplateMethod
-            TemplateActionMethod(userInput, () => _patchDetailsPresenter.ChangeInputOutlet(userInput, inletID, inputOutletID));
+            throw new NotFoundException<OperatorPropertiesViewModelBase>(new { OperatorID = id });
         }
 
         public void OperatorSelect(int patchID, int operatorID)

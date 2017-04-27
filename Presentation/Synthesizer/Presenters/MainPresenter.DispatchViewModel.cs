@@ -410,7 +410,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForCache(ViewModelBase viewModel)
@@ -428,7 +428,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForCache = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForCurve(ViewModelBase viewModel)
@@ -446,7 +446,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForCurve = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForCustomOperator(ViewModelBase viewModel)
@@ -464,7 +464,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForInletsToDimension(ViewModelBase viewModel)
@@ -482,7 +482,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForNumber(ViewModelBase viewModel)
@@ -500,7 +500,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForNumber = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForPatchInlet(ViewModelBase viewModel)
@@ -518,7 +518,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForPatchOutlet(ViewModelBase viewModel)
@@ -536,7 +536,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_ForSample(ViewModelBase viewModel)
@@ -554,7 +554,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForSample = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_WithInterpolation(ViewModelBase viewModel)
@@ -572,7 +572,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_WithInterpolation = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_WithCollectionRecalculation(ViewModelBase viewModel)
@@ -590,7 +590,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_WithOutletCount(ViewModelBase viewModel)
@@ -608,7 +608,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
         }
 
         private void DispatchOperatorPropertiesViewModel_WithInletCount(ViewModelBase viewModel)
@@ -626,7 +626,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_WithInletCount = castedViewModel;
             }
 
-            DispatchViewModelBase(castedViewModel);
+            DispatchOperatorPropertiesViewModelBase(castedViewModel);
+        }
+
+        private void DispatchOperatorPropertiesViewModelBase(OperatorPropertiesViewModelBase viewModel)
+        {
+            if (viewModel.OutletIDToPlay.HasValue)
+            {
+                MainViewModel.Document.OutletIDToPlay = viewModel.OutletIDToPlay;
+                viewModel.OutletIDToPlay = null;
+            }
+
+            DispatchViewModelBase(viewModel);
         }
 
         private void DispatchPatchDetailsViewModel(ViewModelBase viewModel)

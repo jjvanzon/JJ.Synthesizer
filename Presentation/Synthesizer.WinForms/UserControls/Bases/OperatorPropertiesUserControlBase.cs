@@ -23,6 +23,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         {
             Name = GetType().Name;
 
+            PlayButtonVisible = true;
+
             _labelOperatorTypeTitle = CreateLabelOperatorTypeTitle();
             Controls.Add(_labelOperatorTypeTitle);
 
@@ -54,10 +56,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => base.ViewModel = value;
         }
 
-        protected override int GetID()
-        {
-            return ViewModel.ID;
-        }
+        protected override int GetID() => ViewModel.ID;
 
         protected override void SetTitles()
         {
@@ -101,20 +100,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         // Creating Controls
 
-        private Label CreateLabelOperatorTypeTitle()
-        {
-            return CreateLabel(nameof(_labelOperatorTypeTitle));
-        }
-
-        private Label CreateLabelOperatorTypeValue()
-        {
-            return CreateLabel(nameof(_labelOperatorTypeValue), ContentAlignment.MiddleLeft);
-        }
-
-        private Label CreateLabelStandardDimension()
-        {
-            return CreateLabel(nameof(_labelStandardDimension));
-        }
+        private Label CreateLabelOperatorTypeTitle() => CreateLabel(nameof(_labelOperatorTypeTitle));
+        private Label CreateLabelOperatorTypeValue() => CreateLabel(nameof(_labelOperatorTypeValue), ContentAlignment.MiddleLeft);
+        private Label CreateLabelStandardDimension() => CreateLabel(nameof(_labelStandardDimension));
+        private Label CreateLabelCustomDimension() => CreateLabel(nameof(_labelCustomDimensionName));
+        private TextBox CreateTextBoxCustomDimensionName() => CreateTextBox(nameof(_textBoxCustomDimensionName));
+        private Label CreateLabelName() => CreateLabel(nameof(_labelName));
+        private TextBox CreateTextBoxName() => CreateTextBox(nameof(_textBoxName));
 
         private ComboBox CreateComboBoxStandardDimension()
         {
@@ -127,26 +119,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             };
 
             return comboBox;
-        }
-
-        private Label CreateLabelCustomDimension()
-        {
-            return CreateLabel(nameof(_labelCustomDimensionName));
-        }
-
-        private TextBox CreateTextBoxCustomDimensionName()
-        {
-            return CreateTextBox(nameof(_textBoxCustomDimensionName));
-        }
-
-        private Label CreateLabelName()
-        {
-            return CreateLabel(nameof(_labelName));
-        }
-
-        private TextBox CreateTextBoxName()
-        {
-            return CreateTextBox(nameof(_textBoxName));
         }
 
         private Label CreateLabel(string name, ContentAlignment textAlign = ContentAlignment.MiddleRight)

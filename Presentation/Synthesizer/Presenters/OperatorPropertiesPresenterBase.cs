@@ -33,23 +33,48 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override TViewModel UpdateEntity(TViewModel userInput)
         {
-            return TemplateMethod(userInput, viewModel =>
-            {
-                // ToEntity: was already done by the MainPresenter.
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // ToEntity: was already done by the MainPresenter.
 
-                // GetEntity
-                Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+                    // GetEntity
+                    Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
-                // Business
-                var patchManager = new PatchManager(entity.Patch, _repositories);
-                VoidResult result = patchManager.SaveOperator(entity);
+                    // Business
+                    var patchManager = new PatchManager(entity.Patch, _repositories);
+                    VoidResult result = patchManager.SaveOperator(entity);
 
-                // Non-Persisted
-                viewModel.ValidationMessages.AddRange(result.Messages);
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result.Messages);
 
-                // Successful?
-                viewModel.Successful = result.Successful;
-            });
+                    // Successful?
+                    viewModel.Successful = result.Successful;
+                });
+        }
+
+        public TViewModel Play(TViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // ToEntity: was already done by the MainPresenter.
+
+                    // GetEntity
+                    Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+                    // Business
+                    var patchManager = new PatchManager(_repositories);
+                    Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(entity.Patch, entity.ID);
+                    Outlet outlet = result.Data;
+
+                    // Non-Persisted
+                    viewModel.OutletIDToPlay = outlet?.ID;
+                    viewModel.ValidationMessages.AddRange(result.Messages);
+                    viewModel.Successful = result.Successful;
+                });
         }
     }
 }
