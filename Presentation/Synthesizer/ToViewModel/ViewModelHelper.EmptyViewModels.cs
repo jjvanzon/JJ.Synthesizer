@@ -107,6 +107,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 DocumentTree = new RecursiveToDocumentTreeViewModelFactory().CreateEmptyDocumentTreeViewModel(),
                 LibraryGrid = CreateEmptyLibraryGridViewModel(),
+                LibraryPropertiesDictionary = new Dictionary<int, LibraryPropertiesViewModel>(),
                 LibrarySelectionPopup = CreateEmptyLibrarySelectionPopupViewModel(),
                 LibraryPatchPropertiesDictionary = new Dictionary<int, LibraryPatchPropertiesViewModel>(),
                 NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),

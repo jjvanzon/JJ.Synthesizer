@@ -61,6 +61,8 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary>
+        /// Will replace PatchManager.Patch with a new patch.
+        /// 
         /// Creatively tries to make the best of getting sound out of the source Patch.
         /// Tries to find outlets to combine into sound.
         /// If selectedOperatorID is provided, only outlets of the selected Operator are considered.
@@ -68,12 +70,15 @@ namespace JJ.Business.Synthesizer
         /// Outlets of type signal are preferred,
         /// but if none are found, all outlets are considered.
         /// 
-        /// If no outlets were found, a result with Successful = false is returned.
+        /// If no suitable outlets were found, a result with Successful = false is returned.
         /// If outlets to combine were found, PatchManager's Patch property will reference the a patch.
         /// Also the outlet that returns the sound is returned through the result.
         /// </summary>
         public Result<Outlet> AutoPatch_TryCombineSignals(Patch sourcePatch, int? selectedOperatorID)
         {
+            CreatePatch();
+            Patch.Name = "Auto-Generated Patch";
+
             IList<Outlet> signalOutlets = TryGetSignalOutlets(sourcePatch, selectedOperatorID);
 
             switch (signalOutlets.Count)
@@ -99,8 +104,6 @@ namespace JJ.Business.Synthesizer
 
                 case 1:
                 {
-                    CreatePatch();
-                    Patch.Name = "Auto-Generated Patch";
                     Outlet patchOutlet = PatchOutlet(signalOutlets[0]);
 
                     var result = new Result<Outlet>
@@ -115,8 +118,6 @@ namespace JJ.Business.Synthesizer
 
                 default:
                 {
-                    CreatePatch();
-                    Patch.Name = "Auto-Generated Patch";
                     Outlet add = Add(signalOutlets);
 
                     var result = new Result<Outlet>
@@ -133,70 +134,73 @@ namespace JJ.Business.Synthesizer
 
         private IList<Outlet> TryGetSignalOutlets(Patch sourcePatch, int? selectedOperatorID)
         {
+            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (selectedOperatorID.HasValue)
             {
-                Operator selectedOperator = _repositories.OperatorRepository.Get(selectedOperatorID.Value);
-
-                switch (selectedOperator.Outlets.Count)
-                {
-                    case 0:
-                        // Selected Operator has no Outlets
-                        return new Outlet[0];
-
-                    case 1:
-                        // Selected Operator has single Outlet
-                        return new Outlet[] { selectedOperator.Outlets[0] };
-
-                    default:
-                        IList<Outlet> signalOutlets = selectedOperator.Outlets
-                                                                      .Where(x => x.GetDimensionEnum() == DimensionEnum.Signal)
-                                                                      .ToArray();
-
-                        // ReSharper disable once ConvertIfStatementToReturnStatement
-                        if (signalOutlets.Count != 0)
-                        {
-                            // Selected Operator has signal outlets.
-                            return signalOutlets;
-                        }
-                        else
-                        {
-                            // Selected Operator has no signal outlets.
-                            return selectedOperator.Outlets;
-                        }
-                }
+                return TryGetSignalOutletsFromOperator(selectedOperatorID.Value);
             }
             // ReSharper disable once RedundantIfElseBlock
             else
             {
-                // No operator selected.
-
-                IList<Outlet> signalPatchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                              .Where(x => x.DimensionEnum == DimensionEnum.Signal)
-                                                              .Select(x => x.Result)
-                                                              .ToArray();
-                if (signalPatchOutlets.Count != 0)
-                {
-                    // Patch has Signal PatchOutlets.
-                    return signalPatchOutlets;
-                }
-
-                // Patch has no Signal PatchOutlets:
-                // Return all PatchOutlets.
-                IList<Outlet> patchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                        .Select(x => x.Result)
-                                                        .ToArray();
-
-                if (patchOutlets.Count != 0)
-                {
-                    return patchOutlets;
-                }
-
-                // Patch has no patch outlets, just return all outlets
-                IList<Outlet> outlets = sourcePatch.Operators
-                                                   .SelectMany(x => x.Outlets)
-                                                   .ToArray();
-                return outlets;
+                return TryGetSignalOutletsFromPatch(sourcePatch);
             }
+        }
+
+        /// <summary> In case no signal outlets are present, all outlets are returned. </summary>
+        private IList<Outlet> TryGetSignalOutletsFromOperator(int selectedOperatorID)
+        {
+            Operator selectedOperator = _repositories.OperatorRepository.Get(selectedOperatorID);
+
+            switch (selectedOperator.Outlets.Count)
+            {
+                case 0:
+                    // Selected Operator has no Outlets
+                    return new Outlet[0];
+
+                case 1:
+                    // Selected Operator has single Outlet
+                    // ReSharper disable once RedundantExplicitArrayCreation
+                    return new Outlet[] { selectedOperator.Outlets[0] };
+
+                default:
+                    IList<Outlet> signalOutlets = selectedOperator.Outlets
+                                                                  .Where(x => x.GetDimensionEnum() == DimensionEnum.Signal)
+                                                                  .ToArray();
+
+                    // ReSharper disable once ConvertIfStatementToReturnStatement
+                    if (signalOutlets.Count != 0)
+                    {
+                        // Selected Operator has signal outlets.
+                        return signalOutlets;
+                    }
+                    else
+                    {
+                        // Selected Operator has no signal outlets.
+                        return selectedOperator.Outlets;
+                    }
+            }
+        }
+
+        /// <summary> In case no signal outlets are presents, all patch outlets are returned. </summary>
+        private static IList<Outlet> TryGetSignalOutletsFromPatch(Patch sourcePatch)
+        {
+            IList<Outlet> signalPatchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                                          .Where(x => x.DimensionEnum == DimensionEnum.Signal)
+                                                          .Select(x => x.Result)
+                                                          .ToArray();
+            if (signalPatchOutlets.Count != 0)
+            {
+                // Patch has Signal PatchOutlets.
+                return signalPatchOutlets;
+            }
+
+            // Patch has no Signal PatchOutlets:
+            // Return all PatchOutlets.
+            IList<Outlet> patchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                                    .Select(x => x.Result)
+                                                    .ToArray();
+
+            return patchOutlets;
         }
 
         /// <summary>
