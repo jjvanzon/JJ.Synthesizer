@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
@@ -16,10 +17,25 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         public event EventHandler<EventArgs<int>> RemoveRequested;
         public event EventHandler CloseRequested;
         public event EventHandler<EventArgs<int>> ShowItemRequested;
+        public event EventHandler<EventArgs<int>> PlayRequested;
+
+        public new event KeyEventHandler KeyDown
+        {
+            add => _specializedDataGridView.KeyDown += value;
+            remove => _specializedDataGridView.KeyDown -= value;
+        }
+
+        public new event DataGridViewCellEventHandler CellClick
+        {
+            add => _specializedDataGridView.CellClick += value;
+            remove => _specializedDataGridView.CellClick -= value;
+        }
 
         [NotNull] private readonly TitleBarUserControl _titleBarUserControl;
         [NotNull] private readonly SpecializedDataGridView _specializedDataGridView;
         [NotNull] private readonly TableLayoutPanel _tableLayoutPanel;
+
+        private int _columnCounter = 1;
 
         public GridUserControlBase()
         {
@@ -75,6 +91,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
             titleBarUserControl.RemoveClicked += _titleBarUserControl_RemoveClicked;
             titleBarUserControl.AddClicked += _titleBarUserControl_AddClicked;
+            titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
 
             return titleBarUserControl;
         }
@@ -129,39 +146,73 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => _titleBarUserControl.CloseButtonVisible = value;
         }
 
+        protected bool PlayButtonVisible
+        {
+            get => _titleBarUserControl.PlayButtonVisible;
+            set => _titleBarUserControl.PlayButtonVisible = value;
+        }
+
         /// <summary> does nothing </summary>
         protected virtual void AddColumns() { }
 
-        protected void AddHiddenColumn([NotNull] string dataPropertyName)
+        protected DataGridViewTextBoxColumn AddHiddenColumn([NotNull] string dataPropertyName)
         {
-            DataGridViewColumn dataGridViewColumn = CreateColumn(dataPropertyName);
+            DataGridViewTextBoxColumn dataGridViewColumn = CreateTextBoxColumn(dataPropertyName);
             dataGridViewColumn.Visible = false;
+
+            return dataGridViewColumn;
         }
 
-        protected void AddAutoSizeColumn([NotNull] string dataPropertyName, string title)
+        protected DataGridViewTextBoxColumn AddAutoSizeColumn([NotNull] string dataPropertyName, string title)
         {
             if (string.IsNullOrWhiteSpace(title)) throw new NullOrEmptyException(() => title);
 
-            DataGridViewColumn dataGridViewColumn = CreateColumn(dataPropertyName);
+            DataGridViewTextBoxColumn dataGridViewColumn = CreateTextBoxColumn(dataPropertyName);
             dataGridViewColumn.HeaderText = title;
             dataGridViewColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            return dataGridViewColumn;
         }
 
-        protected void AddColumnWithWidth([NotNull] string dataPropertyName, string title, int widthInPixels)
+        protected DataGridViewTextBoxColumn AddColumnWithWidth([NotNull] string dataPropertyName, string title, int widthInPixels)
         {
-            DataGridViewColumn dataGridViewColumn = CreateColumn(dataPropertyName);
+            DataGridViewTextBoxColumn dataGridViewColumn = CreateTextBoxColumn(dataPropertyName);
             dataGridViewColumn.HeaderText = title;
             dataGridViewColumn.Width = widthInPixels;
+
+            return dataGridViewColumn;
+        }
+
+        protected DataGridViewImageColumn AddImageColumn(Image image)
+        {
+            var dataGridViewColumn = new DataGridViewImageColumn
+            {
+                Image = image,
+                Name = $"{nameof(image)}Column{_columnCounter++}",
+                HeaderText = "",
+                Visible = true,
+                Resizable = DataGridViewTriState.False,
+                Width = image.Width + 2,
+                DefaultCellStyle = new DataGridViewCellStyle
+                {
+                    Alignment = DataGridViewContentAlignment.MiddleCenter,
+                    BackColor = SystemColors.Control
+                }
+            };
+
+            _specializedDataGridView.Columns.Add(dataGridViewColumn);
+
+            return dataGridViewColumn;
         }
 
         protected void AddColumn([NotNull] string dataPropertyName, string title)
         {
-            DataGridViewColumn dataGridViewColumn = CreateColumn(dataPropertyName);
+            DataGridViewColumn dataGridViewColumn = CreateTextBoxColumn(dataPropertyName);
             dataGridViewColumn.HeaderText = title;
             dataGridViewColumn.Width = DEFAULT_COLUMN_WIDTH_IN_PIXELS;
         }
 
-        private DataGridViewColumn CreateColumn([NotNull] string dataPropertyName)
+        private DataGridViewTextBoxColumn CreateTextBoxColumn([NotNull] string dataPropertyName)
         {
             if (string.IsNullOrEmpty(dataPropertyName)) throw new NullOrEmptyException(() => dataPropertyName);
 
@@ -190,9 +241,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         private void _titleBarUserControl_RemoveClicked(object sender, EventArgs e) => Remove();
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
         private void _specializedDataGridView_DoubleClick(object sender, EventArgs e) => OpenItem();
+        private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
 
         private void _specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
         {
+            e.Handled = true;
+
             switch (e.KeyCode)
             {
                 case Keys.Delete:
@@ -201,6 +255,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
                 case Keys.Enter:
                     OpenItem();
+                    break;
+
+                default:
+                    e.Handled = false;
                     break;
             }
         }
@@ -240,6 +298,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             if (id.HasValue)
             {
                 ShowItemRequested?.Invoke(this, new EventArgs<int>(id.Value));
+            }
+        }
+
+        protected void Play()
+        {
+            if (ViewModel == null) return;
+
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
+            {
+                PlayRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 

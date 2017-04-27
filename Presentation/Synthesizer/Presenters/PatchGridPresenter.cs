@@ -2,7 +2,9 @@
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -36,6 +38,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchGridViewModel viewModel = usedInDtos.ToPatchGridViewModel(userInput.DocumentID, userInput.Group);
 
             return viewModel;
+        }
+
+        public PatchGridViewModel Play(PatchGridViewModel userInput, int patchID)
+        {
+            return TemplateMethod(userInput, viewModel =>
+            {
+                // GetEntity
+                Patch patch = _repositories.PatchRepository.Get(patchID);
+
+                // Business
+                var patchManager = new PatchManager(patch, _repositories);
+                Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch);
+                Outlet outlet = result.Data;
+
+                // Non-Persisted
+                viewModel.OutletIDToPlay = outlet?.ID;
+                viewModel.ValidationMessages.AddRange(result.Messages);
+                viewModel.Successful = result.Successful;
+            });
         }
     }
 }

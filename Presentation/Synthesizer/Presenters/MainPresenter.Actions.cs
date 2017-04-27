@@ -2087,20 +2087,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PatchDetailsShow(int id)
-        {
-            // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
-
-            // TemplateMethod
-            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.Show(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisiblePatchDetails = viewModel;
-            }
-        }
-
         public void PatchDetailsClose(int id)
         {
             // GetViewModel
@@ -2124,17 +2110,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _patchDetailsPresenter.LoseFocus(userInput));
         }
 
-        public void PatchGridShow(string group)
+        public void PatchDetailsPlay(int id)
         {
             // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 
             // Template Method
-            PatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _patchGridPresenter.Show(userInput));
+            TemplateActionMethod(userInput, () => _patchDetailsPresenter.Play(userInput));
+        }
+
+        public void PatchDetailsShow(int id)
+        {
+            // GetViewModel
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
+
+            // TemplateMethod
+            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.Show(userInput));
 
             if (viewModel.Successful)
             {
-                MainViewModel.Document.VisiblePatchGrid = viewModel;
+                MainViewModel.Document.VisiblePatchDetails = viewModel;
             }
         }
 
@@ -2152,27 +2147,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary> Returns output file path if ViewModel.Successful. </summary>
-        public void PatchDetailsPlay(int id)
+        public void PatchGridPlay(string group, int patchID)
         {
             // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
+            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
 
-            // Template Method
-            TemplateActionMethod(userInput, () => _patchDetailsPresenter.Play(userInput));
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _patchGridPresenter.Play(userInput, patchID));
         }
 
-        public void PatchPropertiesShow(int id)
+        public void PatchGridShow(string group)
         {
             // GetViewModel
-            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
+            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
 
             // Template Method
-            PatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _patchPropertiesPresenter.Show(userInput));
+            PatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _patchGridPresenter.Show(userInput));
 
             if (viewModel.Successful)
             {
-                MainViewModel.Document.VisiblePatchProperties = viewModel;
+                MainViewModel.Document.VisiblePatchGrid = viewModel;
             }
         }
 
@@ -2208,7 +2202,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary> Returns output file path if ViewModel.Successful. </summary>
         public void PatchPropertiesPlay(int id)
         {
             // GetViewModel
@@ -2216,6 +2209,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _patchPropertiesPresenter.Play(userInput));
+        }
+
+        public void PatchPropertiesShow(int id)
+        {
+            // GetViewModel
+            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            PatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _patchPropertiesPresenter.Show(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisiblePatchProperties = viewModel;
+            }
         }
 
         // Sample

@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.WinForms.Properties;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -10,7 +11,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class ToneGridEditUserControl : UserControlBase
     {
         private const string ID_COLUMN_NAME = "IDColumn";
-        private const int PLAY_COLUMN_INDEX = 1;
 
         public event EventHandler<EventArgs<int>> CreateToneRequested;
         public event EventHandler<ScaleAndToneEventArgs> DeleteToneRequested;
@@ -30,9 +30,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl.Text = ResourceFormatter.Tones;
-            PlayColumn.HeaderText = ResourceFormatter.Play;
-            PlayColumn.Text = ResourceFormatter.Play;
-            PlayColumn.UseColumnTextForButtonValue = true;
             OctaveColumn.HeaderText = ResourceFormatter.Octave;
             FrequencyColumn.HeaderText = ResourceFormatter.Frequency;
         }
@@ -126,13 +123,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            if (e.ColumnIndex != PLAY_COLUMN_INDEX)
+            // ReSharper disable once InvertIf
+            if (e.ColumnIndex == PlayColumn.Index)
             {
-                return;
+                int toneID = (int)specializedDataGridView.Rows[e.RowIndex].Cells[IDColumn.Name].Value;
+                PlayToneRequested?.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID));
             }
-
-            int toneID = (int)specializedDataGridView.Rows[e.RowIndex].Cells[ID_COLUMN_NAME].Value;
-            PlayToneRequested?.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID));
         }
 
         private void specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
@@ -141,10 +137,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 case Keys.Delete:
                     DeleteTone();
+                    e.Handled = true;
                     break;
 
                 case Keys.Insert:
                     CreateTone();
+                    e.Handled = true;
+                    break;
+
+                case Keys.Space:
+                case Keys.Enter:
+                    bool isPlayColumn = specializedDataGridView.CurrentCell?.ColumnIndex == PlayColumn.Index;
+                    if (isPlayColumn)
+                    {
+                        int? toneID = TryGetSelectedID();
+                        if (toneID.HasValue)
+                        {
+                            PlayToneRequested?.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID.Value));
+                            e.Handled = true;
+                        }
+                    }
                     break;
             }
         }

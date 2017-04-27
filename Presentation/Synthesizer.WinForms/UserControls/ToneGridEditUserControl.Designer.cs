@@ -29,13 +29,15 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ToneGridEditUserControl));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.SpecializedDataGridView();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PlayColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.PlayColumn = new System.Windows.Forms.DataGridViewImageColumn();
             this.OctaveColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FrequencyColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -68,7 +70,9 @@
             this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
+            this.titleBarUserControl.PlayButtonVisible = false;
             this.titleBarUserControl.RemoveButtonVisible = true;
+            this.titleBarUserControl.SaveButtonVisible = false;
             this.titleBarUserControl.Size = new System.Drawing.Size(623, 26);
             this.titleBarUserControl.TabIndex = 8;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
@@ -83,8 +87,10 @@
             this.specializedDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.specializedDataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
             this.specializedDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.specializedDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.specializedDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.specializedDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.specializedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IDColumn,
@@ -92,6 +98,7 @@
             this.OctaveColumn,
             this.NumberColumn,
             this.FrequencyColumn});
+            this.specializedDataGridView.EnableHeadersVisualStyles = false;
             this.specializedDataGridView.Location = new System.Drawing.Point(0, 26);
             this.specializedDataGridView.Margin = new System.Windows.Forms.Padding(0);
             this.specializedDataGridView.Name = "specializedDataGridView";
@@ -113,14 +120,21 @@
             // 
             // PlayColumn
             // 
-            this.PlayColumn.HeaderText = "Play";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle1.NullValue")));
+            this.PlayColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.PlayColumn.HeaderText = "";
+            this.PlayColumn.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PlayIcon;
             this.PlayColumn.Name = "PlayColumn";
+            this.PlayColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.PlayColumn.Width = 20;
             // 
             // OctaveColumn
             // 
             this.OctaveColumn.DataPropertyName = "Octave";
-            dataGridViewCellStyle1.Format = "0";
-            this.OctaveColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Format = "0";
+            this.OctaveColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.OctaveColumn.FillWeight = 40F;
             this.OctaveColumn.HeaderText = "Octave";
             this.OctaveColumn.MaxInputLength = 12;
@@ -130,8 +144,8 @@
             // NumberColumn
             // 
             this.NumberColumn.DataPropertyName = "Number";
-            dataGridViewCellStyle2.Format = "0.#################";
-            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Format = "0.#################";
+            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle3;
             this.NumberColumn.HeaderText = "Number";
             this.NumberColumn.MaxInputLength = 18;
             this.NumberColumn.Name = "NumberColumn";
@@ -140,8 +154,8 @@
             // FrequencyColumn
             // 
             this.FrequencyColumn.DataPropertyName = "Frequency";
-            dataGridViewCellStyle3.Format = "0.##";
-            this.FrequencyColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Format = "0.##";
+            this.FrequencyColumn.DefaultCellStyle = dataGridViewCellStyle4;
             this.FrequencyColumn.HeaderText = "Frequency";
             this.FrequencyColumn.Name = "FrequencyColumn";
             this.FrequencyColumn.ReadOnly = true;
@@ -168,7 +182,7 @@
         private Partials.TitleBarUserControl titleBarUserControl;
         private Partials.SpecializedDataGridView specializedDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
-        private System.Windows.Forms.DataGridViewButtonColumn PlayColumn;
+        private System.Windows.Forms.DataGridViewImageColumn PlayColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn OctaveColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NumberColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn FrequencyColumn;

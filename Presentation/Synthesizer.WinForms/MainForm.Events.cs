@@ -112,6 +112,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
             patchGridUserControl.AddRequested += patchGridUserControl_AddRequested;
             patchGridUserControl.RemoveRequested += patchGridUserControl_RemoveRequested;
+            patchGridUserControl.PlayRequested += patchGridUserControl_PlayRequested;
             patchGridUserControl.ShowItemRequested += patchGridUserControl_ShowItemRequested;
             patchPropertiesUserControl.AddToInstrumentRequested += patchPropertiesUserControl_AddToInstrumentRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
@@ -598,23 +599,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Patch
 
-        private void patchGridUserControl_AddRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(() => _presenter.PatchCreate(patchGridUserControl.ViewModel.Group));
-        }
-
-        private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateEventHandler(() => _presenter.PatchGridClose(patchGridUserControl.ViewModel.Group));
-        }
-
-        private void patchGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
-        {
-            TemplateEventHandler(() => _presenter.PatchDelete(patchGridUserControl.ViewModel.Group, e.Value));
-        }
-
-        private void patchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.PatchDetailsShow(e.Value));
-
         private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
         {
             TemplateEventHandler(() => _presenter.OperatorChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID));
@@ -665,6 +649,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             TemplateEventHandler(() => _presenter.PatchPropertiesShow(e.Value));
         }
+
+        private void patchGridUserControl_AddRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(() => _presenter.PatchCreate(patchGridUserControl.ViewModel.Group));
+        }
+
+        private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(() => _presenter.PatchGridClose(patchGridUserControl.ViewModel.Group));
+        }
+
+        private void patchGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.PatchDelete(patchGridUserControl.ViewModel.Group, e.Value));
+        }
+
+        private void patchGridUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() =>
+            {
+                _presenter.PatchGridPlay(patchGridUserControl.ViewModel.Group, e.Value);
+                PlayOutletIfNeeded();
+            });
+        }
+
+        private void patchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.PatchDetailsShow(e.Value));
 
         private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.PatchPropertiesClose(e.Value));
 
