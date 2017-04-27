@@ -32,8 +32,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         // TODO: These two constants do not belong here, because they should be determined by the vector graphics.
         private const float ESTIMATED_OPERATOR_WIDTH = 50f;
         private const float OPERATOR_HEIGHT = 30f;
-        private static readonly double _patchPlayDuration = GetPatchPlayDuration();
-        private static readonly string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
+        private static readonly double _patchPlayDuration = CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayDurationInSeconds;
+        private static readonly string _patchPlayOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
 
         private readonly RepositoryWrapper _repositories;
         private readonly PatchRepositories _patchRepositories;
@@ -323,10 +323,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
         /// Instead of writing to a file it had better write to a stream.
         /// </summary>
-        public string Play(PatchDetailsViewModel userInput, RepositoryWrapper repositories)
+        public string Play(PatchDetailsViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
-            if (repositories == null) throw new NullException(() => repositories);
 
             // RefreshCounter
             userInput.RefreshCounter++;
@@ -340,7 +339,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
 
             // Auto-Patch
-            var patchManager = new PatchManager(patch, new PatchRepositories(repositories));
+            var patchManager = new PatchManager(patch, _patchRepositories);
             Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch, userInput.SelectedOperator?.ID);
 
             userInput.ValidationMessages.AddRange(result.Messages);
@@ -376,7 +375,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // Write Output File
-            var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
+            var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(_repositories));
             AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
             audioFileOutput.LinkTo(audioOutput.SpeakerSetup);
             audioFileOutput.SamplingRate = audioOutput.SamplingRate;
@@ -419,16 +418,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     operatorViewModel.IsSelected = false;
                 }
             }
-        }
-
-        private static double GetPatchPlayDuration()
-        {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayDurationInSeconds;
-        }
-
-        private static string GetPatchPlayOutputFilePath()
-        {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
         }
 
         private PatchDetailsViewModel CreateViewModel(Patch patch)

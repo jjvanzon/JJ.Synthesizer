@@ -91,7 +91,6 @@
             this.buttonAddToInstrument.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonAddToInstrument.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
             this.buttonAddToInstrument.Location = new System.Drawing.Point(44, 142);
-            this.buttonAddToInstrument.Padding = new System.Windows.Forms.Padding(0);
             this.buttonAddToInstrument.Margin = new System.Windows.Forms.Padding(0);
             this.buttonAddToInstrument.Name = "buttonAddToInstrument";
             this.buttonAddToInstrument.Size = new System.Drawing.Size(10, 10);
@@ -112,6 +111,7 @@
             this.Controls.Add(this.labelNameValue);
             this.Controls.Add(this.labelNameTitle);
             this.Name = "LibraryPatchPropertiesUserControl";
+            this.PlayButtonVisible = true;
             this.Size = new System.Drawing.Size(10, 10);
             this.Controls.SetChildIndex(this.labelNameTitle, 0);
             this.Controls.SetChildIndex(this.labelNameValue, 0);

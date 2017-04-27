@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer
         /// If outlets to combine were found, PatchManager's Patch property will reference the a patch.
         /// Also the outlet that returns the sound is returned through the result.
         /// </summary>
-        public Canonicals.Result<Outlet> AutoPatch_TryCombineSignals(Patch sourcePatch, int? selectedOperatorID)
+        public Canonicals.Result<Outlet> AutoPatch_TryCombineSignals(Patch sourcePatch, int? selectedOperatorID = null)
         {
             CreatePatch();
             Patch.Name = "Auto-Generated Patch";

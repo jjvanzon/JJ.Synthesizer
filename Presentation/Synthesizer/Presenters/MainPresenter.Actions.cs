@@ -2002,6 +2002,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleLibraryPatchProperties = null;
             }
         }
+        
+        /// <summary> Returns output file path if ViewModel.Successful. </summary>
+        public string LibraryPatchPropertiesPlay(int id)
+        {
+            // GetViewModel
+            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, id);
+
+            // TemplateMethod
+            string outputFilePath = null;
+            TemplateActionMethod(userInput, () =>
+            {
+                outputFilePath = _libraryPatchPropertiesPresenter.Play(userInput, _repositories);
+                return userInput;
+            });
+
+            return outputFilePath;
+        }
 
         /// <param name="group">nullable</param>
         public void PatchCreate(string group)
@@ -2144,7 +2161,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary> Returns output file path if ViewModel.Successful. </summary>
-        public string PatchPlay(int id)
+        public string PatchDetailsPlay(int id)
         {
             // GetViewModel
             PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
@@ -2153,7 +2170,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             string outputFilePath = null;
             TemplateActionMethod(userInput, () =>
             {
-                outputFilePath = _patchDetailsPresenter.Play(userInput, _repositories);
+                outputFilePath = _patchDetailsPresenter.Play(userInput);
                 return userInput;
             });
 
@@ -2210,6 +2227,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 DocumentViewModelRefresh();
             }
+        }
+
+        /// <summary> Returns output file path if ViewModel.Successful. </summary>
+        public string PatchPropertiesPlay(int id)
+        {
+            // GetViewModel
+            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
+
+            // TemplateMethod
+            string outputFilePath = null;
+            TemplateActionMethod(userInput, () =>
+            {
+                outputFilePath = _patchPropertiesPresenter.Play(userInput);
+                return userInput;
+            });
+
+            return outputFilePath;
         }
 
         // Sample

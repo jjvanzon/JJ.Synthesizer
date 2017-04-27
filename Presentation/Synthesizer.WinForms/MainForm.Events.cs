@@ -60,8 +60,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryGridUserControl.AddRequested += libraryGridUserControl_AddRequested;
             libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
             libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
-            libraryPatchPropertiesUserControl.CloseRequested += libraryPatchPropertiesUserControl_CloseRequested;
             libraryPatchPropertiesUserControl.AddToInstrumentRequested += libraryPatchPropertiesUserControl_AddToInstrument;
+            libraryPatchPropertiesUserControl.CloseRequested += libraryPatchPropertiesUserControl_CloseRequested;
+            libraryPatchPropertiesUserControl.PlayRequested += libraryPatchPropertiesUserControl_PlayRequested;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
@@ -115,6 +116,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchPropertiesUserControl.AddToInstrumentRequested += patchPropertiesUserControl_AddToInstrumentRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
             patchPropertiesUserControl.LoseFocusRequested += patchPropertiesUserControl_LoseFocusRequested;
+            patchPropertiesUserControl.PlayRequested += patchPropertiesUserControl_PlayRequested;
             sampleGridUserControl.CloseRequested += sampleGridUserControl_CloseRequested;
             sampleGridUserControl.AddRequested += sampleGridUserControl_AddRequested;
             sampleGridUserControl.RemoveRequested += sampleGridUserControl_RemoveRequested;
@@ -399,14 +401,29 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.LibraryPatchPropertiesClose(e.Value));
         }
 
-        private void libraryPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+        private void libraryPatchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.LibraryPropertiesLoseFocus(e.Value));
+            TemplateEventHandler(() =>
+            {
+                string outputFilePath = _presenter.LibraryPatchPropertiesPlay(e.Value);
+                if (outputFilePath == null)
+                {
+                    return;
+                }
+
+                var soundPlayer = new SoundPlayer(outputFilePath);
+                soundPlayer.Play();
+            });
         }
 
         private void libraryPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.LibraryPropertiesClose(e.Value));
+        }
+
+        private void libraryPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.LibraryPropertiesLoseFocus(e.Value));
         }
 
         private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.LibrarySelectionPopupCancel);
@@ -608,7 +625,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             TemplateEventHandler(() =>
             {
-                string outputFilePath = _presenter.PatchPlay(e.Value);
+                string outputFilePath = _presenter.PatchDetailsPlay(e.Value);
                 if (outputFilePath == null)
                 {
                     return;
@@ -661,16 +678,31 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.PatchDetailsClose(e.Value));
 
+        private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.PatchPropertiesClose(e.Value));
+
         private void patchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.PatchPropertiesLoseFocus(e.Value));
         }
 
-        private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.PatchPropertiesClose(e.Value));
+        private void patchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() =>
+            {
+                string outputFilePath = _presenter.PatchPropertiesPlay(e.Value);
+                if (outputFilePath == null)
+                {
+                    return;
+                }
 
-        // Sample
+                var soundPlayer = new SoundPlayer(outputFilePath);
+                soundPlayer.Play();
+            });
+        }
 
-        private void sampleGridUserControl_AddRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.SampleCreate);
+    // Sample
+
+    private void sampleGridUserControl_AddRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.SampleCreate);
 
         private void sampleGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.SampleDelete(e.Value));
 
