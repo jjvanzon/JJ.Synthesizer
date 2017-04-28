@@ -137,6 +137,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             sampleGridUserControl.ShowItemRequested += sampleGridUserControl_ShowItemRequested;
             samplePropertiesUserControl.CloseRequested += samplePropertiesUserControl_CloseRequested;
             samplePropertiesUserControl.LoseFocusRequested += samplePropertiesUserControl_LoseFocusRequested;
+            samplePropertiesUserControl.PlayRequested += samplePropertiesUserControl_PlayRequested;
             scaleGridUserControl.CloseRequested += scaleGridUserControl_CloseRequested;
             scaleGridUserControl.AddRequested += scaleGridUserControl_AddRequested;
             scaleGridUserControl.RemoveRequested += scaleGridUserControl_RemoveRequested;
@@ -714,9 +715,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             });
         }
 
-    // Sample
+        // Sample
 
-    private void sampleGridUserControl_AddRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.SampleCreate);
+        private void sampleGridUserControl_AddRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.SampleCreate);
 
         private void sampleGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.SampleDelete(e.Value));
 
@@ -732,6 +733,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void samplePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.SamplePropertiesClose(e.Value));
+        }
+
+        private void samplePropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() =>
+            {
+                _presenter.SamplePropertiesPlay(e.Value);
+                PlayOutletIfNeeded();
+            });
         }
 
         // Scale

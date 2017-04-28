@@ -14,5 +14,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public IList<IDAndName> InterpolationTypeLookup { get; set; }
         public IList<IDAndName> SampleDataTypeLookup { get; set; }
         public IList<IDAndName> SpeakerSetupLookup { get; set; }
+        public int? OutletIDToPlay { get; set; }
     }
 }

@@ -146,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchGridPresenter = new PatchGridPresenter(repositories);
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
             _sampleGridPresenter = new SampleGridPresenter(_repositories);
-            _samplePropertiesPresenter = new SamplePropertiesPresenter(_sampleRepositories);
+            _samplePropertiesPresenter = new SamplePropertiesPresenter(_repositories);
             _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository);
             _scalePropertiesPresenter = new ScalePropertiesPresenter(scaleRepositories);
             _toneGridEditPresenter = new ToneGridEditPresenter(scaleRepositories);

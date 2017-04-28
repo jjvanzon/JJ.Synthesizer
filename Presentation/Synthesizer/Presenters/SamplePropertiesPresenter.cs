@@ -10,14 +10,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class SamplePropertiesPresenter : PropertiesPresenterBase<SamplePropertiesViewModel>
     {
-        private readonly SampleRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
+        private readonly SampleRepositories _sampleRepositories;
         private readonly SampleManager _sampleManager;
 
-        public SamplePropertiesPresenter(SampleRepositories repositories)
+        public SamplePropertiesPresenter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
-
-            _sampleManager = new SampleManager(repositories);
+            _sampleRepositories = new SampleRepositories(repositories);
+            _sampleManager = new SampleManager(_sampleRepositories);
         }
 
         protected override SamplePropertiesViewModel CreateViewModel(SamplePropertiesViewModel userInput)
@@ -26,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Sample sample = _repositories.SampleRepository.Get(userInput.Entity.ID);
 
             // ToViewModel
-            SamplePropertiesViewModel viewModel = sample.ToPropertiesViewModel(_repositories);
+            SamplePropertiesViewModel viewModel = sample.ToPropertiesViewModel(_sampleRepositories);
 
             return viewModel;
         }
@@ -47,6 +48,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Successful?
                 viewModel.Successful = result.Successful;
             });
+        }
+
+        public SamplePropertiesViewModel Play(SamplePropertiesViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
+
+                    // Business
+                    var x = new PatchManager(new PatchRepositories(_repositories));
+                    x.CreatePatch();
+                    Outlet outlet = x.Sample(entity);
+                    VoidResult result = x.SavePatch();
+
+                    // Non-Persisted
+                    viewModel.OutletIDToPlay = outlet?.ID;
+                    viewModel.ValidationMessages = result.Messages;
+
+                    // Successful?
+                    viewModel.Successful = result.Successful;
+                });
         }
     }
 }
