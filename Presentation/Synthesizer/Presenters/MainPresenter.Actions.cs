@@ -2487,6 +2487,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _sampleGridPresenter.Close(userInput));
         }
 
+        public void SampleGridPlay(int sampleID)
+        {
+            // GetViewModel
+            SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _sampleGridPresenter.Play(userInput, sampleID));
+        }
+
         public void SampleGridShow()
         {
             // GetViewModel

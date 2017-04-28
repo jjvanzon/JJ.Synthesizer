@@ -104,7 +104,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_WithInterpolation.LoseFocusRequested += operatorPropertiesUserControl_WithInterpolation_LoseFocusRequested;
             operatorPropertiesUserControl_WithInterpolation.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.CloseRequested += operatorPropertiesUserControl_WithCollectionRecalculation_CloseRequested;
-            operatorPropertiesUserControl_WithCollectionRecalculation.LoseFocusRequested += operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested;
+            operatorPropertiesUserControl_WithCollectionRecalculation.LoseFocusRequested +=
+                operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_WithOutletCount.CloseRequested += operatorPropertiesUserControl_WithOutletCount_CloseRequested;
             operatorPropertiesUserControl_WithOutletCount.LoseFocusRequested += operatorPropertiesUserControl_WithOutletCount_LoseFocusRequested;
@@ -124,8 +125,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.ShowPatchPropertiesRequested += patchDetailsUserControl_ShowPatchPropertiesRequested;
             patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
             patchGridUserControl.AddRequested += patchGridUserControl_AddRequested;
-            patchGridUserControl.RemoveRequested += patchGridUserControl_RemoveRequested;
             patchGridUserControl.PlayRequested += patchGridUserControl_PlayRequested;
+            patchGridUserControl.RemoveRequested += patchGridUserControl_RemoveRequested;
             patchGridUserControl.ShowItemRequested += patchGridUserControl_ShowItemRequested;
             patchPropertiesUserControl.AddToInstrumentRequested += patchPropertiesUserControl_AddToInstrumentRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
@@ -133,6 +134,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchPropertiesUserControl.PlayRequested += patchPropertiesUserControl_PlayRequested;
             sampleGridUserControl.CloseRequested += sampleGridUserControl_CloseRequested;
             sampleGridUserControl.AddRequested += sampleGridUserControl_AddRequested;
+            sampleGridUserControl.PlayRequested += sampleGridUserControl_PlayRequested;
             sampleGridUserControl.RemoveRequested += sampleGridUserControl_RemoveRequested;
             sampleGridUserControl.ShowItemRequested += sampleGridUserControl_ShowItemRequested;
             samplePropertiesUserControl.CloseRequested += samplePropertiesUserControl_CloseRequested;
@@ -168,11 +170,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void operatorPropertiesUserControlBase_PlayRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                _presenter.OperatorPropertiesPlay(e.Value);
-                PlayOutletIfNeeded();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
         }
 
         // AudioFileOutput
@@ -211,42 +214,46 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void audioOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                _presenter.AudioOutputPropertiesClose();
-                SetAudioOutputIfNeeded();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.AudioOutputPropertiesClose();
+                    SetAudioOutputIfNeeded();
+                });
         }
 
         private void audioOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                _presenter.AudioOutputPropertiesLoseFocus();
-                SetAudioOutputIfNeeded();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.AudioOutputPropertiesLoseFocus();
+                    SetAudioOutputIfNeeded();
+                });
         }
 
         // CurrentInstrument
 
         private void patchPropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                _presenter.AddToInstrument(e.Value);
-                RecreatePatchCalculator();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.AddToInstrument(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void currentInstrumentUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.CurrentInstrumentClose);
 
         private void currentInstrumentUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                _presenter.RemoveFromInstrument(e.Value);
-                RecreatePatchCalculator();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.RemoveFromInstrument(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void currentInstrumentUserControl_ShowAutoPatchRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.AutoPatchPopupShow);
@@ -329,14 +336,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                ForceLoseFocus();
+            TemplateEventHandler(
+                () =>
+                {
+                    ForceLoseFocus();
 
-                _presenter.DocumentOpen(e.Value);
+                    _presenter.DocumentOpen(e.Value);
 
-                SetAudioOutputIfNeeded();
-            });
+                    SetAudioOutputIfNeeded();
+                });
         }
 
         private void documentGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
@@ -413,11 +421,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void libraryPatchPropertiesUserControl_AddToInstrument(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                _presenter.AddToInstrument(e.Value);
-                RecreatePatchCalculator();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.AddToInstrument(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void libraryPatchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
@@ -427,11 +436,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void libraryPatchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                _presenter.LibraryPatchPropertiesPlay(e.Value);
-                PlayOutletIfNeeded();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.LibraryPatchPropertiesPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
         }
 
         private void libraryPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
@@ -446,7 +456,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.LibrarySelectionPopupCancel);
 
-        private void _librarySelectionPopupForm_OKRequested(object sender, EventArgs<int?> e) => TemplateEventHandler(() => _presenter.LibrarySelectionPopupOK(e.Value));
+        private void _librarySelectionPopupForm_OKRequested(object sender, EventArgs<int?> e)
+        {
+            TemplateEventHandler(() => _presenter.LibrarySelectionPopupOK(e.Value));
+        }
 
         // Menu
 
@@ -456,20 +469,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void menuUserControl_DocumentCloseRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(() =>
-            {
-                ForceLoseFocus();
-                _presenter.DocumentClose();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    ForceLoseFocus();
+                    _presenter.DocumentClose();
+                });
         }
 
         private void menuUserControl_DocumentSaveRequested(object sender, EventArgs e)
         {
-            TemplateEventHandler(() =>
-            {
-                ForceLoseFocus();
-                _presenter.DocumentSave();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    ForceLoseFocus();
+                    _presenter.DocumentSave();
+                });
         }
 
         private void menuUserControl_ShowCurrentInstrumentRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.CurrentInstrumentShow);
@@ -651,11 +666,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchDetailsUserControl_PlayRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                _presenter.PatchDetailsPlay(e.Value);
-                PlayOutletIfNeeded();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.PatchDetailsPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
         }
 
         private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
@@ -690,11 +706,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchGridUserControl_PlayRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                _presenter.PatchGridPlay(patchGridUserControl.ViewModel.Group, e.Value);
-                PlayOutletIfNeeded();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.PatchGridPlay(patchGridUserControl.ViewModel.Group, e.Value);
+                    PlayOutletIfNeeded();
+                });
         }
 
         private void patchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.PatchDetailsShow(e.Value));
@@ -708,20 +725,31 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                _presenter.PatchPropertiesPlay(e.Value);
-                PlayOutletIfNeeded();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.PatchPropertiesPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
         }
 
         // Sample
 
         private void sampleGridUserControl_AddRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.SampleCreate);
 
-        private void sampleGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.SampleDelete(e.Value));
-
         private void sampleGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.SampleGridClose);
+
+        private void sampleGridUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.SampleGridPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
+        }
+
+        private void sampleGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.SampleDelete(e.Value));
 
         private void sampleGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.SamplePropertiesShow(e.Value));
 
@@ -737,11 +765,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void samplePropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() =>
-            {
-                _presenter.SamplePropertiesPlay(e.Value);
-                PlayOutletIfNeeded();
-            });
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.SamplePropertiesPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
         }
 
         // Scale
@@ -758,7 +787,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void toneGridEditUserControl_Edited(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.ToneGridEditEdit(e.Value));
 
-        private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.ToneGridEditLoseFocus(e.Value));
+        private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.ToneGridEditLoseFocus(e.Value));
+        }
 
         private void toneGridEditUserControl_CreateToneRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.ToneCreate(e.Value));
 
@@ -769,17 +801,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void toneGridEditUserControl_PlayToneRequested(object sender, ScaleAndToneEventArgs e)
         {
-            TemplateEventHandler(() =>
-            {
-                string outputFilePath = _presenter.TonePlay(e.ScaleID, e.ToneID);
-                if (string.IsNullOrEmpty(outputFilePath))
+            TemplateEventHandler(
+                () =>
                 {
-                    return;
-                }
+                    string outputFilePath = _presenter.TonePlay(e.ScaleID, e.ToneID);
+                    if (string.IsNullOrEmpty(outputFilePath))
+                    {
+                        return;
+                    }
 
-                var soundPlayer = new SoundPlayer(outputFilePath);
-                soundPlayer.Play();
-            });
+                    var soundPlayer = new SoundPlayer(outputFilePath);
+                    soundPlayer.Play();
+                });
         }
 
         private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.ScalePropertiesClose(e.Value));
