@@ -995,6 +995,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.Show(userInput));
         }
 
+        public void LibraryGridClose()
+        {
+            // GetViewModel
+            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _libraryGridPresenter.Close(userInput));
+        }
+
         public void LibraryGridShow()
         {
             // GetViewModel
@@ -1004,13 +1013,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _libraryGridPresenter.Show(userInput));
         }
 
-        public void LibraryGridClose()
+        public void LibraryGridPlay(int documentReferenceID)
         {
             // GetViewModel
             LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _libraryGridPresenter.Close(userInput));
+            TemplateActionMethod(userInput, () => _libraryGridPresenter.Play(userInput, documentReferenceID));
         }
 
         public void LibraryPropertiesShow(int documentReferenceID)

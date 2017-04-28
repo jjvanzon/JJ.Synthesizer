@@ -1528,6 +1528,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No sound found in library..
+        /// </summary>
+        internal static string NoSoundFoundInLibrary {
+            get {
+                return ResourceManager.GetString("NoSoundFoundInLibrary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not.
         /// </summary>
         internal static string Not {

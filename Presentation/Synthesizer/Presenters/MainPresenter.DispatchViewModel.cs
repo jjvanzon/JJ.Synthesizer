@@ -315,6 +315,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
+            if (castedViewModel.OutletIDToPlay.HasValue)
+            {
+                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
+                castedViewModel.OutletIDToPlay = null;
+            }
+
             DispatchViewModelBase(castedViewModel);
         }
 

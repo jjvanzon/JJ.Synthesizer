@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
@@ -177,6 +179,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string NotEqual => Resources.NotEqual;
         public static string NoteStart => Resources.NoteStart;
         public static string NotLoaded => Resources.NotLoaded;
+        public static string NoSoundFoundInLibrary => Resources.NoSoundFoundInLibrary;
         public static string Number => Resources.Number;
         public static string Octave => Resources.Octave;
         public static string Off => Resources.Off;

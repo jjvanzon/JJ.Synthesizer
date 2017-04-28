@@ -56,8 +56,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowPatchGridRequested += documentTreeUserControl_ShowPatchGridRequested;
             documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
-            libraryGridUserControl.CloseRequested += libraryGridUserControl_CloseRequested;
             libraryGridUserControl.AddRequested += libraryGridUserControl_AddRequested;
+            libraryGridUserControl.CloseRequested += libraryGridUserControl_CloseRequested;
+            libraryGridUserControl.PlayRequested += libraryGridUserControl_PlayRequested;
             libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
             libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
             libraryPatchPropertiesUserControl.AddToInstrumentRequested += libraryPatchPropertiesUserControl_AddToInstrument;
@@ -411,9 +412,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Library
 
+        private void libraryGridUserControl_AddRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.LibraryAdd);
+
         private void libraryGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.LibraryGridClose);
 
-        private void libraryGridUserControl_AddRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.LibraryAdd);
+        private void libraryGridUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.LibraryGridPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
+        }
 
         private void libraryGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.LibraryRemove(e.Value));
 

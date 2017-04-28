@@ -1019,4 +1019,7 @@
   <data name="SelectedOperatorHasNoOutlets" xml:space="preserve">
     <value>Selected operator has no outlets.</value>
   </data>
+  <data name="NoSoundFoundInLibrary" xml:space="preserve">
+    <value>No sound found in library.</value>
+  </data>
 </root>

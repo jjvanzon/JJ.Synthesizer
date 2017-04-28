@@ -1021,4 +1021,7 @@
   <data name="SelectedOperatorHasNoOutlets" xml:space="preserve">
     <value>De geselecteerde operator heeft geen uitgangen.</value>
   </data>
+  <data name="NoSoundFoundInLibrary" xml:space="preserve">
+    <value>Geen geluid gevonden in de bibliotheek.</value>
+  </data>
 </root>
