@@ -66,6 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryPatchPropertiesUserControl.PlayRequested += libraryPatchPropertiesUserControl_PlayRequested;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
+            libraryPropertiesUserControl.PlayRequested += libraryPropertiesUserControl_PlayRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.ShowCurrentInstrumentRequested += menuUserControl_ShowCurrentInstrumentRequested;
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
@@ -463,6 +464,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void libraryPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.LibraryPropertiesLoseFocus(e.Value));
+        }
+
+        private void libraryPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.LibraryPropertiesPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
         }
 
         private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.LibrarySelectionPopupCancel);

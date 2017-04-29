@@ -1069,6 +1069,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public void LibraryPropertiesPlay(int documentReferenceID)
+        {
+            // GetViewModel
+            LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Play(userInput, documentReferenceID));
+        }
+
         public void LibraryRemove(int documentReferenceID)
         {
             // GetViewModel

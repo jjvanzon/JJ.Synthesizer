@@ -363,6 +363,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleLibraryProperties = castedViewModel;
             }
 
+            if (castedViewModel.OutletIDToPlay.HasValue)
+            {
+                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
+                castedViewModel.OutletIDToPlay = null;
+            }
+
             DispatchViewModelBase(castedViewModel);
         }
 

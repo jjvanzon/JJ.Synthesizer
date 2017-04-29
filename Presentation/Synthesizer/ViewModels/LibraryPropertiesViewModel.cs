@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace JJ.Presentation.Synthesizer.ViewModels
+﻿namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class LibraryPropertiesViewModel : ViewModelBase
     {
@@ -9,5 +7,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// <summary> not editable </summary>
         public string Name { get; set; }
         public string Alias { get; set; }
+        public int? OutletIDToPlay { get; set; }
     }
 }

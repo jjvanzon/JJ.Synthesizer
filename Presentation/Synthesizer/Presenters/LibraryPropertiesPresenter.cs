@@ -1,8 +1,8 @@
-﻿using JJ.Business.Synthesizer;
+﻿using JJ.Business.Canonical;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -12,21 +12,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class LibraryPropertiesPresenter : PropertiesPresenterBase<LibraryPropertiesViewModel>
     {
-        private readonly IDocumentReferenceRepository _documentReferenceRepository;
+        private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
 
         public LibraryPropertiesPresenter(RepositoryWrapper repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _documentReferenceRepository = repositories.DocumentReferenceRepository;
+            _repositories = repositories ?? throw new NullException(() => repositories);
             _documentManager = new DocumentManager(repositories);
         }
 
         protected override LibraryPropertiesViewModel CreateViewModel(LibraryPropertiesViewModel userInput)
         {
             // GetEntity
-            DocumentReference entity = _documentReferenceRepository.Get(userInput.DocumentReferenceID);
+            DocumentReference entity = _repositories.DocumentReferenceRepository.Get(userInput.DocumentReferenceID);
 
             // ToViewModel
             LibraryPropertiesViewModel viewModel = entity.ToPropertiesViewModel();
@@ -41,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // ToEntity: was already done by the MainPresenter.
                                          
                 // GetEntity
-                DocumentReference entity = _documentReferenceRepository.Get(userInput.DocumentReferenceID);
+                DocumentReference entity = _repositories.DocumentReferenceRepository.Get(userInput.DocumentReferenceID);
 
                 // Business
                 VoidResult result = _documentManager.SaveDocumentReference(entity);
@@ -52,6 +50,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Successful?
                 viewModel.Successful = result.Successful;
             });
+        }
+        public LibraryPropertiesViewModel Play(LibraryPropertiesViewModel userInput, int documentReferenceID)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(documentReferenceID);
+
+                    // Business
+                    var patchManager = new PatchManager(new PatchRepositories(_repositories));
+                    Framework.Business.Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument);
+                    Outlet outlet = result.Data;
+
+                    // Non-Persisted
+                    viewModel.Successful = result.Successful;
+                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                    viewModel.OutletIDToPlay = outlet?.ID;
+                });
         }
     }
 }

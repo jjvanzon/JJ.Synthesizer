@@ -7,12 +7,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class LibraryPropertiesUserControl : PropertiesUserControlBase
     {
-        public LibraryPropertiesUserControl()
-        {
-            InitializeComponent();
-        }
-
-        // Gui
+        public LibraryPropertiesUserControl() => InitializeComponent();
 
         protected override void AddProperties()
         {
@@ -26,8 +21,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelNameTitle.Text = CommonResourceFormatter.Name;
             labelAlias.Text = ResourceFormatter.Alias;
         }
-
-        // Binding
 
         public new LibraryPropertiesViewModel ViewModel
         {
