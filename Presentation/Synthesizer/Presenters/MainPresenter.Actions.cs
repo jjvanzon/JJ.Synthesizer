@@ -387,13 +387,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // CurrentInstrument
 
-        public void CurrentInstrumentShow()
+        public void AddToInstrument(int patchID)
         {
             // GetViewModel
             CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Show(userInput));
+            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Add(userInput, patchID));
         }
 
         public void CurrentInstrumentClose()
@@ -405,13 +405,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Close(userInput));
         }
 
-        public void AddToInstrument(int patchID)
+        public void CurrentInstrumentMovePatch(int patchID, int newPosition)
         {
             // GetViewModel
             CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Add(userInput, patchID));
+            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Move(userInput, patchID, newPosition));
+        }
+
+        public void CurrentInstrumentShow()
+        {
+            // GetViewModel
+            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Show(userInput));
         }
 
         public void RemoveFromInstrument(int patchID)
@@ -421,15 +430,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Remove(userInput, patchID));
-        }
-
-        public void CurrentInstrumentMovePatch(int patchID, int newPosition)
-        {
-            // GetViewModel
-            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
-
-            // TemplateMethod
-            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Move(userInput, patchID, newPosition));
         }
 
         // Curve
@@ -973,6 +973,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DocumentGridRefresh();
                 DocumentTreeRefresh();
             }
+        }
+
+        public void DocumentPropertiesPlay()
+        {
+            // GetViewModel
+            DocumentPropertiesViewModel userInput = MainViewModel.Document.DocumentProperties;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _documentPropertiesPresenter.Play(userInput));
         }
 
         public void DocumentTreeShow()

@@ -43,9 +43,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentGridUserControl.PlayRequested += documentGridUserControl_PlayRequested;
             documentGridUserControl.RemoveRequested += documentGridUserControl_RemoveRequested;
             documentGridUserControl.ShowItemRequested += documentGridUserControl_ShowItemRequested;
-
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
+            documentPropertiesUserControl.PlayRequested += documentPropertiesUserControl_PlayRequested;
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
             documentTreeUserControl.SaveRequested += documentTreeUserControl_SaveRequested;
             documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
@@ -422,6 +422,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentPropertiesUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentPropertiesClose);
 
         private void documentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentPropertiesLoseFocus);
+
+        private void documentPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.DocumentPropertiesPlay();
+                    PlayOutletIfNeeded();
+                });
+        }
 
         // Library
 
