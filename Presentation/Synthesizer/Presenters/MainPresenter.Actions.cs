@@ -610,105 +610,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Document Grid
 
-        public void DocumentGridShow()
-        {
-            // GetViewModel
-            DocumentGridViewModel userInput = MainViewModel.DocumentGrid;
-
-            // Partial Action
-            DocumentGridViewModel viewModel = _documentGridPresenter.Show(userInput);
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-        }
-
-        public void DocumentGridClose()
-        {
-            // GetViewModel
-            DocumentGridViewModel userInput = MainViewModel.DocumentGrid;
-
-            // Partial Action
-            DocumentGridViewModel viewModel = _documentGridPresenter.Close(userInput);
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-        }
-
-        public void DocumentDetailsCreate()
-        {
-            // GetViewModel
-            DocumentGridViewModel gridViewModel = MainViewModel.DocumentGrid;
-
-            // RefreshCounter
-            gridViewModel.RefreshCounter++;
-
-            // Set !Successful
-            gridViewModel.Successful = false;
-
-            // Partial Action
-            DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Create();
-
-            // Successful
-            viewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-        }
-
-        public void DocumentDetailsClose()
-        {
-            // GetViewModel
-            DocumentDetailsViewModel userInput = MainViewModel.DocumentDetails;
-
-            // Partial Action
-            DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Close(userInput);
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-        }
-
-        public void DocumentDetailsSave()
-        {
-            // GetViewModel
-            DocumentDetailsViewModel userInput = MainViewModel.DocumentDetails;
-
-            // Partial Action
-            DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Save(userInput);
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-
-            if (viewModel.Successful)
-            {
-                // Refresh
-                DocumentGridRefresh();
-
-                // Redirect
-                DocumentOpen(viewModel.Document.ID);
-            }
-        }
-
-        public void DocumentDeleteShow(int id)
-        {
-            // GetViewModel
-            DocumentGridViewModel gridViewModel = MainViewModel.DocumentGrid;
-
-            // RefreshCounter
-            gridViewModel.RefreshCounter++;
-
-            // Set !Successful
-            gridViewModel.Successful = false;
-
-            // Partial Action
-            ViewModelBase viewModel2 = _documentDeletePresenter.Show(id);
-
-            // Successful
-            gridViewModel.Successful = true;
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel2);
-        }
-
         public void DocumentCannotDeleteOK()
         {
             // GetViewModel
@@ -716,6 +617,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Partial Action
             DocumentCannotDeleteViewModel viewModel = _documentCannotDeletePresenter.OK(userInput);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+        }
+
+        public void DocumentDeleteCancel()
+        {
+            // GetViewModel
+            DocumentDeleteViewModel userInput = MainViewModel.DocumentDelete;
+
+            // Partial Action
+            DocumentDeleteViewModel viewModel = _documentDeletePresenter.Cancel(userInput);
 
             // DispatchViewModel
             DispatchViewModel(viewModel);
@@ -747,18 +660,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel2);
         }
 
-        public void DocumentDeleteCancel()
-        {
-            // GetViewModel
-            DocumentDeleteViewModel userInput = MainViewModel.DocumentDelete;
-
-            // Partial Action
-            DocumentDeleteViewModel viewModel = _documentDeletePresenter.Cancel(userInput);
-
-            // DispatchViewModel
-            DispatchViewModel(viewModel);
-        }
-
         public void DocumentDeletedOK()
         {
             // GetViewModel
@@ -766,6 +667,114 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Partial Action
             DocumentDeletedViewModel viewModel = _documentDeletedPresenter.OK(userInput);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+        }
+
+        public void DocumentDeleteShow(int id)
+        {
+            // GetViewModel
+            DocumentGridViewModel gridViewModel = MainViewModel.DocumentGrid;
+
+            // RefreshCounter
+            gridViewModel.RefreshCounter++;
+
+            // Set !Successful
+            gridViewModel.Successful = false;
+
+            // Partial Action
+            ViewModelBase viewModel2 = _documentDeletePresenter.Show(id);
+
+            // Successful
+            gridViewModel.Successful = true;
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel2);
+        }
+
+        public void DocumentDetailsClose()
+        {
+            // GetViewModel
+            DocumentDetailsViewModel userInput = MainViewModel.DocumentDetails;
+
+            // Partial Action
+            DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Close(userInput);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+        }
+
+        public void DocumentDetailsCreate()
+        {
+            // GetViewModel
+            DocumentGridViewModel gridViewModel = MainViewModel.DocumentGrid;
+
+            // RefreshCounter
+            gridViewModel.RefreshCounter++;
+
+            // Set !Successful
+            gridViewModel.Successful = false;
+
+            // Partial Action
+            DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Create();
+
+            // Successful
+            viewModel.Successful = true;
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+        }
+
+        public void DocumentDetailsSave()
+        {
+            // GetViewModel
+            DocumentDetailsViewModel userInput = MainViewModel.DocumentDetails;
+
+            // Partial Action
+            DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Save(userInput);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+
+            if (viewModel.Successful)
+            {
+                // Refresh
+                DocumentGridRefresh();
+
+                // Redirect
+                DocumentOpen(viewModel.Document.ID);
+            }
+        }
+
+        public void DocumentGridClose()
+        {
+            // GetViewModel
+            DocumentGridViewModel userInput = MainViewModel.DocumentGrid;
+
+            // Partial Action
+            DocumentGridViewModel viewModel = _documentGridPresenter.Close(userInput);
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+        }
+
+        public void DocumentGridPlay(int id)
+        {
+            // GetViewModel
+            DocumentGridViewModel userInput = MainViewModel.DocumentGrid;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _documentGridPresenter.Play(userInput, id));
+        }
+
+        public void DocumentGridShow()
+        {
+            // GetViewModel
+            DocumentGridViewModel userInput = MainViewModel.DocumentGrid;
+
+            // Partial Action
+            DocumentGridViewModel viewModel = _documentGridPresenter.Show(userInput);
 
             // DispatchViewModel
             DispatchViewModel(viewModel);

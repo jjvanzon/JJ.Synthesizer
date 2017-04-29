@@ -17,9 +17,9 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Configuration;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.WinForms.Extensions;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
@@ -190,7 +190,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             // Get Entities
             Outlet outlet = _repositories.OutletRepository.Get(outletIDToPlay.Value);
-            Document document = _repositories.DocumentRepository.Get(_presenter.MainViewModel.Document.ID);
+
+            // Determine AudioOutput
+            Document document;
+            if (_presenter.MainViewModel.Document.IsOpen)
+            {
+                // Get AudioOutput from open document.
+                document = _repositories.DocumentRepository.TryGet(_presenter.MainViewModel.Document.ID);
+            }
+            else
+            {
+                // Otherwise take the AudioOutput from the document the outlet is part of.
+                if (outlet.Operator.Patch == null) throw new NullException(() => outlet.Operator.Patch);
+                // ReSharper disable once JoinNullCheckWithUsage
+                if (outlet.Operator.Patch.Document == null) throw new NullException(() => outlet.Operator.Patch.Document);
+                document = outlet.Operator.Patch.Document;
+            }
             AudioOutput audioOutput = document.AudioOutput;
 
             // Calculate

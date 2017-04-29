@@ -38,10 +38,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
             documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
             documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
-            documentGridUserControl.CloseRequested += documentGridUserControl_CloseRequested;
             documentGridUserControl.AddRequested += documentGridUserControl_AddRequested;
+            documentGridUserControl.CloseRequested += documentGridUserControl_CloseRequested;
+            documentGridUserControl.PlayRequested += documentGridUserControl_PlayRequested;
             documentGridUserControl.RemoveRequested += documentGridUserControl_RemoveRequested;
             documentGridUserControl.ShowItemRequested += documentGridUserControl_ShowItemRequested;
+
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
@@ -336,6 +338,23 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentGridUserControl_AddRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentDetailsCreate);
 
+        private void documentGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentGridClose);
+
+        private void documentGridUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.DocumentGridPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
+        }
+
+        private void documentGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.DocumentDeleteShow(e.Value));
+        }
+
         private void documentGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(
@@ -348,13 +367,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     SetAudioOutputIfNeeded();
                 });
         }
-
-        private void documentGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
-        {
-            TemplateEventHandler(() => _presenter.DocumentDeleteShow(e.Value));
-        }
-
-        private void documentGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentGridClose);
 
         // Document Details
 
