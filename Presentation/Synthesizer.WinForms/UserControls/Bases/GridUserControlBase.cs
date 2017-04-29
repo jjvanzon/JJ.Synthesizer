@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             remove => _specializedDataGridView.KeyDown -= value;
         }
 
-        public new event DataGridViewCellEventHandler CellClick
+        public event DataGridViewCellEventHandler CellClick
         {
             add => _specializedDataGridView.CellClick += value;
             remove => _specializedDataGridView.CellClick -= value;

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Canonical;
+using Canonicals = JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -14,15 +15,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class LibrarySelectionPopupPresenter : PresenterBase<LibrarySelectionPopupViewModel>
     {
-        private readonly IDocumentRepository _documentRepository;
+        private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
 
         public LibrarySelectionPopupPresenter(RepositoryWrapper repositories)
         {
+            _repositories = repositories;
             if (repositories == null) throw new NullException(() => repositories);
 
             _documentManager = new DocumentManager(repositories);
-            _documentRepository = repositories.DocumentRepository;
         }
 
         public LibrarySelectionPopupViewModel Show(LibrarySelectionPopupViewModel userInput)
@@ -91,16 +92,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.Add(new Message { Key = PropertyNames.LowerDocument, Text = ResourceFormatter.SelectALibraryFirst });
+                viewModel.ValidationMessages.Add(new Message(PropertyNames.LowerDocument, ResourceFormatter.SelectALibraryFirst).ToCanonical());
             }
             else
             {
                 // GetEntities
-                Document higherDocument = _documentRepository.Get(userInput.HigherDocumentID);
-                Document lowerDocument = _documentRepository.Get(lowerDocumentID.Value);
+                Document higherDocument = _repositories.DocumentRepository.Get(userInput.HigherDocumentID);
+                Document lowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID.Value);
 
                 // Business
-                Result<DocumentReference> result = _documentManager.CreateDocumentReference(higherDocument, lowerDocument);
+                Canonicals.Result<DocumentReference> result = _documentManager.CreateDocumentReference(higherDocument, lowerDocument);
 
                 if (result.Successful)
                 {
@@ -160,10 +161,42 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
+        public LibrarySelectionPopupViewModel Play(LibrarySelectionPopupViewModel userInput, int documentID)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // CreateViewModel
+            LibrarySelectionPopupViewModel viewModel = CreateViewModel(userInput);
+
+            // GetEntity
+            Document lowerDocument = _repositories.DocumentRepository.Get(documentID);
+
+            // Business
+            var patchManager = new PatchManager(new PatchRepositories(_repositories));
+            Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(lowerDocument);
+            Outlet outlet = result.Data;
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+            viewModel.OutletIDToPlay = outlet?.ID;
+
+            // Successful?
+            viewModel.Successful = result.Successful;
+
+            return viewModel;
+        }
+
         private LibrarySelectionPopupViewModel CreateEmptyViewModel(LibrarySelectionPopupViewModel userInput)
         {
             // GetEntity
-            Document higherDocument = _documentRepository.Get(userInput.HigherDocumentID);
+            Document higherDocument = _repositories.DocumentRepository.Get(userInput.HigherDocumentID);
 
             // ToViewModel
             LibrarySelectionPopupViewModel viewModel = higherDocument.ToEmptyLibrarySelectionPopupViewModel();
@@ -173,7 +206,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private LibrarySelectionPopupViewModel CreateViewModel(LibrarySelectionPopupViewModel userInput)
         {
             // GetEntity
-            Document higherDocument = _documentRepository.Get(userInput.HigherDocumentID);
+            Document higherDocument = _repositories.DocumentRepository.Get(userInput.HigherDocumentID);
 
             // Business
             IList<Document> potentialLowerDocuments = _documentManager.GetLowerDocumentCandidates(higherDocument);

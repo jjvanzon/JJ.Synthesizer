@@ -9,6 +9,7 @@ using JJ.Framework.Business;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Mathematics;
 using Canonicals = JJ.Data.Canonical;
 // ReSharper disable SuggestVarOrType_Elsewhere
 
@@ -17,7 +18,7 @@ namespace JJ.Business.Synthesizer
     public partial class PatchManager
     {
         /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
-        public Outlet TryAutoPatch_WithTone(Tone tone, IList<Patch> sourceUnderlyingPatches)
+        public Outlet TryAutoPatchWithTone(Tone tone, IList<Patch> sourceUnderlyingPatches)
         {
             if (tone == null) throw new NullException(() => tone);
             if (sourceUnderlyingPatches == null) throw new NullException(() => sourceUnderlyingPatches);
@@ -171,7 +172,7 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary> In case no signal outlets are presents, all patch outlets are returned. </summary>
-        private static IList<Outlet> GetSignalOutletsFromPatch(Patch sourcePatch)
+        private IList<Outlet> GetSignalOutletsFromPatch(Patch sourcePatch)
         {
             IList<Outlet> signalPatchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
                                                           .Where(x => x.DimensionEnum == DimensionEnum.Signal)
@@ -190,6 +191,44 @@ namespace JJ.Business.Synthesizer
                                                     .ToArray();
 
             return patchOutlets;
+        }
+
+        /// <summary> Can be used to for instance quickly generate an example sound from a document used as library. </summary>
+        public Result<Outlet> TryAutoPatchFromDocumentRandomly(Document document)
+        {
+            IList<Outlet> outlets = document.Patches
+                                            .Where(x => !x.Hidden)
+                                            .Where(
+                                                x => !x.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                                       .Where(y => y.DimensionEnum == DimensionEnum.Signal)
+                                                       .Any())
+                                            .OrderBy(x => x.Name)
+                                            .SelectMany(x => x.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>())
+                                            .Where(x => x.DimensionEnum == DimensionEnum.Signal)
+                                            .Select(x => x.Result)
+                                            .ToArray();
+
+            // TODO: Select the first patch with a signal inlet and use autopatch those two together.
+
+            Outlet outlet = Randomizer.TryGetRandomItem(outlets);
+
+            if (outlet == null)
+            {
+                return new Result<Outlet>
+                {
+                    Successful = false,
+                    Messages = new Messages(new Message(nameof(DocumentReference), ResourceFormatter.NoSoundFoundInLibrary))
+                };
+            }
+            // ReSharper disable once RedundantIfElseBlock
+            else
+            {
+                return new Result<Outlet>
+                {
+                    Successful = true,
+                    Data = outlet
+                };
+            }
         }
 
         /// <summary>

@@ -9,10 +9,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
     internal partial class LibrarySelectionPopupForm : Form
     {
         public event EventHandler CancelRequested;
+
         public event EventHandler<EventArgs<int?>> OKRequested
         {
-            add { librarySelectionPopupUserControl.OKRequested += value; }
-            remove { librarySelectionPopupUserControl.OKRequested -= value; }
+            add => librarySelectionPopupUserControl.OKRequested += value;
+            remove => librarySelectionPopupUserControl.OKRequested -= value;
+        }
+
+        public event EventHandler<EventArgs<int>> PlayRequested
+        {
+            add => librarySelectionPopupUserControl.PlayRequested += value;
+            remove => librarySelectionPopupUserControl.PlayRequested -= value;
         }
 
         public LibrarySelectionPopupForm()
@@ -27,10 +34,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             set => librarySelectionPopupUserControl.ViewModel = value;
         }
 
-        private void SetTitles()
-        {
-            Text = ResourceFormatter.ApplicationName;
-        }
+        private void SetTitles() => Text = ResourceFormatter.ApplicationName;
 
         private void LibrarySelectionPopupForm_FormClosing(object sender, FormClosingEventArgs e)
         {

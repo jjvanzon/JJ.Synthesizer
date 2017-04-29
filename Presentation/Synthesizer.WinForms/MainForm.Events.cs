@@ -105,8 +105,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_WithInterpolation.LoseFocusRequested += operatorPropertiesUserControl_WithInterpolation_LoseFocusRequested;
             operatorPropertiesUserControl_WithInterpolation.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.CloseRequested += operatorPropertiesUserControl_WithCollectionRecalculation_CloseRequested;
-            operatorPropertiesUserControl_WithCollectionRecalculation.LoseFocusRequested +=
-                operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested;
+            operatorPropertiesUserControl_WithCollectionRecalculation.LoseFocusRequested += operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_WithOutletCount.CloseRequested += operatorPropertiesUserControl_WithOutletCount_CloseRequested;
             operatorPropertiesUserControl_WithOutletCount.LoseFocusRequested += operatorPropertiesUserControl_WithOutletCount_LoseFocusRequested;
@@ -162,6 +161,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _autoPatchPopupForm.patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
             _librarySelectionPopupForm.CancelRequested += _librarySelectionPopupForm_CancelRequested;
             _librarySelectionPopupForm.OKRequested += _librarySelectionPopupForm_OKRequested;
+            _librarySelectionPopupForm.PlayRequested += _librarySelectionPopupForm_PlayRequested;
 
             MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
             MessageBoxHelper.DocumentDeleteCanceled += MessageBoxHelper_DocumentDeleteCanceled;
@@ -470,6 +470,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void _librarySelectionPopupForm_OKRequested(object sender, EventArgs<int?> e)
         {
             TemplateEventHandler(() => _presenter.LibrarySelectionPopupOK(e.Value));
+        }
+
+        private void _librarySelectionPopupForm_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.LibrarySelectionPopupPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
         }
 
         // Menu

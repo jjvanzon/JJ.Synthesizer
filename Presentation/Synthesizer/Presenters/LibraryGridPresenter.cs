@@ -1,17 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
+﻿using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Canonical;
+using Canonicals = JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Mathematics;
+using JJ.Framework.Collections;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 
@@ -19,16 +13,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class LibraryGridPresenter : GridPresenterBase<LibraryGridViewModel>
     {
-        private readonly IDocumentRepository _documentRepository;
-        private readonly IDocumentReferenceRepository _documentReferenceRepository;
+        private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
 
-        public LibraryGridPresenter([NotNull] RepositoryWrapper repositories)
+        public LibraryGridPresenter(RepositoryWrapper repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _documentRepository = repositories.DocumentRepository;
-            _documentReferenceRepository = repositories.DocumentReferenceRepository;
+            _repositories = repositories ?? throw new NullException(() => repositories);
 
             _documentManager = new DocumentManager(repositories);
         }
@@ -36,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         protected override LibraryGridViewModel CreateViewModel(LibraryGridViewModel userInput)
         {
             // GetEntity
-            Document document = _documentRepository.Get(userInput.HigherDocumentID);
+            Document document = _repositories.DocumentRepository.Get(userInput.HigherDocumentID);
 
             // ToViewModel
             LibraryGridViewModel viewModel = document.ToLibraryGridViewModel();
@@ -51,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel =>
                 {
                     // Business
-                    VoidResult result = _documentManager.DeleteDocumentReference(documentReferenceID);
+                    Canonicals.VoidResult result = _documentManager.DeleteDocumentReference(documentReferenceID);
 
                     // Non-Persisted
                     viewModel.Successful = result.Successful;
@@ -66,41 +56,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel =>
                 {
                     // GetEntity
-                    DocumentReference documentReference = _documentReferenceRepository.Get(documentReferenceID);
+                    DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(documentReferenceID);
 
                     // Business
-                    IList<Outlet> outlets = documentReference.LowerDocument
-                                                             .Patches
-                                                             .OrderBy(x => x.Name)
-                                                             .Where(x => !x.Hidden)
-                                                             .Where(
-                                                                 x => !x.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                                        .Where(y => y.DimensionEnum == DimensionEnum.Signal)
-                                                                        .Any())
-                                                             .SelectMany(x => x.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>())
-                                                             .Where(x => x.DimensionEnum == DimensionEnum.Signal)
-                                                             .Select(x => x.Result)
-                                                             .ToArray();
+                    var patchManager = new PatchManager(new PatchRepositories(_repositories));
+                    Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument);
+                    Outlet outlet = result.Data;
 
-                    Outlet outlet = Randomizer.TryGetRandomItem(outlets);
-
-                    // TODO: Select the first patch with a signal inlet and use autopatch those two together.
-
-                    if (outlet == null)
-                    {
-                        // Non-Persisted
-                        viewModel.Successful = false;
-                        viewModel.ValidationMessages.Add(new Message
-                        {
-                            Key = nameof(DocumentReference),
-                            Text = ResourceFormatter.NoSoundFoundInLibrary
-                        });
-                    }
-                    else
-                    {
-                        // Non-Persisted
-                        viewModel.OutletIDToPlay = outlet.ID;
-                    }
+                    // Non-Persisted
+                    viewModel.Successful = result.Successful;
+                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                    viewModel.OutletIDToPlay = outlet?.ID;
                 });
         }
     }

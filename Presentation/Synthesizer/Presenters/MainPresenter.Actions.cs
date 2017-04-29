@@ -1108,6 +1108,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public void LibrarySelectionPopupPlay(int documentReferenceID)
+        {
+            // GetViewModel
+            LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.Play(userInput, documentReferenceID));
+        }
+
         // Node
 
         public void NodePropertiesShow(int id)
@@ -2954,7 +2963,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Outlet outlet = null;
             if (underlyingPatches.Count != 0)
             {
-                outlet = patchManager.TryAutoPatch_WithTone(tone, underlyingPatches);
+                outlet = patchManager.TryAutoPatchWithTone(tone, underlyingPatches);
             }
 
             if (outlet == null) // Fallback to Sine

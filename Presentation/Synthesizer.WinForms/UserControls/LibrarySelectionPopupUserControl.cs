@@ -10,11 +10,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class LibrarySelectionPopupUserControl : UserControl
     {
         public event EventHandler<EventArgs<int?>> OKRequested;
+        public event EventHandler<EventArgs<int>> PlayRequested;
 
         public event EventHandler CancelRequested
         {
-            add { buttonCancel.Click += value; }
-            remove { buttonCancel.Click -= value; }
+            add => buttonCancel.Click += value;
+            remove => buttonCancel.Click -= value;
         }
 
         public LibrarySelectionPopupUserControl()
@@ -23,6 +24,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SetTitles();
 
             librarySelectionGridUserControl.ShowItemRequested += librarySelectionGridUserControl_ShowItemRequested;
+            librarySelectionGridUserControl.PlayRequested += librarySelectionGridUserControl_PlayRequested;
         }
 
         private void SetTitles()
@@ -58,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public LibrarySelectionPopupViewModel ViewModel
         {
             get => librarySelectionGridUserControl.ViewModel;
-            set { librarySelectionGridUserControl.ViewModel = value; }
+            set => librarySelectionGridUserControl.ViewModel = value;
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -70,6 +72,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void librarySelectionGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
             OKRequested?.Invoke(sender, new EventArgs<int?>(e.Value));
+        }
+
+        private void librarySelectionGridUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            PlayRequested?.Invoke(sender, new EventArgs<int>(e.Value));
         }
 
         private void Base_Load(object sender, EventArgs e) => PositionControls();
