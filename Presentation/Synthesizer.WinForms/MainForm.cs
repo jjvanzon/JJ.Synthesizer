@@ -27,8 +27,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal partial class MainForm : Form
     {
-        private static readonly double _patchPlayDuration = CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayDurationInSeconds;
-        private static readonly string _patchPlayOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
+        private static readonly double _patchPlayDuration = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionDurationInSeconds;
+        private static readonly string _patchPlayOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionOutputFilePath;
 
         private readonly IContext _context;
         private readonly RepositoryWrapper _repositories;

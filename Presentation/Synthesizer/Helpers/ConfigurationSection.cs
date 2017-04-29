@@ -5,10 +5,10 @@ namespace JJ.Presentation.Synthesizer.Helpers
     internal class ConfigurationSection
     {
         [XmlAttribute]
-        public string PatchPlayHackedAudioFileOutputFilePath { get; set; }
+        public string PlayActionOutputFilePath { get; set; }
 
         [XmlAttribute]
-        public double PatchPlayDurationInSeconds { get; set; }
+        public double PlayActionDurationInSeconds { get; set; }
 
         [XmlAttribute]
         public string TitleBarExtraText { get; set; }

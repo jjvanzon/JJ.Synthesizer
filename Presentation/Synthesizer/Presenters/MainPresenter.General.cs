@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private const double DEFAULT_DURATION = 0.75;
 
-        private static readonly string _playOutputFilePath = GetPlayOutputFilePath();
+        private static readonly string _playOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionOutputFilePath;
 
         private readonly RepositoryWrapper _repositories;
         private readonly PatchRepositories _patchRepositories;
@@ -225,11 +225,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.SamplePropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleScaleProperties = null;
             MainViewModel.Document.ScalePropertiesDictionary.Values.ForEach(x => x.Visible = false);
-        }
-
-        private static string GetPlayOutputFilePath()
-        {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
         }
     }
 }
