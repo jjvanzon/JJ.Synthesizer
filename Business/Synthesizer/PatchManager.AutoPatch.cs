@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer
         /// If outlets to combine were found, PatchManager's Patch property will reference the a patch.
         /// Also the outlet that returns the sound is returned through the result.
         /// </summary>
-        public Canonicals.Result<Outlet> AutoPatch_TryCombineSignals(Patch sourcePatch, int? selectedOperatorID = null)
+        public Result<Outlet> AutoPatch_TryCombineSignals(Patch sourcePatch, int? selectedOperatorID = null)
         {
             CreatePatch();
             Patch.Name = "Auto-Generated Patch";
@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer
                 {
                     var result = new Result<Outlet> { Successful = false };
                     result.Messages.Add(nameof(signalOutlets), ResourceFormatter.SelectedOperatorHasNoOutlets);
-                    return result.ToCanonical();
+                    return result;
                 }
             }
             // ReSharper disable once RedundantIfElseBlock
@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer
                 {
                     var result = new Result<Outlet> { Successful = false };
                     result.Messages.Add(nameof(signalOutlets), ResourceFormatter.PatchHasNoOutlets);
-                    return result.ToCanonical();
+                    return result;
                 }
             }
 
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer
                         Data = patchOutlet
                     };
 
-                    return result.ToCanonical();
+                    return result;
                 }
 
                 default:
@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer
                         Data = add
                     };
                     
-                    return result.ToCanonical();
+                    return result;
                 }
             }
         }
@@ -354,7 +354,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // This is sensitive, error prone code, so verify its result with the validators.
-            JJ.Data.Canonical.VoidResult result = ValidatePatchWithRelatedEntities();
+            Canonicals.VoidResult result = ValidatePatchWithRelatedEntities();
             ResultHelper.Assert(result);
         }
 

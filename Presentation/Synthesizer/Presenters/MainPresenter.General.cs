@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.AudioOutputRepository,
                 _repositories.SpeakerSetupRepository, 
                 _repositories.IDRepository);
-            _currentInstrumentPresenter = new CurrentInstrumentPresenter(_repositories.PatchRepository);
+            _currentInstrumentPresenter = new CurrentInstrumentPresenter(_patchRepositories);
             _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
             _curveGridPresenter = new CurveGridPresenter(_repositories);
             _curvePropertiesPresenter = new CurvePropertiesPresenter(_curveRepositories);

@@ -1,7 +1,9 @@
-﻿using JJ.Business.Synthesizer;
+﻿using JJ.Business.Canonical;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Canonical;
+using Canonicals = JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -44,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Business
                     var patchManager = new PatchManager(entity.Patch, _repositories);
-                    VoidResult result = patchManager.SaveOperator(entity);
+                    Canonicals.VoidResult result = patchManager.SaveOperator(entity);
 
                     // Non-Persisted
                     viewModel.ValidationMessages.AddRange(result.Messages);
@@ -72,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Non-Persisted
                     viewModel.OutletIDToPlay = outlet?.ID;
-                    viewModel.ValidationMessages.AddRange(result.Messages);
+                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
                     viewModel.Successful = result.Successful;
                 });
         }

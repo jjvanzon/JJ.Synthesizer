@@ -423,6 +423,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Show(userInput));
         }
 
+
+        public void CurrentInstrumentPlay()
+        {
+            // GetViewModel
+            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Play(userInput));
+        }
+
         public void RemoveFromInstrument(int patchID)
         {
             // GetViewModel

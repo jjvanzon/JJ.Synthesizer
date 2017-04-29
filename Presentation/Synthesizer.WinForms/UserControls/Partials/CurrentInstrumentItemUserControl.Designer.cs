@@ -35,9 +35,10 @@
             // labelName
             // 
             this.labelName.AutoSize = true;
-            this.labelName.Location = new System.Drawing.Point(3, 6);
+            this.labelName.Location = new System.Drawing.Point(4, 7);
+            this.labelName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(57, 13);
+            this.labelName.Size = new System.Drawing.Size(75, 17);
             this.labelName.TabIndex = 0;
             this.labelName.Text = "labelName";
             // 
@@ -46,23 +47,23 @@
             this.buttonRemove.FlatAppearance.BorderSize = 0;
             this.buttonRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
-            this.buttonRemove.Location = new System.Drawing.Point(66, 0);
+            this.buttonRemove.Location = new System.Drawing.Point(88, 0);
             this.buttonRemove.Margin = new System.Windows.Forms.Padding(0);
             this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(16, 16);
+            this.buttonRemove.Size = new System.Drawing.Size(21, 20);
             this.buttonRemove.TabIndex = 1;
             this.buttonRemove.UseVisualStyleBackColor = true;
             this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
             // CurrentInstrumentItemUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.buttonRemove);
             this.Controls.Add(this.labelName);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "CurrentInstrumentItemUserControl";
-            this.Size = new System.Drawing.Size(96, 24);
+            this.Size = new System.Drawing.Size(130, 32);
             this.Load += new System.EventHandler(this.CurrentInstrumentItemUserControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

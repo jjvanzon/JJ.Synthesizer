@@ -1,20 +1,18 @@
 ﻿using JetBrains.Annotations;
+using JJ.Business.Canonical;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Canonical;
+using Canonicals = JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Configuration;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -133,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(entity, _patchRepositories);
-            VoidResult result = patchManager.SavePatch();
+            Canonicals.VoidResult result = patchManager.SavePatch();
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(entity);
@@ -254,11 +252,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (userInput.SelectedOperator == null)
             {
                 // Non-Persisted
-                userInput.ValidationMessages.Add(new Message
-                {
-                    Key = PresentationPropertyNames.SelectedOperator,
-                    Text = ResourceFormatter.SelectAnOperatorFirst
-                });
+                userInput.ValidationMessages.Add(
+                    new Message(
+                        PresentationPropertyNames.SelectedOperator,
+                        ResourceFormatter.SelectAnOperatorFirst).ToCanonical());
 
                 return userInput;
             }
@@ -345,7 +342,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
             viewModel.OutletIDToPlay = outlet?.ID;
-            viewModel.ValidationMessages.AddRange(result.Messages);
+            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
 
             // Successful?
             viewModel.Successful = result.Successful;

@@ -12,17 +12,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public event EventHandler<EventArgs<int>> RemoveRequested;
 
+        public CurrentInstrumentItemUserControl() => InitializeComponent();
+
+        private void CurrentInstrumentItemUserControl_Load(object sender, EventArgs e) => PositionControls();
+
         private IDAndName _viewModel;
-
-        public CurrentInstrumentItemUserControl()
-        {
-            InitializeComponent();
-        }
-
-        private void CurrentInstrumentItemUserControl_Load(object sender, EventArgs e)
-        {
-            PositionControls();
-        }
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

@@ -157,6 +157,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.CurrentInstrument = castedViewModel;
 
+            if (castedViewModel.OutletIDToPlay.HasValue)
+            {
+                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
+                castedViewModel.OutletIDToPlay = null;
+            }
+
             DispatchViewModelBase(castedViewModel);
         }
 

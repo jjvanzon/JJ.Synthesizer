@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
@@ -14,14 +13,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class CurrentInstrumentUserControl : UserControlBase
     {
+        private readonly IList<CurrentInstrumentItemUserControl> _itemControls = new List<CurrentInstrumentItemUserControl>();
+
         public event EventHandler<EventArgs<int>> RemoveRequested;
         public event EventHandler CloseRequested;
         public event EventHandler ShowAutoPatchRequested;
+        public event EventHandler PlayRequested;
 
-        public CurrentInstrumentUserControl()
-        {
-            InitializeComponent();
-        }
+        public CurrentInstrumentUserControl() => InitializeComponent();
 
         // Binding
 
@@ -33,41 +32,38 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            IList<CurrentInstrumentItemUserControl> itemUserControls = flowLayoutPanel.Controls.OfType<CurrentInstrumentItemUserControl>().ToArray();
-
-            if (itemUserControls.Count != flowLayoutPanel.Controls.Count)
-            {
-                throw new NotEqualException(() => itemUserControls.Count, () => flowLayoutPanel.Controls.Count);
-            }
-
             // Update
-            int minCount = new[] { itemUserControls.Count, ViewModel.List.Count }.Min();
+            int minCount = new[] { _itemControls.Count, ViewModel.List.Count }.Min();
             for (int i = 0; i < minCount; i++)
             {
                 IDAndName itemViewModel = ViewModel.List[i];
-                CurrentInstrumentItemUserControl itemUserControl = itemUserControls[i];
+                CurrentInstrumentItemUserControl itemUserControl = _itemControls[i];
                 itemUserControl.ViewModel = itemViewModel;
             }
 
             // Insert
-            for (int i = itemUserControls.Count; i < ViewModel.List.Count; i++)
+            for (int i = _itemControls.Count; i < ViewModel.List.Count; i++)
             {
                 IDAndName itemViewModel = ViewModel.List[i];
-                var itemUserControl = new CurrentInstrumentItemUserControl
+                var itemControl = new CurrentInstrumentItemUserControl
                 {
-                    Margin = new Padding(0)
+                    Margin = new Padding(0),
+                    ViewModel = itemViewModel
                 };
-                itemUserControl.RemoveRequested += ItemUserControl_RemoveRequested;
-                flowLayoutPanel.Controls.Add(itemUserControl);
-                itemUserControl.ViewModel = itemViewModel;
+                itemControl.RemoveRequested += ItemControl_RemoveRequested;
+
+                _itemControls.Add(itemControl);
+                Controls.Add(itemControl);
             }
 
             // Delete
-            for (int i = itemUserControls.Count - 1; i >= ViewModel.List.Count; i--)
+            for (int i = _itemControls.Count - 1; i >= ViewModel.List.Count; i--)
             {
-                CurrentInstrumentItemUserControl itemUserControl = itemUserControls[i];
-                itemUserControl.RemoveRequested -= ItemUserControl_RemoveRequested;
-                flowLayoutPanel.Controls.RemoveAt(i);
+                CurrentInstrumentItemUserControl itemControl = _itemControls[i];
+                itemControl.RemoveRequested -= ItemControl_RemoveRequested;
+
+                _itemControls.RemoveAt(i);
+                Controls.Remove(itemControl);
             }
 
             PositionControls();
@@ -75,41 +71,46 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void PositionControls()
         {
-            flowLayoutPanel.Top = 0;
-            flowLayoutPanel.Left = 0;
-            flowLayoutPanel.Height = Height;
+            int x = Width;
 
-            const int buttonCount = 2;
+            x -= StyleHelper.IconButtonSize;
 
-            int x = Width - StyleHelper.DefaultMargin - (StyleHelper.IconButtonSize + StyleHelper.DefaultSpacing) * buttonCount;
-            if (x < 1)
-            {
-                x = 1;
-            }
-            flowLayoutPanel.Width = x;
+            buttonClose.Top = 0;
+            buttonClose.Left = x;
+            buttonClose.Width = StyleHelper.IconButtonSize;
+            buttonClose.Height = StyleHelper.IconButtonSize;
 
-            x += StyleHelper.DefaultSpacing;
+            x -= StyleHelper.DefaultSpacing;
+            x -= StyleHelper.IconButtonSize;
 
             buttonShowAutoPatch.Top = 0;
             buttonShowAutoPatch.Left = x;
             buttonShowAutoPatch.Width = StyleHelper.IconButtonSize;
             buttonShowAutoPatch.Height = StyleHelper.IconButtonSize;
 
-            x += StyleHelper.IconButtonSize;
-            x += StyleHelper.DefaultSpacing;
+            x -= StyleHelper.DefaultSpacing;
+            x -= StyleHelper.IconButtonSize;
 
-            buttonClose.Top = 0;
-            buttonClose.Left = x;
-            buttonClose.Width = StyleHelper.IconButtonSize;
-            buttonClose.Height = StyleHelper.IconButtonSize;
+            buttonPlay.Top = 0;
+            buttonPlay.Left = x;
+            buttonPlay.Width = StyleHelper.IconButtonSize;
+            buttonPlay.Height = StyleHelper.IconButtonSize;
+
+            foreach (CurrentInstrumentItemUserControl itemControl in _itemControls.Reverse())
+            {
+                x -= StyleHelper.DefaultSpacing;
+                x -= itemControl.Width;
+
+                itemControl.Top = 0;
+                itemControl.Left = x;
+                itemControl.Height = Height;
+            }
         }
 
-        private void CurrentInstrumentUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
-
-        private void ItemUserControl_RemoveRequested(object sender, EventArgs<int> e) => RemoveRequested?.Invoke(sender, e);
-
+        private void Base_SizeChanged(object sender, EventArgs e) => PositionControls();
+        private void ItemControl_RemoveRequested(object sender, EventArgs<int> e) => RemoveRequested?.Invoke(sender, e);
         private void buttonClose_Click(object sender, EventArgs e) => CloseRequested?.Invoke(sender, EventArgs.Empty);
-
         private void buttonShowAutoPatch_Click(object sender, EventArgs e) => ShowAutoPatchRequested?.Invoke(sender, EventArgs.Empty);
+        private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested?.Invoke(sender, EventArgs.Empty);
     }
 }

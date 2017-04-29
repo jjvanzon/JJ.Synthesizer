@@ -19,9 +19,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public MultiThreadedPatchCalculatorContainer(NoteRecycler noteRecycler)
         {
-            if (noteRecycler == null) throw new NullException(() => noteRecycler);
-
-            _noteRecycler = noteRecycler;
+            _noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
         }
 
         /// <summary> 

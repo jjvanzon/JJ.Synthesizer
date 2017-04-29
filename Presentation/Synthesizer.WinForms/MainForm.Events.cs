@@ -18,6 +18,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioOutputPropertiesUserControl.CloseRequested += audioOutputPropertiesUserControl_CloseRequested;
             audioOutputPropertiesUserControl.LoseFocusRequested += audioOutputPropertiesUserControl_LoseFocusRequested;
             currentInstrumentUserControl.CloseRequested += currentInstrumentUserControl_CloseRequested;
+            currentInstrumentUserControl.PlayRequested += currentInstrumentUserControl_PlayRequested;
             currentInstrumentUserControl.RemoveRequested += currentInstrumentUserControl_RemoveRequested;
             currentInstrumentUserControl.ShowAutoPatchRequested += currentInstrumentUserControl_ShowAutoPatchRequested;
             curveDetailsUserControl.ChangeSelectedNodeTypeRequested += curveDetailsUserControl_ChangeSelectedNodeTypeRequested;
@@ -249,6 +250,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         private void currentInstrumentUserControl_CloseRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.CurrentInstrumentClose);
+
+        private void currentInstrumentUserControl_PlayRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.CurrentInstrumentPlay();
+                    PlayOutletIfNeeded();
+                });
+        }
 
         private void currentInstrumentUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
