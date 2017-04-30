@@ -99,6 +99,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             foreach (CurrentInstrumentItemUserControl itemControl in _itemControls.Reverse())
             {
                 x -= StyleHelper.DefaultSpacing;
+                x -= StyleHelper.DefaultSpacing;
                 x -= itemControl.Width;
 
                 itemControl.Top = 0;

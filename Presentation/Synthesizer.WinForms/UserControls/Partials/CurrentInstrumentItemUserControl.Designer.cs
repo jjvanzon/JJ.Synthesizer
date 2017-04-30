@@ -35,10 +35,11 @@
             // labelName
             // 
             this.labelName.AutoSize = true;
+            this.labelName.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
             this.labelName.Location = new System.Drawing.Point(4, 7);
             this.labelName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(75, 17);
+            this.labelName.Size = new System.Drawing.Size(109, 20);
             this.labelName.TabIndex = 0;
             this.labelName.Text = "labelName";
             // 
@@ -61,7 +62,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonRemove);
             this.Controls.Add(this.labelName);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CurrentInstrumentItemUserControl";
             this.Size = new System.Drawing.Size(130, 32);
             this.Load += new System.EventHandler(this.CurrentInstrumentItemUserControl_Load);
