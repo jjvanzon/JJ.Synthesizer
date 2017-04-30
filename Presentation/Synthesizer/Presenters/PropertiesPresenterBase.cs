@@ -22,17 +22,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public TViewModel Close(TViewModel userInput)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    UpdateEntity(userInput);
+            return TemplateMethod(userInput, viewModel =>
+            {
+                UpdateEntity(userInput);
 
-                    if (viewModel.Successful)
-                    {
-                        viewModel.Visible = false;
-                    }
-                });
+                if (viewModel.Successful)
+                {
+                    viewModel.Visible = false;
+                }
+            });
         }
 
         /// <summary>

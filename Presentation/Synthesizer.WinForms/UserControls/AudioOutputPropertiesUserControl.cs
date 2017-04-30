@@ -9,10 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class AudioOutputPropertiesUserControl : PropertiesUserControlBase
     {
-        public AudioOutputPropertiesUserControl()
-        {
-            InitializeComponent();
-        }
+        public AudioOutputPropertiesUserControl() => InitializeComponent();
 
         // Gui
 
@@ -38,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public new AudioOutputPropertiesViewModel ViewModel
         {
             get => (AudioOutputPropertiesViewModel)base.ViewModel;
-            set { base.ViewModel = value; }
+            set => base.ViewModel = value;
         }
 
         protected override void ApplyViewModelToControls()

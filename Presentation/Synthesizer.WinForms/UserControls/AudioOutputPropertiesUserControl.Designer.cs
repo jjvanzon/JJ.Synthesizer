@@ -154,6 +154,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.labelSamplingRate);
             this.Controls.Add(this.labelSpeakerSetup);
             this.Controls.Add(this.comboBoxSpeakerSetup);
@@ -162,10 +163,18 @@
             this.Controls.Add(this.numericUpDownMaxConcurrentNotes);
             this.Controls.Add(this.labelDesiredBufferDuration);
             this.Controls.Add(this.numericUpDownDesiredBufferDuration);
-            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "AudioOutputPropertiesUserControl";
+            this.PlayButtonVisible = true;
             this.Size = new System.Drawing.Size(10, 10);
+            this.Controls.SetChildIndex(this.numericUpDownDesiredBufferDuration, 0);
+            this.Controls.SetChildIndex(this.labelDesiredBufferDuration, 0);
+            this.Controls.SetChildIndex(this.numericUpDownMaxConcurrentNotes, 0);
+            this.Controls.SetChildIndex(this.labelMaxConcurrentNotes, 0);
+            this.Controls.SetChildIndex(this.numericUpDownSamplingRate, 0);
+            this.Controls.SetChildIndex(this.comboBoxSpeakerSetup, 0);
+            this.Controls.SetChildIndex(this.labelSpeakerSetup, 0);
+            this.Controls.SetChildIndex(this.labelSamplingRate, 0);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxConcurrentNotes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDesiredBufferDuration)).EndInit();

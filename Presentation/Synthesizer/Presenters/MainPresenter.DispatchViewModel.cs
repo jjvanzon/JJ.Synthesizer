@@ -121,8 +121,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleAudioFileOutputProperties = castedViewModel;
             }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchAudioOutputPropertiesViewModel(ViewModelBase viewModel)
@@ -136,9 +135,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
             }
+            if (castedViewModel.OutletIDToPlay.HasValue)
+            {
+                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
+                castedViewModel.OutletIDToPlay = null;
+            }
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchAutoPatchViewModel(ViewModelBase viewModel)
@@ -147,8 +150,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.AutoPatchPopup = castedViewModel;
 
-            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
+            DispatchViewModelBase(castedViewModel);
         }
 
         private void DispatchCurrentInstrumentViewModel(ViewModelBase viewModel)

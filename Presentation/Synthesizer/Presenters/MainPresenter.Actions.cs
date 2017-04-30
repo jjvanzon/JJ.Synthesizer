@@ -22,6 +22,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 // ReSharper disable InvertIf
 
@@ -226,6 +227,44 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _audioOutputPropertiesPresenter.LoseFocus(userInput));
+        }
+
+        public void AudioOutputPropertiesPlay()
+        {
+            // NOTE:
+            // Cannot use partial presenter, because this action uses both
+            // AudioOutputProperties and CurrentInstrument view model.
+
+            // GetViewModel
+            AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
+
+            // TemplateMethod
+            TemplateActionMethod(
+                userInput,
+                () =>
+                {
+                    // GetEntities
+                    AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(userInput.Entity.ID);
+                    IList<Patch> entities = MainViewModel.Document.CurrentInstrument.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
+
+                    // Business
+                    var patchManager = new PatchManager(_patchRepositories);
+                    patchManager.AutoPatch(entities);
+                    Patch autoPatch = patchManager.Patch;
+                    Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(autoPatch);
+                    Outlet outlet = result.Data;
+
+                    // ToViewModel
+                    AudioOutputPropertiesViewModel viewModel = audioOutput.ToPropertiesViewModel();
+
+                    // Non-Persisted
+                    viewModel.Visible = userInput.Visible;
+                    viewModel.ValidationMessages = result.Messages.ToCanonical();
+                    viewModel.Successful = result.Successful;
+                    viewModel.OutletIDToPlay = outlet?.ID;
+
+                    return viewModel;
+                });
         }
 
         // AutoPatch

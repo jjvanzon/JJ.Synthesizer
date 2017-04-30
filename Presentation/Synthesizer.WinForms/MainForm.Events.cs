@@ -17,6 +17,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
             audioOutputPropertiesUserControl.CloseRequested += audioOutputPropertiesUserControl_CloseRequested;
             audioOutputPropertiesUserControl.LoseFocusRequested += audioOutputPropertiesUserControl_LoseFocusRequested;
+            audioOutputPropertiesUserControl.PlayRequested += audioOutputPropertiesUserControl_PlayRequested;
             currentInstrumentUserControl.CloseRequested += currentInstrumentUserControl_CloseRequested;
             currentInstrumentUserControl.PlayRequested += currentInstrumentUserControl_PlayRequested;
             currentInstrumentUserControl.RemoveRequested += currentInstrumentUserControl_RemoveRequested;
@@ -234,6 +235,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 {
                     _presenter.AudioOutputPropertiesLoseFocus();
                     SetAudioOutputIfNeeded();
+                });
+        }
+
+        private void audioOutputPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.AudioOutputPropertiesPlay();
+                    PlayOutletIfNeeded();
                 });
         }
 

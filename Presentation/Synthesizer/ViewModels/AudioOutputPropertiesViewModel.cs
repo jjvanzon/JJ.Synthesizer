@@ -8,5 +8,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public AudioOutputViewModel Entity { get; set; }
         public IList<IDAndName> SpeakerSetupLookup { get; set; }
+        public int? OutletIDToPlay { get; set; }
     }
 }

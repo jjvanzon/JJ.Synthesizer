@@ -201,8 +201,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entities = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
+            IList<Patch> entities = userInput.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
 
             // Business
             var patchManager = new PatchManager(_repositories);
