@@ -22,41 +22,38 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override OperatorPropertiesViewModel_WithInletCount UpdateEntity(OperatorPropertiesViewModel_WithInletCount userInput)
+        protected override void UpdateEntity(OperatorPropertiesViewModel_WithInletCount viewModel)
         {
-            return TemplateMethod(userInput, viewModel =>
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(viewModel.ID);
+
+            // Business
+            var patchManager = new PatchManager(entity.Patch, _repositories);
             {
-                // GetEntity
-                Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
-
-                // Business
-                var patchManager = new PatchManager(entity.Patch, _repositories);
+                VoidResultDto result1 = patchManager.SetOperatorInletCount(entity, viewModel.InletCount);
+                if (!result1.Successful)
                 {
-                    VoidResultDto result1 = patchManager.SetOperatorInletCount(entity, userInput.InletCount);
-                    if (!result1.Successful)
-                    {
-                        // Non-Persisted
-                        viewModel.ValidationMessages.AddRange(result1.Messages);
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result1.Messages);
 
-                        // Successful?
-                        viewModel.Successful = result1.Successful;
+                    // Successful?
+                    viewModel.Successful = result1.Successful;
 
-                        return;
-                    }
+                    return;
                 }
+            }
+            {
+                VoidResultDto result2 = patchManager.SaveOperator(entity);
+                // ReSharper disable once InvertIf
+                if (!result2.Successful)
                 {
-                    VoidResultDto result2 = patchManager.SaveOperator(entity);
-                    // ReSharper disable once InvertIf
-                    if (!result2.Successful)
-                    {
-                        // Non-Persisted
-                        viewModel.ValidationMessages.AddRange(result2.Messages);
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result2.Messages);
 
-                        // Successful?
-                        viewModel.Successful = result2.Successful;
-                    }
+                    // Successful?
+                    viewModel.Successful = result2.Successful;
                 }
-            });
+            }
         }
     }
 }

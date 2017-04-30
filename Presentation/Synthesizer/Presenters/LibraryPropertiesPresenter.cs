@@ -32,25 +32,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override LibraryPropertiesViewModel UpdateEntity(LibraryPropertiesViewModel userInput)
+        protected override void UpdateEntity(LibraryPropertiesViewModel viewModel)
         {
-            return TemplateMethod(userInput, viewModel =>
-            {
-                // ToEntity: was already done by the MainPresenter.
-                                         
-                // GetEntity
-                DocumentReference entity = _repositories.DocumentReferenceRepository.Get(userInput.DocumentReferenceID);
+            // ToEntity: was already done by the MainPresenter.
 
-                // Business
-                VoidResultDto result = _documentManager.SaveDocumentReference(entity);
+            // GetEntity
+            DocumentReference entity = _repositories.DocumentReferenceRepository.Get(viewModel.DocumentReferenceID);
 
-                // Non-Persisted
-                viewModel.ValidationMessages.AddRange(result.Messages);
+            // Business
+            VoidResultDto result = _documentManager.SaveDocumentReference(entity);
 
-                // Successful?
-                viewModel.Successful = result.Successful;
-            });
+            // Non-Persisted
+            viewModel.ValidationMessages.AddRange(result.Messages);
+
+            // Successful?
+            viewModel.Successful = result.Successful;
         }
+
         public LibraryPropertiesViewModel Play(LibraryPropertiesViewModel userInput, int documentReferenceID)
         {
             return TemplateMethod(

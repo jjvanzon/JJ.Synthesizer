@@ -33,27 +33,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override TViewModel UpdateEntity(TViewModel userInput)
+        protected override void UpdateEntity(TViewModel viewModel)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    // ToEntity: was already done by the MainPresenter.
+            // ToEntity: was already done by the MainPresenter.
 
-                    // GetEntity
-                    Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(viewModel.ID);
 
-                    // Business
-                    var patchManager = new PatchManager(entity.Patch, _repositories);
-                    Canonicals.VoidResultDto result = patchManager.SaveOperator(entity);
+            // Business
+            var patchManager = new PatchManager(entity.Patch, _repositories);
+            Canonicals.VoidResultDto result = patchManager.SaveOperator(entity);
 
-                    // Non-Persisted
-                    viewModel.ValidationMessages.AddRange(result.Messages);
+            // Non-Persisted
+            viewModel.ValidationMessages.AddRange(result.Messages);
 
-                    // Successful?
-                    viewModel.Successful = result.Successful;
-                });
+            // Successful?
+            viewModel.Successful = result.Successful;
         }
 
         public TViewModel Play(TViewModel userInput)

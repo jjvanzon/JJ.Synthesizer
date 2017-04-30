@@ -19,37 +19,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             : base(repositories)
         { }
 
-        protected override OperatorPropertiesViewModel_ForPatchInlet ToViewModel(Operator op)
+        protected override OperatorPropertiesViewModel_ForPatchInlet ToViewModel(Operator op) => op.ToPropertiesViewModel_ForPatchInlet();
+
+        protected override void UpdateEntity(OperatorPropertiesViewModel_ForPatchInlet viewModel)
         {
-            return op.ToPropertiesViewModel_ForPatchInlet();
-        }
+            // ViewModel Validator
+            IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(viewModel);
+            if (!validator.IsValid)
+            {
+                viewModel.ValidationMessages.AddRange(validator.ValidationMessages.ToCanonical());
+                viewModel.Successful = false;
+                return;
+            }
 
-        protected override OperatorPropertiesViewModel_ForPatchInlet UpdateEntity(OperatorPropertiesViewModel_ForPatchInlet userInput)
-        {
-            return TemplateMethod(userInput, viewModel =>
-            { 
-                // ViewModel Validator
-                IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(userInput);
-                if (!validator.IsValid)
-                {
-                    userInput.ValidationMessages.AddRange(validator.ValidationMessages.ToCanonical());
-                    userInput.Successful = false;
-                    return;
-                }
+            // GetEntity
+            Operator entity = _repositories.OperatorRepository.Get(viewModel.ID);
 
-                // GetEntity
-                Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+            // Business
+            var patchManager = new PatchManager(entity.Patch, _repositories);
+            VoidResultDto result = patchManager.SaveOperator(entity);
 
-                // Business
-                var patchManager = new PatchManager(entity.Patch, _repositories);
-                VoidResultDto result = patchManager.SaveOperator(entity);
-                
-                // Non-Persisted
-                viewModel.ValidationMessages.AddRange(result.Messages);
+            // Non-Persisted
+            viewModel.ValidationMessages.AddRange(result.Messages);
 
-                // Successful?
-                viewModel.Successful = result.Successful;
-            });
+            // Successful?
+            viewModel.Successful = result.Successful;
         }
     }
 }

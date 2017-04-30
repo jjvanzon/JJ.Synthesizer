@@ -33,22 +33,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override NodePropertiesViewModel UpdateEntity(NodePropertiesViewModel userInput)
+        protected override void UpdateEntity(NodePropertiesViewModel viewModel)
         {
-            return TemplateMethod(userInput, viewModel =>
-            {
-                // GetEntity
-                Node entity = _nodeRepository.Get(userInput.Entity.ID);
+            // GetEntity
+            Node entity = _nodeRepository.Get(viewModel.Entity.ID);
 
-                // Business
-                VoidResultDto result = _curveManager.SaveNode(entity);
+            // Business
+            VoidResultDto result = _curveManager.SaveNode(entity);
 
-                // Non-Persisted
-                result.Messages.AddRange(result.Messages);
+            // Non-Persisted
+            result.Messages.AddRange(result.Messages);
 
-                // Successful?
-                viewModel.Successful = result.Successful;
-            });
+            // Successful?
+            viewModel.Successful = result.Successful;
         }
     }
 }

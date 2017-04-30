@@ -33,26 +33,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override DocumentPropertiesViewModel UpdateEntity(DocumentPropertiesViewModel userInput)
+        protected override void UpdateEntity(DocumentPropertiesViewModel viewModel)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    // ToEntity: was already done by the MainPresenter.
+            // ToEntity: was already done by the MainPresenter.
 
-                    // GetEntity
-                    Document document = _repositories.DocumentRepository.Get(userInput.Entity.ID);
+            // GetEntity
+            Document document = _repositories.DocumentRepository.Get(viewModel.Entity.ID);
 
-                    // Business
-                    Canonicals.VoidResultDto result = _documentManager.Save(document);
+            // Business
+            Canonicals.VoidResultDto result = _documentManager.Save(document);
 
-                    // Non-Persisted
-                    viewModel.ValidationMessages.AddRange(result.Messages);
+            // Non-Persisted
+            viewModel.ValidationMessages.AddRange(result.Messages);
 
-                    // Successful?
-                    viewModel.Successful = result.Successful;
-                });
+            // Successful?
+            viewModel.Successful = result.Successful;
         }
 
         public DocumentPropertiesViewModel Play(DocumentPropertiesViewModel userInput)

@@ -38,24 +38,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override AudioFileOutputPropertiesViewModel UpdateEntity(AudioFileOutputPropertiesViewModel userInput)
+        protected override void UpdateEntity(AudioFileOutputPropertiesViewModel viewModel)
         {
-            return TemplateMethod(userInput, viewModel =>
-            {
-                // ToEntity: was already done by the MainPresenter.
+            // ToEntity: was already done by the MainPresenter.
 
-                // GetEntity
-                AudioFileOutput entity = _audioFileOutputRepository.Get(userInput.Entity.ID);
+            // GetEntity
+            AudioFileOutput entity = _audioFileOutputRepository.Get(viewModel.Entity.ID);
 
-                // Business
-                VoidResult result = _audioFileOutputManager.Save(entity);
+            // Business
+            VoidResult result = _audioFileOutputManager.Save(entity);
 
-                // Non-Persisted
-                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+            // Non-Persisted
+            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
 
-                // Successful?
-                viewModel.Successful = result.Successful;
-            });
+            // Successful?
+            viewModel.Successful = result.Successful;
         }
     }
 }

@@ -33,23 +33,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override PatchPropertiesViewModel UpdateEntity(PatchPropertiesViewModel userInput)
+        protected override void UpdateEntity(PatchPropertiesViewModel viewModel)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    // GetEntity
-                    Patch patch = _repositories.PatchRepository.Get(userInput.ID);
+            // GetEntity
+            Patch patch = _repositories.PatchRepository.Get(viewModel.ID);
 
-                    // Business
-                    var patchManager = new PatchManager(patch, _patchRepositories);
-                    Canonicals.VoidResultDto result = patchManager.SavePatch();
+            // Business
+            var patchManager = new PatchManager(patch, _patchRepositories);
+            Canonicals.VoidResultDto result = patchManager.SavePatch();
 
-                    // Non-Persisted
-                    viewModel.ValidationMessages = result.Messages;
-                    viewModel.Successful = result.Successful;
-                });
+            // Non-Persisted
+            viewModel.ValidationMessages = result.Messages;
+            viewModel.Successful = result.Successful;
         }
 
         public PatchPropertiesViewModel Play(PatchPropertiesViewModel userInput)

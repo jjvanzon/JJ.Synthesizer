@@ -35,13 +35,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        /// <summary> This view is read-only, so just recreate the view model. </summary>
-        protected override LibraryPatchPropertiesViewModel UpdateEntity(LibraryPatchPropertiesViewModel userInput)
-        {
-            return TemplateMethod(userInput, viewModel => CreateViewModel(userInput));
-        }
-
-        public LibraryPatchPropertiesViewModel Play(LibraryPatchPropertiesViewModel userInput, [NotNull] RepositoryWrapper repositories)
+        public LibraryPatchPropertiesViewModel Play(LibraryPatchPropertiesViewModel userInput, [NotNull] PatchRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
@@ -51,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = repositories.PatchRepository.Get(userInput.PatchID);
 
                 // Business
-                var patchManager = new PatchManager(patch, new PatchRepositories(repositories));
+                var patchManager = new PatchManager(patch, repositories);
                 Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch);
                 Outlet outlet = result.Data;
 

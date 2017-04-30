@@ -9,39 +9,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
         where TViewModel : ViewModelBase
     {
         protected abstract TViewModel CreateViewModel(TViewModel userInput);
-        protected abstract TViewModel UpdateEntity(TViewModel userInput);
 
-        public TViewModel Show(TViewModel userInput)
-        {
-            return TemplateMethod(userInput, viewModel => viewModel.Visible = true);
-        }
+        /// <summary> Not mandatory for read-only views. </summary>
+        protected virtual void UpdateEntity(TViewModel viewModel)
+        { }
 
-        public TViewModel Refresh(TViewModel userInput)
-        {
-            return TemplateMethod(userInput, x => { });
-        }
+        public TViewModel Show(TViewModel userInput) => TemplateMethod(userInput, viewModel => viewModel.Visible = true);
+
+        public TViewModel Refresh(TViewModel userInput) => TemplateMethod(userInput, x => { });
+
+        public TViewModel LoseFocus(TViewModel userInput) => TemplateMethod(userInput, viewModel => UpdateEntity(viewModel));
 
         public TViewModel Close(TViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    UpdateEntity(userInput);
 
-            TViewModel viewModel = UpdateEntity(userInput);
-
-            if (viewModel.Successful)
-            {
-                viewModel.Visible = false;
-            }
-
-            return viewModel;
-        }
-
-        public TViewModel LoseFocus(TViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            TViewModel viewModel = UpdateEntity(userInput);
-
-            return viewModel;
+                    if (viewModel.Successful)
+                    {
+                        viewModel.Visible = false;
+                    }
+                });
         }
 
         /// <summary>

@@ -30,22 +30,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override ScalePropertiesViewModel UpdateEntity(ScalePropertiesViewModel userInput)
+        protected override void UpdateEntity(ScalePropertiesViewModel viewModel)
         {
-            return TemplateMethod(userInput, viewModel =>
-            {
-                // GetEntity
-                Scale entity = _repositories.ScaleRepository.Get(userInput.Entity.ID);
+            // GetEntity
+            Scale entity = _repositories.ScaleRepository.Get(viewModel.Entity.ID);
 
-                // Business
-                VoidResultDto result = _scaleManager.SaveWithoutTones(entity);
+            // Business
+            VoidResultDto result = _scaleManager.SaveWithoutTones(entity);
 
-                // Non-Persisted
-                viewModel.ValidationMessages = result.Messages;
+            // Non-Persisted
+            viewModel.ValidationMessages = result.Messages;
 
-                // Successful?
-                viewModel.Successful = result.Successful;
-            });
+            // Successful?
+            viewModel.Successful = result.Successful;
         }
     }
 }

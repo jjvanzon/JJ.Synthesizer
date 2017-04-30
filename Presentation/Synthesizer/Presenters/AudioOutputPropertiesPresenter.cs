@@ -1,7 +1,6 @@
 ﻿using JJ.Business.Canonical;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
@@ -38,26 +37,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override AudioOutputPropertiesViewModel UpdateEntity(AudioOutputPropertiesViewModel userInput)
+        protected override void UpdateEntity(AudioOutputPropertiesViewModel viewModel)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    // ToEntity: was already done by the MainPresenter.
+            // ToEntity: was already done by the MainPresenter.
 
-                    // GetEntity
-                    AudioOutput entity = _audioOutputRepository.Get(userInput.Entity.ID);
+            // GetEntity
+            AudioOutput entity = _audioOutputRepository.Get(viewModel.Entity.ID);
 
-                    // Business
-                    VoidResult result = _audioOutputManager.Save(entity);
+            // Business
+            VoidResult result = _audioOutputManager.Save(entity);
 
-                    // Non-Persisted
-                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+            // Non-Persisted
+            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
 
-                    // Successful?
-                    viewModel.Successful = result.Successful;
-                });
+            // Successful?
+            viewModel.Successful = result.Successful;
         }
     }
 }

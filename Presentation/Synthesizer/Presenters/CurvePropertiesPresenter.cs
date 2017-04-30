@@ -10,7 +10,7 @@ using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurvePropertiesPresenter 
+    internal class CurvePropertiesPresenter
         : PropertiesPresenterBase<CurvePropertiesViewModel>
     {
         private readonly ICurveRepository _curveRepository;
@@ -35,24 +35,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override CurvePropertiesViewModel UpdateEntity(CurvePropertiesViewModel userInput)
+        protected override void UpdateEntity(CurvePropertiesViewModel viewModel)
         {
-            return TemplateMethod(userInput, viewModel =>
-            {
-                // ToEntity: was already done by the MainPresenter.
-             
-                // GetEntity
-                Curve entity = _curveRepository.Get(userInput.ID);
+            // ToEntity: was already done by the MainPresenter.
 
-                // Business
-                VoidResultDto result = _curveManager.SaveCurveWithRelatedEntities(entity);
+            // GetEntity
+            Curve entity = _curveRepository.Get(viewModel.ID);
 
-                // Non-Persisted
-                viewModel.ValidationMessages.AddRange(result.Messages);
+            // Business
+            VoidResultDto result = _curveManager.SaveCurveWithRelatedEntities(entity);
 
-                // Successful?
-                viewModel.Successful = result.Successful;
-            });
+            // Non-Persisted
+            viewModel.ValidationMessages.AddRange(result.Messages);
+
+            // Successful?
+            viewModel.Successful = result.Successful;
         }
     }
 }

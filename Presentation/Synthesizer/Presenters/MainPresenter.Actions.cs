@@ -47,10 +47,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(documentGridViewModel);
         }
 
-        public void PopupMessagesOK()
-        {
-            MainViewModel.PopupMessages = new List<MessageDto>();
-        }
+        public void PopupMessagesOK() => MainViewModel.PopupMessages = new List<MessageDto>();
 
         // AudioFileOutput
 
@@ -958,15 +955,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _documentPropertiesPresenter.Show(userInput));
         }
 
-        public void DocumentPropertiesClose()
-        {
-            DocumentPropertiesCloseOrLoseFocus(_documentPropertiesPresenter.Close);
-        }
+        public void DocumentPropertiesClose() => DocumentPropertiesCloseOrLoseFocus(_documentPropertiesPresenter.Close);
 
-        public void DocumentPropertiesLoseFocus()
-        {
-            DocumentPropertiesCloseOrLoseFocus(_documentPropertiesPresenter.LoseFocus);
-        }
+        public void DocumentPropertiesLoseFocus() => DocumentPropertiesCloseOrLoseFocus(_documentPropertiesPresenter.LoseFocus);
 
         private void DocumentPropertiesCloseOrLoseFocus(Func<DocumentPropertiesViewModel, DocumentPropertiesViewModel> partialAction)
         {
@@ -2243,7 +2234,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Play(userInput, _repositories));
+            TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Play(userInput, _patchRepositories));
         }
 
         /// <param name="group">nullable</param>
@@ -3052,7 +3043,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         /// <summary>
         /// A template method for a MainPresenter action method.
-        /// Works for most actions. Less suitable for specialized cases.
+        /// Works for most actions. Less suitable for specialized cases:
         /// In particular the ones that are not about the open document.
         ///
         /// Executes a sub-presenter's action and surrounds it with

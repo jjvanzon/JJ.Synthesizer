@@ -32,22 +32,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override SamplePropertiesViewModel UpdateEntity(SamplePropertiesViewModel userInput)
+        protected override void UpdateEntity(SamplePropertiesViewModel viewModel)
         {
-            return TemplateMethod(userInput, viewModel =>
-            {
-                // GetEntity
-                Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
+            // GetEntity
+            Sample entity = _repositories.SampleRepository.Get(viewModel.Entity.ID);
 
-                // Business
-                VoidResultDto result = _sampleManager.Save(entity);
+            // Business
+            VoidResultDto result = _sampleManager.Save(entity);
 
-                // Non-Persisted
-                viewModel.ValidationMessages = result.Messages;
+            // Non-Persisted
+            viewModel.ValidationMessages = result.Messages;
 
-                // Successful?
-                viewModel.Successful = result.Successful;
-            });
+            // Successful?
+            viewModel.Successful = result.Successful;
         }
 
         public SamplePropertiesViewModel Play(SamplePropertiesViewModel userInput)
