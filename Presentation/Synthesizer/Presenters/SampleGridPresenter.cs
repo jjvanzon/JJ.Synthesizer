@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     var x = new PatchManager(_repositories);
                     x.CreatePatch();
                     Outlet outlet = x.Sample(entity);
-                    VoidResult result = x.SavePatch();
+                    VoidResultDto result = x.SavePatch();
 
                     // Non-Persisted
                     viewModel.OutletIDToPlay = outlet?.ID;

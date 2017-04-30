@@ -168,7 +168,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             );
 
             // This makes side-effects go off.
-            VoidResult result = x.SavePatch();
+            VoidResultDto result = x.SavePatch();
             // ReSharper disable once InvertIf
             if (!result.Successful)
             {

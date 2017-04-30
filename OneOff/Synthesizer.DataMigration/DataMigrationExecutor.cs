@@ -3123,7 +3123,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         private static void AssertDocuments(IList<Document> rootDocuments, RepositoryWrapper repositories, Action<string> progressCallback)
         {
-            IResult totalResult = new VoidResult { Successful = true };
+            IResultDto totalResult = new VoidResultDto { Successful = true };
             for (int i = 0; i < rootDocuments.Count; i++)
             {
                 Document rootDocument = rootDocuments[i];
@@ -3133,7 +3133,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                 // Validate
                 var documentManager = new DocumentManager(repositories);
-                VoidResult result = documentManager.Save(rootDocument);
+                VoidResultDto result = documentManager.Save(rootDocument);
                 totalResult.Combine(result);
             }
 
@@ -3143,7 +3143,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             }
             catch
             {
-                string progressMessage = string.Format("Exception while validating documents.");
+                string progressMessage = "Exception while validating documents.";
                 progressCallback(progressMessage);
                 throw;
             }

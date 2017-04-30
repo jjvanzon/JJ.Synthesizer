@@ -210,7 +210,7 @@ namespace JJ.Business.Synthesizer
 
         // Validate
 
-        public VoidResult SaveCurveWithRelatedEntities(Curve entity)
+        public VoidResultDto SaveCurveWithRelatedEntities(Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -225,10 +225,10 @@ namespace JJ.Business.Synthesizer
                 validators.Add(new CurveValidator_InDocument(entity));
             }
 
-            return validators.ToResult();
+            return validators.ToCanonical();
         }
 
-        public VoidResult SaveNode(Node entity)
+        public VoidResultDto SaveNode(Node entity)
         {
             var validators = new IValidator[]
             {
@@ -236,25 +236,25 @@ namespace JJ.Business.Synthesizer
                 new NodeValidator_Parent(entity)
             };
 
-            return validators.ToResult();
+            return validators.ToCanonical();
         }
 
         // Delete
 
-        public VoidResult DeleteWithRelatedEntities(int curveID)
+        public VoidResultDto DeleteWithRelatedEntities(int curveID)
         {
             Curve curve = _repositories.CurveRepository.Get(curveID);
             return DeleteWithRelatedEntities(curve);
         }
 
-        public VoidResult DeleteWithRelatedEntities(Curve curve)
+        public VoidResultDto DeleteWithRelatedEntities(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
 
             IValidator validator = new CurveValidator_Delete(curve, _repositories.CurveRepository);
             if (!validator.IsValid)
             {
-                return new VoidResult
+                return new VoidResultDto
                 {
                     Successful = false,
                     Messages = validator.ValidationMessages.ToCanonical()
@@ -267,7 +267,7 @@ namespace JJ.Business.Synthesizer
                 curve.DeleteRelatedEntities(_repositories.NodeRepository);
                 _repositories.CurveRepository.Delete(curve);
 
-                return new VoidResult
+                return new VoidResultDto
                 {
                     Successful = true
                 };
@@ -280,7 +280,7 @@ namespace JJ.Business.Synthesizer
             DeleteNode(node);
         }
 
-        public VoidResult DeleteNode(Node node)
+        public VoidResultDto DeleteNode(Node node)
         {
             if (node == null) throw new NullException(() => node);
 

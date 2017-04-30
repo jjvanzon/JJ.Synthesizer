@@ -8,9 +8,9 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Business;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Mathematics;
-using Canonicals = JJ.Data.Canonical;
 // ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer
@@ -354,7 +354,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // This is sensitive, error prone code, so verify its result with the validators.
-            Canonicals.VoidResult result = ValidatePatchWithRelatedEntities();
+            VoidResultDto result = ValidatePatchWithRelatedEntities();
             ResultHelper.Assert(result);
         }
 

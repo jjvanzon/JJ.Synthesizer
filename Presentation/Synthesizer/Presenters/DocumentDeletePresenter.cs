@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _documentRepository.Get(id);
 
             // Business
-            VoidResult result = _documentManager.CanDelete(document);
+            VoidResultDto result = _documentManager.CanDelete(document);
 
             if (!result.Successful)
             {
@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _documentRepository.Get(userInput.Document.ID);
 
             // Business
-            VoidResult result = _documentManager.DeleteWithRelatedEntities(document);
+            VoidResultDto result = _documentManager.DeleteWithRelatedEntities(document);
 
             if (!result.Successful)
             {

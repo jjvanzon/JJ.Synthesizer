@@ -101,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document lowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID.Value);
 
                 // Business
-                Canonicals.Result<DocumentReference> result = _documentManager.CreateDocumentReference(higherDocument, lowerDocument);
+                Canonicals.ResultDto<DocumentReference> result = _documentManager.CreateDocumentReference(higherDocument, lowerDocument);
 
                 if (result.Successful)
                 {

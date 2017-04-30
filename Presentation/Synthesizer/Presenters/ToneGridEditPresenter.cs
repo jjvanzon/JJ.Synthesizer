@@ -121,7 +121,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Scale scale = _repositories.ScaleRepository.Get(userInput.ScaleID);
 
             // Business
-            VoidResult result = _scaleManager.Save(scale);
+            VoidResultDto result = _scaleManager.Save(scale);
 
             // ToViewModel
             ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();

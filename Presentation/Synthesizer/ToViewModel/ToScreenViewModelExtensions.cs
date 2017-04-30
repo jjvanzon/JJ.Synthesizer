@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileFormatLookup = ViewModelHelper.GetAudioFileFormatLookupViewModel(),
                 SampleDataTypeLookup = ViewModelHelper.GetSampleDataTypeLookupViewModel(),
                 SpeakerSetupLookup = ViewModelHelper.GetSpeakerSetupLookupViewModel(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             if (entity.Document == null) throw new NullException(() => entity.Document);
@@ -60,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 List = sortedEntities.ToListItemViewModels(),
                 DocumentID = document.ID,
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -74,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = entity.ToViewModel(),
                 SpeakerSetupLookup = ViewModelHelper.GetSpeakerSetupLookupViewModel(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -93,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentID = entity.Document.ID,
                 Nodes = entity.Nodes.ToViewModelDictionary(),
                 NodeTypeLookup = ViewModelHelper.GetNodeTypeLookupViewModel(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 DocumentID = documentID,
                 List = dtos.ToListItemViewModels(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -123,7 +123,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 Name = entity.Name,
                 DocumentID = entity.Document.ID,
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -137,7 +137,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 CurveID = entity.Curve.ID,
                 Entity = entity.ToViewModel(),
-                ValidationMessages = new List<Message>(),
+                ValidationMessages = new List<MessageDto>(),
                 NodeTypeLookup = ViewModelHelper.GetNodeTypeLookupViewModel()
             };
 
@@ -154,7 +154,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioOutput = document.AudioOutput.ToViewModel(),
                 // Single Patch, because this is only used upon creating a new document.
                 Patch = document.Patches.Single().ToIDAndName(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -165,7 +165,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentPropertiesViewModel
             {
                 Entity = document.ToIDAndName(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -177,7 +177,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new DocumentDeleteViewModel
             {
-                ValidationMessages = new List<Message>(),
+                ValidationMessages = new List<MessageDto>(),
                 Document = new IDAndName
                 {
                     ID = entity.ID,
@@ -188,7 +188,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentCannotDeleteViewModel ToCannotDeleteViewModel(this Document entity, IList<Message> messages)
+        public static DocumentCannotDeleteViewModel ToCannotDeleteViewModel(this Document entity, IList<MessageDto> messages)
         {
             if (messages == null) throw new NullException(() => messages);
 
@@ -208,7 +208,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentGridViewModel
             {
                 List = entities.Select(x => x.ToIDAndName()).ToList(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -224,7 +224,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 HigherDocumentID = higherDocument.ID,
                 List = higherDocument.LowerDocumentReferences.ToListItemViewModels(),
-                ValidationMessages = new List<Message>(),
+                ValidationMessages = new List<MessageDto>(),
             };
 
             return viewModel;
@@ -240,7 +240,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 LowerDocumentID = documentReference.LowerDocument.ID,
                 Name = documentReference.LowerDocument.Name,
                 Alias = documentReference.Alias,
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -257,7 +257,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 HigherDocumentID = higherDocument.ID,
                 List = ToListItemViewModelExtensions.ToIDAndNameList(lowerDocumentCandidates),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -627,7 +627,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithInletCount>(entity);
 
             viewModel.InletCount = entity.Inlets.Count;
-            viewModel.ValidationMessages = new List<Message>();
+            viewModel.ValidationMessages = new List<MessageDto>();
 
             return viewModel;
         }
@@ -642,7 +642,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             if (entity.OperatorType != null)
@@ -706,7 +706,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = patch.Name,
                 Group = patch.GroupName,
                 Hidden = patch.Hidden,
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -723,7 +723,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 DocumentID = documentID,
                 Group = group,
-                ValidationMessages = new List<Message>(),
+                ValidationMessages = new List<MessageDto>(),
                 List = patchUsedInDtosInGroup.OrderBy(x => x.Entity.Name)
                                              .Select(x => x.ToListItemViewModel())
                                              .ToList()
@@ -768,7 +768,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = patch.Name,
                 Group = patch.GroupName,
                 Library = lowerDocumentReference.GetAliasOrName(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -790,7 +790,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SampleDataTypeLookup = ViewModelHelper.GetSampleDataTypeLookupViewModel(),
                 SpeakerSetupLookup = ViewModelHelper.GetSpeakerSetupLookupViewModel(),
                 InterpolationTypeLookup = ViewModelHelper.GetInterpolationTypeLookupViewModel(repositories.InterpolationTypeRepository),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             byte[] bytes = repositories.SampleRepository.TryGetBytes(entity.ID);
@@ -807,7 +807,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 DocumentID = documentID,
                 List = dtos.ToListItemViewModels(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -823,7 +823,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = entity.ToViewModel(),
                 ScaleTypeLookup = ViewModelHelper.GetScaleTypeLookupViewModel(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -836,7 +836,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ScaleGridViewModel
             {
                 DocumentID = documentID,
-                ValidationMessages = new List<Message>(),
+                ValidationMessages = new List<MessageDto>(),
                 Dictionary = entities.OrderBy(x => x.Name)
                                      .Select(x => x.ToIDAndName())
                                      .ToDictionary(x => x.ID)
@@ -857,7 +857,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 NumberTitle = ViewModelHelper.GetToneGridEditNumberTitle(entity),
                 Tones = entity.Tones.ToToneViewModels(),
                 FrequencyVisible = entity.GetScaleTypeEnum() != ScaleTypeEnum.LiteralFrequency,
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;

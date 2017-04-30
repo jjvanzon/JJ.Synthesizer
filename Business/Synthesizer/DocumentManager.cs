@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer
         }
 
         [NotNull]
-        public Result<DocumentReference> CreateDocumentReference([NotNull] Document higherDocument, [NotNull] Document lowerDocument)
+        public ResultDto<DocumentReference> CreateDocumentReference([NotNull] Document higherDocument, [NotNull] Document lowerDocument)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
             if (lowerDocument == null) throw new ArgumentNullException(nameof(lowerDocument));
@@ -70,10 +70,10 @@ namespace JJ.Business.Synthesizer
             documentReference.LinkToHigherDocument(higherDocument);
             documentReference.LinkToLowerDocument(lowerDocument);
 
-            var result = new Result<DocumentReference>
+            var result = new ResultDto<DocumentReference>
             {
                 Successful = true,
-                Messages = new List<Message>(),
+                Messages = new List<MessageDto>(),
                 Data = documentReference
             };
 
@@ -85,14 +85,14 @@ namespace JJ.Business.Synthesizer
                 new DocumentReferenceValidator_UniqueAlias(documentReference)
             };
 
-            validators.ToResult(result);
+            validators.ToCanonical(result);
 
             return result;
         }
 
         // Save
 
-        public VoidResult Save([NotNull] Document document)
+        public VoidResultDto Save([NotNull] Document document)
         {
             if (document == null) throw new NullException(() => document);
 
@@ -103,31 +103,31 @@ namespace JJ.Business.Synthesizer
                 _repositories.PatchRepository, 
                 new HashSet<object>());
 
-            return validator.ToResult();
+            return validator.ToCanonical();
         }
 
-        public VoidResult SaveDocumentReference([NotNull] DocumentReference documentReference)
+        public VoidResultDto SaveDocumentReference([NotNull] DocumentReference documentReference)
         {
             IValidator validator = new DocumentReferenceValidator_Basic(documentReference);
 
-            return validator.ToResult();
+            return validator.ToCanonical();
         }
 
         // Delete
 
         [NotNull]
-        public VoidResult DeleteWithRelatedEntities(int documentID)
+        public VoidResultDto DeleteWithRelatedEntities(int documentID)
         {
             Document document = _repositories.DocumentRepository.Get(documentID);
             return DeleteWithRelatedEntities(document);
         }
 
         [NotNull]
-        public VoidResult DeleteWithRelatedEntities([NotNull] Document document)
+        public VoidResultDto DeleteWithRelatedEntities([NotNull] Document document)
         {
             if (document == null) throw new NullException(() => document);
 
-            VoidResult result = CanDelete(document);
+            VoidResultDto result = CanDelete(document);
             if (!result.Successful)
             {
                 return result;
@@ -136,24 +136,24 @@ namespace JJ.Business.Synthesizer
             document.DeleteRelatedEntities(_repositories);
             _repositories.DocumentRepository.Delete(document);
 
-            return new VoidResult { Successful = true };
+            return new VoidResultDto { Successful = true };
         }
 
         [NotNull]
-        public VoidResult CanDelete([NotNull] Document document)
+        public VoidResultDto CanDelete([NotNull] Document document)
         {
             IValidator validator = new DocumentValidator_Delete(document);
-            return validator.ToResult();
+            return validator.ToCanonical();
         }
 
-        public VoidResult DeleteDocumentReference(int documentReferenceID)
+        public VoidResultDto DeleteDocumentReference(int documentReferenceID)
         {
             DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(documentReferenceID);
-            VoidResult result = DeleteDocumentReference(documentReference);
+            VoidResultDto result = DeleteDocumentReference(documentReference);
             return result;
         }
 
-        public VoidResult DeleteDocumentReference([NotNull] DocumentReference documentReference)
+        public VoidResultDto DeleteDocumentReference([NotNull] DocumentReference documentReference)
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
@@ -167,7 +167,7 @@ namespace JJ.Business.Synthesizer
                 _repositories.DocumentReferenceRepository.Delete(documentReference);
             }
 
-            return validator.ToResult();
+            return validator.ToCanonical();
         }
 
         // Other
@@ -186,7 +186,7 @@ namespace JJ.Business.Synthesizer
         }
 
         [NotNull]
-        public VoidResult GetWarningsRecursive([NotNull] Document entity)
+        public VoidResultDto GetWarningsRecursive([NotNull] Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -197,7 +197,7 @@ namespace JJ.Business.Synthesizer
                 _repositories.PatchRepository,
                 new HashSet<object>());
 
-            var result = new VoidResult
+            var result = new VoidResultDto
             {
                 Successful = true,
                 Messages = warningsValidator.ValidationMessages.ToCanonical()

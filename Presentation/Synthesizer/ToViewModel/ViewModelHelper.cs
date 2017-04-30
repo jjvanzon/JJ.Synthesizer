@@ -280,7 +280,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurrentInstrumentViewModel
             {
                 List = patches.Select(x => x.ToIDAndName()).ToList(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -351,7 +351,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentDeletedViewModel
             {
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;
@@ -368,7 +368,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentClose = new MenuItemViewModel { Visible = documentIsOpen },
                 CurrentInstrument = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentProperties = new MenuItemViewModel { Visible = documentIsOpen },
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<MessageDto>()
             };
 
             return viewModel;

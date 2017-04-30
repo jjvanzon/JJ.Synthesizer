@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer
 
         // Validate
 
-        public VoidResult Save([NotNull] Sample entity)
+        public VoidResultDto Save([NotNull] Sample entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer
                 validators.Add(new SampleValidator_InDocument(entity));
             }
 
-            return validators.ToResult();
+            return validators.ToCanonical();
         }
 
         // Delete
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer
             Delete(entity);
         }
 
-        public VoidResult Delete([NotNull] Sample sample)
+        public VoidResultDto Delete([NotNull] Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
 
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer
 
             if (!validator.IsValid)
             {
-                return validator.ToResult();
+                return validator.ToCanonical();
             }
             // ReSharper disable once RedundantIfElseBlock
             else
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer
                 sample.UnlinkRelatedEntities();
                 _repositories.SampleRepository.Delete(sample);
 
-                return new VoidResult { Successful = true };
+                return new VoidResultDto { Successful = true };
             }
         }
 

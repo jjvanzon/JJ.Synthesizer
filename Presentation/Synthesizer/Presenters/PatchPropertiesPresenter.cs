@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Business
                     var patchManager = new PatchManager(patch, _patchRepositories);
-                    Canonicals.VoidResult result = patchManager.SavePatch();
+                    Canonicals.VoidResultDto result = patchManager.SavePatch();
 
                     // Non-Persisted
                     viewModel.ValidationMessages = result.Messages;

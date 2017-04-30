@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             }));
         }
 
-        public static void ShowPopupMessages(Form parentForm, IList<CanonicalModel.Message> popupMessages)
+        public static void ShowPopupMessages(Form parentForm, IList<CanonicalModel.MessageDto> popupMessages)
         {
             if (parentForm == null) throw new NullException(() => parentForm);
             if (popupMessages == null) throw new NullException(() => popupMessages);

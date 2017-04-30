@@ -108,7 +108,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Curve entity = _repositories.CurveRepository.Get(userInput.CurveID);
 
             // Business
-            VoidResult result = _curveManager.SaveCurveWithRelatedEntities(entity);
+            VoidResultDto result = _curveManager.SaveCurveWithRelatedEntities(entity);
 
             // ToViewModel
             CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();

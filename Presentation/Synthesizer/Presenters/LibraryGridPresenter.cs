@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel =>
                 {
                     // Business
-                    Canonicals.VoidResult result = _documentManager.DeleteDocumentReference(documentReferenceID);
+                    Canonicals.VoidResultDto result = _documentManager.DeleteDocumentReference(documentReferenceID);
 
                     // Non-Persisted
                     viewModel.Successful = result.Successful;

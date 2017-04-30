@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using Message = JJ.Data.Canonical.Message;
+using MessageDto = JJ.Data.Canonical.MessageDto;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -127,8 +127,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 // TODO: I get an infinite loop either because of LoseFocus events going off,
                 // or otherwise ActionIsBusy boolean making PopupMessageOK not handled...
                 // I just cannot hack it right now.
-                IList<Message> popupMessages = _presenter.MainViewModel.PopupMessages;
-                _presenter.MainViewModel.PopupMessages = new List<Message>();
+                IList<MessageDto> popupMessages = _presenter.MainViewModel.PopupMessages;
+                _presenter.MainViewModel.PopupMessages = new List<MessageDto>();
 
                 MessageBoxHelper.ShowPopupMessages(this, popupMessages);
             }

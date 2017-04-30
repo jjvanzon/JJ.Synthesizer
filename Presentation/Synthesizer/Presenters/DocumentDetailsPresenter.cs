@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.SpeakerSetupRepository);
 
             // Business
-            VoidResult result = _documentManager.Save(document);
+            VoidResultDto result = _documentManager.Save(document);
             if (!result.Successful)
             {
                 // ToViewModel

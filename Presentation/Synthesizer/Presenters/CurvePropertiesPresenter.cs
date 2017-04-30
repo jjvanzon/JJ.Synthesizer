@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Curve entity = _curveRepository.Get(userInput.ID);
 
                 // Business
-                VoidResult result = _curveManager.SaveCurveWithRelatedEntities(entity);
+                VoidResultDto result = _curveManager.SaveCurveWithRelatedEntities(entity);
 
                 // Non-Persisted
                 viewModel.ValidationMessages.AddRange(result.Messages);

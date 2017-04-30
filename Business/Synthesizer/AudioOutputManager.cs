@@ -2,7 +2,8 @@
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
-using JJ.Data.Canonical;
+using Canonicals = JJ.Data.Canonical;
+using JJ.Framework.Business;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
@@ -53,16 +54,8 @@ namespace JJ.Business.Synthesizer
             if (entity == null) throw new NullException(() => entity);
 
             IValidator validator = new AudioOutputValidator(entity);
-            if (!validator.IsValid)
-            {
-                return new VoidResult
-                {
-                    Successful = false,
-                    Messages = validator.ValidationMessages.ToCanonical()
-                };
-            }
 
-            return new VoidResult { Successful = true };
+            return validator.ToResult();
         }
     }
 }

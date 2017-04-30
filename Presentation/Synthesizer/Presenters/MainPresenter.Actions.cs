@@ -49,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void PopupMessagesOK()
         {
-            MainViewModel.PopupMessages = new List<Message>();
+            MainViewModel.PopupMessages = new List<MessageDto>();
         }
 
         // AudioFileOutput
@@ -259,7 +259,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch autoPatch = patchManager.Patch;
 
             // Business
-            IResult validationResult = _documentManager.Save(document);
+            IResultDto validationResult = _documentManager.Save(document);
             if (!validationResult.Successful)
             {
                 // Non-Persisted
@@ -345,7 +345,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Business
                     patch.LinkTo(document);
                     var patchManager = new PatchManager(patch, _patchRepositories);
-                    IResult result = patchManager.SavePatch();
+                    IResultDto result = patchManager.SavePatch();
 
                     AutoPatchPopupViewModel viewModel2;
                     if (result.Successful)
@@ -517,7 +517,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Curve curve = _repositories.CurveRepository.Get(id);
 
                     // Business
-                    IResult result = _curveManager.DeleteWithRelatedEntities(curve);
+                    IResultDto result = _curveManager.DeleteWithRelatedEntities(curve);
 
                     // Non-Persisted
                     userInput.ValidationMessages.AddRange(result.Messages);
@@ -916,8 +916,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // Business
-            IResult validationResult = _documentManager.Save(document);
-            IResult warningsResult = _documentManager.GetWarningsRecursive(document);
+            IResultDto validationResult = _documentManager.Save(document);
+            IResultDto warningsResult = _documentManager.GetWarningsRecursive(document);
 
             // Commit
             if (validationResult.Successful)
@@ -1277,7 +1277,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!userInput.SelectedNodeID.HasValue)
             {
                 MainViewModel.ValidationMessages.Add(
-                    new Message
+                    new MessageDto
                     {
                         Key = PresentationPropertyNames.SelectedNodeID,
                         Text = ResourceFormatter.SelectANodeFirst
@@ -1301,7 +1301,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Node node = _repositories.NodeRepository.Get(nodeID);
 
                     // Business
-                    IResult result = _curveManager.DeleteNode(node);
+                    IResultDto result = _curveManager.DeleteNode(node);
 
                     // Non-Persisted
                     userInput.ValidationMessages = result.Messages;
@@ -2307,7 +2307,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         PatchID = patchID
                     };
 
-                    IResult result = patchManager.DeletePatchWithRelatedEntities();
+                    IResultDto result = patchManager.DeletePatchWithRelatedEntities();
 
                     // Non-Persisted
                     userInput.ValidationMessages.AddRange(result.Messages);
@@ -2515,7 +2515,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Sample sample = _repositories.SampleRepository.Get(sampleID);
 
                     // Business
-                    IResult result = _sampleManager.Delete(sample);
+                    IResultDto result = _sampleManager.Delete(sample);
 
                     // Non-Persisted
                     userInput.ValidationMessages = result.Messages;
@@ -2759,7 +2759,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             toneGridEditViewModel.Successful = false;
 
             // Business
-            IResult validationResult = _documentManager.Save(document);
+            IResultDto validationResult = _documentManager.Save(document);
             if (!validationResult.Successful)
             {
                 scalePropertiesViewModel.ValidationMessages.AddRange(validationResult.Messages);
@@ -3010,7 +3010,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 outlet = x.Sine(x.PatchInlet(DimensionEnum.Frequency, frequency));
             }
 
-            IResult validationResult = _documentManager.Save(document);
+            IResultDto validationResult = _documentManager.Save(document);
             if (!validationResult.Successful)
             {
                 userInput.Successful = false;
@@ -3087,7 +3087,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = false;
 
             // Business
-            IResult validationResult = _documentManager.Save(document);
+            IResultDto validationResult = _documentManager.Save(document);
             if (!validationResult.Successful)
             {
                 // Non-Persisted

@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DocumentReference entity = _repositories.DocumentReferenceRepository.Get(userInput.DocumentReferenceID);
 
                 // Business
-                VoidResult result = _documentManager.SaveDocumentReference(entity);
+                VoidResultDto result = _documentManager.SaveDocumentReference(entity);
 
                 // Non-Persisted
                 viewModel.ValidationMessages.AddRange(result.Messages);

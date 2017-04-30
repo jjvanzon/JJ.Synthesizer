@@ -6,7 +6,6 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 
@@ -36,22 +35,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override DocumentPropertiesViewModel UpdateEntity(DocumentPropertiesViewModel userInput)
         {
-            return TemplateMethod(userInput, viewModel =>
-            {
-                // ToEntity: was already done by the MainPresenter.
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // ToEntity: was already done by the MainPresenter.
 
-                // GetEntity
-                Document document = _repositories.DocumentRepository.Get(userInput.Entity.ID);
+                    // GetEntity
+                    Document document = _repositories.DocumentRepository.Get(userInput.Entity.ID);
 
-                // Business
-                Canonicals.VoidResult result = _documentManager.Save(document);
+                    // Business
+                    Canonicals.VoidResultDto result = _documentManager.Save(document);
 
-                // Non-Persisted
-                viewModel.ValidationMessages.AddRange(result.Messages);
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result.Messages);
 
-                // Successful?
-                viewModel.Successful = result.Successful;
-            });
+                    // Successful?
+                    viewModel.Successful = result.Successful;
+                });
         }
 
         public DocumentPropertiesViewModel Play(DocumentPropertiesViewModel userInput)

@@ -11,10 +11,10 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
         public string TitleBar { get; set; }
         public MenuViewModel Menu { get; set; }
-        public IList<Message> ValidationMessages { get; set; }
-        public IList<Message> WarningMessages { get; set; }
+        public IList<MessageDto> ValidationMessages { get; set; }
+        public IList<MessageDto> WarningMessages { get; set; }
         /// <summary> It is suggested you show this as a modal window. </summary>
-        public IList<Message> PopupMessages { get; set; }
+        public IList<MessageDto> PopupMessages { get; set; }
         
         // The Document List
 

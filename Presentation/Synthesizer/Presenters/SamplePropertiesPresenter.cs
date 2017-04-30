@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
 
                 // Business
-                VoidResult result = _sampleManager.Save(entity);
+                VoidResultDto result = _sampleManager.Save(entity);
 
                 // Non-Persisted
                 viewModel.ValidationMessages = result.Messages;
@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     var x = new PatchManager(new PatchRepositories(_repositories));
                     x.CreatePatch();
                     Outlet outlet = x.Sample(entity);
-                    VoidResult result = x.SavePatch();
+                    VoidResultDto result = x.SavePatch();
 
                     // Non-Persisted
                     viewModel.OutletIDToPlay = outlet?.ID;

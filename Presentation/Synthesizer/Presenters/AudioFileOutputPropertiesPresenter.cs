@@ -7,7 +7,9 @@ using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 using System;
+using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Business;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -49,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 VoidResult result = _audioFileOutputManager.Save(entity);
 
                 // Non-Persisted
-                viewModel.ValidationMessages.AddRange(result.Messages);
+                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
 
                 // Successful?
                 viewModel.Successful = result.Successful;

@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
         }
 
-        public DocumentCannotDeleteViewModel Show(int id, IList<Message> messages)
+        public DocumentCannotDeleteViewModel Show(int id, IList<MessageDto> messages)
         {
             // GetEntity
             Document document = _documentRepository.Get(id);

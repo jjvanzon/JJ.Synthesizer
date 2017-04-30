@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Business
                 var patchManager = new PatchManager(entity.Patch, _repositories);
                 {
-                    VoidResult result1 = patchManager.SetOperatorOutletCount(entity, userInput.OutletCount);
+                    VoidResultDto result1 = patchManager.SetOperatorOutletCount(entity, userInput.OutletCount);
                     if (!result1.Successful)
                     {
                         // Non-Persisted
@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
                 {
-                    VoidResult result2 = patchManager.SaveOperator(entity);
+                    VoidResultDto result2 = patchManager.SaveOperator(entity);
                     // ReSharper disable once InvertIf
                     if (!result2.Successful)
                     {

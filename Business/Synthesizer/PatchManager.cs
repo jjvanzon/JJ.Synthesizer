@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer
 
         // Save
 
-        public VoidResult SavePatch()
+        public VoidResultDto SavePatch()
         {
             AssertPatchNotNull();
 
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer
                 new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
             }
 
-            VoidResult result = ValidatePatchWithRelatedEntities();
+            VoidResultDto result = ValidatePatchWithRelatedEntities();
             if (!result.Successful)
             {
                 return result;
@@ -145,13 +145,13 @@ namespace JJ.Business.Synthesizer
         /// If one of the related operators has a different patch assigned to it,
         /// a validation message is returned.
         /// </summary>
-        public VoidResult SaveOperator(Operator op)
+        public VoidResultDto SaveOperator(Operator op)
         {
             AssertPatchNotNull();
 
             if (op == null) throw new NullException(() => op);
 
-            VoidResult result1 = AddToPatchRecursive(op);
+            VoidResultDto result1 = AddToPatchRecursive(op);
             if (!result1.Successful)
             {
                 return result1;
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer
 
             // Validate the whole patch, because side-effect can affect the whole patch.
             // But also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
-            VoidResult result2 = ValidatePatchWithRelatedEntities();
+            VoidResultDto result2 = ValidatePatchWithRelatedEntities();
 
             return result2;
         }
@@ -173,19 +173,19 @@ namespace JJ.Business.Synthesizer
         /// If one of the related operators has a different patch assigned to it,
         /// a validation message is returned.
         /// </summary>
-        private VoidResult AddToPatchRecursive(Operator op)
+        private VoidResultDto AddToPatchRecursive(Operator op)
         {
             if (op == null) throw new NullException(() => op);
 
             IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, Patch);
             if (!validator.IsValid)
             {
-                validator.ToResult();
+                validator.ToCanonical();
             }
 
             AddToPatchRecursive_WithoutValidation(op);
 
-            return new VoidResult { Successful = true };
+            return new VoidResultDto { Successful = true };
         }
 
         private void AddToPatchRecursive_WithoutValidation(Operator op)
@@ -203,21 +203,21 @@ namespace JJ.Business.Synthesizer
 
         // Delete
 
-        public VoidResult DeletePatchWithRelatedEntities()
+        public VoidResultDto DeletePatchWithRelatedEntities()
         {
             AssertPatchNotNull();
 
             IValidator validator = new PatchValidator_Delete(Patch, _repositories.PatchRepository);
             if (!validator.IsValid)
             {
-                return validator.ToResult();
+                return validator.ToCanonical();
             }
 
             Patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
             Patch.UnlinkRelatedEntities();
             _repositories.PatchRepository.Delete(Patch);
 
-            return new VoidResult
+            return new VoidResultDto
             {
                 Successful = true
             };
@@ -308,7 +308,7 @@ namespace JJ.Business.Synthesizer
 
         // Validate (Private)
 
-        private VoidResult ValidatePatchWithRelatedEntities()
+        private VoidResultDto ValidatePatchWithRelatedEntities()
         {
             IValidator validator = new PatchValidator_WithRelatedEntities(
                 Patch,
@@ -316,16 +316,16 @@ namespace JJ.Business.Synthesizer
                 _repositories.SampleRepository,
                 _repositories.PatchRepository, new HashSet<object>());
 
-            VoidResult result = validator.ToResult();
+            VoidResultDto result = validator.ToCanonical();
 
             return result;
         }
 
-        private VoidResult ValidateOperatorNonRecursive(Operator op)
+        private VoidResultDto ValidateOperatorNonRecursive(Operator op)
         {
             IValidator validator = new Versatile_OperatorValidator(op, _repositories.PatchRepository);
 
-            return new VoidResult
+            return new VoidResultDto
             {
                 Messages = validator.ValidationMessages.ToCanonical(),
                 Successful = validator.IsValid
@@ -427,18 +427,14 @@ namespace JJ.Business.Synthesizer
         // Misc
 
         /// <summary> Validates for instance that no operator connections are lost. </summary>
-        public VoidResult SetOperatorInletCount(Operator op, int inletCount)
+        public VoidResultDto SetOperatorInletCount(Operator op, int inletCount)
         {
             if (op == null) throw new NullException(() => op);
 
             IValidator validator = new OperatorValidator_SetInletCount(op, inletCount);
             if (!validator.IsValid)
             {
-                return new VoidResult
-                {
-                    Messages = validator.ValidationMessages.ToCanonical(),
-                    Successful = false
-                };
+                return validator.ToCanonical();
             }
 
             IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();
@@ -457,24 +453,20 @@ namespace JJ.Business.Synthesizer
                 DeleteInlet(inlet);
             }
 
-            return new VoidResult
+            return new VoidResultDto
             {
                 Successful = true
             };
         }
 
-        public VoidResult SetOperatorOutletCount(Operator op, int outletCount)
+        public VoidResultDto SetOperatorOutletCount(Operator op, int outletCount)
         {
             if (op == null) throw new NullException(() => op);
 
             IValidator validator = new OperatorValidator_SetOutletCount(op, outletCount);
             if (!validator.IsValid)
             {
-                return new VoidResult
-                {
-                    Messages = validator.ValidationMessages.ToCanonical(),
-                    Successful = false
-                };
+                return validator.ToCanonical();
             }
 
             IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();
@@ -493,7 +485,7 @@ namespace JJ.Business.Synthesizer
                 DeleteOutlet(outlet);
             }
 
-            return new VoidResult
+            return new VoidResultDto
             {
                 Successful = true
             };

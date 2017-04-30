@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Node entity = _nodeRepository.Get(userInput.Entity.ID);
 
                 // Business
-                VoidResult result = _curveManager.SaveNode(entity);
+                VoidResultDto result = _curveManager.SaveNode(entity);
 
                 // Non-Persisted
                 result.Messages.AddRange(result.Messages);

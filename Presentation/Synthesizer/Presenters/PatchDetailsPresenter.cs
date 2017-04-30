@@ -131,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(entity, _patchRepositories);
-            Canonicals.VoidResult result = patchManager.SavePatch();
+            Canonicals.VoidResultDto result = patchManager.SavePatch();
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(entity);

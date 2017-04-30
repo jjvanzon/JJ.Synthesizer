@@ -268,7 +268,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                IResult result = curveManager.DeleteWithRelatedEntities(idToDelete);
+                IResultDto result = curveManager.DeleteWithRelatedEntities(idToDelete);
 
                 ResultHelper.Assert(result);
             }
@@ -302,7 +302,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                IResult result = curveManager.DeleteWithRelatedEntities(idToDelete);
+                IResultDto result = curveManager.DeleteWithRelatedEntities(idToDelete);
 
                 ResultHelper.Assert(result);
             }
@@ -599,7 +599,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                IResult result = documentManager.DeleteDocumentReference(idToDelete);
+                IResultDto result = documentManager.DeleteDocumentReference(idToDelete);
 
                 ResultHelper.Assert(result);
             }

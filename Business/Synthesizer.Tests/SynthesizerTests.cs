@@ -175,7 +175,7 @@ namespace JJ.Business.Synthesizer.Tests
                 //};
                 //validators.ForEach(y => y.Verify());
 
-                VoidResult result = curveManager.SaveCurveWithRelatedEntities(curve);
+                VoidResultDto result = curveManager.SaveCurveWithRelatedEntities(curve);
                 if (!result.Successful)
                 {
                     string messages = string.Join(", ", result.Messages.Select(y => y.Text));
@@ -1027,12 +1027,12 @@ namespace JJ.Business.Synthesizer.Tests
                 var repositories = PersistenceHelper.CreateRepositories(context);
                 var documentManager = new DocumentManager(repositories);
 
-                IList<Message> messages = new List<Message>();
+                IList<MessageDto> messages = new List<MessageDto>();
 
                 IEnumerable<Document> rootDocuments = repositories.DocumentRepository.GetAll();
                 foreach (Document rootDocument in rootDocuments)
                 {
-                    VoidResult result = documentManager.Save(rootDocument);
+                    VoidResultDto result = documentManager.Save(rootDocument);
                     messages.AddRange(result.Messages);
                 }
 

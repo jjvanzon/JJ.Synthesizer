@@ -69,12 +69,12 @@ namespace JJ.Business.Synthesizer
 
         // Save
 
-        public VoidResult Save(Scale scale)
+        public VoidResultDto Save(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
             if (scale.ID == 0) throw new ZeroException(() => scale.ID);
 
-            VoidResult result = SaveWithoutTones(scale);
+            VoidResultDto result = SaveWithoutTones(scale);
 
             IValidator validator = new ScaleValidator_Tones(scale);
             result.Successful &= validator.IsValid;
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer
             return result;
         }
 
-        public VoidResult SaveWithoutTones(Scale scale)
+        public VoidResultDto SaveWithoutTones(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
             if (scale.ID == 0) throw new ZeroException(() => scale.ID);
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer
                 validators.Add(new ScaleValidator_InDocument(scale));
             }
 
-            return validators.ToResult();
+            return validators.ToCanonical();
         }
 
         // Delete
@@ -133,13 +133,13 @@ namespace JJ.Business.Synthesizer
             return tone;
         }
 
-        public VoidResult SaveTone(Tone tone)
+        public VoidResultDto SaveTone(Tone tone)
         {
             if (tone == null) throw new NullException(() => tone);
             if (tone.ID == 0) throw new ZeroException(() => tone.ID);
 
             IValidator validator = new ToneValidator(tone);
-            return new VoidResult
+            return new VoidResultDto
             {
                 Successful = validator.IsValid,
                 Messages = validator.ValidationMessages.ToCanonical()

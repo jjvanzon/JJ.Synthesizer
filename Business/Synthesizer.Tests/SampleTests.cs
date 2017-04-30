@@ -11,6 +11,7 @@ using JJ.Data.Canonical;
 using System;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -40,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Sample sample = sampleInfo.Sample;
 
                 {
-                    VoidResult validationResult = sampleManager.Save(sample);
+                    VoidResultDto validationResult = sampleManager.Save(sample);
                     if (!validationResult.Successful)
                     {
                         throw new Exception(string.Join(Environment.NewLine, validationResult.Messages));

@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchDetailsViewModel
             {
                 Entity = ConvertToViewModelRecursive(patch),
-                ValidationMessages = new List<Message>(),
+                ValidationMessages = new List<MessageDto>(),
                 OperatorToolboxItems = ViewModelHelper.GetOperatorTypesViewModel()
             };
 

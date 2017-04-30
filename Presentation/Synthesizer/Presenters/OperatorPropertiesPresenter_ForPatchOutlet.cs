@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Business
                 var patchManager = new PatchManager(entity.Patch, _repositories);
-                VoidResult result = patchManager.SaveOperator(entity);
+                VoidResultDto result = patchManager.SaveOperator(entity);
 
                 // Non-Persisted
                 viewModel.ValidationMessages.AddRange(result.Messages);
