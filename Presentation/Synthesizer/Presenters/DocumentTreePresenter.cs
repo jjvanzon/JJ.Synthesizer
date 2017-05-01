@@ -1,90 +1,162 @@
 ﻿using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
-using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Dto;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class DocumentTreePresenter : PresenterBase<DocumentTreeViewModel>
     {
         private readonly PatchRepositories _repositories;
-        private readonly PatchManager _patchManager;
 
         public DocumentTreePresenter(PatchRepositories repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
-
-            _patchManager = new PatchManager(_repositories);
         }
 
-        public DocumentTreeViewModel Show(DocumentTreeViewModel userInput)
+        public DocumentTreeViewModel Close(DocumentTreeViewModel userInput) => TemplateMethod(userInput, viewModel => viewModel.Visible = false);
+
+        public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => TemplateMethod(userInput, x => { });
+
+        public DocumentTreeViewModel Show(DocumentTreeViewModel userInput) => TemplateMethod(userInput, viewModel => viewModel.Visible = true);
+
+        public DocumentTreeViewModel SelectAudioFileOutputs(DocumentTreeViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            DocumentTreeViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    viewModel.SelectedItemID = null;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioFileOutputs;
+                });
         }
 
-        public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput)
+        public DocumentTreeViewModel SelectAudioOutput(DocumentTreeViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            DocumentTreeViewModel viewModel = CreateViewModel(userInput);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    viewModel.SelectedItemID = null;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioOutput;
+                });
         }
 
-        public DocumentTreeViewModel Close(DocumentTreeViewModel userInput)
+        public DocumentTreeViewModel SelectCurves(DocumentTreeViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    viewModel.SelectedItemID = null;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Curves;
+                });
+        }
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
+        public DocumentTreeViewModel SelectLibraries(DocumentTreeViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    viewModel.SelectedItemID = null;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Libraries;
+                });
+        }
 
-            // Set !Successful
-            userInput.Successful = false;
+        public DocumentTreeViewModel SelectLibrary(DocumentTreeViewModel userInput, int id)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    viewModel.SelectedItemID = id;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Library;
+                });
+        }
 
-            // CreateViewModel
-            DocumentTreeViewModel viewModel = CreateViewModel(userInput);
+        public DocumentTreeViewModel SelectLibraryPatch(DocumentTreeViewModel userInput, int id)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    viewModel.SelectedItemID = id;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatch;
+                });
+        }
 
-            // Non-Persisted
-            viewModel.Visible = false;
+        public DocumentTreeViewModel SelectSamples(DocumentTreeViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    viewModel.SelectedItemID = null;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Samples;
+                });
+        }
 
-            // Successful
-            viewModel.Successful = true;
+        public DocumentTreeViewModel SelectScales(DocumentTreeViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    viewModel.SelectedItemID = null;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scales;
+                });
+        }
 
-            return viewModel;
+        public DocumentTreeViewModel SelectPatch(DocumentTreeViewModel userInput, int id)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    viewModel.SelectedItemID = id;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Patch;
+                });
+        }
+
+        public DocumentTreeViewModel SelectPatches(DocumentTreeViewModel userInput, string group)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    viewModel.SelectedItemID = null;
+                    viewModel.SelectedPatchGroup = group;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Patches;
+                });
         }
 
         // Helpers
+
+        private DocumentTreeViewModel TemplateMethod(DocumentTreeViewModel userInput, Action<DocumentTreeViewModel> action)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // CreateViewModel
+            DocumentTreeViewModel viewModel = CreateViewModel(userInput);
+
+            // Action
+            action(viewModel);
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
+        }
 
         private DocumentTreeViewModel CreateViewModel(DocumentTreeViewModel userInput)
         {

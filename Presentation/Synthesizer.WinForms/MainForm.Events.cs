@@ -48,10 +48,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
             documentPropertiesUserControl.PlayRequested += documentPropertiesUserControl_PlayRequested;
+            documentTreeUserControl.AudioFileOutputsNodeSelected += documentTreeUserControl_AudioFileOutputsNodeSelected;
+            documentTreeUserControl.AudioOutputNodeSelected += documentTreeUserControl_AudioOutputNodeSelected;
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
+            documentTreeUserControl.CurvesNodeSelected += documentTreeUserControl_CurvesNodeSelected;
+            documentTreeUserControl.LibrariesNodeSelected += documentTreeUserControl_LibrariesNodeSelected;
+            documentTreeUserControl.LibraryNodeSelected += documentTreeUserControl_LibraryNodeSelected;
+            documentTreeUserControl.LibraryPatchNodeSelected += documentTreeUserControl_LibraryPatchNodeSelected;
+            documentTreeUserControl.PatchesNodeSelected += documentTreeUserControl_PatchesNodeSelected;
+            documentTreeUserControl.PatchNodeSelected += documentTreeUserControl_PatchNodeSelected;
+            documentTreeUserControl.PlayRequested += documentTreeUserControl_PlayRequested;
+            documentTreeUserControl.SamplesNodeSelected += documentTreeUserControl_SamplesNodeSelected;
             documentTreeUserControl.SaveRequested += documentTreeUserControl_SaveRequested;
-            documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
+            documentTreeUserControl.ScalesNodeSelected += documentTreeUserControl_ScalesNodeSelected;
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
+            documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
             documentTreeUserControl.ShowLibrariesRequested += documentTreeUserControl_ShowLibrariesRequested;
             documentTreeUserControl.ShowLibraryPatchPropertiesRequested += documentTreeUserControl_ShowLibraryPatchPropertiesRequested;
@@ -438,6 +449,51 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentTreeUserControl_ShowSamplesRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.SampleGridShow);
 
         private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.ScaleGridShow);
+
+        private void documentTreeUserControl_AudioFileOutputsNodeSelected(object sender, EventArgs e)
+        {
+            TemplateEventHandler(_presenter.DocumentTreeSelectAudioFileOutputs);
+        }
+
+        private void documentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentTreeSelectAudioOutput);
+
+        private void documentTreeUserControl_CurvesNodeSelected(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentTreeSelectCurves);
+
+        private void documentTreeUserControl_LibrariesNodeSelected(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentTreeSelectLibraries);
+
+        private void documentTreeUserControl_LibraryNodeSelected(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.DocumentTreeSelectLibrary(e.Value));
+        }
+
+        private void documentTreeUserControl_LibraryPatchNodeSelected(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.DocumentTreeSelectLibraryPatch(e.Value));
+        }
+
+        private void documentTreeUserControl_PatchesNodeSelected(object sender, EventArgs<string> e)
+        {
+            TemplateEventHandler(() => _presenter.DocumentTreeSelectPatches(e.Value));
+        }
+
+        private void documentTreeUserControl_PatchNodeSelected(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.DocumentTreeSelectPatch(e.Value));
+        }
+
+        private void documentTreeUserControl_PlayRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.DocumentTreePlay();
+                    PlayOutletIfNeeded();
+                });
+        }
+
+        private void documentTreeUserControl_SamplesNodeSelected(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentTreeSelectSamples);
+
+        private void documentTreeUserControl_ScalesNodeSelected(object sender, EventArgs e) => TemplateEventHandler(_presenter.DocumentTreeSelectScales);
 
         // Document Properties
 

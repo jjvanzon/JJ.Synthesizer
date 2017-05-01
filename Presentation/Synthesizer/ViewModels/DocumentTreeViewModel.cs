@@ -13,5 +13,10 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public TreeLeafViewModel AudioOutputNode { get; set; }
         public TreeLeafViewModel AudioFileOutputListNode { get; set; }
         public LibrariesTreeNodeViewModel LibrariesNode { get; set; }
+
+        public DocumentTreeNodeTypeEnum SelectedNodeType { get; set; }
+        public int? SelectedItemID { get; set; }
+        public string SelectedPatchGroup { get; set; }
+        public int? OutletIDToPlay { get; set; }
     }
 }

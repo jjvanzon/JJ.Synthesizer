@@ -61,11 +61,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
-            this.titleBarUserControl.PlayButtonVisible = false;
+            this.titleBarUserControl.PlayButtonVisible = true;
             this.titleBarUserControl.RemoveButtonVisible = false;
             this.titleBarUserControl.SaveButtonVisible = true;
             this.titleBarUserControl.Size = new System.Drawing.Size(269, 26);
             this.titleBarUserControl.TabIndex = 3;
+            this.titleBarUserControl.PlayClicked += new System.EventHandler(this.titleBarUserControl_PlayClicked);
             this.titleBarUserControl.SaveClicked += new System.EventHandler(this.titleBarUserControl_SaveClicked);
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
@@ -79,6 +80,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.treeView.ShowLines = false;
             this.treeView.Size = new System.Drawing.Size(269, 468);
             this.treeView.TabIndex = 4;
+            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseDoubleClick);
             // 
             // DocumentTreeUserControl

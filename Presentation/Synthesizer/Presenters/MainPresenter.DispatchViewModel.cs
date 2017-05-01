@@ -319,6 +319,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var castedViewModel = (DocumentTreeViewModel)viewModel;
             MainViewModel.Document.DocumentTree = castedViewModel;
 
+            if (castedViewModel.OutletIDToPlay.HasValue)
+            {
+                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
+                castedViewModel.OutletIDToPlay = null;
+            }
+
             DispatchViewModelBase(castedViewModel);
         }
 

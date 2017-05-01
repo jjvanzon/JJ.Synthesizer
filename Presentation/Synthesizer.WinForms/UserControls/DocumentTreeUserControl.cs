@@ -14,6 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler CloseRequested;
         public event EventHandler SaveRequested;
+        public event EventHandler PlayRequested;
 
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
@@ -25,6 +26,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
         public event EventHandler ShowLibrariesRequested;
+
+        public event EventHandler<EventArgs<string>> PatchesNodeSelected;
+        public event EventHandler<EventArgs<int>> PatchNodeSelected;
+        public event EventHandler<EventArgs<int>> LibraryNodeSelected;
+        public event EventHandler<EventArgs<int>> LibraryPatchNodeSelected;
+        public event EventHandler CurvesNodeSelected;
+        public event EventHandler SamplesNodeSelected;
+        public event EventHandler AudioOutputNodeSelected;
+        public event EventHandler AudioFileOutputsNodeSelected;
+        public event EventHandler ScalesNodeSelected;
+        public event EventHandler LibrariesNodeSelected;
 
         private HashSet<TreeNode> _patchesTreeNodes;
         private HashSet<TreeNode> _patchTreeNodes;
@@ -45,10 +57,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
-        private void SetTitles()
-        {
-            titleBarUserControl.Text = ResourceFormatter.DocumentTree;
-        }
+        private void SetTitles() => titleBarUserControl.Text = ResourceFormatter.DocumentTree;
 
         // Binding
 
@@ -230,6 +239,71 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void titleBarUserControl_PlayClicked(object sender, EventArgs e)
+        {
+            PlayRequested?.Invoke(sender, EventArgs.Empty);
+        }
+
+        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            // NOTE: WinForms does not allow giving event handlers to specific nodes, so you need the if's.
+
+            TreeNode node = e.Node;
+
+            if (node == _audioFileOutputListTreeNode)
+            {
+                AudioFileOutputsNodeSelected?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (node == _audioOutputNode)
+            {
+                AudioOutputNodeSelected?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (node == _curvesTreeNode)
+            {
+                CurvesNodeSelected?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (node == _librariesTreeNode)
+            {
+                LibrariesNodeSelected?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (_patchesTreeNodes.Contains(node))
+            {
+                PatchesNodeSelected?.Invoke(this, new EventArgs<string>((string)node.Tag));
+            }
+
+            if (_patchTreeNodes.Contains(node))
+            {
+                int id = (int)node.Tag;
+                PatchNodeSelected?.Invoke(this, new EventArgs<int>(id));
+            }
+
+            if (node == _samplesTreeNode)
+            {
+                SamplesNodeSelected?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (node == _scalesTreeNode)
+            {
+                ScalesNodeSelected?.Invoke(this, EventArgs.Empty);
+            }
+
+            if (_libraryTreeNodes.Contains(node))
+            {
+                int id = (int)node.Tag;
+                LibraryNodeSelected?.Invoke(this, new EventArgs<int>(id));
+            }
+
+            if (_libraryPatchTreeNodes.Contains(node))
+            {
+                int id = (int)node.Tag;
+                LibraryPatchNodeSelected?.Invoke(this, new EventArgs<int>(id));
+            }
         }
 
         // Helpers
