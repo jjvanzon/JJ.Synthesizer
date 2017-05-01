@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
@@ -15,7 +17,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler SaveRequested;
         public event EventHandler PlayRequested;
-
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
@@ -26,7 +27,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
         public event EventHandler ShowLibrariesRequested;
-
         public event EventHandler<EventArgs<string>> PatchesNodeSelected;
         public event EventHandler<EventArgs<int>> PatchNodeSelected;
         public event EventHandler<EventArgs<int>> LibraryNodeSelected;
@@ -88,11 +88,58 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 }
 
                 AddTopLevelNodesAndDescendants(treeView.Nodes, ViewModel);
+                SetSelectedNode();
             }
             finally
             {
                 treeView.EndUpdate();
                 treeView.ResumeLayout();
+            }
+        }
+
+        private void SetSelectedNode()
+        {
+            switch (ViewModel.SelectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.AudioFileOutputList:
+                    treeView.SelectedNode = _audioFileOutputListTreeNode;
+                    break;
+
+                case DocumentTreeNodeTypeEnum.AudioOutput:
+                    treeView.SelectedNode = _audioOutputNode;
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Curves:
+                    treeView.SelectedNode = _curvesTreeNode;
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Libraries:
+                    treeView.SelectedNode = _librariesTreeNode;
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Library:
+                    treeView.SelectedNode = _libraryTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).First();
+                    break;
+
+                case DocumentTreeNodeTypeEnum.LibraryPatch:
+                    treeView.SelectedNode = _libraryPatchTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).First();
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Samples:
+                    treeView.SelectedNode = _samplesTreeNode;
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Scales:
+                    treeView.SelectedNode = _scalesTreeNode;
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Patch:
+                    treeView.SelectedNode = _patchTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).First();
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Patches:
+                    treeView.SelectedNode = _patchesTreeNodes.Where(x => (string)x.Tag == ViewModel.SelectedPatchGroup).First();
+                    break;
             }
         }
 
@@ -248,6 +295,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            bool notByUser = e.Action == TreeViewAction.Unknown;
+            if (notByUser)
+            {
+                return;
+            }
+
             // NOTE: WinForms does not allow giving event handlers to specific nodes, so you need the if's.
 
             TreeNode node = e.Node;

@@ -3,7 +3,7 @@
     public enum DocumentTreeNodeTypeEnum
     {
         Undefined,
-        AudioFileOutputs,
+        AudioFileOutputList,
         AudioOutput,
         Curves,
         Libraries,

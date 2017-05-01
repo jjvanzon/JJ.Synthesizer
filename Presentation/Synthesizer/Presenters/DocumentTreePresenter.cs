@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel =>
                 {
                     viewModel.SelectedItemID = null;
-                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioFileOutputs;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioFileOutputList;
                 });
         }
 

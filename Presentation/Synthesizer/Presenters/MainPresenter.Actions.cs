@@ -1073,6 +1073,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
                         viewModel.Successful = result.Successful;
                         viewModel.OutletIDToPlay = outlet?.ID;
+                        viewModel.SelectedItemID = userInput.SelectedItemID;
+                        viewModel.SelectedNodeType = userInput.SelectedNodeType;
 
                         return viewModel;
                     }
@@ -1099,6 +1101,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
                         viewModel.Successful = result.Successful;
                         viewModel.OutletIDToPlay = outlet?.ID;
+                        viewModel.SelectedItemID = userInput.SelectedItemID;
+                        viewModel.SelectedNodeType = userInput.SelectedNodeType;
 
                         return viewModel;
                     }
@@ -1126,11 +1130,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
                         viewModel.Successful = result.Successful;
                         viewModel.OutletIDToPlay = outlet?.ID;
+                        viewModel.SelectedItemID = userInput.SelectedItemID;
+                        viewModel.SelectedNodeType = userInput.SelectedNodeType;
 
                         return viewModel;
                     }
 
-                    case DocumentTreeNodeTypeEnum.AudioFileOutputs:
+                    case DocumentTreeNodeTypeEnum.AudioFileOutputList:
                     case DocumentTreeNodeTypeEnum.Curves:
                     case DocumentTreeNodeTypeEnum.Libraries:
                     case DocumentTreeNodeTypeEnum.Samples:
