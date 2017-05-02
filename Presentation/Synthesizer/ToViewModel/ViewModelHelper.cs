@@ -368,11 +368,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 case DocumentTreeNodeTypeEnum.Patch:
                 case DocumentTreeNodeTypeEnum.PatchGroup:
                 case DocumentTreeNodeTypeEnum.Samples:
+                case DocumentTreeNodeTypeEnum.Libraries:
                     return true;
 
                 case DocumentTreeNodeTypeEnum.AudioFileOutputList:
                 case DocumentTreeNodeTypeEnum.Curves:
-                case DocumentTreeNodeTypeEnum.Libraries:
                 case DocumentTreeNodeTypeEnum.Scales:
                 default:
                     return false;

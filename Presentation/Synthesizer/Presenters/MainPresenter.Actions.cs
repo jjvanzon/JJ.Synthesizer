@@ -1157,9 +1157,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         break;
                     }
 
+                    case DocumentTreeNodeTypeEnum.Libraries:
+                    {
+                        // Business
+                        var patchManager = new PatchManager(_patchRepositories);
+                        IList<Document> lowerDocuments = document.LowerDocumentReferences.Select(x => x.LowerDocument).ToArray();
+                        result = patchManager.TryAutoPatchFromDocumentsRandomly(lowerDocuments, hidden: false);
+                        break;
+                    }
+
                     case DocumentTreeNodeTypeEnum.AudioFileOutputList:
                     case DocumentTreeNodeTypeEnum.Curves:
-                    case DocumentTreeNodeTypeEnum.Libraries:
                     case DocumentTreeNodeTypeEnum.Scales:
                     default:
                     {

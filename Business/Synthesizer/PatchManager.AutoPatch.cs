@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -373,6 +374,34 @@ namespace JJ.Business.Synthesizer
                                                     .ToArray();
 
             return patchOutlets;
+        }
+
+        public Result<Outlet> TryAutoPatchFromDocumentsRandomly([NotNull] IList<Document> documents, bool? hidden)
+        {
+            if (documents == null) throw new NullException(() => documents);
+
+            IList<Patch> patches = documents.SelectMany(x => x.Patches).ToArray();
+            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(patches, hidden);
+
+            Outlet signalOutlet = Randomizer.TryGetRandomItem(signalOutlets);
+
+            if (signalOutlet == null)
+            {
+                return new Result<Outlet>
+                {
+                    Successful = false,
+                    Messages = new Messages { new Message(nameof(DocumentReference), ResourceFormatter.NoSoundFound) }
+                };
+            }
+            // ReSharper disable once RedundantIfElseBlock
+            else
+            {
+                return new Result<Outlet>
+                {
+                    Successful = true,
+                    Data = signalOutlet
+                };
+            }
         }
 
         /// <summary> Can be used to for instance quickly generate an example sound from a document used as library. </summary>
