@@ -1049,34 +1049,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Set !Successful
                 userInput.Successful = false;
 
+                // GetEntities
+                Document document = _repositories.DocumentRepository.Get(userInput.ID);
+
+                Result<Outlet> result;
                 switch (userInput.SelectedNodeType)
                 {
                     case DocumentTreeNodeTypeEnum.AudioOutput:
                     {
                         // GetEntities
-                        Document document = _repositories.DocumentRepository.Get(userInput.ID);
                         IList<Patch> entities = MainViewModel.Document.CurrentInstrument.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
 
                         // Business
                         var patchManager = new PatchManager(_patchRepositories);
                         patchManager.AutoPatch(entities);
                         Patch autoPatch = patchManager.Patch;
-                        Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(autoPatch);
-                        Outlet outlet = result.Data;
+                        result = patchManager.AutoPatch_TryCombineSignals(autoPatch);
 
-                        // ToViewModel
-                        var converter = new RecursiveToDocumentTreeViewModelFactory();
-                        DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _patchRepositories);
-
-                        // Non-Persisted
-                        viewModel.Visible = userInput.Visible;
-                        viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
-                        viewModel.Successful = result.Successful;
-                        viewModel.OutletIDToPlay = outlet?.ID;
-                        viewModel.SelectedItemID = userInput.SelectedItemID;
-                        viewModel.SelectedNodeType = userInput.SelectedNodeType;
-
-                        return viewModel;
+                        break;
                     }
 
                     case DocumentTreeNodeTypeEnum.Library:
@@ -1084,27 +1074,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
                         // GetEntity
-                        Document document = _repositories.DocumentRepository.Get(userInput.ID);
                         DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(userInput.SelectedItemID.Value);
 
                         // Business
                         var patchManager = new PatchManager(_patchRepositories);
-                        Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument);
-                        Outlet outlet = result.Data;
+                        result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, hidden: false);
 
-                        // ToViewModel
-                        var converter = new RecursiveToDocumentTreeViewModelFactory();
-                        DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _patchRepositories);
-
-                        // Non-Persisted
-                        viewModel.Visible = userInput.Visible;
-                        viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
-                        viewModel.Successful = result.Successful;
-                        viewModel.OutletIDToPlay = outlet?.ID;
-                        viewModel.SelectedItemID = userInput.SelectedItemID;
-                        viewModel.SelectedNodeType = userInput.SelectedNodeType;
-
-                        return viewModel;
+                        break;
                     }
 
                     case DocumentTreeNodeTypeEnum.Patch:
@@ -1113,27 +1089,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
                         // GetEntities
-                        Document document = _repositories.DocumentRepository.Get(userInput.ID);
                         Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
 
                         // Business
                         var patchManager = new PatchManager(patch, _patchRepositories);
-                        Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch);
-                        Outlet outlet = result.Data;
+                        result = patchManager.AutoPatch_TryCombineSignals(patch);
 
-                        // ToViewModel
-                        var converter = new RecursiveToDocumentTreeViewModelFactory();
-                        DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _patchRepositories);
+                        break;
+                    }
 
-                        // Non-Persisted
-                        viewModel.Visible = userInput.Visible;
-                        viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
-                        viewModel.Successful = result.Successful;
-                        viewModel.OutletIDToPlay = outlet?.ID;
-                        viewModel.SelectedItemID = userInput.SelectedItemID;
-                        viewModel.SelectedNodeType = userInput.SelectedNodeType;
-
-                        return viewModel;
+                    case DocumentTreeNodeTypeEnum.PatchGroup:
+                    {
+                        // Business
+                        var patchManager = new PatchManager(_patchRepositories);
+                        result = patchManager.TryAutoPatchFromPatchGroupRandomly(document, userInput.SelectedPatchGroup, hidden: false);
+                        
+                        break;
                     }
 
                     case DocumentTreeNodeTypeEnum.AudioFileOutputList:
@@ -1141,7 +1112,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case DocumentTreeNodeTypeEnum.Libraries:
                     case DocumentTreeNodeTypeEnum.Samples:
                     case DocumentTreeNodeTypeEnum.Scales:
-                    case DocumentTreeNodeTypeEnum.Patches:
                     default:
                     {
                         // Successful
@@ -1150,6 +1120,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         return userInput;
                     }
                 }
+
+                // Business
+                Outlet outlet = result.Data;
+
+                // ToViewModel
+                var converter = new RecursiveToDocumentTreeViewModelFactory();
+                DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _patchRepositories);
+
+                // Non-Persisted
+                viewModel.Visible = userInput.Visible;
+                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                viewModel.Successful = result.Successful;
+                viewModel.OutletIDToPlay = outlet?.ID;
+                viewModel.SelectedItemID = userInput.SelectedItemID;
+                viewModel.SelectedNodeType = userInput.SelectedNodeType;
+                viewModel.SelectedPatchGroup = userInput.SelectedPatchGroup;
+                viewModel.CanPlay = userInput.CanPlay;
+
+                return viewModel;
+
             }
         }
 
@@ -1234,13 +1224,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _documentTreePresenter.SelectPatch(userInput, id));
         }
 
-        public void DocumentTreeSelectPatches(string group)
+        public void DocumentTreeSelectPatchGroup(string group)
         {
             // GetViewModel
             DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
             // Template Method
-            TemplateActionMethod(userInput, () => _documentTreePresenter.SelectPatches(userInput, group));
+            TemplateActionMethod(userInput, () => _documentTreePresenter.SelectPatchGroup(userInput, group));
         }
 
         public void DocumentTreeShow()

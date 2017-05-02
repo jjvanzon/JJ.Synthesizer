@@ -1528,7 +1528,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No sound found in library..
+        ///   Looks up a localized string similar to No sound found..
         /// </summary>
         internal static string NoSoundFoundInLibrary {
             get {

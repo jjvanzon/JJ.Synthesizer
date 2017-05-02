@@ -60,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Business
                     var patchManager = new PatchManager(new PatchRepositories(_repositories));
-                    Framework.Business.Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument);
+                    Framework.Business.Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, hidden: false);
                     Outlet outlet = result.Data;
 
                     // Non-Persisted

@@ -31,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioFileOutputList;
+                    viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
         }
 
@@ -42,6 +43,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioOutput;
+                    viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
         }
 
@@ -53,6 +55,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Curves;
+                    viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
         }
 
@@ -64,6 +67,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Libraries;
+                    viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
         }
 
@@ -75,6 +79,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.SelectedItemID = id;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Library;
+                    viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
         }
 
@@ -86,6 +91,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.SelectedItemID = id;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatch;
+                    viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
         }
 
@@ -97,6 +103,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Samples;
+                    viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
         }
 
@@ -108,6 +115,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scales;
+                    viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
         }
 
@@ -119,10 +127,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.SelectedItemID = id;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Patch;
+                    viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
         }
 
-        public DocumentTreeViewModel SelectPatches(DocumentTreeViewModel userInput, string group)
+        public DocumentTreeViewModel SelectPatchGroup(DocumentTreeViewModel userInput, string group)
         {
             return TemplateMethod(
                 userInput,
@@ -130,7 +139,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.SelectedItemID = null;
                     viewModel.SelectedPatchGroup = group;
-                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Patches;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.PatchGroup;
+                    viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
         }
 
@@ -170,7 +180,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
 
+            viewModel.CanPlay = ViewModelHelper.GetCanPlay(userInput.SelectedNodeType);
+
             return viewModel;
+        }
+
+        protected override void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)
+        {
+            base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
+
+            destViewModel.SelectedNodeType = sourceViewModel.SelectedNodeType;
+            destViewModel.SelectedItemID = sourceViewModel.SelectedItemID;
+            destViewModel.OutletIDToPlay = sourceViewModel.OutletIDToPlay;
+            destViewModel.SelectedPatchGroup = sourceViewModel.SelectedPatchGroup;
+            destViewModel.CanPlay = sourceViewModel.CanPlay;
         }
     }
 }

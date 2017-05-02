@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
         public event EventHandler ShowLibrariesRequested;
-        public event EventHandler<EventArgs<string>> PatchesNodeSelected;
+        public event EventHandler<EventArgs<string>> PatchGroupNodeSelected;
         public event EventHandler<EventArgs<int>> PatchNodeSelected;
         public event EventHandler<EventArgs<int>> LibraryNodeSelected;
         public event EventHandler<EventArgs<int>> LibraryPatchNodeSelected;
@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler ScalesNodeSelected;
         public event EventHandler LibrariesNodeSelected;
 
-        private HashSet<TreeNode> _patchesTreeNodes;
+        private HashSet<TreeNode> _patchGroupTreeNodes;
         private HashSet<TreeNode> _patchTreeNodes;
         private HashSet<TreeNode> _libraryTreeNodes;
         private HashSet<TreeNode> _libraryPatchTreeNodes;
@@ -74,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 treeView.SuspendLayout();
                 treeView.BeginUpdate();
 
-                _patchesTreeNodes = new HashSet<TreeNode>();
+                _patchGroupTreeNodes = new HashSet<TreeNode>();
                 _patchTreeNodes = new HashSet<TreeNode>();
                 _libraryTreeNodes = new HashSet<TreeNode>();
                 _libraryPatchTreeNodes = new HashSet<TreeNode>();
@@ -89,6 +89,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 AddTopLevelNodesAndDescendants(treeView.Nodes, ViewModel);
                 SetSelectedNode();
+
+                titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
             }
             finally
             {
@@ -137,8 +139,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     treeView.SelectedNode = _patchTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).First();
                     break;
 
-                case DocumentTreeNodeTypeEnum.Patches:
-                    treeView.SelectedNode = _patchesTreeNodes.Where(x => (string)x.Tag == ViewModel.SelectedPatchGroup).First();
+                case DocumentTreeNodeTypeEnum.PatchGroup:
+                    treeView.SelectedNode = _patchGroupTreeNodes.Where(x => (string)x.Tag == ViewModel.SelectedPatchGroup).First();
                     break;
             }
         }
@@ -149,7 +151,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 // Patches
                 var patchesTreeNode = new TreeNode(documentTreeViewModel.PatchesNode.Text);
                 nodes.Add(patchesTreeNode);
-                _patchesTreeNodes.Add(patchesTreeNode);
+                _patchGroupTreeNodes.Add(patchesTreeNode);
 
                 // Patches (Groupless)
                 foreach (PatchTreeNodeViewModel patchTreeNodeViewModel in documentTreeViewModel.PatchesNode.PatchNodes)
@@ -167,7 +169,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                         Tag = patchGroupViewModel.GroupName
                     };
                     patchesTreeNode.Nodes.Add(patchGroupTreeNode);
-                    _patchesTreeNodes.Add(patchGroupTreeNode);
+                    _patcheGroupsTreeNodes.Add(patchGroupTreeNode);
 
                     foreach (PatchTreeNodeViewModel patchTreeNodeViewModel in patchGroupViewModel.PatchNodes)
                     {
@@ -325,9 +327,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 LibrariesNodeSelected?.Invoke(this, EventArgs.Empty);
             }
 
-            if (_patchesTreeNodes.Contains(node))
+            if (_patchGroupTreeNodes.Contains(node))
             {
-                PatchesNodeSelected?.Invoke(this, new EventArgs<string>((string)node.Tag));
+                PatchGroupNodeSelected?.Invoke(this, new EventArgs<string>((string)node.Tag));
             }
 
             if (_patchTreeNodes.Contains(node))
@@ -385,7 +387,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 ShowLibrariesRequested?.Invoke(this, EventArgs.Empty);
             }
 
-            if (_patchesTreeNodes.Contains(node))
+            if (_patchGroupTreeNodes.Contains(node))
             {
                 ShowPatchGridRequested?.Invoke(this, new EventArgs<string>((string)node.Tag));
             }

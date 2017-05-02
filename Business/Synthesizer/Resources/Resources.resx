@@ -1020,6 +1020,6 @@
     <value>Selected operator has no outlets.</value>
   </data>
   <data name="NoSoundFoundInLibrary" xml:space="preserve">
-    <value>No sound found in library.</value>
+    <value>No sound found.</value>
   </data>
 </root>

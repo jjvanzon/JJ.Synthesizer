@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.LibrariesNodeSelected += documentTreeUserControl_LibrariesNodeSelected;
             documentTreeUserControl.LibraryNodeSelected += documentTreeUserControl_LibraryNodeSelected;
             documentTreeUserControl.LibraryPatchNodeSelected += documentTreeUserControl_LibraryPatchNodeSelected;
-            documentTreeUserControl.PatchesNodeSelected += documentTreeUserControl_PatchesNodeSelected;
+            documentTreeUserControl.PatchGroupNodeSelected += documentTreeUserControl_PatchGroupNodeSelected;
             documentTreeUserControl.PatchNodeSelected += documentTreeUserControl_PatchNodeSelected;
             documentTreeUserControl.PlayRequested += documentTreeUserControl_PlayRequested;
             documentTreeUserControl.SamplesNodeSelected += documentTreeUserControl_SamplesNodeSelected;
@@ -471,9 +471,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateEventHandler(() => _presenter.DocumentTreeSelectLibraryPatch(e.Value));
         }
 
-        private void documentTreeUserControl_PatchesNodeSelected(object sender, EventArgs<string> e)
+        private void documentTreeUserControl_PatchGroupNodeSelected(object sender, EventArgs<string> e)
         {
-            TemplateEventHandler(() => _presenter.DocumentTreeSelectPatches(e.Value));
+            TemplateEventHandler(() => _presenter.DocumentTreeSelectPatchGroup(e.Value));
         }
 
         private void documentTreeUserControl_PatchNodeSelected(object sender, EventArgs<int> e)

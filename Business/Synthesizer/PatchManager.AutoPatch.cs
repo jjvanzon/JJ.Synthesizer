@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Enums;
@@ -17,220 +18,6 @@ namespace JJ.Business.Synthesizer
 {
     public partial class PatchManager
     {
-        /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
-        public Outlet TryAutoPatchWithTone(Tone tone, IList<Patch> sourceUnderlyingPatches)
-        {
-            if (tone == null) throw new NullException(() => tone);
-            if (sourceUnderlyingPatches == null) throw new NullException(() => sourceUnderlyingPatches);
-
-            // Create a new patch out of the other patches.
-            AutoPatch(sourceUnderlyingPatches);
-
-            double frequency = tone.GetFrequency();
-            Number_OperatorWrapper frequencyNumberOperatorWrapper = Number(frequency);
-
-            IList<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                .Where(x => x.DimensionEnum == DimensionEnum.Frequency)
-                                                .Select(x => x.Inlet)
-                                                .ToArray();
-            if (frequencyInlets.Count == 0)
-            {
-                return null;
-            }
-
-            foreach (Inlet frequencyInlet in frequencyInlets)
-            {
-                frequencyInlet.LinkTo(frequencyNumberOperatorWrapper.Result);
-            }
-
-            IList<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                               .Where(x => x.DimensionEnum == DimensionEnum.Signal)
-                                               .Select(x => x.Result)
-                                               .ToArray();
-            switch (signalOutlets.Count)
-            {
-                case 0:
-                    return null;
-
-                case 1:
-                    return signalOutlets[0];
-
-                default:
-                    var add = Add(signalOutlets);
-                    return add;
-            }
-        }
-
-        /// <summary>
-        /// Will replace PatchManager.Patch with a new patch.
-        /// 
-        /// Creatively tries to make the best of getting sound out of the source Patch.
-        /// Tries to find outlets to combine into sound.
-        /// If selectedOperatorID is provided, only outlets of the selected Operator are considered.
-        /// If selectedOperatorID is not provided, all outlets of the patch are considered.
-        /// Outlets of type signal are preferred,
-        /// but if none are found, all outlets are considered.
-        /// 
-        /// If no suitable outlets were found, a result with Successful = false is returned.
-        /// If outlets to combine were found, PatchManager's Patch property will reference the a patch.
-        /// Also the outlet that returns the sound is returned through the result.
-        /// </summary>
-        public Result<Outlet> AutoPatch_TryCombineSignals(Patch sourcePatch, int? selectedOperatorID = null)
-        {
-            CreatePatch();
-            Patch.Name = "Auto-Generated Patch";
-
-            IList<Outlet> signalOutlets;
-
-            if (selectedOperatorID.HasValue)
-            {
-                signalOutlets = GetSignalOutletsFromOperator(selectedOperatorID.Value);
-                if (signalOutlets.Count == 0)
-                {
-                    var result = new Result<Outlet> { Successful = false };
-                    result.Messages.Add(nameof(signalOutlets), ResourceFormatter.SelectedOperatorHasNoOutlets);
-                    return result;
-                }
-            }
-            // ReSharper disable once RedundantIfElseBlock
-            else
-            {
-                signalOutlets = GetSignalOutletsFromPatch(sourcePatch);
-                if (signalOutlets.Count == 0)
-                {
-                    var result = new Result<Outlet> { Successful = false };
-                    result.Messages.Add(nameof(signalOutlets), ResourceFormatter.PatchHasNoOutlets);
-                    return result;
-                }
-            }
-
-            switch (signalOutlets.Count)
-            {
-                // case 0 already handled above.
-
-                case 1:
-                {
-                    Outlet patchOutlet = PatchOutlet(signalOutlets[0]);
-
-                    var result = new Result<Outlet>
-                    {
-                        Successful = true,
-                        Data = patchOutlet
-                    };
-
-                    return result;
-                }
-
-                default:
-                {
-                    Outlet add = Add(signalOutlets);
-
-                    var result = new Result<Outlet>
-                    {
-                        Successful = true,
-                        Data = add
-                    };
-                    
-                    return result;
-                }
-            }
-        }
-
-        /// <summary> In case no signal outlets are present, all outlets are returned. </summary>
-        private IList<Outlet> GetSignalOutletsFromOperator(int selectedOperatorID)
-        {
-            Operator selectedOperator = _repositories.OperatorRepository.Get(selectedOperatorID);
-
-            switch (selectedOperator.Outlets.Count)
-            {
-                case 0:
-                    // Selected Operator has no Outlets
-                    return new Outlet[0];
-
-                case 1:
-                    // Selected Operator has single Outlet
-                    // ReSharper disable once RedundantExplicitArrayCreation
-                    return new Outlet[] { selectedOperator.Outlets[0] };
-
-                default:
-                    IList<Outlet> signalOutlets = selectedOperator.Outlets
-                                                                  .Where(x => x.GetDimensionEnum() == DimensionEnum.Signal)
-                                                                  .ToArray();
-
-                    // ReSharper disable once ConvertIfStatementToReturnStatement
-                    if (signalOutlets.Count != 0)
-                    {
-                        // Selected Operator has signal outlets.
-                        return signalOutlets;
-                    }
-                    else
-                    {
-                        // Selected Operator has no signal outlets.
-                        return selectedOperator.Outlets;
-                    }
-            }
-        }
-
-        /// <summary> In case no signal outlets are presents, all patch outlets are returned. </summary>
-        private IList<Outlet> GetSignalOutletsFromPatch(Patch sourcePatch)
-        {
-            IList<Outlet> signalPatchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                          .Where(x => x.DimensionEnum == DimensionEnum.Signal)
-                                                          .Select(x => x.Result)
-                                                          .ToArray();
-            if (signalPatchOutlets.Count != 0)
-            {
-                // Patch has Signal PatchOutlets.
-                return signalPatchOutlets;
-            }
-
-            // Patch has no Signal PatchOutlets:
-            // Return all PatchOutlets.
-            IList<Outlet> patchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                    .Select(x => x.Result)
-                                                    .ToArray();
-
-            return patchOutlets;
-        }
-
-        /// <summary> Can be used to for instance quickly generate an example sound from a document used as library. </summary>
-        public Result<Outlet> TryAutoPatchFromDocumentRandomly(Document document)
-        {
-            IList<Outlet> outlets = document.Patches
-                                            .Where(x => !x.Hidden)
-                                            .Where(
-                                                x => !x.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                       .Where(y => y.DimensionEnum == DimensionEnum.Signal)
-                                                       .Any())
-                                            .OrderBy(x => x.Name)
-                                            .SelectMany(x => x.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>())
-                                            .Where(x => x.DimensionEnum == DimensionEnum.Signal)
-                                            .Select(x => x.Result)
-                                            .ToArray();
-
-            // TODO: Select the first patch with a signal inlet and use autopatch those two together.
-
-            Outlet outlet = Randomizer.TryGetRandomItem(outlets);
-
-            if (outlet == null)
-            {
-                return new Result<Outlet>
-                {
-                    Successful = false,
-                    Messages = new Messages(new Message(nameof(DocumentReference), ResourceFormatter.NoSoundFoundInLibrary))
-                };
-            }
-            // ReSharper disable once RedundantIfElseBlock
-            else
-            {
-                return new Result<Outlet>
-                {
-                    Successful = true,
-                    Data = outlet
-                };
-            }
-        }
-
         /// <summary>
         /// Use the Patch property after calling this method.
         /// Do a rollback after calling this method to prevent saving the new patch.
@@ -411,6 +198,261 @@ namespace JJ.Business.Synthesizer
             destPatchOutletWrapper.Dimension = intermediateUnmatchedOutlet.Dimension;
 
             return destPatchOutletWrapper;
+        }
+        /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
+        public Outlet TryAutoPatchWithTone(Tone tone, IList<Patch> sourceUnderlyingPatches)
+        {
+            if (tone == null) throw new NullException(() => tone);
+            if (sourceUnderlyingPatches == null) throw new NullException(() => sourceUnderlyingPatches);
+
+            // Create a new patch out of the other patches.
+            AutoPatch(sourceUnderlyingPatches);
+
+            double frequency = tone.GetFrequency();
+            Number_OperatorWrapper frequencyNumberOperatorWrapper = Number(frequency);
+
+            IList<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                                .Where(x => x.DimensionEnum == DimensionEnum.Frequency)
+                                                .Select(x => x.Inlet)
+                                                .ToArray();
+            if (frequencyInlets.Count == 0)
+            {
+                return null;
+            }
+
+            foreach (Inlet frequencyInlet in frequencyInlets)
+            {
+                frequencyInlet.LinkTo(frequencyNumberOperatorWrapper.Result);
+            }
+
+            IList<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                               .Where(x => x.DimensionEnum == DimensionEnum.Signal)
+                                               .Select(x => x.Result)
+                                               .ToArray();
+            switch (signalOutlets.Count)
+            {
+                case 0:
+                    return null;
+
+                case 1:
+                    return signalOutlets[0];
+
+                default:
+                    var add = Add(signalOutlets);
+                    return add;
+            }
+        }
+
+        /// <summary>
+        /// Will replace PatchManager.Patch with a new patch.
+        /// 
+        /// Creatively tries to make the best of getting sound out of the source Patch.
+        /// Tries to find outlets to combine into sound.
+        /// If selectedOperatorID is provided, only outlets of the selected Operator are considered.
+        /// If selectedOperatorID is not provided, all outlets of the patch are considered.
+        /// Outlets of type signal are preferred,
+        /// but if none are found, all outlets are considered.
+        /// 
+        /// If no suitable outlets were found, a result with Successful = false is returned.
+        /// If outlets to combine were found, PatchManager's Patch property will reference the a patch.
+        /// Also the outlet that returns the sound is returned through the result.
+        /// </summary>
+        public Result<Outlet> AutoPatch_TryCombineSignals(Patch sourcePatch, int? selectedOperatorID = null)
+        {
+            CreatePatch();
+            Patch.Name = "Auto-Generated Patch";
+
+            IList<Outlet> signalOutlets;
+
+            if (selectedOperatorID.HasValue)
+            {
+                signalOutlets = GetSignalOutletsFromOperator(selectedOperatorID.Value);
+                if (signalOutlets.Count == 0)
+                {
+                    var result = new Result<Outlet> { Successful = false };
+                    result.Messages.Add(nameof(signalOutlets), ResourceFormatter.SelectedOperatorHasNoOutlets);
+                    return result;
+                }
+            }
+            // ReSharper disable once RedundantIfElseBlock
+            else
+            {
+                signalOutlets = GetSignalOutletsFromPatch(sourcePatch);
+                if (signalOutlets.Count == 0)
+                {
+                    var result = new Result<Outlet> { Successful = false };
+                    result.Messages.Add(nameof(signalOutlets), ResourceFormatter.PatchHasNoOutlets);
+                    return result;
+                }
+            }
+
+            switch (signalOutlets.Count)
+            {
+                // case 0 already handled above.
+
+                case 1:
+                {
+                    Outlet patchOutlet = PatchOutlet(signalOutlets[0]);
+
+                    var result = new Result<Outlet>
+                    {
+                        Successful = true,
+                        Data = patchOutlet
+                    };
+
+                    return result;
+                }
+
+                default:
+                {
+                    Outlet add = Add(signalOutlets);
+
+                    var result = new Result<Outlet>
+                    {
+                        Successful = true,
+                        Data = add
+                    };
+
+                    return result;
+                }
+            }
+        }
+
+        /// <summary> In case no signal outlets are present, all outlets are returned. </summary>
+        private IList<Outlet> GetSignalOutletsFromOperator(int selectedOperatorID)
+        {
+            Operator selectedOperator = _repositories.OperatorRepository.Get(selectedOperatorID);
+
+            switch (selectedOperator.Outlets.Count)
+            {
+                case 0:
+                    // Selected Operator has no Outlets
+                    return new Outlet[0];
+
+                case 1:
+                    // Selected Operator has single Outlet
+                    // ReSharper disable once RedundantExplicitArrayCreation
+                    return new Outlet[] { selectedOperator.Outlets[0] };
+
+                default:
+                    IList<Outlet> signalOutlets = selectedOperator.Outlets
+                                                                  .Where(x => x.GetDimensionEnum() == DimensionEnum.Signal)
+                                                                  .ToArray();
+
+                    // ReSharper disable once ConvertIfStatementToReturnStatement
+                    if (signalOutlets.Count != 0)
+                    {
+                        // Selected Operator has signal outlets.
+                        return signalOutlets;
+                    }
+                    else
+                    {
+                        // Selected Operator has no signal outlets.
+                        return selectedOperator.Outlets;
+                    }
+            }
+        }
+
+        /// <summary> In case no signal outlets are presents, all patch outlets are returned. </summary>
+        private IList<Outlet> GetSignalOutletsFromPatch(Patch sourcePatch)
+        {
+            IList<Outlet> signalPatchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                                          .Where(x => x.DimensionEnum == DimensionEnum.Signal)
+                                                          .Select(x => x.Result)
+                                                          .ToArray();
+            if (signalPatchOutlets.Count != 0)
+            {
+                // Patch has Signal PatchOutlets.
+                return signalPatchOutlets;
+            }
+
+            // Patch has no Signal PatchOutlets:
+            // Return all PatchOutlets.
+            IList<Outlet> patchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                                    .Select(x => x.Result)
+                                                    .ToArray();
+
+            return patchOutlets;
+        }
+
+        /// <summary> Can be used to for instance quickly generate an example sound from a document used as library. </summary>
+        /// <param name="hidden">
+        /// If false, only externally visible elements from the document are used.
+        /// If null, both hidden and visible elements from the document are used.
+        /// If true, only hidden elements from the document are used.
+        /// </param>
+        public Result<Outlet> TryAutoPatchFromDocumentRandomly(Document document, bool? hidden)
+        {
+            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(document.Patches, hidden);
+
+            // TODO: Select the first patch with a signal inlet and use autopatch those two together.
+
+            Outlet signalOutlet = Randomizer.TryGetRandomItem(signalOutlets);
+
+            if (signalOutlet == null)
+            {
+                return new Result<Outlet>
+                {
+                    Successful = false,
+                    Messages = new Messages { new Message(nameof(DocumentReference), ResourceFormatter.NoSoundFound) }
+                };
+            }
+            // ReSharper disable once RedundantIfElseBlock
+            else
+            {
+                return new Result<Outlet>
+                {
+                    Successful = true,
+                    Data = signalOutlet
+                };
+            }
+        }
+
+        /// <summary> Can be used to for instance quickly generate an example sound from a patch group. </summary>
+        /// <param name="hidden">
+        /// If false, only externally visible elements from the document are used.
+        /// If null, both hidden and visible elements from the document are used.
+        /// If true, only hidden elements from the document are used.
+        /// </param>
+        public Result<Outlet> TryAutoPatchFromPatchGroupRandomly(Document document, string groupName, bool? hidden)
+        {
+            IList<Patch> patchesInGroup = GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, groupName, hidden);
+            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(patchesInGroup, hidden);
+
+            Outlet signalOutlet = Randomizer.TryGetRandomItem(signalOutlets);
+
+            if (signalOutlet == null)
+            {
+                return new Result<Outlet>
+                {
+                    Successful = false,
+                    Messages = new Messages { new Message(nameof(Document), ResourceFormatter.NoSoundFound) }
+                };
+            }
+            // ReSharper disable once RedundantIfElseBlock
+            else
+            {
+                return new Result<Outlet>
+                {
+                    Successful = true,
+                    Data = signalOutlet
+                };
+            }
+        }
+
+        private IList<Outlet> GetSignalOutletsFromPatchesWithoutSignalInlets(IList<Patch> patches, bool? hidden)
+        {
+            IList<Outlet> patches2 = patches.Where(x => !hidden.HasValue || x.Hidden == hidden.Value)
+                                            .Where(
+                                                x => !x.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                                       .Where(y => y.DimensionEnum == DimensionEnum.Signal)
+                                                       .Any())
+                                            .OrderBy(x => x.Name)
+                                            .SelectMany(x => x.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>())
+                                            .Where(x => x.DimensionEnum == DimensionEnum.Signal)
+                                            .Select(x => x.Result)
+                                            .ToArray();
+            return patches2;
         }
     }
 }

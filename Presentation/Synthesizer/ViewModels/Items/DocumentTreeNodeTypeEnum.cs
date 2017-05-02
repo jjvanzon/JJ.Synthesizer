@@ -12,6 +12,6 @@
         Samples,
         Scales,
         Patch,
-        Patches
+        PatchGroup
     }
 }

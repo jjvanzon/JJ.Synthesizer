@@ -357,6 +357,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static bool GetCanPlay(DocumentTreeNodeTypeEnum selectedNodeType)
+        {
+            switch (selectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.AudioOutput:
+                case DocumentTreeNodeTypeEnum.Library:
+                case DocumentTreeNodeTypeEnum.Patch:
+                case DocumentTreeNodeTypeEnum.LibraryPatch:
+                case DocumentTreeNodeTypeEnum.PatchGroup:
+                    return true;
+
+                case DocumentTreeNodeTypeEnum.AudioFileOutputList:
+                case DocumentTreeNodeTypeEnum.Curves:
+                case DocumentTreeNodeTypeEnum.Libraries:
+                case DocumentTreeNodeTypeEnum.Samples:
+                case DocumentTreeNodeTypeEnum.Scales:
+                default:
+                    return false;
+            }
+        }
+
+
         // Menu
 
         public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)

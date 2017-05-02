@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string NotEqual => Resources.NotEqual;
         public static string NoteStart => Resources.NoteStart;
         public static string NotLoaded => Resources.NotLoaded;
-        public static string NoSoundFoundInLibrary => Resources.NoSoundFoundInLibrary;
+        public static string NoSoundFound => Resources.NoSoundFoundInLibrary;
         public static string Number => Resources.Number;
         public static string Octave => Resources.Octave;
         public static string Off => Resources.Off;

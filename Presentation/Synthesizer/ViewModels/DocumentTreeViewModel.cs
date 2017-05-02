@@ -18,5 +18,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int? SelectedItemID { get; set; }
         public string SelectedPatchGroup { get; set; }
         public int? OutletIDToPlay { get; set; }
+        public bool CanPlay { get; set; }
     }
 }
