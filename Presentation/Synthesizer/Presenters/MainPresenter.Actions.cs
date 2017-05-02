@@ -24,6 +24,8 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
+using JJ.Framework.Mathematics;
+
 // ReSharper disable InvertIf
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -1125,10 +1127,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         break;
                     }
 
+                    case DocumentTreeNodeTypeEnum.Samples:
+                    {
+                        // Business
+                        Sample sample = Randomizer.TryGetRandomItem(document.Samples);
+                        if (sample != null)
+                        {
+                            var x = new PatchManager(_patchRepositories);
+                            x.CreatePatch();
+                            Outlet outlet2 = x.Sample(sample);
+                            VoidResultDto result2 = x.SavePatch();
+
+                            result = new Result<Outlet>
+                            {
+                                Successful = result2.Successful,
+                                Messages = result2.Messages.ToBusiness(),
+                                Data = outlet2
+                            };
+                        }
+                        else
+                        {
+                            result = new Result<Outlet>
+                            {
+                                Successful = false,
+                                Messages = new Messages { new Message(nameof(Sample), ResourceFormatter.NoSoundFound) }
+                            };
+                        }
+
+                        break;
+                    }
+
                     case DocumentTreeNodeTypeEnum.AudioFileOutputList:
                     case DocumentTreeNodeTypeEnum.Curves:
                     case DocumentTreeNodeTypeEnum.Libraries:
-                    case DocumentTreeNodeTypeEnum.Samples:
                     case DocumentTreeNodeTypeEnum.Scales:
                     default:
                     {
