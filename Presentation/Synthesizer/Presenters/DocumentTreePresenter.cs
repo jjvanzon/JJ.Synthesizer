@@ -29,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput,
                 viewModel =>
                 {
-                    viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioFileOutputList;
                     viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
@@ -41,7 +40,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput,
                 viewModel =>
                 {
-                    viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioOutput;
                     viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
@@ -53,7 +51,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput,
                 viewModel =>
                 {
-                    viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Curves;
                     viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
@@ -65,7 +62,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput,
                 viewModel =>
                 {
-                    viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Libraries;
                     viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
@@ -95,13 +91,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 });
         }
 
+        public DocumentTreeViewModel SelectLibraryPatchGroup(DocumentTreeViewModel userInput, int lowerDocumentReferenceID, string patchGroup)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    viewModel.SelectedPatchGroupLowerDocumentReferenceID = lowerDocumentReferenceID;
+                    viewModel.SelectedPatchGroup = patchGroup;
+                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatchGroup;
+                    viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
+                });
+        }
+
         public DocumentTreeViewModel SelectSamples(DocumentTreeViewModel userInput)
         {
             return TemplateMethod(
                 userInput,
                 viewModel =>
                 {
-                    viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Samples;
                     viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
@@ -113,7 +121,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput,
                 viewModel =>
                 {
-                    viewModel.SelectedItemID = null;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scales;
                     viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
                 });
@@ -137,7 +144,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput,
                 viewModel =>
                 {
-                    viewModel.SelectedItemID = null;
                     viewModel.SelectedPatchGroup = group;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.PatchGroup;
                     viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
@@ -193,6 +199,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             destViewModel.SelectedItemID = sourceViewModel.SelectedItemID;
             destViewModel.OutletIDToPlay = sourceViewModel.OutletIDToPlay;
             destViewModel.SelectedPatchGroup = sourceViewModel.SelectedPatchGroup;
+            destViewModel.SelectedPatchGroupLowerDocumentReferenceID = sourceViewModel.SelectedPatchGroupLowerDocumentReferenceID;
             destViewModel.CanPlay = sourceViewModel.CanPlay;
         }
     }

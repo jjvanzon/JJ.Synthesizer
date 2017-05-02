@@ -1058,8 +1058,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case DocumentTreeNodeTypeEnum.AudioOutput:
                     {
                         // GetEntities
-                        IList<Patch> entities = MainViewModel.Document.CurrentInstrument.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
-
+                        IList<Patch> entities = MainViewModel.Document.CurrentInstrument.List
+                                                             .Select(x => _repositories.PatchRepository.Get(x.ID))
+                                                             .ToArray();
                         // Business
                         var patchManager = new PatchManager(_patchRepositories);
                         patchManager.AutoPatch(entities);
@@ -1094,6 +1095,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         // Business
                         var patchManager = new PatchManager(patch, _patchRepositories);
                         result = patchManager.AutoPatch_TryCombineSignals(patch);
+
+                        break;
+                    }
+
+                    case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
+                    {
+                        if (!userInput.SelectedPatchGroupLowerDocumentReferenceID.HasValue) throw new NullException(() => userInput.SelectedPatchGroupLowerDocumentReferenceID);
+
+                        // GetEntities
+                        DocumentReference lowerDocumentReference = _repositories.DocumentReferenceRepository.Get(userInput.SelectedPatchGroupLowerDocumentReferenceID.Value);
+
+                        // Business
+                        var patchManager = new PatchManager(_patchRepositories);
+                        result = patchManager.TryAutoPatchFromPatchGroupRandomly(
+                            lowerDocumentReference.LowerDocument,
+                            userInput.SelectedPatchGroup,
+                            hidden: false);
 
                         break;
                     }
@@ -1136,6 +1154,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel.SelectedItemID = userInput.SelectedItemID;
                 viewModel.SelectedNodeType = userInput.SelectedNodeType;
                 viewModel.SelectedPatchGroup = userInput.SelectedPatchGroup;
+                viewModel.SelectedPatchGroupLowerDocumentReferenceID = userInput.SelectedPatchGroupLowerDocumentReferenceID;
                 viewModel.CanPlay = userInput.CanPlay;
 
                 return viewModel;
@@ -1195,6 +1214,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Template Method
             TemplateActionMethod(userInput, () => _documentTreePresenter.SelectLibraryPatch(userInput, id));
+        }
+
+        public void DocumentTreeSelectLibraryPatchGroup(int lowerDocumentReferenceID, string patchGroup)
+        {
+            // GetViewModel
+            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+            // Template Method
+            TemplateActionMethod(userInput, () => _documentTreePresenter.SelectLibraryPatchGroup(userInput, lowerDocumentReferenceID, patchGroup));
         }
 
         public void DocumentTreeSelectSamples()

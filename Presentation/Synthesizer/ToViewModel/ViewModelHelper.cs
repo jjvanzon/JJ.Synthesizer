@@ -363,8 +363,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 case DocumentTreeNodeTypeEnum.AudioOutput:
                 case DocumentTreeNodeTypeEnum.Library:
-                case DocumentTreeNodeTypeEnum.Patch:
                 case DocumentTreeNodeTypeEnum.LibraryPatch:
+                case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
+                case DocumentTreeNodeTypeEnum.Patch:
                 case DocumentTreeNodeTypeEnum.PatchGroup:
                     return true;
 

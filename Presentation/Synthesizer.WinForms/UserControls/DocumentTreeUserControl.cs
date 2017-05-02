@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class DocumentTreeUserControl : UserControlBase
     {
+        private static readonly string _separator = Guid.NewGuid().ToString();
+
         public event EventHandler CloseRequested;
         public event EventHandler SaveRequested;
         public event EventHandler PlayRequested;
@@ -21,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPatchPropertiesRequested;
+        public event EventHandler<LibraryPatchGroupEventArgs> ShowLibraryPatchGridRequested;
         public event EventHandler ShowCurvesRequested;
         public event EventHandler ShowSamplesRequested;
         public event EventHandler ShowAudioOutputRequested;
@@ -30,6 +35,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<string>> PatchGroupNodeSelected;
         public event EventHandler<EventArgs<int>> PatchNodeSelected;
         public event EventHandler<EventArgs<int>> LibraryNodeSelected;
+        public event EventHandler<LibraryPatchGroupEventArgs> LibraryPatchGroupNodeSelected;
         public event EventHandler<EventArgs<int>> LibraryPatchNodeSelected;
         public event EventHandler CurvesNodeSelected;
         public event EventHandler SamplesNodeSelected;
@@ -42,6 +48,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private HashSet<TreeNode> _patchTreeNodes;
         private HashSet<TreeNode> _libraryTreeNodes;
         private HashSet<TreeNode> _libraryPatchTreeNodes;
+        private HashSet<TreeNode> _libraryPatchGroupTreeNodes;
         private TreeNode _samplesTreeNode;
         private TreeNode _curvesTreeNode;
         private TreeNode _scalesTreeNode;
@@ -78,6 +85,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _patchTreeNodes = new HashSet<TreeNode>();
                 _libraryTreeNodes = new HashSet<TreeNode>();
                 _libraryPatchTreeNodes = new HashSet<TreeNode>();
+                _libraryPatchGroupTreeNodes = new HashSet<TreeNode>();
 
                 treeView.Nodes.Clear();
 
@@ -127,6 +135,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     treeView.SelectedNode = _libraryPatchTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).First();
                     break;
 
+                case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
+
+                    if (!ViewModel.SelectedPatchGroupLowerDocumentReferenceID.HasValue)
+                    {
+                        throw new NullException(() => ViewModel.SelectedPatchGroupLowerDocumentReferenceID);
+                    }
+
+                    string tag = FormatLibraryPatchGroupTag(ViewModel.SelectedPatchGroupLowerDocumentReferenceID.Value, ViewModel.SelectedPatchGroup);
+                    treeView.SelectedNode = _libraryPatchGroupTreeNodes.Where(x => string.Equals((string)x.Tag, tag)).First();
+                    break;
+
                 case DocumentTreeNodeTypeEnum.Samples:
                     treeView.SelectedNode = _samplesTreeNode;
                     break;
@@ -140,7 +159,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     break;
 
                 case DocumentTreeNodeTypeEnum.PatchGroup:
-                    treeView.SelectedNode = _patchGroupTreeNodes.Where(x => (string)x.Tag == ViewModel.SelectedPatchGroup).First();
+                    treeView.SelectedNode = _patchGroupTreeNodes.Where(x => string.Equals((string)x.Tag, ViewModel.SelectedPatchGroup)).First();
                     break;
             }
         }
@@ -169,7 +188,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                         Tag = patchGroupViewModel.GroupName
                     };
                     patchesTreeNode.Nodes.Add(patchGroupTreeNode);
-                    _patcheGroupsTreeNodes.Add(patchGroupTreeNode);
+                    _patchGroupTreeNodes.Add(patchGroupTreeNode);
 
                     foreach (PatchTreeNodeViewModel patchTreeNodeViewModel in patchGroupViewModel.PatchNodes)
                     {
@@ -215,7 +234,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _librariesTreeNode.Nodes.Add(libraryTreeNode);
                 _libraryTreeNodes.Add(libraryTreeNode);
 
-                // Patches (Groupless)
+                // Library Patches (Groupless)
                 foreach (PatchTreeNodeViewModel libraryPatchTreeViewModel in libraryViewModel.PatchNodes)
                 {
                     TreeNode libraryPatchTreeNode = ConvertPatchNode(libraryPatchTreeViewModel);
@@ -223,14 +242,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     _libraryPatchTreeNodes.Add(libraryPatchTreeNode);
                 }
 
-                // PatchGroups
+                // Library PatchGroups
                 foreach (PatchGroupTreeNodeViewModel libraryPatchGroupViewModel in libraryViewModel.PatchGroupNodes)
                 {
                     var libraryPatchGroupTreeNode = new TreeNode(libraryPatchGroupViewModel.Caption)
                     {
-                        Tag = libraryPatchGroupViewModel.GroupName
+                        Tag = FormatLibraryPatchGroupTag(libraryViewModel.LowerDocumentReferenceID, libraryPatchGroupViewModel.GroupName)
                     };
                     libraryTreeNode.Nodes.Add(libraryPatchGroupTreeNode);
+                    _libraryPatchGroupTreeNodes.Add(libraryPatchGroupTreeNode);
 
                     foreach (PatchTreeNodeViewModel libraryPatchTreeNodeViewModel in libraryPatchGroupViewModel.PatchNodes)
                     {
@@ -359,6 +379,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int id = (int)node.Tag;
                 LibraryPatchNodeSelected?.Invoke(this, new EventArgs<int>(id));
             }
+
+            // ReSharper disable once InvertIf
+            if (_libraryPatchGroupTreeNodes.Contains(node))
+            {
+                var e2 = ParseLibraryPatchGroupTag(node.Tag);
+                LibraryPatchGroupNodeSelected?.Invoke(this, e2);
+            }
         }
 
         // Helpers
@@ -419,6 +446,46 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int id = (int)node.Tag;
                 ShowLibraryPatchPropertiesRequested?.Invoke(this, new EventArgs<int>(id));
             }
+
+            // ReSharper disable once InvertIf
+            if (_libraryPatchGroupTreeNodes.Contains(node))
+            {
+                LibraryPatchGroupEventArgs e2 = ParseLibraryPatchGroupTag(node.Tag);
+                ShowLibraryPatchGridRequested?.Invoke(this, e2);
+            }
+        }
+
+        private string FormatLibraryPatchGroupTag(int lowerDocumentReferenceID, string patchGroupID)
+        {
+            return $"{lowerDocumentReferenceID}{_separator}{patchGroupID}";
+        }
+
+        private LibraryPatchGroupEventArgs ParseLibraryPatchGroupTag(object tag)
+        {
+            if (!(tag is string tagString))
+            {
+                throw new UnexpectedTypeException(() => tag);
+            }
+
+            if (string.IsNullOrEmpty(tagString))
+            {
+                throw new NullOrEmptyException(() => tagString);
+            }
+
+            IList<string> values = tagString.Split(_separator);
+            if (values.Count != 2)
+            {
+                throw new Exception($"{nameof(tagString)} does not contain a '{_separator}'.");
+            }
+
+            if (!int.TryParse(values[0], out int lowerDocumentReferenceID))
+            {
+                throw new Exception($"'{values[0]}' cannot be parsed to {nameof(Int32)} {nameof(lowerDocumentReferenceID)}.");
+            }
+
+            string patchGroup = values[1];
+
+            return new LibraryPatchGroupEventArgs(lowerDocumentReferenceID, patchGroup);
         }
     }
 }

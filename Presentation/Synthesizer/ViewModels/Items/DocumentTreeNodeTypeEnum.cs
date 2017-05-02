@@ -9,9 +9,10 @@
         Libraries,
         Library,
         LibraryPatch,
-        Samples,
-        Scales,
+        LibraryPatchGroup,
         Patch,
-        PatchGroup
+        PatchGroup,
+        Samples,
+        Scales
     }
 }
