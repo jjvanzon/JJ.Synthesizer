@@ -12,36 +12,33 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class PatchGridPresenter : GridPresenterBase<PatchGridViewModel>
+    internal class LibraryPatchGridPresenter : GridPresenterBase<LibraryPatchGridViewModel>
     {
-        private readonly PatchRepositories _repositories;
-        private readonly DocumentManager _documentManager;
+        private readonly RepositoryWrapper _repositories;
+        private readonly PatchRepositories _patchRepositories;
 
-        public PatchGridPresenter(RepositoryWrapper repositories)
+        public LibraryPatchGridPresenter(RepositoryWrapper repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _documentManager = new DocumentManager(repositories);
-            _repositories = new PatchRepositories(repositories);
+            _repositories = repositories ?? throw new NullException(() => repositories);
+            _patchRepositories = new PatchRepositories(repositories);
         }
 
-        protected override PatchGridViewModel CreateViewModel(PatchGridViewModel userInput)
+        protected override LibraryPatchGridViewModel CreateViewModel(LibraryPatchGridViewModel userInput)
         {
             // GetEntity
-            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
+            DocumentReference lowerDocumentReference = _repositories.DocumentReferenceRepository.Get(userInput.LowerDocumentReferenceID);
 
             // Business
-            var patchManager = new PatchManager(_repositories);
-            IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, userInput.Group, hidden: null);
-            IList<UsedInDto<Patch>> usedInDtos = _documentManager.GetUsedIn(patchesInGroup);
+            var patchManager = new PatchManager(_patchRepositories);
+            IList<Patch> patches = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(lowerDocumentReference.LowerDocument.Patches, userInput.Group, hidden: false);
 
             // ToViewModel
-            PatchGridViewModel viewModel = usedInDtos.ToGridViewModel(userInput.DocumentID, userInput.Group);
+            LibraryPatchGridViewModel viewModel = patches.ToLibraryPatchGridViewModel(userInput.LowerDocumentReferenceID, userInput.Group);
 
             return viewModel;
         }
 
-        public PatchGridViewModel Play(PatchGridViewModel userInput, int patchID)
+        public LibraryPatchGridViewModel Play(LibraryPatchGridViewModel userInput, int patchID)
         {
             return TemplateMethod(userInput, viewModel =>
             {
@@ -49,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = _repositories.PatchRepository.Get(patchID);
 
                 // Business
-                var patchManager = new PatchManager(patch, _repositories);
+                var patchManager = new PatchManager(patch, _patchRepositories);
                 Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch);
                 Outlet outlet = result.Data;
 

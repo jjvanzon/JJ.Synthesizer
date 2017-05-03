@@ -696,23 +696,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return converter.ConvertToDetailsViewModel(patch);
         }
 
-        public static PatchPropertiesViewModel ToPropertiesViewModel(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            var viewModel = new PatchPropertiesViewModel
-            {
-                ID = patch.ID,
-                Name = patch.Name,
-                Group = patch.GroupName,
-                Hidden = patch.Hidden,
-                ValidationMessages = new List<MessageDto>()
-            };
-
-            return viewModel;
-        }
-
-        public static PatchGridViewModel ToPatchGridViewModel(
+        public static PatchGridViewModel ToGridViewModel(
             this IList<UsedInDto<Patch>> patchUsedInDtosInGroup,
             int documentID,
             string group)
@@ -732,20 +716,77 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IList<LibraryPatchPropertiesViewModel> ToLibraryPatchPropertiesViewModelList([NotNull] this Document document)
+        public static PatchPropertiesViewModel ToPropertiesViewModel(this Patch patch)
         {
-            if (document == null) throw new NullException(() => document);
+            if (patch == null) throw new NullException(() => patch);
+
+            var viewModel = new PatchPropertiesViewModel
+            {
+                ID = patch.ID,
+                Name = patch.Name,
+                Group = patch.GroupName,
+                Hidden = patch.Hidden,
+                ValidationMessages = new List<MessageDto>()
+            };
+
+            return viewModel;
+        }
+
+        public static Dictionary<(int documentReferenceID, string canonicalGroupName), LibraryPatchGridViewModel> 
+            ToLibraryPatchGridViewModelDictionary([NotNull] this Document higherDocument, PatchRepositories patchRepositories)
+        {
+            if (higherDocument == null) throw new NullException(() => higherDocument);
+
+            var patchManager = new PatchManager(patchRepositories);
+
+            var viewModelDictionary = new Dictionary<(int documentReferenceID, string canonicalGroupName), LibraryPatchGridViewModel>();
+
+            IEnumerable<DocumentReference> lowerDocumentReferences = higherDocument.LowerDocumentReferences.Where(x => x.LowerDocument != null);
+            foreach (DocumentReference lowerDocumentReference in lowerDocumentReferences)
+            {
+                IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_IncludingGroupless(lowerDocumentReference.LowerDocument.Patches, hidden: false);
+                foreach (PatchGroupDto patchGroupDto in patchGroupDtos)
+                {
+                    string canonicalGroupName = NameHelper.ToCanonical(patchGroupDto.GroupName);
+                    LibraryPatchGridViewModel viewModel = patchGroupDto.Patches.ToLibraryPatchGridViewModel(lowerDocumentReference.ID, canonicalGroupName);
+                    viewModelDictionary[(lowerDocumentReference.ID, canonicalGroupName)] = viewModel;
+                }
+            }
+
+            return viewModelDictionary;
+        }
+
+        public static LibraryPatchGridViewModel ToLibraryPatchGridViewModel(this IList<Patch> patches, int lowerDocumentReferenceID, string group)
+        {
+            if (patches == null) throw new NullException(() => patches);
+
+            var viewModel = new LibraryPatchGridViewModel
+            {
+                LowerDocumentReferenceID = lowerDocumentReferenceID,
+                Group = group,
+                ValidationMessages = new List<MessageDto>(),
+                List = patches.OrderBy(x => x.Name)
+                              .Select(x => x.ToIDAndName())
+                              .ToList()
+            };
+
+            return viewModel;
+        }
+
+        public static IList<LibraryPatchPropertiesViewModel> ToLibraryPatchPropertiesViewModelList([NotNull] this Document higherDocument)
+        {
+            if (higherDocument == null) throw new NullException(() => higherDocument);
 
             var viewModels = new List<LibraryPatchPropertiesViewModel>();
 
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (DocumentReference lowerDocumentReference in document.LowerDocumentReferences)
+            foreach (DocumentReference lowerDocumentReference in higherDocument.LowerDocumentReferences)
             {
                 // ReSharper disable once InvertIf
                 if (lowerDocumentReference.LowerDocument != null)
                 {
                     // ReSharper disable once LoopCanBeConvertedToQuery
-                    foreach (Patch patch in lowerDocumentReference.LowerDocument.Patches)
+                    foreach (Patch patch in lowerDocumentReference.LowerDocument.Patches.Where(x => !x.Hidden))
                     {
                         LibraryPatchPropertiesViewModel viewModel = patch.ToLibraryPatchPropertiesViewModel(lowerDocumentReference);
                         viewModels.Add(viewModel);

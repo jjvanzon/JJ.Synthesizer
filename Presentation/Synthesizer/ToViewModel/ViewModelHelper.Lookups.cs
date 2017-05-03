@@ -21,10 +21,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static readonly IList<IDAndName> _audioFileFormatLookupViewModel = CreateAudioFileFormatLookupViewModel();
 
-        public static IList<IDAndName> GetAudioFileFormatLookupViewModel()
-        {
-            return _audioFileFormatLookupViewModel;
-        }
+        public static IList<IDAndName> GetAudioFileFormatLookupViewModel() => _audioFileFormatLookupViewModel;
 
         private static IList<IDAndName> CreateAudioFileFormatLookupViewModel()
         {
@@ -38,10 +35,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static readonly IList<IDAndName> _collectionRecalculationLookupViewModel = CreateCollectionRecalculationLookupViewModel();
 
-        public static IList<IDAndName> GetCollectionRecalculationLookupViewModel()
-        {
-            return _collectionRecalculationLookupViewModel;
-        }
+        public static IList<IDAndName> GetCollectionRecalculationLookupViewModel() => _collectionRecalculationLookupViewModel;
 
         private static IList<IDAndName> CreateCollectionRecalculationLookupViewModel()
         {
@@ -69,10 +63,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static readonly IList<IDAndName> _dimensionLookupViewModel = CreateDimensionLookupViewModel();
 
-        public static IList<IDAndName> GetDimensionLookupViewModel()
-        {
-            return _dimensionLookupViewModel;
-        }
+        public static IList<IDAndName> GetDimensionLookupViewModel() => _dimensionLookupViewModel;
 
         private static IList<IDAndName> CreateDimensionLookupViewModel()
         {
@@ -109,10 +100,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static readonly IList<IDAndName> _nodeTypeLookupViewModel = CreateNodeTypeLookupViewModel();
 
-        public static IList<IDAndName> GetNodeTypeLookupViewModel()
-        {
-            return _nodeTypeLookupViewModel;
-        }
+        public static IList<IDAndName> GetNodeTypeLookupViewModel() => _nodeTypeLookupViewModel;
 
         private static IList<IDAndName> CreateNodeTypeLookupViewModel()
         {
@@ -124,10 +112,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static readonly IList<IDAndName> _operatorTypesViewModel = CreateOperatorTypesViewModel();
 
-        public static IList<IDAndName> GetOperatorTypesViewModel()
-        {
-            return _operatorTypesViewModel;
-        }
+        public static IList<IDAndName> GetOperatorTypesViewModel() => _operatorTypesViewModel;
 
         private static IList<IDAndName> CreateOperatorTypesViewModel()
         {
@@ -142,10 +127,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static readonly IList<IDAndName> _resampleInterpolationLookupViewModel = CreateResampleInterpolationLookupViewModel();
 
-        public static IList<IDAndName> GetResampleInterpolationLookupViewModel()
-        {
-            return _resampleInterpolationLookupViewModel;
-        }
+        public static IList<IDAndName> GetResampleInterpolationLookupViewModel() => _resampleInterpolationLookupViewModel;
 
         private static IList<IDAndName> CreateResampleInterpolationLookupViewModel()
         {
@@ -157,10 +139,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static readonly IList<IDAndName> _sampleDataTypeLookupViewModel = CreateSampleDataTypeLookupViewModel();
 
-        public static IList<IDAndName> GetSampleDataTypeLookupViewModel()
-        {
-            return _sampleDataTypeLookupViewModel;
-        }
+        public static IList<IDAndName> GetSampleDataTypeLookupViewModel() => _sampleDataTypeLookupViewModel;
 
         private static IList<IDAndName> CreateSampleDataTypeLookupViewModel()
         {
@@ -189,10 +168,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static readonly IList<IDAndName> _scaleTypeLookupViewModel =  CreateScaleTypeLookupViewModel();
 
-        public static IList<IDAndName> GetScaleTypeLookupViewModel()
-        {
-            return _scaleTypeLookupViewModel;
-        }
+        public static IList<IDAndName> GetScaleTypeLookupViewModel() => _scaleTypeLookupViewModel;
 
         private static IList<IDAndName> CreateScaleTypeLookupViewModel()
         {
@@ -224,10 +200,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static readonly IList<IDAndName> _speakerSetupLookupViewModel = CreateSpeakerSetupLookupViewModel();
 
-        public static IList<IDAndName> GetSpeakerSetupLookupViewModel()
-        {
-            return _speakerSetupLookupViewModel;
-        }
+        public static IList<IDAndName> GetSpeakerSetupLookupViewModel() => _speakerSetupLookupViewModel;
 
         private static IList<IDAndName> CreateSpeakerSetupLookupViewModel()
         {
@@ -249,12 +222,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             list.AddRange(
-                patchManager.GetGrouplessPatches(document.Patches)
+                patchManager.GetGrouplessPatches(document.Patches, hidden: null)
                             .OrderBy(x => x.Name)
                             .Select(x => x.ToIDAndName()));
 
             list.AddRange(
-                from patchGroupDto in patchManager.GetPatchGroupDtos(document.Patches)
+                from patchGroupDto in patchManager.GetPatchGroupDtos(document.Patches, hidden: null)
                 orderby patchGroupDto.GroupName
                 from patch in patchGroupDto.Patches
                 let name = $"{patch.Name} | {patchGroupDto.GroupName}"
@@ -287,7 +260,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static IList<IDAndName> CreateEnumLookupViewModel<TEnum>(bool mustIncludeUndefined)
             where TEnum : struct
         {
-            TEnum[] enumValues = (TEnum[])Enum.GetValues(typeof(TEnum));
+            var enumValues = (TEnum[])Enum.GetValues(typeof(TEnum));
 
             var idAndNames = new List<IDAndName>(enumValues.Length);
 

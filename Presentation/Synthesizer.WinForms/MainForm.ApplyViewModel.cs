@@ -31,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentProperties;
             documentTreeUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentTree;
             libraryGridUserControl.ViewModel = _presenter.MainViewModel.Document.LibraryGrid;
+            libraryPatchGridUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleLibraryPatchGrid;
             libraryPatchPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleLibraryPatchProperties;
             libraryPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleLibraryProperties;
             _librarySelectionPopupForm.ViewModel = _presenter.MainViewModel.Document.LibrarySelectionPopup;
@@ -124,9 +125,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             if (_presenter.MainViewModel.PopupMessages.Count != 0)
             {
-                // TODO: I get an infinite loop either because of LoseFocus events going off,
-                // or otherwise ActionIsBusy boolean making PopupMessageOK not handled...
-                // I just cannot hack it right now.
                 IList<MessageDto> popupMessages = _presenter.MainViewModel.PopupMessages;
                 _presenter.MainViewModel.PopupMessages = new List<MessageDto>();
 

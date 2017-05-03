@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Extensions;
@@ -75,8 +74,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             // Business
             var patchManager = new PatchManager(repositories);
-            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches);
-            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos(document.Patches);
+            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, hidden: null);
+            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos(document.Patches, hidden: null);
 
             // ToViewModel
             viewModel.PatchesNode.PatchNodes = grouplessPatches.OrderBy(x => x.Name)

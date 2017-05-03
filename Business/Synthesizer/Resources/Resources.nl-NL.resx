@@ -1024,4 +1024,7 @@
   <data name="NoSoundFoundInLibrary" xml:space="preserve">
     <value>Geen geluid gevonden.</value>
   </data>
+  <data name="PatchesInLibrary" xml:space="preserve">
+    <value>Schakelingen in bibliotheek</value>
+  </data>
 </root>

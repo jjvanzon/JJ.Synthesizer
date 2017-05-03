@@ -35,6 +35,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(LibraryGridViewModel), DispatchLibraryGridViewModel },
+                { typeof(LibraryPatchGridViewModel), DispatchPatchLibraryGridViewModel },
                 { typeof(LibraryPatchPropertiesViewModel), DispatchLibraryPatchPropertiesViewModel },
                 { typeof(LibraryPropertiesViewModel), DispatchLibraryPropertiesViewModel },
                 { typeof(LibrarySelectionPopupViewModel), DispatchLibrarySelectionPopupViewModel },
@@ -94,7 +95,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.AudioFileOutputGrid = (AudioFileOutputGridViewModel)viewModel;
 
-            // ReSharper disable once InvertIf
             if (castedViewModel.Visible)
             {
                 HideAllGridAndDetailViewModels();
@@ -192,7 +192,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.CurveGrid = castedViewModel;
 
-            // ReSharper disable once InvertIf
             if (castedViewModel.Visible)
             {
                 HideAllGridAndDetailViewModels();
@@ -277,7 +276,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.DocumentGrid = castedViewModel;
 
-            // ReSharper disable once InvertIf
             if (castedViewModel.Visible)
             {
                 HideAllGridAndDetailViewModels();
@@ -334,11 +332,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.LibraryGrid = castedViewModel;
 
-            // ReSharper disable once InvertIf
             if (castedViewModel.Visible)
             {
                 HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
+            }
+
+            if (castedViewModel.OutletIDToPlay.HasValue)
+            {
+                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
+                castedViewModel.OutletIDToPlay = null;
+            }
+
+            DispatchViewModelBase(castedViewModel);
+        }
+
+        private void DispatchPatchLibraryGridViewModel(ViewModelBase viewModel)
+        {
+            var castedViewModel = (LibraryPatchGridViewModel)viewModel;
+
+            // ReSharper disable once SuggestVarOrType_Elsewhere
+            var dictionary = MainViewModel.Document.LibraryPatchGridDictionary;
+            string canonicalGroupName = NameHelper.ToCanonical(castedViewModel.Group);
+            var key = (castedViewModel.LowerDocumentReferenceID, canonicalGroupName);
+            dictionary[key] = castedViewModel;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllGridAndDetailViewModels();
+                castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleLibraryPatchGrid = castedViewModel;
             }
 
             if (castedViewModel.OutletIDToPlay.HasValue)
@@ -771,7 +794,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.SampleGrid = castedViewModel;
 
-            // ReSharper disable once InvertIf
             if (castedViewModel.Visible)
             {
                 HideAllGridAndDetailViewModels();
@@ -817,7 +839,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.ScaleGrid = (ScaleGridViewModel)viewModel;
 
-            // ReSharper disable once InvertIf
             if (castedViewModel.Visible)
             {
                 HideAllGridAndDetailViewModels();

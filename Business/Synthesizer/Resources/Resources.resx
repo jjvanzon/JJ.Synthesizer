@@ -1022,4 +1022,7 @@
   <data name="NoSoundFoundInLibrary" xml:space="preserve">
     <value>No sound found.</value>
   </data>
+  <data name="PatchesInLibrary" xml:space="preserve">
+    <value>Patches in Library</value>
+  </data>
 </root>

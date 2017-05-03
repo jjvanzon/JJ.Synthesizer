@@ -54,6 +54,7 @@
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             this.currentInstrumentUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentInstrumentUserControl();
+            this.libraryPatchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.LibraryPatchGridUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -105,6 +106,7 @@
             // 
             // splitContainerProperties.Panel1
             // 
+            this.splitContainerProperties.Panel1.Controls.Add(this.libraryPatchGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.libraryGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.curveDetailsUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.toneGridEditUserControl);
@@ -167,7 +169,9 @@
             this.curveDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.curveDetailsUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.curveDetailsUserControl.Name = "curveDetailsUserControl";
+            this.curveDetailsUserControl.PlayButtonVisible = false;
             this.curveDetailsUserControl.RemoveButtonVisible = true;
+            this.curveDetailsUserControl.SaveButtonVisible = false;
             this.curveDetailsUserControl.Size = new System.Drawing.Size(851, 814);
             this.curveDetailsUserControl.TabIndex = 1;
             this.curveDetailsUserControl.TitleBarText = "Curve Details";
@@ -269,7 +273,9 @@
             this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.patchDetailsUserControl.Name = "patchDetailsUserControl";
+            this.patchDetailsUserControl.PlayButtonVisible = true;
             this.patchDetailsUserControl.RemoveButtonVisible = false;
+            this.patchDetailsUserControl.SaveButtonVisible = false;
             this.patchDetailsUserControl.Size = new System.Drawing.Size(851, 814);
             this.patchDetailsUserControl.TabIndex = 1;
             this.patchDetailsUserControl.TitleBarText = "Patch Details";
@@ -298,7 +304,9 @@
             this.libraryPatchPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.libraryPatchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.libraryPatchPropertiesUserControl.Name = "libraryPatchPropertiesUserControl";
+            this.libraryPatchPropertiesUserControl.PlayButtonVisible = true;
             this.libraryPatchPropertiesUserControl.RemoveButtonVisible = false;
+            this.libraryPatchPropertiesUserControl.SaveButtonVisible = false;
             this.libraryPatchPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.libraryPatchPropertiesUserControl.TabIndex = 1;
             this.libraryPatchPropertiesUserControl.TitleBarText = "Patch Properties";
@@ -314,7 +322,9 @@
             this.libraryPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.libraryPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.libraryPropertiesUserControl.Name = "libraryPropertiesUserControl";
+            this.libraryPropertiesUserControl.PlayButtonVisible = true;
             this.libraryPropertiesUserControl.RemoveButtonVisible = false;
+            this.libraryPropertiesUserControl.SaveButtonVisible = false;
             this.libraryPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.libraryPropertiesUserControl.TabIndex = 1;
             this.libraryPropertiesUserControl.TitleBarText = "Library Properties";
@@ -331,7 +341,9 @@
             this.operatorPropertiesUserControl_ForNumber.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForNumber.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForNumber.Name = "operatorPropertiesUserControl_ForNumber";
+            this.operatorPropertiesUserControl_ForNumber.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForNumber.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_ForNumber.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForNumber.TabIndex = 1;
             this.operatorPropertiesUserControl_ForNumber.TitleBarText = "Operator Properties";
@@ -348,7 +360,9 @@
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Name = "operatorPropertiesUserControl_WithCollectionRecalculation";
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithCollectionRecalculation.TabIndex = 1;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleBarText = "Operator Properties";
@@ -365,7 +379,9 @@
             this.operatorPropertiesUserControl_WithInletCount.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithInletCount.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_WithInletCount.Name = "operatorPropertiesUserControl_WithInletCount";
+            this.operatorPropertiesUserControl_WithInletCount.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_WithInletCount.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_WithInletCount.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_WithInletCount.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithInletCount.TabIndex = 1;
             this.operatorPropertiesUserControl_WithInletCount.TitleBarText = "Operator Properties";
@@ -382,7 +398,9 @@
             this.operatorPropertiesUserControl_ForInletsToDimension.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForInletsToDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_ForInletsToDimension.Name = "operatorPropertiesUserControl_ForInletsToDimension";
+            this.operatorPropertiesUserControl_ForInletsToDimension.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForInletsToDimension.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_ForInletsToDimension.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForInletsToDimension.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForInletsToDimension.TabIndex = 1;
             this.operatorPropertiesUserControl_ForInletsToDimension.TitleBarText = "Operator Properties";
@@ -398,7 +416,9 @@
             this.audioOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.audioOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.audioOutputPropertiesUserControl.Name = "audioOutputPropertiesUserControl";
+            this.audioOutputPropertiesUserControl.PlayButtonVisible = true;
             this.audioOutputPropertiesUserControl.RemoveButtonVisible = false;
+            this.audioOutputPropertiesUserControl.SaveButtonVisible = false;
             this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.audioOutputPropertiesUserControl.TabIndex = 1;
             this.audioOutputPropertiesUserControl.TitleBarText = "Audio Output Properties";
@@ -415,7 +435,9 @@
             this.operatorPropertiesUserControl_ForCache.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCache.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_ForCache.Name = "operatorPropertiesUserControl_ForCache";
+            this.operatorPropertiesUserControl_ForCache.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForCache.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_ForCache.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForCache.TabIndex = 1;
             this.operatorPropertiesUserControl_ForCache.TitleBarText = "Operator Properties";
@@ -432,7 +454,9 @@
             this.operatorPropertiesUserControl_WithInterpolation.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithInterpolation.Margin = new System.Windows.Forms.Padding(4);
             this.operatorPropertiesUserControl_WithInterpolation.Name = "operatorPropertiesUserControl_WithInterpolation";
+            this.operatorPropertiesUserControl_WithInterpolation.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_WithInterpolation.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_WithInterpolation.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_WithInterpolation.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithInterpolation.TabIndex = 1;
             this.operatorPropertiesUserControl_WithInterpolation.TitleBarText = "Operator Properties";
@@ -449,7 +473,9 @@
             this.operatorPropertiesUserControl_WithOutletCount.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithOutletCount.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_WithOutletCount.Name = "operatorPropertiesUserControl_WithOutletCount";
+            this.operatorPropertiesUserControl_WithOutletCount.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_WithOutletCount.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_WithOutletCount.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_WithOutletCount.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_WithOutletCount.TabIndex = 1;
             this.operatorPropertiesUserControl_WithOutletCount.TitleBarText = "Operator Properties";
@@ -466,7 +492,9 @@
             this.nodePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.nodePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.nodePropertiesUserControl.Name = "nodePropertiesUserControl";
+            this.nodePropertiesUserControl.PlayButtonVisible = false;
             this.nodePropertiesUserControl.RemoveButtonVisible = false;
+            this.nodePropertiesUserControl.SaveButtonVisible = false;
             this.nodePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.nodePropertiesUserControl.TabIndex = 1;
             this.nodePropertiesUserControl.TitleBarText = "Node Properties";
@@ -483,7 +511,9 @@
             this.curvePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.curvePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.curvePropertiesUserControl.Name = "curvePropertiesUserControl";
+            this.curvePropertiesUserControl.PlayButtonVisible = false;
             this.curvePropertiesUserControl.RemoveButtonVisible = false;
+            this.curvePropertiesUserControl.SaveButtonVisible = false;
             this.curvePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.curvePropertiesUserControl.TabIndex = 1;
             this.curvePropertiesUserControl.TitleBarText = "Curve Properties";
@@ -500,7 +530,9 @@
             this.operatorPropertiesUserControl_ForCurve.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCurve.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForCurve.Name = "operatorPropertiesUserControl_ForCurve";
+            this.operatorPropertiesUserControl_ForCurve.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForCurve.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_ForCurve.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForCurve.TabIndex = 1;
             this.operatorPropertiesUserControl_ForCurve.TitleBarText = "Operator Properties";
@@ -517,7 +549,9 @@
             this.scalePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.scalePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.scalePropertiesUserControl.Name = "scalePropertiesUserControl";
+            this.scalePropertiesUserControl.PlayButtonVisible = false;
             this.scalePropertiesUserControl.RemoveButtonVisible = false;
+            this.scalePropertiesUserControl.SaveButtonVisible = false;
             this.scalePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.scalePropertiesUserControl.TabIndex = 1;
             this.scalePropertiesUserControl.TitleBarText = "Scale Properties";
@@ -534,7 +568,9 @@
             this.operatorPropertiesUserControl_ForPatchInlet.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForPatchInlet.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForPatchInlet.Name = "operatorPropertiesUserControl_ForPatchInlet";
+            this.operatorPropertiesUserControl_ForPatchInlet.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForPatchInlet.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_ForPatchInlet.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForPatchInlet.TabIndex = 1;
             this.operatorPropertiesUserControl_ForPatchInlet.TitleBarText = "Operator Properties";
@@ -551,7 +587,9 @@
             this.documentPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.documentPropertiesUserControl.Name = "documentPropertiesUserControl";
+            this.documentPropertiesUserControl.PlayButtonVisible = true;
             this.documentPropertiesUserControl.RemoveButtonVisible = false;
+            this.documentPropertiesUserControl.SaveButtonVisible = false;
             this.documentPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.documentPropertiesUserControl.TabIndex = 1;
             this.documentPropertiesUserControl.TitleBarText = "Document Properties";
@@ -568,7 +606,9 @@
             this.operatorPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl.Name = "operatorPropertiesUserControl";
+            this.operatorPropertiesUserControl.PlayButtonVisible = true;
             this.operatorPropertiesUserControl.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl.SaveButtonVisible = false;
             this.operatorPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl.TabIndex = 1;
             this.operatorPropertiesUserControl.TitleBarText = "Operator Properties";
@@ -585,7 +625,9 @@
             this.patchPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.patchPropertiesUserControl.Name = "patchPropertiesUserControl";
+            this.patchPropertiesUserControl.PlayButtonVisible = true;
             this.patchPropertiesUserControl.RemoveButtonVisible = false;
+            this.patchPropertiesUserControl.SaveButtonVisible = false;
             this.patchPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.patchPropertiesUserControl.TabIndex = 1;
             this.patchPropertiesUserControl.TitleBarText = "Patch Properties";
@@ -602,7 +644,9 @@
             this.samplePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.samplePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.samplePropertiesUserControl.Name = "samplePropertiesUserControl";
+            this.samplePropertiesUserControl.PlayButtonVisible = true;
             this.samplePropertiesUserControl.RemoveButtonVisible = false;
+            this.samplePropertiesUserControl.SaveButtonVisible = false;
             this.samplePropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.samplePropertiesUserControl.TabIndex = 1;
             this.samplePropertiesUserControl.TitleBarText = "Sample Properties";
@@ -619,7 +663,9 @@
             this.audioFileOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.audioFileOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.audioFileOutputPropertiesUserControl.Name = "audioFileOutputPropertiesUserControl";
+            this.audioFileOutputPropertiesUserControl.PlayButtonVisible = false;
             this.audioFileOutputPropertiesUserControl.RemoveButtonVisible = false;
+            this.audioFileOutputPropertiesUserControl.SaveButtonVisible = false;
             this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 814);
             this.audioFileOutputPropertiesUserControl.TabIndex = 1;
             this.audioFileOutputPropertiesUserControl.TitleBarText = "Title";
@@ -636,7 +682,9 @@
             this.operatorPropertiesUserControl_ForSample.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForSample.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForSample.Name = "operatorPropertiesUserControl_ForSample";
+            this.operatorPropertiesUserControl_ForSample.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForSample.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_ForSample.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForSample.TabIndex = 1;
             this.operatorPropertiesUserControl_ForSample.TitleBarText = "Operator Properties";
@@ -653,7 +701,9 @@
             this.operatorPropertiesUserControl_ForCustomOperator.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCustomOperator.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForCustomOperator.Name = "operatorPropertiesUserControl_ForCustomOperator";
+            this.operatorPropertiesUserControl_ForCustomOperator.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForCustomOperator.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_ForCustomOperator.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForCustomOperator.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForCustomOperator.TabIndex = 1;
             this.operatorPropertiesUserControl_ForCustomOperator.TitleBarText = "Operator Properties";
@@ -670,7 +720,9 @@
             this.operatorPropertiesUserControl_ForPatchOutlet.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForPatchOutlet.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForPatchOutlet.Name = "operatorPropertiesUserControl_ForPatchOutlet";
+            this.operatorPropertiesUserControl_ForPatchOutlet.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForPatchOutlet.RemoveButtonVisible = false;
+            this.operatorPropertiesUserControl_ForPatchOutlet.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(333, 814);
             this.operatorPropertiesUserControl_ForPatchOutlet.TabIndex = 1;
             this.operatorPropertiesUserControl_ForPatchOutlet.TitleBarText = "Operator Properties";
@@ -696,6 +748,17 @@
             this.currentInstrumentUserControl.Size = new System.Drawing.Size(1188, 30);
             this.currentInstrumentUserControl.TabIndex = 14;
             this.currentInstrumentUserControl.ViewModel = null;
+            // 
+            // libraryPatchGridUserControl
+            // 
+            this.libraryPatchGridUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.libraryPatchGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.libraryPatchGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.libraryPatchGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.libraryPatchGridUserControl.Name = "libraryPatchGridUserControl";
+            this.libraryPatchGridUserControl.Size = new System.Drawing.Size(851, 814);
+            this.libraryPatchGridUserControl.TabIndex = 15;
+            this.libraryPatchGridUserControl.ViewModel = null;
             // 
             // MainForm
             // 
@@ -763,5 +826,6 @@
         private UserControls.LibraryGridUserControl libraryGridUserControl;
         private UserControls.LibraryPropertiesUserControl libraryPropertiesUserControl;
         private UserControls.LibraryPatchPropertiesUserControl libraryPatchPropertiesUserControl;
+        private UserControls.LibraryPatchGridUserControl libraryPatchGridUserControl;
     }
 }

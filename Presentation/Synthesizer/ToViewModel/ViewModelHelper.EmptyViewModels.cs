@@ -4,7 +4,6 @@ using JJ.Framework.Presentation;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -109,6 +108,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 LibraryGrid = CreateEmptyLibraryGridViewModel(),
                 LibraryPropertiesDictionary = new Dictionary<int, LibraryPropertiesViewModel>(),
                 LibrarySelectionPopup = CreateEmptyLibrarySelectionPopupViewModel(),
+                LibraryPatchGridDictionary = new Dictionary<(int, string), LibraryPatchGridViewModel>(),
                 LibraryPatchPropertiesDictionary = new Dictionary<int, LibraryPatchPropertiesViewModel>(),
                 NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),
                 OperatorPropertiesDictionary = new Dictionary<int, OperatorPropertiesViewModel>(),

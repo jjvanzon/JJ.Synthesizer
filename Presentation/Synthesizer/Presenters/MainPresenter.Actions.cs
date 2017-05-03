@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Canonical;
+﻿using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
+using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
+using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Mathematics;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToEntity;
@@ -19,12 +22,9 @@ using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Business;
-using JJ.Framework.Collections;
-using JJ.Framework.Mathematics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 // ReSharper disable InvertIf
 
@@ -837,12 +837,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(_patchRepositories);
-            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches);
-            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos(document.Patches);
+            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, hidden: null);
+            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos(document.Patches, hidden: null);
             IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
             IList<UsedInDto<Sample>> sampleUsedInDtos = _documentManager.GetUsedIn(document.Samples);
 
-            // TODO: Ugly code.
             IList<UsedInDto<Patch>> grouplessPatchUsedInDtos = _documentManager.GetUsedIn(grouplessPatches);
             IList<PatchGroupDto_WithUsedIn> patchGroupDtos_WithUsedIn = patchGroupDtos.Select(
                                                                                           x => new PatchGroupDto_WithUsedIn
@@ -2505,6 +2504,43 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         // Patch
+
+        public void LibraryPatchGridClose(int lowerDocumentReferenceID, string group)
+        {
+            // GetViewModel
+            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
+
+            // Template Method
+            LibraryPatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchGridPresenter.Close(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleLibraryPatchGrid = null;
+            }
+        }
+
+        public void LibraryPatchGridPlay(int lowerDocumentReferenceID, string group, int patchID)
+        {
+            // GetViewModel
+            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _libraryPatchGridPresenter.Play(userInput, patchID));
+        }
+
+        public void LibraryPatchGridShow(int lowerDocumentReferenceID, string group)
+        {
+            // GetViewModel
+            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
+
+            // Template Method
+            LibraryPatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchGridPresenter.Show(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleLibraryPatchGrid = viewModel;
+            }
+        }
 
         public void LibraryPatchPropertiesShow(int patchID)
         {

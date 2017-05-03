@@ -1,6 +1,5 @@
 ﻿using JJ.Data.Canonical;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
@@ -28,6 +27,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public DocumentPropertiesViewModel DocumentProperties { get; set; }
         public LibraryGridViewModel LibraryGrid { get; set; }
         public LibrarySelectionPopupViewModel LibrarySelectionPopup { get; set; }
+        public LibraryPatchGridViewModel VisibleLibraryPatchGrid { get; set; }
+        public Dictionary<(int lowerDocumentReferenceID, string canonicalGroupName), LibraryPatchGridViewModel> LibraryPatchGridDictionary { get; set; }
         public Dictionary<int, LibraryPropertiesViewModel> LibraryPropertiesDictionary { get; set; }
         public LibraryPropertiesViewModel VisibleLibraryProperties { get; set; }
         public DocumentTreeViewModel DocumentTree { get; set; }
@@ -64,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public PatchDetailsViewModel VisiblePatchDetails { get; set; }
         public Dictionary<int, PatchDetailsViewModel> PatchDetailsDictionary { get; set; }
         public PatchGridViewModel VisiblePatchGrid { get; set; }
-        /// <summary> Key is GroupName lower case. Groupless patches have key "". </summary>
+        /// <summary> Key is GroupName converted to canonical form (lower case, no excessive white space etc. Groupless patches have key "". </summary>
         public Dictionary<string, PatchGridViewModel> PatchGridDictionary { get; set; }
         public PatchPropertiesViewModel VisiblePatchProperties { get; set; }
         public Dictionary<int, PatchPropertiesViewModel> PatchPropertiesDictionary { get; set; }

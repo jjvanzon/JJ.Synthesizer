@@ -48,9 +48,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly DocumentPropertiesPresenter _documentPropertiesPresenter;
         private readonly DocumentTreePresenter _documentTreePresenter;
         private readonly LibraryGridPresenter _libraryGridPresenter;
-        private readonly LibrarySelectionPopupPresenter _librarySelectionPopupPresenter;
+        private readonly LibraryPatchGridPresenter _libraryPatchGridPresenter;
         private readonly LibraryPatchPropertiesPresenter _libraryPatchPropertiesPresenter;
         private readonly LibraryPropertiesPresenter _libraryPropertiesPresenter;
+        private readonly LibrarySelectionPopupPresenter _librarySelectionPopupPresenter;
         private readonly MenuPresenter _menuPresenter;
         private readonly NodePropertiesPresenter _nodePropertiesPresenter;
         private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
@@ -124,9 +125,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
             _documentTreePresenter = new DocumentTreePresenter(_patchRepositories);
             _libraryGridPresenter = new LibraryGridPresenter(_repositories);
+            _libraryPatchGridPresenter = new LibraryPatchGridPresenter(_repositories);
             _libraryPatchPropertiesPresenter = new LibraryPatchPropertiesPresenter(_repositories.PatchRepository, _repositories.DocumentReferenceRepository);
             _libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
             _librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
+
             _menuPresenter = new MenuPresenter();
             _nodePropertiesPresenter = new NodePropertiesPresenter(_curveRepositories);
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);
@@ -170,6 +173,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.VisibleCurveDetails = null;
             MainViewModel.Document.CurveDetailsDictionary.Values.ForEach(x => x.Visible = false);
+            MainViewModel.Document.VisibleLibraryPatchGrid = null;
+            MainViewModel.Document.LibraryPatchGridDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisiblePatchGrid = null;
             MainViewModel.Document.PatchGridDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisiblePatchDetails = null;

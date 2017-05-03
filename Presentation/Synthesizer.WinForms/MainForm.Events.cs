@@ -66,6 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
             documentTreeUserControl.ShowLibrariesRequested += documentTreeUserControl_ShowLibrariesRequested;
+            documentTreeUserControl.ShowLibraryPatchGridRequested += documentTreeUserControl_ShowLibraryPatchGridRequested;
             documentTreeUserControl.ShowLibraryPatchPropertiesRequested += documentTreeUserControl_ShowLibraryPatchPropertiesRequested;
             documentTreeUserControl.ShowLibraryPropertiesRequested += documentTreeUserControl_ShowLibraryPropertiesRequested;
             documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
@@ -77,6 +78,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryGridUserControl.PlayRequested += libraryGridUserControl_PlayRequested;
             libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
             libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
+            libraryPatchGridUserControl.CloseRequested += libraryPatchGridUserControl_CloseRequested;
+            libraryPatchGridUserControl.PlayRequested += libraryPatchGridUserControl_PlayRequested;
+            libraryPatchGridUserControl.ShowItemRequested += libraryPatchGridUserControl_ShowItemRequested;
             libraryPatchPropertiesUserControl.AddToInstrumentRequested += libraryPatchPropertiesUserControl_AddToInstrument;
             libraryPatchPropertiesUserControl.CloseRequested += libraryPatchPropertiesUserControl_CloseRequested;
             libraryPatchPropertiesUserControl.PlayRequested += libraryPatchPropertiesUserControl_PlayRequested;
@@ -427,6 +431,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentTreeUserControl_ShowLibrariesRequested(object sender, EventArgs e) => TemplateEventHandler(_presenter.LibraryGridShow);
 
+        private void documentTreeUserControl_ShowLibraryPatchGridRequested(object sender, LibraryPatchGroupEventArgs e)
+        {
+            TemplateEventHandler(() => _presenter.LibraryPatchGridShow(e.LowerDocumentReferenceID, e.PatchGroup));
+        }
+
         private void documentTreeUserControl_ShowLibraryPatchPropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateEventHandler(() => _presenter.LibraryPatchPropertiesShow(e.Value));
@@ -536,6 +545,29 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void libraryGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.LibraryRemove(e.Value));
 
         private void libraryGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.LibraryPropertiesShow(e.Value));
+
+        private void libraryPatchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(() => _presenter.LibraryPatchPropertiesShow(e.Value));
+        }
+
+        private void libraryPatchGridUserControl_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.LibraryPatchPropertiesPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
+        }
+
+        private void libraryPatchGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            TemplateEventHandler(
+                () => _presenter.LibraryPatchGridClose(
+                    libraryPatchGridUserControl.ViewModel.LowerDocumentReferenceID,
+                    libraryPatchGridUserControl.ViewModel.Group));
+        }
 
         private void libraryPatchPropertiesUserControl_AddToInstrument(object sender, EventArgs<int> e)
         {

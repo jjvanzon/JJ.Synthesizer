@@ -334,7 +334,7 @@ namespace JJ.Business.Synthesizer
 
         // Grouping
 
-        public IList<PatchGroupDto> GetPatchGroupDtos_IncludingGroupless(IList<Patch> patchesInDocument, bool? hidden = null)
+        public IList<PatchGroupDto> GetPatchGroupDtos_IncludingGroupless(IList<Patch> patchesInDocument, bool? hidden)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
@@ -348,7 +348,7 @@ namespace JJ.Business.Synthesizer
             return dtos;
         }
 
-        public IList<PatchGroupDto> GetPatchGroupDtos(IList<Patch> patchesInDocument, bool? hidden = null)
+        public IList<PatchGroupDto> GetPatchGroupDtos(IList<Patch> patchesInDocument, bool? hidden)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
@@ -371,7 +371,7 @@ namespace JJ.Business.Synthesizer
             return dtos;
         }
 
-        public IList<string> GetPatchGroupNames(IList<Patch> patchesInDocument, bool? hidden = null)
+        public IList<string> GetPatchGroupNames(IList<Patch> patchesInDocument, bool? hidden)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
@@ -383,7 +383,7 @@ namespace JJ.Business.Synthesizer
             return groupNames;
         }
 
-        public IList<Patch> GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(IList<Patch> patchesInDocument, string groupName, bool? hidden = null)
+        public IList<Patch> GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(IList<Patch> patchesInDocument, string groupName, bool? hidden)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
@@ -397,7 +397,7 @@ namespace JJ.Business.Synthesizer
             }
         }
 
-        public IList<Patch> GetGrouplessPatches(IList<Patch> patchesInDocument, bool? hidden = null)
+        public IList<Patch> GetGrouplessPatches(IList<Patch> patchesInDocument, bool? hidden)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
@@ -408,7 +408,7 @@ namespace JJ.Business.Synthesizer
             return list;
         }
 
-        public IList<Patch> GetPatchesInGroup(IList<Patch> patchesInDocument, string groupName, bool? hidden = null)
+        public IList<Patch> GetPatchesInGroup(IList<Patch> patchesInDocument, string groupName, bool? hidden)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
             if (string.IsNullOrWhiteSpace(groupName)) throw new NullOrWhiteSpaceException(() => groupName);

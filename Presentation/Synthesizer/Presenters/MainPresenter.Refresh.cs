@@ -265,6 +265,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentPropertiesRefresh();
             DocumentTreeRefresh();
             LibraryGridRefresh();
+            LibraryPatchGridDictionaryRefresh();
             LibraryPatchPropertiesDictionaryRefresh();
             LibraryPropertiesDictionaryRefresh();
             LibrarySelectionPopupRefresh();
@@ -300,6 +301,79 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
             LibraryGridViewModel viewModel = _libraryGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
+        }
+
+        private void LibraryPatchGridDictionaryRefresh()
+        {
+            var patchManager = new PatchManager(_patchRepositories);
+
+            Document higherDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+
+            // ReSharper disable once SuggestVarOrType_Elsewhere
+            var viewModelDictionary = MainViewModel.Document.LibraryPatchGridDictionary;
+
+            var keysToKeep = new List<(int, string)>();
+
+            IEnumerable<DocumentReference> lowerDocumentReferences = higherDocument.LowerDocumentReferences.Where(x => x.LowerDocument != null);
+            foreach (DocumentReference lowerDocumentReference in lowerDocumentReferences)
+            {
+                IEnumerable<string> groups = patchManager.GetPatchGroupNames(lowerDocumentReference.LowerDocument.Patches, hidden: false);
+                foreach (string group in groups)
+                {
+                    var key = (lowerDocumentReference.ID, NameHelper.ToCanonical(group));
+                    keysToKeep.Add(key);
+
+                    LibraryPatchGridViewModel viewModel = ViewModelSelector.TryGetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReference.ID, group);
+                    if (viewModel == null)
+                    {
+                        // Business
+                        IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(higherDocument.Patches, group, hidden: false);
+
+                        viewModel = patchesInGroup.ToLibraryPatchGridViewModel(lowerDocumentReference.ID, group);
+                        viewModel.Successful = true;
+
+                        viewModelDictionary[key] = viewModel;
+                    }
+                    else
+                    {
+                        LibraryPatchGridRefresh(viewModel);
+                    }
+                }
+            }
+
+            // Delete operations
+            LibraryPatchGridViewModel visibleViewModel = MainViewModel.Document.VisibleLibraryPatchGrid;
+            (int, string)? visibleKey = null;
+            if (visibleViewModel != null)
+            {
+                string canonicalGroupName = NameHelper.ToCanonical(visibleViewModel.Group);
+                int lowerDocumentReferenceID = visibleViewModel.LowerDocumentReferenceID;
+                visibleKey = (lowerDocumentReferenceID, canonicalGroupName);
+            }
+
+            IEnumerable<(int, string)> existingKeys = viewModelDictionary.Keys;
+            IList<(int, string)> keysToDelete = existingKeys.Except(keysToKeep).ToArray();
+
+            foreach ((int, string) keyToDelete in keysToDelete)
+            {
+                viewModelDictionary.Remove(keyToDelete);
+
+                // ReSharper disable once InvertIf
+                if (visibleKey.HasValue)
+                {
+                    if (Equals(visibleKey.Value, keyToDelete))
+                    {
+                        MainViewModel.Document.VisiblePatchGrid = null;
+                    }
+                }
+            }
+        }
+
+        private void LibraryPatchGridRefresh(LibraryPatchGridViewModel userInput)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+            LibraryPatchGridViewModel viewModel = _libraryPatchGridPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 
@@ -1166,7 +1240,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
             var patchManager = new PatchManager(_patchRepositories);
-            IList<string> groups = patchManager.GetPatchGroupNames(document.Patches);
+            IList<string> groups = patchManager.GetPatchGroupNames(document.Patches, hidden: null);
 
             // Always add nameless group even when there are no child documents in it.
             groups.Add(null);
@@ -1176,10 +1250,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchGridViewModel viewModel = ViewModelSelector.TryGetPatchGridViewModel(MainViewModel.Document, group);
                 if (viewModel == null)
                 {
-                    IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, group);
+                    IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, group, hidden: null);
                     IList<UsedInDto<Patch>> usedInDtos = _documentManager.GetUsedIn(patchesInGroup);
 
-                    viewModel = usedInDtos.ToPatchGridViewModel(document.ID, group);
+                    viewModel = usedInDtos.ToGridViewModel(document.ID, group);
                     viewModel.Successful = true;
 
                     string canonicalGroup = NameHelper.ToCanonical(group);
@@ -1195,10 +1269,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Delete operations
             string canonicalVisiblePatchGridGroup = NameHelper.ToCanonical(MainViewModel.Document.VisiblePatchGrid?.Group);
 
-            IEnumerable<string> canonicalExistingGroups = viewModelDictionary.Keys.Select(x => NameHelper.ToCanonical(x));
-            IEnumerable<string> canonicalGroupsToDelete = groups.Select(x => NameHelper.ToCanonical(x)).Except(canonicalExistingGroups);
+            IEnumerable<string> keysToKeep = groups;
+            IEnumerable<string> existingKeys = viewModelDictionary.Keys.Select(x => NameHelper.ToCanonical(x));
+            IEnumerable<string> keysToDelete = keysToKeep.Select(x => NameHelper.ToCanonical(x)).Except(existingKeys);
 
-            foreach (string canonicalGroupToDelete in canonicalGroupsToDelete)
+            foreach (string canonicalGroupToDelete in keysToDelete)
             {
                 viewModelDictionary.Remove(canonicalGroupToDelete);
 

@@ -578,6 +578,33 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Patch
 
+
+        public static LibraryPatchGridViewModel GetLibraryPatchGridViewModel(DocumentViewModel documentViewModel, int lowerDocumentReferenceID, string group)
+        {
+            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+            LibraryPatchGridViewModel viewModel = TryGetLibraryPatchGridViewModel(documentViewModel, lowerDocumentReferenceID, group);
+
+            if (viewModel == null)
+            {
+                throw new NotFoundException<LibraryPatchGridViewModel>(new { lowerDocumentReferenceID, group });
+            }
+
+            return viewModel;
+        }
+
+        public static LibraryPatchGridViewModel TryGetLibraryPatchGridViewModel(DocumentViewModel documentViewModel, int lowerDocumentReferenceID, string group)
+        {
+            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+            string canonicalGroupName = NameHelper.ToCanonical(group);
+            var key = (lowerDocumentReferenceID, canonicalGroupName);
+
+            documentViewModel.LibraryPatchGridDictionary.TryGetValue(key, out LibraryPatchGridViewModel viewModel);
+
+            return viewModel;
+        }
+
         public static LibraryPatchPropertiesViewModel GetLibraryPatchPropertiesViewModel(DocumentViewModel documentViewModel, int patchID)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);

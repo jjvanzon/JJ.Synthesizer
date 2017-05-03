@@ -427,8 +427,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // ReSharper disable once UseObjectOrCollectionInitializer
             var list = new List<PatchGridViewModel>();
 
-            list.Add(grouplessPatchUsedInDtos.ToPatchGridViewModel(rootDocumentID, null));
-            list.AddRange(patchGroupDtos.Select(x => x.PatchUsedInDtos.ToPatchGridViewModel(rootDocumentID, x.GroupName)));
+            list.Add(grouplessPatchUsedInDtos.ToGridViewModel(rootDocumentID, null));
+            list.AddRange(patchGroupDtos.Select(x => x.PatchUsedInDtos.ToGridViewModel(rootDocumentID, x.GroupName)));
 
             return list.ToDictionary(x => NameHelper.ToCanonical(x.Group));
         }

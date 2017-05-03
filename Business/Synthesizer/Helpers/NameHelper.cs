@@ -1,4 +1,6 @@
-﻿namespace JJ.Business.Synthesizer.Helpers
+﻿using JJ.Framework.Common;
+
+namespace JJ.Business.Synthesizer.Helpers
 {
     public static class NameHelper
     {
@@ -9,11 +11,10 @@
         public static string ToCanonical(string name)
         {
             name = name ?? "";
-            name = name.Trim();
+            name = name.RemoveExcessiveWhiteSpace();
             name = name.ToLower();
 
             // TODO: Accent-insensitivity?
-            // TODO: Remove second spaces?
 
             return name;
         }

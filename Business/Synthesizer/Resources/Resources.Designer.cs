@@ -1789,6 +1789,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Patches in Library.
+        /// </summary>
+        internal static string PatchesInLibrary {
+            get {
+                return ResourceManager.GetString("PatchesInLibrary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Patch has no outlets..
         /// </summary>
         internal static string PatchHasNoOutlets {

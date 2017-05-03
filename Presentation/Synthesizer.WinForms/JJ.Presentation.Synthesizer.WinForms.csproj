@@ -251,6 +251,12 @@
     <Compile Include="UserControls\Partials\LibrarySelectionGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UserControls\LibraryPatchGridUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\LibraryPatchGridUserControl.Designer.cs">
+      <DependentUpon>LibraryPatchGridUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ToneGridEditUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -464,6 +470,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioOutputPropertiesUserControl.resx">
       <DependentUpon>AudioOutputPropertiesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\LibraryPatchGridUserControl.resx">
+      <DependentUpon>LibraryPatchGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ToneGridEditUserControl.resx">
       <DependentUpon>ToneGridEditUserControl.cs</DependentUpon>

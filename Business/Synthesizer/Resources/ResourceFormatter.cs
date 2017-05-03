@@ -139,9 +139,10 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Left => Resources.Left;
         public static string LessThan => Resources.LessThan;
         public static string LessThanOrEqual => Resources.LessThanOrEqual;
+        public static string Libraries => Resources.Libraries;
         public static string Library => Resources.Library;
         public static string LibraryAlreadyAdded_WithName(string name) => string.Format(Resources.LibraryAlreadyAdded_WithName, name);
-        public static string Libraries => Resources.Libraries;
+        public static string PatchesInLibrary => Resources.PatchesInLibrary;
         public static string Line => Resources.Line;
         public static string ListIndex => Resources.ListIndex;
         public static string ListIndexes => Resources.ListIndexes;
