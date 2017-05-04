@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -318,7 +319,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IEnumerable<DocumentReference> lowerDocumentReferences = higherDocument.LowerDocumentReferences.Where(x => x.LowerDocument != null);
             foreach (DocumentReference lowerDocumentReference in lowerDocumentReferences)
             {
-                IEnumerable<string> groups = patchManager.GetPatchGroupNames(lowerDocumentReference.LowerDocument.Patches, hidden: false);
+                HashSet<string> groups = patchManager.GetPatchGroupNames(lowerDocumentReference.LowerDocument.Patches, hidden: false).ToHashSet();
+
+                // Always include groupless, even when empty, 
+                // otherwise trying to open the empty grid of groupless patches crashes for lack of a key.
+                groups.Add(NameHelper.ToCanonical(""));
+
                 foreach (string group in groups)
                 {
                     var key = (lowerDocumentReference.ID, NameHelper.ToCanonical(group));
@@ -1242,8 +1248,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var patchManager = new PatchManager(_patchRepositories);
             IList<string> groups = patchManager.GetPatchGroupNames(document.Patches, hidden: null);
 
-            // Always add nameless group even when there are no child documents in it.
-            groups.Add(null);
+            // Always include groupless, even when empty, 
+            // otherwise trying to open the empty grid of groupless patches crashes for lack of a key.
+            groups.Add(NameHelper.ToCanonical(""));
 
             foreach (string group in groups)
             {

@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Helpers
     {
         /// <summary>
         /// Formats the name into a form, that is case-insensitive,
-        /// null / "" tollerant, whitespace tollerant, etc.
+        /// null / "" tolerant, whitespace tolerant, etc.
         /// </summary>
         public static string ToCanonical(string name)
         {

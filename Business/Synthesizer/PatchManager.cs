@@ -334,7 +334,7 @@ namespace JJ.Business.Synthesizer
 
         // Grouping
 
-        public IList<PatchGroupDto> GetPatchGroupDtos_IncludingGroupless(IList<Patch> patchesInDocument, bool? hidden)
+        public IList<PatchGroupDto> GetPatchGroupDtos_IncludingGrouplessIfAny(IList<Patch> patchesInDocument, bool? hidden)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 
@@ -343,12 +343,12 @@ namespace JJ.Business.Synthesizer
             IList<Patch> grouplessPatches = GetGrouplessPatches(patchesInDocument, hidden);
             dtos.Add(new PatchGroupDto { GroupName = null, Patches = grouplessPatches });
 
-            dtos.AddRange(GetPatchGroupDtos(patchesInDocument, hidden));
+            dtos.AddRange(GetPatchGroupDtos_ExcludingGroupless(patchesInDocument, hidden));
 
             return dtos;
         }
 
-        public IList<PatchGroupDto> GetPatchGroupDtos(IList<Patch> patchesInDocument, bool? hidden)
+        public IList<PatchGroupDto> GetPatchGroupDtos_ExcludingGroupless(IList<Patch> patchesInDocument, bool? hidden)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
 

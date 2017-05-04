@@ -443,7 +443,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentTreeUserControl_ShowLibraryPropertiesRequested(object sender, EventArgs<int> e)
         {
-            TemplateEventHandler(() => _presenter.LibraryPropertiesShow(e.Value));
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.LibraryPropertiesShow(e.Value);
+                    _presenter.LibraryPatchGridShow(e.Value, group: null);
+                });
         }
 
         private void documentTreeUserControl_ShowPatchGridRequested(object sender, EventArgs<string> e)
@@ -544,7 +549,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void libraryGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.LibraryRemove(e.Value));
 
-        private void libraryGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateEventHandler(() => _presenter.LibraryPropertiesShow(e.Value));
+        private void libraryGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
+        {
+            TemplateEventHandler(
+                () =>
+                {
+                    _presenter.LibraryPropertiesShow(e.Value);
+                    _presenter.LibraryPatchGridShow(e.Value, group: null);
+                });
+        }
 
         private void libraryPatchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {

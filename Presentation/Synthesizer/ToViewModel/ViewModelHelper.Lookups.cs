@@ -227,7 +227,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                             .Select(x => x.ToIDAndName()));
 
             list.AddRange(
-                from patchGroupDto in patchManager.GetPatchGroupDtos(document.Patches, hidden: null)
+                from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, hidden: null)
                 orderby patchGroupDto.GroupName
                 from patch in patchGroupDto.Patches
                 let name = $"{patch.Name} | {patchGroupDto.GroupName}"
@@ -245,7 +245,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     select new IDAndName { ID = patch.ID, Name = name });
 
                 list.AddRange(
-                    from patchGroupDto in patchManager.GetPatchGroupDtos(lowerDocumentReference.LowerDocument.Patches, hidden: false)
+                    from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(lowerDocumentReference.LowerDocument.Patches, hidden: false)
                     orderby patchGroupDto.GroupName
                     from patch in patchGroupDto.Patches
                     let name = $"{patch.Name} | {patchGroupDto.GroupName} | {lowerDocumentReferenceAliasOrName}"

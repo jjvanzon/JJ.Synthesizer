@@ -838,7 +838,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             var patchManager = new PatchManager(_patchRepositories);
             IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, hidden: null);
-            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos(document.Patches, hidden: null);
+            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, hidden: null);
             IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
             IList<UsedInDto<Sample>> sampleUsedInDtos = _documentManager.GetUsedIn(document.Samples);
 
