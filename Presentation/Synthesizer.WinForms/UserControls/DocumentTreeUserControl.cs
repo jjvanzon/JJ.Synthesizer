@@ -21,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler SaveRequested;
         public event EventHandler PlayRequested;
+        public event EventHandler RefreshRequested;
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
@@ -310,10 +311,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void titleBarUserControl_PlayClicked(object sender, EventArgs e)
-        {
-            PlayRequested?.Invoke(sender, EventArgs.Empty);
-        }
+        private void titleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested?.Invoke(sender, EventArgs.Empty);
+
+        private void titleBarUserControl_RefreshClicked(object sender, EventArgs e) => RefreshRequested?.Invoke(sender, EventArgs.Empty);
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {

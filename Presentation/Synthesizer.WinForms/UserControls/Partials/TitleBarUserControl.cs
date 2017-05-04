@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -10,13 +9,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     {
         public event EventHandler PlayClicked;
         public event EventHandler SaveClicked;
-        public event EventHandler CloseClicked;
-        public event EventHandler RemoveClicked;
+        public event EventHandler RefreshClicked;
         public event EventHandler AddClicked;
+        public event EventHandler RemoveClicked;
+        public event EventHandler CloseClicked;
 
         public TitleBarUserControl() => InitializeComponent();
 
-        private void TitleBarUserControl_Load(object sender, EventArgs e) => PositionControls();
+        private void TitleBarUserControl_Load(object sender, EventArgs e)
+        {
+            buttonPlay.Visible = _playButtonVisible;
+            buttonSave.Visible = _saveButtonVisible;
+            buttonRefresh.Visible = _refreshButtonVisible;
+            buttonAdd.Visible = _addButtonVisible;
+            buttonRemove.Visible = _removeButtonVisible;
+            buttonClose.Visible = _closeButtonVisible;
+
+            PositionControls();
+        }
 
         // Properties
 
@@ -51,6 +61,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 _saveButtonVisible = value;
 
                 buttonSave.Visible = _saveButtonVisible;
+
+                PositionControls();
+            }
+        }
+
+        /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
+        private bool _refreshButtonVisible;
+        public bool RefreshButtonVisible
+        {
+            get => _refreshButtonVisible;
+            set
+            {
+                _refreshButtonVisible = value;
+
+                buttonRefresh.Visible = _refreshButtonVisible;
 
                 PositionControls();
             }
@@ -110,22 +135,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         // I also want to make some buttons visible or invisible,
         // which you cannot do with the TableLayoutPanel.
-        
-        private const int BUTTON_SPACING = 0;
-        private const int BUTTON_SIZE = 22;
 
         private void PositionControls()
         {
             int x = Width;
 
-            x -= BUTTON_SPACING;
-            x -= BUTTON_SIZE;
+            x -= StyleHelper.IconButtonSize;
 
             var buttonTuplesInReverseOrder = new (Control Control, bool Visible)[]
             {
                 (buttonClose, CloseButtonVisible),
                 (buttonRemove, RemoveButtonVisible),
                 (buttonAdd, AddButtonVisible),
+                (buttonRefresh, RefreshButtonVisible),
                 (buttonSave, SaveButtonVisible),
                 (buttonPlay, PlayButtonVisible)
             };
@@ -134,10 +156,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 if (buttonTuple.Visible)
                 {
-                    buttonTuple.Control.Location = new Point(x, BUTTON_SPACING);
-                    buttonTuple.Control.Size = new Size(BUTTON_SIZE, BUTTON_SIZE);
-                    x -= BUTTON_SPACING;
-                    x -= BUTTON_SIZE;
+                    buttonTuple.Control.Location = new Point(x, 0);
+                    buttonTuple.Control.Size = new Size(StyleHelper.IconButtonSize, StyleHelper.IconButtonSize);
+                    x -= StyleHelper.DefaultSpacing;
+                    x -= StyleHelper.IconButtonSize;
                 }
             }
 
@@ -151,8 +173,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         private void buttonPlay_Click(object sender, EventArgs e) => PlayClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonSave_Click(object sender, EventArgs e) => SaveClicked?.Invoke(sender, EventArgs.Empty);
+        private void buttonRefresh_Click(object sender, EventArgs e) => RefreshClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonAdd_Click(object sender, EventArgs e) => AddClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonRemove_Click(object sender, EventArgs e) => RemoveClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonClose_Click(object sender, EventArgs e) => CloseClicked?.Invoke(sender, EventArgs.Empty);
+
     }
 }

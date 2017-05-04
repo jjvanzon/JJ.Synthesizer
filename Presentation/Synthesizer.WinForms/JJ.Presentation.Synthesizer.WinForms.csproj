@@ -708,6 +708,9 @@
   <ItemGroup>
     <None Include="Resources\PlayIcon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\RefreshIcon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>del "$(TargetDir)*.cs"</PreBuildEvent>

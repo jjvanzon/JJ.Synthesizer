@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         public static int ButtonHeight { get; } = 32;
         public static Color MediumGray { get; } = Color.Gray;
         public static Color LightGray { get; } = Color.FromArgb(255, 196, 196, 196);
+        public static int TitleBarHeight { get; } = 26;
 
         /// <summary>
         /// Sets the first column of the TableLayoutPanel to accommodate the width of all its Labels' Texts.

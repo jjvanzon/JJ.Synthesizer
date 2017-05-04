@@ -79,6 +79,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             base.Dispose(disposing);
         }
 
+        public void DocumentOpen(string name)
+        {
+            TemplateActionHandler(() => _presenter.DocumentOpen(name));
+        }
+
         // Helpers
 
         private void SetTreePanelVisible(bool visible)

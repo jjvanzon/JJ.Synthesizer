@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
@@ -64,11 +65,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 RowCount = 2,
                 Dock = DockStyle.Fill,
                 Margin = new Padding(0),
+                Padding = new Padding(0)
             };
 
             tableLayoutPanel.Name = nameof(tableLayoutPanel);
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, StyleHelper.TitleBarHeight));
             tableLayoutPanel.RowStyles.Add(new RowStyle());
 
             return tableLayoutPanel;

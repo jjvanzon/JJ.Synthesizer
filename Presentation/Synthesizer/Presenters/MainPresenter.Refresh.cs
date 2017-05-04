@@ -252,7 +252,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void DocumentViewModelRefresh()
+        public void DocumentRefresh()
         {
             AudioFileOutputGridRefresh();
             AudioFileOutputPropertiesDictionaryRefresh();

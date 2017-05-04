@@ -19,5 +19,8 @@ namespace JJ.Data.Synthesizer.RepositoryInterfaces
         /// so not through lazy loading, so in a more efficient manner.
         /// </summary>
         Document GetComplete(int id);
+
+        Document TryGetByName(string name);
+        Document GetByName(string name);
     }
 }

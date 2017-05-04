@@ -111,5 +111,14 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             Document outputDocument = level_1_documentQuery.FirstOrDefault();
             return outputDocument;
         }
+
+        public override Document TryGetByName(string name)
+        {
+            Document entity = _context.Session
+                                      .QueryOver<Document>()
+                                      .Where(x => x.Name == name)
+                                      .SingleOrDefault();
+            return entity;
+        }
     }
 }

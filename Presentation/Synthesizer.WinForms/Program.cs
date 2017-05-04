@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 using JJ.Framework.Common;
@@ -14,6 +15,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal static class Program
     {
+        private class ParsedCommandLineArguments
+        {
+            public string DocumentName { get; set; }
+        }
+
         private static AudioOutputProcessor _audioOutputProcessor;
         private static MidiInputProcessor _midiInputProcessor;
 
@@ -26,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private static Thread _midiInputThread;
 
         [STAThread]
-        private static void Main()
+        private static void Main(string[] args)
         {
             var businessConfig = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
             ConfigurationHelper.SetSection(businessConfig);
@@ -49,11 +55,43 @@ namespace JJ.Presentation.Synthesizer.WinForms
             SetAudioOutput(audioOutput);
 
             var form = new MainForm();
+
+            form.Show();
+
+            ParsedCommandLineArguments parsedCommandLineArguments = ParseCommandLineArguments(args);
+            if (!string.IsNullOrWhiteSpace(parsedCommandLineArguments.DocumentName))
+            {
+                form.DocumentOpen(parsedCommandLineArguments.DocumentName);
+            }
+
             Application.Run(form);
 
             DisposeAudioOutput();
         }
-        
+
+        private static ParsedCommandLineArguments ParseCommandLineArguments(IList<string> args)
+        {
+            var parsedCommandLineArguments = new ParsedCommandLineArguments();
+
+            if (args == null)
+            {
+                return parsedCommandLineArguments;
+            }
+
+            switch (args?.Count)
+            {
+                case 0:
+                    return parsedCommandLineArguments;
+
+                case 1:
+                    parsedCommandLineArguments.DocumentName = args[0];
+                    return parsedCommandLineArguments;
+
+                default:
+                    throw new Exception("Command line has more than one argument.");
+            }
+        }
+
         public static void SetAudioOutput(AudioOutput audioOutput)
         {
             if (audioOutput == null) throw new NullException(() => audioOutput);
@@ -120,8 +158,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             string message;
-            var ex = e.ExceptionObject as Exception;
-            if (ex != null)
+            if (e.ExceptionObject is Exception ex)
             {
                 message = ExceptionHelper.FormatException(ExceptionHelper.GetInnermostException(ex), false);
             }
@@ -129,7 +166,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 message = Convert.ToString(e.ExceptionObject);
             }
-            
+
             MessageBox.Show(message, GetMessageBoxCaption());
         }
 

@@ -20,11 +20,8 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
                            .ToArray();
         }
 
-        public virtual Document TryGetComplete(int id)
-        {
-            // By default do it with lazy loading after all.
-            return TryGet(id);
-        }
+        // By default do it with lazy loading after all.
+        public virtual Document TryGetComplete(int id) => TryGet(id);
 
         public Document GetComplete(int id)
         {
@@ -35,5 +32,17 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             }
             return Get(id);
         }
+
+        public Document GetByName(string name)
+        {
+            Document entity = TryGetByName(name);
+            if (entity == null)
+            {
+                throw new NotFoundException<Document>(new { name });
+            }
+            return entity;
+        }
+
+        public virtual Document TryGetByName(string name) => throw new RepositoryMethodNotImplementedException();
     }
 }
