@@ -61,8 +61,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
@@ -410,6 +408,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\LibraryGridUserControl.resx">
       <DependentUpon>LibraryGridUserControl.cs</DependentUpon>
@@ -581,10 +580,6 @@
       <Project>{9451509b-96e7-43a7-87a2-74e5e582c0cd}</Project>
       <Name>JJ.Business.Synthesizer.Api</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Business\Synthesizer.Tests\JJ.Business.Synthesizer.Tests.csproj">
-      <Project>{5c26af7b-1c83-49bd-9ed1-6a880103d293}</Project>
-      <Name>JJ.Business.Synthesizer.Tests</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Business\Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
@@ -637,10 +632,6 @@
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Mathematics\JJ.Framework.Mathematics.csproj">
-      <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>
-      <Name>JJ.Framework.Mathematics</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">
       <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
       <Name>JJ.Framework.Presentation.Resources</Name>
@@ -652,14 +643,6 @@
     <ProjectReference Include="..\..\Framework\Presentation.WinForms\JJ.Framework.Presentation.WinForms.csproj">
       <Project>{84a66716-c686-4b8e-a092-cfe38ca7dde0}</Project>
       <Name>JJ.Framework.Presentation.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Presentation\JJ.Framework.Presentation.csproj">
-      <Project>{79b0eac3-5159-4fc8-b3d8-53315b205444}</Project>
-      <Name>JJ.Framework.Presentation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
-      <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
-      <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Data\Synthesizer.Memory\JJ.Data.Synthesizer.Memory.csproj">
       <Project>{bc3be171-ad84-4ee4-8356-06a581bdcdf7}</Project>
@@ -709,6 +692,8 @@
     <None Include="Resources\PlayIcon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\OpenWindowIconThinner.png" />
+    <None Include="Resources\PlayIconThinner.png" />
     <Content Include="Resources\RefreshIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

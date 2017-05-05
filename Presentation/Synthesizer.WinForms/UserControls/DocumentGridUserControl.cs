@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void AddColumns()
         {
             AddHiddenColumn(nameof(IDAndName.ID));
-            _playColumn = AddImageColumn(Resources.PlayIcon);
+            _playColumn = AddImageColumn(Resources.PlayIconThinner);
             AddAutoSizeColumn(nameof(IDAndName.Name), CommonResourceFormatter.Name);
         }
 

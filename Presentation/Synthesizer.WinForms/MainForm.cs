@@ -9,7 +9,10 @@ using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Media;
+using System.Reflection;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Extensions;
@@ -243,6 +246,24 @@ namespace JJ.Presentation.Synthesizer.WinForms
             soundPlayer.Play();
 
             _presenter.MainViewModel.Document.OutletIDToPlay = null;
+        }
+
+        private void OpenDocument(int documentID)
+        {
+            Document document = _repositories.DocumentRepository.Get(documentID);
+            OpenDocument(document);
+        }
+
+        private void OpenLibrary(int lowerDocumentReferenceID)
+        {
+            DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(lowerDocumentReferenceID);
+            OpenDocument(documentReference.LowerDocument);
+        }
+
+        private void OpenDocument([NotNull] Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+            Process.Start(Assembly.GetExecutingAssembly().Location, $@"""{document.Name}""");
         }
     }
 }

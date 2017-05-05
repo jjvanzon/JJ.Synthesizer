@@ -18,6 +18,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             remove => buttonCancel.Click -= value;
         }
 
+        public event EventHandler<EventArgs<int>> OpenRequested
+        {
+            add => librarySelectionGridUserControl.OpenRequested += value;
+            remove => librarySelectionGridUserControl.OpenRequested -= value;
+        }
+
         public LibrarySelectionPopupUserControl()
         {
             InitializeComponent();

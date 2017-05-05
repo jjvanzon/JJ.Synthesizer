@@ -194,11 +194,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 HeaderText = "",
                 Visible = true,
                 Resizable = DataGridViewTriState.False,
-                Width = image.Width + 2,
+                Width = image.Width + StyleHelper.DefaultSpacing + StyleHelper.DefaultSpacing,
                 DefaultCellStyle = new DataGridViewCellStyle
                 {
                     Alignment = DataGridViewContentAlignment.MiddleCenter,
-                    BackColor = SystemColors.Control
+                    BackColor = SystemColors.Window
                 }
             };
 

@@ -93,9 +93,29 @@ namespace JJ.Presentation.Synthesizer.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap OpenWindowIconThinner {
+            get {
+                object obj = ResourceManager.GetObject("OpenWindowIconThinner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap PlayIcon {
             get {
                 object obj = ResourceManager.GetObject("PlayIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PlayIconThinner {
+            get {
+                object obj = ResourceManager.GetObject("PlayIconThinner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

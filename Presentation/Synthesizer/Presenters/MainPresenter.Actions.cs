@@ -3314,7 +3314,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
         /// Instead of writing to a file it had better write to a stream.
         /// </summary>
-        public string TonePlay(int scaleID, int toneID)
+        public void TonePlay(int scaleID, int toneID)
         {
             // NOTE:
             // Cannot use partial presenter, because this action uses both
@@ -3323,85 +3323,56 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetEntity
             ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
+            // Template Method
+            TemplateActionMethod(
+                userInput,
+                () =>
+                {
+                    // ViewModel Validator
+                    IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
+                    if (!viewModelValidator.IsValid)
+                    {
+                        userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
+                        DispatchViewModel(userInput);
+                        return null;
+                    }
 
-            // Set !Successful
-            userInput.Successful = false;
+                    // GetEntities
+                    Tone tone = _repositories.ToneRepository.Get(toneID);
 
-            // ViewModel Validator
-            IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
-            if (!viewModelValidator.IsValid)
-            {
-                userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
-                DispatchViewModel(userInput);
-                return null;
-            }
+                    var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentInstrument.List.Count);
+                    foreach (IDAndName itemViewModel in MainViewModel.Document.CurrentInstrument.List)
+                    {
+                        Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.ID);
+                        underlyingPatches.Add(underlyingPatch);
+                    }
 
-            // ToEntity
-            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-            Tone tone = _repositories.ToneRepository.Get(toneID);
-            AudioOutput audioOutput = document.AudioOutput;
+                    // Business
+                    var patchManager = new PatchManager(_patchRepositories);
 
-            var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentInstrument.List.Count);
-            foreach (IDAndName itemViewModel in MainViewModel.Document.CurrentInstrument.List)
-            {
-                Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.ID);
-                underlyingPatches.Add(underlyingPatch);
-            }
+                    Outlet outlet = null;
+                    if (underlyingPatches.Count != 0)
+                    {
+                        outlet = patchManager.TryAutoPatchWithTone(tone, underlyingPatches);
+                    }
 
-            // Business
-            var patchManager = new PatchManager(_patchRepositories);
+                    if (outlet == null) // Fallback to Sine
+                    {
+                        patchManager.CreatePatch();
+                        double frequency = tone.GetFrequency();
+                        outlet = patchManager.Sine(patchManager.PatchInlet(DimensionEnum.Frequency, frequency));
+                    }
 
-            Outlet outlet = null;
-            if (underlyingPatches.Count != 0)
-            {
-                outlet = patchManager.TryAutoPatchWithTone(tone, underlyingPatches);
-            }
+                    // ToViewModel
+                    ToneGridEditViewModel viewModel = tone.Scale.ToToneGridEditViewModel();
 
-            if (outlet == null) // Fallback to Sine
-            {
-                var x = new PatchApi();
-                double frequency = tone.GetFrequency();
-                outlet = x.Sine(x.PatchInlet(DimensionEnum.Frequency, frequency));
-            }
+                    // Non-Persisted
+                    viewModel.OutletIDToPlay = outlet.ID;
+                    viewModel.Visible = userInput.Visible;
+                    viewModel.Successful = true;
 
-            IResultDto validationResult = _documentManager.Save(document);
-            if (!validationResult.Successful)
-            {
-                userInput.Successful = false;
-                userInput.ValidationMessages = validationResult.Messages;
-                return null;
-            }
-
-            patchManager.Patch = outlet.Operator.Patch;
-
-            var calculatorCache = new CalculatorCache();
-            int channelCount = audioOutput.GetChannelCount();
-            var patchCalculators = new IPatchCalculator[channelCount];
-            for (int i = 0; i < channelCount; i++)
-            {
-                patchCalculators[i] = patchManager.CreateCalculator(
-                    outlet,
-                    audioOutput.SamplingRate,
-                    channelCount,
-                    i,
-                    calculatorCache);
-            }
-
-            // Infrastructure
-            AudioFileOutput audioFileOutput = _audioFileOutputManager.Create();
-            audioFileOutput.LinkTo(audioOutput.SpeakerSetup);
-            audioFileOutput.SamplingRate = audioOutput.SamplingRate;
-            audioFileOutput.FilePath = _playOutputFilePath;
-            audioFileOutput.Duration = DEFAULT_DURATION;
-            audioFileOutput.LinkTo(outlet);
-            _audioFileOutputManager.WriteFile(audioFileOutput, patchCalculators);
-
-            // Successful
-            userInput.Successful = true;
-
-            return _playOutputFilePath;
+                    return viewModel;
+                });
         }
 
         // Helpers

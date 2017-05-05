@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void AddColumns()
         {
             AddHiddenColumn(nameof(PatchListItemViewModel.ID));
-            _playColumn = AddImageColumn(Resources.PlayIcon);
+            _playColumn = AddImageColumn(Resources.PlayIconThinner);
             AddAutoSizeColumn(nameof(PatchListItemViewModel.Name), CommonResourceFormatter.Name);
             AddColumnWithWidth(nameof(PatchListItemViewModel.UsedIn), ResourceFormatter.UsedIn, 180);
         }

@@ -10,12 +10,12 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
-using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.DocumentReferences;
 using JJ.Business.Synthesizer.Validation.Documents;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer
         }
 
         [NotNull]
-        public ResultDto<DocumentReference> CreateDocumentReference([NotNull] Document higherDocument, [NotNull] Document lowerDocument)
+        public Result<DocumentReference> CreateDocumentReference([NotNull] Document higherDocument, [NotNull] Document lowerDocument)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
             if (lowerDocument == null) throw new ArgumentNullException(nameof(lowerDocument));
@@ -70,10 +70,9 @@ namespace JJ.Business.Synthesizer
             documentReference.LinkToHigherDocument(higherDocument);
             documentReference.LinkToLowerDocument(lowerDocument);
 
-            var result = new ResultDto<DocumentReference>
+            var result = new Result<DocumentReference>
             {
                 Successful = true,
-                Messages = new List<MessageDto>(),
                 Data = documentReference
             };
 
@@ -85,7 +84,7 @@ namespace JJ.Business.Synthesizer
                 new DocumentReferenceValidator_UniqueAlias(documentReference)
             };
 
-            validators.ToCanonical(result);
+            validators.ToResult(result);
 
             return result;
         }

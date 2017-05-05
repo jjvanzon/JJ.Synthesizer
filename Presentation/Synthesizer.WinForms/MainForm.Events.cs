@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Media;
+using System.Reflection;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
@@ -77,6 +80,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryGridUserControl.AddRequested += libraryGridUserControl_AddRequested;
             libraryGridUserControl.CloseRequested += libraryGridUserControl_CloseRequested;
             libraryGridUserControl.PlayRequested += libraryGridUserControl_PlayRequested;
+            libraryGridUserControl.OpenRequested += libraryGridUserControl_OpenRequested;
             libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
             libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
             libraryPatchGridUserControl.CloseRequested += libraryPatchGridUserControl_CloseRequested;
@@ -88,6 +92,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
             libraryPropertiesUserControl.PlayRequested += libraryPropertiesUserControl_PlayRequested;
+            libraryPropertiesUserControl.OpenRequested += libraryPropertiesUserControl_OpenRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.ShowCurrentInstrumentRequested += menuUserControl_ShowCurrentInstrumentRequested;
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
@@ -183,6 +188,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _autoPatchPopupForm.patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
             _librarySelectionPopupForm.CancelRequested += _librarySelectionPopupForm_CancelRequested;
             _librarySelectionPopupForm.OKRequested += _librarySelectionPopupForm_OKRequested;
+            _librarySelectionPopupForm.OpenRequested += _librarySelectionPopupForm_OpenRequested;
             _librarySelectionPopupForm.PlayRequested += _librarySelectionPopupForm_PlayRequested;
 
             MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
@@ -550,6 +556,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
+        private void libraryGridUserControl_OpenRequested(object sender, EventArgs<int> e) => OpenLibrary(e.Value);
+
         private void libraryGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.LibraryRemove(e.Value));
 
         private void libraryGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
@@ -630,12 +638,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
+        private void libraryPropertiesUserControl_OpenRequested(object sender, EventArgs<int> e) => OpenLibrary(e.Value);
+
         private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.LibrarySelectionPopupCancel);
 
         private void _librarySelectionPopupForm_OKRequested(object sender, EventArgs<int?> e)
         {
             TemplateActionHandler(() => _presenter.LibrarySelectionPopupOK(e.Value));
         }
+
+        private void _librarySelectionPopupForm_OpenRequested(object sender, EventArgs<int> e) => OpenDocument(e.Value);
 
         private void _librarySelectionPopupForm_PlayRequested(object sender, EventArgs<int> e)
         {
@@ -990,14 +1002,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(
                 () =>
                 {
-                    string outputFilePath = _presenter.TonePlay(e.ScaleID, e.ToneID);
-                    if (string.IsNullOrEmpty(outputFilePath))
-                    {
-                        return;
-                    }
-
-                    var soundPlayer = new SoundPlayer(outputFilePath);
-                    soundPlayer.Play();
+                    _presenter.TonePlay(e.ScaleID, e.ToneID);
+                    PlayOutletIfNeeded();
                 });
         }
 

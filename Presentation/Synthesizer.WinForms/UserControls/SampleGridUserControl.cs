@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             IDPropertyName = nameof(SampleListItemViewModel.ID);
             Title = ResourceFormatter.Samples;
             ColumnTitlesVisible = true;
+            PlayButtonVisible = true;
 
             KeyDown += base_KeyDown;
             CellClick += base_CellClick;
@@ -29,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void AddColumns()
         {
             AddHiddenColumn(nameof(SampleListItemViewModel.ID));
-            _playColumn = AddImageColumn(Resources.PlayIcon);
+            _playColumn = AddImageColumn(Resources.PlayIconThinner);
             AddAutoSizeColumn(nameof(SampleListItemViewModel.Name), CommonResourceFormatter.Name);
             AddColumn(nameof(SampleListItemViewModel.SampleDataType), ResourceFormatter.SampleDataType);
             AddColumn(nameof(SampleListItemViewModel.SpeakerSetup), ResourceFormatter.SpeakerSetup);

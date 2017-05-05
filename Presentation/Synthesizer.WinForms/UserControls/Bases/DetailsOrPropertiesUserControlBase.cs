@@ -16,6 +16,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         public event EventHandler<EventArgs<int>> CloseRequested;
         public event EventHandler<EventArgs<int>> LoseFocusRequested;
         public event EventHandler<EventArgs<int>> SaveRequested;
+        public event EventHandler<EventArgs<int>> OpenRequested;
         public event EventHandler<EventArgs<int>> PlayRequested;
 
         public event EventHandler AddRequested
@@ -41,8 +42,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             Controls.Add(_titleBarUserControl);
             _titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
             _titleBarUserControl.SaveClicked += _titleBarUserControl_SaveClicked;
+            _titleBarUserControl.OpenClicked += _titleBarUserControl_OpenClicked;
             _titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
-
         }
 
         ~DetailsOrPropertiesUserControlBase()
@@ -92,6 +93,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         {
             get => _titleBarUserControl.SaveButtonVisible;
             set => _titleBarUserControl.SaveButtonVisible = value;
+        }
+
+        public bool RefreshButtonVisible
+        {
+            get => _titleBarUserControl.RefreshButtonVisible;
+            set => _titleBarUserControl.RefreshButtonVisible = value;
+        }
+
+        public bool OpenButtonVisible
+        {
+            get => _titleBarUserControl.OpenButtonVisible;
+            set => _titleBarUserControl.OpenButtonVisible = value;
         }
 
         public bool AddButtonVisible
@@ -159,6 +172,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
         private void _titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));
         private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
+        private void _titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
         private void Base_Leave(object sender, EventArgs e)

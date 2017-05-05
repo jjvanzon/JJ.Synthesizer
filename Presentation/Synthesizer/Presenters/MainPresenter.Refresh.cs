@@ -316,7 +316,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             var keysToKeep = new List<(int, string)>();
 
-            IEnumerable<DocumentReference> lowerDocumentReferences = higherDocument.LowerDocumentReferences.Where(x => x.LowerDocument != null);
+            IEnumerable<DocumentReference> lowerDocumentReferences = higherDocument.LowerDocumentReferences
+                                                                                   .Where(x => x.LowerDocument != null);
             foreach (DocumentReference lowerDocumentReference in lowerDocumentReferences)
             {
                 HashSet<string> groups = patchManager.GetPatchGroupNames(lowerDocumentReference.LowerDocument.Patches, hidden: false).ToHashSet();

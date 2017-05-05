@@ -1,8 +1,10 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Properties;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
@@ -10,7 +12,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
     internal class LibrarySelectionGridUserControl : GridUserControlBase
     {
+        public event EventHandler<EventArgs<int>> OpenRequested;
+
         private DataGridViewColumn _playColumn;
+        private DataGridViewColumn _openColumn;
 
         public new int? TryGetSelectedID() => base.TryGetSelectedID();
 
@@ -32,8 +37,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         protected override void AddColumns()
         {
-            _playColumn = AddImageColumn(Resources.PlayIcon);
+            _playColumn = AddImageColumn(Resources.PlayIconThinner);
             AddAutoSizeColumn(nameof(IDAndName.Name), CommonResourceFormatter.Name);
+            _openColumn = AddImageColumn(Resources.OpenWindowIconThinner);
 
             // NOTE: Add ID column last. If the ID column is the first column, WinForms will make the column visible,
             // when the DataGrid becomes invisible and then visible again, 
@@ -73,6 +79,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             if (e.ColumnIndex == _playColumn.Index)
             {
                 Play();
+                return;
+            }
+
+            // ReSharper disable once InvertIf
+            if (e.ColumnIndex == _openColumn.Index)
+            {
+                Open();
+                // ReSharper disable once RedundantJumpStatement
+                return;
+            }
+        }
+
+        private void Open()
+        {
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
+            {
+                OpenRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
     }
