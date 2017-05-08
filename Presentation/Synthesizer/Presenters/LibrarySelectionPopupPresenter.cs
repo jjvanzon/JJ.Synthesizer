@@ -179,7 +179,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(new PatchRepositories(_repositories));
-            Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(lowerDocument, hidden: false);
+            Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(lowerDocument, mustIncludeHidden: false);
             Outlet outlet = result.Data;
 
             // Non-Persisted

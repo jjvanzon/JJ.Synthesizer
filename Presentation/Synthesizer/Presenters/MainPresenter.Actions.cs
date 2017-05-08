@@ -861,8 +861,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         { 
             // Business
             var patchManager = new PatchManager(_patchRepositories);
-            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, hidden: null);
-            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, hidden: null);
+            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
+            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true);
             IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
             IList<UsedInDto<Sample>> sampleUsedInDtos = _documentManager.GetUsedIn(document.Samples);
             IList<UsedInDto<Patch>> grouplessPatchUsedInDtos = _documentManager.GetUsedIn(grouplessPatches);
@@ -874,7 +874,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                                           })
                                                                                       .ToArray();
             IList<DocumentReferencePatchGroupDto> documentReferencePatchGroupDtos =
-                patchManager.GetDocumentReferencePatchGroupDtos_IncludingGrouplessIfAny(document.LowerDocumentReferences, hidden: false);
+                patchManager.GetDocumentReferencePatchGroupDtos_IncludingGrouplessIfAny(document.LowerDocumentReferences, mustIncludeHidden: false);
 
             // ToViewModel
             DocumentViewModel viewModel = document.ToViewModel(
@@ -1106,7 +1106,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                         // Business
                         var patchManager = new PatchManager(_patchRepositories);
-                        result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, hidden: false);
+                        result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, mustIncludeHidden: false);
 
                         break;
                     }
@@ -1138,7 +1138,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         result = patchManager.TryAutoPatchFromPatchGroupRandomly(
                             lowerDocumentReference.LowerDocument,
                             userInput.SelectedPatchGroup,
-                            hidden: false);
+                            mustIncludeHidden: false);
 
                         break;
                     }
@@ -1147,7 +1147,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     {
                         // Business
                         var patchManager = new PatchManager(_patchRepositories);
-                        result = patchManager.TryAutoPatchFromPatchGroupRandomly(document, userInput.SelectedPatchGroup, hidden: false);
+                        result = patchManager.TryAutoPatchFromPatchGroupRandomly(document, userInput.SelectedPatchGroup, mustIncludeHidden: false);
                         
                         break;
                     }
@@ -1187,7 +1187,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         // Business
                         var patchManager = new PatchManager(_patchRepositories);
                         IList<Document> lowerDocuments = document.LowerDocumentReferences.Select(x => x.LowerDocument).ToArray();
-                        result = patchManager.TryAutoPatchFromDocumentsRandomly(lowerDocuments, hidden: false);
+                        result = patchManager.TryAutoPatchFromDocumentsRandomly(lowerDocuments, mustIncludeHidden: false);
                         break;
                     }
 

@@ -222,12 +222,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             list.AddRange(
-                patchManager.GetGrouplessPatches(document.Patches, hidden: null)
+                patchManager.GetGrouplessPatches(document.Patches, mustIncludeHidden: true)
                             .OrderBy(x => x.Name)
                             .Select(x => x.ToIDAndName()));
 
             list.AddRange(
-                from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, hidden: null)
+                from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true)
                 orderby patchGroupDto.FriendlyGroupName
                 from patch in patchGroupDto.Patches
                 let name = $"{patch.Name} | {patchGroupDto.FriendlyGroupName}"
@@ -239,13 +239,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 string lowerDocumentReferenceAliasOrName = lowerDocumentReference.GetAliasOrName();
 
                 list.AddRange(
-                    from patch in patchManager.GetGrouplessPatches(lowerDocumentReference.LowerDocument.Patches, hidden: false)
+                    from patch in patchManager.GetGrouplessPatches(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden: false)
                     orderby patch.Name
                     let name = $"{patch.Name} | {lowerDocumentReferenceAliasOrName}"
                     select new IDAndName { ID = patch.ID, Name = name });
 
                 list.AddRange(
-                    from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(lowerDocumentReference.LowerDocument.Patches, hidden: false)
+                    from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden: false)
                     orderby patchGroupDto.FriendlyGroupName
                     from patch in patchGroupDto.Patches
                     let name = $"{patch.Name} | {patchGroupDto.FriendlyGroupName} | {lowerDocumentReferenceAliasOrName}"

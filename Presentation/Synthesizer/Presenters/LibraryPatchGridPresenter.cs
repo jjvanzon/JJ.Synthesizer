@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(_patchRepositories);
-            IList<Patch> patches = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(lowerDocumentReference.LowerDocument.Patches, userInput.Group, hidden: false);
+            IList<Patch> patches = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(lowerDocumentReference.LowerDocument.Patches, userInput.Group, mustIncludeHidden: false);
 
             // ToViewModel
             LibraryPatchGridViewModel viewModel = lowerDocumentReference.ToLibraryPatchGridViewModel(patches, userInput.Group);

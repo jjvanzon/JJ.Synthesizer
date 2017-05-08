@@ -376,12 +376,12 @@ namespace JJ.Business.Synthesizer
             return patchOutlets;
         }
 
-        public Result<Outlet> TryAutoPatchFromDocumentsRandomly([NotNull] IList<Document> documents, bool? hidden)
+        public Result<Outlet> TryAutoPatchFromDocumentsRandomly([NotNull] IList<Document> documents, bool mustIncludeHidden)
         {
             if (documents == null) throw new NullException(() => documents);
 
             IList<Patch> patches = documents.SelectMany(x => x.Patches).ToArray();
-            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(patches, hidden);
+            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(patches, mustIncludeHidden);
 
             Outlet signalOutlet = Randomizer.TryGetRandomItem(signalOutlets);
 
@@ -410,9 +410,9 @@ namespace JJ.Business.Synthesizer
         /// If null, both hidden and visible elements from the document are used.
         /// If true, only hidden elements from the document are used.
         /// </param>
-        public Result<Outlet> TryAutoPatchFromDocumentRandomly(Document document, bool? hidden)
+        public Result<Outlet> TryAutoPatchFromDocumentRandomly(Document document, bool mustIncludeHidden)
         {
-            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(document.Patches, hidden);
+            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(document.Patches, mustIncludeHidden);
 
             // TODO: Select the first patch with a signal inlet and use autopatch those two together.
 
@@ -443,10 +443,10 @@ namespace JJ.Business.Synthesizer
         /// If null, both hidden and visible elements from the document are used.
         /// If true, only hidden elements from the document are used.
         /// </param>
-        public Result<Outlet> TryAutoPatchFromPatchGroupRandomly(Document document, string groupName, bool? hidden)
+        public Result<Outlet> TryAutoPatchFromPatchGroupRandomly(Document document, string groupName, bool mustIncludeHidden)
         {
-            IList<Patch> patchesInGroup = GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, groupName, hidden);
-            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(patchesInGroup, hidden);
+            IList<Patch> patchesInGroup = GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, groupName, mustIncludeHidden);
+            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(patchesInGroup, mustIncludeHidden);
 
             Outlet signalOutlet = Randomizer.TryGetRandomItem(signalOutlets);
 
@@ -469,9 +469,9 @@ namespace JJ.Business.Synthesizer
             }
         }
 
-        private IList<Outlet> GetSignalOutletsFromPatchesWithoutSignalInlets(IList<Patch> patches, bool? hidden)
+        private IList<Outlet> GetSignalOutletsFromPatchesWithoutSignalInlets(IList<Patch> patches, bool mustIncludeHidden)
         {
-            IList<Outlet> patches2 = patches.Where(x => !hidden.HasValue || x.Hidden == hidden.Value)
+            IList<Outlet> patches2 = patches.Where(x => !x.Hidden || mustIncludeHidden)
                                             .Where(
                                                 x => !x.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
                                                        .Where(y => y.DimensionEnum == DimensionEnum.Signal)

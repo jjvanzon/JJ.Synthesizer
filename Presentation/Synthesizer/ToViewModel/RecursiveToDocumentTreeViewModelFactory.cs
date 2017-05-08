@@ -74,8 +74,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             // Business
             var patchManager = new PatchManager(repositories);
-            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, hidden: null);
-            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, hidden: null);
+            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
+            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true);
 
             // ToViewModel
             viewModel.PatchesNode.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
@@ -101,8 +101,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             // Business
             var patchManager = new PatchManager(repositories);
-            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, hidden: false);
-            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, hidden: false);
+            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, mustIncludeHidden: false);
+            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: false);
 
             // ToViewModel
             viewModel.PatchNodes = grouplessPatches.OrderBy(x => x.Name)

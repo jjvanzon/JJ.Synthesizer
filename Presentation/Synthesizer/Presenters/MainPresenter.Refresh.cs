@@ -320,7 +320,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                                    .Where(x => x.LowerDocument != null);
             foreach (DocumentReference lowerDocumentReference in lowerDocumentReferences)
             {
-                HashSet<string> groups = patchManager.GetPatchGroupNames(lowerDocumentReference.LowerDocument.Patches, hidden: false).ToHashSet();
+                HashSet<string> groups = patchManager.GetPatchGroupNames(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden: false).ToHashSet();
 
                 // Always include groupless, even when empty, 
                 // otherwise trying to open the empty grid of groupless patches crashes for lack of a key.
@@ -335,7 +335,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     if (viewModel == null)
                     {
                         // Business
-                        IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(higherDocument.Patches, group, hidden: false);
+                        IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(higherDocument.Patches, group, mustIncludeHidden: false);
 
                         viewModel = lowerDocumentReference.ToLibraryPatchGridViewModel(patchesInGroup, group);
                         viewModel.Successful = true;
@@ -1247,7 +1247,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
             var patchManager = new PatchManager(_patchRepositories);
-            IList<string> groups = patchManager.GetPatchGroupNames(document.Patches, hidden: null);
+            IList<string> groups = patchManager.GetPatchGroupNames(document.Patches, mustIncludeHidden: true);
 
             // Always include groupless, even when empty, 
             // otherwise trying to open the empty grid of groupless patches crashes for lack of a key.
@@ -1258,7 +1258,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchGridViewModel viewModel = ViewModelSelector.TryGetPatchGridViewModel(MainViewModel.Document, group);
                 if (viewModel == null)
                 {
-                    IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, group, hidden: null);
+                    IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, group, mustIncludeHidden: true);
                     IList<UsedInDto<Patch>> usedInDtos = _documentManager.GetUsedIn(patchesInGroup);
 
                     viewModel = usedInDtos.ToGridViewModel(document.ID, group);
