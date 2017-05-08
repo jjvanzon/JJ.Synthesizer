@@ -18,14 +18,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             this Document document,
             IList<UsedInDto<Patch>> grouplessPatchUsedInDtos,
             IList<PatchGroupDto_WithUsedIn> patchGroupDtos_WithUsedIn,
+            IList<DocumentReferencePatchGroupDto> documentReferencePatchGroupDtos,
             IList<UsedInDto<Curve>> curveUsedInDtos,
             IList<UsedInDto<Sample>> sampleUsedInDtos,
             RepositoryWrapper repositories,
             EntityPositionManager entityPositionManager)
         {
             if (document == null) throw new NullException(() => document);
-            if (grouplessPatchUsedInDtos == null) throw new NullException(() => grouplessPatchUsedInDtos);
-            if (patchGroupDtos_WithUsedIn == null) throw new NullException(() => patchGroupDtos_WithUsedIn);
+            if (documentReferencePatchGroupDtos == null) throw new NullException(() => documentReferencePatchGroupDtos);
             if (curveUsedInDtos == null) throw new NullException(() => curveUsedInDtos);
             if (sampleUsedInDtos == null) throw new NullException(() => sampleUsedInDtos);
             // ReSharper disable once ImplicitlyCapturedClosure
@@ -48,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentProperties = document.ToPropertiesViewModel(),
                 LibraryGrid = document.ToLibraryGridViewModel(),
                 LibrarySelectionPopup = document.ToEmptyLibrarySelectionPopupViewModel(),
-                LibraryPatchGridDictionary = document.ToLibraryPatchGridViewModelDictionary(patchRepositories),
+                LibraryPatchGridDictionary = documentReferencePatchGroupDtos.ToLibraryPatchGridViewModelDictionary(),
                 LibraryPatchPropertiesDictionary = document.ToLibraryPatchPropertiesViewModelList().ToDictionary(x => x.PatchID),
                 LibraryPropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.DocumentReferenceID),
                 NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),

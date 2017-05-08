@@ -733,33 +733,31 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static Dictionary<(int documentReferenceID, string canonicalGroupName), LibraryPatchGridViewModel> 
-            ToLibraryPatchGridViewModelDictionary([NotNull] this Document higherDocument, PatchRepositories patchRepositories)
+            ToLibraryPatchGridViewModelDictionary([NotNull] this IList<DocumentReferencePatchGroupDto> dtos)
         {
-            if (higherDocument == null) throw new NullException(() => higherDocument);
-
-            var patchManager = new PatchManager(patchRepositories);
+            if (dtos == null) throw new NullException(() => dtos);
 
             var viewModelDictionary = new Dictionary<(int documentReferenceID, string canonicalGroupName), LibraryPatchGridViewModel>();
 
-            IEnumerable<DocumentReference> lowerDocumentReferences = higherDocument.LowerDocumentReferences.Where(x => x.LowerDocument != null);
-            foreach (DocumentReference lowerDocumentReference in lowerDocumentReferences)
+            foreach (DocumentReferencePatchGroupDto dto in dtos)
             {
-                IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(lowerDocumentReference.LowerDocument.Patches, hidden: false);
-                foreach (PatchGroupDto patchGroupDto in patchGroupDtos)
+                foreach (PatchGroupDto patchGroupDto in dto.Groups)
                 {
-                    string canonicalGroupName = NameHelper.ToCanonical(patchGroupDto.GroupName);
-                    LibraryPatchGridViewModel viewModel = patchGroupDto.Patches.ToLibraryPatchGridViewModel(lowerDocumentReference.ID, canonicalGroupName);
-                    var key = (lowerDocumentReference.ID, canonicalGroupName);
+                    LibraryPatchGridViewModel viewModel = patchGroupDto.Patches.ToLibraryPatchGridViewModel(dto.DocumentReferenceID, patchGroupDto.CanonicalGroupName);
+                    var key = (dto.DocumentReferenceID, patchGroupDto.CanonicalGroupName);
                     viewModelDictionary[key] = viewModel;
                 }
 
                 // Always include groupless, even when empty, 
                 // otherwise trying to open the empty grid of groupless patches crashes for lack of a key.
+                bool containsGroupless = dto.Groups.Any(x => string.IsNullOrEmpty(x.CanonicalGroupName));
+                // ReSharper disable once InvertIf
+                if (!containsGroupless)
                 {
+
+                    LibraryPatchGridViewModel viewModel = ViewModelHelper.CreateEmptyLibraryPatchGridViewModel();
                     string canonicalGroupName = NameHelper.ToCanonical("");
-                    IList<Patch> patches = patchManager.GetGrouplessPatches(lowerDocumentReference.LowerDocument.Patches, hidden: false);
-                    LibraryPatchGridViewModel viewModel = patches.ToLibraryPatchGridViewModel(lowerDocumentReference.ID, canonicalGroupName);
-                    var key = (lowerDocumentReference.ID, canonicalGroupName);
+                    var key = (dto.DocumentReferenceID, canonicalGroupName);
                     viewModelDictionary[key] = viewModel;
                 }
             }

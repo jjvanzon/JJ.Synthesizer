@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GeneratedCSharp;
+using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Canonical;
@@ -334,6 +335,30 @@ namespace JJ.Business.Synthesizer
 
         // Grouping
 
+        public IList<DocumentReferencePatchGroupDto> GetDocumentReferencePatchGroupDtos_IncludingGrouplessIfAny([NotNull] IList<DocumentReference> documentReferences, bool? hidden)
+        {
+            if (documentReferences == null) throw new NullException(() => documentReferences);
+
+            var dtos = new List<DocumentReferencePatchGroupDto>();
+
+            IEnumerable<DocumentReference> lowerDocumentReferences = documentReferences.Where(x => x.LowerDocument != null);
+            foreach (DocumentReference lowerDocumentReference in lowerDocumentReferences)
+            {
+                var dto = new DocumentReferencePatchGroupDto
+                {
+                    DocumentReferenceID = lowerDocumentReference.ID,
+                    Groups = new List<PatchGroupDto>()
+                };
+                
+                IList<PatchGroupDto> patchGroupDtos = GetPatchGroupDtos_IncludingGrouplessIfAny(lowerDocumentReference.LowerDocument.Patches, hidden);
+                dto.Groups.AddRange(patchGroupDtos);
+
+                dtos.Add(dto);
+            }
+
+            return dtos;
+        }
+
         public IList<PatchGroupDto> GetPatchGroupDtos_IncludingGrouplessIfAny(IList<Patch> patchesInDocument, bool? hidden)
         {
             if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
@@ -341,7 +366,7 @@ namespace JJ.Business.Synthesizer
             var dtos = new List<PatchGroupDto>();
 
             IList<Patch> grouplessPatches = GetGrouplessPatches(patchesInDocument, hidden);
-            dtos.Add(new PatchGroupDto { GroupName = null, Patches = grouplessPatches });
+            dtos.Add(new PatchGroupDto { Patches = grouplessPatches });
 
             dtos.AddRange(GetPatchGroupDtos_ExcludingGroupless(patchesInDocument, hidden));
 
@@ -364,8 +389,17 @@ namespace JJ.Business.Synthesizer
 
             foreach (string groupName in groupNames)
             {
+                string canonicalGroupName = NameHelper.ToCanonical(groupName);
+
                 IList<Patch> patchesInGroup = GetPatchesInGroup(patchesInDocument, groupName, hidden);
-                dtos.Add(new PatchGroupDto { GroupName = groupName, Patches = patchesInGroup });
+
+                dtos.Add(
+                    new PatchGroupDto
+                    {
+                        FriendlyGroupName = groupName,
+                        CanonicalGroupName = canonicalGroupName,
+                        Patches = patchesInGroup
+                    });
             }
 
             return dtos;

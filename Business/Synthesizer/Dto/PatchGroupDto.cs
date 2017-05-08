@@ -5,7 +5,8 @@ namespace JJ.Business.Synthesizer.Dto
 {
     public class PatchGroupDto
     {
-        public string GroupName { get; set; }
+        public string FriendlyGroupName { get; set; }
+        public string CanonicalGroupName { get; set; }
         public IList<Patch> Patches { get; set; }
     }
 }

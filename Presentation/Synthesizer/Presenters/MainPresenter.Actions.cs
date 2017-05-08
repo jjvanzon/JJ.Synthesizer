@@ -23,6 +23,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Presentation.Resources;
@@ -864,20 +865,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, hidden: null);
             IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
             IList<UsedInDto<Sample>> sampleUsedInDtos = _documentManager.GetUsedIn(document.Samples);
-
             IList<UsedInDto<Patch>> grouplessPatchUsedInDtos = _documentManager.GetUsedIn(grouplessPatches);
             IList<PatchGroupDto_WithUsedIn> patchGroupDtos_WithUsedIn = patchGroupDtos.Select(
                                                                                           x => new PatchGroupDto_WithUsedIn
                                                                                           {
-                                                                                              GroupName = x.GroupName,
+                                                                                              GroupName = x.FriendlyGroupName,
                                                                                               PatchUsedInDtos = _documentManager.GetUsedIn(x.Patches)
                                                                                           })
                                                                                       .ToArray();
+            IList<DocumentReferencePatchGroupDto> documentReferencePatchGroupDtos =
+                patchManager.GetDocumentReferencePatchGroupDtos_IncludingGrouplessIfAny(document.LowerDocumentReferences, hidden: false);
 
             // ToViewModel
             DocumentViewModel viewModel = document.ToViewModel(
                 grouplessPatchUsedInDtos,
                 patchGroupDtos_WithUsedIn,
+                documentReferencePatchGroupDtos,
                 curveUsedInDtos,
                 sampleUsedInDtos,
                 _repositories,

@@ -82,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                                .Select(x => ToTreeNodeViewModel(x))
                                                                .ToList();
 
-            viewModel.PatchesNode.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.GroupName)
+            viewModel.PatchesNode.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.FriendlyGroupName)
                                                                   .Select(x => ToTreeNodeViewModel(x))
                                                                   .ToList();
             return viewModel;
@@ -109,7 +109,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                    .Select(x => ToTreeNodeViewModel(x))
                                                    .ToList();
 
-            viewModel.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.GroupName)
+            viewModel.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.FriendlyGroupName)
                                                       .Select(x => ToTreeNodeViewModel(x))
                                                       .ToList();
 
@@ -144,8 +144,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchGroupTreeNodeViewModel
             {
-                GroupName = patchGroupDto.GroupName,
-                Caption = GetTreeNodeText(patchGroupDto.GroupName, patchGroupDto.Patches.Count),
+                GroupName = patchGroupDto.FriendlyGroupName,
+                Caption = GetTreeNodeText(patchGroupDto.FriendlyGroupName, patchGroupDto.Patches.Count),
                 PatchNodes = patchGroupDto.Patches
                                           .OrderBy(x => x.Name)
                                           .Select(x => ToTreeNodeViewModel(x))

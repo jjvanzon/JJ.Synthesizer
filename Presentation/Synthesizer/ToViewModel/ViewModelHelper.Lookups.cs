@@ -228,9 +228,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             list.AddRange(
                 from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, hidden: null)
-                orderby patchGroupDto.GroupName
+                orderby patchGroupDto.FriendlyGroupName
                 from patch in patchGroupDto.Patches
-                let name = $"{patch.Name} | {patchGroupDto.GroupName}"
+                let name = $"{patch.Name} | {patchGroupDto.FriendlyGroupName}"
                 select new IDAndName { ID = patch.ID, Name = name });
 
             IEnumerable<DocumentReference> lowerDocumentReferences = document.LowerDocumentReferences.OrderBy(x => x.GetAliasOrName());
@@ -246,9 +246,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 list.AddRange(
                     from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(lowerDocumentReference.LowerDocument.Patches, hidden: false)
-                    orderby patchGroupDto.GroupName
+                    orderby patchGroupDto.FriendlyGroupName
                     from patch in patchGroupDto.Patches
-                    let name = $"{patch.Name} | {patchGroupDto.GroupName} | {lowerDocumentReferenceAliasOrName}"
+                    let name = $"{patch.Name} | {patchGroupDto.FriendlyGroupName} | {lowerDocumentReferenceAliasOrName}"
                     select new IDAndName { ID = patch.ID, Name = name });
             }
 

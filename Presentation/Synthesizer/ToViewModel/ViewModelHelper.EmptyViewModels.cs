@@ -215,6 +215,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static LibraryPatchGridViewModel CreateEmptyLibraryPatchGridViewModel()
+        {
+            var viewModel = new LibraryPatchGridViewModel
+            {
+                List = new List<IDAndName>()
+            };
+            return viewModel;
+        }
+
         public static LibrarySelectionPopupViewModel CreateEmptyLibrarySelectionPopupViewModel()
         {
             var viewModel = new LibrarySelectionPopupViewModel

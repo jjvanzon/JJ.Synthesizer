@@ -167,6 +167,7 @@
     </Compile>
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
+    <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
     <Compile Include="Dto\IOperatorDto.cs" />
     <Compile Include="Dto\IOperatorDto_VarSignal.cs" />
