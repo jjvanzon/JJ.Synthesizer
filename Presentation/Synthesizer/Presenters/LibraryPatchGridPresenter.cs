@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Patch> patches = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(lowerDocumentReference.LowerDocument.Patches, userInput.Group, hidden: false);
 
             // ToViewModel
-            LibraryPatchGridViewModel viewModel = patches.ToLibraryPatchGridViewModel(userInput.LowerDocumentReferenceID, userInput.Group);
+            LibraryPatchGridViewModel viewModel = lowerDocumentReference.ToLibraryPatchGridViewModel(patches, userInput.Group);
 
             return viewModel;
         }

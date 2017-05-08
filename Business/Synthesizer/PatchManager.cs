@@ -346,7 +346,7 @@ namespace JJ.Business.Synthesizer
             {
                 var dto = new DocumentReferencePatchGroupDto
                 {
-                    DocumentReferenceID = lowerDocumentReference.ID,
+                    LowerDocumentReference = lowerDocumentReference,
                     Groups = new List<PatchGroupDto>()
                 };
                 

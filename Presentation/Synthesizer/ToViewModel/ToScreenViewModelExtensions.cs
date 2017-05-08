@@ -12,8 +12,10 @@ using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -743,8 +745,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 foreach (PatchGroupDto patchGroupDto in dto.Groups)
                 {
-                    LibraryPatchGridViewModel viewModel = patchGroupDto.Patches.ToLibraryPatchGridViewModel(dto.DocumentReferenceID, patchGroupDto.CanonicalGroupName);
-                    var key = (dto.DocumentReferenceID, patchGroupDto.CanonicalGroupName);
+                    LibraryPatchGridViewModel viewModel = dto.LowerDocumentReference.ToLibraryPatchGridViewModel(patchGroupDto.Patches, patchGroupDto.CanonicalGroupName);
+                    var key = (dto.LowerDocumentReference.ID, patchGroupDto.CanonicalGroupName);
                     viewModelDictionary[key] = viewModel;
                 }
 
@@ -757,7 +759,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                     LibraryPatchGridViewModel viewModel = ViewModelHelper.CreateEmptyLibraryPatchGridViewModel();
                     string canonicalGroupName = NameHelper.ToCanonical("");
-                    var key = (dto.DocumentReferenceID, canonicalGroupName);
+                    var key = (dto.LowerDocumentReference.ID, canonicalGroupName);
                     viewModelDictionary[key] = viewModel;
                 }
             }
@@ -765,19 +767,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModelDictionary;
         }
 
-        public static LibraryPatchGridViewModel ToLibraryPatchGridViewModel(this IList<Patch> patches, int lowerDocumentReferenceID, string group)
+        public static LibraryPatchGridViewModel ToLibraryPatchGridViewModel(this DocumentReference lowerDocumentReference, IList<Patch> patchesInGroup, string group)
         {
-            if (patches == null) throw new NullException(() => patches);
+            if (patchesInGroup == null) throw new NullException(() => patchesInGroup);
 
             var viewModel = new LibraryPatchGridViewModel
             {
-                LowerDocumentReferenceID = lowerDocumentReferenceID,
+                LowerDocumentReferenceID = lowerDocumentReference.ID,
                 Group = group,
                 ValidationMessages = new List<MessageDto>(),
-                List = patches.OrderBy(x => x.Name)
+                List = patchesInGroup.OrderBy(x => x.Name)
                               .Select(x => x.ToIDAndName())
                               .ToList()
             };
+
+            string groupIdentifier = group;
+            if (string.IsNullOrWhiteSpace(groupIdentifier))
+            {
+                groupIdentifier = CommonResourceFormatter.NoObject_WithName(ResourceFormatter.Group);
+            }
+
+            viewModel.Title = $"{lowerDocumentReference.GetAliasOrName()}  >  {ResourceFormatter.Patches}  >  {groupIdentifier}";
 
             return viewModel;
         }

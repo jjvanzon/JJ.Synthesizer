@@ -17,7 +17,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             InitializeComponent();
 
             IDPropertyName = nameof(IDAndName.ID);
-            Title = ResourceFormatter.PatchesInLibrary;
             ColumnTitlesVisible = false;
             PlayButtonVisible = true;
             AddButtonVisible = false;
@@ -28,6 +27,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         protected override object GetDataSource() => ViewModel?.List;
+
+        protected override void ApplyViewModelToControls()
+        {
+            Title = ViewModel?.Title;
+
+            base.ApplyViewModelToControls();
+        }
 
         protected override void AddColumns()
         {

@@ -337,7 +337,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         // Business
                         IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(higherDocument.Patches, group, hidden: false);
 
-                        viewModel = patchesInGroup.ToLibraryPatchGridViewModel(lowerDocumentReference.ID, group);
+                        viewModel = lowerDocumentReference.ToLibraryPatchGridViewModel(patchesInGroup, group);
                         viewModel.Successful = true;
 
                         viewModelDictionary[key] = viewModel;
