@@ -22,6 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             AdvancedCellBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
             EnableHeadersVisualStyles = false;
             AdvancedColumnHeadersBorderStyle.All = DataGridViewAdvancedCellBorderStyle.None;
+            SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         public new object DataSource

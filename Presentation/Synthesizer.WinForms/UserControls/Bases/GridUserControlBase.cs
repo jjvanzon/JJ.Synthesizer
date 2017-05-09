@@ -14,6 +14,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
     {
         private const int DEFAULT_COLUMN_WIDTH_IN_PIXELS = 120;
 
+        // Events
+
         public event EventHandler AddRequested;
         public event EventHandler<EventArgs<int>> RemoveRequested;
         public event EventHandler CloseRequested;
@@ -32,11 +34,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             remove => _specializedDataGridView.CellClick -= value;
         }
 
+        // Fields
+
         [NotNull] private readonly TitleBarUserControl _titleBarUserControl;
         [NotNull] private readonly SpecializedDataGridView _specializedDataGridView;
         [NotNull] private readonly TableLayoutPanel _tableLayoutPanel;
-
         private int _columnCounter = 1;
+
+        // Construction
 
         public GridUserControlBase()
         {
@@ -54,8 +59,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             // ReSharper disable once VirtualMemberCallInConstructor
             AddColumns();
         }
-
-        // Create Controls
 
         private TableLayoutPanel CreateTableLayoutPanel()
         {
@@ -154,7 +157,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => _titleBarUserControl.PlayButtonVisible = value;
         }
 
-        /// <summary> does nothing </summary>
+        protected bool FullRowSelect
+        {
+            get => _specializedDataGridView.SelectionMode == DataGridViewSelectionMode.FullRowSelect;
+            set => _specializedDataGridView.SelectionMode = value ? DataGridViewSelectionMode.FullRowSelect : DataGridViewSelectionMode.CellSelect;
+        }
+
+        /// <summary> base does nothing </summary>
         protected virtual void AddColumns() { }
 
         protected DataGridViewTextBoxColumn AddHiddenColumn([NotNull] string dataPropertyName)
@@ -237,7 +246,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         protected string IDPropertyName { get; set; }
         protected override void ApplyViewModelToControls() => _specializedDataGridView.DataSource = GetDataSource();
 
-        // Events
+        // Event Handlers
 
         private void _titleBarUserControl_AddClicked(object sender, EventArgs e) => Add();
         private void _titleBarUserControl_RemoveClicked(object sender, EventArgs e) => Remove();
@@ -315,6 +324,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         }
 
         // Helpers
+
+        protected int? TryGetColumnIndex() => _specializedDataGridView.CurrentCell?.ColumnIndex;
 
         protected int? TryGetSelectedID()
         {

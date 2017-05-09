@@ -82,9 +82,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             base.Dispose(disposing);
         }
 
-        public void DocumentOpen(string name)
+        public bool DocumentOpen(string name)
         {
             TemplateActionHandler(() => _presenter.DocumentOpen(name));
+
+            // HACK: Inform the caller Program.cs whether document was found, so that the application can exit.
+            Document document = _repositories.DocumentRepository.TryGetByName(name);
+            return document != null;
         }
 
         // Helpers

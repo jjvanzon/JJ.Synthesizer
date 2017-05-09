@@ -10,6 +10,7 @@ using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -55,13 +56,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             SetAudioOutput(audioOutput);
 
             var form = new MainForm();
-
             form.Show();
 
             ParsedCommandLineArguments parsedCommandLineArguments = ParseCommandLineArguments(args);
             if (!string.IsNullOrWhiteSpace(parsedCommandLineArguments.DocumentName))
             {
-                form.DocumentOpen(parsedCommandLineArguments.DocumentName);
+                bool success = form.DocumentOpen(parsedCommandLineArguments.DocumentName);
+                if (!success)
+                {
+                    Application.Exit();
+                    return;
+                }
             }
 
             Application.Run(form);

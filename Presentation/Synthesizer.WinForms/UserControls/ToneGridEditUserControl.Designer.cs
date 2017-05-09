@@ -70,14 +70,16 @@
             this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
+            this.titleBarUserControl.OpenButtonVisible = false;
             this.titleBarUserControl.PlayButtonVisible = false;
+            this.titleBarUserControl.RefreshButtonVisible = false;
             this.titleBarUserControl.RemoveButtonVisible = true;
             this.titleBarUserControl.SaveButtonVisible = false;
             this.titleBarUserControl.Size = new System.Drawing.Size(623, 26);
             this.titleBarUserControl.TabIndex = 8;
-            this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
-            this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
             this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
+            this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
+            this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
             // specializedDataGridView
             // 
@@ -103,6 +105,7 @@
             this.specializedDataGridView.Margin = new System.Windows.Forms.Padding(0);
             this.specializedDataGridView.Name = "specializedDataGridView";
             this.specializedDataGridView.RowHeadersVisible = false;
+            this.specializedDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.specializedDataGridView.Size = new System.Drawing.Size(623, 583);
             this.specializedDataGridView.TabIndex = 9;
             this.specializedDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.specializedDataGridView_CellClick);
@@ -121,11 +124,11 @@
             // PlayColumn
             // 
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle1.NullValue")));
             this.PlayColumn.DefaultCellStyle = dataGridViewCellStyle1;
             this.PlayColumn.HeaderText = "";
-            this.PlayColumn.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PlayIcon;
+            this.PlayColumn.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PlayIconThinner;
             this.PlayColumn.Name = "PlayColumn";
             this.PlayColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.PlayColumn.Width = 20;

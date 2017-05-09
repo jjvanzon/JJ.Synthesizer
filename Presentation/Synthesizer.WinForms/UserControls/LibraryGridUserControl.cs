@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             IDPropertyName = nameof(LibraryListItemViewModel.DocumentReferenceID);
             ColumnTitlesVisible = true;
             PlayButtonVisible = true;
+            FullRowSelect = false;
 
             KeyDown += base_KeyDown;
             CellClick += base_CellClick;
@@ -49,11 +50,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void base_KeyDown(object sender, KeyEventArgs e)
         {
+            int? columnIndex = TryGetColumnIndex();
+            if (!columnIndex.HasValue)
+            {
+                return;
+            }
 
             switch (e.KeyCode)
             {
-                case Keys.Space:
+                case Keys.Space when columnIndex.Value == _playColumn.Index:
                     Play();
+                    e.Handled = true;
+                    break;
+
+                case Keys.Space when columnIndex.Value == _openColumn.Index:
+                    Open();
                     e.Handled = true;
                     break;
             }
