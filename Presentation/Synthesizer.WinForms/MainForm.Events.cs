@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Media;
-using System.Reflection;
-using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
@@ -194,6 +190,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
             MessageBoxHelper.DocumentDeleteCanceled += MessageBoxHelper_DocumentDeleteCanceled;
             MessageBoxHelper.DocumentDeletedOK += MessageBoxHelper_DocumentDeletedOK;
+            MessageBoxHelper.DocumentNotFoundOK += MessageBoxHelper_DocumentNotFoundOK;
             MessageBoxHelper.PopupMessagesOK += MessageBoxHelper_PopupMessagesOK;
         }
 
@@ -1021,6 +1018,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.DocumentDeleteConfirm(e.Value));
 
         private void MessageBoxHelper_DocumentDeletedOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentDeletedOK);
+
+        private void MessageBoxHelper_DocumentNotFoundOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentNotFoundOK);
 
         private void MessageBoxHelper_PopupMessagesOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.PopupMessagesOK);
 

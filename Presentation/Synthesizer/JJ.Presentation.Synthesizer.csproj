@@ -57,6 +57,7 @@
     <Compile Include="Helpers\ViewModelNotFoundByIDException.cs" />
     <Compile Include="Presenters\AudioOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\CurrentInstrumentPresenter.cs" />
+    <Compile Include="Presenters\DocumentNotFoundPopupPresenter.cs" />
     <Compile Include="Presenters\GridPresenterBase.cs" />
     <Compile Include="Presenters\LibraryGridPresenter.cs" />
     <Compile Include="Presenters\LibraryPatchPropertiesPresenter.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Validators\ValidationHelper.cs" />
     <Compile Include="ViewModels\AudioOutputPropertiesViewModel.cs" />
     <Compile Include="ViewModels\CurrentInstrumentViewModel.cs" />
+    <Compile Include="ViewModels\DocumentNotFoundPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\DocumentTreeNodeTypeEnum.cs" />
     <Compile Include="ViewModels\Items\AutoPatchPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\LibraryListItemViewModel.cs" />

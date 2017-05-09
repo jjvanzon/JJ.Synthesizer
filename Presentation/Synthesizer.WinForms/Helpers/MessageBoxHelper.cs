@@ -19,48 +19,53 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         public static event EventHandler DocumentDeleteCanceled;
         public static event EventHandler DocumentDeletedOK;
         public static event EventHandler PopupMessagesOK;
+        public static event EventHandler DocumentNotFoundOK;
 
         public static void ShowDocumentConfirmDelete(Form parentForm, DocumentDeleteViewModel viewModel)
         {
             if (parentForm == null) throw new NullException(() => parentForm);
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            parentForm.BeginInvoke(new Action(() =>
-            {
-                string message = CommonResourceFormatter.AreYouSureYouWishToDelete_WithType_AndName(ResourceFormatter.Document, viewModel.Document.Name);
+            parentForm.BeginInvoke(
+                new Action(
+                    () =>
+                    {
+                        string message = CommonResourceFormatter.AreYouSureYouWishToDelete_WithType_AndName(ResourceFormatter.Document, viewModel.Document.Name);
 
-                DialogResult dialogResult = MessageBox.Show(message, ResourceFormatter.ApplicationName, MessageBoxButtons.YesNo);
-                switch (dialogResult)
-                {
-                    case DialogResult.Yes:
-                        if (DocumentDeleteConfirmed != null)
+                        DialogResult dialogResult = MessageBox.Show(message, ResourceFormatter.ApplicationName, MessageBoxButtons.YesNo);
+                        switch (dialogResult)
                         {
-                            var e = new EventArgs<int>(viewModel.Document.ID);
-                            DocumentDeleteConfirmed(_dummySender, e);
+                            case DialogResult.Yes:
+                                if (DocumentDeleteConfirmed != null)
+                                {
+                                    var e = new EventArgs<int>(viewModel.Document.ID);
+                                    DocumentDeleteConfirmed(_dummySender, e);
+                                }
+                                break;
+
+                            case DialogResult.No:
+
+                                DocumentDeleteCanceled?.Invoke(_dummySender, EventArgs.Empty);
+                                break;
+
+                            default:
+                                throw new ValueNotSupportedException(dialogResult);
                         }
-                        break;
-
-                    case DialogResult.No:
-
-                        DocumentDeleteCanceled?.Invoke(_dummySender, EventArgs.Empty);
-                        break;
-
-                    default:
-                        throw new ValueNotSupportedException(dialogResult);
-                }
-            }));
+                    }));
         }
 
         public static void ShowDocumentIsDeleted(Form parentForm)
         {
             if (parentForm == null) throw new NullException(() => parentForm);
 
-            parentForm.BeginInvoke(new Action(() =>
-            {
-                MessageBox.Show(CommonResourceFormatter.IsDeleted_WithName(ResourceFormatter.Document));
+            parentForm.BeginInvoke(
+                new Action(
+                    () =>
+                    {
+                        MessageBox.Show(CommonResourceFormatter.IsDeleted_WithName(ResourceFormatter.Document));
 
-                DocumentDeletedOK?.Invoke(_dummySender, EventArgs.Empty);
-            }));
+                        DocumentDeletedOK?.Invoke(_dummySender, EventArgs.Empty);
+                    }));
         }
 
         public static void ShowPopupMessages(Form parentForm, IList<CanonicalModel.MessageDto> popupMessages)
@@ -68,22 +73,40 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             if (parentForm == null) throw new NullException(() => parentForm);
             if (popupMessages == null) throw new NullException(() => popupMessages);
 
-            parentForm.BeginInvoke(new Action(() =>
-            {
-                MessageBox.Show(string.Join(Environment.NewLine, popupMessages.Select(x => x.Text)));
+            parentForm.BeginInvoke(
+                new Action(
+                    () =>
+                    {
+                        MessageBox.Show(string.Join(Environment.NewLine, popupMessages.Select(x => x.Text)));
 
-                PopupMessagesOK?.Invoke(_dummySender, EventArgs.Empty);
-            }));
+                        PopupMessagesOK?.Invoke(_dummySender, EventArgs.Empty);
+                    }));
         }
 
         public static void ShowMessageBox(Form parentForm, string text)
         {
             if (parentForm == null) throw new NullException(() => parentForm);
 
-            parentForm.BeginInvoke(new Action(() =>
-            {
-                MessageBox.Show(text);
-            }));
+            parentForm.BeginInvoke(
+                new Action(
+                    () =>
+                    {
+                        MessageBox.Show(text);
+                    }));
+        }
+
+        public static void ShowDocumentNotFoundPopup(Form parentForm, DocumentNotFoundPopupViewModel viewModel)
+        {
+            if (parentForm == null) throw new NullException(() => parentForm);
+
+            parentForm.BeginInvoke(
+                new Action(
+                    () =>
+                    {
+                        MessageBox.Show(string.Join(Environment.NewLine, viewModel.ValidationMessages.Select(x => x.Text)));
+
+                        DocumentNotFoundOK(_dummySender, EventArgs.Empty);
+                    }));
         }
     }
 }

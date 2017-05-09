@@ -10,7 +10,6 @@ using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -35,6 +34,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         [STAThread]
         private static void Main(string[] args)
         {
+            ParsedCommandLineArguments parsedCommandLineArguments = ParseCommandLineArguments(args);
+
             var businessConfig = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
             ConfigurationHelper.SetSection(businessConfig);
 
@@ -56,18 +57,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             SetAudioOutput(audioOutput);
 
             var form = new MainForm();
-            form.Show();
-
-            ParsedCommandLineArguments parsedCommandLineArguments = ParseCommandLineArguments(args);
-            if (!string.IsNullOrWhiteSpace(parsedCommandLineArguments.DocumentName))
-            {
-                bool success = form.DocumentOpen(parsedCommandLineArguments.DocumentName);
-                if (!success)
-                {
-                    Application.Exit();
-                    return;
-                }
-            }
+            form.Show(parsedCommandLineArguments.DocumentName);
 
             Application.Run(form);
 

@@ -87,6 +87,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             bool propertiesPanelMustBeVisible = _userControls.Where(x => MustBecomeVisible(x) && x is PropertiesUserControlBase).Any();
             SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
 
+            // Modal Windows
             if (_presenter.MainViewModel.DocumentDelete.Visible)
             {
                 MessageBoxHelper.ShowDocumentConfirmDelete(this, _presenter.MainViewModel.DocumentDelete);
@@ -131,6 +132,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 MessageBoxHelper.ShowPopupMessages(this, popupMessages);
             }
 
+            if (_presenter.MainViewModel.DocumentNotFound.Visible)
+            {
+                MessageBoxHelper.ShowDocumentNotFoundPopup(this, _presenter.MainViewModel.DocumentNotFound);
+            }
+
             // Focus control if not valid.
             foreach (UserControlBase userControl in _userControls)
             {
@@ -148,6 +154,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 userControl.Focus();
                 break;
+            }
+
+            // Close MainForm if needed.
+            if (_presenter.MainViewModel.DocumentNotFound.MustCloseMainView)
+            {
+                Close();
             }
         }
 

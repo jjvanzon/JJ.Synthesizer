@@ -1,8 +1,5 @@
 ﻿using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Api;
-using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -23,10 +20,8 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Presentation.Resources;
 
 // ReSharper disable InvertIf
 
@@ -36,7 +31,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         // General Actions
 
-        public void Show()
+        public void Show(string documentName = null)
+        {
+            if (string.IsNullOrEmpty(documentName))
+            {
+                ShowWithoutDocumentName();
+            }
+            else
+            {
+                ShowWithDocumentName(documentName);
+            }
+        }
+
+        private void ShowWithoutDocumentName()
         {
             // Create ViewModel
             MainViewModel = ViewModelHelper.CreateEmptyMainViewModel();
@@ -50,6 +57,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.TitleBar = titleBar;
             DispatchViewModel(menuViewModel);
             DispatchViewModel(documentGridViewModel);
+        }
+
+        private void ShowWithDocumentName(string documentName)
+        {
+            // Create ViewModel
+            MainViewModel = ViewModelHelper.CreateEmptyMainViewModel();
+
+            // Businesss
+            Document document = _repositories.DocumentRepository.TryGetByName(documentName);
+            if (document == null)
+            {
+                // GetUserInput
+                DocumentNotFoundPopupViewModel userInput = MainViewModel.DocumentNotFound;
+
+                // Template Method
+                TemplateActionMethod(userInput, () => _documentNotFoundPresenter.Show(userInput, documentName));
+            }
+            else
+            {
+                // Redirect
+                DocumentOpen(documentName);
+            }
         }
 
         public void PopupMessagesOK() => MainViewModel.PopupMessages = new List<MessageDto>();
@@ -463,7 +492,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _currentInstrumentPresenter.Show(userInput));
         }
 
-
         public void CurrentInstrumentPlay()
         {
             // GetViewModel
@@ -834,21 +862,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentOpen(string name)
         {
-            Document document = _repositories.DocumentRepository.TryGetByName(name);
-            if (document == null)
-            {
-                MainViewModel.ValidationMessages.Add(
-                    new MessageDto
-                    {
-                        Key = nameof(Document),
-                        Text = CommonResourceFormatter.NotFound_WithType_AndName(ResourceFormatter.Document, name)
-                    });
-            }
-            else
-            {
-                document = _repositories.DocumentRepository.GetComplete(document.ID);
-                DocumentOpen(document);
-            }
+            Document document = _repositories.DocumentRepository.GetByName(name);
+            document = _repositories.DocumentRepository.GetComplete(document.ID);
+            DocumentOpen(document);
         }
 
         public void DocumentOpen(int id)
@@ -1010,6 +1026,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Redirections
                 DocumentGridShow();
             }
+        }
+
+        public void DocumentNotFoundOK()
+        {
+            // GetViewModel
+            DocumentNotFoundPopupViewModel userInput = MainViewModel.DocumentNotFound;
+
+            // Template Method
+            TemplateActionMethod(userInput, () => _documentNotFoundPresenter.OK(userInput));
         }
 
         public void DocumentPropertiesShow()

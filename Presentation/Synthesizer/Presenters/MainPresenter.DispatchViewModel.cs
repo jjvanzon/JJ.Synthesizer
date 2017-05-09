@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Presentation;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -32,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentDeleteViewModel), DispatchDocumentDeleteViewModel },
                 { typeof(DocumentDetailsViewModel), DispatchDocumentDetailsViewModel },
                 { typeof(DocumentGridViewModel), DispatchDocumentGridViewModel },
+                { typeof(DocumentNotFoundPopupViewModel), DispatchDocumentNotFoundPopupViewModel },
                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(LibraryGridViewModel), DispatchLibraryGridViewModel },
@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (!_dispatchDelegateDictionary.TryGetValue(viewModelType, out Action<ViewModelBase> dispatchDelegate))
             {
-                throw new UnexpectedViewModelTypeException(viewModel);
+                throw new Exception($"{nameof(_dispatchDelegateDictionary)} does not contain {nameof(viewModelType)} '{viewModelType}'.");
             }
 
             dispatchDelegate(viewModel);
@@ -289,6 +289,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             DispatchViewModelBase(castedViewModel);
+        }
+
+        private void DispatchDocumentNotFoundPopupViewModel(ViewModelBase viewModel)
+        {
+            var castedViewmodel = (DocumentNotFoundPopupViewModel)viewModel;
+
+            MainViewModel.DocumentNotFound = castedViewmodel;
+
+            // HACK: Do not call DispatchViewModelBase, 
+            // because that will move all messages to the MainViewModel.PopupMessages collection.
+            //DispatchViewModelBase(castedViewmodel);
         }
 
         private void DispatchDocumentPropertiesViewModel(ViewModelBase viewModel)

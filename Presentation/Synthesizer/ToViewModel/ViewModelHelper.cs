@@ -357,6 +357,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static DocumentNotFoundPopupViewModel CreateDocumentNotFoundPopupViewModel() => CreateEmptyDocumentNotFoundPopupViewModel();
+
+        public static DocumentNotFoundPopupViewModel CreateDocumentNotFoundPopupViewModel(string message)
+        {
+            DocumentNotFoundPopupViewModel viewModel = CreateDocumentNotFoundPopupViewModel();
+
+            viewModel.ValidationMessages.Add(new MessageDto { Key = nameof(Document), Text = message });
+
+            return viewModel;
+        }
+
         public static bool GetCanPlay(DocumentTreeNodeTypeEnum selectedNodeType)
         {
             switch (selectedNodeType)

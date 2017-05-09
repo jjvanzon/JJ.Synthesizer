@@ -193,6 +193,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        private static DocumentNotFoundPopupViewModel CreateEmptyDocumentNotFoundPopupViewModel()
+        {
+            var viewModel = new DocumentNotFoundPopupViewModel
+            {
+                ValidationMessages = new List<MessageDto>()
+            };
+
+            return viewModel;
+        }
+
         public static DocumentPropertiesViewModel CreateEmptyDocumentPropertiesViewModel()
         {
             var viewModel = new DocumentPropertiesViewModel
@@ -249,6 +259,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentDeleted = CreateEmptyDocumentDeletedViewModel(),
                 DocumentDetails = CreateEmptyDocumentDetailsViewModel(),
                 DocumentGrid = CreateEmptyDocumentGridViewModel(),
+                DocumentNotFound = CreateEmptyDocumentNotFoundPopupViewModel()
             };
         }
 

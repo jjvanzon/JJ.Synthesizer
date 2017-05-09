@@ -53,18 +53,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             BindEvents();
             ApplyStyling();
-
-            try
-            {
-                _presenter.Show();
-                ApplyViewModel();
-
-                RecreatePatchCalculator();
-            }
-            finally
-            {
-                _context.Rollback();
-            }
         }
 
         /// <summary>
@@ -82,14 +70,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             base.Dispose(disposing);
         }
 
-        public bool DocumentOpen(string name)
+        public void Show(string documentName = null)
         {
-            TemplateActionHandler(() => _presenter.DocumentOpen(name));
+            base.Show();
 
-            // HACK: Inform the caller Program.cs whether document was found, so that the application can exit.
-            Document document = _repositories.DocumentRepository.TryGetByName(name);
-            return document != null;
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.Show(documentName);
+                    RecreatePatchCalculator();
+                });
         }
+
+        public void DocumentOpen(string name) => TemplateActionHandler(() => _presenter.DocumentOpen(name));
 
         // Helpers
 

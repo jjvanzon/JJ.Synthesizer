@@ -45,6 +45,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly DocumentDeletePresenter _documentDeletePresenter;
         private readonly DocumentDetailsPresenter _documentDetailsPresenter;
         private readonly DocumentGridPresenter _documentGridPresenter;
+        private readonly DocumentNotFoundPopupPresenter _documentNotFoundPresenter;
         private readonly DocumentPropertiesPresenter _documentPropertiesPresenter;
         private readonly DocumentTreePresenter _documentTreePresenter;
         private readonly LibraryGridPresenter _libraryGridPresenter;
@@ -122,6 +123,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentDeletePresenter = new DocumentDeletePresenter(_repositories);
             _documentDetailsPresenter = new DocumentDetailsPresenter(_repositories);
             _documentGridPresenter = new DocumentGridPresenter(_repositories);
+            _documentNotFoundPresenter = new DocumentNotFoundPopupPresenter();
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
             _documentTreePresenter = new DocumentTreePresenter(_patchRepositories);
             _libraryGridPresenter = new LibraryGridPresenter(_repositories);
