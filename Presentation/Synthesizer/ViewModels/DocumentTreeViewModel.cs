@@ -18,7 +18,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int? SelectedItemID { get; set; }
         public int? SelectedPatchGroupLowerDocumentReferenceID { get; set; }
         public string SelectedPatchGroup { get; set; }
-        public int? OutletIDToPlay { get; set; }
         public bool CanPlay { get; set; }
+        public bool CanOpen { get; set; }
+        internal int? OutletIDToPlay { get; set; }
+        internal int? LowerDocumentReferenceIDToOpen { get; set; }
     }
 }

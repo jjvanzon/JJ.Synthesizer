@@ -11,6 +11,6 @@
         /// <summary> not editable </summary>
         public string Library { get; set; }
 
-        public int? OutletIDToPlay { get; set; }
+        internal int? OutletIDToPlay { get; set; }
     }
 }

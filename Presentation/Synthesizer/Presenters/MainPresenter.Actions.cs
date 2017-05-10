@@ -1085,6 +1085,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _documentTreePresenter.Close(userInput));
         }
 
+        public void DocumentTreeOpen()
+        {
+            // GetViewModel
+            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+            // Template Method
+            TemplateActionMethod(userInput, () => _documentTreePresenter.Open(userInput));
+        }
+
         public void DocumentTreePlay()
         {
             // GetViewModel

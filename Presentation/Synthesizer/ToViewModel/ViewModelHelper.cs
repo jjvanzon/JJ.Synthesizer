@@ -388,6 +388,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
         }
 
+        public static bool GetCanOpen(DocumentTreeNodeTypeEnum selectedNodeType)
+        {
+            bool canOpen = selectedNodeType == DocumentTreeNodeTypeEnum.Library;
+            return canOpen;
+        }
+
         // Menu
 
         public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)

@@ -7,6 +7,6 @@
         /// <summary> not editable </summary>
         public string Name { get; set; }
         public string Alias { get; set; }
-        public int? OutletIDToPlay { get; set; }
+        internal int? OutletIDToPlay { get; set; }
     }
 }

@@ -6,6 +6,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     public sealed class DocumentGridViewModel : ViewModelBase
     {
         public IList<IDAndName> List { get; set; }
-        public int? OutletIDToPlay { get; set; }
+        internal int? OutletIDToPlay { get; set; }
     }
 }

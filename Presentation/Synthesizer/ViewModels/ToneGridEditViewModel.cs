@@ -11,6 +11,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// <summary> The title of the number column might vary with the ScaleType. </summary>
         public string NumberTitle { get; set; }
         public bool FrequencyVisible { get; set; }
-        public int? OutletIDToPlay { get; set; }
+        internal int? OutletIDToPlay { get; set; }
     }
 }

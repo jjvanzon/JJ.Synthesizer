@@ -332,6 +332,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.OutletIDToPlay = null;
             }
 
+            if (castedViewModel.LowerDocumentReferenceIDToOpen.HasValue)
+            {
+                MainViewModel.Document.LowerDocumentReferenceIDToOpen = castedViewModel.LowerDocumentReferenceIDToOpen;
+                castedViewModel.OutletIDToPlay = null;
+            }
+
             DispatchViewModelBase(castedViewModel);
         }
 

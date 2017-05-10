@@ -8,6 +8,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int DocumentID { get; set; }
         public string Group { get; set; }
         public IList<PatchListItemViewModel> List { get; set; }
-        public int? OutletIDToPlay { get; set; }
+        internal int? OutletIDToPlay { get; set; }
     }
 }

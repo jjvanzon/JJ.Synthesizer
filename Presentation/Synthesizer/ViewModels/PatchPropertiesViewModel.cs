@@ -7,6 +7,6 @@
         public string Name { get; set; }
         public string Group { get; set; }
         public bool Hidden { get; set; }
-        public int? OutletIDToPlay { get; set; }
+        internal int? OutletIDToPlay { get; set; }
     }
 }

@@ -251,6 +251,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             OpenDocument(document);
         }
 
+        private void OpenLibraryIfNeeded()
+        {
+            // ReSharper disable once InvertIf
+            if (_presenter.MainViewModel.Document.LowerDocumentReferenceIDToOpen.HasValue)
+            {
+                OpenLibrary(_presenter.MainViewModel.Document.LowerDocumentReferenceIDToOpen.Value);
+
+                _presenter.MainViewModel.Document.LowerDocumentReferenceIDToOpen = null;
+            }
+        }
+
         private void OpenLibrary(int lowerDocumentReferenceID)
         {
             DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(lowerDocumentReferenceID);

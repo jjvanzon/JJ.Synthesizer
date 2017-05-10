@@ -61,6 +61,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
+            this.titleBarUserControl.OpenButtonVisible = false;
             this.titleBarUserControl.PlayButtonVisible = true;
             this.titleBarUserControl.RefreshButtonVisible = true;
             this.titleBarUserControl.RemoveButtonVisible = false;
@@ -70,6 +71,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.PlayClicked += new System.EventHandler(this.titleBarUserControl_PlayClicked);
             this.titleBarUserControl.SaveClicked += new System.EventHandler(this.titleBarUserControl_SaveClicked);
             this.titleBarUserControl.RefreshClicked += new System.EventHandler(this.titleBarUserControl_RefreshClicked);
+            this.titleBarUserControl.OpenClicked += new System.EventHandler(this.titleBarUserControl_OpenClicked);
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
             // treeView

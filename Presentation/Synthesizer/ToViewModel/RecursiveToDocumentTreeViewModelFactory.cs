@@ -97,8 +97,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 LowerDocumentReferenceID = lowerDocumentReference.ID,
             };
 
-
-
             // Business
             var patchManager = new PatchManager(repositories);
             IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, mustIncludeHidden: false);

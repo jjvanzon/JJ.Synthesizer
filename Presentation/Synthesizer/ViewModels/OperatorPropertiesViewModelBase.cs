@@ -19,6 +19,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public bool CustomDimensionNameVisible { get; set; }
         public string CustomDimensionName { get; set; }
 
-        public int? OutletIDToPlay { get; set; }
+        internal int? OutletIDToPlay { get; set; }
     }
 }

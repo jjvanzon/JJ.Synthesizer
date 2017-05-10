@@ -8,6 +8,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public bool IsOpen { get; set; }
         public int ID { get; set; }
         public int? OutletIDToPlay { get; set; }
+        public int? LowerDocumentReferenceIDToOpen { get; set; }
 
         public AudioFileOutputGridViewModel AudioFileOutputGrid { get; set; }
         public AudioFileOutputPropertiesViewModel VisibleAudioFileOutputProperties { get; set; }

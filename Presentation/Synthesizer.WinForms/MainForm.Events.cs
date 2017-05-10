@@ -58,6 +58,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.PatchGroupNodeSelected += documentTreeUserControl_PatchGroupNodeSelected;
             documentTreeUserControl.PatchNodeSelected += documentTreeUserControl_PatchNodeSelected;
             documentTreeUserControl.PlayRequested += documentTreeUserControl_PlayRequested;
+            documentTreeUserControl.OpenRequested += documentTreeUserControl_OpenRequested;
             documentTreeUserControl.RefreshRequested += documentTreeUserControl_RefreshRequested;
             documentTreeUserControl.SamplesNodeSelected += documentTreeUserControl_SamplesNodeSelected;
             documentTreeUserControl.SaveRequested += documentTreeUserControl_SaveRequested;
@@ -495,6 +496,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(() => _presenter.DocumentTreeSelectLibraryPatchGroup(e.LowerDocumentReferenceID, e.PatchGroup));
         }
 
+        private void documentTreeUserControl_OpenRequested(object sender, EventArgs e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.DocumentTreeOpen();
+                    OpenLibraryIfNeeded();
+                });
+        }
+
         private void documentTreeUserControl_PatchGroupNodeSelected(object sender, EventArgs<string> e)
         {
             TemplateActionHandler(() => _presenter.DocumentTreeSelectPatchGroup(e.Value));
@@ -515,7 +526,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void documentTreeUserControl_RefreshRequested(object sender, EventArgs e) => TemplateActionHandler(() => _presenter.DocumentRefresh());
+        private void documentTreeUserControl_RefreshRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentRefresh);
 
         private void documentTreeUserControl_SamplesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeSelectSamples);
 

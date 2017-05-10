@@ -10,6 +10,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public IList<IDAndName> OperatorToolboxItems { get; set; }
         public OperatorViewModel SelectedOperator { get; set; }
         public bool CanSave { get; set; }
-        public int? OutletIDToPlay { get; set; }
+        internal int? OutletIDToPlay { get; set; }
     }
 }
