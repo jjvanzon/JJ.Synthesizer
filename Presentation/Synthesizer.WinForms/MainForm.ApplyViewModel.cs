@@ -132,9 +132,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 MessageBoxHelper.ShowPopupMessages(this, popupMessages);
             }
 
-            if (_presenter.MainViewModel.DocumentNotFound.Visible)
+            if (_presenter.MainViewModel.DocumentOrPatchNotFound.Visible)
             {
-                MessageBoxHelper.ShowDocumentNotFoundPopup(this, _presenter.MainViewModel.DocumentNotFound);
+                MessageBoxHelper.ShowDocumentOrPatchNotFoundPopup(this, _presenter.MainViewModel.DocumentOrPatchNotFound);
             }
 
             // Focus control if not valid.
@@ -157,7 +157,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
 
             // Close MainForm if needed.
-            if (_presenter.MainViewModel.DocumentNotFound.MustCloseMainView)
+            if (_presenter.MainViewModel.DocumentOrPatchNotFound.MustCloseMainView)
             {
                 Close();
             }

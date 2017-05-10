@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentDeleteViewModel), DispatchDocumentDeleteViewModel },
                 { typeof(DocumentDetailsViewModel), DispatchDocumentDetailsViewModel },
                 { typeof(DocumentGridViewModel), DispatchDocumentGridViewModel },
-                { typeof(DocumentNotFoundPopupViewModel), DispatchDocumentNotFoundPopupViewModel },
+                { typeof(DocumentOrPatchNotFoundPopupViewModel), DispatchDocumentOrPatchNotFoundPopupViewModel },
                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(LibraryGridViewModel), DispatchLibraryGridViewModel },
@@ -291,11 +291,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchDocumentNotFoundPopupViewModel(ViewModelBase viewModel)
+        private void DispatchDocumentOrPatchNotFoundPopupViewModel(ViewModelBase viewModel)
         {
-            var castedViewmodel = (DocumentNotFoundPopupViewModel)viewModel;
+            var castedViewmodel = (DocumentOrPatchNotFoundPopupViewModel)viewModel;
 
-            MainViewModel.DocumentNotFound = castedViewmodel;
+            MainViewModel.DocumentOrPatchNotFound = castedViewmodel;
 
             DispatchViewModelBase(castedViewmodel);
         }

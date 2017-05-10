@@ -18,6 +18,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private class ParsedCommandLineArguments
         {
             public string DocumentName { get; set; }
+            public string PatchName { get; set; }
         }
 
         private static AudioOutputProcessor _audioOutputProcessor;
@@ -57,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             SetAudioOutput(audioOutput);
 
             var form = new MainForm();
-            form.Show(parsedCommandLineArguments.DocumentName);
+            form.Show(parsedCommandLineArguments.DocumentName, parsedCommandLineArguments.PatchName);
 
             Application.Run(form);
 
@@ -82,8 +83,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     parsedCommandLineArguments.DocumentName = args[0];
                     return parsedCommandLineArguments;
 
+                case 2:
+                    parsedCommandLineArguments.DocumentName = args[0];
+                    parsedCommandLineArguments.PatchName = args[1];
+                    return parsedCommandLineArguments;
+
+
                 default:
-                    throw new Exception("Command line has more than one argument.");
+                    throw new GreaterThanException(() => args.Count, 2);
             }
         }
 

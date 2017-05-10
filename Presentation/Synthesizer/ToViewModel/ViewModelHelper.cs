@@ -357,9 +357,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentNotFoundPopupViewModel CreateDocumentNotFoundPopupViewModel(string message = null)
+        public static DocumentOrPatchNotFoundPopupViewModel CreateDocumentOrPatchNotFoundPopupViewModel(string message = null)
         {
-            DocumentNotFoundPopupViewModel viewModel = CreateEmptyDocumentNotFoundPopupViewModel();
+            DocumentOrPatchNotFoundPopupViewModel viewModel = CreateEmptyDocumentOrPatchNotFoundPopupViewModel();
 
             viewModel.NotFoundMessage = message;
 

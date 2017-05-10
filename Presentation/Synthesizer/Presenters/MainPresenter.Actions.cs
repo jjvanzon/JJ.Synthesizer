@@ -31,19 +31,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         // General Actions
 
-        public void Show(string documentName = null)
+        /// <param name="documentName">nullable</param>
+        /// <param name="patchName">nullable</param>
+        public void Show(string documentName, string patchName)
         {
-            if (string.IsNullOrEmpty(documentName))
+            if (string.IsNullOrEmpty(documentName) && string.IsNullOrEmpty(patchName))
             {
-                ShowWithoutDocumentName();
+                ShowWithoutDocumentNameOrPatchName();
             }
-            else
+            else if (!string.IsNullOrEmpty(documentName) && string.IsNullOrEmpty(patchName))
             {
                 ShowWithDocumentName(documentName);
             }
+            else if (string.IsNullOrEmpty(documentName) && !string.IsNullOrEmpty(patchName))
+            {
+                throw new Exception($"if {nameof(documentName)} is empty, {nameof(patchName)} cannot be filled in.");
+            }
+            else if (!string.IsNullOrEmpty(documentName) && !string.IsNullOrEmpty(patchName))
+            {
+                ShowWithDocumentNameAndPatchName(documentName, patchName);
+            }
         }
 
-        private void ShowWithoutDocumentName()
+        private void ShowWithoutDocumentNameOrPatchName()
         {
             // Create ViewModel
             MainViewModel = ViewModelHelper.CreateEmptyMainViewModel();
@@ -69,15 +79,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (document == null)
             {
                 // GetUserInput
-                DocumentNotFoundPopupViewModel userInput = MainViewModel.DocumentNotFound;
+                DocumentOrPatchNotFoundPopupViewModel userInput = MainViewModel.DocumentOrPatchNotFound;
 
                 // Template Method
-                TemplateActionMethod(userInput, () => _documentNotFoundPresenter.Show(userInput, documentName));
+                TemplateActionMethod(userInput, () => _documentOrPatchNotFoundPresenter.Show(userInput, documentName));
             }
             else
             {
                 // Redirect
-                DocumentOpen(documentName);
+                DocumentOpen(document);
+            }
+        }
+
+        private void ShowWithDocumentNameAndPatchName(string documentName, string patchName)
+        {
+            // Create ViewModel
+            MainViewModel = ViewModelHelper.CreateEmptyMainViewModel();
+
+            // Businesss
+            Document document = _repositories.DocumentRepository.TryGetByName(documentName);
+            Patch patch = _repositories.PatchRepository.TryGetByName(patchName);
+            if (document == null || patch == null)
+            {
+                // GetUserInput
+                DocumentOrPatchNotFoundPopupViewModel userInput = MainViewModel.DocumentOrPatchNotFound;
+
+                // Template Method
+                TemplateActionMethod(userInput, () => _documentOrPatchNotFoundPresenter.Show(userInput, documentName, patchName));
+            }
+            else
+            {
+                // Redirect
+                DocumentOpen(document);
+                PatchDetailsShow(patch.ID);
             }
         }
 
@@ -1028,13 +1062,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void DocumentNotFoundOK()
+        public void DocumentOrPatchNotFoundOK()
         {
             // GetViewModel
-            DocumentNotFoundPopupViewModel userInput = MainViewModel.DocumentNotFound;
+            DocumentOrPatchNotFoundPopupViewModel userInput = MainViewModel.DocumentOrPatchNotFound;
 
             // Template Method
-            TemplateActionMethod(userInput, () => _documentNotFoundPresenter.OK(userInput));
+            TemplateActionMethod(userInput, () => _documentOrPatchNotFoundPresenter.OK(userInput));
         }
 
         public void DocumentPropertiesShow()

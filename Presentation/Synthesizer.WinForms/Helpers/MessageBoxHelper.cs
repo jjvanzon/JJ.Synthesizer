@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         public static event EventHandler DocumentDeleteCanceled;
         public static event EventHandler DocumentDeletedOK;
         public static event EventHandler PopupMessagesOK;
-        public static event EventHandler DocumentNotFoundOK;
+        public static event EventHandler DocumentOrPatchNotFoundOK;
 
         public static void ShowDocumentConfirmDelete(Form parentForm, DocumentDeleteViewModel viewModel)
         {
@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                     }));
         }
 
-        public static void ShowDocumentNotFoundPopup(Form parentForm, DocumentNotFoundPopupViewModel viewModel)
+        public static void ShowDocumentOrPatchNotFoundPopup(Form parentForm, DocumentOrPatchNotFoundPopupViewModel viewModel)
         {
             if (parentForm == null) throw new NullException(() => parentForm);
 
@@ -105,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                     {
                         MessageBox.Show(string.Join(Environment.NewLine, viewModel.NotFoundMessage));
 
-                        DocumentNotFoundOK(_dummySender, EventArgs.Empty);
+                        DocumentOrPatchNotFoundOK(_dummySender, EventArgs.Empty);
                     }));
         }
     }

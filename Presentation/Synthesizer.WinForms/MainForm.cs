@@ -69,15 +69,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             base.Dispose(disposing);
         }
-
-        public void Show(string documentName = null)
+        
+        /// <param name="documentName">nullable</param>
+        /// <param name="patchName">nullable</param>
+        public void Show(string documentName, string patchName)
         {
             base.Show();
 
             TemplateActionHandler(
                 () =>
                 {
-                    _presenter.Show(documentName);
+                    _presenter.Show(documentName, patchName);
                     RecreatePatchCalculator();
                 });
         }
