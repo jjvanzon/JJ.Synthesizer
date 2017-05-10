@@ -297,9 +297,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.DocumentNotFound = castedViewmodel;
 
-            // HACK: Do not call DispatchViewModelBase, 
-            // because that will move all messages to the MainViewModel.PopupMessages collection.
-            //DispatchViewModelBase(castedViewmodel);
+            DispatchViewModelBase(castedViewmodel);
         }
 
         private void DispatchDocumentPropertiesViewModel(ViewModelBase viewModel)

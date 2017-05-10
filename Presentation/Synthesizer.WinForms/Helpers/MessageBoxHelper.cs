@@ -103,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 new Action(
                     () =>
                     {
-                        MessageBox.Show(string.Join(Environment.NewLine, viewModel.ValidationMessages.Select(x => x.Text)));
+                        MessageBox.Show(string.Join(Environment.NewLine, viewModel.NotFoundMessage));
 
                         DocumentNotFoundOK(_dummySender, EventArgs.Empty);
                     }));

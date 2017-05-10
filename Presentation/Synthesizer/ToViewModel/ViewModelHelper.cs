@@ -357,13 +357,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentNotFoundPopupViewModel CreateDocumentNotFoundPopupViewModel() => CreateEmptyDocumentNotFoundPopupViewModel();
-
-        public static DocumentNotFoundPopupViewModel CreateDocumentNotFoundPopupViewModel(string message)
+        public static DocumentNotFoundPopupViewModel CreateDocumentNotFoundPopupViewModel(string message = null)
         {
-            DocumentNotFoundPopupViewModel viewModel = CreateDocumentNotFoundPopupViewModel();
+            DocumentNotFoundPopupViewModel viewModel = CreateEmptyDocumentNotFoundPopupViewModel();
 
-            viewModel.ValidationMessages.Add(new MessageDto { Key = nameof(Document), Text = message });
+            viewModel.NotFoundMessage = message;
 
             return viewModel;
         }
