@@ -19,8 +19,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         public event EventHandler AddRequested;
         public event EventHandler<EventArgs<int>> RemoveRequested;
         public event EventHandler CloseRequested;
-        public event EventHandler<EventArgs<int>> ShowItemRequested;
+        public event EventHandler<EventArgs<int>> OpenItemRequested;
         public event EventHandler<EventArgs<int>> PlayRequested;
+        public event EventHandler<EventArgs<int>> ShowItemRequested;
 
         public new event KeyEventHandler KeyDown
         {
@@ -93,10 +94,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 Name = nameof(_titleBarUserControl),
             };
 
-            titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
-            titleBarUserControl.RemoveClicked += _titleBarUserControl_RemoveClicked;
             titleBarUserControl.AddClicked += _titleBarUserControl_AddClicked;
+            titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
+            titleBarUserControl.OpenClicked += _titleBarUserControl_OpenClicked;
             titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
+            titleBarUserControl.RemoveClicked += _titleBarUserControl_RemoveClicked;
 
             return titleBarUserControl;
         }
@@ -138,23 +140,29 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         }
 
         [DefaultValue(true)]
-        protected bool RemoveButtonVisible
-        {
-            get => _titleBarUserControl.RemoveButtonVisible;
-            set => _titleBarUserControl.RemoveButtonVisible = value;
-        }
-
-        [DefaultValue(true)]
         protected bool CloseButtonVisible
         {
             get => _titleBarUserControl.CloseButtonVisible;
             set => _titleBarUserControl.CloseButtonVisible = value;
         }
 
+        protected bool OpenItemButtonVisible
+        {
+            get => _titleBarUserControl.OpenButtonVisible;
+            set => _titleBarUserControl.OpenButtonVisible = value;
+        }
+
         protected bool PlayButtonVisible
         {
             get => _titleBarUserControl.PlayButtonVisible;
             set => _titleBarUserControl.PlayButtonVisible = value;
+        }
+
+        [DefaultValue(true)]
+        protected bool RemoveButtonVisible
+        {
+            get => _titleBarUserControl.RemoveButtonVisible;
+            set => _titleBarUserControl.RemoveButtonVisible = value;
         }
 
         protected bool FullRowSelect
@@ -249,10 +257,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         // Event Handlers
 
         private void _titleBarUserControl_AddClicked(object sender, EventArgs e) => Add();
-        private void _titleBarUserControl_RemoveClicked(object sender, EventArgs e) => Remove();
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
-        private void _specializedDataGridView_DoubleClick(object sender, EventArgs e) => OpenItem();
+        private void _titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItem();
         private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
+        private void _titleBarUserControl_RemoveClicked(object sender, EventArgs e) => Remove();
+        private void _specializedDataGridView_DoubleClick(object sender, EventArgs e) => ShowItem();
 
         private void _specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
         {
@@ -265,7 +274,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                     break;
 
                 case Keys.Enter:
-                    OpenItem();
+                    ShowItem();
                     break;
 
                 default:
@@ -283,17 +292,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             AddRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void Remove()
-        {
-            if (ViewModel == null) return;
-
-            int? id = TryGetSelectedID();
-            if (id.HasValue)
-            {
-                RemoveRequested?.Invoke(this, new EventArgs<int>(id.Value));
-            }
-        }
-
         private void Close()
         {
             if (ViewModel == null) return;
@@ -301,14 +299,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void OpenItem()
+        protected void OpenItem()
         {
             if (ViewModel == null) return;
 
             int? id = TryGetSelectedID();
             if (id.HasValue)
             {
-                ShowItemRequested?.Invoke(this, new EventArgs<int>(id.Value));
+                OpenItemRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 
@@ -320,6 +318,28 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             if (id.HasValue)
             {
                 PlayRequested?.Invoke(this, new EventArgs<int>(id.Value));
+            }
+        }
+
+        private void Remove()
+        {
+            if (ViewModel == null) return;
+
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
+            {
+                RemoveRequested?.Invoke(this, new EventArgs<int>(id.Value));
+            }
+        }
+
+        protected void ShowItem()
+        {
+            if (ViewModel == null) return;
+
+            int? id = TryGetSelectedID();
+            if (id.HasValue)
+            {
+                ShowItemRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 

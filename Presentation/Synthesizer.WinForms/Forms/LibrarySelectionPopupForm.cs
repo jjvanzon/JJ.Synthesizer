@@ -22,10 +22,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             remove => librarySelectionPopupUserControl.PlayRequested -= value;
         }
 
-        public event EventHandler<EventArgs<int>> OpenRequested
+        public event EventHandler<EventArgs<int>> OpenItemRequested
         {
-            add => librarySelectionPopupUserControl.OpenRequested += value;
-            remove => librarySelectionPopupUserControl.OpenRequested -= value;
+            add => librarySelectionPopupUserControl.OpenItemRequested += value;
+            remove => librarySelectionPopupUserControl.OpenItemRequested -= value;
         }
 
         public LibrarySelectionPopupForm()

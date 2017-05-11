@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler SaveRequested;
         public event EventHandler RefreshRequested;
         public event EventHandler PlayRequested;
-        public event EventHandler OpenRequested;
+        public event EventHandler OpenItemRequested;
         public event EventHandler CloseRequested;
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
@@ -313,7 +313,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenRequested?.Invoke(sender, EventArgs.Empty);
+        private void titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemRequested?.Invoke(sender, EventArgs.Empty);
 
         private void titleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested?.Invoke(sender, EventArgs.Empty);
 

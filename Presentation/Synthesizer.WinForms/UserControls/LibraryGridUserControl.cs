@@ -5,15 +5,12 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Properties;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class LibraryGridUserControl : GridUserControlBase
     {
-        public event EventHandler<EventArgs<int>> OpenRequested;
-
         private DataGridViewColumn _playColumn;
         private DataGridViewColumn _openColumn;
 
@@ -26,6 +23,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ColumnTitlesVisible = true;
             PlayButtonVisible = true;
             FullRowSelect = false;
+            OpenItemButtonVisible = true;
 
             KeyDown += base_KeyDown;
             CellClick += base_CellClick;
@@ -64,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     break;
 
                 case Keys.Space when columnIndex.Value == _openColumn.Index:
-                    Open();
+                    OpenItem();
                     e.Handled = true;
                     break;
             }
@@ -88,18 +86,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // ReSharper disable once InvertIf
             if (e.ColumnIndex == _openColumn.Index)
             {
-                Open();
+                OpenItem();
                 // ReSharper disable once RedundantJumpStatement
                 return;
-            }
-        }
-
-        private void Open()
-        {
-            int? id = TryGetSelectedID();
-            if (id.HasValue)
-            {
-                OpenRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
     }
