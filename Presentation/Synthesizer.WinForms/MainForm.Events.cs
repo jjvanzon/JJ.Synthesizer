@@ -564,7 +564,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void libraryGridUserControl_OpenRequested(object sender, EventArgs<int> e) => OpenLibrary(e.Value);
+        private void libraryGridUserControl_OpenRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.LibraryGridOpenItem(e.Value);
+                    OpenDocumentAndOptionallyPatchIfNeeded();
+                });
+        }
 
         private void libraryGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.LibraryRemove(e.Value));
 
@@ -646,7 +654,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void libraryPropertiesUserControl_OpenRequested(object sender, EventArgs<int> e) => OpenLibrary(e.Value);
+        private void libraryPropertiesUserControl_OpenRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.LibraryPropertiesOpen(e.Value);
+                    OpenDocumentAndOptionallyPatchIfNeeded();
+                });
+        }
 
         private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.LibrarySelectionPopupCancel);
 
@@ -655,7 +671,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(() => _presenter.LibrarySelectionPopupOK(e.Value));
         }
 
-        private void _librarySelectionPopupForm_OpenRequested(object sender, EventArgs<int> e) => OpenDocument(e.Value);
+        private void _librarySelectionPopupForm_OpenRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.LibrarySelectionPopupOpenItem(e.Value);
+                    OpenDocumentAndOptionallyPatchIfNeeded();
+                });
+        }
 
         private void _librarySelectionPopupForm_PlayRequested(object sender, EventArgs<int> e)
         {

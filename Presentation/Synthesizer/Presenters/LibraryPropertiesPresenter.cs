@@ -49,6 +49,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = result.Successful;
         }
 
+        public LibraryPropertiesViewModel Open(LibraryPropertiesViewModel userInput, int documentReferenceID)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(documentReferenceID);
+
+                    // Non-Persisted
+                    viewModel.DocumentToOpen = documentReference.LowerDocument.ToIDAndName();
+
+                    // Successful
+                    viewModel.Successful = true;
+                });
+        }
+
         public LibraryPropertiesViewModel Play(LibraryPropertiesViewModel userInput, int documentReferenceID)
         {
             return TemplateMethod(

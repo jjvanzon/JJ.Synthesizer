@@ -36,13 +36,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     {
                         case DocumentTreeNodeTypeEnum.Library:
                             DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(userInput.SelectedItemID.Value);
-                            viewModel.DocumentIDToOpen = documentReference.LowerDocument.ID;
+                            viewModel.DocumentToOpen = documentReference.LowerDocument.ToIDAndName();
                             break;
 
                         case DocumentTreeNodeTypeEnum.LibraryPatch:
                             Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
-                            viewModel.DocumentIDToOpen = patch.Document.ID;
-                            viewModel.PatchIDToOpen = patch.ID;
+                            viewModel.DocumentToOpen = patch.Document.ToIDAndName();
+                            viewModel.PatchToOpen = patch.ToIDAndName();
                             break;
 
                         default:

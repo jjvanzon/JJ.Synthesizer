@@ -26,29 +26,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentManager = new DocumentManager(repositories);
         }
 
-        public LibrarySelectionPopupViewModel Show(LibrarySelectionPopupViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            LibrarySelectionPopupViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
         public LibrarySelectionPopupViewModel Cancel(LibrarySelectionPopupViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
@@ -130,6 +107,64 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
+        public LibrarySelectionPopupViewModel OpenItem(LibrarySelectionPopupViewModel userInput, int lowerDocumentID)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // Business
+            Document document = _repositories.DocumentRepository.Get(lowerDocumentID);
+
+            // CreateViewModel
+            LibrarySelectionPopupViewModel viewModel = CreateViewModel(userInput);
+            viewModel.DocumentToOpen = document.ToIDAndName();
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
+        }
+
+        public LibrarySelectionPopupViewModel Play(LibrarySelectionPopupViewModel userInput, int lowerDocumentID)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // CreateViewModel
+            LibrarySelectionPopupViewModel viewModel = CreateViewModel(userInput);
+
+            // GetEntity
+            Document lowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID);
+
+            // Business
+            var patchManager = new PatchManager(new PatchRepositories(_repositories));
+            Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(lowerDocument, mustIncludeHidden: false);
+            Outlet outlet = result.Data;
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+            viewModel.OutletIDToPlay = outlet?.ID;
+
+            // Successful?
+            viewModel.Successful = result.Successful;
+
+            return viewModel;
+        }
+
         public LibrarySelectionPopupViewModel Refresh(LibrarySelectionPopupViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
@@ -161,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public LibrarySelectionPopupViewModel Play(LibrarySelectionPopupViewModel userInput, int documentID)
+        public LibrarySelectionPopupViewModel Show(LibrarySelectionPopupViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -174,21 +209,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // CreateViewModel
             LibrarySelectionPopupViewModel viewModel = CreateViewModel(userInput);
 
-            // GetEntity
-            Document lowerDocument = _repositories.DocumentRepository.Get(documentID);
-
-            // Business
-            var patchManager = new PatchManager(new PatchRepositories(_repositories));
-            Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(lowerDocument, mustIncludeHidden: false);
-            Outlet outlet = result.Data;
-
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
-            viewModel.OutletIDToPlay = outlet?.ID;
+            viewModel.Visible = true;
 
-            // Successful?
-            viewModel.Successful = result.Successful;
+            // Successful
+            viewModel.Successful = true;
 
             return viewModel;
         }

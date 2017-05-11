@@ -249,50 +249,29 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void OpenDocumentAndOptionallyPatchIfNeeded()
         {
+            IDAndName documentToOpen = _presenter.MainViewModel.Document.DocumentToOpen;
+            IDAndName patchToOpen = _presenter.MainViewModel.Document.PatchToOpen;
+
+            // Infrastructure
+            string documentName = documentToOpen?.Name;
+            string patchName = patchToOpen?.Name;
+
             // ReSharper disable once InvertIf
-            if (_presenter.MainViewModel.Document.DocumentIDToOpen.HasValue)
+            if (!string.IsNullOrEmpty(documentName))
             {
-                // GetEntities
-                Document document = _repositories.DocumentRepository.Get(_presenter.MainViewModel.Document.DocumentIDToOpen.Value);
-                Patch patch = null;
-                if (_presenter.MainViewModel.Document.PatchIDToOpen.HasValue)
+                string arguments = $@"""{documentName}""";
+
+                if (!string.IsNullOrEmpty(patchName))
                 {
-                    patch = _repositories.PatchRepository.Get(_presenter.MainViewModel.Document.PatchIDToOpen.Value);
+                    arguments += $@" ""{patchName}""";
                 }
 
-                // Action
-                OpenDocumentAndOptionallyPatch(document, patch);
+                Process.Start(Assembly.GetExecutingAssembly().Location, arguments);
 
                 // ToViewModel
-                _presenter.MainViewModel.Document.DocumentIDToOpen = null;
-                _presenter.MainViewModel.Document.PatchIDToOpen = null;
+                _presenter.MainViewModel.Document.DocumentToOpen = null;
+                _presenter.MainViewModel.Document.PatchToOpen = null;
             }
-        }
-
-        private void OpenLibrary(int lowerDocumentReferenceID)
-        {
-            DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(lowerDocumentReferenceID);
-            OpenDocumentAndOptionallyPatch(documentReference.LowerDocument);
-        }
-
-        private void OpenDocument(int documentID)
-        {
-            Document document = _repositories.DocumentRepository.Get(documentID);
-            OpenDocumentAndOptionallyPatch(document);
-        }
-
-        private void OpenDocumentAndOptionallyPatch([NotNull] Document document, Patch patch = null)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            string arguments = $@"""{document.Name}""";
-
-            if (patch != null)
-            {
-                arguments += $@" ""{patch.Name}""";
-            }
-
-            Process.Start(Assembly.GetExecutingAssembly().Location, arguments);
         }
     }
 }

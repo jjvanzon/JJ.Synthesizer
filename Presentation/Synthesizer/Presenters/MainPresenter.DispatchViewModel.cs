@@ -332,16 +332,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.OutletIDToPlay = null;
             }
 
-            if (castedViewModel.DocumentIDToOpen.HasValue)
+            if (castedViewModel.DocumentToOpen != null)
             {
-                MainViewModel.Document.DocumentIDToOpen = castedViewModel.DocumentIDToOpen;
-                castedViewModel.DocumentIDToOpen = null;
+                MainViewModel.Document.DocumentToOpen = castedViewModel.DocumentToOpen;
+                castedViewModel.DocumentToOpen = null;
             }
 
-            if (castedViewModel.PatchIDToOpen.HasValue)
+            if (castedViewModel.PatchToOpen != null)
             {
-                MainViewModel.Document.PatchIDToOpen = castedViewModel.PatchIDToOpen;
-                castedViewModel.PatchIDToOpen = null;
+                MainViewModel.Document.PatchToOpen = castedViewModel.PatchToOpen;
+                castedViewModel.PatchToOpen = null;
             }
 
             DispatchViewModelBase(castedViewModel);
@@ -365,30 +365,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.OutletIDToPlay = null;
             }
 
-            DispatchViewModelBase(castedViewModel);
-        }
-
-        private void DispatchPatchLibraryGridViewModel(ViewModelBase viewModel)
-        {
-            var castedViewModel = (LibraryPatchGridViewModel)viewModel;
-
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var dictionary = MainViewModel.Document.LibraryPatchGridDictionary;
-            string canonicalGroupName = NameHelper.ToCanonical(castedViewModel.Group);
-            var key = (castedViewModel.LowerDocumentReferenceID, canonicalGroupName);
-            dictionary[key] = castedViewModel;
-
-            if (castedViewModel.Visible)
+            if (castedViewModel.DocumentToOpen != null)
             {
-                HideAllGridAndDetailViewModels();
-                castedViewModel.Visible = true;
-                MainViewModel.Document.VisibleLibraryPatchGrid = castedViewModel;
-            }
-
-            if (castedViewModel.OutletIDToPlay.HasValue)
-            {
-                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
-                castedViewModel.OutletIDToPlay = null;
+                MainViewModel.Document.DocumentToOpen = castedViewModel.DocumentToOpen;
+                castedViewModel.DocumentToOpen = null;
             }
 
             DispatchViewModelBase(castedViewModel);
@@ -439,6 +419,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.OutletIDToPlay = null;
             }
 
+            if (castedViewModel.DocumentToOpen != null)
+            {
+                MainViewModel.Document.DocumentToOpen = castedViewModel.DocumentToOpen;
+                castedViewModel.DocumentToOpen = null;
+            }
+
             DispatchViewModelBase(castedViewModel);
         }
 
@@ -452,6 +438,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
                 castedViewModel.OutletIDToPlay = null;
+            }
+
+            if (castedViewModel.DocumentToOpen != null)
+            {
+                MainViewModel.Document.DocumentToOpen = castedViewModel.DocumentToOpen;
+                castedViewModel.DocumentToOpen = null;
             }
 
             DispatchViewModelBase(castedViewModel);
@@ -774,6 +766,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllGridAndDetailViewModels();
                 castedViewModel.Visible = true;
                 MainViewModel.Document.VisiblePatchGrid = castedViewModel;
+            }
+
+            if (castedViewModel.OutletIDToPlay.HasValue)
+            {
+                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
+                castedViewModel.OutletIDToPlay = null;
+            }
+
+            DispatchViewModelBase(castedViewModel);
+        }
+
+        private void DispatchPatchLibraryGridViewModel(ViewModelBase viewModel)
+        {
+            var castedViewModel = (LibraryPatchGridViewModel)viewModel;
+
+            // ReSharper disable once SuggestVarOrType_Elsewhere
+            var dictionary = MainViewModel.Document.LibraryPatchGridDictionary;
+            string canonicalGroupName = NameHelper.ToCanonical(castedViewModel.Group);
+            var key = (castedViewModel.LowerDocumentReferenceID, canonicalGroupName);
+            dictionary[key] = castedViewModel;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllGridAndDetailViewModels();
+                castedViewModel.Visible = true;
+                MainViewModel.Document.VisibleLibraryPatchGrid = castedViewModel;
             }
 
             if (castedViewModel.OutletIDToPlay.HasValue)

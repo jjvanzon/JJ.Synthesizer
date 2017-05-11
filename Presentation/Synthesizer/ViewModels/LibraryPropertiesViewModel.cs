@@ -1,4 +1,6 @@
-﻿namespace JJ.Presentation.Synthesizer.ViewModels
+﻿using JJ.Data.Canonical;
+
+namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class LibraryPropertiesViewModel : ViewModelBase
     {
@@ -8,5 +10,6 @@
         public string Name { get; set; }
         public string Alias { get; set; }
         internal int? OutletIDToPlay { get; set; }
+        internal IDAndName DocumentToOpen { get; set; }
     }
 }

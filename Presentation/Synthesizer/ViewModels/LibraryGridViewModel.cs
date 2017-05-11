@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
@@ -8,5 +9,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int HigherDocumentID { get; set; }
         public IList<LibraryListItemViewModel> List { get; set; }
         internal int? OutletIDToPlay { get; set; }
+        internal IDAndName DocumentToOpen { get; set; }
     }
 }

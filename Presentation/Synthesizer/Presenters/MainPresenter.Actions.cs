@@ -1436,6 +1436,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _libraryGridPresenter.Show(userInput));
         }
 
+        public void LibraryGridOpenItem(int documentReferenceID)
+        {
+            // GetViewModel
+            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _libraryGridPresenter.OpenItem(userInput, documentReferenceID));
+        }
+
         public void LibraryGridPlay(int documentReferenceID)
         {
             // GetViewModel
@@ -1443,21 +1452,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _libraryGridPresenter.Play(userInput, documentReferenceID));
-        }
-
-        public void LibraryPropertiesShow(int documentReferenceID)
-        {
-            // GetViewModel
-            LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
-
-            // Template Method
-            LibraryPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Show(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentRefresh();
-            }
         }
 
         public void LibraryPropertiesClose(int documentReferenceID)
@@ -1492,6 +1486,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public void LibraryPropertiesOpen(int documentReferenceID)
+        {
+            // GetViewModel
+            LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Open(userInput, documentReferenceID));
+        }
+
         public void LibraryPropertiesPlay(int documentReferenceID)
         {
             // GetViewModel
@@ -1499,6 +1502,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Play(userInput, documentReferenceID));
+        }
+
+        public void LibraryPropertiesShow(int documentReferenceID)
+        {
+            // GetViewModel
+            LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
+
+            // Template Method
+            LibraryPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Show(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentRefresh();
+            }
         }
 
         public void LibraryRemove(int documentReferenceID)
@@ -1540,13 +1558,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void LibrarySelectionPopupPlay(int documentReferenceID)
+        public void LibrarySelectionPopupOpenItem(int lowerDocumentID)
         {
             // GetViewModel
             LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.Play(userInput, documentReferenceID));
+            TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.OpenItem(userInput, lowerDocumentID));
+        }
+
+        public void LibrarySelectionPopupPlay(int lowerDocumentID)
+        {
+            // GetViewModel
+            LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.Play(userInput, lowerDocumentID));
         }
 
         // Node

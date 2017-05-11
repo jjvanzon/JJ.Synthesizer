@@ -1,4 +1,5 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels.Partials;
+﻿using JJ.Data.Canonical;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
@@ -21,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public bool CanPlay { get; set; }
         public bool CanOpen { get; set; }
         internal int? OutletIDToPlay { get; set; }
-        internal int? DocumentIDToOpen { get; set; }
-        internal int? PatchIDToOpen { get; set; }
+        internal IDAndName DocumentToOpen { get; set; }
+        internal IDAndName PatchToOpen { get; set; }
     }
 }

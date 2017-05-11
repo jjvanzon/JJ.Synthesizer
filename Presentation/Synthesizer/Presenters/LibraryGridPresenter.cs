@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
-using Canonicals = JJ.Data.Canonical;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
@@ -34,18 +34,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public LibraryGridViewModel Remove(LibraryGridViewModel userInput, int documentReferenceID)
+        public LibraryGridViewModel OpenItem(LibraryGridViewModel userInput, int documentReferenceID)
         {
             return TemplateMethod(
                 userInput,
                 viewModel =>
                 {
-                    // Business
-                    Canonicals.VoidResultDto result = _documentManager.DeleteDocumentReference(documentReferenceID);
+                    // GetEntity
+                    DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(documentReferenceID);
 
                     // Non-Persisted
-                    viewModel.Successful = result.Successful;
-                    viewModel.ValidationMessages = result.Messages;
+                    viewModel.DocumentToOpen = documentReference.LowerDocument.ToIDAndName();
+
+                    // Successful
+                    viewModel.Successful = true;
                 });
         }
 
@@ -67,6 +69,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     viewModel.Successful = result.Successful;
                     viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
                     viewModel.OutletIDToPlay = outlet?.ID;
+                });
+        }
+
+        public LibraryGridViewModel Remove(LibraryGridViewModel userInput, int documentReferenceID)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // Business
+                    VoidResultDto result = _documentManager.DeleteDocumentReference(documentReferenceID);
+
+                    // Non-Persisted
+                    viewModel.Successful = result.Successful;
+                    viewModel.ValidationMessages = result.Messages;
                 });
         }
     }
