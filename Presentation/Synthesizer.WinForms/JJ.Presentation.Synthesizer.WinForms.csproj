@@ -73,7 +73,6 @@
     <Compile Include="EventArg\EventArgsOfT.cs" />
     <Compile Include="EventArg\LibraryPatchGroupEventArgs.cs" />
     <Compile Include="EventArg\ScaleAndToneEventArgs.cs" />
-    <Compile Include="EventArg\2017-05-02 Backup of GroupAndPatchIDEventArgs.cs" />
     <Compile Include="EventArg\NodeEventArgs.cs" />
     <Compile Include="EventArg\SelectOperatorEventArgs.cs" />
     <Compile Include="EventArg\CreateOperatorEventArgs.cs" />

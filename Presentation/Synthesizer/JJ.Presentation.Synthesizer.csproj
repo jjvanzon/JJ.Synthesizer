@@ -100,7 +100,6 @@
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
     <Compile Include="Presenters\MainPresenter.General.cs" />
-    <Compile Include="ToEntity\2017-04-22 Backup of ToEntityHelper.cs" />
     <Compile Include="ToViewModel\RecursiveToDocumentTreeViewModelFactory.cs" />
     <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
@@ -185,7 +184,6 @@
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchInlet.cs" />
     <Compile Include="ViewModels\Partials\PatchesTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\PatchGroupTreeNodeViewModel.cs" />
-    <Compile Include="ViewModels\Partials\2017-04-12 Backup of PatchTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
     <Compile Include="ViewModels\Items\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Partials\LibraryTreeNodeViewModel.cs" />

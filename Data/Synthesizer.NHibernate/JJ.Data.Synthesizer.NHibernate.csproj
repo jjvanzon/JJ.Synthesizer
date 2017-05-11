@@ -83,7 +83,6 @@
     <Compile Include="Repositories\EntityPositionRepository.cs" />
     <Compile Include="Repositories\IDRepository.cs" />
     <Compile Include="Repositories\OperatorRepository.cs" />
-    <Compile Include="Repositories\2017-05-11 Backup of PatchRepository.cs" />
     <Compile Include="Repositories\SampleRepository.cs" />
     <Compile Include="SynthesizerContext.cs" />
   </ItemGroup>

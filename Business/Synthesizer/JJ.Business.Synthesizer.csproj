@@ -142,7 +142,6 @@
     <Compile Include="Calculation\Arrays\ArrayCalculator_MinPosition_Line.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Calculation\AudioFileOutputs\2017-02-15 Backup of AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
@@ -181,9 +180,7 @@
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
-    <Compile Include="Calculation\2017-02-18 Backup of CurveArrayInfo.cs" />
     <Compile Include="Calculation\CurveArrayDtoFactory.cs" />
-    <Compile Include="Calculation\2017-02-18 Backup of CurveArrayCalculatorFactory.cs" />
     <Compile Include="Calculation\DimensionStackCollection.cs" />
     <Compile Include="Calculation\Operators\Add OperatorCalculator Classes Vars.cs">
       <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
@@ -325,7 +322,6 @@
     <Compile Include="Roslyn\Calculation\HardCodedPatchCalculator.cs" />
     <Compile Include="Roslyn\ActivationInfo.cs" />
     <Compile Include="Roslyn\Helpers\DoubleArrayVariableInfo.cs" />
-    <Compile Include="Roslyn\Helpers\2017-02-24 Backup of GeneratedMethodInfo.cs" />
     <Compile Include="Roslyn\Helpers\GeneratedParameterInfo.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoToPatchCalculatorCSharpGeneratorResult.cs" />
     <Compile Include="Roslyn\Helpers\CompilationHelper.cs" />
@@ -346,7 +342,6 @@
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewiring.cs" />
-    <Compile Include="Visitors\2017-02-18 Backup of OperatorDtoVisitor_ArrayDtos.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevels.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_Rewiring.cs" />
