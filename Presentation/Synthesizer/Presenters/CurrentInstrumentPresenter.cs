@@ -32,11 +32,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
+            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
             IList<Patch> entities = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
 
             // ToViewModel
-            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -59,11 +60,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
+            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
             IList<Patch> entities = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
 
             // ToViewModel
-            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -86,6 +88,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
+            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
             IList<Patch> entities = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
 
@@ -94,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             entities.Add(entity);
 
             // ToViewModel
-            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -116,6 +119,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
+            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
             IList<Patch> entities = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
 
@@ -123,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             entities.RemoveFirst(x => x.ID == patchID);
 
             // ToViewModel
-            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -145,6 +149,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
+            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
             IList<Patch> entities = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
 
@@ -155,7 +160,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             entities.Insert(newPosition, entity);
 
             // ToViewModel
-            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -175,11 +180,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
+            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
             IList<Patch> entites = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
 
             // ToViewModel
-            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entites);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entites, document);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -201,6 +207,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
+            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
             IList<Patch> entities = userInput.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
 
             // Business
@@ -211,7 +218,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Outlet outlet = result.Data;
 
             // ToViewModel
-            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities);
+            CurrentInstrumentViewModel viewModel = ViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

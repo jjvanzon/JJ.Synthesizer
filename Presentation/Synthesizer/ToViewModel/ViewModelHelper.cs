@@ -273,13 +273,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // CurrentInstrument
 
-        public static CurrentInstrumentViewModel CreateCurrentInstrumentViewModel(IList<Patch> patches)
+        public static CurrentInstrumentViewModel CreateCurrentInstrumentViewModel(IList<Patch> patches, Document higherDocument)
         {
             if (patches == null) throw new NullException(() => patches);
+            if (higherDocument == null) throw new NullException(() => higherDocument);
 
             var viewModel = new CurrentInstrumentViewModel
             {
-                List = patches.Select(x => x.ToIDAndName()).ToList(),
+                DocumentID = higherDocument.ID,
+                List = patches.Select(x => x.ToIDAndNameWithDocumentAliasOrName(higherDocument)).ToList(),
+                ValidationMessages = new List<MessageDto>()
+            };
+
+            return viewModel;
+        }
+
+        public static CurrentInstrumentViewModel CreateCurrentInstrumentViewModelWithEmptyList(Document higherDocument)
+        {
+            if (higherDocument == null) throw new NullException(() => higherDocument);
+
+            var viewModel = new CurrentInstrumentViewModel
+            {
+                DocumentID = higherDocument.ID,
+                List = new List<IDAndName>(),
                 ValidationMessages = new List<MessageDto>()
             };
 
