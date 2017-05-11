@@ -390,8 +390,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static bool GetCanOpen(DocumentTreeNodeTypeEnum selectedNodeType)
         {
-            bool canOpen = selectedNodeType == DocumentTreeNodeTypeEnum.Library;
-            return canOpen;
+            switch (selectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.Library:
+                case DocumentTreeNodeTypeEnum.LibraryPatch:
+                    return true;
+
+                case DocumentTreeNodeTypeEnum.AudioFileOutputList:
+                case DocumentTreeNodeTypeEnum.AudioOutput:
+                case DocumentTreeNodeTypeEnum.Curves:
+                case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
+                case DocumentTreeNodeTypeEnum.Libraries:
+                case DocumentTreeNodeTypeEnum.Patch:
+                case DocumentTreeNodeTypeEnum.PatchGroup:
+                case DocumentTreeNodeTypeEnum.Samples:
+                case DocumentTreeNodeTypeEnum.Scales:
+                default:
+                    return false;
+            }
         }
 
         // Menu

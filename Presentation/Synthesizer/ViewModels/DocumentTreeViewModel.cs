@@ -21,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public bool CanPlay { get; set; }
         public bool CanOpen { get; set; }
         internal int? OutletIDToPlay { get; set; }
-        internal int? LowerDocumentReferenceIDToOpen { get; set; }
+        internal int? DocumentIDToOpen { get; set; }
+        internal int? PatchIDToOpen { get; set; }
     }
 }

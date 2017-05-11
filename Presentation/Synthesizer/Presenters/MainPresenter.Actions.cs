@@ -22,6 +22,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Helpers;
 
 // ReSharper disable InvertIf
 
@@ -98,7 +99,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Businesss
             Document document = _repositories.DocumentRepository.TryGetByName(documentName);
-            Patch patch = _repositories.PatchRepository.TryGetByName(patchName);
+            string canonicalPatchName = NameHelper.ToCanonical(patchName);
+            Patch patch = document.Patches
+                                  .Where(x => string.Equals(NameHelper.ToCanonical(x.Name), canonicalPatchName))
+                                  .Single();
+
             if (document == null || patch == null)
             {
                 // GetUserInput

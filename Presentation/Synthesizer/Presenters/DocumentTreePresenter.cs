@@ -10,11 +10,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class DocumentTreePresenter : PresenterBase<DocumentTreeViewModel>
     {
-        private readonly PatchRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
+        private readonly PatchRepositories _patchRepositories;
 
-        public DocumentTreePresenter(PatchRepositories repositories)
+        public DocumentTreePresenter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
+            _patchRepositories = new PatchRepositories(_repositories);
         }
 
         public DocumentTreeViewModel Close(DocumentTreeViewModel userInput) => TemplateMethod(userInput, viewModel => viewModel.Visible = false);
@@ -25,17 +27,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput,
                 viewModel =>
                 {
-                    if (userInput.SelectedNodeType != DocumentTreeNodeTypeEnum.Library)
-                    {
-                        throw new NotEqualException(() => userInput.SelectedNodeType, DocumentTreeNodeTypeEnum.Library);
-                    }
-
                     if (!userInput.SelectedItemID.HasValue)
                     {
                         throw new NullException(() => userInput.SelectedItemID);
                     }
 
-                    viewModel.LowerDocumentReferenceIDToOpen = userInput.SelectedItemID;
+                    switch (userInput.SelectedNodeType)
+                    {
+                        case DocumentTreeNodeTypeEnum.Library:
+                            DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(userInput.SelectedItemID.Value);
+                            viewModel.DocumentIDToOpen = documentReference.LowerDocument.ID;
+                            break;
+
+                        case DocumentTreeNodeTypeEnum.LibraryPatch:
+                            Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
+                            viewModel.DocumentIDToOpen = patch.Document.ID;
+                            viewModel.PatchIDToOpen = patch.ID;
+                            break;
+
+                        default:
+                           throw new ValueNotSupportedException(userInput.SelectedNodeType);
+                    }
                 });
         }
 
@@ -176,7 +188,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             var converter = new RecursiveToDocumentTreeViewModelFactory();
-            DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _repositories);
+            DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _patchRepositories);
 
             // NOTE: Keep split up into two Non-Persisted phases:
             // CopyNonPersisted must be done first, because action will change some of the properties.

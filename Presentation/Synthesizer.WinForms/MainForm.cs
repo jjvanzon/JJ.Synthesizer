@@ -247,33 +247,52 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _presenter.MainViewModel.Document.OutletIDToPlay = null;
         }
 
-        private void OpenDocument(int documentID)
-        {
-            Document document = _repositories.DocumentRepository.Get(documentID);
-            OpenDocument(document);
-        }
-
-        private void OpenLibraryIfNeeded()
+        private void OpenDocumentAndOptionallyPatchIfNeeded()
         {
             // ReSharper disable once InvertIf
-            if (_presenter.MainViewModel.Document.LowerDocumentReferenceIDToOpen.HasValue)
+            if (_presenter.MainViewModel.Document.DocumentIDToOpen.HasValue)
             {
-                OpenLibrary(_presenter.MainViewModel.Document.LowerDocumentReferenceIDToOpen.Value);
+                // GetEntities
+                Document document = _repositories.DocumentRepository.Get(_presenter.MainViewModel.Document.DocumentIDToOpen.Value);
+                Patch patch = null;
+                if (_presenter.MainViewModel.Document.PatchIDToOpen.HasValue)
+                {
+                    patch = _repositories.PatchRepository.Get(_presenter.MainViewModel.Document.PatchIDToOpen.Value);
+                }
 
-                _presenter.MainViewModel.Document.LowerDocumentReferenceIDToOpen = null;
+                // Action
+                OpenDocumentAndOptionallyPatch(document, patch);
+
+                // ToViewModel
+                _presenter.MainViewModel.Document.DocumentIDToOpen = null;
+                _presenter.MainViewModel.Document.PatchIDToOpen = null;
             }
         }
 
         private void OpenLibrary(int lowerDocumentReferenceID)
         {
             DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(lowerDocumentReferenceID);
-            OpenDocument(documentReference.LowerDocument);
+            OpenDocumentAndOptionallyPatch(documentReference.LowerDocument);
         }
 
-        private void OpenDocument([NotNull] Document document)
+        private void OpenDocument(int documentID)
+        {
+            Document document = _repositories.DocumentRepository.Get(documentID);
+            OpenDocumentAndOptionallyPatch(document);
+        }
+
+        private void OpenDocumentAndOptionallyPatch([NotNull] Document document, Patch patch = null)
         {
             if (document == null) throw new NullException(() => document);
-            Process.Start(Assembly.GetExecutingAssembly().Location, $@"""{document.Name}""");
+
+            string arguments = $@"""{document.Name}""";
+
+            if (patch != null)
+            {
+                arguments += $@" ""{patch.Name}""";
+            }
+
+            Process.Start(Assembly.GetExecutingAssembly().Location, arguments);
         }
     }
 }

@@ -502,7 +502,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.DocumentTreeOpen();
-                    OpenLibraryIfNeeded();
+                    OpenDocumentAndOptionallyPatchIfNeeded();
                 });
         }
 
