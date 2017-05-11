@@ -62,11 +62,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             InitializeComponent();
             SetTitles();
+            ApplyStyling();
         }
 
         // Gui
 
         private void SetTitles() => titleBarUserControl.Text = ResourceFormatter.DocumentTree;
+
+        public void ApplyStyling()
+        {
+            tableLayoutPanel.RowStyles[0].Height = StyleHelper.TitleBarHeight;
+        }
 
         // Binding
 

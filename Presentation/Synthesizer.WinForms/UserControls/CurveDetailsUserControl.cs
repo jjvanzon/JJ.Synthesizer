@@ -11,6 +11,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -63,9 +64,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             base.PositionControls();
 
             diagramControl.Left = 0;
-            diagramControl.Top = TitleBarHeight;
+            diagramControl.Top = StyleHelper.TitleBarHeight;
             diagramControl.Width = Width;
-            diagramControl.Height = Height - TitleBarHeight;
+            diagramControl.Height = Height - StyleHelper.TitleBarHeight;
         }
 
         // Binding

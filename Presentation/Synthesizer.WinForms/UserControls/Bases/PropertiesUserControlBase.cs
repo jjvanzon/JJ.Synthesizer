@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             base.PositionControls();
 
             _tableLayoutPanel.Width = Width - StyleHelper.DefaultSpacing; // Arbitraily take off spacing, because otherwise it is stuck at the left side.
-            _tableLayoutPanel.Height = Height - TitleBarHeight;
+            _tableLayoutPanel.Height = Height - StyleHelper.TitleBarHeight;
         }
 
         /// <summary> does nothing </summary>
@@ -93,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 ColumnCount = 2,
                 Name = nameof(_tableLayoutPanel),
                 Left = 0,
-                Top = TitleBarHeight,
+                Top = StyleHelper.TitleBarHeight,
                 Size = new Size(VERY_SMALL_LENGTH, VERY_SMALL_LENGTH)
             };
 

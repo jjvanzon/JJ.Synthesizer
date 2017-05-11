@@ -174,7 +174,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 if (buttonTuple.Visible)
                 {
-                    buttonTuple.Control.Location = new Point(x, 0);
+                    buttonTuple.Control.Location = new Point(x, StyleHelper.DefaultSpacing);
                     buttonTuple.Control.Size = new Size(StyleHelper.IconButtonSize, StyleHelper.IconButtonSize);
                     x -= StyleHelper.DefaultSpacing;
                     x -= StyleHelper.IconButtonSize;

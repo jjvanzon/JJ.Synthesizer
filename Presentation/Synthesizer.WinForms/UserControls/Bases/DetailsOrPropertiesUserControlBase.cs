@@ -3,14 +3,13 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
     internal class DetailsOrPropertiesUserControlBase : UserControlBase
     {
-        private const int TITLE_BAR_HEIGHT = 27;
-
         private readonly TitleBarUserControl _titleBarUserControl;
 
         public event EventHandler<EventArgs<int>> CloseRequested;
@@ -74,8 +73,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         /// <summary> does nothing </summary>
         protected virtual void SetTitles()
         { }
-
-        public int TitleBarHeight => TITLE_BAR_HEIGHT;
 
         public string TitleBarText
         {
@@ -200,7 +197,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                 PlayButtonVisible = false,
                 SaveButtonVisible = false,
                 Margin = new Padding(0, 0, 0, 0),
-                Height = TITLE_BAR_HEIGHT,
+                Height = StyleHelper.TitleBarHeight,
                 Left = 0,
                 Top = 0
             };

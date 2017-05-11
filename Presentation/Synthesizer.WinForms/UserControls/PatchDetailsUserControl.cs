@@ -15,6 +15,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -51,9 +52,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             base.PositionControls();
 
             tableLayoutPanelToolboxAndPatch.Left = 0;
-            tableLayoutPanelToolboxAndPatch.Top = TitleBarHeight;
+            tableLayoutPanelToolboxAndPatch.Top = StyleHelper.TitleBarHeight;
             tableLayoutPanelToolboxAndPatch.Width = Width;
-            tableLayoutPanelToolboxAndPatch.Height = Height - TitleBarHeight;
+            tableLayoutPanelToolboxAndPatch.Height = Height - StyleHelper.TitleBarHeight;
         }
 
         // Binding
