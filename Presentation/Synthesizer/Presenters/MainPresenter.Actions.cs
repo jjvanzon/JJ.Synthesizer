@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             string canonicalPatchName = NameHelper.ToCanonical(patchName);
             Patch patch = document.Patches
                                   .Where(x => string.Equals(NameHelper.ToCanonical(x.Name), canonicalPatchName))
-                                  .Single();
+                                  .SingleWithClearException(new { canonicalPatchName });
 
             if (document == null || patch == null)
             {
