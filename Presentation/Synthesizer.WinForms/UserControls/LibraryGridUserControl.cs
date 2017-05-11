@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class LibraryGridUserControl : GridUserControlBase
     {
         private DataGridViewColumn _playColumn;
-        private DataGridViewColumn _openColumn;
+        private DataGridViewColumn _openExternallyColumn;
 
         public LibraryGridUserControl()
         {
@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ColumnTitlesVisible = true;
             PlayButtonVisible = true;
             FullRowSelect = false;
-            OpenItemButtonVisible = true;
+            OpenItemExternallyButtonVisible = true;
 
             KeyDown += base_KeyDown;
             CellClick += base_CellClick;
@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _playColumn = AddImageColumn(Resources.PlayIconThinner);
             AddAutoSizeColumn(nameof(LibraryListItemViewModel.ReferencedDocumentName), CommonResourceFormatter.Name);
             AddColumnWithWidth(nameof(LibraryListItemViewModel.Alias), ResourceFormatter.Alias, 180);
-            _openColumn = AddImageColumn(Resources.OpenWindowIconThinner);
+            _openExternallyColumn = AddImageColumn(Resources.OpenWindowIconThinner);
         }
 
         public new LibraryGridViewModel ViewModel
@@ -61,8 +61,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     e.Handled = true;
                     break;
 
-                case Keys.Space when columnIndex.Value == _openColumn.Index:
-                    OpenItem();
+                case Keys.Space when columnIndex.Value == _openExternallyColumn.Index:
+                    OpenItemExternally();
                     e.Handled = true;
                     break;
             }
@@ -84,9 +84,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             // ReSharper disable once InvertIf
-            if (e.ColumnIndex == _openColumn.Index)
+            if (e.ColumnIndex == _openExternallyColumn.Index)
             {
-                OpenItem();
+                OpenItemExternally();
                 // ReSharper disable once RedundantJumpStatement
                 return;
             }

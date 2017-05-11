@@ -1124,13 +1124,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _documentTreePresenter.Close(userInput));
         }
 
-        public void DocumentTreeOpen()
+        public void DocumentTreeOpenItemExternally()
         {
             // GetViewModel
             DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
             // Template Method
-            TemplateActionMethod(userInput, () => _documentTreePresenter.Open(userInput));
+            TemplateActionMethod(userInput, () => _documentTreePresenter.OpenItemExternally(userInput));
         }
 
         public void DocumentTreePlay()
@@ -1436,13 +1436,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _libraryGridPresenter.Show(userInput));
         }
 
-        public void LibraryGridOpenItem(int documentReferenceID)
+        public void LibraryGridOpenItemExternally(int documentReferenceID)
         {
             // GetViewModel
             LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _libraryGridPresenter.OpenItem(userInput, documentReferenceID));
+            TemplateActionMethod(userInput, () => _libraryGridPresenter.OpenItemExternally(userInput, documentReferenceID));
         }
 
         public void LibraryGridPlay(int documentReferenceID)
@@ -1486,13 +1486,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void LibraryPropertiesOpen(int documentReferenceID)
+        public void LibraryPropertiesOpenExternally(int documentReferenceID)
         {
             // GetViewModel
             LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Open(userInput, documentReferenceID));
+            TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.OpenExternally(userInput));
         }
 
         public void LibraryPropertiesPlay(int documentReferenceID)
@@ -1501,7 +1501,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Play(userInput, documentReferenceID));
+            TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Play(userInput));
         }
 
         public void LibraryPropertiesShow(int documentReferenceID)
@@ -1558,13 +1558,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void LibrarySelectionPopupOpenItem(int lowerDocumentID)
+        public void LibrarySelectionPopupOpenItemExternally(int lowerDocumentID)
         {
             // GetViewModel
             LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.OpenItem(userInput, lowerDocumentID));
+            TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.OpenItemExternally(userInput, lowerDocumentID));
         }
 
         public void LibrarySelectionPopupPlay(int lowerDocumentID)
@@ -1574,6 +1574,91 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _librarySelectionPopupPresenter.Play(userInput, lowerDocumentID));
+        }
+
+        // LibraryPatch
+
+        public void LibraryPatchGridClose(int lowerDocumentReferenceID, string group)
+        {
+            // GetViewModel
+            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
+
+            // Template Method
+            LibraryPatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchGridPresenter.Close(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleLibraryPatchGrid = null;
+            }
+        }
+
+        public void LibraryPatchGridPlay(int lowerDocumentReferenceID, string group, int patchID)
+        {
+            // GetViewModel
+            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _libraryPatchGridPresenter.Play(userInput, patchID));
+        }
+
+        public void LibraryPatchGridShow(int lowerDocumentReferenceID, string group)
+        {
+            // GetViewModel
+            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
+
+            // Template Method
+            LibraryPatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchGridPresenter.Show(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleLibraryPatchGrid = viewModel;
+            }
+        }
+
+        public void LibraryPatchPropertiesClose(int patchID)
+        {
+            // GetViewModel
+            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
+
+            // Template Method
+            LibraryPatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Close(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleLibraryPatchProperties = null;
+            }
+        }
+
+        public void LibraryPatchPropertiesOpenExternally(int patchID)
+        {
+            // GetViewModel
+            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
+
+            // Template Method
+            TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.OpenExternally(userInput));
+        }
+
+        public void LibraryPatchPropertiesPlay(int patchID)
+        {
+            // GetViewModel
+            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Play(userInput, _patchRepositories));
+        }
+
+        public void LibraryPatchPropertiesShow(int patchID)
+        {
+            // GetViewModel
+            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
+
+            // Template Method
+            LibraryPatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Show(userInput));
+
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleLibraryPatchProperties = viewModel;
+            }
         }
 
         // Node
@@ -2630,80 +2715,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         // Patch
-
-        public void LibraryPatchGridClose(int lowerDocumentReferenceID, string group)
-        {
-            // GetViewModel
-            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
-
-            // Template Method
-            LibraryPatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchGridPresenter.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleLibraryPatchGrid = null;
-            }
-        }
-
-        public void LibraryPatchGridPlay(int lowerDocumentReferenceID, string group, int patchID)
-        {
-            // GetViewModel
-            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
-
-            // TemplateMethod
-            TemplateActionMethod(userInput, () => _libraryPatchGridPresenter.Play(userInput, patchID));
-        }
-
-        public void LibraryPatchGridShow(int lowerDocumentReferenceID, string group)
-        {
-            // GetViewModel
-            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
-
-            // Template Method
-            LibraryPatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchGridPresenter.Show(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleLibraryPatchGrid = viewModel;
-            }
-        }
-
-        public void LibraryPatchPropertiesShow(int patchID)
-        {
-            // GetViewModel
-            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
-
-            // Template Method
-            LibraryPatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Show(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleLibraryPatchProperties = viewModel;
-            }
-        }
-
-        public void LibraryPatchPropertiesClose(int patchID)
-        {
-            // GetViewModel
-            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
-
-            // Template Method
-            LibraryPatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleLibraryPatchProperties = null;
-            }
-        }
-
-        public void LibraryPatchPropertiesPlay(int patchID)
-        {
-            // GetViewModel
-            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
-
-            // TemplateMethod
-            TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Play(userInput, _patchRepositories));
-        }
 
         /// <param name="group">nullable</param>
         public void PatchCreate(string group)

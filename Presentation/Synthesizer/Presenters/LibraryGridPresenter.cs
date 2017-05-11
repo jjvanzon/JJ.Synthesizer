@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public LibraryGridViewModel OpenItem(LibraryGridViewModel userInput, int documentReferenceID)
+        public LibraryGridViewModel OpenItemExternally(LibraryGridViewModel userInput, int documentReferenceID)
         {
             return TemplateMethod(
                 userInput,
@@ -44,10 +44,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(documentReferenceID);
 
                     // Non-Persisted
-                    viewModel.DocumentToOpen = documentReference.LowerDocument.ToIDAndName();
-
-                    // Successful
-                    viewModel.Successful = true;
+                    viewModel.DocumentToOpenExternally = documentReference.LowerDocument.ToIDAndName();
                 });
         }
 

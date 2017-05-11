@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     internal class LibrarySelectionGridUserControl : GridUserControlBase
     {
         private DataGridViewColumn _playColumn;
-        private DataGridViewColumn _openColumn;
+        private DataGridViewColumn _openExternallyColumn;
 
         public new int? TryGetSelectedID() => base.TryGetSelectedID();
 
@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             CloseButtonVisible = false;
             PlayButtonVisible = true;
             FullRowSelect = false;
-            OpenItemButtonVisible = true;
+            OpenItemExternallyButtonVisible = true;
 
             KeyDown += base_KeyDown;
             CellClick += base_CellClick;
@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             _playColumn = AddImageColumn(Resources.PlayIconThinner);
             AddAutoSizeColumn(nameof(IDAndName.Name), CommonResourceFormatter.Name);
-            _openColumn = AddImageColumn(Resources.OpenWindowIconThinner);
+            _openExternallyColumn = AddImageColumn(Resources.OpenWindowIconThinner);
 
             // NOTE: Add ID column last. If the ID column is the first column, WinForms will make the column visible,
             // when the DataGrid becomes invisible and then visible again, 
@@ -70,8 +70,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                     e.Handled = true;
                     break;
 
-                case Keys.Space when columnIndex.Value == _openColumn.Index:
-                    OpenItem();
+                case Keys.Space when columnIndex.Value == _openExternallyColumn.Index:
+                    OpenItemExternally();
                     e.Handled = true;
                     break;
             }
@@ -93,9 +93,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
 
             // ReSharper disable once InvertIf
-            if (e.ColumnIndex == _openColumn.Index)
+            if (e.ColumnIndex == _openExternallyColumn.Index)
             {
-                OpenItem();
+                OpenItemExternally();
                 // ReSharper disable once RedundantJumpStatement
                 return;
             }

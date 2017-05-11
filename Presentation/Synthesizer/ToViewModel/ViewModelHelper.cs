@@ -388,7 +388,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
         }
 
-        public static bool GetCanOpen(DocumentTreeNodeTypeEnum selectedNodeType)
+        public static bool GetCanOpenExternally(DocumentTreeNodeTypeEnum selectedNodeType)
         {
             switch (selectedNodeType)
             {

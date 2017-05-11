@@ -11,7 +11,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler<EventArgs<int>> AddToInstrumentRequested;
 
-        public LibraryPatchPropertiesUserControl() => InitializeComponent();
+        public LibraryPatchPropertiesUserControl()
+        {
+            InitializeComponent();
+        }
 
         // Gui
 

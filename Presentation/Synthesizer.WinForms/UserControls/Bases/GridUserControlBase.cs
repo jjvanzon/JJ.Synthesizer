@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         public event EventHandler AddRequested;
         public event EventHandler<EventArgs<int>> RemoveRequested;
         public event EventHandler CloseRequested;
-        public event EventHandler<EventArgs<int>> OpenItemRequested;
+        public event EventHandler<EventArgs<int>> OpenItemExternallyRequested;
         public event EventHandler<EventArgs<int>> PlayRequested;
         public event EventHandler<EventArgs<int>> ShowItemRequested;
 
@@ -146,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => _titleBarUserControl.CloseButtonVisible = value;
         }
 
-        protected bool OpenItemButtonVisible
+        protected bool OpenItemExternallyButtonVisible
         {
             get => _titleBarUserControl.OpenButtonVisible;
             set => _titleBarUserControl.OpenButtonVisible = value;
@@ -258,7 +258,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         private void _titleBarUserControl_AddClicked(object sender, EventArgs e) => Add();
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
-        private void _titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItem();
+        private void _titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternally();
         private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
         private void _titleBarUserControl_RemoveClicked(object sender, EventArgs e) => Remove();
         private void _specializedDataGridView_DoubleClick(object sender, EventArgs e) => ShowItem();
@@ -299,14 +299,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        protected void OpenItem()
+        protected void OpenItemExternally()
         {
             if (ViewModel == null) return;
 
             int? id = TryGetSelectedID();
             if (id.HasValue)
             {
-                OpenItemRequested?.Invoke(this, new EventArgs<int>(id.Value));
+                OpenItemExternallyRequested?.Invoke(this, new EventArgs<int>(id.Value));
             }
         }
 

@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         public event EventHandler<EventArgs<int>> CloseRequested;
         public event EventHandler<EventArgs<int>> LoseFocusRequested;
         public event EventHandler<EventArgs<int>> SaveRequested;
-        public event EventHandler<EventArgs<int>> OpenRequested;
+        public event EventHandler<EventArgs<int>> OpenExternallyRequested;
         public event EventHandler<EventArgs<int>> PlayRequested;
 
         public event EventHandler AddRequested
@@ -101,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => _titleBarUserControl.RefreshButtonVisible = value;
         }
 
-        public bool OpenButtonVisible
+        public bool OpenExternallyButtonVisible
         {
             get => _titleBarUserControl.OpenButtonVisible;
             set => _titleBarUserControl.OpenButtonVisible = value;
@@ -172,7 +172,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
         private void _titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));
         private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
-        private void _titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenRequested?.Invoke(sender, new EventArgs<int>(GetID()));
+        private void _titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenExternallyRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
         private void Base_Leave(object sender, EventArgs e)

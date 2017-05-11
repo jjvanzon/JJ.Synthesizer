@@ -20,9 +20,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int? SelectedPatchGroupLowerDocumentReferenceID { get; set; }
         public string SelectedPatchGroup { get; set; }
         public bool CanPlay { get; set; }
-        public bool CanOpen { get; set; }
+        public bool CanOpenExternally { get; set; }
         internal int? OutletIDToPlay { get; set; }
-        internal IDAndName DocumentToOpen { get; set; }
-        internal IDAndName PatchToOpen { get; set; }
+        internal IDAndName DocumentToOpenExternally { get; set; }
+        internal IDAndName PatchToOpenExternally { get; set; }
     }
 }

@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public LibrarySelectionPopupViewModel OpenItem(LibrarySelectionPopupViewModel userInput, int lowerDocumentID)
+        public LibrarySelectionPopupViewModel OpenItemExternally(LibrarySelectionPopupViewModel userInput, int lowerDocumentID)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -122,7 +122,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // CreateViewModel
             LibrarySelectionPopupViewModel viewModel = CreateViewModel(userInput);
-            viewModel.DocumentToOpen = document.ToIDAndName();
+            viewModel.DocumentToOpenExternally = document.ToIDAndName();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

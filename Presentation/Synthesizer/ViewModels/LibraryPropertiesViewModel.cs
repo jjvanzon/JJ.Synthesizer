@@ -10,6 +10,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public string Name { get; set; }
         public string Alias { get; set; }
         internal int? OutletIDToPlay { get; set; }
-        internal IDAndName DocumentToOpen { get; set; }
+        internal IDAndName DocumentToOpenExternally { get; set; }
     }
 }

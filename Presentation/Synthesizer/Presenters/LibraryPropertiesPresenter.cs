@@ -49,31 +49,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = result.Successful;
         }
 
-        public LibraryPropertiesViewModel Open(LibraryPropertiesViewModel userInput, int documentReferenceID)
+        public LibraryPropertiesViewModel OpenExternally(LibraryPropertiesViewModel userInput)
         {
             return TemplateMethod(
                 userInput,
                 viewModel =>
                 {
                     // GetEntity
-                    DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(documentReferenceID);
+                    DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(userInput.DocumentReferenceID);
 
                     // Non-Persisted
-                    viewModel.DocumentToOpen = documentReference.LowerDocument.ToIDAndName();
-
-                    // Successful
-                    viewModel.Successful = true;
+                    viewModel.DocumentToOpenExternally = documentReference.LowerDocument.ToIDAndName();
                 });
         }
 
-        public LibraryPropertiesViewModel Play(LibraryPropertiesViewModel userInput, int documentReferenceID)
+        public LibraryPropertiesViewModel Play(LibraryPropertiesViewModel userInput)
         {
             return TemplateMethod(
                 userInput,
                 viewModel =>
                 {
                     // GetEntity
-                    DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(documentReferenceID);
+                    DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(userInput.DocumentReferenceID);
 
                     // Business
                     var patchManager = new PatchManager(new PatchRepositories(_repositories));

@@ -332,16 +332,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.OutletIDToPlay = null;
             }
 
-            if (castedViewModel.DocumentToOpen != null)
+            if (castedViewModel.DocumentToOpenExternally != null)
             {
-                MainViewModel.Document.DocumentToOpen = castedViewModel.DocumentToOpen;
-                castedViewModel.DocumentToOpen = null;
+                MainViewModel.Document.DocumentToOpenExternally = castedViewModel.DocumentToOpenExternally;
+                castedViewModel.DocumentToOpenExternally = null;
             }
 
-            if (castedViewModel.PatchToOpen != null)
+            if (castedViewModel.PatchToOpenExternally != null)
             {
-                MainViewModel.Document.PatchToOpen = castedViewModel.PatchToOpen;
-                castedViewModel.PatchToOpen = null;
+                MainViewModel.Document.PatchToOpenExternally = castedViewModel.PatchToOpenExternally;
+                castedViewModel.PatchToOpenExternally = null;
             }
 
             DispatchViewModelBase(castedViewModel);
@@ -365,10 +365,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.OutletIDToPlay = null;
             }
 
-            if (castedViewModel.DocumentToOpen != null)
+            if (castedViewModel.DocumentToOpenExternally != null)
             {
-                MainViewModel.Document.DocumentToOpen = castedViewModel.DocumentToOpen;
-                castedViewModel.DocumentToOpen = null;
+                MainViewModel.Document.DocumentToOpenExternally = castedViewModel.DocumentToOpenExternally;
+                castedViewModel.DocumentToOpenExternally = null;
             }
 
             DispatchViewModelBase(castedViewModel);
@@ -395,6 +395,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.OutletIDToPlay = null;
             }
 
+            if (castedViewModel.DocumentToOpenExternally != null)
+            {
+                MainViewModel.Document.DocumentToOpenExternally = castedViewModel.DocumentToOpenExternally;
+                castedViewModel.DocumentToOpenExternally = null;
+            }
+
+            if (castedViewModel.PatchToOpenExternally != null)
+            {
+                MainViewModel.Document.PatchToOpenExternally = castedViewModel.PatchToOpenExternally;
+                castedViewModel.PatchToOpenExternally = null;
+            }
+
             DispatchViewModelBase(castedViewModel);
         }
 
@@ -419,10 +431,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.OutletIDToPlay = null;
             }
 
-            if (castedViewModel.DocumentToOpen != null)
+            if (castedViewModel.DocumentToOpenExternally != null)
             {
-                MainViewModel.Document.DocumentToOpen = castedViewModel.DocumentToOpen;
-                castedViewModel.DocumentToOpen = null;
+                MainViewModel.Document.DocumentToOpenExternally = castedViewModel.DocumentToOpenExternally;
+                castedViewModel.DocumentToOpenExternally = null;
             }
 
             DispatchViewModelBase(castedViewModel);
@@ -440,10 +452,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.OutletIDToPlay = null;
             }
 
-            if (castedViewModel.DocumentToOpen != null)
+            if (castedViewModel.DocumentToOpenExternally != null)
             {
-                MainViewModel.Document.DocumentToOpen = castedViewModel.DocumentToOpen;
-                castedViewModel.DocumentToOpen = null;
+                MainViewModel.Document.DocumentToOpenExternally = castedViewModel.DocumentToOpenExternally;
+                castedViewModel.DocumentToOpenExternally = null;
             }
 
             DispatchViewModelBase(castedViewModel);

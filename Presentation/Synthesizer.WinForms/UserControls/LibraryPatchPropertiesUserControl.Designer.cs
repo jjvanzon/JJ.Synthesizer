@@ -111,6 +111,7 @@
             this.Controls.Add(this.labelNameValue);
             this.Controls.Add(this.labelNameTitle);
             this.Name = "LibraryPatchPropertiesUserControl";
+            this.OpenExternallyButtonVisible = true;
             this.PlayButtonVisible = true;
             this.Size = new System.Drawing.Size(10, 10);
             this.Controls.SetChildIndex(this.labelNameTitle, 0);

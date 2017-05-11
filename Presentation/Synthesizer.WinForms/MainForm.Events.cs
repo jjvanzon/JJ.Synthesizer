@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.PatchGroupNodeSelected += documentTreeUserControl_PatchGroupNodeSelected;
             documentTreeUserControl.PatchNodeSelected += documentTreeUserControl_PatchNodeSelected;
             documentTreeUserControl.PlayRequested += documentTreeUserControl_PlayRequested;
-            documentTreeUserControl.OpenItemRequested += documentTreeUserControl_OpenItemRequested;
+            documentTreeUserControl.OpenItemExternallyRequested += documentTreeUserControl_OpenItemExternallyRequested;
             documentTreeUserControl.RefreshRequested += documentTreeUserControl_RefreshRequested;
             documentTreeUserControl.SamplesNodeSelected += documentTreeUserControl_SamplesNodeSelected;
             documentTreeUserControl.SaveRequested += documentTreeUserControl_SaveRequested;
@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryGridUserControl.AddRequested += libraryGridUserControl_AddRequested;
             libraryGridUserControl.CloseRequested += libraryGridUserControl_CloseRequested;
             libraryGridUserControl.PlayRequested += libraryGridUserControl_PlayRequested;
-            libraryGridUserControl.OpenItemRequested += libraryGridUserControl_OpenItemRequested;
+            libraryGridUserControl.OpenItemExternallyRequested += libraryGridUserControl_OpenItemExternallyRequested;
             libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
             libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
             libraryPatchGridUserControl.CloseRequested += libraryPatchGridUserControl_CloseRequested;
@@ -85,11 +85,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryPatchGridUserControl.ShowItemRequested += libraryPatchGridUserControl_ShowItemRequested;
             libraryPatchPropertiesUserControl.AddToInstrumentRequested += libraryPatchPropertiesUserControl_AddToInstrument;
             libraryPatchPropertiesUserControl.CloseRequested += libraryPatchPropertiesUserControl_CloseRequested;
+            libraryPatchPropertiesUserControl.OpenExternallyRequested += libraryPatchPropertiesUserControl_OpenExternallyRequested;
             libraryPatchPropertiesUserControl.PlayRequested += libraryPatchPropertiesUserControl_PlayRequested;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
             libraryPropertiesUserControl.PlayRequested += libraryPropertiesUserControl_PlayRequested;
-            libraryPropertiesUserControl.OpenRequested += libraryPropertiesUserControl_OpenRequested;
+            libraryPropertiesUserControl.OpenExternallyRequested += libraryPropertiesUserControl_OpenExternallyRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.ShowCurrentInstrumentRequested += menuUserControl_ShowCurrentInstrumentRequested;
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
@@ -185,7 +186,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _autoPatchPopupForm.patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
             _librarySelectionPopupForm.CancelRequested += _librarySelectionPopupForm_CancelRequested;
             _librarySelectionPopupForm.OKRequested += _librarySelectionPopupForm_OKRequested;
-            _librarySelectionPopupForm.OpenItemRequested += _librarySelectionPopupForm_OpenItemRequested;
+            _librarySelectionPopupForm.OpenItemExternallyRequested += _librarySelectionPopupForm_OpenItemExternallyRequested;
             _librarySelectionPopupForm.PlayRequested += _librarySelectionPopupForm_PlayRequested;
 
             MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
@@ -496,13 +497,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(() => _presenter.DocumentTreeSelectLibraryPatchGroup(e.LowerDocumentReferenceID, e.PatchGroup));
         }
 
-        private void documentTreeUserControl_OpenItemRequested(object sender, EventArgs e)
+        private void documentTreeUserControl_OpenItemExternallyRequested(object sender, EventArgs e)
         {
             TemplateActionHandler(
                 () =>
                 {
-                    _presenter.DocumentTreeOpen();
-                    OpenDocumentAndOptionallyPatchIfNeeded();
+                    _presenter.DocumentTreeOpenItemExternally();
+                    OpenDocumentExternallyAndOptionallyPatchIfNeeded();
                 });
         }
 
@@ -564,13 +565,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void libraryGridUserControl_OpenItemRequested(object sender, EventArgs<int> e)
+        private void libraryGridUserControl_OpenItemExternallyRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(
                 () =>
                 {
-                    _presenter.LibraryGridOpenItem(e.Value);
-                    OpenDocumentAndOptionallyPatchIfNeeded();
+                    _presenter.LibraryGridOpenItemExternally(e.Value);
+                    OpenDocumentExternallyAndOptionallyPatchIfNeeded();
                 });
         }
 
@@ -624,6 +625,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(() => _presenter.LibraryPatchPropertiesClose(e.Value));
         }
 
+        private void libraryPatchPropertiesUserControl_OpenExternallyRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.LibraryPatchPropertiesOpenExternally(e.Value);
+                    OpenDocumentExternallyAndOptionallyPatchIfNeeded();
+                });
+        }
+
         private void libraryPatchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(
@@ -654,13 +665,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void libraryPropertiesUserControl_OpenRequested(object sender, EventArgs<int> e)
+        private void libraryPropertiesUserControl_OpenExternallyRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(
                 () =>
                 {
-                    _presenter.LibraryPropertiesOpen(e.Value);
-                    OpenDocumentAndOptionallyPatchIfNeeded();
+                    _presenter.LibraryPropertiesOpenExternally(e.Value);
+                    OpenDocumentExternallyAndOptionallyPatchIfNeeded();
                 });
         }
 
@@ -671,13 +682,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(() => _presenter.LibrarySelectionPopupOK(e.Value));
         }
 
-        private void _librarySelectionPopupForm_OpenItemRequested(object sender, EventArgs<int> e)
+        private void _librarySelectionPopupForm_OpenItemExternallyRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(
                 () =>
                 {
-                    _presenter.LibrarySelectionPopupOpenItem(e.Value);
-                    OpenDocumentAndOptionallyPatchIfNeeded();
+                    _presenter.LibrarySelectionPopupOpenItemExternally(e.Value);
+                    OpenDocumentExternallyAndOptionallyPatchIfNeeded();
                 });
         }
 

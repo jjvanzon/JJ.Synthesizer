@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public DocumentTreeViewModel Close(DocumentTreeViewModel userInput) => TemplateMethod(userInput, viewModel => viewModel.Visible = false);
 
-        public DocumentTreeViewModel Open(DocumentTreeViewModel userInput)
+        public DocumentTreeViewModel OpenItemExternally(DocumentTreeViewModel userInput)
         {
             return TemplateMethod(
                 userInput,
@@ -36,13 +36,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     {
                         case DocumentTreeNodeTypeEnum.Library:
                             DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(userInput.SelectedItemID.Value);
-                            viewModel.DocumentToOpen = documentReference.LowerDocument.ToIDAndName();
+                            viewModel.DocumentToOpenExternally = documentReference.LowerDocument.ToIDAndName();
                             break;
 
                         case DocumentTreeNodeTypeEnum.LibraryPatch:
                             Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
-                            viewModel.DocumentToOpen = patch.Document.ToIDAndName();
-                            viewModel.PatchToOpen = patch.ToIDAndName();
+                            viewModel.DocumentToOpenExternally = patch.Document.ToIDAndName();
+                            viewModel.PatchToOpenExternally = patch.ToIDAndName();
                             break;
 
                         default:
@@ -202,7 +202,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
-            viewModel.CanOpen = ViewModelHelper.GetCanOpen(viewModel.SelectedNodeType);
+            viewModel.CanOpenExternally = ViewModelHelper.GetCanOpenExternally(viewModel.SelectedNodeType);
 
             // Successful
             viewModel.Successful = true;

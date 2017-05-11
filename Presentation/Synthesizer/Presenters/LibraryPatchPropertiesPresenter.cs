@@ -52,8 +52,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Non-Persisted
                 viewModel.OutletIDToPlay = outlet?.ID;
                 userInput.ValidationMessages.AddRange(result.Messages.ToCanonical());
-                userInput.Successful = true;
+                userInput.Successful = result.Successful;
             });
+        }
+
+        public LibraryPatchPropertiesViewModel OpenExternally(LibraryPatchPropertiesViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    Patch patch = _patchRepository.Get(userInput.PatchID);
+
+                    // Non-Persisted
+                    viewModel.DocumentToOpenExternally = patch.Document.ToIDAndName();
+                    viewModel.PatchToOpenExternally = patch.ToIDAndName();
+                });
         }
     }
 }

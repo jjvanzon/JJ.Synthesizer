@@ -247,14 +247,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _presenter.MainViewModel.Document.OutletIDToPlay = null;
         }
 
-        private void OpenDocumentAndOptionallyPatchIfNeeded()
+        private void OpenDocumentExternallyAndOptionallyPatchIfNeeded()
         {
-            IDAndName documentToOpen = _presenter.MainViewModel.Document.DocumentToOpen;
-            IDAndName patchToOpen = _presenter.MainViewModel.Document.PatchToOpen;
+            IDAndName documentToOpenExternally = _presenter.MainViewModel.Document.DocumentToOpenExternally;
+            IDAndName patchToOpenExternally = _presenter.MainViewModel.Document.PatchToOpenExternally;
 
             // Infrastructure
-            string documentName = documentToOpen?.Name;
-            string patchName = patchToOpen?.Name;
+            string documentName = documentToOpenExternally?.Name;
+            string patchName = patchToOpenExternally?.Name;
 
             // ReSharper disable once InvertIf
             if (!string.IsNullOrEmpty(documentName))
@@ -269,8 +269,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 Process.Start(Assembly.GetExecutingAssembly().Location, arguments);
 
                 // ToViewModel
-                _presenter.MainViewModel.Document.DocumentToOpen = null;
-                _presenter.MainViewModel.Document.PatchToOpen = null;
+                _presenter.MainViewModel.Document.DocumentToOpenExternally = null;
+                _presenter.MainViewModel.Document.PatchToOpenExternally = null;
             }
         }
     }
