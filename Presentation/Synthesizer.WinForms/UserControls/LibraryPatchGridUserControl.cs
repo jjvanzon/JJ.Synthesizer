@@ -1,5 +1,4 @@
 ﻿using System.Windows.Forms;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -11,6 +10,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class LibraryPatchGridUserControl : GridUserControlBase
     {
         private DataGridViewColumn _playColumn;
+        private DataGridViewColumn _openExternallyColumn;
 
         public LibraryPatchGridUserControl()
         {
@@ -21,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             PlayButtonVisible = true;
             AddButtonVisible = false;
             RemoveButtonVisible = false;
+            OpenItemExternallyButtonVisible = true;
 
             KeyDown += base_KeyDown;
             CellClick += base_CellClick;
@@ -40,6 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddHiddenColumn(nameof(IDAndName.ID));
             _playColumn = AddImageColumn(Resources.PlayIconThinner);
             AddAutoSizeColumn(nameof(IDAndName.Name), CommonResourceFormatter.Name);
+            _openExternallyColumn = AddImageColumn(Resources.OpenWindowIconThinner);
         }
 
         public new LibraryPatchGridViewModel ViewModel
@@ -50,10 +52,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void base_KeyDown(object sender, KeyEventArgs e)
         {
+            int? columnIndex = TryGetColumnIndex();
+            if (!columnIndex.HasValue)
+            {
+                return;
+            }
+
             switch (e.KeyCode)
             {
-                case Keys.Space:
+                case Keys.Space when columnIndex.Value == _playColumn.Index:
                     Play();
+                    e.Handled = true;
+                    break;
+
+                case Keys.Space when columnIndex.Value == _openExternallyColumn.Index:
+                    OpenItemExternally();
                     e.Handled = true;
                     break;
             }
@@ -71,6 +84,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (e.ColumnIndex == _playColumn.Index)
             {
                 Play();
+                return;
+            }
+
+            // ReSharper disable once InvertIf
+            if (e.ColumnIndex == _openExternallyColumn.Index)
+            {
+                OpenItemExternally();
+                // ReSharper disable once RedundantJumpStatement
+                return;
             }
         }
     }

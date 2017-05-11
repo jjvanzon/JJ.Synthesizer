@@ -38,11 +38,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
 
-            // Action
-            action(viewModel);
-
             // Successful
             viewModel.Successful = true;
+
+            // Action
+            action(viewModel);
 
             return viewModel;
         }

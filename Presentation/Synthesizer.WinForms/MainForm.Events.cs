@@ -83,6 +83,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryPatchGridUserControl.CloseRequested += libraryPatchGridUserControl_CloseRequested;
             libraryPatchGridUserControl.PlayRequested += libraryPatchGridUserControl_PlayRequested;
             libraryPatchGridUserControl.ShowItemRequested += libraryPatchGridUserControl_ShowItemRequested;
+            libraryPatchGridUserControl.OpenItemExternallyRequested += libraryPatchGridUserControl_OpenItemExternallyRequested;
             libraryPatchPropertiesUserControl.AddToInstrumentRequested += libraryPatchPropertiesUserControl_AddToInstrument;
             libraryPatchPropertiesUserControl.CloseRequested += libraryPatchPropertiesUserControl_CloseRequested;
             libraryPatchPropertiesUserControl.OpenExternallyRequested += libraryPatchPropertiesUserControl_OpenExternallyRequested;
@@ -587,9 +588,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void libraryPatchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
+        private void libraryPatchGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            TemplateActionHandler(() => _presenter.LibraryPatchPropertiesShow(e.Value));
+            TemplateActionHandler(
+                () => _presenter.LibraryPatchGridClose(
+                    libraryPatchGridUserControl.ViewModel.LowerDocumentReferenceID,
+                    libraryPatchGridUserControl.ViewModel.Group));
+        }
+
+        private void libraryPatchGridUserControl_OpenItemExternallyRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.LibraryPatchGridOpenItemExternally(
+                        libraryPatchGridUserControl.ViewModel.LowerDocumentReferenceID,
+                        libraryPatchGridUserControl.ViewModel.Group,
+                        e.Value);
+                    OpenDocumentExternallyAndOptionallyPatchIfNeeded();
+                });
         }
 
         private void libraryPatchGridUserControl_PlayRequested(object sender, EventArgs<int> e)
@@ -602,12 +619,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void libraryPatchGridUserControl_CloseRequested(object sender, EventArgs e)
+        private void libraryPatchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(
-                () => _presenter.LibraryPatchGridClose(
-                    libraryPatchGridUserControl.ViewModel.LowerDocumentReferenceID,
-                    libraryPatchGridUserControl.ViewModel.Group));
+            TemplateActionHandler(() => _presenter.LibraryPatchPropertiesShow(e.Value));
         }
 
         private void libraryPatchPropertiesUserControl_AddToInstrument(object sender, EventArgs<int> e)

@@ -10,5 +10,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public string Group { get; set; }
         public IList<IDAndName> List { get; set; }
         internal int? OutletIDToPlay { get; set; }
+        internal IDAndName DocumentToOpenExternally { get; set; }
+        internal IDAndName PatchToOpenExternally { get; set; }
     }
 }

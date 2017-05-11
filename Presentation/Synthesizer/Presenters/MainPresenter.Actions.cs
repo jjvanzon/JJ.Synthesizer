@@ -1592,6 +1592,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public void LibraryPatchGridOpenItemExternally(int lowerDocumentReferenceID, string group, int patchID)
+        {
+            // GetViewModel
+            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _libraryPatchGridPresenter.OpenItemExternally(userInput, patchID));
+        }
+
         public void LibraryPatchGridPlay(int lowerDocumentReferenceID, string group, int patchID)
         {
             // GetViewModel

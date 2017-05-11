@@ -56,5 +56,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel.Successful = result.Successful;
             });
         }
+
+        public LibraryPatchGridViewModel OpenItemExternally(LibraryPatchGridViewModel userInput, int patchID)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    Patch patch = _repositories.PatchRepository.Get(patchID);
+
+                    // Non-Persisted
+                    viewModel.DocumentToOpenExternally = patch.Document.ToIDAndName();
+                    viewModel.PatchToOpenExternally = patch.ToIDAndName();
+                });
+        }
     }
 }
