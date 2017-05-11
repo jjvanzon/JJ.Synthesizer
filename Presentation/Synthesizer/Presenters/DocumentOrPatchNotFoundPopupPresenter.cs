@@ -1,8 +1,11 @@
 using System;
+using System.Linq;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -33,7 +36,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // GetEntities
             Document document = _documentRepository.TryGetByName(documentName);
-            Patch patch = _patchRepository.TryGetByName(patchName);
+            string canonicalPatchName = NameHelper.ToCanonical(patchName);
+            Patch patch = document.Patches
+                                  .Where(x => string.Equals(NameHelper.ToCanonical(x.Name), canonicalPatchName))
+                                  .SingleWithClearException(new { canonicalPatchName });
 
             // ToViewModel
             string message;
