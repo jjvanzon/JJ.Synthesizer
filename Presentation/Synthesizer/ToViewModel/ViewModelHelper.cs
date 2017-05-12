@@ -278,12 +278,33 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (patches == null) throw new NullException(() => patches);
             if (higherDocument == null) throw new NullException(() => higherDocument);
 
+            Dictionary<int?, DocumentReference> documentReferenceDictionary = higherDocument.LowerDocumentReferences.ToDictionary(x => x.LowerDocument?.ID);
+
             var viewModel = new CurrentInstrumentViewModel
             {
                 DocumentID = higherDocument.ID,
-                List = patches.Select(x => x.ToIDAndNameWithDocumentAliasOrName(higherDocument)).ToList(),
+                List = patches.Select(x => toIDAndName(x)).ToList(),
                 ValidationMessages = new List<MessageDto>()
             };
+
+            IDAndName toIDAndName(Patch entity)
+            {
+                if (entity.Document?.ID == higherDocument.ID)
+                {
+                    return entity.ToIDAndName();
+                }
+
+                int? lowerDocumentID = entity.Document?.ID;
+                DocumentReference documentReference = documentReferenceDictionary[lowerDocumentID];
+
+                var idAndName = new IDAndName
+                {
+                    ID = entity.ID,
+                    Name = $"{documentReference.GetAliasOrName()} | {entity.Name}"
+                };
+
+                return idAndName;
+            }
 
             return viewModel;
         }

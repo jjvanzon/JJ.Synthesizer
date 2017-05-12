@@ -163,30 +163,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndNameWithDocumentAliasOrName(this Patch entity, Document higherDocument)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            if (higherDocument == null) throw new NullException(() => higherDocument);
-
-            if (entity.Document?.ID == higherDocument.ID)
-            {
-                return entity.ToIDAndName();
-            }
-
-            // TODO: This is a little bad for performance.
-            int? lowerDocumentID = entity.Document?.ID;
-            DocumentReference documentReference = higherDocument.LowerDocumentReferences
-                                                                .Where(x => x.LowerDocument?.ID == lowerDocumentID)
-                                                                .Single();
-            var idAndName = new IDAndName
-            {
-                ID = entity.ID,
-                Name = $"{documentReference.GetAliasOrName()} | {entity.Name}"
-            };
-
-            return idAndName;
-        }
-
         public static IDAndName ToIDAndName(this Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);
