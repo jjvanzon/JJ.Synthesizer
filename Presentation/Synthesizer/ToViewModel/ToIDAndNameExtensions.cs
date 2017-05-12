@@ -174,13 +174,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // TODO: This is a little bad for performance.
+            int? lowerDocumentID = entity.Document?.ID;
             DocumentReference documentReference = higherDocument.LowerDocumentReferences
-                                                                .Where(x => x.LowerDocument?.ID == entity.Document?.ID)
+                                                                .Where(x => x.LowerDocument?.ID == lowerDocumentID)
                                                                 .Single();
             var idAndName = new IDAndName
             {
                 ID = entity.ID,
-                Name = $"{documentReference.GetAliasOrName()} {entity.Name}"
+                Name = $"{documentReference.GetAliasOrName()} | {entity.Name}"
             };
 
             return idAndName;
