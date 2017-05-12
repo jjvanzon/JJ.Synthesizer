@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -61,7 +63,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             foreach (int idToDelete in idsToDelete)
             {
                 patchManager.PatchID = idToDelete;
-                patchManager.DeletePatchWithRelatedEntities();
+                IResult result = patchManager.DeletePatchWithRelatedEntities();
+                result.Assert();
             }
         }
 

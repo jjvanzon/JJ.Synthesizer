@@ -57,12 +57,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private TreeNode _audioOutputNode;
         private TreeNode _audioFileOutputListTreeNode;
         private TreeNode _librariesTreeNode;
+        private TreeNode _patchesTreeNode;
 
         public DocumentTreeUserControl()
         {
             InitializeComponent();
             SetTitles();
             ApplyStyling();
+            AddInvariantNodes();
         }
 
         // Gui
@@ -84,36 +86,335 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            try
+            titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
+            titleBarUserControl.OpenButtonVisible = ViewModel.CanOpenExternally;
+
+            _patchGroupTreeNodes = new HashSet<TreeNode>();
+            _patchTreeNodes = new HashSet<TreeNode>();
+            _libraryTreeNodes = new HashSet<TreeNode>();
+            _libraryPatchTreeNodes = new HashSet<TreeNode>();
+            _libraryPatchGroupTreeNodes = new HashSet<TreeNode>();
+
+            if (ViewModel == null)
             {
-                titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
-                titleBarUserControl.OpenButtonVisible = ViewModel.CanOpenExternally;
+                return;
+            }
 
-                treeView.SuspendLayout();
-                treeView.BeginUpdate();
+            ConvertNodes(ViewModel);
+            SetSelectedNode();
+        }
 
-                _patchGroupTreeNodes = new HashSet<TreeNode>();
-                _patchTreeNodes = new HashSet<TreeNode>();
-                _libraryTreeNodes = new HashSet<TreeNode>();
-                _libraryPatchTreeNodes = new HashSet<TreeNode>();
-                _libraryPatchGroupTreeNodes = new HashSet<TreeNode>();
+        private void AddInvariantNodes()
+        {
+            _patchesTreeNode = new TreeNode();
+            treeView.Nodes.Add(_patchesTreeNode);
 
-                treeView.Nodes.Clear();
+            _samplesTreeNode = new TreeNode();
+            treeView.Nodes.Add(_samplesTreeNode);
 
-                if (ViewModel == null)
+            _curvesTreeNode = new TreeNode();
+            treeView.Nodes.Add(_curvesTreeNode);
+
+            _scalesTreeNode = new TreeNode();
+            treeView.Nodes.Add(_scalesTreeNode);
+
+            _audioOutputNode = new TreeNode();
+            treeView.Nodes.Add(_audioOutputNode);
+
+            _audioFileOutputListTreeNode = new TreeNode();
+            treeView.Nodes.Add(_audioFileOutputListTreeNode);
+
+            _librariesTreeNode = new TreeNode();
+            treeView.Nodes.Add(_librariesTreeNode);
+        }
+
+        private void ConvertNodes(DocumentTreeViewModel viewModel)
+        {
+            if (_samplesTreeNode.Text != viewModel.SamplesNode.Text)
+            {
+                _samplesTreeNode.Text = viewModel.SamplesNode.Text;
+            }
+
+            if (_curvesTreeNode.Text != viewModel.CurvesNode.Text)
+            {
+                _curvesTreeNode.Text = viewModel.CurvesNode.Text;
+            }
+
+            if (_scalesTreeNode.Text != viewModel.ScalesNode.Text)
+            {
+                _scalesTreeNode.Text = viewModel.ScalesNode.Text;
+            }
+
+            if (_audioOutputNode.Text != viewModel.AudioOutputNode.Text)
+            {
+                _audioOutputNode.Text = viewModel.AudioOutputNode.Text;
+            }
+
+            if (_audioFileOutputListTreeNode.Text != viewModel.AudioFileOutputListNode.Text)
+            {
+                _audioFileOutputListTreeNode.Text = viewModel.AudioFileOutputListNode.Text;
+            }
+
+            if (_patchesTreeNode.Text != viewModel.PatchesNode.Text)
+            {
+                _patchesTreeNode.Text = viewModel.PatchesNode.Text;
+            }
+            ConvertPatchesNodeDescendants(viewModel.PatchesNode, _patchesTreeNode);
+            //_patchesTreeNode.Expand();
+
+            if (_librariesTreeNode.Text != viewModel.LibrariesNode.Text)
+            {
+                _librariesTreeNode.Text = viewModel.LibrariesNode.Text;
+            }
+            ConvertLibraries(viewModel.LibrariesNode.List, _librariesTreeNode.Nodes);
+            //_librariesTreeNode.Expand();
+
+        }
+
+        private void ConvertPatchesNodeDescendants(PatchesTreeNodeViewModel viewModel, TreeNode treeNode)
+        {
+            var treeNodesToKeep = new HashSet<TreeNode>();
+
+            // Groupless
+            foreach (PatchTreeNodeViewModel patchViewModel in viewModel.PatchNodes)
+            {
+                TreeNode patchTreeNode = ConvertPatchNode(patchViewModel, treeNode.Nodes);
+                _patchTreeNodes.Add(patchTreeNode);
+                treeNodesToKeep.Add(patchTreeNode);
+            }
+
+            // PatchGroups
+            foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in viewModel.PatchGroupNodes)
+            {
+                TreeNode patchGroupTreeNode = ConvertPatchGroupAndDescendants(patchGroupViewModel, treeNode.Nodes);
+                _patchGroupTreeNodes.Add(patchGroupTreeNode);
+                treeNodesToKeep.Add(patchGroupTreeNode);
+
+                //patchGroupTreeNode.Expand();
+            }
+
+            IEnumerable<TreeNode> existingTreeNodes = treeNode.Nodes.Cast<TreeNode>();
+            IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
+            foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
+            {
+                treeNode.Nodes.Remove(treeNodeToDelete);
+            }
+        }
+
+        private TreeNode ConvertPatchGroupAndDescendants(PatchGroupTreeNodeViewModel patchGroupViewModel, TreeNodeCollection patchesTreeNodes)
+        {
+            TreeNode patchGroupTreeNode = ConvertPatchGroup(patchGroupViewModel, patchesTreeNodes);
+
+            ConvertPatches(patchGroupViewModel.PatchNodes, patchGroupTreeNode.Nodes);
+
+            return patchGroupTreeNode;
+        }
+
+        private void ConvertPatches(IList<PatchTreeNodeViewModel> viewModels, TreeNodeCollection treeNodes)
+        {
+            var treeNodesToKeep = new HashSet<TreeNode>();
+
+            foreach (PatchTreeNodeViewModel viewModel in viewModels)
+            {
+                TreeNode treeNode = ConvertPatchNode(viewModel, treeNodes);
+                treeNodesToKeep.Add(treeNode);
+
+                _patchTreeNodes.Add(treeNode);
+            }
+
+            IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
+            IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
+            foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
+            {
+                treeNodes.Remove(treeNodeToDelete);
+            }
+        }
+
+        private void ConvertLibraries(IList<LibraryTreeNodeViewModel> viewModels, TreeNodeCollection treeNodes)
+        {
+            var treeNodesToKeep = new HashSet<TreeNode>();
+
+            foreach (LibraryTreeNodeViewModel viewModel in viewModels)
+            {
+                TreeNode treeNode = ConvertLibraryAndDescendants(viewModel, treeNodes);
+                treeNodesToKeep.Add(treeNode);
+
+                _libraryTreeNodes.Add(treeNode);
+            }
+
+            IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
+            IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
+            foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
+            {
+                treeNodes.Remove(treeNodeToDelete);
+            }
+        }
+
+        private TreeNode ConvertLibraryAndDescendants(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+        {
+            TreeNode libraryTreeNode = ConvertLibrary(viewModel, treeNodes);
+
+            ConvertLibraryDescendants(viewModel, libraryTreeNode.Nodes);
+
+            //libraryTreeNode.Expand();
+
+            return libraryTreeNode;
+        }
+
+        private static TreeNode ConvertLibrary(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+        {
+            TreeNode treeNode = treeNodes.Cast<TreeNode>().Where(x => (int)x.Tag == viewModel.LowerDocumentReferenceID).SingleOrDefault();
+
+            if (treeNode == null)
+            {
+                treeNode = new TreeNode
                 {
-                    treeView.ResumeLayout();
-                    return;
-                }
+                    Tag = viewModel.LowerDocumentReferenceID
+                };
+                treeNodes.Add(treeNode);
+            }
 
-                AddTopLevelNodesAndDescendants(treeView.Nodes, ViewModel);
-                SetSelectedNode();
-            }
-            finally
+            if (treeNode.Text != viewModel.Caption)
             {
-                treeView.EndUpdate();
-                treeView.ResumeLayout();
+                treeNode.Text = viewModel.Caption;
             }
+
+            return treeNode;
+        }
+
+        private void ConvertLibraryDescendants(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+        {
+            var treeNodesToKeep = new HashSet<TreeNode>();
+
+            // Library Patches (Groupless)
+            foreach (PatchTreeNodeViewModel patchViewModel in viewModel.PatchNodes)
+            {
+                TreeNode patchTreeNode = ConvertPatchNode(patchViewModel, treeNodes);
+                treeNodesToKeep.Add(patchTreeNode);
+
+                _libraryPatchTreeNodes.Add(patchTreeNode);
+            }
+
+            // Library PatchGroups
+            foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in viewModel.PatchGroupNodes)
+            {
+                TreeNode patchGroupTreeNode = ConvertLibraryPatchGroupAndDescendants(patchGroupViewModel, treeNodes, viewModel.LowerDocumentReferenceID);
+                treeNodesToKeep.Add(patchGroupTreeNode);
+
+                _libraryPatchGroupTreeNodes.Add(patchGroupTreeNode);
+
+                //patchGroupTreeNode.Expand();
+            }
+
+            IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
+            IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
+            foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
+            {
+                treeNodes.Remove(treeNodeToDelete);
+            }
+        }
+
+        private TreeNode ConvertLibraryPatchGroupAndDescendants(
+            PatchGroupTreeNodeViewModel viewModel,
+            TreeNodeCollection treeNodes,
+            int lowerDocumentReferenceID)
+        {
+            TreeNode treeNode = ConvertLibraryPatchGroupNode(viewModel, treeNodes, lowerDocumentReferenceID);
+
+            ConvertLibraryPatches(viewModel.PatchNodes, treeNode.Nodes);
+
+            return treeNode;
+        }
+
+        private void ConvertLibraryPatches(IList<PatchTreeNodeViewModel> viewModels, TreeNodeCollection treeNodes)
+        {
+            var treeNodesToKeep = new HashSet<TreeNode>();
+
+            foreach (PatchTreeNodeViewModel viewModel in viewModels)
+            {
+                TreeNode treeNode = ConvertPatchNode(viewModel, treeNodes);
+                treeNodesToKeep.Add(treeNode);
+
+                _libraryPatchTreeNodes.Add(treeNode);
+            }
+
+            IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
+            IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
+            foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
+            {
+                treeNodes.Remove(treeNodeToDelete);
+            }
+        }
+
+        private TreeNode ConvertLibraryPatchGroupNode(
+            PatchGroupTreeNodeViewModel viewModel,
+            TreeNodeCollection treeNodes,
+            int lowerDocumentReferenceID)
+        {
+            string tag = FormatLibraryPatchGroupTag(lowerDocumentReferenceID, viewModel.CanonicalGroupName);
+
+            TreeNode treeNode = treeNodes.Cast<TreeNode>().Where(x => string.Equals(x.Tag, tag)).SingleOrDefault();
+            if (treeNode == null)
+            {
+                treeNode = new TreeNode { Tag = tag };
+                treeNodes.Add(treeNode);
+            }
+
+            if (treeNode.Text != viewModel.Caption)
+            {
+                treeNode.Text = viewModel.Caption;
+            }
+
+            return treeNode;
+        }
+
+        private TreeNode ConvertPatchGroup(PatchGroupTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+        {
+            TreeNode treeNode = treeNodes.Cast<TreeNode>()
+                                         .Where(x => string.Equals(x.Tag, viewModel.CanonicalGroupName))
+                                         .SingleOrDefault();
+            if (treeNode == null)
+            {
+                treeNode = new TreeNode
+                {
+                    Tag = viewModel.CanonicalGroupName
+                };
+
+                treeNodes.Add(treeNode);
+            }
+
+            if (treeNode.Text != viewModel.Caption)
+            {
+                treeNode.Text = viewModel.Caption;
+            }
+
+            return treeNode;
+        }
+
+        private TreeNode ConvertPatchNode(PatchTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+        {
+            TreeNode treeNode = treeNodes.Cast<TreeNode>().Where(x => Equals(x.Tag, viewModel.ID)).SingleOrDefault();
+
+            if (treeNode == null)
+            {
+                treeNode = new TreeNode
+                {
+                    Tag = viewModel.ID
+                };
+                treeNodes.Add(treeNode);
+            }
+
+            if (treeNode.Text != viewModel.Name)
+            {
+                treeNode.Text = viewModel.Name;
+            }
+
+            if (viewModel.HasLighterStyle)
+            {
+                treeNode.ForeColor = StyleHelper.LightGray;
+            }
+
+            return treeNode;
         }
 
         private void SetSelectedNode()
@@ -171,125 +472,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     treeView.SelectedNode = _patchGroupTreeNodes.Where(x => string.Equals((string)x.Tag, ViewModel.SelectedPatchGroup)).First();
                     break;
             }
-        }
-
-        private void AddTopLevelNodesAndDescendants(TreeNodeCollection nodes, DocumentTreeViewModel documentTreeViewModel)
-        {
-            {
-                // Patches
-                var patchesTreeNode = new TreeNode(documentTreeViewModel.PatchesNode.Text);
-                nodes.Add(patchesTreeNode);
-                _patchGroupTreeNodes.Add(patchesTreeNode);
-
-                // Patches (Groupless)
-                foreach (PatchTreeNodeViewModel patchTreeNodeViewModel in documentTreeViewModel.PatchesNode.PatchNodes)
-                {
-                    TreeNode patchTreeNode = ConvertPatchNode(patchTreeNodeViewModel);
-                    patchesTreeNode.Nodes.Add(patchTreeNode);
-                    _patchTreeNodes.Add(patchTreeNode);
-                }
-
-                // PatchGroups
-                foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in documentTreeViewModel.PatchesNode.PatchGroupNodes)
-                {
-                    var patchGroupTreeNode = new TreeNode(patchGroupViewModel.Caption)
-                    {
-                        Tag = patchGroupViewModel.GroupName
-                    };
-                    patchesTreeNode.Nodes.Add(patchGroupTreeNode);
-                    _patchGroupTreeNodes.Add(patchGroupTreeNode);
-
-                    foreach (PatchTreeNodeViewModel patchTreeNodeViewModel in patchGroupViewModel.PatchNodes)
-                    {
-                        TreeNode patchTreeNode = ConvertPatchNode(patchTreeNodeViewModel);
-                        patchGroupTreeNode.Nodes.Add(patchTreeNode);
-                        _patchTreeNodes.Add(patchTreeNode);
-                    }
-
-                    patchGroupTreeNode.Expand();
-                }
-
-                patchesTreeNode.Expand();
-            }
-
-            // Other Nodes
-            var samplesTreeNode = new TreeNode(documentTreeViewModel.SamplesNode.Text);
-            nodes.Add(samplesTreeNode);
-            _samplesTreeNode = samplesTreeNode;
-
-            var curvesTreeNode = new TreeNode(documentTreeViewModel.CurvesNode.Text);
-            nodes.Add(curvesTreeNode);
-            _curvesTreeNode = curvesTreeNode;
-
-            _scalesTreeNode = new TreeNode(documentTreeViewModel.ScalesNode.Text);
-            nodes.Add(_scalesTreeNode);
-
-            _audioOutputNode = new TreeNode(documentTreeViewModel.AudioOutputNode.Text);
-            nodes.Add(_audioOutputNode);
-
-            _audioFileOutputListTreeNode = new TreeNode(documentTreeViewModel.AudioFileOutputListNode.Text);
-            nodes.Add(_audioFileOutputListTreeNode);
-
-            _librariesTreeNode = new TreeNode(documentTreeViewModel.LibrariesNode.Text);
-            treeView.Nodes.Add(_librariesTreeNode);
-
-            // Library Nodes
-            foreach (LibraryTreeNodeViewModel libraryViewModel in documentTreeViewModel.LibrariesNode.List)
-            {
-                var libraryTreeNode = new TreeNode(libraryViewModel.Caption)
-                {
-                    Tag = libraryViewModel.LowerDocumentReferenceID
-                };
-                _librariesTreeNode.Nodes.Add(libraryTreeNode);
-                _libraryTreeNodes.Add(libraryTreeNode);
-
-                // Library Patches (Groupless)
-                foreach (PatchTreeNodeViewModel libraryPatchTreeViewModel in libraryViewModel.PatchNodes)
-                {
-                    TreeNode libraryPatchTreeNode = ConvertPatchNode(libraryPatchTreeViewModel);
-                    libraryTreeNode.Nodes.Add(libraryPatchTreeNode);
-                    _libraryPatchTreeNodes.Add(libraryPatchTreeNode);
-                }
-
-                // Library PatchGroups
-                foreach (PatchGroupTreeNodeViewModel libraryPatchGroupViewModel in libraryViewModel.PatchGroupNodes)
-                {
-                    var libraryPatchGroupTreeNode = new TreeNode(libraryPatchGroupViewModel.Caption)
-                    {
-                        Tag = FormatLibraryPatchGroupTag(libraryViewModel.LowerDocumentReferenceID, libraryPatchGroupViewModel.GroupName)
-                    };
-                    libraryTreeNode.Nodes.Add(libraryPatchGroupTreeNode);
-                    _libraryPatchGroupTreeNodes.Add(libraryPatchGroupTreeNode);
-
-                    foreach (PatchTreeNodeViewModel libraryPatchTreeNodeViewModel in libraryPatchGroupViewModel.PatchNodes)
-                    {
-                        TreeNode libraryPatchTreeNode = ConvertPatchNode(libraryPatchTreeNodeViewModel);
-                        libraryPatchGroupTreeNode.Nodes.Add(libraryPatchTreeNode);
-                        _libraryPatchTreeNodes.Add(libraryPatchTreeNode);
-                    }
-
-                    libraryPatchGroupTreeNode.Expand();
-                }
-                
-                libraryTreeNode.Expand();
-            }
-
-            _librariesTreeNode.Expand();
-        }
-
-        private TreeNode ConvertPatchNode(PatchTreeNodeViewModel patchViewModel)
-        {
-            var patchTreeNode = new TreeNode(patchViewModel.Name)
-            {
-                Tag = patchViewModel.ID
-            };
-
-            if (patchViewModel.HasLighterStyle)
-            {
-                patchTreeNode.ForeColor = StyleHelper.LightGray;
-            }
-
-            return patchTreeNode;
         }
 
         // Events

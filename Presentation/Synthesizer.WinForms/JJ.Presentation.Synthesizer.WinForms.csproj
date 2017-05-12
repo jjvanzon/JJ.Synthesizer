@@ -119,6 +119,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\2017-05-12 Backup of DocumentTreeUserControl.cs" />
+    <Compile Include="UserControls\2017-05-12 Backup of DocumentTreeUserControl.Designer.cs">
+      <DependentUpon>2017-05-12 Backup of DocumentTreeUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\2017-05-12 Backup of DocumentTreeUserControl %282%29.cs" />
+    <Compile Include="UserControls\2017-05-12 Backup of DocumentTreeUserControl %282%29.Designer.cs">
+      <DependentUpon>2017-05-12 Backup of DocumentTreeUserControl %282%29.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\LibraryGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -408,6 +416,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\2017-05-12 Backup of DocumentTreeUserControl.resx">
+      <DependentUpon>2017-05-12 Backup of DocumentTreeUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\2017-05-12 Backup of DocumentTreeUserControl %282%29.resx">
+      <DependentUpon>2017-05-12 Backup of DocumentTreeUserControl %282%29.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\LibraryGridUserControl.resx">
       <DependentUpon>LibraryGridUserControl.cs</DependentUpon>

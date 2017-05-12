@@ -25,6 +25,7 @@ using JJ.Business.Synthesizer.Visitors;
 using JJ.Business.Synthesizer.Roslyn;
 using JJ.Business.Synthesizer.Roslyn.Calculation;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 
 namespace JJ.Business.Synthesizer
 {
@@ -204,21 +205,21 @@ namespace JJ.Business.Synthesizer
 
         // Delete
 
-        public VoidResultDto DeletePatchWithRelatedEntities()
+        public VoidResult DeletePatchWithRelatedEntities()
         {
             AssertPatchNotNull();
 
             IValidator validator = new PatchValidator_Delete(Patch, _repositories.PatchRepository);
             if (!validator.IsValid)
             {
-                return validator.ToCanonical();
+                return validator.ToResult();
             }
 
             Patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
             Patch.UnlinkRelatedEntities();
             _repositories.PatchRepository.Delete(Patch);
 
-            return new VoidResultDto
+            return new VoidResult
             {
                 Successful = true
             };

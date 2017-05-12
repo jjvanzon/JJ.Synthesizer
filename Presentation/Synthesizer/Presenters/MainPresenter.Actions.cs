@@ -2786,10 +2786,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         PatchID = patchID
                     };
 
-                    IResultDto result = patchManager.DeletePatchWithRelatedEntities();
+                    IResult result = patchManager.DeletePatchWithRelatedEntities();
 
                     // Non-Persisted
-                    userInput.ValidationMessages.AddRange(result.Messages);
+                    userInput.ValidationMessages.AddRange(result.Messages.ToCanonical());
 
                     // Successful?
                     userInput.Successful = result.Successful;

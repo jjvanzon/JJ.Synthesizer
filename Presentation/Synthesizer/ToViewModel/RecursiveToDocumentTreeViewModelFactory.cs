@@ -142,7 +142,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchGroupTreeNodeViewModel
             {
-                GroupName = patchGroupDto.FriendlyGroupName,
+                CanonicalGroupName = patchGroupDto.CanonicalGroupName,
                 Caption = GetTreeNodeText(patchGroupDto.FriendlyGroupName, patchGroupDto.Patches.Count),
                 PatchNodes = patchGroupDto.Patches
                                           .OrderBy(x => x.Name)
