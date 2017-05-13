@@ -159,51 +159,64 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 _patchesTreeNode.Text = viewModel.PatchesNode.Text;
             }
-            ConvertPatchesNodeDescendants(viewModel.PatchesNode, _patchesTreeNode);
+            ConvertPatchesDescendants(viewModel.PatchesNode, _patchesTreeNode);
             //_patchesTreeNode.Expand();
 
             if (_librariesTreeNode.Text != viewModel.LibrariesNode.Text)
             {
                 _librariesTreeNode.Text = viewModel.LibrariesNode.Text;
             }
-            ConvertLibraries(viewModel.LibrariesNode.List, _librariesTreeNode.Nodes);
+            ConvertLibrariesDescendants(viewModel.LibrariesNode.List, _librariesTreeNode.Nodes);
             //_librariesTreeNode.Expand();
-
         }
 
-        private void ConvertPatchesNodeDescendants(PatchesTreeNodeViewModel viewModel, TreeNode treeNode)
+        private void ConvertPatchesDescendants(PatchesTreeNodeViewModel viewModel, TreeNode treeNode)
         {
             var treeNodesToKeep = new HashSet<TreeNode>();
+
+            bool mustSort = false;
 
             // Groupless
             foreach (PatchTreeNodeViewModel patchViewModel in viewModel.PatchNodes)
             {
-                TreeNode patchTreeNode = ConvertPatchNode(patchViewModel, treeNode.Nodes);
+                TreeNode patchTreeNode = ConvertPatchNode(patchViewModel, treeNode.Nodes, out bool isNew);
                 _patchTreeNodes.Add(patchTreeNode);
                 treeNodesToKeep.Add(patchTreeNode);
+
+                mustSort |= isNew;
             }
 
             // PatchGroups
             foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in viewModel.PatchGroupNodes)
             {
-                TreeNode patchGroupTreeNode = ConvertPatchGroupAndDescendants(patchGroupViewModel, treeNode.Nodes);
+                TreeNode patchGroupTreeNode = ConvertPatchGroupAndDescendants(patchGroupViewModel, treeNode.Nodes, out bool isNew);
                 _patchGroupTreeNodes.Add(patchGroupTreeNode);
                 treeNodesToKeep.Add(patchGroupTreeNode);
 
                 //patchGroupTreeNode.Expand();
+
+                mustSort |= isNew;
             }
 
+            // Deletions
             IEnumerable<TreeNode> existingTreeNodes = treeNode.Nodes.Cast<TreeNode>();
             IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
             foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
             {
                 treeNode.Nodes.Remove(treeNodeToDelete);
             }
+
+            // Sort
+            // ReSharper disable once InvertIf
+            if (mustSort)
+            {
+                SortTreeNodes(treeNode.Nodes);
+            }
         }
 
-        private TreeNode ConvertPatchGroupAndDescendants(PatchGroupTreeNodeViewModel patchGroupViewModel, TreeNodeCollection patchesTreeNodes)
+        private TreeNode ConvertPatchGroupAndDescendants(PatchGroupTreeNodeViewModel patchGroupViewModel, TreeNodeCollection patchesTreeNodes, out bool isNew)
         {
-            TreeNode patchGroupTreeNode = ConvertPatchGroup(patchGroupViewModel, patchesTreeNodes);
+            TreeNode patchGroupTreeNode = ConvertPatchGroup(patchGroupViewModel, patchesTreeNodes, out isNew);
 
             ConvertPatches(patchGroupViewModel.PatchNodes, patchGroupTreeNode.Nodes);
 
@@ -214,12 +227,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             var treeNodesToKeep = new HashSet<TreeNode>();
 
+            bool mustSort = false;
+
             foreach (PatchTreeNodeViewModel viewModel in viewModels)
             {
-                TreeNode treeNode = ConvertPatchNode(viewModel, treeNodes);
+                TreeNode treeNode = ConvertPatchNode(viewModel, treeNodes, out bool isNew);
                 treeNodesToKeep.Add(treeNode);
 
                 _patchTreeNodes.Add(treeNode);
+
+                mustSort |= isNew;
             }
 
             IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
@@ -228,31 +245,50 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 treeNodes.Remove(treeNodeToDelete);
             }
+
+            // Sort
+            // ReSharper disable once InvertIf
+            if (mustSort)
+            {
+                SortTreeNodes(treeNodes);
+            }
         }
 
-        private void ConvertLibraries(IList<LibraryTreeNodeViewModel> viewModels, TreeNodeCollection treeNodes)
+        private void ConvertLibrariesDescendants(IList<LibraryTreeNodeViewModel> viewModels, TreeNodeCollection treeNodes)
         {
             var treeNodesToKeep = new HashSet<TreeNode>();
 
+            bool mustSort = false;
+
             foreach (LibraryTreeNodeViewModel viewModel in viewModels)
             {
-                TreeNode treeNode = ConvertLibraryAndDescendants(viewModel, treeNodes);
+                TreeNode treeNode = ConvertLibraryAndDescendants(viewModel, treeNodes, out bool isNew);
                 treeNodesToKeep.Add(treeNode);
 
                 _libraryTreeNodes.Add(treeNode);
+
+                mustSort |= isNew;
             }
 
+            // Deletions
             IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
             IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
             foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
             {
                 treeNodes.Remove(treeNodeToDelete);
             }
+
+            // Sort
+            // ReSharper disable once InvertIf
+            if (mustSort)
+            {
+                SortTreeNodes(treeNodes);
+            }
         }
 
-        private TreeNode ConvertLibraryAndDescendants(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+        private TreeNode ConvertLibraryAndDescendants(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNew)
         {
-            TreeNode libraryTreeNode = ConvertLibrary(viewModel, treeNodes);
+            TreeNode libraryTreeNode = ConvertLibrary(viewModel, treeNodes, out isNew);
 
             ConvertLibraryDescendants(viewModel, libraryTreeNode.Nodes);
 
@@ -261,16 +297,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             return libraryTreeNode;
         }
 
-        private static TreeNode ConvertLibrary(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+        private static TreeNode ConvertLibrary(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNew)
         {
-            TreeNode treeNode = treeNodes.Cast<TreeNode>().Where(x => (int)x.Tag == viewModel.LowerDocumentReferenceID).SingleOrDefault();
-
+            TreeNode treeNode = treeNodes.Cast<TreeNode>()
+                                         .Where(x => (int)x.Tag == viewModel.LowerDocumentReferenceID)
+                                         .SingleOrDefault();
+            isNew = false;
             if (treeNode == null)
             {
-                treeNode = new TreeNode
-                {
-                    Tag = viewModel.LowerDocumentReferenceID
-                };
+                isNew = true;
+                treeNode = new TreeNode { Tag = viewModel.LowerDocumentReferenceID };
                 treeNodes.Add(treeNode);
             }
 
@@ -286,76 +322,81 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             var treeNodesToKeep = new HashSet<TreeNode>();
 
+            bool mustSort = false;
+
             // Library Patches (Groupless)
             foreach (PatchTreeNodeViewModel patchViewModel in viewModel.PatchNodes)
             {
-                TreeNode patchTreeNode = ConvertPatchNode(patchViewModel, treeNodes);
+                TreeNode patchTreeNode = ConvertPatchNode(patchViewModel, treeNodes, out bool isNew);
                 treeNodesToKeep.Add(patchTreeNode);
 
                 _libraryPatchTreeNodes.Add(patchTreeNode);
+
+                mustSort |= isNew;
             }
 
             // Library PatchGroups
             foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in viewModel.PatchGroupNodes)
             {
-                TreeNode patchGroupTreeNode = ConvertLibraryPatchGroupAndDescendants(patchGroupViewModel, treeNodes, viewModel.LowerDocumentReferenceID);
+                TreeNode patchGroupTreeNode = ConvertLibraryPatchGroupAndDescendants(
+                    patchGroupViewModel,
+                    treeNodes,
+                    viewModel.LowerDocumentReferenceID,
+                    out bool isNew);
+
                 treeNodesToKeep.Add(patchGroupTreeNode);
 
                 _libraryPatchGroupTreeNodes.Add(patchGroupTreeNode);
 
                 //patchGroupTreeNode.Expand();
+
+                mustSort |= isNew;
             }
 
+            // Deletions
             IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
             IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
             foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
             {
                 treeNodes.Remove(treeNodeToDelete);
+            }
+
+            // Sort
+            // ReSharper disable once InvertIf
+            if (mustSort)
+            {
+                SortTreeNodes(treeNodes);
             }
         }
 
         private TreeNode ConvertLibraryPatchGroupAndDescendants(
             PatchGroupTreeNodeViewModel viewModel,
             TreeNodeCollection treeNodes,
-            int lowerDocumentReferenceID)
+            int lowerDocumentReferenceID,
+            out bool isNew)
         {
-            TreeNode treeNode = ConvertLibraryPatchGroupNode(viewModel, treeNodes, lowerDocumentReferenceID);
+            TreeNode treeNode = ConvertLibraryPatchGroup(viewModel, treeNodes, lowerDocumentReferenceID, out isNew);
 
             ConvertLibraryPatches(viewModel.PatchNodes, treeNode.Nodes);
 
             return treeNode;
         }
 
-        private void ConvertLibraryPatches(IList<PatchTreeNodeViewModel> viewModels, TreeNodeCollection treeNodes)
-        {
-            var treeNodesToKeep = new HashSet<TreeNode>();
-
-            foreach (PatchTreeNodeViewModel viewModel in viewModels)
-            {
-                TreeNode treeNode = ConvertPatchNode(viewModel, treeNodes);
-                treeNodesToKeep.Add(treeNode);
-
-                _libraryPatchTreeNodes.Add(treeNode);
-            }
-
-            IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
-            IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
-            foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
-            {
-                treeNodes.Remove(treeNodeToDelete);
-            }
-        }
-
-        private TreeNode ConvertLibraryPatchGroupNode(
+        private TreeNode ConvertLibraryPatchGroup(
             PatchGroupTreeNodeViewModel viewModel,
             TreeNodeCollection treeNodes,
-            int lowerDocumentReferenceID)
+            int lowerDocumentReferenceID,
+            out bool isNew)
         {
             string tag = FormatLibraryPatchGroupTag(lowerDocumentReferenceID, viewModel.CanonicalGroupName);
 
-            TreeNode treeNode = treeNodes.Cast<TreeNode>().Where(x => string.Equals(x.Tag, tag)).SingleOrDefault();
+            TreeNode treeNode = treeNodes.Cast<TreeNode>()
+                                         .Where(x => string.Equals(x.Tag, tag))
+                                         .SingleOrDefault();
+            isNew = false;
             if (treeNode == null)
             {
+                isNew = true;
                 treeNode = new TreeNode { Tag = tag };
                 treeNodes.Add(treeNode);
             }
@@ -368,18 +409,47 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             return treeNode;
         }
 
-        private TreeNode ConvertPatchGroup(PatchGroupTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+        private void ConvertLibraryPatches(IList<PatchTreeNodeViewModel> viewModels, TreeNodeCollection treeNodes)
+        {
+            var treeNodesToKeep = new HashSet<TreeNode>();
+
+            bool mustSort = false;
+
+            foreach (PatchTreeNodeViewModel viewModel in viewModels)
+            {
+                TreeNode treeNode = ConvertPatchNode(viewModel, treeNodes, out bool isNew);
+                treeNodesToKeep.Add(treeNode);
+
+                _libraryPatchTreeNodes.Add(treeNode);
+
+                mustSort |= isNew;
+            }
+
+            IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
+            IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
+            foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
+            {
+                treeNodes.Remove(treeNodeToDelete);
+            }
+
+            // Sort
+            // ReSharper disable once InvertIf
+            if (mustSort)
+            {
+                SortTreeNodes(treeNodes);
+            }
+        }
+
+        private TreeNode ConvertPatchGroup(PatchGroupTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNew)
         {
             TreeNode treeNode = treeNodes.Cast<TreeNode>()
                                          .Where(x => string.Equals(x.Tag, viewModel.CanonicalGroupName))
                                          .SingleOrDefault();
+            isNew = false;
             if (treeNode == null)
             {
-                treeNode = new TreeNode
-                {
-                    Tag = viewModel.CanonicalGroupName
-                };
-
+                isNew = true;
+                treeNode = new TreeNode { Tag = viewModel.CanonicalGroupName };
                 treeNodes.Add(treeNode);
             }
 
@@ -391,16 +461,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             return treeNode;
         }
 
-        private TreeNode ConvertPatchNode(PatchTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+        private TreeNode ConvertPatchNode(PatchTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNew)
         {
             TreeNode treeNode = treeNodes.Cast<TreeNode>().Where(x => Equals(x.Tag, viewModel.ID)).SingleOrDefault();
 
+            isNew = false;
             if (treeNode == null)
             {
-                treeNode = new TreeNode
-                {
-                    Tag = viewModel.ID
-                };
+                isNew = true;
+                treeNode = new TreeNode { Tag = viewModel.ID };
                 treeNodes.Add(treeNode);
             }
 
@@ -415,6 +484,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             return treeNode;
+        }
+
+        private void SortTreeNodes(TreeNodeCollection treeNodes)
+        {
+            TreeNode[] sortedTreeNodes = treeNodes.Cast<TreeNode>()
+                                                  .OrderBy(x => x.Text)
+                                                  .ToArray();
+            treeNodes.Clear();
+            treeNodes.AddRange(sortedTreeNodes);
         }
 
         private void SetSelectedNode()

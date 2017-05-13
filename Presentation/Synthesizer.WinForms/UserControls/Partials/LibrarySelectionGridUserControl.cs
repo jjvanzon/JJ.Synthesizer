@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             RemoveButtonVisible = false;
             CloseButtonVisible = false;
             PlayButtonVisible = true;
+            ColumnTitlesVisible = false;
             FullRowSelect = false;
             OpenItemExternallyButtonVisible = true;
 

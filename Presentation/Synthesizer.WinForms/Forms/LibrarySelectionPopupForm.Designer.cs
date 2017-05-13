@@ -38,7 +38,7 @@
             this.librarySelectionPopupUserControl.Location = new System.Drawing.Point(0, 0);
             this.librarySelectionPopupUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.librarySelectionPopupUserControl.Name = "librarySelectionPopupUserControl";
-            this.librarySelectionPopupUserControl.Size = new System.Drawing.Size(917, 549);
+            this.librarySelectionPopupUserControl.Size = new System.Drawing.Size(568, 746);
             this.librarySelectionPopupUserControl.TabIndex = 0;
             this.librarySelectionPopupUserControl.ViewModel = null;
             this.librarySelectionPopupUserControl.CancelRequested += new System.EventHandler(this.librarySelectionPopupUserControl_CancelRequested);
@@ -47,7 +47,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(917, 549);
+            this.ClientSize = new System.Drawing.Size(568, 746);
             this.Controls.Add(this.librarySelectionPopupUserControl);
             this.Name = "LibrarySelectionPopupForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
