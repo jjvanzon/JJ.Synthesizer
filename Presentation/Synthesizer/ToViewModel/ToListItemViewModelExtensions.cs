@@ -4,6 +4,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
@@ -86,7 +87,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
-            return entities.Select(x => x.ToListItemViewModel()).ToArray();
+            IList<LibraryListItemViewModel> viewModels = entities.OrderBy(x => x.GetAliasOrName())
+                                                                 .Select(x => x.ToListItemViewModel())
+                                                                 .ToArray();
+            return viewModels;
         }
 
         public static LibraryListItemViewModel ToListItemViewModel(this DocumentReference entity)
