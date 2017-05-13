@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
@@ -8,6 +9,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
     {
         private void BindEvents()
         {
+            FormClosing += MainForm_FormClosing;
+
             audioFileOutputGridUserControl.CloseRequested += audioFileOutputGridUserControl_CloseRequested;
             audioFileOutputGridUserControl.AddRequested += audioFileOutputGridUserControl_AddRequested;
             audioFileOutputGridUserControl.RemoveRequested += audioFileOutputGridUserControl_RemoveRequested;
@@ -197,14 +200,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MessageBoxHelper.PopupMessagesOK += MessageBoxHelper_PopupMessagesOK;
         }
 
-        private void operatorPropertiesUserControlBase_PlayRequested(object sender, EventArgs<int> e)
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.OperatorPropertiesPlay(e.Value);
-                    PlayOutletIfNeeded();
-                });
+            Program.RemoveMainWindow(this);
         }
 
         // AudioFileOutput
@@ -759,6 +757,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         // Operator
+
+        private void operatorPropertiesUserControlBase_PlayRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesPlay(e.Value);
+                    PlayOutletIfNeeded();
+                });
+        }
 
         private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {

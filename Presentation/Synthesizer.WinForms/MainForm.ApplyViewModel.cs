@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using MessageDto = JJ.Data.Canonical.MessageDto;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {

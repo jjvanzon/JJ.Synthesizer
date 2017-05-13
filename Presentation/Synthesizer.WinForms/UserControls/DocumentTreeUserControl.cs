@@ -391,6 +391,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             TreeNode treeNode = treeNodes.Cast<TreeNode>()
                                          .Where(x => string.Equals(x.Tag, tag))
                                          .SingleOrDefault();
+            if (treeNode == null)
+            {
+                isNewOrIsDirtyName = true;
+                treeNode = new TreeNode { Tag = tag };
+                treeNodes.Add(treeNode);
+                treeNode.Expand();
+            }
+
             isNewOrIsDirtyName = false;
 
             // ReSharper disable once InvertIf

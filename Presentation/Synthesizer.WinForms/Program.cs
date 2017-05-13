@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using JJ.Framework.Common;
@@ -29,13 +30,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // ReSharper disable once NotAccessedField.Local
         private static Thread _audioOutputThread;
+
         // ReSharper disable once NotAccessedField.Local
         private static Thread _midiInputThread;
 
         [STAThread]
         private static void Main(string[] args)
         {
-            ParsedCommandLineArguments parsedCommandLineArguments = ParseCommandLineArguments(args);
 
             var businessConfig = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
             ConfigurationHelper.SetSection(businessConfig);
@@ -57,12 +58,62 @@ namespace JJ.Presentation.Synthesizer.WinForms
             AudioOutput audioOutput = AudioOutputApi.Create();
             SetAudioOutput(audioOutput);
 
-            var form = new MainForm();
-            form.Show(parsedCommandLineArguments.DocumentName, parsedCommandLineArguments.PatchName);
+            ParsedCommandLineArguments parsedCommandLineArguments = ParseCommandLineArguments(args);
 
+            MainForm form = ShowMainWindow(parsedCommandLineArguments.DocumentName, parsedCommandLineArguments.PatchName);
             Application.Run(form);
 
             DisposeAudioOutput();
+        }
+
+        private static readonly Dictionary<string, MainForm> _documentNameToMainWindowDictionary = new Dictionary<string, MainForm>();
+        private static readonly object _documentNameToMainWindowDictionaryLock = new object();
+
+        public static MainForm ShowMainWindow(string documentName, string patchName)
+        {
+            if (string.IsNullOrEmpty(documentName))
+            {
+                var mainForm = new MainForm();
+                mainForm.Show(null, null);
+                return mainForm;
+            }
+
+            lock (_documentNameToMainWindowDictionaryLock)
+            {
+                if (!_documentNameToMainWindowDictionary.TryGetValue(documentName, out MainForm mainForm))
+                {
+                    mainForm = new MainForm();
+                    mainForm.Show(documentName, patchName);
+                    _documentNameToMainWindowDictionary.Add(documentName, mainForm);
+                }
+                else
+                {
+                    if (mainForm.WindowState == FormWindowState.Minimized)
+                    {
+                        mainForm.WindowState = FormWindowState.Normal;
+                    }
+                    mainForm.BringToFront();
+
+                    if (!string.IsNullOrEmpty(patchName))
+                    {
+                        mainForm.PatchShow(patchName);
+                    }
+                }
+
+                return mainForm;
+            }
+        }
+
+        public static void RemoveMainWindow(Form form)
+        {
+            lock (_documentNameToMainWindowDictionaryLock)
+            {
+                string key = _documentNameToMainWindowDictionary.Where(x => x.Value == form).Select(x => x.Key).SingleOrDefault();
+                if (!string.IsNullOrEmpty(key))
+                {
+                    _documentNameToMainWindowDictionary.Remove(key);
+                }
+            }
         }
 
         private static ParsedCommandLineArguments ParseCommandLineArguments(IList<string> args)

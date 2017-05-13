@@ -18,6 +18,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -84,6 +85,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         public void DocumentOpen(string name) => TemplateActionHandler(() => _presenter.DocumentOpen(name));
+
+        public void PatchShow(string patchName)
+        {
+            // TODO: Delegate to presenter layer.
+            TemplateActionHandler(
+                () =>
+                {
+                    Document document = _repositories.DocumentRepository.Get(_presenter.MainViewModel.Document.ID);
+                    Patch patch = document.Patches.Where(x => string.Equals(x.Name, patchName)).SingleWithClearException(new { patchName });
+                    _presenter.PatchDetailsShow(patch.ID);
+                });
+        }
 
         // Helpers
 
@@ -258,14 +271,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             // ReSharper disable once InvertIf
             if (!string.IsNullOrEmpty(documentName))
             {
-                string arguments = $@"""{documentName}""";
+                Program.ShowMainWindow(documentName, patchName);
 
-                if (!string.IsNullOrEmpty(patchName))
-                {
-                    arguments += $@" ""{patchName}""";
-                }
 
-                Process.Start(Assembly.GetExecutingAssembly().Location, arguments);
+                //string arguments = $@"""{documentName}""";
+
+                //if (!string.IsNullOrEmpty(patchName))
+                //{
+                //    arguments += $@" ""{patchName}""";
+                //}
+
+                //Process.Start(Assembly.GetExecutingAssembly().Location, arguments);
 
                 // ToViewModel
                 _presenter.MainViewModel.Document.DocumentToOpenExternally = null;
