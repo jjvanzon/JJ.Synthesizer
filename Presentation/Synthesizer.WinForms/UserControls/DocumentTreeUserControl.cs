@@ -179,23 +179,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Groupless
             foreach (PatchTreeNodeViewModel patchViewModel in viewModel.PatchNodes)
             {
-                TreeNode patchTreeNode = ConvertPatchNode(patchViewModel, treeNode.Nodes, out bool isNew);
+                TreeNode patchTreeNode = ConvertPatchNode(patchViewModel, treeNode.Nodes, out bool isNewOrNameIsDirty);
                 _patchTreeNodes.Add(patchTreeNode);
                 treeNodesToKeep.Add(patchTreeNode);
 
-                mustSort |= isNew;
+                mustSort |= isNewOrNameIsDirty;
             }
 
             // PatchGroups
             foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in viewModel.PatchGroupNodes)
             {
-                TreeNode patchGroupTreeNode = ConvertPatchGroupAndDescendants(patchGroupViewModel, treeNode.Nodes, out bool isNew);
+                TreeNode patchGroupTreeNode = ConvertPatchGroupAndDescendants(patchGroupViewModel, treeNode.Nodes, out bool isNewOrNameIsDirty);
                 _patchGroupTreeNodes.Add(patchGroupTreeNode);
                 treeNodesToKeep.Add(patchGroupTreeNode);
 
                 //patchGroupTreeNode.Expand();
 
-                mustSort |= isNew;
+                mustSort |= isNewOrNameIsDirty;
             }
 
             // Deletions
@@ -214,9 +214,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private TreeNode ConvertPatchGroupAndDescendants(PatchGroupTreeNodeViewModel patchGroupViewModel, TreeNodeCollection patchesTreeNodes, out bool isNew)
+        private TreeNode ConvertPatchGroupAndDescendants(
+            PatchGroupTreeNodeViewModel patchGroupViewModel,
+            TreeNodeCollection patchesTreeNodes,
+            out bool isNewOrNameIsDirty)
         {
-            TreeNode patchGroupTreeNode = ConvertPatchGroup(patchGroupViewModel, patchesTreeNodes, out isNew);
+            TreeNode patchGroupTreeNode = ConvertPatchGroup(patchGroupViewModel, patchesTreeNodes, out isNewOrNameIsDirty);
 
             ConvertPatches(patchGroupViewModel.PatchNodes, patchGroupTreeNode.Nodes);
 
@@ -231,12 +234,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             foreach (PatchTreeNodeViewModel viewModel in viewModels)
             {
-                TreeNode treeNode = ConvertPatchNode(viewModel, treeNodes, out bool isNew);
+                TreeNode treeNode = ConvertPatchNode(viewModel, treeNodes, out bool isNewOrNameIsDirty);
                 treeNodesToKeep.Add(treeNode);
 
                 _patchTreeNodes.Add(treeNode);
 
-                mustSort |= isNew;
+                mustSort |= isNewOrNameIsDirty;
             }
 
             IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
@@ -262,12 +265,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             foreach (LibraryTreeNodeViewModel viewModel in viewModels)
             {
-                TreeNode treeNode = ConvertLibraryAndDescendants(viewModel, treeNodes, out bool isNew);
+                TreeNode treeNode = ConvertLibraryAndDescendants(viewModel, treeNodes, out bool isNewOrNameIsDirty);
                 treeNodesToKeep.Add(treeNode);
 
                 _libraryTreeNodes.Add(treeNode);
 
-                mustSort |= isNew;
+                mustSort |= isNewOrNameIsDirty;
             }
 
             // Deletions
@@ -286,9 +289,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private TreeNode ConvertLibraryAndDescendants(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNew)
+        private TreeNode ConvertLibraryAndDescendants(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNewOrNameIsDirty)
         {
-            TreeNode libraryTreeNode = ConvertLibrary(viewModel, treeNodes, out isNew);
+            TreeNode libraryTreeNode = ConvertLibrary(viewModel, treeNodes, out isNewOrNameIsDirty);
 
             ConvertLibraryDescendants(viewModel, libraryTreeNode.Nodes);
 
@@ -297,21 +300,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             return libraryTreeNode;
         }
 
-        private static TreeNode ConvertLibrary(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNew)
+        private static TreeNode ConvertLibrary(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNewOrNameIsDirty)
         {
             TreeNode treeNode = treeNodes.Cast<TreeNode>()
                                          .Where(x => (int)x.Tag == viewModel.LowerDocumentReferenceID)
                                          .SingleOrDefault();
-            isNew = false;
+            isNewOrNameIsDirty = false;
             if (treeNode == null)
             {
-                isNew = true;
+                isNewOrNameIsDirty = true;
                 treeNode = new TreeNode { Tag = viewModel.LowerDocumentReferenceID };
                 treeNodes.Add(treeNode);
             }
 
             if (treeNode.Text != viewModel.Caption)
             {
+                isNewOrNameIsDirty = true;
                 treeNode.Text = viewModel.Caption;
             }
 
@@ -327,12 +331,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Library Patches (Groupless)
             foreach (PatchTreeNodeViewModel patchViewModel in viewModel.PatchNodes)
             {
-                TreeNode patchTreeNode = ConvertPatchNode(patchViewModel, treeNodes, out bool isNew);
+                TreeNode patchTreeNode = ConvertPatchNode(patchViewModel, treeNodes, out bool isNewOrNameIsDirty);
                 treeNodesToKeep.Add(patchTreeNode);
 
                 _libraryPatchTreeNodes.Add(patchTreeNode);
 
-                mustSort |= isNew;
+                mustSort |= isNewOrNameIsDirty;
             }
 
             // Library PatchGroups
@@ -342,7 +346,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     patchGroupViewModel,
                     treeNodes,
                     viewModel.LowerDocumentReferenceID,
-                    out bool isNew);
+                    out bool isNewOrNameIsDirty);
 
                 treeNodesToKeep.Add(patchGroupTreeNode);
 
@@ -350,7 +354,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 //patchGroupTreeNode.Expand();
 
-                mustSort |= isNew;
+                mustSort |= isNewOrNameIsDirty;
             }
 
             // Deletions
@@ -373,9 +377,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             PatchGroupTreeNodeViewModel viewModel,
             TreeNodeCollection treeNodes,
             int lowerDocumentReferenceID,
-            out bool isNew)
+            out bool isNewOrNameIsDirty)
         {
-            TreeNode treeNode = ConvertLibraryPatchGroup(viewModel, treeNodes, lowerDocumentReferenceID, out isNew);
+            TreeNode treeNode = ConvertLibraryPatchGroup(viewModel, treeNodes, lowerDocumentReferenceID, out isNewOrNameIsDirty);
 
             ConvertLibraryPatches(viewModel.PatchNodes, treeNode.Nodes);
 
@@ -386,23 +390,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             PatchGroupTreeNodeViewModel viewModel,
             TreeNodeCollection treeNodes,
             int lowerDocumentReferenceID,
-            out bool isNew)
+            out bool isNewOrNameIsDirty)
         {
             string tag = FormatLibraryPatchGroupTag(lowerDocumentReferenceID, viewModel.CanonicalGroupName);
 
             TreeNode treeNode = treeNodes.Cast<TreeNode>()
                                          .Where(x => string.Equals(x.Tag, tag))
                                          .SingleOrDefault();
-            isNew = false;
+            isNewOrNameIsDirty = false;
             if (treeNode == null)
             {
-                isNew = true;
+                isNewOrNameIsDirty = true;
                 treeNode = new TreeNode { Tag = tag };
                 treeNodes.Add(treeNode);
             }
 
             if (treeNode.Text != viewModel.Caption)
             {
+                isNewOrNameIsDirty = true;
                 treeNode.Text = viewModel.Caption;
             }
 
@@ -417,12 +422,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             foreach (PatchTreeNodeViewModel viewModel in viewModels)
             {
-                TreeNode treeNode = ConvertPatchNode(viewModel, treeNodes, out bool isNew);
+                TreeNode treeNode = ConvertPatchNode(viewModel, treeNodes, out bool isNewOrNameIsDirty);
                 treeNodesToKeep.Add(treeNode);
 
                 _libraryPatchTreeNodes.Add(treeNode);
 
-                mustSort |= isNew;
+                mustSort |= isNewOrNameIsDirty;
             }
 
             IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
@@ -440,41 +445,43 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private TreeNode ConvertPatchGroup(PatchGroupTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNew)
+        private TreeNode ConvertPatchGroup(PatchGroupTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNewOrNameIsDirty)
         {
             TreeNode treeNode = treeNodes.Cast<TreeNode>()
                                          .Where(x => string.Equals(x.Tag, viewModel.CanonicalGroupName))
                                          .SingleOrDefault();
-            isNew = false;
+            isNewOrNameIsDirty = false;
             if (treeNode == null)
             {
-                isNew = true;
+                isNewOrNameIsDirty = true;
                 treeNode = new TreeNode { Tag = viewModel.CanonicalGroupName };
                 treeNodes.Add(treeNode);
             }
 
             if (treeNode.Text != viewModel.Caption)
             {
+                isNewOrNameIsDirty = true;
                 treeNode.Text = viewModel.Caption;
             }
 
             return treeNode;
         }
 
-        private TreeNode ConvertPatchNode(PatchTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNew)
+        private TreeNode ConvertPatchNode(PatchTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNewOrNameIsDirty)
         {
             TreeNode treeNode = treeNodes.Cast<TreeNode>().Where(x => Equals(x.Tag, viewModel.ID)).SingleOrDefault();
 
-            isNew = false;
+            isNewOrNameIsDirty = false;
             if (treeNode == null)
             {
-                isNew = true;
+                isNewOrNameIsDirty = true;
                 treeNode = new TreeNode { Tag = viewModel.ID };
                 treeNodes.Add(treeNode);
             }
 
             if (treeNode.Text != viewModel.Name)
             {
+                isNewOrNameIsDirty = true;
                 treeNode.Text = viewModel.Name;
             }
 
