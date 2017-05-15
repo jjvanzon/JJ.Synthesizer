@@ -86,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
             titleBarUserControl.OpenButtonVisible = ViewModel.CanOpenExternally;
 
-            _patchGroupTreeNodes = new HashSet<TreeNode>();
+            _patchGroupTreeNodes = new HashSet<TreeNode> { _patchesTreeNode };
             _patchTreeNodes = new HashSet<TreeNode>();
             _libraryTreeNodes = new HashSet<TreeNode>();
             _libraryPatchTreeNodes = new HashSet<TreeNode>();
