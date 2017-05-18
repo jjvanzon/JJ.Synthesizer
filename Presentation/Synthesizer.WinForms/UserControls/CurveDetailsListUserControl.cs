@@ -106,8 +106,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            int totalSpacing = StyleHelper.DefaultSpacing * (controlCount - 1);
-            int controlHeight = (Height - totalSpacing) / controlCount;
+            int controlHeight = Height / controlCount;
             if (controlHeight <= 0) controlHeight = 1;
 
             const int x = 0;
@@ -122,7 +121,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 control.Height = controlHeight;
 
                 y += controlHeight;
-                y += StyleHelper.DefaultSpacing;
             }
         }
 

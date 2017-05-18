@@ -115,8 +115,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void ApplyStyling()
         {
-            splitContainerCenterAndProperties.SplitterWidth = StyleHelper.DefaultSpacing;
-            splitContainerTreeAndRightSide.SplitterWidth = StyleHelper.DefaultSpacing;
+            splitContainerCenterAndProperties.SplitterWidth = StyleHelper.SplitterWidth;
+            splitContainerTreeAndRightSide.SplitterWidth = StyleHelper.SplitterWidth;
+            splitContainerCurvesAndTopSide.SplitterWidth = StyleHelper.SplitterWidth;
         }
 
         private void ForceLoseFocus()
