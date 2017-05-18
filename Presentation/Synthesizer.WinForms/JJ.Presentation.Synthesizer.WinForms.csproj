@@ -261,6 +261,12 @@
     <Compile Include="UserControls\LibraryPatchGridUserControl.Designer.cs">
       <DependentUpon>LibraryPatchGridUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Partials\ButtonBarUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Partials\ButtonBarUserControl.Designer.cs">
+      <DependentUpon>ButtonBarUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ToneGridEditUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -481,6 +487,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\LibraryPatchGridUserControl.resx">
       <DependentUpon>LibraryPatchGridUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Partials\ButtonBarUserControl.resx">
+      <DependentUpon>ButtonBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ToneGridEditUserControl.resx">
       <DependentUpon>ToneGridEditUserControl.cs</DependentUpon>
