@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.CurveID);
+            Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
 
             // ToViewModel
             CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();
@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.CurveID);
+            Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
 
             // ToViewModel
             CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();
@@ -105,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.CurveID);
+            Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
 
             // Business
             VoidResultDto result = _curveManager.SaveCurveWithRelatedEntities(entity);
@@ -134,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.CurveID);
+            Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
 
             // ToViewModel
             CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();

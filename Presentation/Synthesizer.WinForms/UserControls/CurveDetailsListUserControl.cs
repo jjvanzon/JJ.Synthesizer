@@ -38,6 +38,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModelsToControls()
         {
+            if (_viewModels == null) return;
+
             IList<CurveDetailsViewModel> visibleViewModels = _viewModels.Where(x => x.Visible).ToArray();
 
             // Update

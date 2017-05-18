@@ -19,7 +19,11 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// <summary> nullable, but only temporarily in the DocumentSave action. </summary>
         public AutoPatchPopupViewModel AutoPatchPopup { get; set; }
         public CurrentInstrumentViewModel CurrentInstrument { get; set; }
-        public CurveDetailsViewModel VisibleCurveDetails { get; set; }
+
+        /// <summary>
+        /// Multiple of them can be visible.
+        /// It is suggested that they be shown at the bottom of the screen.
+        /// </summary>
         public Dictionary<int, CurveDetailsViewModel> CurveDetailsDictionary { get; set; }
         public CurveGridViewModel CurveGrid { get; set; }
         /// <summary> This lookup is used by OperatorProperties_ForCurves. </summary>

@@ -23,10 +23,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
             currentInstrumentUserControl.ViewModel = _presenter.MainViewModel.Document.CurrentInstrument;
             currentInstrumentUserControl.Visible = currentInstrumentUserControl.ViewModel.Visible;
-            curveDetailsUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleCurveDetails;
             curveGridUserControl.ViewModel = _presenter.MainViewModel.Document.CurveGrid;
             curvePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleCurveProperties;
-            curveDetailsListUserControl.ViewModels = _presenter.MainViewModel.Document.CurveDetailsDictionary.Values.ToArray();
+            curveDetailsListUserControl.ViewModels = _presenter.MainViewModel.Document.CurveDetailsDictionary.Values.OrderBy(x => x.Curve.Name).ToArray();
             documentDetailsUserControl.ViewModel = _presenter.MainViewModel.DocumentDetails;
             documentGridUserControl.ViewModel = _presenter.MainViewModel.DocumentGrid;
             documentPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentProperties;

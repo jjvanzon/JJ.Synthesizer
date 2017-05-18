@@ -174,14 +174,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.CurveDetailsDictionary;
-            dictionary[castedViewModel.CurveID] = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllGridAndDetailViewModels();
-                castedViewModel.Visible = true;
-                MainViewModel.Document.VisibleCurveDetails = castedViewModel;
-            }
+            dictionary[castedViewModel.Curve.ID] = castedViewModel;
 
             DispatchViewModelBase(castedViewModel);
         }

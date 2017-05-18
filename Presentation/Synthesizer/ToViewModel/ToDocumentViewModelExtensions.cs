@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileOutputPropertiesDictionary = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 AutoPatchPopup = ViewModelHelper.CreateEmptyAutoPatchViewModel(),
                 CurrentInstrument = ViewModelHelper.CreateCurrentInstrumentViewModelWithEmptyList(document),
-                CurveDetailsDictionary = document.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.CurveID),
+                CurveDetailsDictionary = document.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.Curve.ID),
                 CurveGrid = curveUsedInDtos.ToGridViewModel(document.ID),
                 CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos),
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),

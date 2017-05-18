@@ -130,11 +130,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             foreach (int idToDelete in idsToDelete.ToArray())
             {
                 viewModelDictionary.Remove(idToDelete);
-
-                if (MainViewModel.Document.VisibleCurveDetails?.CurveID == idToDelete)
-                {
-                    MainViewModel.Document.VisibleCurveDetails = null;
-                }
             }
         }
     

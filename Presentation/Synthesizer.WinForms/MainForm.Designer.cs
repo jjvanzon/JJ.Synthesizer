@@ -20,7 +20,6 @@
             this.splitContainerCenterAndProperties = new System.Windows.Forms.SplitContainer();
             this.libraryPatchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.LibraryPatchGridUserControl();
             this.libraryGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.LibraryGridUserControl();
-            this.curveDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveDetailsUserControl();
             this.toneGridEditUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ToneGridEditUserControl();
             this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
             this.curveGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveGridUserControl();
@@ -114,7 +113,6 @@
             // 
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.libraryPatchGridUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.libraryGridUserControl);
-            this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.curveDetailsUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.toneGridEditUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.scaleGridUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.curveGridUserControl);
@@ -175,26 +173,6 @@
             this.libraryGridUserControl.Size = new System.Drawing.Size(851, 532);
             this.libraryGridUserControl.TabIndex = 14;
             this.libraryGridUserControl.ViewModel = null;
-            // 
-            // curveDetailsUserControl
-            // 
-            this.curveDetailsUserControl.AddButtonVisible = true;
-            this.curveDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.curveDetailsUserControl.CloseButtonVisible = true;
-            this.curveDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.curveDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.curveDetailsUserControl.Location = new System.Drawing.Point(0, 0);
-            this.curveDetailsUserControl.Margin = new System.Windows.Forms.Padding(4);
-            this.curveDetailsUserControl.Name = "curveDetailsUserControl";
-            this.curveDetailsUserControl.OpenExternallyButtonVisible = false;
-            this.curveDetailsUserControl.PlayButtonVisible = false;
-            this.curveDetailsUserControl.RefreshButtonVisible = false;
-            this.curveDetailsUserControl.RemoveButtonVisible = true;
-            this.curveDetailsUserControl.SaveButtonVisible = false;
-            this.curveDetailsUserControl.Size = new System.Drawing.Size(851, 532);
-            this.curveDetailsUserControl.TabIndex = 1;
-            this.curveDetailsUserControl.TitleBarText = "Curve Details";
-            this.curveDetailsUserControl.ViewModel = null;
             // 
             // toneGridEditUserControl
             // 
@@ -841,6 +819,7 @@
             this.curveDetailsListUserControl.Name = "curveDetailsListUserControl";
             this.curveDetailsListUserControl.Size = new System.Drawing.Size(1459, 278);
             this.curveDetailsListUserControl.TabIndex = 0;
+            this.curveDetailsListUserControl.ViewModels = null;
             // 
             // MainForm
             // 
@@ -897,7 +876,6 @@
         private UserControls.ScaleGridUserControl scaleGridUserControl;
         private UserControls.ToneGridEditUserControl toneGridEditUserControl;
         private UserControls.ScalePropertiesUserControl scalePropertiesUserControl;
-        private UserControls.CurveDetailsUserControl curveDetailsUserControl;
         private UserControls.OperatorPropertiesUserControl_ForCurve operatorPropertiesUserControl_ForCurve;
         private UserControls.CurvePropertiesUserControl curvePropertiesUserControl;
         private UserControls.NodePropertiesUserControl nodePropertiesUserControl;

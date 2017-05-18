@@ -79,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override int GetID()
         {
-            return ViewModel.CurveID;
+            return ViewModel.Curve.ID;
         }
 
         protected override void ApplyViewModelToControls()
@@ -138,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int nodeID = (int)e.Element.Tag;
 
-            SelectNodeRequested?.Invoke(this, new NodeEventArgs(ViewModel.CurveID, nodeID));
+            SelectNodeRequested?.Invoke(this, new NodeEventArgs(ViewModel.Curve.ID, nodeID));
 
             _converter.Result.ShowNodePropertiesKeyboardGesture.SelectedNodeID = nodeID;
         }
@@ -155,7 +155,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             float x = rectangle.Position.AbsoluteX + rectangle.Position.Width / 2;
             float y = rectangle.Position.AbsoluteY + rectangle.Position.Height / 2;
 
-            MoveNodeRequested(this, new MoveNodeEventArgs(ViewModel.CurveID, nodeID, x, y));
+            MoveNodeRequested(this, new MoveNodeEventArgs(ViewModel.Curve.ID, nodeID, x, y));
 
             ApplyViewModelToControls();
 
@@ -167,13 +167,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowCurvePropertiesGesture_ShowCurvePropertiesRequested(object sender, EventArgs e)
         {
-            ShowCurvePropertiesRequested?.Invoke(this, new EventArgs<int>(ViewModel.CurveID));
+            ShowCurvePropertiesRequested?.Invoke(this, new EventArgs<int>(ViewModel.Curve.ID));
         }
 
         private void ChangeNodeTypeGesture_ChangeNodeTypeRequested(object sender, EventArgs e)
         {
             if (ViewModel == null) return;
-            ChangeSelectedNodeTypeRequested?.Invoke(this, new EventArgs<int>(ViewModel.CurveID));
+            ChangeSelectedNodeTypeRequested?.Invoke(this, new EventArgs<int>(ViewModel.Curve.ID));
         }
 
         private void ShowNodePropertiesMouseGesture_ShowNodePropertiesRequested(object sender, IDEventArgs e)
@@ -201,13 +201,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void DeleteSelectedNode()
         {
             if (ViewModel == null) return;
-            DeleteSelectedNodeRequested?.Invoke(this, new EventArgs<int>(ViewModel.CurveID));
+            DeleteSelectedNodeRequested?.Invoke(this, new EventArgs<int>(ViewModel.Curve.ID));
         }
 
         private void CreateNode()
         {
             if (ViewModel == null) return;
-            CreateNodeRequested?.Invoke(this, new EventArgs<int>(ViewModel.CurveID));
+            CreateNodeRequested?.Invoke(this, new EventArgs<int>(ViewModel.Curve.ID));
         }
     }
 }

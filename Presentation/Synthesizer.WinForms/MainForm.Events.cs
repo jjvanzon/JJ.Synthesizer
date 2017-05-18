@@ -33,15 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveDetailsListUserControl.SelectNodeRequested += curveDetailsUserControl_SelectNodeRequested;
             curveDetailsListUserControl.ShowCurvePropertiesRequested += curveDetailsUserControl_ShowCurvePropertiesRequested;
             curveDetailsListUserControl.ShowNodePropertiesRequested += curveDetailsUserControl_ShowNodePropertiesRequested;
-            curveDetailsUserControl.ChangeSelectedNodeTypeRequested += curveDetailsUserControl_ChangeSelectedNodeTypeRequested;
-            curveDetailsUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
-            curveDetailsUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
-            curveDetailsUserControl.DeleteSelectedNodeRequested += curveDetailsUserControl_DeleteSelectedNodeRequested;
-            curveDetailsUserControl.LoseFocusRequested += curveDetailsUserControl_LoseFocusRequested;
-            curveDetailsUserControl.MoveNodeRequested += curveDetailsUserControl_MoveNodeRequested;
-            curveDetailsUserControl.SelectNodeRequested += curveDetailsUserControl_SelectNodeRequested;
-            curveDetailsUserControl.ShowCurvePropertiesRequested += curveDetailsUserControl_ShowCurvePropertiesRequested;
-            curveDetailsUserControl.ShowNodePropertiesRequested += curveDetailsUserControl_ShowNodePropertiesRequested;
             curveGridUserControl.CloseRequested += curveGridUserControl_CloseRequested;
             curveGridUserControl.AddRequested += curveGridUserControl_AddRequested;
             curveGridUserControl.RemoveRequested += curveGridUserControl_RemoveRequested;

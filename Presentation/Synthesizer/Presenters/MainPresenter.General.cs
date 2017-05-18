@@ -173,8 +173,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.LibraryGrid.Visible = false;
             MainViewModel.Document.ScaleGrid.Visible = false;
 
-            MainViewModel.Document.VisibleCurveDetails = null;
-            MainViewModel.Document.CurveDetailsDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleLibraryPatchGrid = null;
             MainViewModel.Document.LibraryPatchGridDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisiblePatchGrid = null;

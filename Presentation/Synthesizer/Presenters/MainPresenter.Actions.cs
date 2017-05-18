@@ -648,12 +648,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            CurveDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _curveDetailsPresenter.Show(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleCurveDetails = viewModel;
-            }
+            TemplateActionMethod(userInput, () => _curveDetailsPresenter.Show(userInput));
         }
 
         public void CurveDetailsClose(int id)
@@ -662,12 +657,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            CurveDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _curveDetailsPresenter.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleCurveDetails = null;
-            }
+            TemplateActionMethod(userInput, () => _curveDetailsPresenter.Close(userInput));
         }
 
         public void CurveDetailsLoseFocus(int id)
@@ -1264,8 +1254,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         break;
                     }
 
+                    // ReSharper disable once RedundantCaseLabel
                     case DocumentTreeNodeTypeEnum.AudioFileOutputList:
+                    // ReSharper disable once RedundantCaseLabel
                     case DocumentTreeNodeTypeEnum.Curves:
+                    // ReSharper disable once RedundantCaseLabel
                     case DocumentTreeNodeTypeEnum.Scales:
                     default:
                     {
@@ -1746,7 +1739,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     userInput.Successful = false;
 
                     // GetEntity
-                    Curve curve = _repositories.CurveRepository.Get(userInput.CurveID);
+                    Curve curve = _repositories.CurveRepository.Get(userInput.Curve.ID);
 
                     // Business
                     // TODO: This kind of stuff belongs in the business layer.
