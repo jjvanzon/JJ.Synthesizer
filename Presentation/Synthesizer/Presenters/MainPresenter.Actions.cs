@@ -624,10 +624,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Curve curve = _repositories.CurveRepository.Get(id);
 
                     // Business
-                    IResultDto result = _curveManager.DeleteWithRelatedEntities(curve);
+                    IResult result = _curveManager.DeleteWithRelatedEntities(curve);
 
                     // Non-Persisted
-                    userInput.ValidationMessages.AddRange(result.Messages);
+                    userInput.ValidationMessages.AddRange(result.Messages.ToCanonical());
 
                     // Successful?
                     userInput.Successful = result.Successful;

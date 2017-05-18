@@ -24,6 +24,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             currentInstrumentUserControl.PlayRequested += currentInstrumentUserControl_PlayRequested;
             currentInstrumentUserControl.RemoveRequested += currentInstrumentUserControl_RemoveRequested;
             currentInstrumentUserControl.ShowAutoPatchRequested += currentInstrumentUserControl_ShowAutoPatchRequested;
+            curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsUserControl_ChangeSelectedNodeTypeRequested;
+            curveDetailsListUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
+            curveDetailsListUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
+            curveDetailsListUserControl.DeleteSelectedNodeRequested += curveDetailsUserControl_DeleteSelectedNodeRequested;
+            curveDetailsListUserControl.LoseFocusRequested += curveDetailsUserControl_LoseFocusRequested;
+            curveDetailsListUserControl.MoveNodeRequested += curveDetailsUserControl_MoveNodeRequested;
+            curveDetailsListUserControl.SelectNodeRequested += curveDetailsUserControl_SelectNodeRequested;
+            curveDetailsListUserControl.ShowCurvePropertiesRequested += curveDetailsUserControl_ShowCurvePropertiesRequested;
+            curveDetailsListUserControl.ShowNodePropertiesRequested += curveDetailsUserControl_ShowNodePropertiesRequested;
             curveDetailsUserControl.ChangeSelectedNodeTypeRequested += curveDetailsUserControl_ChangeSelectedNodeTypeRequested;
             curveDetailsUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;

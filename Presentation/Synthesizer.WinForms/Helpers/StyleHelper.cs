@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
     {
         private const int LABEL_COLUMN_INDEX = 0;
 
-        public static Font DefaultFont { get; } = new Font("Verdana", 12);
+        public static Font DefaultFont { get; } = new Font("Verdana", 10);
         public static int DefaultSpacing { get; } = 4;
         public static int IconButtonSize { get; } = 24;
         public static int DefaultMargin { get; } = 2;
@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             IList<Label> labels = ControlHelper.GetDescendantsOfType<Label>(tableLayoutPanel);
 
             // Include only labels in column 0.
-            labels = labels.Where(x => tableLayoutPanel.GetColumn(x) == LABEL_COLUMN_INDEX).ToArray(); 
+            labels = labels.Where(x => tableLayoutPanel.GetColumn(x) == LABEL_COLUMN_INDEX).ToArray();
 
             Graphics graphics = userControl.CreateGraphics();
 
@@ -53,13 +53,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             // not only because it is protected,
             // but because WinForms does not make AutoScaleFactor.Width > 1
             // when the font is changed in the form.
-            const float fontScalingCorrectionFactor = 0.9f; // Completely arbitrary experimentally obtained factor.
-            if (userControl.ParentForm == null)
+            if (userControl.ParentForm != null)
             {
-                throw new NullException(() => userControl.ParentForm);
+                // HACK: Detection of LicenseUsageMode.Runtime earlier on 
+                // does not seem to work return the correct value anymore.
+                // That is why I ignore the null here, instead of throwing an exception.
+
+                const float fontScalingCorrectionFactor = 0.9f; // Completely arbitrary experimentally obtained factor.
+                float autoScaleFactor = userControl.Font.Size / userControl.ParentForm.Font.Size * fontScalingCorrectionFactor;
+                labelColumnWidth *= autoScaleFactor;
             }
-            float autoScaleFactor = userControl.Font.Size / userControl.ParentForm.Font.Size * fontScalingCorrectionFactor;
-            labelColumnWidth *= autoScaleFactor;
 
             tableLayoutPanel.ColumnStyles[LABEL_COLUMN_INDEX].Width = labelColumnWidth;
         }

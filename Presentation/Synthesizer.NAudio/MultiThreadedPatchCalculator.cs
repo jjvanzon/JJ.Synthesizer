@@ -257,8 +257,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 repositories.IDRepository);
 
             VoidResult result = audioOutputManager.Save(audioOutput);
-
-            ResultHelper.Assert(result);
+            result.Assert();
         }
     }
 }

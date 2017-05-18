@@ -15,6 +15,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
@@ -268,9 +269,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                IResultDto result = curveManager.DeleteWithRelatedEntities(idToDelete);
-
-                ResultHelper.Assert(result);
+                IResult result = curveManager.DeleteWithRelatedEntities(idToDelete);
+                result.Assert();
             }
         }
 
@@ -302,9 +302,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                IResultDto result = curveManager.DeleteWithRelatedEntities(idToDelete);
-
-                ResultHelper.Assert(result);
+                IResult result = curveManager.DeleteWithRelatedEntities(idToDelete);
+                result.Assert();
             }
         }
 

@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
@@ -241,24 +242,20 @@ namespace JJ.Business.Synthesizer
 
         // Delete
 
-        public VoidResultDto DeleteWithRelatedEntities(int curveID)
+        public VoidResult DeleteWithRelatedEntities(int curveID)
         {
             Curve curve = _repositories.CurveRepository.Get(curveID);
             return DeleteWithRelatedEntities(curve);
         }
 
-        public VoidResultDto DeleteWithRelatedEntities(Curve curve)
+        public VoidResult DeleteWithRelatedEntities(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
 
             IValidator validator = new CurveValidator_Delete(curve, _repositories.CurveRepository);
             if (!validator.IsValid)
             {
-                return new VoidResultDto
-                {
-                    Successful = false,
-                    Messages = validator.ValidationMessages.ToCanonical()
-                };
+                return validator.ToResult();
             }
             // ReSharper disable once RedundantIfElseBlock
             else
@@ -267,10 +264,7 @@ namespace JJ.Business.Synthesizer
                 curve.DeleteRelatedEntities(_repositories.NodeRepository);
                 _repositories.CurveRepository.Delete(curve);
 
-                return new VoidResultDto
-                {
-                    Successful = true
-                };
+                return new VoidResult { Successful = true };
             }
         }
 

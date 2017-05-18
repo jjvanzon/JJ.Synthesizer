@@ -9,9 +9,7 @@ using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Media;
-using System.Reflection;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Extensions;
@@ -102,18 +100,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void SetTreePanelVisible(bool visible)
         {
-            splitContainerTree.Panel1Collapsed = !visible;
+            splitContainerTreeAndRightSide.Panel1Collapsed = !visible;
         }
 
         private void SetPropertiesPanelVisible(bool visible)
         {
-            splitContainerProperties.Panel2Collapsed = !visible;
+            splitContainerCenterAndProperties.Panel2Collapsed = !visible;
         }
 
         private void ApplyStyling()
         {
-            splitContainerProperties.SplitterWidth = StyleHelper.DefaultSpacing;
-            splitContainerTree.SplitterWidth = StyleHelper.DefaultSpacing;
+            splitContainerCenterAndProperties.SplitterWidth = StyleHelper.DefaultSpacing;
+            splitContainerTreeAndRightSide.SplitterWidth = StyleHelper.DefaultSpacing;
         }
 
         private void ForceLoseFocus()

@@ -26,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveDetailsUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleCurveDetails;
             curveGridUserControl.ViewModel = _presenter.MainViewModel.Document.CurveGrid;
             curvePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleCurveProperties;
+            curveDetailsListUserControl.ViewModels = _presenter.MainViewModel.Document.CurveDetailsDictionary.Values.ToArray();
             documentDetailsUserControl.ViewModel = _presenter.MainViewModel.DocumentDetails;
             documentGridUserControl.ViewModel = _presenter.MainViewModel.DocumentGrid;
             documentPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentProperties;

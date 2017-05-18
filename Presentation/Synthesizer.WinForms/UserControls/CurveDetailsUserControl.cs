@@ -18,13 +18,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class CurveDetailsUserControl : DetailsOrPropertiesUserControlBase
     {
+        public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
         public event EventHandler<EventArgs<int>> CreateNodeRequested;
         /// <summary> Parameter is CurveID, not NodeID </summary>
         public event EventHandler<EventArgs<int>> DeleteSelectedNodeRequested;
-        public event EventHandler<NodeEventArgs> SelectNodeRequested;
         public event EventHandler<MoveNodeEventArgs> MoveNodeRequested;
+        public event EventHandler<NodeEventArgs> SelectNodeRequested;
         public event EventHandler<EventArgs<int>> ShowCurvePropertiesRequested;
-        public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
         public event EventHandler<EventArgs<int>> ShowNodePropertiesRequested;
 
         private readonly CurveDetailsViewModelToDiagramConverter _converter;
