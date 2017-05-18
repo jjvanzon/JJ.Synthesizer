@@ -87,6 +87,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             bool propertiesPanelMustBeVisible = _userControls.Where(x => MustBecomeVisible(x) && x is PropertiesUserControlBase).Any();
             SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
 
+            bool curveDetailsPanelMustBeVisible = _presenter.MainViewModel.Document.CurveDetailsDictionary.Values.Any(x => x.Visible);
+            SetCurveDetailsPanelVisible(curveDetailsPanelMustBeVisible);
+
             // Modal Windows
             if (_presenter.MainViewModel.DocumentDelete.Visible)
             {

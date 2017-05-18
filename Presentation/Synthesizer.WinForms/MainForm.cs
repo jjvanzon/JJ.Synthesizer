@@ -108,6 +108,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             splitContainerCenterAndProperties.Panel2Collapsed = !visible;
         }
 
+        private void SetCurveDetailsPanelVisible(bool visible)
+        {
+            splitContainerCurvesAndTopSide.Panel2Collapsed = !visible;
+        }
+
         private void ApplyStyling()
         {
             splitContainerCenterAndProperties.SplitterWidth = StyleHelper.DefaultSpacing;
