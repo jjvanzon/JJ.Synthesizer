@@ -32,9 +32,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         public static Font DefaultFont { get; }
         public static Font NumberOperatorFont { get; }
         public static Font DimensionFont { get; }
-        public static TextStyle TextStyle { get; }
+        public static Font WaterMarkFont { get; }
+        public static TextStyle DefaultTextStyle { get; }
         public static TextStyle NumberOperatorTextStyle { get; }
         public static TextStyle DimensionTextStyle { get; }
+        public static TextStyle WaterMarkTextStyle { get; set; }
         public static BackStyle BackStyle { get; }
         public static BackStyle BackStyleSelected { get; }
         public static BackStyle BackStyleInvisible { get; }
@@ -166,7 +168,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 Size = DIMENSION_FONT_SIZE
             };
 
-            TextStyle = new TextStyle
+            WaterMarkFont = new Font
+            {
+                Name = "Verdana",
+                Size = 20,
+                Bold = true
+            };
+
+            DefaultTextStyle = new TextStyle
             {
                 HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
                 VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
@@ -188,6 +197,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
                 Font = DimensionFont,
                 Color = almostBlack
+            };
+
+            WaterMarkTextStyle = new TextStyle
+            {
+                HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
+                VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
+                Font = WaterMarkFont,
+                Color = lightGrey
             };
 
             PointStyleInvisible = new PointStyle

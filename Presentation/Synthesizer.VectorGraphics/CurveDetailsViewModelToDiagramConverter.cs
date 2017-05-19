@@ -10,6 +10,7 @@ using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
+using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
@@ -54,6 +55,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private readonly Label _bottomBoundLabel;
         private readonly Label _rightBoundLabel;
         private readonly Label _leftBoundLabel;
+        private readonly Label _titleLabel;
         /// <summary> Key is Node.ID. </summary>
         private readonly Dictionary<int, Point> _pointDictionary = new Dictionary<int, Point>();
         /// <summary> Key is Node.ID. </summary>
@@ -80,6 +82,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             _bottomBoundLabel = CreateBottomBoundLabel(Result.Diagram);
             _rightBoundLabel = CreateRightBoundLabel(Result.Diagram);
             _leftBoundLabel = CreateLeftBoundLabel(Result.Diagram);
+            _titleLabel = CreateTitleLabel(Result.Diagram);
 
             if (_mustShowInvisibleElements)
             {
@@ -157,6 +160,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             UpdateRightBoundLabel(maxX);
             UpdateTopBoundLabel(maxY);
             UpdateBottomBoundLabel(minY);
+            UpdateTitleLabel(curveDetailsViewModel.Curve.Name);
 
             // Points, Lines and Clickable Regions
             float scaledNodeRectangleWidth = Result.Diagram.Position.PixelsToWidth(_nodeClickableRegionSizeInPixels);
@@ -308,9 +312,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateXAxis()
         {
-            _xAxis.PointA.Position.Y = Result.Diagram.Background.Position.AbsoluteToRelativeY(0);
-            _xAxis.PointB.Position.X = Result.Diagram.Background.Position.Width;
-            _xAxis.PointB.Position.Y = Result.Diagram.Background.Position.AbsoluteToRelativeY(0);
+            _xAxis.PointA.Position.Y = _xAxis.Diagram.Background.Position.AbsoluteToRelativeY(0);
+            _xAxis.PointB.Position.X = _xAxis.Diagram.Background.Position.Width;
+            _xAxis.PointB.Position.Y = _xAxis.Diagram.Background.Position.AbsoluteToRelativeY(0);
         }
 
         private Line CreateYAxis(Diagram diagram)
@@ -346,9 +350,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateYAxis()
         {
-            _yAxis.PointA.Position.X = Result.Diagram.Background.Position.AbsoluteToRelativeX(0);
-            _yAxis.PointB.Position.X = Result.Diagram.Background.Position.AbsoluteToRelativeX(0);
-            _yAxis.PointB.Position.Y = Result.Diagram.Background.Position.Height;
+            _yAxis.PointA.Position.X = _yAxis.Diagram.Background.Position.AbsoluteToRelativeX(0);
+            _yAxis.PointB.Position.X = _yAxis.Diagram.Background.Position.AbsoluteToRelativeX(0);
+            _yAxis.PointB.Position.Y = _yAxis.Diagram.Background.Position.Height;
         }
 
         private Label CreateLeftBoundLabel(Diagram diagram)
@@ -370,7 +374,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateLeftBoundLabel(float minX)
         {
-            _leftBoundLabel.Position.Y = Result.Diagram.Background.Position.Height / 2;
+            _leftBoundLabel.Position.Y = _leftBoundLabel.Diagram.Background.Position.Height / 2;
             _leftBoundLabel.Text = minX.ToString("0.###");
         }
 
@@ -394,8 +398,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateRightBoundLabel(float maxX)
         {
-            _rightBoundLabel.Position.X = Result.Diagram.Background.Position.Width;
-            _rightBoundLabel.Position.Y = Result.Diagram.Background.Position.Height / 2;
+            _rightBoundLabel.Position.X = _rightBoundLabel.Diagram.Background.Position.Width;
+            _rightBoundLabel.Position.Y = _rightBoundLabel.Diagram.Background.Position.Height / 2;
             _rightBoundLabel.Text = maxX.ToString("0.###");
         }
 
@@ -418,20 +422,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateTopBoundLabel(float maxY)
         {
-            _topBoundLabel.Position.X = Result.Diagram.Background.Position.Width / 2;
+            _topBoundLabel.Position.X = _topBoundLabel.Diagram.Background.Position.Width / 2;
             _topBoundLabel.Text = maxY.ToString("0.###");
         }
 
         private Label CreateBottomBoundLabel(Diagram diagram)
         {
-            // ReSharper disable once UseObjectOrCollectionInitializer
             var label = new Label
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
+                TextStyle = StyleHelper.CreateTextStyleSmallerTransparent(),
             };
 
-            label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Bottom;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center;
 #if DEBUG
@@ -442,9 +445,34 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateBottomBoundLabel(float minY)
         {
-            _bottomBoundLabel.Position.X = Result.Diagram.Background.Position.Width / 2;
-            _bottomBoundLabel.Position.Y = Result.Diagram.Background.Position.Height;
+            _bottomBoundLabel.Position.X = _bottomBoundLabel.Diagram.Background.Position.Width / 2;
+            _bottomBoundLabel.Position.Y = _bottomBoundLabel.Diagram.Background.Position.Height;
             _bottomBoundLabel.Text = minY.ToString("0.###");
+        }
+
+        private Label CreateTitleLabel(Diagram diagram)
+        {
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var label = new Label
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                ZIndex = -1,
+                TextStyle = StyleHelper.WaterMarkTextStyle
+            };
+#if DEBUG
+            label.Tag = "Title Label";
+#endif
+            return label;
+        }
+
+        private void UpdateTitleLabel(string text)
+        {
+            _titleLabel.Text = text;
+            _titleLabel.Position.X = _titleLabel.Diagram.Background.Position.PixelsToRelativeX(32);
+            _titleLabel.Position.Y = 0;
+            _titleLabel.Position.Width = _titleLabel.Diagram.Position.ScaledWidth - _titleLabel.Position.X;
+            _titleLabel.Position.Height = _titleLabel.Diagram.Position.ScaledHeight;
         }
 
         private void CreateLines_WithRelatedElements(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum previousNodeTypeEnum)

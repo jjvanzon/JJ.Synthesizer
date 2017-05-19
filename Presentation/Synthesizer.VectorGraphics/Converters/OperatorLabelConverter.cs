@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
             else
             {
-                destLabel.TextStyle = StyleHelper.TextStyle;
+                destLabel.TextStyle = StyleHelper.DefaultTextStyle;
             }
 
             return destLabel;
