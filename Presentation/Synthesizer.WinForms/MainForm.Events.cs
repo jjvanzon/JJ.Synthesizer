@@ -319,7 +319,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void curveGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.CurveDetailsShow(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.CurveDetailsShow(e.Value);
+                    _presenter.CurvePropertiesShow(e.Value);
+                });
         }
 
         private void curveDetailsUserControl_SelectNodeRequested(object sender, NodeEventArgs e)
