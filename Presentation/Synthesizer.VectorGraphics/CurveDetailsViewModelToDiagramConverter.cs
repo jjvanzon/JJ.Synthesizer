@@ -10,7 +10,6 @@ using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
-using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
@@ -51,11 +50,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private readonly Line _xAxis;
         private readonly Line _yAxis;
-        private readonly Label _topBoundLabel;
-        private readonly Label _bottomBoundLabel;
-        private readonly Label _rightBoundLabel;
-        private readonly Label _leftBoundLabel;
-        private readonly Label _titleLabel;
+        private readonly Label _topBoundCoodinateLabel;
+        private readonly Label _bottomBoundCoodinateLabel;
+        private readonly Label _rightBoundCoodinateLabel;
+        private readonly Label _leftBoundCoodinateLabel;
+        private readonly Label _waterMarkTitleLabel;
         /// <summary> Key is Node.ID. </summary>
         private readonly Dictionary<int, Point> _pointDictionary = new Dictionary<int, Point>();
         /// <summary> Key is Node.ID. </summary>
@@ -78,11 +77,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             _xAxis = CreateXAxis(Result.Diagram);
             _yAxis = CreateYAxis(Result.Diagram);
-            _topBoundLabel = CreateTopBoundLabel(Result.Diagram);
-            _bottomBoundLabel = CreateBottomBoundLabel(Result.Diagram);
-            _rightBoundLabel = CreateRightBoundLabel(Result.Diagram);
-            _leftBoundLabel = CreateLeftBoundLabel(Result.Diagram);
-            _titleLabel = CreateTitleLabel(Result.Diagram);
+            _topBoundCoodinateLabel = CreateTopBoundCoordinateLabel(Result.Diagram);
+            _bottomBoundCoodinateLabel = CreateBottomBoundCoordinateLabel(Result.Diagram);
+            _rightBoundCoodinateLabel = CreateRightBoundCoordinateLabel(Result.Diagram);
+            _leftBoundCoodinateLabel = CreateLeftBoundCoordinateLabel(Result.Diagram);
+            _waterMarkTitleLabel = CreateWaterMarkTitleLabel(Result.Diagram);
 
             if (_mustShowInvisibleElements)
             {
@@ -139,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             // Set Margin
             // (This is not full-proof, since margin is calculated based on the point's pixel width and scaling without margin,
             //  But then the scaling is changed based on the margin, making the point's scaled width a little off.
-            //  The difference will probably be marginal, but it can get noticable when you make the diagram very small.)
+            //  The difference will probably be 'marginal', but it can get noticable when you make the diagram very small.)
             float marginInPixels = StyleHelper.PointStyleThick.Width / 2;
             float marginX = Result.Diagram.Position.PixelsToWidth(marginInPixels);
             float marginY = Result.Diagram.Position.PixelsToHeight(marginInPixels);
@@ -154,13 +153,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             Result.Diagram.Recalculate();
 
             // Update Misc Elements
+            UpdateWaterMarkTitleLabel(curveDetailsViewModel.Curve.Name);
             UpdateXAxis();
             UpdateYAxis();
-            UpdateLeftBoundLabel(minX);
-            UpdateRightBoundLabel(maxX);
-            UpdateTopBoundLabel(maxY);
-            UpdateBottomBoundLabel(minY);
-            UpdateTitleLabel(curveDetailsViewModel.Curve.Name);
+            UpdateLeftBoundCoordinateLabel(minX);
+            UpdateRightBoundCoordinateLabel(maxX);
+            UpdateTopBoundCoordinateLabel(maxY);
+            UpdateBottomBoundCoordinateLabel(minY);
 
             // Points, Lines and Clickable Regions
             float scaledNodeRectangleWidth = Result.Diagram.Position.PixelsToWidth(_nodeClickableRegionSizeInPixels);
@@ -312,9 +311,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void UpdateXAxis()
         {
-            _xAxis.PointA.Position.Y = _xAxis.Diagram.Background.Position.AbsoluteToRelativeY(0);
+            float y = _xAxis.Diagram.Background.Position.AbsoluteToRelativeY(0);
+
+            _xAxis.PointA.Position.Y = y;
             _xAxis.PointB.Position.X = _xAxis.Diagram.Background.Position.Width;
-            _xAxis.PointB.Position.Y = _xAxis.Diagram.Background.Position.AbsoluteToRelativeY(0);
+            _xAxis.PointB.Position.Y = y;
+
+            float margin = _xAxis.Diagram.Position.PixelsToHeight(StyleHelper.PointStyleThick.Width / 2 + 1);
+
+            // NOTE: Positions are relative and axis is flipped.
+            _xAxis.Visible = _xAxis.Position.Y < 0 + margin &&
+                             _xAxis.Position.Y > _xAxis.Parent.Position.Height - margin;
         }
 
         private Line CreateYAxis(Diagram diagram)
@@ -353,9 +360,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             _yAxis.PointA.Position.X = _yAxis.Diagram.Background.Position.AbsoluteToRelativeX(0);
             _yAxis.PointB.Position.X = _yAxis.Diagram.Background.Position.AbsoluteToRelativeX(0);
             _yAxis.PointB.Position.Y = _yAxis.Diagram.Background.Position.Height;
+
+            float margin = _xAxis.Diagram.Position.PixelsToWidth(StyleHelper.PointStyleThick.Width / 2 + 1);
+
+            // NOTE: Positions are relative and axis is NOT flipped.
+            _yAxis.Visible = _yAxis.Position.X > 0 + margin &&
+                             _yAxis.Position.X < _xAxis.Parent.Position.Width - margin;
         }
 
-        private Label CreateLeftBoundLabel(Diagram diagram)
+        private Label CreateLeftBoundCoordinateLabel(Diagram diagram)
         {
             var label = new Label
             {
@@ -372,13 +385,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private void UpdateLeftBoundLabel(float minX)
+        private void UpdateLeftBoundCoordinateLabel(float minX)
         {
-            _leftBoundLabel.Position.Y = _leftBoundLabel.Diagram.Background.Position.Height / 2;
-            _leftBoundLabel.Text = minX.ToString("0.###");
+            _leftBoundCoodinateLabel.Position.Y = _leftBoundCoodinateLabel.Diagram.Background.Position.Height / 2;
+            _leftBoundCoodinateLabel.Text = minX.ToString("0.###");
         }
 
-        private Label CreateRightBoundLabel(Diagram diagram)
+        private Label CreateRightBoundCoordinateLabel(Diagram diagram)
         {
             // ReSharper disable once UseObjectOrCollectionInitializer
             var label = new Label
@@ -396,14 +409,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private void UpdateRightBoundLabel(float maxX)
+        private void UpdateRightBoundCoordinateLabel(float maxX)
         {
-            _rightBoundLabel.Position.X = _rightBoundLabel.Diagram.Background.Position.Width;
-            _rightBoundLabel.Position.Y = _rightBoundLabel.Diagram.Background.Position.Height / 2;
-            _rightBoundLabel.Text = maxX.ToString("0.###");
+            _rightBoundCoodinateLabel.Position.X = _rightBoundCoodinateLabel.Diagram.Background.Position.Width;
+            _rightBoundCoodinateLabel.Position.Y = _rightBoundCoodinateLabel.Diagram.Background.Position.Height / 2;
+            _rightBoundCoodinateLabel.Text = maxX.ToString("0.###");
         }
 
-        private Label CreateTopBoundLabel(Diagram diagram)
+        private Label CreateTopBoundCoordinateLabel(Diagram diagram)
         {
             var label = new Label
             {
@@ -420,13 +433,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private void UpdateTopBoundLabel(float maxY)
+        private void UpdateTopBoundCoordinateLabel(float maxY)
         {
-            _topBoundLabel.Position.X = _topBoundLabel.Diagram.Background.Position.Width / 2;
-            _topBoundLabel.Text = maxY.ToString("0.###");
+            _topBoundCoodinateLabel.Position.X = _topBoundCoodinateLabel.Diagram.Background.Position.Width / 2;
+            _topBoundCoodinateLabel.Text = maxY.ToString("0.###");
         }
 
-        private Label CreateBottomBoundLabel(Diagram diagram)
+        private Label CreateBottomBoundCoordinateLabel(Diagram diagram)
         {
             var label = new Label
             {
@@ -443,14 +456,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private void UpdateBottomBoundLabel(float minY)
+        private void UpdateBottomBoundCoordinateLabel(float minY)
         {
-            _bottomBoundLabel.Position.X = _bottomBoundLabel.Diagram.Background.Position.Width / 2;
-            _bottomBoundLabel.Position.Y = _bottomBoundLabel.Diagram.Background.Position.Height;
-            _bottomBoundLabel.Text = minY.ToString("0.###");
+            _bottomBoundCoodinateLabel.Position.X = _bottomBoundCoodinateLabel.Diagram.Background.Position.Width / 2;
+            _bottomBoundCoodinateLabel.Position.Y = _bottomBoundCoodinateLabel.Diagram.Background.Position.Height;
+            _bottomBoundCoodinateLabel.Text = minY.ToString("0.###");
         }
 
-        private Label CreateTitleLabel(Diagram diagram)
+        private Label CreateWaterMarkTitleLabel(Diagram diagram)
         {
             // ReSharper disable once UseObjectOrCollectionInitializer
             var label = new Label
@@ -466,13 +479,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private void UpdateTitleLabel(string text)
+        private void UpdateWaterMarkTitleLabel(string text)
         {
-            _titleLabel.Text = text;
-            _titleLabel.Position.X = _titleLabel.Diagram.Background.Position.PixelsToRelativeX(32);
-            _titleLabel.Position.Y = 0;
-            _titleLabel.Position.Width = _titleLabel.Diagram.Position.ScaledWidth - _titleLabel.Position.X;
-            _titleLabel.Position.Height = _titleLabel.Diagram.Position.ScaledHeight;
+            _waterMarkTitleLabel.Text = text;
+            // 44 pixels magin from the left is to accomodate a reasonable amount of digits
+            // in the left-bound coordinate label without overlapping the title label.
+            _waterMarkTitleLabel.Position.X = _waterMarkTitleLabel.Diagram.Background.Position.PixelsToRelativeX(44);
+            _waterMarkTitleLabel.Position.Y = 0;
+            _waterMarkTitleLabel.Position.Width = _waterMarkTitleLabel.Diagram.Position.ScaledWidth - _waterMarkTitleLabel.Position.X;
+            _waterMarkTitleLabel.Position.Height = _waterMarkTitleLabel.Diagram.Position.ScaledHeight;
         }
 
         private void CreateLines_WithRelatedElements(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum previousNodeTypeEnum)
