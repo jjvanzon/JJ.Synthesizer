@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
@@ -6,13 +7,13 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using Rectangle = JJ.Framework.Presentation.VectorGraphics.Models.Elements.Rectangle;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -63,10 +64,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.PositionControls();
 
+            // HACK
+            int buttonCount = 3;
+            _titleBarUserControl.Width = StyleHelper.DefaultSpacing * (buttonCount - 1)
+                                         + StyleHelper.IconButtonSize * buttonCount;
+            _titleBarUserControl.Left = Width - _titleBarUserControl.Width;
+            _titleBarUserControl.BackColor = SystemColors.Window;
+
             diagramControl.Left = 0;
-            diagramControl.Top = StyleHelper.TitleBarHeight;
+            diagramControl.Top = 0;
             diagramControl.Width = Width;
-            diagramControl.Height = Height - StyleHelper.TitleBarHeight;
+            diagramControl.Height = Height;
         }
 
         // Binding

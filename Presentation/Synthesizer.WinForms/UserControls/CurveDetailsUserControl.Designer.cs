@@ -31,6 +31,13 @@
             this.diagramControl = new JJ.Framework.Presentation.WinForms.Controls.DiagramControl();
             this.SuspendLayout();
             // 
+            // _titleBarUserControl
+            // 
+            this._titleBarUserControl.AddButtonVisible = true;
+            this._titleBarUserControl.RemoveButtonVisible = true;
+            this._titleBarUserControl.Size = new System.Drawing.Size(672, 32);
+            this._titleBarUserControl.TabIndex = 2;
+            // 
             // diagramControl
             // 
             this.diagramControl.Diagram = null;
@@ -54,6 +61,7 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.CurveDetailsUserControl_Paint);
             this.Resize += new System.EventHandler(this.CurveDetailsUserControl_Resize);
             this.Controls.SetChildIndex(this.diagramControl, 0);
+            this.Controls.SetChildIndex(this._titleBarUserControl, 0);
             this.ResumeLayout(false);
 
         }

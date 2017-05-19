@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
@@ -53,6 +54,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             get => labelTitle.Text;
             set => labelTitle.Text = value;
+        }
+
+        public override Color BackColor
+        {
+            get => base.BackColor;
+            set
+            {
+                base.BackColor = value;
+                labelTitle.BackColor = value;
+                buttonBarUserControl.BackColor = value;
+            }
         }
 
         public bool AddButtonVisible

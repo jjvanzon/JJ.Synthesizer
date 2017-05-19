@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
     internal class DetailsOrPropertiesUserControlBase : UserControlBase
     {
-        private readonly TitleBarUserControl _titleBarUserControl;
+        protected readonly TitleBarUserControl _titleBarUserControl;
 
         public event EventHandler<EventArgs<int>> CloseRequested;
         public event EventHandler<EventArgs<int>> LoseFocusRequested;
