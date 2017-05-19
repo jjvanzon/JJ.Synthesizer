@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
     internal class DetailsOrPropertiesUserControlBase : UserControlBase
     {
-        protected readonly TitleBarUserControl _titleBarUserControl;
+        private readonly TitleBarUserControl _titleBarUserControl;
 
         public event EventHandler<EventArgs<int>> CloseRequested;
         public event EventHandler<EventArgs<int>> LoseFocusRequested;
@@ -122,7 +122,30 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => _titleBarUserControl.CloseButtonVisible = value;
         }
 
-        protected virtual void PositionControls() => _titleBarUserControl.Width = Width;
+        public Color TitleBarBackColor
+        {
+            get => _titleBarUserControl.BackColor;
+            set => _titleBarUserControl.BackColor = value;
+        }
+
+        public bool TitleLabelVisible
+        {
+            get => _titleBarUserControl.TitleLabelVisible;
+            set => _titleBarUserControl.TitleLabelVisible = value;
+        }
+
+        protected virtual void PositionControls()
+        {
+            if (TitleLabelVisible)
+            {
+                _titleBarUserControl.Width = Width;
+            }
+            else
+            {
+                _titleBarUserControl.Width = _titleBarUserControl.ButtonBarWidth;
+                _titleBarUserControl.Left = Width - _titleBarUserControl.ButtonBarWidth;
+            }
+        }
 
         private void Base_Resize(object sender, EventArgs e) => PositionControls();
 

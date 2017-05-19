@@ -46,6 +46,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converter.Result.NodeToolTipGesture.ToolTipTextRequested += NodeToolTipGesture_ToolTipTextRequested;
 
             InitializeComponent();
+
+            TitleBarBackColor = SystemColors.Window;
+            TitleLabelVisible = false;
+
+            // Make sure the base's button bar is in front of the diagramControl.
+            diagramControl.SendToBack();
         }
 
         private void CurveDetailsUserControl_Load(object sender, EventArgs e)
@@ -63,13 +69,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void PositionControls()
         {
             base.PositionControls();
-
-            // HACK
-            int buttonCount = 3;
-            _titleBarUserControl.Width = StyleHelper.DefaultSpacing * (buttonCount - 1)
-                                         + StyleHelper.IconButtonSize * buttonCount;
-            _titleBarUserControl.Left = Width - _titleBarUserControl.Width;
-            _titleBarUserControl.BackColor = SystemColors.Window;
 
             diagramControl.Left = 0;
             diagramControl.Top = 0;

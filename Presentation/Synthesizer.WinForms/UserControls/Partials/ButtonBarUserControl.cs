@@ -39,9 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set
             {
                 _addButtonVisible = value;
-
                 buttonAdd.Visible = _addButtonVisible;
-
                 PositionControls();
             }
         }
@@ -54,9 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set
             {
                 _closeButtonVisible = value;
-
                 buttonClose.Visible = _closeButtonVisible;
-
                 PositionControls();
             }
         }
@@ -69,9 +65,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set
             {
                 _openButtonVisible = value;
-
                 buttonOpen.Visible = _openButtonVisible;
-
                 PositionControls();
             }
         }
@@ -84,9 +78,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set
             {
                 _playButtonVisible = value;
-
                 buttonPlay.Visible = _playButtonVisible;
-
                 PositionControls();
             }
         }
@@ -99,9 +91,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set
             {
                 _refreshButtonVisible = value;
-
                 buttonRefresh.Visible = _refreshButtonVisible;
-
                 PositionControls();
             }
         }
@@ -114,9 +104,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set
             {
                 _removeButtonVisible = value;
-
                 buttonRemove.Visible = _removeButtonVisible;
-
                 PositionControls();
             }
         }
@@ -129,9 +117,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set
             {
                 _saveButtonVisible = value;
-
                 buttonSave.Visible = _saveButtonVisible;
-
                 PositionControls();
             }
         }
@@ -139,50 +125,38 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         // Positioning
 
         private readonly int _height = StyleHelper.DefaultSpacing + StyleHelper.IconButtonSize + StyleHelper.DefaultSpacing;
-        private bool _positionControlsIsBusy;
 
         private void PositionControls()
         {
-            try
+            Width = GetVisibleButtonCount() * StyleHelper.IconButtonSize +
+                    (GetVisibleButtonCount() - 1) * StyleHelper.DefaultSpacing;
+
+            Height = _height;
+
+            int x = Width;
+
+            x -= StyleHelper.IconButtonSize;
+
+            var buttonTuplesInReverseOrder = new (Control Control, bool Visible)[]
             {
-                // Prevent Resize from going into an infinite loop.
-                if (_positionControlsIsBusy) return;
-                _positionControlsIsBusy = true;
+                (buttonClose, CloseButtonVisible),
+                (buttonRemove, RemoveButtonVisible),
+                (buttonAdd, AddButtonVisible),
+                (buttonOpen, OpenButtonVisible),
+                (buttonRefresh, RefreshButtonVisible),
+                (buttonSave, SaveButtonVisible),
+                (buttonPlay, PlayButtonVisible)
+            };
 
-                Width = GetVisibleButtonCount() * StyleHelper.IconButtonSize +
-                        (GetVisibleButtonCount() - 1) * StyleHelper.DefaultSpacing;
-
-                Height = _height;
-
-                int x = Width;
-
-                x -= StyleHelper.IconButtonSize;
-
-                var buttonTuplesInReverseOrder = new (Control Control, bool Visible)[]
+            foreach ((Control Control, bool Visible) buttonTuple in buttonTuplesInReverseOrder)
+            {
+                if (buttonTuple.Visible)
                 {
-                    (buttonClose, CloseButtonVisible),
-                    (buttonRemove, RemoveButtonVisible),
-                    (buttonAdd, AddButtonVisible),
-                    (buttonOpen, OpenButtonVisible),
-                    (buttonRefresh, RefreshButtonVisible),
-                    (buttonSave, SaveButtonVisible),
-                    (buttonPlay, PlayButtonVisible)
-                };
-
-                foreach ((Control Control, bool Visible) buttonTuple in buttonTuplesInReverseOrder)
-                {
-                    if (buttonTuple.Visible)
-                    {
-                        buttonTuple.Control.Location = new Point(x, StyleHelper.DefaultSpacing);
-                        buttonTuple.Control.Size = new Size(StyleHelper.IconButtonSize, StyleHelper.IconButtonSize);
-                        x -= StyleHelper.DefaultSpacing;
-                        x -= StyleHelper.IconButtonSize;
-                    }
+                    buttonTuple.Control.Location = new Point(x, StyleHelper.DefaultSpacing);
+                    buttonTuple.Control.Size = new Size(StyleHelper.IconButtonSize, StyleHelper.IconButtonSize);
+                    x -= StyleHelper.DefaultSpacing;
+                    x -= StyleHelper.IconButtonSize;
                 }
-            }
-            finally
-            {
-                _positionControlsIsBusy = false;
             }
         }
 

@@ -6,6 +6,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
     internal partial class TitleBarUserControl : UserControl
     {
+        public TitleBarUserControl()
+        {
+            InitializeComponent();
+
+            _titleLabelVisible = labelTitle.Visible;
+        }
+
         public event EventHandler AddClicked
         {
             add => buttonBarUserControl.AddClicked += value;
@@ -47,8 +54,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             add => buttonBarUserControl.SaveClicked += value;
             remove => buttonBarUserControl.SaveClicked -= value;
         }
-
-        public TitleBarUserControl() => InitializeComponent();
 
         public override string Text
         {
@@ -137,14 +142,31 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
+        private bool _titleLabelVisible;
+        public bool TitleLabelVisible
+        {
+            get => _titleLabelVisible;
+            set
+            {
+                _titleLabelVisible = value;
+                labelTitle.Visible = value;
+                PositionControls();
+            }
+        }
+
+        public int ButtonBarWidth => buttonBarUserControl.Width;
+
         private void PositionControls()
         {
             Height = buttonBarUserControl.Height;
 
-            labelTitle.Top = 0;
-            labelTitle.Left = 0;
-            labelTitle.Height = Height;
-            labelTitle.Width = Width - buttonBarUserControl.Width;
+            if (_titleLabelVisible)
+            {
+                labelTitle.Top = 0;
+                labelTitle.Left = 0;
+                labelTitle.Height = Height;
+                labelTitle.Width = Width - buttonBarUserControl.Width;
+            }
 
             buttonBarUserControl.Top = 0;
             buttonBarUserControl.Left = Width - buttonBarUserControl.Width;
