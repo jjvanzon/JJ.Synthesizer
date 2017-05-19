@@ -10,6 +10,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class CurveDetailsListUserControl : UserControl
     {
+        public CurveDetailsListUserControl() => InitializeComponent();
+
         public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
         public event EventHandler<EventArgs<int>> CloseRequested;
         public event EventHandler<EventArgs<int>> CreateNodeRequested;
@@ -20,8 +22,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<NodeEventArgs> SelectNodeRequested;
         public event EventHandler<EventArgs<int>> ShowCurvePropertiesRequested;
         public event EventHandler<EventArgs<int>> ShowNodePropertiesRequested;
-
-        public CurveDetailsListUserControl() => InitializeComponent();
 
         private readonly IList<CurveDetailsUserControl> _userControls = new List<CurveDetailsUserControl>();
 
@@ -106,7 +106,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            int controlHeight = Height / controlCount;
+            // SplitterWidth used on purpose instead of DefaultSpacing.
+            // Even though it is not a splitter, it looks better if it is the same width as a splitter.
+            int totalSpacing = StyleHelper.SplitterWidth * (controlCount - 1);
+            int controlHeight = (Height - totalSpacing) / controlCount;
             if (controlHeight <= 0) controlHeight = 1;
 
             const int x = 0;
@@ -121,6 +124,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 control.Height = controlHeight;
 
                 y += controlHeight;
+
+                // SplitterWidth used on purpose instead of DefaultSpacing.
+                // Even though it is not a splitter, it looks better if it is the same width as a splitter.
+                y += StyleHelper.SplitterWidth;
             }
         }
 
