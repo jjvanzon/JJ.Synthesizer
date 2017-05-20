@@ -2724,21 +2724,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PatchDetailsDelete(int id)
-        {
-            // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
-
-            // Template Method
-            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.Delete(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentRefresh();
-            }
-        }
-
         public void PatchDetailsLoseFocus(int id)
         {
             // GetViewModel

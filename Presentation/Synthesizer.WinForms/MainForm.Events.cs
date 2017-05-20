@@ -990,7 +990,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchDetailsUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.PatchDetailsDelete(e.Value));
+            // PatchDetails Delete action deletes the Selected Operator, not the Patch.
+            TemplateActionHandler(() => _presenter.OperatorDeleteSelected(e.Value));
         }
 
         private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
