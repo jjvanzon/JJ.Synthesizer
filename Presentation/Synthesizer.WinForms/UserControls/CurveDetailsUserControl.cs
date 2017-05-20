@@ -11,7 +11,6 @@ using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Framework.Presentation.Resources;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using Rectangle = JJ.Framework.Presentation.VectorGraphics.Models.Elements.Rectangle;
 
@@ -21,8 +20,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
         public event EventHandler<EventArgs<int>> CreateNodeRequested;
-        /// <summary> Parameter is CurveID, not NodeID </summary>
-        public event EventHandler<EventArgs<int>> DeleteSelectedNodeRequested;
         public event EventHandler<MoveNodeEventArgs> MoveNodeRequested;
         public event EventHandler<NodeEventArgs> SelectNodeRequested;
         public event EventHandler<EventArgs<int>> ShowCurvePropertiesRequested;
@@ -84,10 +81,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set => base.ViewModel = value;
         }
 
-        protected override int GetID()
-        {
-            return ViewModel.Curve.ID;
-        }
+        protected override int GetID() => ViewModel.Curve.ID;
 
         protected override void ApplyViewModelToControls()
         {
@@ -120,11 +114,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         }
 
-        private void CurveDetailsUserControl_RemoveClicked(object sender, EventArgs e)
-        {
-            DeleteSelectedNode();
-        }
-
         private void Diagram_KeyDown(object sender, JJ.Framework.Presentation.VectorGraphics.EventArg.KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -134,7 +123,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     break;
 
                 case KeyCodeEnum.Delete:
-                    DeleteSelectedNode();
+                    Delete();
                     break;
             }
         }
@@ -203,12 +192,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
 
             e.ToolTipText = nodeViewModel.Caption;
-        }
-
-        private void DeleteSelectedNode()
-        {
-            if (ViewModel == null) return;
-            DeleteSelectedNodeRequested?.Invoke(this, new EventArgs<int>(ViewModel.Curve.ID));
         }
 
         private void CreateNode()

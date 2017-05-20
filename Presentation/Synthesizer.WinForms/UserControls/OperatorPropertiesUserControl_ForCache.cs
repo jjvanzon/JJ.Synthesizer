@@ -9,10 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class OperatorPropertiesUserControl_ForCache 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_ForCache()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl_ForCache() => InitializeComponent();
 
         // Gui
 

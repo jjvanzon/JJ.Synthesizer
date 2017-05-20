@@ -15,8 +15,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
         public event EventHandler<EventArgs<int>> CloseRequested;
         public event EventHandler<EventArgs<int>> CreateNodeRequested;
-        /// <summary> Parameter is CurveID, not NodeID </summary>
-        public event EventHandler<EventArgs<int>> DeleteSelectedNodeRequested;
+        /// <summary> Will delete the selected node, not the curve. </summary>
+        public event EventHandler<EventArgs<int>> DeleteRequested;
         public event EventHandler<EventArgs<int>> LoseFocusRequested;
         public event EventHandler<MoveNodeEventArgs> MoveNodeRequested;
         public event EventHandler<NodeEventArgs> SelectNodeRequested;
@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 userControl.ChangeSelectedNodeTypeRequested += CurveDetailsUserControl_ChangeSelectedNodeTypeRequested;
                 userControl.CloseRequested += CurveDetailsUserControl_CloseRequested;
                 userControl.CreateNodeRequested += CurveDetailsUserControl_CreateNodeRequested;
-                userControl.DeleteSelectedNodeRequested += CurveDetailsUserControl_DeleteSelectedNodeRequested;
+                userControl.RemoveRequested += CurveDetailsUserControl_DeleteRequested;
                 userControl.LoseFocusRequested += CurveDetailsUserControl_LoseFocusRequested;
                 userControl.MoveNodeRequested += CurveDetailsUserControl_MoveNodeRequested;
                 userControl.SelectNodeRequested += CurveDetailsUserControl_SelectNodeRequested;
@@ -84,7 +84,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 userControl.ChangeSelectedNodeTypeRequested -= CurveDetailsUserControl_ChangeSelectedNodeTypeRequested;
                 userControl.CloseRequested -= CurveDetailsUserControl_CloseRequested;
                 userControl.CreateNodeRequested -= CurveDetailsUserControl_CreateNodeRequested;
-                userControl.DeleteSelectedNodeRequested -= CurveDetailsUserControl_DeleteSelectedNodeRequested;
+                userControl.RemoveRequested -= CurveDetailsUserControl_DeleteRequested;
                 userControl.LoseFocusRequested -= CurveDetailsUserControl_LoseFocusRequested;
                 userControl.MoveNodeRequested -= CurveDetailsUserControl_MoveNodeRequested;
                 userControl.SelectNodeRequested -= CurveDetailsUserControl_SelectNodeRequested;
@@ -135,7 +135,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void CurveDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => CloseRequested(sender, e);
         private void CurveDetailsUserControl_CreateNodeRequested(object sender, EventArgs<int> e) => CreateNodeRequested(sender, e);
         private void CurveDetailsUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e) => ChangeSelectedNodeTypeRequested(sender, e);
-        private void CurveDetailsUserControl_DeleteSelectedNodeRequested(object sender, EventArgs<int> e) => DeleteSelectedNodeRequested(sender, e);
+        private void CurveDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e) => DeleteRequested(sender, e);
         private void CurveDetailsUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => LoseFocusRequested(sender, e);
         private void CurveDetailsUserControl_MoveNodeRequested(object sender, MoveNodeEventArgs e) => MoveNodeRequested(sender, e);
         private void CurveDetailsUserControl_SelectNodeRequested(object sender, NodeEventArgs e) => SelectNodeRequested(sender, e);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
@@ -58,6 +59,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
                 viewModel.Successful = result.Successful;
             });
+        }
+
+        public PatchGridViewModel Delete(PatchGridViewModel userInput, int patchID)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    Patch patch = _repositories.PatchRepository.Get(patchID);
+
+                    // Businesss
+                    var patchManager = new PatchManager(patch, _repositories);
+                    IResult result = patchManager.DeletePatchWithRelatedEntities();
+
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+
+                    // Successful?
+                    viewModel.Successful = result.Successful;
+                });
         }
     }
 }

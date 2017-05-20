@@ -10,7 +10,8 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal abstract class OperatorPropertiesPresenterBase<TViewModel> : PropertiesPresenterBase<TViewModel>
+    internal abstract class OperatorPropertiesPresenterBase<TViewModel> 
+        : PropertiesPresenterBase<TViewModel>, IOperatorPropertiesPresenter
         where TViewModel : OperatorPropertiesViewModelBase
     {
         protected readonly PatchRepositories _repositories;
@@ -73,5 +74,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     viewModel.Successful = result.Successful;
                 });
         }
+
+        public TViewModel Delete(TViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
+
+                    // Business
+                    var patchManager = new PatchManager(entity.Patch, _repositories);
+                    patchManager.DeleteOwnedNumberOperators(entity.ID);
+                    patchManager.DeleteOperatorWithRelatedEntities(entity.ID);
+                });
+        }
+
+        public OperatorPropertiesViewModelBase Play(OperatorPropertiesViewModelBase userInput) => Play((TViewModel)userInput);
+
+        public OperatorPropertiesViewModelBase Delete(OperatorPropertiesViewModelBase userInput) => Delete((TViewModel)userInput);
     }
 }

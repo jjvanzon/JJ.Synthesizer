@@ -76,6 +76,7 @@
             this.Name = "LibraryPropertiesUserControl";
             this.OpenExternallyButtonVisible = true;
             this.PlayButtonVisible = true;
+            this.RemoveButtonVisible = true;
             this.Size = new System.Drawing.Size(10, 10);
             this.Controls.SetChildIndex(this.labelNameTitle, 0);
             this.Controls.SetChildIndex(this.labelNameValue, 0);

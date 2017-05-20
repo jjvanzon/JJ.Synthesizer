@@ -10,10 +10,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class AudioFileOutputPropertiesUserControl 
         : PropertiesUserControlBase
     {
-        public AudioFileOutputPropertiesUserControl()
-        {
-            InitializeComponent();
-        }
+        public AudioFileOutputPropertiesUserControl() => InitializeComponent();
 
         // Gui
 
@@ -53,10 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set => base.ViewModel = value;
         }
 
-        protected override int GetID()
-        {
-            return ViewModel.Entity.ID;
-        }
+        protected override int GetID() => ViewModel.Entity.ID;
 
         protected override void ApplyViewModelToControls()
         {

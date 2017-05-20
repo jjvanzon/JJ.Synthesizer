@@ -2,11 +2,14 @@
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using System.Collections.Generic;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Business;
+using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -14,6 +17,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly DocumentManager _documentManager;
+        private readonly CurveManager _curveManager;
 
         public CurveGridPresenter(RepositoryWrapper repositories)
         {
@@ -21,9 +25,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _documentRepository = repositories.DocumentRepository;
             _documentManager = new DocumentManager(repositories);
+            _curveManager = new CurveManager(new CurveRepositories(repositories));
         }
-
-        // Helpers
 
         protected override CurveGridViewModel CreateViewModel(CurveGridViewModel userInput)
         {
@@ -37,6 +40,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveGridViewModel viewModel = dtos.ToGridViewModel(userInput.DocumentID);
 
             return viewModel;
+        }
+
+        public CurveGridViewModel Delete(CurveGridViewModel userInput, int id)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // Business
+                    IResult result = _curveManager.DeleteWithRelatedEntities(id);
+
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+
+                    // Successful?
+                    viewModel.Successful = result.Successful;
+                });
         }
     }
 }

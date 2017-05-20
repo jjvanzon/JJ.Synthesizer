@@ -56,14 +56,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Set !Successful
             userInput.Successful = false;
 
-            // GetEntity
+            // Get Entities
             Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
+            Node selectedNode = _repositories.NodeRepository.TryGet(userInput.SelectedNodeID ?? 0);
 
             // ToViewModel
             CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.SelectedNodeID = selectedNode?.ID;
 
             // Successful
             viewModel.Successful = true;

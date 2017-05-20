@@ -49,7 +49,6 @@
             this.RemoveButtonVisible = true;
             this.Size = new System.Drawing.Size(672, 393);
             this.AddRequested += new System.EventHandler(this.CurveDetailsUserControl_AddClicked);
-            this.RemoveRequested += new System.EventHandler(this.CurveDetailsUserControl_RemoveClicked);
             this.Load += new System.EventHandler(this.CurveDetailsUserControl_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.CurveDetailsUserControl_Paint);
             this.Resize += new System.EventHandler(this.CurveDetailsUserControl_Resize);

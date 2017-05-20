@@ -1,10 +1,14 @@
 ﻿using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Framework.Configuration;
 using JJ.Framework.Collections;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -108,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _scaleManager = new ScaleManager(scaleRepositories);
 
             // Create Presenters
-            _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositories.DocumentRepository);
+            _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositories);
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(audioFileOutputRepositories);
             _audioOutputPropertiesPresenter = new AudioOutputPropertiesPresenter(
                 _repositories.AudioOutputRepository,
@@ -230,6 +234,67 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.SamplePropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleScaleProperties = null;
             MainViewModel.Document.ScalePropertiesDictionary.Values.ForEach(x => x.Visible = false);
+        }
+
+
+        private IOperatorPropertiesPresenter GetOperatorPropertiesPresenter(int id)
+        {
+            Operator entity = _repositories.OperatorRepository.Get(id);
+            OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
+
+            switch (operatorTypeEnum)
+            {
+                case OperatorTypeEnum.Cache:
+                    return _operatorPropertiesPresenter_ForCache;
+
+                case OperatorTypeEnum.Curve:
+                    return _operatorPropertiesPresenter_ForCurve;
+
+                case OperatorTypeEnum.CustomOperator:
+                    return _operatorPropertiesPresenter_ForCustomOperator;
+
+                case OperatorTypeEnum.InletsToDimension:
+                    return _operatorPropertiesPresenter_ForInletsToDimension;
+
+                case OperatorTypeEnum.Number:
+                    return _operatorPropertiesPresenter_ForNumber;
+
+                case OperatorTypeEnum.PatchInlet:
+                    return _operatorPropertiesPresenter_ForPatchInlet;
+
+                case OperatorTypeEnum.PatchOutlet:
+                    return _operatorPropertiesPresenter_ForPatchOutlet;
+
+                case OperatorTypeEnum.Sample:
+                    return _operatorPropertiesPresenter_ForSample;
+            }
+
+            if (ViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(operatorTypeEnum))
+            {
+                return _operatorPropertiesPresenter_WithCollectionRecalculation;
+            }
+
+            if (ViewModelHelper.OperatorTypeEnums_WithInletCountPropertyViews.Contains(operatorTypeEnum))
+            {
+                return _operatorPropertiesPresenter_WithInletCount;
+            }
+
+            if (ViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(operatorTypeEnum))
+            {
+                return _operatorPropertiesPresenter_WithInterpolation;
+            }
+
+            if (ViewModelHelper.OperatorTypeEnums_WithOutletCountPropertyViews.Contains(operatorTypeEnum))
+            {
+                return _operatorPropertiesPresenter_WithOutletCount;
+            }
+
+            if (ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView.Contains(operatorTypeEnum))
+            {
+                return _operatorPropertiesPresenter;
+            }
+
+            throw new NotFoundException<IOperatorPropertiesPresenter>(new { operatorTypeEnum });
         }
     }
 }

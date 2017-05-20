@@ -8,10 +8,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class OperatorPropertiesUserControl_WithInletCount 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_WithInletCount()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl_WithInletCount() => InitializeComponent();
 
         // Gui
 

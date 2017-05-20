@@ -366,7 +366,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     if (Equals(visibleKey.Value, keyToDelete))
                     {
-                        MainViewModel.Document.VisiblePatchGrid = null;
+                        MainViewModel.Document.VisibleLibraryPatchGrid = null;
                     }
                 }
             }

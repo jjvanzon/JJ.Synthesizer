@@ -5,10 +5,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class OperatorPropertiesUserControl : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl() => InitializeComponent();
 
         public new OperatorPropertiesViewModel ViewModel
         {

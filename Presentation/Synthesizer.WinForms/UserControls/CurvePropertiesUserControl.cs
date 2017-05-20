@@ -7,10 +7,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class CurvePropertiesUserControl : PropertiesUserControlBase
     {
-        public CurvePropertiesUserControl()
-        {
-            InitializeComponent();
-        }
+        public CurvePropertiesUserControl() => InitializeComponent();
 
         // Gui
 
@@ -33,10 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set => base.ViewModel = value;
         }
 
-        protected override int GetID()
-        {
-            return ViewModel.ID;
-        }
+        protected override int GetID() => ViewModel.ID;
 
         protected override void ApplyViewModelToControls()
         {

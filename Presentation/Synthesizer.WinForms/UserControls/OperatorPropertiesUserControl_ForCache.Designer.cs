@@ -35,6 +35,43 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxSpeakerSetup = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
+            // _labelName
+            // 
+            this._labelName.TabIndex = 9;
+            this._labelName.Text = "Name";
+            // 
+            // _textBoxName
+            // 
+            this._textBoxName.TabIndex = 10;
+            // 
+            // _labelOperatorTypeTitle
+            // 
+            this._labelOperatorTypeTitle.TabIndex = 3;
+            this._labelOperatorTypeTitle.Text = "Type:";
+            // 
+            // _labelOperatorTypeValue
+            // 
+            this._labelOperatorTypeValue.TabIndex = 4;
+            // 
+            // _labelStandardDimension
+            // 
+            this._labelStandardDimension.TabIndex = 5;
+            this._labelStandardDimension.Text = "Standard Dimension";
+            // 
+            // _comboBoxStandardDimension
+            // 
+            this._comboBoxStandardDimension.Size = new System.Drawing.Size(121, 24);
+            this._comboBoxStandardDimension.TabIndex = 6;
+            // 
+            // _textBoxCustomDimensionName
+            // 
+            this._textBoxCustomDimensionName.TabIndex = 8;
+            // 
+            // _labelCustomDimensionName
+            // 
+            this._labelCustomDimensionName.TabIndex = 7;
+            this._labelCustomDimensionName.Text = "Custom Dimension";
+            // 
             // labelInterpolation
             // 
             this.labelInterpolation.Location = new System.Drawing.Point(0, 0);
@@ -88,12 +125,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.comboBoxSpeakerSetup);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "OperatorPropertiesUserControl_ForCache";
+            this.RemoveButtonVisible = true;
             this.Size = new System.Drawing.Size(638, 443);
+            this.TitleBarText = "Operator Properties";
+            this.Controls.SetChildIndex(this._textBoxName, 0);
+            this.Controls.SetChildIndex(this._labelName, 0);
+            this.Controls.SetChildIndex(this._textBoxCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this._labelCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this._comboBoxStandardDimension, 0);
+            this.Controls.SetChildIndex(this._labelStandardDimension, 0);
+            this.Controls.SetChildIndex(this._labelOperatorTypeValue, 0);
+            this.Controls.SetChildIndex(this._labelOperatorTypeTitle, 0);
             this.Controls.SetChildIndex(this.comboBoxSpeakerSetup, 0);
             this.Controls.SetChildIndex(this.labelSpeakerSetup, 0);
             this.Controls.SetChildIndex(this.comboBoxInterpolation, 0);
             this.Controls.SetChildIndex(this.labelInterpolation, 0);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

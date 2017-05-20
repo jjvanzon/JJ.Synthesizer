@@ -10,10 +10,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class OperatorPropertiesUserControl_ForCustomOperator
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_ForCustomOperator()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl_ForCustomOperator() => InitializeComponent();
 
         // Gui
 

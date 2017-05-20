@@ -9,10 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class OperatorPropertiesUserControl_WithInterpolation 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_WithInterpolation()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl_WithInterpolation() => InitializeComponent();
 
         // Gui
 

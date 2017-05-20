@@ -10,10 +10,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class OperatorPropertiesUserControl_ForSample 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_ForSample()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl_ForSample() => InitializeComponent();
 
         // Gui
 

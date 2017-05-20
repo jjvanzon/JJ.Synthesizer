@@ -9,10 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class ScalePropertiesUserControl : PropertiesUserControlBase
     {
-        public ScalePropertiesUserControl()
-        {
-            InitializeComponent();
-        }
+        public ScalePropertiesUserControl() => InitializeComponent();
 
         // Gui
 
@@ -39,10 +36,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set => base.ViewModel = value;
         }
 
-        protected override int GetID()
-        {
-            return ViewModel.Entity.ID;
-        }
+        protected override int GetID() => ViewModel.Entity.ID;
 
         protected override void ApplyViewModelToControls()
         {

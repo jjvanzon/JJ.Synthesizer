@@ -54,5 +54,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Successful?
             viewModel.Successful = result.Successful;
         }
+
+        public AudioFileOutputPropertiesViewModel Delete(AudioFileOutputPropertiesViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    _audioFileOutputManager.Delete(userInput.Entity.ID);
+                });
+        }
     }
 }

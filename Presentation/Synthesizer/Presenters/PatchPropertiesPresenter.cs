@@ -67,5 +67,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     viewModel.Successful = result.Successful;
                 });
         }
+
+        public PatchPropertiesViewModel Delete(PatchPropertiesViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    Patch patch = _repositories.PatchRepository.Get(userInput.ID);
+
+                    // Businesss
+                    var patchManager = new PatchManager(patch, _patchRepositories);
+                    IResult result = patchManager.DeletePatchWithRelatedEntities();
+
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+
+                    // Successful?
+                    viewModel.Successful = result.Successful;
+                });
+        }
     }
 }

@@ -8,10 +8,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class OperatorPropertiesUserControl_WithOutletCount 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_WithOutletCount()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl_WithOutletCount() => InitializeComponent();
 
         // Gui
 

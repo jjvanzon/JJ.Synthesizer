@@ -9,10 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class NodePropertiesUserControl : PropertiesUserControlBase
     {
-        public NodePropertiesUserControl()
-        {
-            InitializeComponent();
-        }
+        public NodePropertiesUserControl() => InitializeComponent();
 
         // Gui
 

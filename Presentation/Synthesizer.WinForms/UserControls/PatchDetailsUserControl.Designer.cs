@@ -45,7 +45,7 @@
             this.diagramControl1.Location = new System.Drawing.Point(285, 0);
             this.diagramControl1.Margin = new System.Windows.Forms.Padding(0);
             this.diagramControl1.Name = "diagramControl1";
-            this.diagramControl1.Size = new System.Drawing.Size(513, 299);
+            this.diagramControl1.Size = new System.Drawing.Size(512, 293);
             this.diagramControl1.TabIndex = 0;
             // 
             // toolStrip1
@@ -59,7 +59,7 @@
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(285, 299);
+            this.toolStrip1.Size = new System.Drawing.Size(285, 293);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -70,13 +70,13 @@
             this.tableLayoutPanelToolboxAndPatch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanelToolboxAndPatch.Controls.Add(this.toolStrip1, 0, 0);
             this.tableLayoutPanelToolboxAndPatch.Controls.Add(this.diagramControl1, 1, 0);
-            this.tableLayoutPanelToolboxAndPatch.Location = new System.Drawing.Point(0, 26);
+            this.tableLayoutPanelToolboxAndPatch.Location = new System.Drawing.Point(0, 32);
             this.tableLayoutPanelToolboxAndPatch.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanelToolboxAndPatch.Name = "tableLayoutPanelToolboxAndPatch";
             this.tableLayoutPanelToolboxAndPatch.RowCount = 1;
             this.tableLayoutPanelToolboxAndPatch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanelToolboxAndPatch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanelToolboxAndPatch.Size = new System.Drawing.Size(713, 299);
+            this.tableLayoutPanelToolboxAndPatch.Size = new System.Drawing.Size(713, 293);
             this.tableLayoutPanelToolboxAndPatch.TabIndex = 2;
             // 
             // PatchDetailsUserControl
@@ -89,6 +89,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "PatchDetailsUserControl";
             this.PlayButtonVisible = true;
+            this.RemoveButtonVisible = true;
             this.Size = new System.Drawing.Size(713, 325);
             this.Controls.SetChildIndex(this.tableLayoutPanelToolboxAndPatch, 0);
             this.tableLayoutPanelToolboxAndPatch.ResumeLayout(false);

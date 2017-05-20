@@ -10,10 +10,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class OperatorPropertiesUserControl_ForInletsToDimension 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_ForInletsToDimension()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl_ForInletsToDimension() => InitializeComponent();
 
         // Gui
 

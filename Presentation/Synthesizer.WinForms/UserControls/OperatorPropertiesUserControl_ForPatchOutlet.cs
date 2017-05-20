@@ -9,10 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class OperatorPropertiesUserControl_ForPatchOutlet 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_ForPatchOutlet()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl_ForPatchOutlet() => InitializeComponent();
 
         // Gui
 

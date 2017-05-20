@@ -83,5 +83,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     viewModel.OutletIDToPlay = outlet?.ID;
                 });
         }
+
+        public LibraryPropertiesViewModel Remove(LibraryPropertiesViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // Business
+                    VoidResultDto result = _documentManager.DeleteDocumentReference(userInput.DocumentReferenceID);
+
+                    // Non-Persisted
+                    viewModel.Successful = result.Successful;
+                    viewModel.ValidationMessages = result.Messages;
+                });
+        }
     }
 }

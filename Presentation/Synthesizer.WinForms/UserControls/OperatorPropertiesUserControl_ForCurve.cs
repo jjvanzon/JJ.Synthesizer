@@ -10,10 +10,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class OperatorPropertiesUserControl_ForCurve
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_ForCurve()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl_ForCurve() => InitializeComponent();
 
         // Gui
 

@@ -59,6 +59,7 @@
     <Compile Include="Presenters\CurrentInstrumentPresenter.cs" />
     <Compile Include="Presenters\DocumentOrPatchNotFoundPopupPresenter.cs" />
     <Compile Include="Presenters\GridPresenterBase.cs" />
+    <Compile Include="Presenters\IOperatorPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibraryGridPresenter.cs" />
     <Compile Include="Presenters\LibraryPatchPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibraryPropertiesPresenter.cs" />

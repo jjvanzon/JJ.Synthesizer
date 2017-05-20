@@ -36,41 +36,42 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumber)).BeginInit();
             this.SuspendLayout();
             // 
-            // labelName
+            // _labelName
             // 
             this._labelName.TabIndex = 6;
             this._labelName.Text = "Name";
             // 
-            // labelOperatorTypeTitle
+            // _textBoxName
+            // 
+            this._textBoxName.TabIndex = 7;
+            // 
+            // _labelOperatorTypeTitle
             // 
             this._labelOperatorTypeTitle.TabIndex = 4;
             this._labelOperatorTypeTitle.Text = "Type:";
             // 
-            // labelOperatorTypeValue
+            // _labelOperatorTypeValue
             // 
             this._labelOperatorTypeValue.TabIndex = 5;
             // 
-            // textBoxCustomDimensionName
-            // 
-            this._textBoxCustomDimensionName.TabIndex = 11;
-            // 
-            // labelStandardDimension
+            // _labelStandardDimension
             // 
             this._labelStandardDimension.TabIndex = 8;
             this._labelStandardDimension.Text = "Standard Dimension";
             // 
-            // comboBoxStandardDimension
+            // _comboBoxStandardDimension
             // 
+            this._comboBoxStandardDimension.Size = new System.Drawing.Size(121, 24);
             this._comboBoxStandardDimension.TabIndex = 9;
             // 
-            // labelCustomDimensionName
+            // _textBoxCustomDimensionName
+            // 
+            this._textBoxCustomDimensionName.TabIndex = 11;
+            // 
+            // _labelCustomDimensionName
             // 
             this._labelCustomDimensionName.TabIndex = 10;
             this._labelCustomDimensionName.Text = "Custom Dimension";
-            // 
-            // textBoxName
-            // 
-            this._textBoxName.TabIndex = 7;
             // 
             // labelNumber
             // 
@@ -137,6 +138,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.numericUpDownNumber);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "OperatorPropertiesUserControl_ForPatchOutlet";
+            this.RemoveButtonVisible = true;
             this.Size = new System.Drawing.Size(669, 414);
             this.TitleBarText = "Operator Properties";
             this.Controls.SetChildIndex(this._textBoxName, 0);

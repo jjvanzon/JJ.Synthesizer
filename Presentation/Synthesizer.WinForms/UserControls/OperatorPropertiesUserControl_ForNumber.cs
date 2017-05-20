@@ -7,10 +7,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class OperatorPropertiesUserControl_ForNumber 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_ForNumber()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl_ForNumber() => InitializeComponent();
 
         // Gui
 

@@ -46,6 +46,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.SumOverDimension
         };
 
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCountPropertyViews { get; } =
+            new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.Add,
+                OperatorTypeEnum.AverageOverInlets,
+                OperatorTypeEnum.ClosestOverInlets,
+                OperatorTypeEnum.ClosestOverInletsExp,
+                OperatorTypeEnum.MaxOverInlets,
+                OperatorTypeEnum.MinOverInlets,
+                OperatorTypeEnum.Multiply,
+                OperatorTypeEnum.SortOverInlets
+            };
+
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInterpolationPropertyViews { get; } =
                   new HashSet<OperatorTypeEnum>
                   {
@@ -58,19 +71,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                   {
             OperatorTypeEnum.DimensionToOutlets,
             OperatorTypeEnum.RangeOverOutlets
-        };
-
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCountPropertyViews { get; } =
-                  new HashSet<OperatorTypeEnum>
-                  {
-            OperatorTypeEnum.Add,
-            OperatorTypeEnum.AverageOverInlets,
-            OperatorTypeEnum.ClosestOverInlets,
-            OperatorTypeEnum.ClosestOverInletsExp,
-            OperatorTypeEnum.MaxOverInlets,
-            OperatorTypeEnum.MinOverInlets,
-            OperatorTypeEnum.Multiply,
-            OperatorTypeEnum.SortOverInlets
         };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } =

@@ -9,10 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class OperatorPropertiesUserControl_WithCollectionRecalculation 
         : OperatorPropertiesUserControlBase
     {
-        public OperatorPropertiesUserControl_WithCollectionRecalculation()
-        {
-            InitializeComponent();
-        }
+        public OperatorPropertiesUserControl_WithCollectionRecalculation() => InitializeComponent();
 
         // Gui
 

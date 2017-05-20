@@ -142,6 +142,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _audioFileOutputGridPresenter.Close(userInput));
         }
 
+        public void AudioFileOutputGridDelete(int id)
+        {
+            // GetViewModel
+            AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
+
+            // Template Method
+            AudioFileOutputGridViewModel viewModel = TemplateActionMethod(userInput, () => _audioFileOutputGridPresenter.Delete(userInput, id));
+
+            if (viewModel.Successful)
+            {
+                // ToViewModel
+                MainViewModel.Document.AudioFileOutputPropertiesDictionary.Remove(id);
+
+                if (MainViewModel.Document.VisibleAudioFileOutputProperties?.Entity.ID == id)
+                {
+                    MainViewModel.Document.VisibleAudioFileOutputProperties = null;
+                }
+
+                // Refresh
+                DocumentTreeRefresh();
+                AudioFileOutputGridRefresh();
+            }
+        }
+
         public void AudioFileOutputCreate()
         {
             // GetViewModel
@@ -185,47 +209,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void AudioFileOutputDelete(int id)
-        {
-            // GetViewModel
-            AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
-
-            // Template Method
-            AudioFileOutputGridViewModel viewModel = TemplateActionMethod(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // Business
-                    _audioFileOutputManager.Delete(id);
-
-                    // Successful
-                    userInput.Successful = true;
-
-                    return userInput;
-                });
-
-            if (viewModel.Successful)
-            {
-                // ToViewModel
-                MainViewModel.Document.AudioFileOutputPropertiesDictionary.Remove(id);
-
-                if (MainViewModel.Document.VisibleAudioFileOutputProperties?.Entity.ID == id)
-                {
-                    MainViewModel.Document.VisibleAudioFileOutputProperties = null;
-                }
-
-                // Refresh
-                DocumentTreeRefresh();
-                AudioFileOutputGridRefresh();
-            }
-        }
-
         public void AudioFileOutputPropertiesShow(int id)
         {
             // GetViewModel
@@ -253,6 +236,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleAudioFileOutputProperties = null;
 
                 // Refresh
+                AudioFileOutputGridRefresh();
+            }
+        }
+
+        public void AudioFileOutputPropertiesDelete(int id)
+        {
+            // GetViewModel
+            AudioFileOutputPropertiesViewModel userInput = ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            AudioFileOutputPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _audioFileOutputPropertiesPresenter.Delete(userInput));
+
+            if (viewModel.Successful)
+            {
+                // ToViewModel
+                MainViewModel.Document.AudioFileOutputPropertiesDictionary.Remove(id);
+
+                if (MainViewModel.Document.VisibleAudioFileOutputProperties?.Entity.ID == id)
+                {
+                    MainViewModel.Document.VisibleAudioFileOutputProperties = null;
+                }
+
+                // Refresh
+                DocumentTreeRefresh();
                 AudioFileOutputGridRefresh();
             }
         }
@@ -604,36 +611,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void CurveDelete(int id)
+        public void CurveGridDelete(int id)
         {
             // GetViewModel
             CurveGridViewModel userInput = MainViewModel.Document.CurveGrid;
 
             // Template Method
-            CurveGridViewModel viewModel = TemplateActionMethod(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // GetEntity
-                    Curve curve = _repositories.CurveRepository.Get(id);
-
-                    // Business
-                    IResult result = _curveManager.DeleteWithRelatedEntities(curve);
-
-                    // Non-Persisted
-                    userInput.ValidationMessages.AddRange(result.Messages.ToCanonical());
-
-                    // Successful?
-                    userInput.Successful = result.Successful;
-
-                    return userInput;
-                });
+            CurveGridViewModel viewModel = TemplateActionMethod(userInput, () => _curveGridPresenter.Delete(userInput, id));
 
             // Refresh
             if (viewModel.Successful)
@@ -696,6 +680,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleCurveProperties = null;
 
                 // Refresh
+                DocumentRefresh();
+            }
+        }
+
+        public void CurvePropertiesDelete(int id)
+        {
+            // GetViewModel
+            CurvePropertiesViewModel userInput = ViewModelSelector.GetCurvePropertiesViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            CurvePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _curvePropertiesPresenter.Delete(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
                 DocumentRefresh();
             }
         }
@@ -1420,13 +1419,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _libraryGridPresenter.Close(userInput));
         }
 
-        public void LibraryGridShow()
+        public void LibraryGridRemove(int documentReferenceID)
         {
             // GetViewModel
             LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
 
-            // TemplateMethod
-            TemplateActionMethod(userInput, () => _libraryGridPresenter.Show(userInput));
+            // Template Method
+            LibraryGridViewModel viewModel = TemplateActionMethod(userInput, () => _libraryGridPresenter.Remove(userInput, documentReferenceID));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentRefresh();
+            }
         }
 
         public void LibraryGridOpenItemExternally(int documentReferenceID)
@@ -1445,6 +1450,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _libraryGridPresenter.Play(userInput, documentReferenceID));
+        }
+
+        public void LibraryGridShow()
+        {
+            // GetViewModel
+            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _libraryGridPresenter.Show(userInput));
         }
 
         public void LibraryPropertiesClose(int documentReferenceID)
@@ -1497,13 +1511,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Play(userInput));
         }
 
-        public void LibraryPropertiesShow(int documentReferenceID)
+        public void LibraryPropertiesRemove(int documentReferenceID)
         {
             // GetViewModel
             LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
 
             // Template Method
-            LibraryPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Show(userInput));
+            LibraryPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Remove(userInput));
 
             // Refresh
             if (viewModel.Successful)
@@ -1512,13 +1526,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void LibraryRemove(int documentReferenceID)
+        public void LibraryPropertiesShow(int documentReferenceID)
         {
             // GetViewModel
-            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
+            LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
 
             // Template Method
-            LibraryGridViewModel viewModel = TemplateActionMethod(userInput, () => _libraryGridPresenter.Remove(userInput, documentReferenceID));
+            LibraryPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _libraryPropertiesPresenter.Show(userInput));
 
             // Refresh
             if (viewModel.Successful)
@@ -1665,61 +1679,57 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Node
 
-        public void NodePropertiesShow(int id)
-        {
-            // GetViewModel
-            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
-
-            // Template Method
-            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _nodePropertiesPresenter.Show(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleNodeProperties = viewModel;
-            }
-        }
-
-        public void NodePropertiesClose(int id)
-        {
-            // GetViewModel
-            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
-
-            // TemplateMethod
-            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _nodePropertiesPresenter.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleNodeProperties = null;
-
-                // Refresh
-                Node node = _repositories.NodeRepository.Get(id);
-                CurveDetailsNodeRefresh(node.Curve.ID, id);
-            }
-        }
-
-        public void NodePropertiesLoseFocus(int id)
-        {
-            // GetViewModel
-            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
-
-            // TemplateMethod
-            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _nodePropertiesPresenter.LoseFocus(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                Node node = _repositories.NodeRepository.Get(id);
-                CurveDetailsNodeRefresh(node.Curve.ID, id);
-            }
-        }
-
-        public void NodeSelect(int curveID, int nodeID)
+        /// <summary>
+        /// Rotates between node types for the selected node.
+        /// If no node is selected, nothing happens.
+        /// </summary>
+        public void NodeChangeSelectedNodeType(int curveID)
         {
             // GetViewModel
             CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
-            // TemplateMethod
-            TemplateActionMethod(userInput, () => _curveDetailsPresenter.SelectNode(userInput, nodeID));
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ViewModel Validation
+            if (!userInput.SelectedNodeID.HasValue)
+            {
+                return;
+            }
+            int nodeID = userInput.SelectedNodeID.Value;
+
+            // Template Method
+            CurveDetailsViewModel viewModel = TemplateActionMethod(
+                userInput,
+                () =>
+                {
+                    // RefreshCounter
+                    userInput.RefreshCounter++;
+
+                    // Set !Successful
+                    userInput.Successful = false;
+
+                    // GetEntity
+                    Node node = _repositories.NodeRepository.Get(nodeID);
+
+                    // Business
+                    _curveManager.RotateNodeType(node);
+
+                    // Successful
+                    userInput.Successful = true;
+
+                    return userInput;
+                });
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                CurveDetailsNodeRefresh(curveID, nodeID);
+                NodePropertiesRefresh(nodeID);
+            }
         }
 
         public void NodeCreate(int curveID)
@@ -1863,57 +1873,76 @@ namespace JJ.Presentation.Synthesizer.Presenters
             NodePropertiesRefresh(nodeID);
         }
 
-        /// <summary>
-        /// Rotates between node types for the selected node.
-        /// If no node is selected, nothing happens.
-        /// </summary>
-        public void NodeChangeSelectedNodeType(int curveID)
+        public void NodePropertiesShow(int id)
         {
             // GetViewModel
-            CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ViewModel Validation
-            if (!userInput.SelectedNodeID.HasValue)
-            {
-                return;
-            }
-            int nodeID = userInput.SelectedNodeID.Value;
+            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
-            CurveDetailsViewModel viewModel = TemplateActionMethod(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
+            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _nodePropertiesPresenter.Show(userInput));
 
-                    // Set !Successful
-                    userInput.Successful = false;
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleNodeProperties = viewModel;
+            }
+        }
 
-                    // GetEntity
-                    Node node = _repositories.NodeRepository.Get(nodeID);
+        public void NodePropertiesClose(int id)
+        {
+            // GetViewModel
+            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
-                    // Business
-                    _curveManager.RotateNodeType(node);
+            // TemplateMethod
+            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _nodePropertiesPresenter.Close(userInput));
 
-                    // Successful
-                    userInput.Successful = true;
+            if (viewModel.Successful)
+            {
+                MainViewModel.Document.VisibleNodeProperties = null;
 
-                    return userInput;
-                });
+                // Refresh
+                Node node = _repositories.NodeRepository.Get(id);
+                CurveDetailsNodeRefresh(node.Curve.ID, id);
+            }
+        }
+
+        public void NodePropertiesDelete(int nodeID)
+        {
+            // GetViewModel
+            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
+
+            // Template Method
+            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _nodePropertiesPresenter.Delete(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
-                CurveDetailsNodeRefresh(curveID, nodeID);
-                NodePropertiesRefresh(nodeID);
+                DocumentRefresh();
             }
+        }
+
+        public void NodePropertiesLoseFocus(int id)
+        {
+            // GetViewModel
+            NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
+
+            // TemplateMethod
+            NodePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _nodePropertiesPresenter.LoseFocus(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                Node node = _repositories.NodeRepository.Get(id);
+                CurveDetailsNodeRefresh(node.Curve.ID, id);
+            }
+        }
+
+        public void NodeSelect(int curveID, int nodeID)
+        {
+            // GetViewModel
+            CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => _curveDetailsPresenter.SelectNode(userInput, nodeID));
         }
 
         // Operator
@@ -2198,6 +2227,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public void OperatorPropertiesDelete(int id)
+        {
+            // GetViewModel
+            OperatorPropertiesViewModelBase userInput = ViewModelSelector.GetOperatorPropertiesViewModelPolymorphic(MainViewModel.Document, id);
+
+            // TemplateMethod
+            OperatorPropertiesViewModelBase viewModel = TemplateActionMethod(userInput, () => GetOperatorPropertiesPresenter(id).Delete(userInput)); 
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentRefresh();
+            }
+        }
+
         public void OperatorPropertiesLoseFocus(int id)
         {
             // GetViewModel
@@ -2412,117 +2456,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void OperatorPropertiesPlay(int id)
         {
-            // GetViewModel & Partial Action
-            {
-                OperatorPropertiesViewModel userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCache.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForCustomOperator userInput =
-                    ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCustomOperator.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForInletsToDimension userInput =
-                    ViewModelSelector.TryGetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForInletsToDimension.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForNumber userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForNumber.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForPatchInlet userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForPatchOutlet userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForSample userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForSample.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_WithInterpolation userInput =
-                    ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInterpolation.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_WithCollectionRecalculation userInput =
-                    ViewModelSelector.TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithCollectionRecalculation.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_WithInletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInletCount.Play(userInput));
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithOutletCount.Play(userInput));
-                    return;
-                }
-            }
+            // GetViewModel
+            OperatorPropertiesViewModelBase userInput = ViewModelSelector.GetOperatorPropertiesViewModelPolymorphic(MainViewModel.Document, id);
 
-            throw new NotFoundException<OperatorPropertiesViewModelBase>(new { OperatorID = id });
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => GetOperatorPropertiesPresenter(id).Play(userInput));
         }
 
         public void OperatorPropertiesShow(int id)
@@ -2757,38 +2695,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PatchDelete(string group, int patchID)
+        public void PatchGridDelete(string group, int patchID)
         {
             // GetViewModel
             PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
 
             // Template Method
-            PatchGridViewModel viewModel = TemplateActionMethod(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // Businesss
-                    var patchManager = new PatchManager(_patchRepositories)
-                    {
-                        PatchID = patchID
-                    };
-
-                    IResult result = patchManager.DeletePatchWithRelatedEntities();
-
-                    // Non-Persisted
-                    userInput.ValidationMessages.AddRange(result.Messages.ToCanonical());
-
-                    // Successful?
-                    userInput.Successful = result.Successful;
-
-                    return userInput;
-                });
+            PatchGridViewModel viewModel = TemplateActionMethod(userInput, () => _patchGridPresenter.Delete(userInput, patchID));
 
             // Refresh
             if (viewModel.Successful)
@@ -2808,6 +2721,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel.Successful)
             {
                 MainViewModel.Document.VisiblePatchDetails = null;
+            }
+        }
+
+        public void PatchDetailsDelete(int id)
+        {
+            // GetViewModel
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            PatchDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _patchDetailsPresenter.Delete(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentRefresh();
             }
         }
 
@@ -2893,6 +2821,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisiblePatchProperties = null;
 
                 // Refresh
+                DocumentRefresh();
+            }
+        }
+
+        public void PatchPropertiesDelete(int id)
+        {
+            // GetViewModel
+            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            PatchPropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _patchPropertiesPresenter.Delete(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
                 DocumentRefresh();
             }
         }

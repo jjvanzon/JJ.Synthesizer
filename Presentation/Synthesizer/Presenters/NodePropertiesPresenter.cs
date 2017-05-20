@@ -47,5 +47,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Successful?
             viewModel.Successful = result.Successful;
         }
+
+        public NodePropertiesViewModel Delete(NodePropertiesViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // Business
+                    _curveManager.DeleteNode(userInput.Entity.ID);
+                });
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Exceptions;
+﻿using JJ.Business.Canonical;
+using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -6,6 +7,7 @@ using JJ.Business.Synthesizer;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -50,6 +52,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Successful?
             viewModel.Successful = result.Successful;
+        }
+
+        public CurvePropertiesViewModel Delete(CurvePropertiesViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // Business
+                    IResult result = _curveManager.DeleteWithRelatedEntities(userInput.ID);
+
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+
+                    // Successful?
+                    viewModel.Successful = result.Successful;
+                });
         }
     }
 }
