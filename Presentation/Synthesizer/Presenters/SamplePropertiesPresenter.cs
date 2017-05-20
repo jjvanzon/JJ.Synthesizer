@@ -1,10 +1,12 @@
-﻿using JJ.Framework.Exceptions;
+﻿using JJ.Business.Canonical;
+using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -65,6 +67,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Non-Persisted
                     viewModel.OutletIDToPlay = outlet?.ID;
                     viewModel.ValidationMessages = result.Messages;
+
+                    // Successful?
+                    viewModel.Successful = result.Successful;
+                });
+        }
+
+        public SamplePropertiesViewModel Delete(SamplePropertiesViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // Business
+                    IResult result = _sampleManager.Delete(userInput.Entity.ID);
+
+                    // Non-Persisted
+                    viewModel.ValidationMessages = result.Messages.ToCanonical();
 
                     // Successful?
                     viewModel.Successful = result.Successful;

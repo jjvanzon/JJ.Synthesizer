@@ -564,7 +564,6 @@
             this.scalePropertiesUserControl.OpenExternallyButtonVisible = false;
             this.scalePropertiesUserControl.PlayButtonVisible = false;
             this.scalePropertiesUserControl.RefreshButtonVisible = false;
-            this.scalePropertiesUserControl.RemoveButtonVisible = false;
             this.scalePropertiesUserControl.SaveButtonVisible = false;
             this.scalePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.scalePropertiesUserControl.TabIndex = 1;
@@ -666,7 +665,6 @@
             this.samplePropertiesUserControl.OpenExternallyButtonVisible = false;
             this.samplePropertiesUserControl.PlayButtonVisible = true;
             this.samplePropertiesUserControl.RefreshButtonVisible = false;
-            this.samplePropertiesUserControl.RemoveButtonVisible = false;
             this.samplePropertiesUserControl.SaveButtonVisible = false;
             this.samplePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.samplePropertiesUserControl.TabIndex = 1;

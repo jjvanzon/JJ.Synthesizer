@@ -399,6 +399,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SamplePropertiesUserControl";
             this.PlayButtonVisible = true;
+            this.RemoveButtonVisible = true;
             this.Size = new System.Drawing.Size(10, 10);
             this.Controls.SetChildIndex(this.labelDurationValue, 0);
             this.Controls.SetChildIndex(this.labelDurationTitle, 0);

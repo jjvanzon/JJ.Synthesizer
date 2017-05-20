@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Collections;
+using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -15,6 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private readonly PatchRepositories _repositories;
         private readonly DocumentManager _documentManager;
+        private readonly SampleManager _sampleManager;
 
         public SampleGridPresenter(RepositoryWrapper repositories)
         {
@@ -22,6 +24,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _repositories = new PatchRepositories(repositories);
             _documentManager = new DocumentManager(repositories);
+            _sampleManager = new SampleManager(new SampleRepositories(repositories));
         }
 
         protected override SampleGridViewModel CreateViewModel(SampleGridViewModel userInput)
@@ -56,6 +59,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Non-Persisted
                     viewModel.OutletIDToPlay = outlet?.ID;
                     viewModel.ValidationMessages = result.Messages;
+
+                    // Successful?
+                    viewModel.Successful = result.Successful;
+                });
+        }
+
+        public SampleGridViewModel Delete(SampleGridViewModel userInput, int sampleID)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // Business
+                    IResult result = _sampleManager.Delete(sampleID);
+
+                    // Non-Persisted
+                    viewModel.ValidationMessages = result.Messages.ToCanonical();
 
                     // Successful?
                     viewModel.Successful = result.Successful;

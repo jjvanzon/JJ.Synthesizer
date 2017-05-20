@@ -44,5 +44,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Successful?
             viewModel.Successful = result.Successful;
         }
+
+        public ScalePropertiesViewModel Delete(ScalePropertiesViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // Business
+                    _scaleManager.DeleteWithRelatedEntities(userInput.Entity.ID);
+                });
+        }
     }
 }

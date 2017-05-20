@@ -188,12 +188,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             samplePropertiesUserControl.CloseRequested += samplePropertiesUserControl_CloseRequested;
             samplePropertiesUserControl.LoseFocusRequested += samplePropertiesUserControl_LoseFocusRequested;
             samplePropertiesUserControl.PlayRequested += samplePropertiesUserControl_PlayRequested;
+            samplePropertiesUserControl.RemoveRequested += samplePropertiesUserControl_RemoveRequested;
             scaleGridUserControl.CloseRequested += scaleGridUserControl_CloseRequested;
             scaleGridUserControl.AddRequested += scaleGridUserControl_AddRequested;
             scaleGridUserControl.RemoveRequested += scaleGridUserControl_RemoveRequested;
             scaleGridUserControl.ShowItemRequested += scaleGridUserControl_ShowItemRequested;
             scalePropertiesUserControl.CloseRequested += scalePropertiesUserControl_CloseRequested;
             scalePropertiesUserControl.LoseFocusRequested += scalePropertiesUserControl_LoseFocusRequested;
+            scalePropertiesUserControl.RemoveRequested += scalePropertiesUserControl_RemoveRequested;
             toneGridEditUserControl.CloseRequested += toneGridEditUserControl_CloseRequested;
             toneGridEditUserControl.CreateToneRequested += toneGridEditUserControl_CreateToneRequested;
             toneGridEditUserControl.DeleteToneRequested += toneGridEditUserControl_DeleteToneRequested;
@@ -1071,7 +1073,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void sampleGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.SampleDelete(e.Value));
+        private void sampleGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.SampleGridDelete(e.Value));
 
         private void sampleGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.SamplePropertiesShow(e.Value));
 
@@ -1095,11 +1097,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
+        private void samplePropertiesUserControl_RemoveRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _presenter.SamplePropertiesDelete(e.Value));
+        }
+
         // Scale
 
         private void scaleGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.ScaleCreate);
 
-        private void scaleGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.ScaleDelete(e.Value));
+        private void scaleGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.ScaleGridDelete(e.Value));
 
         private void scaleGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.ScaleGridClose);
 
@@ -1136,6 +1143,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void scalePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(() => _presenter.ScalePropertiesLoseFocus(e.Value));
+        }
+
+        private void scalePropertiesUserControl_RemoveRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _presenter.ScalePropertiesDelete(e.Value));
         }
 
         // Message Boxes

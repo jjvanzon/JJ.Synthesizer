@@ -17,6 +17,7 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Samples;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
 using JJ.Framework.Validation;
@@ -54,13 +55,13 @@ namespace JJ.Business.Synthesizer
 
         // Delete
 
-        public void Delete(int id)
+        public VoidResult Delete(int id)
         {
             Sample entity = _repositories.SampleRepository.Get(id);
-            Delete(entity);
+            return Delete(entity);
         }
 
-        public VoidResultDto Delete([NotNull] Sample sample)
+        public VoidResult Delete([NotNull] Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
 
@@ -68,7 +69,7 @@ namespace JJ.Business.Synthesizer
 
             if (!validator.IsValid)
             {
-                return validator.ToCanonical();
+                return validator.ToResult();
             }
             // ReSharper disable once RedundantIfElseBlock
             else
@@ -76,7 +77,7 @@ namespace JJ.Business.Synthesizer
                 sample.UnlinkRelatedEntities();
                 _repositories.SampleRepository.Delete(sample);
 
-                return new VoidResultDto { Successful = true };
+                return new VoidResult { Successful = true };
             }
         }
 

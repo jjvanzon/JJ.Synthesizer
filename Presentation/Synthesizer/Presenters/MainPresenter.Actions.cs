@@ -2916,30 +2916,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void SampleDelete(int sampleID)
+        public void SampleGridDelete(int sampleID)
         {
             // GetViewModel
             SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
 
             // Template Method
-            SampleGridViewModel viewModel = TemplateActionMethod(
-                userInput,
-                () =>
-                {
-                    // GetEntity
-                    Sample sample = _repositories.SampleRepository.Get(sampleID);
-
-                    // Business
-                    IResultDto result = _sampleManager.Delete(sample);
-
-                    // Non-Persisted
-                    userInput.ValidationMessages = result.Messages;
-
-                    // Successful?
-                    userInput.Successful = result.Successful;
-
-                    return userInput;
-                });
+            SampleGridViewModel viewModel = TemplateActionMethod(userInput, () => _sampleGridPresenter.Delete(userInput, sampleID));
 
             // Refresh
             if (viewModel.Successful)
@@ -3020,6 +3003,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _samplePropertiesPresenter.Play(userInput));
         }
 
+        public void SamplePropertiesDelete(int id)
+        {
+            // GetViewModel
+            SamplePropertiesViewModel userInput = ViewModelSelector.GetSamplePropertiesViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            SamplePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _samplePropertiesPresenter.Delete(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentRefresh();
+            }
+        }
+
         public void SamplePropertiesShow(int id)
         {
             // GetViewModel
@@ -3090,52 +3088,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void ScaleDelete(int id)
+        public void ScaleGridDelete(int id)
         {
             // GetViewModel
             ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
 
             // Template Method
-            ScaleGridViewModel viewModel = TemplateActionMethod(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // GetEntity
-                    // ReSharper disable once UnusedVariable
-                    Scale scale = _repositories.ScaleRepository.Get(id);
-
-                    // Business
-                    _scaleManager.DeleteWithRelatedEntities(id);
-
-                    // Successful
-                    userInput.Successful = true;
-
-                    return userInput;
-                });
+            ScaleGridViewModel viewModel = TemplateActionMethod(userInput, () => _scaleGridPresenter.Delete(userInput, id));
 
             if (viewModel.Successful)
             {
-                // ToViewModel
-                MainViewModel.Document.ScaleGrid.Dictionary.Remove(id);
-                MainViewModel.Document.ToneGridEditDictionary.Remove(id);
-                MainViewModel.Document.ScalePropertiesDictionary.Remove(id);
-                if (MainViewModel.Document.VisibleScaleProperties?.Entity.ID == id)
-                {
-                    MainViewModel.Document.VisibleScaleProperties = null;
-                }
-                if (MainViewModel.Document.VisibleToneGridEdit?.ScaleID == id)
-                {
-                    MainViewModel.Document.VisibleToneGridEdit = null;
-                }
-
                 // Refresh
-                DocumentTreeRefresh();
+                DocumentRefresh();
             }
         }
 
@@ -3210,6 +3174,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Refresh
                 ToneGridEditRefresh(userInput.Entity.ID);
                 ScaleGridRefresh();
+            }
+        }
+
+        public void ScalePropertiesDelete(int id)
+        {
+            // GetViewModel
+            ScalePropertiesViewModel userInput = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            ScalePropertiesViewModel viewModel = TemplateActionMethod(userInput, () => _scalePropertiesPresenter.Delete(userInput));
+
+            if (viewModel.Successful)
+            {
+                // Refresh
+                DocumentRefresh();
             }
         }
 
