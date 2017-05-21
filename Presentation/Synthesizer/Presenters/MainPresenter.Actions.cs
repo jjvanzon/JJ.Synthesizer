@@ -839,6 +839,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Partial Action
             DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Save(userInput);
+            
+            // Commit
+            // (do it before opening the document, which does a big query, which requires at least a flush.)
+            _repositories.DocumentRepository.Commit();
 
             // DispatchViewModel
             DispatchViewModel(viewModel);
@@ -847,11 +851,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // Refresh
                 DocumentGridRefresh();
-
-                // Commit
-                // (do it before opening the document, which does a big query, which requires at least a flush.)
-                _repositories.DocumentRepository.Commit();
-
+     
                 // Redirect
                 DocumentOpen(viewModel.Document.ID);
             }
@@ -1843,9 +1843,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void NodeMove(int curveID, int nodeID, double x, double y)
+        public void NodeMoving(int curveID, int nodeID, double x, double y)
         {
-            // Opted to not use the TemplateActionMethod,
+            // Opted to not use the TemplateActionMethod
+            // (which would do a complete DocumentViewModel to Entity conversion),
             // because this is faster but less robust.
             // Because it is not nice when moving nodes is slow.
             // When you work in-memory backed with zipped XML,

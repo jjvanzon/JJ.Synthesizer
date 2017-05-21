@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
         public event EventHandler<EventArgs<int>> CreateNodeRequested;
-        public event EventHandler<MoveNodeEventArgs> MoveNodeRequested;
+        public event EventHandler<MoveNodeEventArgs> NodeMoving;
         public event EventHandler<NodeEventArgs> SelectNodeRequested;
         public event EventHandler<EventArgs<int>> ShowCurvePropertiesRequested;
         public event EventHandler<EventArgs<int>> ShowNodePropertiesRequested;
@@ -142,7 +142,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void MoveNodeGesture_Moving(object sender, ElementEventArgs e)
         {
             if (ViewModel == null) return;
-            if (MoveNodeRequested == null) return;
+            if (NodeMoving == null) return;
 
             int nodeID = (int)e.Element.Tag;
 
@@ -151,7 +151,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             float x = rectangle.Position.AbsoluteX + rectangle.Position.Width / 2;
             float y = rectangle.Position.AbsoluteY + rectangle.Position.Height / 2;
 
-            MoveNodeRequested(this, new MoveNodeEventArgs(ViewModel.Curve.ID, nodeID, x, y));
+            NodeMoving(this, new MoveNodeEventArgs(ViewModel.Curve.ID, nodeID, x, y));
 
             ApplyViewModelToControls();
 

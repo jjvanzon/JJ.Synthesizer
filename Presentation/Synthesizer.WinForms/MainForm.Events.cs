@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveDetailsListUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
             curveDetailsListUserControl.DeleteRequested += curveDetailsUserControl_DeleteSelectedNodeRequested;
             curveDetailsListUserControl.LoseFocusRequested += curveDetailsUserControl_LoseFocusRequested;
-            curveDetailsListUserControl.MoveNodeRequested += curveDetailsUserControl_MoveNodeRequested;
+            curveDetailsListUserControl.NodeMoving += curveDetailsUserControl_NodeMoving;
             curveDetailsListUserControl.SelectNodeRequested += curveDetailsUserControl_SelectNodeRequested;
             curveDetailsListUserControl.ShowCurvePropertiesRequested += curveDetailsUserControl_ShowCurvePropertiesRequested;
             curveDetailsListUserControl.ShowNodePropertiesRequested += curveDetailsUserControl_ShowNodePropertiesRequested;
@@ -385,12 +385,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(() => _presenter.CurveDetailsClose(e.Value));
         }
 
-        private void curveDetailsUserControl_MoveNodeRequested(object sender, MoveNodeEventArgs e)
+        private void curveDetailsUserControl_NodeMoving(object sender, MoveNodeEventArgs e)
         {
             TemplateActionHandler(
                 () =>
                 {
-                    _presenter.NodeMove(e.CurveID, e.NodeID, e.X, e.Y);
+                    _presenter.NodeMoving(e.CurveID, e.NodeID, e.X, e.Y);
                     RecreatePatchCalculator();
                 });
         }
