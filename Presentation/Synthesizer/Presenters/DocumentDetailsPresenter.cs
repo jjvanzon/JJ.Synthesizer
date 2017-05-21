@@ -67,14 +67,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
                 viewModel.ValidationMessages.AddRange(result.Messages);
+                viewModel.Successful = false;
 
                 return viewModel;
             }
             else
             {
-                // TODO: Perhaps report success and leave Committing to the MainPresenter.
-                _repositories.DocumentRepository.Commit();
-
                 // ToViewModel
                 DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
 

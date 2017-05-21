@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            CurveDetailsViewModel viewModel = Update(userInput);
+            CurveDetailsViewModel viewModel = Validate(userInput);
 
             if (viewModel.Successful)
             {
@@ -91,12 +91,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            CurveDetailsViewModel viewModel = Update(userInput);
+            CurveDetailsViewModel viewModel = Validate(userInput);
 
             return viewModel;
         }
 
-        private CurveDetailsViewModel Update(CurveDetailsViewModel userInput)
+        private CurveDetailsViewModel Validate(CurveDetailsViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 

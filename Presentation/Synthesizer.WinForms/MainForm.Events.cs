@@ -260,7 +260,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void audioFileOutputPropertiesUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() =>_presenter.AudioFileOutputPropertiesDelete(e.Value));
+            TemplateActionHandler(() => _presenter.AudioFileOutputPropertiesDelete(e.Value));
         }
 
         // AudioOutput
@@ -271,6 +271,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.AudioOutputPropertiesClose();
+                    RecreatePatchCalculator();
                     SetAudioOutputIfNeeded();
                 });
         }
@@ -281,6 +282,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.AudioOutputPropertiesLoseFocus();
+                    RecreatePatchCalculator();
                     SetAudioOutputIfNeeded();
                 });
         }
@@ -360,12 +362,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void curveDetailsUserControl_CreateNodeRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.NodeCreate(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.NodeCreate(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void curveDetailsUserControl_DeleteSelectedNodeRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.NodeDeleteSelected(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.NodeDeleteSelected(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void curveDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
@@ -375,12 +387,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void curveDetailsUserControl_MoveNodeRequested(object sender, MoveNodeEventArgs e)
         {
-            TemplateActionHandler(() => _presenter.NodeMove(e.CurveID, e.NodeID, e.X, e.Y));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.NodeMove(e.CurveID, e.NodeID, e.X, e.Y);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void curveDetailsUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.NodeChangeSelectedNodeType(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.NodeChangeSelectedNodeType(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void curveDetailsUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
@@ -562,7 +584,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void documentTreeUserControl_RefreshRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentRefresh);
+        private void documentTreeUserControl_RefreshRequested(object sender, EventArgs e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.DocumentRefresh();
+                    RecreatePatchCalculator();
+                });
+        }
 
         private void documentTreeUserControl_SamplesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeSelectSamples);
 
@@ -789,17 +819,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void nodePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.NodePropertiesClose(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.NodePropertiesClose(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void nodePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.NodePropertiesLoseFocus(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.NodePropertiesLoseFocus(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void nodePropertiesUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.NodePropertiesDelete(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.NodePropertiesDelete(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         // Operator
@@ -816,156 +861,306 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void operatorPropertiesUserControlBase_RemoveRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesDelete(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesDelete(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForCache_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_ForCache(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_ForCache(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForCache_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_ForCache(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_ForCache(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForCurve_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_ForCurve(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_ForCurve(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForCurve_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_ForCurve(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_ForCurve(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_ForCustomOperator(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_ForCustomOperator(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForCustomOperator_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_ForCustomOperator(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_ForCustomOperator(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForInletsToDimension_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_ForInletsToDimension(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_ForInletsToDimension(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForInletsToDimension_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_ForInletsToDimension(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_ForInletsToDimension(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_ForNumber(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_ForNumber(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForNumber_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_ForNumber(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_ForNumber(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_ForPatchInlet(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_ForPatchInlet(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForPatchInlet_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_ForPatchInlet(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_ForPatchInlet(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_ForPatchOutlet(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_ForPatchOutlet(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForPatchOutlet_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_ForPatchOutlet(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_ForPatchOutlet(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForSample_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_ForSample(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_ForSample(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_ForSample(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_ForSample(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_WithInterpolation_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_WithInterpolation(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_WithInterpolation(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_WithInterpolation_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_WithInterpolation(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_WithInterpolation(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_WithCollectionRecalculation(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_WithCollectionRecalculation(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_WithCollectionRecalculation_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_WithCollectionRecalculation(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_WithCollectionRecalculation(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_WithOutletCount_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_WithOutletCount(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_WithOutletCount(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_WithOutletCount_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_WithOutletCount(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_WithOutletCount(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_WithInletCount_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesLoseFocus_WithInletCount(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesLoseFocus_WithInletCount(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void operatorPropertiesUserControl_WithInletCount_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesClose_WithInletCount(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorPropertiesClose_WithInletCount(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         // Patch
 
         private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
         {
-            TemplateActionHandler(() => _presenter.OperatorChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.PatchDetailsClose(e.Value));
 
         private void patchDetailsUserControl_CreateOperatorRequested(object sender, CreateOperatorEventArgs e)
         {
-            TemplateActionHandler(() => _presenter.OperatorCreate(e.PatchID, e.OperatorTypeID));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorCreate(e.PatchID, e.OperatorTypeID);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void patchDetailsUserControl_DeleteOperatorRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorDeleteSelected(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorDeleteSelected(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void patchDetailsUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
@@ -991,7 +1186,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void patchDetailsUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
             // PatchDetails Delete action deletes the Selected Operator, not the Patch.
-            TemplateActionHandler(() => _presenter.OperatorDeleteSelected(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.OperatorDeleteSelected(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
@@ -1021,7 +1221,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.PatchGridDelete(patchGridUserControl.ViewModel.Group, e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.PatchGridDelete(patchGridUserControl.ViewModel.Group, e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void patchGridUserControl_PlayRequested(object sender, EventArgs<int> e)
@@ -1036,7 +1241,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.PatchDetailsShow(e.Value));
 
-        private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.PatchPropertiesClose(e.Value));
+        private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _presenter.PatchPropertiesClose(e.Value));
+        }
 
         private void patchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
@@ -1055,7 +1263,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchPropertiesUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.PatchPropertiesDelete(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.PatchPropertiesDelete(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         // Sample
@@ -1080,12 +1293,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void samplePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.SamplePropertiesLoseFocus(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.SamplePropertiesLoseFocus(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void samplePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.SamplePropertiesClose(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.SamplePropertiesClose(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void samplePropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
@@ -1115,18 +1338,39 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void toneGridEditUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.ToneGridEditClose(e.Value));
 
-        private void toneGridEditUserControl_Edited(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.ToneGridEditEdit(e.Value));
+        private void toneGridEditUserControl_Edited(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.ToneGridEditEdit(e.Value);
+                    RecreatePatchCalculator();
+                });
+        }
 
         private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(() => _presenter.ToneGridEditLoseFocus(e.Value));
         }
 
-        private void toneGridEditUserControl_CreateToneRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.ToneCreate(e.Value));
+        private void toneGridEditUserControl_CreateToneRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.ToneCreate(e.Value);
+                    RecreatePatchCalculator();
+                });
+        }
 
         private void toneGridEditUserControl_DeleteToneRequested(object sender, ScaleAndToneEventArgs e)
         {
-            TemplateActionHandler(() => _presenter.ToneDelete(e.ScaleID, e.ToneID));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.ToneDelete(e.ScaleID, e.ToneID);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void toneGridEditUserControl_PlayToneRequested(object sender, ScaleAndToneEventArgs e)
@@ -1139,23 +1383,44 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.ScalePropertiesClose(e.Value));
+        private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.ScalePropertiesClose(e.Value);
+                    RecreatePatchCalculator();
+                });
+        }
 
         private void scalePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.ScalePropertiesLoseFocus(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.ScalePropertiesLoseFocus(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         private void scalePropertiesUserControl_RemoveRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.ScalePropertiesDelete(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.ScalePropertiesDelete(e.Value);
+                    RecreatePatchCalculator();
+                });
         }
 
         // Message Boxes
 
         private void MessageBoxHelper_DocumentDeleteCanceled(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentDeleteCancel);
 
-        private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.DocumentDeleteConfirm(e.Value));
+        private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _presenter.DocumentDeleteConfirm(e.Value));
+        }
 
         private void MessageBoxHelper_DocumentDeletedOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentDeletedOK);
 

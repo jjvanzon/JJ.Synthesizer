@@ -848,6 +848,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Refresh
                 DocumentGridRefresh();
 
+                // Commit
+                // (do it before opening the document, which does a big query, which requires at least a flush.)
+                _repositories.DocumentRepository.Commit();
+
                 // Redirect
                 DocumentOpen(viewModel.Document.ID);
             }
@@ -3331,12 +3335,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _toneGridEditPresenter.Edit(userInput));
         }
 
-        /// <summary>
-        /// Writes a sine sound with the pitch of the tone to an audio file with a configurable duration.
-        /// Returns the output file path if successful.
-        /// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
-        /// Instead of writing to a file it had better write to a stream.
-        /// </summary>
         public void TonePlay(int scaleID, int toneID)
         {
             // NOTE:
@@ -3422,7 +3420,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // ToEntity
-            Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document document = null;
+            if (MainViewModel.Document.IsOpen)
+            {
+                document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            }
 
             // Partial Action
             TViewModel viewModel = partialAction();
@@ -3437,15 +3439,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = false;
 
             // Business
-            IResultDto validationResult = _documentManager.Save(document);
-            if (!validationResult.Successful)
+            if (MainViewModel.Document.IsOpen)
             {
-                // Non-Persisted
-                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+                IResultDto validationResult = _documentManager.Save(document);
+                if (!validationResult.Successful)
+                {
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(validationResult.Messages);
 
-                // DispatchViewModel
-                DispatchViewModel(viewModel);
-                return viewModel;
+                    // DispatchViewModel
+                    DispatchViewModel(viewModel);
+                    return viewModel;
+                }
             }
 
             // Successful

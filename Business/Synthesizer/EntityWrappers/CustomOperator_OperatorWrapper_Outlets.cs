@@ -17,11 +17,17 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         }
 
         public Outlet this[string name] => OperatorHelper.GetOutlet(_operator, name);
+        public Outlet TryGet(string name) => OperatorHelper.TryGetOutlet(_operator, name);
+        public IList<Outlet> GetMany(string name) => OperatorHelper.GetOutlets(_operator, name);
 
         /// <summary> not fast </summary>
         public Outlet this[int index] => OperatorHelper.GetOutlet(_operator, index);
+        public Outlet TryGet(int index) => OperatorHelper.TryGetOutlet(_operator, index);
+        public IList<Outlet> GetMany(int index) => OperatorHelper.GetOutlets(_operator, index);
 
         public Outlet this[DimensionEnum dimensionEnum] => OperatorHelper.GetOutlet(_operator, dimensionEnum);
+        public Outlet TryGet(DimensionEnum dimensionEnum) => OperatorHelper.TryGetOutlet(_operator, dimensionEnum);
+        public IList<Outlet> GetMany(DimensionEnum dimensionEnum) => OperatorHelper.GetOutlets(_operator, dimensionEnum);
 
         public int Count => _operator.Outlets.Count;
 

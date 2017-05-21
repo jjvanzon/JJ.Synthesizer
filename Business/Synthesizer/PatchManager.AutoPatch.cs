@@ -200,6 +200,7 @@ namespace JJ.Business.Synthesizer
 
             return destPatchOutletWrapper;
         }
+
         /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
         public Outlet TryAutoPatchWithTone(Tone tone, IList<Patch> sourceUnderlyingPatches)
         {
@@ -208,28 +209,24 @@ namespace JJ.Business.Synthesizer
 
             // Create a new patch out of the other patches.
             AutoPatch(sourceUnderlyingPatches);
+            Patch autoPatch = Patch;
 
-            double frequency = tone.GetFrequency();
-            Number_OperatorWrapper frequencyNumberOperatorWrapper = Number(frequency);
+            CreatePatch();
+            var customOperator = CustomOperator(autoPatch);
+            var frequency = Number(tone.GetFrequency());
 
-            IList<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                .Where(x => x.DimensionEnum == DimensionEnum.Frequency)
-                                                .Select(x => x.Inlet)
-                                                .ToArray();
-            if (frequencyInlets.Count == 0)
+            IList<Inlet> customOperatorFrequencyInlets = customOperator.Inlets.GetMany(DimensionEnum.Frequency);
+            if (customOperatorFrequencyInlets.Count == 0)
             {
                 return null;
             }
 
-            foreach (Inlet frequencyInlet in frequencyInlets)
+            foreach (Inlet customOperatorFrequencyInlet in customOperatorFrequencyInlets)
             {
-                frequencyInlet.LinkTo(frequencyNumberOperatorWrapper.Result);
+                customOperatorFrequencyInlet.LinkTo(frequency.Result);
             }
 
-            IList<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                               .Where(x => x.DimensionEnum == DimensionEnum.Signal)
-                                               .Select(x => x.Result)
-                                               .ToArray();
+            IList<Outlet> signalOutlets = customOperator.Outlets.GetMany(DimensionEnum.Signal);
             switch (signalOutlets.Count)
             {
                 case 0:
@@ -405,11 +402,6 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary> Can be used to for instance quickly generate an example sound from a document used as library. </summary>
-        /// <param name="hidden">
-        /// If false, only externally visible elements from the document are used.
-        /// If null, both hidden and visible elements from the document are used.
-        /// If true, only hidden elements from the document are used.
-        /// </param>
         public Result<Outlet> TryAutoPatchFromDocumentRandomly(Document document, bool mustIncludeHidden)
         {
             IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(document.Patches, mustIncludeHidden);
@@ -438,11 +430,6 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary> Can be used to for instance quickly generate an example sound from a patch group. </summary>
-        /// <param name="hidden">
-        /// If false, only externally visible elements from the document are used.
-        /// If null, both hidden and visible elements from the document are used.
-        /// If true, only hidden elements from the document are used.
-        /// </param>
         public Result<Outlet> TryAutoPatchFromPatchGroupRandomly(Document document, string groupName, bool mustIncludeHidden)
         {
             IList<Patch> patchesInGroup = GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, groupName, mustIncludeHidden);
@@ -469,6 +456,7 @@ namespace JJ.Business.Synthesizer
             }
         }
 
+        // ReSharper disable once ReturnTypeCanBeEnumerable.Local
         private IList<Outlet> GetSignalOutletsFromPatchesWithoutSignalInlets(IList<Patch> patches, bool mustIncludeHidden)
         {
             IList<Outlet> patches2 = patches.Where(x => !x.Hidden || mustIncludeHidden)

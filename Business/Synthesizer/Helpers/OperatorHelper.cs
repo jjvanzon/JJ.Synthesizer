@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Inlet> inlets = op.Inlets.Where(x => x.ListIndex == listIndex).ToArray();
+            IList<Inlet> inlets = GetInlets(op, listIndex);
             switch (inlets.Count)
             {
                 case 0:
@@ -78,6 +78,15 @@ namespace JJ.Business.Synthesizer.Helpers
                 default:
                     throw new NotUniqueException<Operator>(new { listIndex });
             }
+        }
+
+        public static IList<Inlet> GetInlets(Operator op, int listIndex)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IList<Inlet> inlets = op.Inlets.Where(x => x.ListIndex == listIndex).ToArray();
+
+            return inlets;
         }
 
         public static Inlet GetInlet(Operator op, string name)
@@ -92,9 +101,8 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static Inlet TryGetInlet(Operator op, string name)
         {
-            if (op == null) throw new NullException(() => op);
+            IList<Inlet> inlets = GetInlets(op, name);
 
-            IList<Inlet> inlets = op.Inlets.Where(x => string.Equals(x.Name, name)).ToArray();
             switch (inlets.Count)
             {
                 case 0:
@@ -106,6 +114,15 @@ namespace JJ.Business.Synthesizer.Helpers
                 default:
                     throw new NotUniqueException<Inlet>(new { name });
             }
+        }
+
+        public static IList<Inlet> GetInlets(Operator op, string name)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IList<Inlet> inlets = op.Inlets.Where(x => string.Equals(x.Name, name)).ToArray();
+
+            return inlets;
         }
 
         public static Inlet GetInlet(Operator op, DimensionEnum dimensionEnum)
@@ -120,9 +137,8 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static Inlet TryGetInlet(Operator op, DimensionEnum dimensionEnum)
         {
-            if (op == null) throw new NullException(() => op);
-
             IList<Inlet> inlets = GetInlets(op, dimensionEnum);
+
             switch (inlets.Count)
             {
                 case 0:
@@ -149,31 +165,39 @@ namespace JJ.Business.Synthesizer.Helpers
         /// <param name="listIndex">List indices are not necessarily consecutive.</param>
         public static Outlet GetOutlet(Operator op, int listIndex)
         {
-            Outlet inlet = TryGetOutlet(op, listIndex);
-            if (inlet == null)
+            Outlet outlet = TryGetOutlet(op, listIndex);
+            if (outlet == null)
             {
                 throw new NotFoundException<Outlet>(new { listIndex });
             }
-            return inlet;
+            return outlet;
         }
 
         /// <param name="listIndex">List indices are not necessarily consecutive.</param>
         public static Outlet TryGetOutlet(Operator op, int listIndex)
         {
-            if (op == null) throw new NullException(() => op);
+            IList<Outlet> outlets = GetOutlets(op, listIndex);
 
-            IList<Outlet> inlets = op.Outlets.Where(x => x.ListIndex == listIndex).ToArray();
-            switch (inlets.Count)
+            switch (outlets.Count)
             {
                 case 0:
                     return null;
 
                 case 1:
-                    return inlets[0];
+                    return outlets[0];
 
                 default:
                     throw new NotUniqueException<Operator>(new { listIndex });
             }
+        }
+
+        public static IList<Outlet> GetOutlets(Operator op, int listIndex)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IList<Outlet> outlets = op.Outlets.Where(x => x.ListIndex == listIndex).ToArray();
+
+            return outlets;
         }
 
         public static Outlet GetOutlet(Operator op, string name)
@@ -188,9 +212,8 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static Outlet TryGetOutlet(Operator op, string name)
         {
-            if (op == null) throw new NullException(() => op);
+            IList<Outlet> outlets = GetOutlets(op, name);
 
-            IList<Outlet> outlets = op.Outlets.Where(x => string.Equals(x.Name, name)).ToArray();
             switch (outlets.Count)
             {
                 case 0:
@@ -202,6 +225,15 @@ namespace JJ.Business.Synthesizer.Helpers
                 default:
                     throw new NotUniqueException<Outlet>(new { name });
             }
+        }
+
+        public static IList<Outlet> GetOutlets(Operator op, string name)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IList<Outlet> outlets = op.Outlets.Where(x => string.Equals(x.Name, name)).ToArray();
+
+            return outlets;
         }
 
         public static Outlet GetOutlet(Operator op, DimensionEnum dimensionEnum)
@@ -219,6 +251,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (op == null) throw new NullException(() => op);
 
             IList<Outlet> outlets = GetOutlets(op, dimensionEnum);
+
             switch (outlets.Count)
             {
                 case 0:

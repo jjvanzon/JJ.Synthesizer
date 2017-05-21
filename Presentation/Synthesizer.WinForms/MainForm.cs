@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
 using System.Media;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Extensions;
@@ -195,8 +196,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             // ReSharper disable once InvertIf
             if (!result.Successful)
             {
-                // TODO: Make a distinction between Data.Canonical and Business.Canonical, so that you have a place to put helpers for this.
-                string formattedMessages = string.Join(Environment.NewLine, result.Messages.Select(y => y.Text));
+                string formattedMessages = ResultHelper.FormatMessages(result);
                 throw new Exception(formattedMessages);
             }
 

@@ -311,8 +311,10 @@ namespace JJ.Business.Synthesizer
                 (int)OperatorTypeEnum.CustomOperator,
                 PropertyNames.UnderlyingPatchID,
                 patch.ID.ToString());
-
-            IList<Operator> externalOperators = flushedOperators.Where(x => x.Patch.Document.ID != patch.Document.ID).ToArray();
+            
+            IList<Operator> externalOperators = flushedOperators.Where(x => x.Patch != null && // Handles orphaned operators up for deletion.
+                                                                            x.Patch.Document.ID != patch.Document.ID)
+                                                                .ToArray();
 
             var idAndNames = new List<IDAndName>();
 

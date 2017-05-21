@@ -727,11 +727,15 @@ namespace JJ.Business.Synthesizer
                                                                                     x.Input == null &&
                                                                                    !x.DefaultValue.HasValue)
                                                                         .ToArray();
-            Outlet sineOutlet = Sine(Number(440));
-
-            foreach (PatchInlet_OperatorWrapper patchInletWrapper in patchInletWrappers)
+            // ReSharper disable once InvertIf
+            if (patchInletWrappers.Count != 0)
             {
-                patchInletWrapper.Input = sineOutlet;
+                Outlet sineOutlet = Sine(Number(440));
+
+                foreach (PatchInlet_OperatorWrapper patchInletWrapper in patchInletWrappers)
+                {
+                    patchInletWrapper.Input = sineOutlet;
+                }
             }
         }
 
