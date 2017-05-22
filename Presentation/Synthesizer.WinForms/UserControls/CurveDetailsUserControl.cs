@@ -21,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
         public event EventHandler<EventArgs<int>> CreateNodeRequested;
         public event EventHandler<MoveNodeEventArgs> NodeMoving;
+        public event EventHandler<MoveNodeEventArgs> NodeMoved;
         public event EventHandler<NodeEventArgs> SelectNodeRequested;
         public event EventHandler<EventArgs<int>> ShowCurvePropertiesRequested;
         public event EventHandler<EventArgs<int>> ShowNodePropertiesRequested;
@@ -36,6 +37,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converter.Result.KeyDownGesture.KeyDown += Diagram_KeyDown;
             _converter.Result.SelectNodeGesture.SelectNodeRequested += SelectNodeGesture_NodeSelected;
             _converter.Result.MoveNodeGesture.Moving += MoveNodeGesture_Moving;
+            _converter.Result.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
             _converter.Result.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested += ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
             _converter.Result.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
             _converter.Result.ShowNodePropertiesMouseGesture.ShowNodePropertiesRequested += ShowNodePropertiesMouseGesture_ShowNodePropertiesRequested;
@@ -151,7 +153,34 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             float x = rectangle.Position.AbsoluteX + rectangle.Position.Width / 2;
             float y = rectangle.Position.AbsoluteY + rectangle.Position.Height / 2;
 
-            NodeMoving(this, new MoveNodeEventArgs(ViewModel.Curve.ID, nodeID, x, y));
+            var e2 = new MoveNodeEventArgs(ViewModel.Curve.ID, nodeID, x, y);
+
+            NodeMoving(this, e2);
+
+            ApplyViewModelToControls();
+
+            // TODO: This kind of seems to belong in the ApplyViewModelToControls().
+            // Refresh ToolTip Text
+            NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
+            _converter.Result.NodeToolTipGesture.SetToolTipText(nodeViewModel.Caption);
+        }
+
+        private void MoveNodeGesture_Moved(object sender, ElementEventArgs e)
+        {
+            // TODO: Lots of code repetition betwen Moved and Moving events.
+            if (ViewModel == null) return;
+            if (NodeMoved == null) return;
+
+            int nodeID = (int)e.Element.Tag;
+
+            var rectangle = (Rectangle)e.Element;
+
+            float x = rectangle.Position.AbsoluteX + rectangle.Position.Width / 2;
+            float y = rectangle.Position.AbsoluteY + rectangle.Position.Height / 2;
+
+            var e2 = new MoveNodeEventArgs(ViewModel.Curve.ID, nodeID, x, y);
+
+            NodeMoved(this, e2);
 
             ApplyViewModelToControls();
 

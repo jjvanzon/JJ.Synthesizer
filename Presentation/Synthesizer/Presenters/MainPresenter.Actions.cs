@@ -1878,6 +1878,42 @@ namespace JJ.Presentation.Synthesizer.Presenters
             NodePropertiesRefresh(nodeID);
         }
 
+        public void NodeMoved(int curveID, int nodeID, double x, double y)
+        {
+            // GetViewModel
+            CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
+
+            // TemplateMethod
+            TemplateActionMethod(userInput, () => 
+            {
+                // RefreshCounter
+                userInput.RefreshCounter++;
+
+                // Set !Successful
+                userInput.Successful = false;
+
+                // ToEntity
+                Node node = _repositories.NodeRepository.Get(nodeID);
+
+                // Business
+                node.X = x;
+                node.Y = y;
+
+                // ToViewModel
+                //CurveDetailsViewModel viewModel = 
+                // TODO: Delegate to partial presenter, that contains all the code for this stuff.
+
+                // Successful
+                userInput.Successful = true;
+
+                return userInput;
+            });
+
+            // Refresh
+            CurveDetailsNodeRefresh(curveID, nodeID);
+            NodePropertiesRefresh(nodeID);
+        }
+
         public void NodePropertiesShow(int id)
         {
             // GetViewModel
