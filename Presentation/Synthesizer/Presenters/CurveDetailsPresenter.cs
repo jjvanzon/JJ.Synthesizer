@@ -1,4 +1,5 @@
-﻿using JJ.Data.Canonical;
+﻿using System;
+using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
@@ -22,61 +23,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public CurveDetailsViewModel Show(CurveDetailsViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
-
-            // ToViewModel
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return TemplateMethod(userInput, viewModel => viewModel.Visible = true);
         }
 
         public CurveDetailsViewModel Refresh(CurveDetailsViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-            
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // Get Entities
-            Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
-            Node selectedNode = _repositories.NodeRepository.TryGet(userInput.SelectedNodeID ?? 0);
-
-            // ToViewModel
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.SelectedNodeID = selectedNode?.ID;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return TemplateMethod(userInput, x => { });
         }
 
         public CurveDetailsViewModel Close(CurveDetailsViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
             CurveDetailsViewModel viewModel = Validate(userInput);
 
             if (viewModel.Successful)
@@ -89,43 +45,62 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public CurveDetailsViewModel LoseFocus(CurveDetailsViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            CurveDetailsViewModel viewModel = Validate(userInput);
-
-            return viewModel;
+            return Validate(userInput);
         }
 
         private CurveDetailsViewModel Validate(CurveDetailsViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
+                    // Business
+                    VoidResultDto result = _curveManager.SaveCurveWithRelatedEntities(entity);
 
-            // Set !Successful
-            userInput.Successful = false;
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result.Messages);
 
-            // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
-
-            // Business
-            VoidResultDto result = _curveManager.SaveCurveWithRelatedEntities(entity);
-
-            // ToViewModel
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages);
-
-            // Successful?
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
+                    // Successful?
+                    viewModel.Successful = result.Successful;
+                });
         }
 
         public CurveDetailsViewModel SelectNode(CurveDetailsViewModel userInput, int nodeID)
+        {
+            return TemplateMethod(userInput, viewModel => viewModel.SelectedNodeID = nodeID);
+        }
+
+        public CurveDetailsViewModel NodeMoving(CurveDetailsViewModel userInput, int nodeID, double x, double y)
+        {
+            return NodeMovedOrMoving(userInput, nodeID, x, y);
+        }
+
+        public CurveDetailsViewModel NodeMoved(CurveDetailsViewModel userInput, int nodeID, double x, double y)
+        {
+            return NodeMovedOrMoving(userInput, nodeID, x, y);
+        }
+
+        private CurveDetailsViewModel NodeMovedOrMoving(CurveDetailsViewModel userInput, int nodeID, double x, double y)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // ToEntity
+                    Node node = _repositories.NodeRepository.Get(nodeID);
+
+                    // Business
+                    node.X = x;
+                    node.Y = y;
+                });
+        }
+
+        // Helpers
+
+        private CurveDetailsViewModel TemplateMethod(CurveDetailsViewModel userInput, Action<CurveDetailsViewModel> action)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -143,15 +118,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.SelectedNodeID = nodeID;
 
             // Successful
             viewModel.Successful = true;
 
+            // Action
+            action(viewModel);
+
             return viewModel;
         }
-
-        // Helpers
 
         protected override void CopyNonPersistedProperties(CurveDetailsViewModel sourceViewModel, CurveDetailsViewModel destViewModel)
         {

@@ -1856,26 +1856,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
+            // Partial ToEntity
             userInput.ToEntityWithNodes(_curveRepositories);
-            Node node = _repositories.NodeRepository.Get(nodeID);
 
-            // Business
-            node.X = x;
-            node.Y = y;
-
-            // Successful
-            userInput.Successful = true;
-
+            // Partial Action
+            CurveDetailsViewModel viewModel = _curveDetailsPresenter.NodeMoving(userInput, nodeID, x, y);
+            
             // Refresh
-            CurveDetailsNodeRefresh(curveID, nodeID);
-            NodePropertiesRefresh(nodeID);
+            if (viewModel.Successful)
+            {
+                CurveDetailsNodeRefresh(curveID, nodeID);
+                NodePropertiesRefresh(nodeID);
+            }
         }
 
         public void NodeMoved(int curveID, int nodeID, double x, double y)
@@ -1884,34 +1876,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => 
-            {
-                // RefreshCounter
-                userInput.RefreshCounter++;
-
-                // Set !Successful
-                userInput.Successful = false;
-
-                // ToEntity
-                Node node = _repositories.NodeRepository.Get(nodeID);
-
-                // Business
-                node.X = x;
-                node.Y = y;
-
-                // ToViewModel
-                //CurveDetailsViewModel viewModel = 
-                // TODO: Delegate to partial presenter, that contains all the code for this stuff.
-
-                // Successful
-                userInput.Successful = true;
-
-                return userInput;
-            });
+            CurveDetailsViewModel viewModel = TemplateActionMethod(userInput, () => _curveDetailsPresenter.NodeMoved(userInput, nodeID, x, y));
 
             // Refresh
-            CurveDetailsNodeRefresh(curveID, nodeID);
-            NodePropertiesRefresh(nodeID);
+            if (viewModel.Successful)
+            {
+                CurveDetailsNodeRefresh(curveID, nodeID);
+                NodePropertiesRefresh(nodeID);
+            }
         }
 
         public void NodePropertiesShow(int id)
