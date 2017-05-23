@@ -85,13 +85,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             PointStyleThick = new PointStyle
             {
                 Color = mediumGrey,
-                Width = 10
+                Width = 8
             };
 
             PointStyleThickSelected = new PointStyle
             {
                 Color = darkerBlue,
-                Width = 10
+                Width = 8
             };
 
             PointStyleWarning = PointStyle.Clone();

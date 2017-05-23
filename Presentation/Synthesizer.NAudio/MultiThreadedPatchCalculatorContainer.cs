@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             patchManager.AutoPatch(patches);
             Patch autoPatch = patchManager.Patch;
 
-            var newPolyphonyCalculator = new MultiThreadedPatchCalculator(
+            var newCalculator = new MultiThreadedPatchCalculator(
                 autoPatch,
                 audioOutput, 
                 _noteRecycler, 
@@ -45,10 +45,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 if (Calculator != null)
                 {
-                    newPolyphonyCalculator.CloneValues(Calculator);
+                    newCalculator.CloneValues(Calculator);
                 }
 
-                Calculator = newPolyphonyCalculator;
+                Calculator = newCalculator;
             }
             finally
             {
