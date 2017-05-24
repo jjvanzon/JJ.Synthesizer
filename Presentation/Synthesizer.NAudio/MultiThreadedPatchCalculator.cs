@@ -187,6 +187,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 throw new InvalidTypeException<MultiThreadedPatchCalculator>(() => castedSourceCalculator);
             }
 
+            // base.CloneValues may have yielded over all values to all patch calculators,
+            // but could not be specific about which note.
+            // By cloning the values per note here, we do accomplish setting the right values for te right notes.
             for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
             {
                 for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
