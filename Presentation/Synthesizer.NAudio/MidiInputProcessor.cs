@@ -44,13 +44,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
             AudioOutputProcessor audioOutputProcessor,
             NoteRecycler noteRecycler)
         {
-            if (patchCalculatorContainer == null) throw new NullException(() => patchCalculatorContainer);
-            if (audioOutputProcessor == null) throw new NullException(() => audioOutputProcessor);
-            if (noteRecycler == null) throw new NullException(() => noteRecycler);
-
-            _patchCalculatorContainer = patchCalculatorContainer;
-            _audioOutputProcessor = audioOutputProcessor;
-            _noteRecycler = noteRecycler;
+            _patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
+            _audioOutputProcessor = audioOutputProcessor ?? throw new NullException(() => audioOutputProcessor);
+            _noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
         }
 
         /// <summary> 

@@ -21,10 +21,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public AudioOutputSampleProvider(IPatchCalculatorContainer patchCalculatorContainer, AudioOutput audioOutput)
         {
-            if (patchCalculatorContainer == null) throw new NullException(() => patchCalculatorContainer);
             if (audioOutput == null) throw new NullException(() => audioOutput);
-
-            _patchCalculatorContainer = patchCalculatorContainer;
+                
+            _patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
             _frameDuration = audioOutput.GetFrameDuration();
             _channelCount = audioOutput.SpeakerSetup.SpeakerSetupChannels.Count;
             _waveFormat = CreateWaveFormat(audioOutput);

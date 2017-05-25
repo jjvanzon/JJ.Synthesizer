@@ -147,14 +147,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         public static void SetAudioOutput(AudioOutput audioOutput)
         {
-            if (audioOutput == null) throw new NullException(() => audioOutput);
-
             if (AudioOutput != null)
             {
                 DisposeAudioOutput();
             }
 
-            AudioOutput = audioOutput;
+            AudioOutput = audioOutput ?? throw new NullException(() => audioOutput);
 
             var noteRecycler = new NoteRecycler(audioOutput.MaxConcurrentNotes);
 
