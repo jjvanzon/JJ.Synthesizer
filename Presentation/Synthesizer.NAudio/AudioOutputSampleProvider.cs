@@ -3,8 +3,6 @@ using NAudio.Wave;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using System.Threading;
 using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -17,24 +15,15 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public bool IsRunning { get; set; }
 
-        public AudioOutputSampleProvider(IPatchCalculatorContainer patchCalculatorContainer, AudioOutput audioOutput)
+        public AudioOutputSampleProvider(IPatchCalculatorContainer patchCalculatorContainer, int samplingRate, int channelCount)
         {
-            // ReSharper disable once JoinNullCheckWithUsage
-            if (audioOutput == null) throw new NullException(() => audioOutput);
-            
+            if (samplingRate <= 0) throw new LessThanOrEqualException(() => samplingRate, 0);
+            if (channelCount <= 0) throw new LessThanOrEqualException(() => channelCount, 0);
+
             _patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
-            _frameDuration = audioOutput.GetFrameDuration();
-            _channelCount = audioOutput.GetChannelCount();
-            _waveFormat = CreateWaveFormat(audioOutput);
-        }
-
-        private WaveFormat CreateWaveFormat(AudioOutput audioOutput)
-        {
-            WaveFormat waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(
-                audioOutput.SamplingRate, 
-                audioOutput.GetChannelCount());
-
-            return waveFormat;
+            _frameDuration = 1.0 / samplingRate;
+            _channelCount = channelCount;
+            _waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(samplingRate, channelCount);
         }
 
         WaveFormat ISampleProvider.WaveFormat => _waveFormat;

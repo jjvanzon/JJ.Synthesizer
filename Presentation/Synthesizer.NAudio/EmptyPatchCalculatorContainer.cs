@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -12,7 +11,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
 
-        public void RecreateCalculator(Patch patch, AudioOutput audioOutput, RepositoryWrapper repositories)
+        public void RecreateCalculator(
+            Patch patch,
+            int samplingRate,
+            int channelCount,
+            int maxConcurrentNotes,
+            NoteRecycler noteRecycler,
+            PatchRepositories repositories)
         {
             // Do nothing.        
         }

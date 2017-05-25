@@ -1,5 +1,4 @@
 ﻿using System;
-using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using NAudio.Wave;
 
@@ -13,13 +12,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private readonly AudioOutputSampleProvider _sampleProvider;
         private WaveOut _waveOut;
 
-        public AudioOutputProcessor(IPatchCalculatorContainer patchCalculatorContainer, AudioOutput audioOutput)
+        public AudioOutputProcessor(
+            IPatchCalculatorContainer patchCalculatorContainer, 
+            int samplingRate,
+            int channelCount,
+            double desiredBufferDuration)
         {
-            if (audioOutput == null) throw new NullException(() => audioOutput);
+            if (desiredBufferDuration <= 0.0) throw new LessThanOrEqualException(() => desiredBufferDuration, 0.0);
 
-            _desiredLatencyInMilliseconds = (int)Math.Ceiling(audioOutput.DesiredBufferDuration * 1000.0);
-
-            _sampleProvider = new AudioOutputSampleProvider(patchCalculatorContainer, audioOutput);
+            _desiredLatencyInMilliseconds = (int)Math.Ceiling(desiredBufferDuration * 1000.0);
+            _sampleProvider = new AudioOutputSampleProvider(patchCalculatorContainer, samplingRate, channelCount);
         }
 
         public void Start()

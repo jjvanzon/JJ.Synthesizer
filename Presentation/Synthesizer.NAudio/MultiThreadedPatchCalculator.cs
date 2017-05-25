@@ -10,9 +10,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Business;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -23,31 +21,27 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// <summary> 1st index is channel, 2nd index is note index. </summary>
         private readonly IPatchCalculator[][] _patchCalculators;
 
+        /// <param name="patch">Must have at most one PatchOutlet of type Signal.</param>
         public MultiThreadedPatchCalculator(
             Patch patch,
-            AudioOutput audioOutput,
+            int samplingRate,
+            int channelCount,
+            int maxConcurrentNotes,
             NoteRecycler noteRecycler,
-            RepositoryWrapper repositories)
-            : base(
-                audioOutput?.SamplingRate ?? default(int),
-                audioOutput?.GetChannelCount() ?? default(int),
-                channelIndex: default(int))
+            PatchRepositories repositories)
+            : base(samplingRate, channelCount, channelIndex: default(int))
         {
             if (patch == null) throw new NullException(() => patch);
-            if (audioOutput == null) throw new NullException(() => audioOutput);
+            if (maxConcurrentNotes <= 0) throw new LessThanOrEqualException(() => maxConcurrentNotes, 0);
             if (repositories == null) throw new NullException(() => repositories);
-
-            AssertAudioOutput(audioOutput, repositories);
 
             _noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
 
-            _maxConcurrentNotes = audioOutput.MaxConcurrentNotes;
+            _maxConcurrentNotes = maxConcurrentNotes;
 
             // Prepare some patching variables
-            int samplingRate = audioOutput.SamplingRate;
 
-            var patchManager = new PatchManager(new PatchRepositories(repositories)) { Patch = patch };
-
+            var patchManager = new PatchManager(patch, repositories);
             var calculatorCache = new CalculatorCache();
 
             Outlet signalOutlet = patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
@@ -246,21 +240,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             if (patchCalcultorNoteIndex < 0) throw new LessThanException(() => patchCalcultorNoteIndex, 0);
             int maxNoteIndex = _maxConcurrentNotes - 1;
             if (patchCalcultorNoteIndex > maxNoteIndex) throw new GreaterThanException(() => patchCalcultorNoteIndex, () => maxNoteIndex);
-        }
-
-        private void AssertAudioOutput(AudioOutput audioOutput, RepositoryWrapper repositories)
-        {
-            // Assert validity of AudioOutput values, by delegating to AudioOutputManager.
-            // It may not be clear from the interface that this will ensure things are valid for this class,
-            // but it is a shame to reprogram the rules here, already programmed out in the business layer.
-
-            var audioOutputManager = new AudioOutputManager(
-                repositories.AudioOutputRepository,
-                repositories.SpeakerSetupRepository,
-                repositories.IDRepository);
-
-            VoidResult result = audioOutputManager.Save(audioOutput);
-            result.Assert();
         }
     }
 }

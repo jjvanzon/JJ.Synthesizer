@@ -150,7 +150,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (viewModel.Successful)
             {
                 AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(viewModel.Entity.ID);
-                Program.SetAudioOutput(audioOutput);
+                Patch patch = GetCurrentInstrumentPatch();
+
+                Program.UpdateInfrastructureObjects(audioOutput, patch, new PatchRepositories(_repositories));
 
                 // Right the patch calculator must be recreated too,
                 // because the PatchCalculatorContainer has a reference to a NoteRecycler,
@@ -162,6 +164,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void RecreatePatchCalculator()
         {
+            Patch patch = GetCurrentInstrumentPatch();
+
+            Program.RecreatePatchCalculator(patch, new PatchRepositories(_repositories));
+        }
+
+        private Patch GetCurrentInstrumentPatch()
+        {
             IList<Patch> patches = _presenter.MainViewModel.Document.CurrentInstrument.List
                                              .Select(x => _repositories.PatchRepository.Get(x.ID))
                                              .ToArray();
@@ -170,10 +179,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new[] { CreateDefaultSinePatch() };
             }
 
-            var patchManager = new PatchManager(new PatchRepositories(_repositories));
+            var patchRepositories = new PatchRepositories(_repositories);
+            var patchManager = new PatchManager(patchRepositories);
             patchManager.AutoPatch(patches);
 
-            Program.PatchCalculatorContainer.RecreateCalculator(patchManager.Patch, Program.AudioOutput, _repositories);
+            return patchManager.Patch;
         }
 
         private Patch CreateDefaultSinePatch()

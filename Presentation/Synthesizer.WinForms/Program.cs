@@ -11,6 +11,8 @@ using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -69,7 +71,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MainForm form = ShowMainWindow(parsedCommandLineArguments.DocumentName, parsedCommandLineArguments.PatchName);
             Application.Run(form);
 
-            DisposeAudioOutput();
+            if (_audioOutputProcessor != null) _audioOutputProcessor.Stop();
+            if (_midiInputProcessor != null) _midiInputProcessor.Stop();
         }
 
         private static readonly Dictionary<string, MainForm> _documentNameToMainWindowDictionary = new Dictionary<string, MainForm>();
@@ -151,41 +154,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
         }
 
-        public static void UpdateAudioOutput(AudioOutput audioOutput)
+        private static void SetAudioOutput(AudioOutput audioOutput)
         {
-            if (AudioOutput != null)
-            {
-                DisposeAudioOutput();
-            }
-
-            AudioOutput = audioOutput ?? throw new NullException(() => audioOutput);
-
-            _noteRecycler.SetMaxConcurrentNotes(audioOutput.MaxConcurrentNotes);
-
-            bool mustCreateEmptyPatchCalculatorContainer = !_audioOutputEnabled;
-            if (mustCreateEmptyPatchCalculatorContainer)
-            {
-                PatchCalculatorContainer = new EmptyPatchCalculatorContainer();
-            }
-            else
-            {
-                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(_noteRecycler);
-            }
-
-            if (_audioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, audioOutput);
-            if (_midiInputEnabled) _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _noteRecycler);
-
-            if (_audioOutputEnabled) _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
-            if (_midiInputEnabled) _midiInputThread = StartMidiInputThread(_midiInputProcessor);
-        }
-
-        public static void SetAudioOutput(AudioOutput audioOutput)
-        {
-            if (AudioOutput != null)
-            {
-                DisposeAudioOutput();
-            }
-
             AudioOutput = audioOutput ?? throw new NullException(() => audioOutput);
 
             _noteRecycler = new NoteRecycler(audioOutput.MaxConcurrentNotes);
@@ -197,28 +167,56 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
             else
             {
-                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(_noteRecycler);
+                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer();
             }
 
-            if (_audioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, audioOutput);
+            if (_audioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, audioOutput.SamplingRate, audioOutput.GetChannelCount(), audioOutput.DesiredBufferDuration);
             if (_midiInputEnabled) _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _noteRecycler);
 
             if (_audioOutputEnabled) _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
             if (_midiInputEnabled) _midiInputThread = StartMidiInputThread(_midiInputProcessor);
         }
 
-        private static void DisposeAudioOutput()
+        public static void UpdateInfrastructureObjects(AudioOutput audioOutput, Patch patch, PatchRepositories patchRepositories)
         {
-            var winFormsConfig = CustomConfigurationManager.GetSection<Configuration.ConfigurationSection>();
+            if (_audioOutputProcessor != null) _audioOutputProcessor.Stop();
+            if (_midiInputProcessor != null) _midiInputProcessor.Stop();
 
-            if (winFormsConfig.AudioOutputEnabled) _audioOutputProcessor.Stop();
-            if (winFormsConfig.MidiInputEnabled) _midiInputProcessor.Stop();
+            AudioOutput = audioOutput ?? throw new NullException(() => audioOutput);
+
+            _noteRecycler.SetMaxConcurrentNotes(audioOutput.MaxConcurrentNotes);
+
+            PatchCalculatorContainer.RecreateCalculator(
+                patch, 
+                audioOutput.SamplingRate, 
+                audioOutput.GetChannelCount(), 
+                audioOutput.MaxConcurrentNotes,
+                _noteRecycler,
+                patchRepositories);
+
+            if (_audioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, audioOutput.SamplingRate, audioOutput.GetChannelCount(), audioOutput.DesiredBufferDuration);
+            //if (_midiInputEnabled) _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _noteRecycler);
+
+            if (_audioOutputEnabled) _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
+            if (_midiInputEnabled) _midiInputThread = StartMidiInputThread(_midiInputProcessor);
+        }
+
+        public static void RecreatePatchCalculator(Patch patch, PatchRepositories patchRepositories)
+        {
+            if (patch == null) throw new NullException(() => patch);
+            if (patchRepositories == null) throw new NullException(() => patchRepositories);
+
+            PatchCalculatorContainer.RecreateCalculator(
+                patch,
+                AudioOutput.SamplingRate,
+                AudioOutput.GetChannelCount(),
+                AudioOutput.MaxConcurrentNotes,
+                _noteRecycler,
+                patchRepositories);
         }
 
         private static Thread StartMidiInputThread(MidiInputProcessor midiInputProcessor)
         {
-            if (midiInputProcessor == null) throw new NullException(() => midiInputProcessor);
-
             var thread = new Thread(() => midiInputProcessor.TryStart());
             thread.Start();
 
@@ -227,8 +225,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private static Thread StartAudioOutputThread(AudioOutputProcessor audioOutputProcessor)
         {
-            if (audioOutputProcessor == null) throw new NullException(() => audioOutputProcessor);
-
             var thread = new Thread(() => audioOutputProcessor.Start());
             thread.Start();
 
@@ -254,7 +250,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MessageBox.Show(message, GetMessageBoxCaption());
         }
 
-        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             Exception ex = ExceptionHelper.GetInnermostException(e.Exception);
             MessageBox.Show(ExceptionHelper.FormatException(ex, false), GetMessageBoxCaption());
