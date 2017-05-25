@@ -17,39 +17,20 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             if (audioOutput == null) throw new NullException(() => audioOutput);
 
-            _desiredLatencyInMilliseconds = (int)(Math.Ceiling(audioOutput.DesiredBufferDuration * 1000.0));
+            _desiredLatencyInMilliseconds = (int)Math.Ceiling(audioOutput.DesiredBufferDuration * 1000.0);
 
             _sampleProvider = new AudioOutputSampleProvider(patchCalculatorContainer, audioOutput);
-        }
-
-        public double Time => _sampleProvider._time;
-
-        /// <summary>
-        /// Initializes and then immediately pauses, to prevent calculations at startup,
-        /// but also a hick-up upon the first note.
-        /// </summary>
-        public void StartAndPause()
-        {
-            Start();
-            Pause();
         }
 
         public void Start()
         {
             _waveOut = CreateWaveOut();
 
-            _sampleProvider._time = 0;
-            _sampleProvider._isRunning = true;
+            TimeProvider.Time = 0;
+            _sampleProvider.IsRunning = true;
 
             _waveOut.Play();
         }
-
-        public void Continue() => _sampleProvider._isRunning = true;
-
-        public bool IsRunning => _sampleProvider._isRunning;
-
-        // TODO: It is unintuitive that Pause does not work as an alternative way to start the calculations.
-        public void Pause() => _sampleProvider._isRunning = false;
 
         public void Stop()
         {
@@ -59,17 +40,21 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 _waveOut.Dispose();
             }
 
-            _sampleProvider._isRunning = false;
-            _sampleProvider._time = 0;
+            _sampleProvider.IsRunning = false;
+            TimeProvider.Time = 0;
         }
 
         // Helpers
 
         private WaveOut CreateWaveOut()
         {
-            var waveOut = new WaveOut();
-            waveOut.DesiredLatency = _desiredLatencyInMilliseconds;
+            var waveOut = new WaveOut
+            {
+                DesiredLatency = _desiredLatencyInMilliseconds 
+            };
+
             waveOut.Init(_sampleProvider);
+
             return waveOut;
         }
     }

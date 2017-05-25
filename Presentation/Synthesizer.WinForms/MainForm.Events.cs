@@ -101,7 +101,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryPropertiesUserControl.RemoveRequested += libraryPropertiesUserControl_RemoveRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.ShowCurrentInstrumentRequested += menuUserControl_ShowCurrentInstrumentRequested;
-            menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
             menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
             menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
             menuUserControl.ShowDocumentPropertiesRequested += MenuUserControl_ShowDocumentPropertiesRequested;
@@ -808,16 +807,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 {
                     ForceLoseFocus();
                     _presenter.DocumentClose();
-                });
-        }
-
-        private void menuUserControl_DocumentSaveRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    ForceLoseFocus();
-                    _presenter.DocumentSave();
                 });
         }
 

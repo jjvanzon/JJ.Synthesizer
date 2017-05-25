@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
 
-        public void RecreateCalculator(IList<Patch> patches, AudioOutput audioOutput, RepositoryWrapper repositories)
+        public void RecreateCalculator(Patch patch, AudioOutput audioOutput, RepositoryWrapper repositories)
         {
             // Do nothing.        
         }

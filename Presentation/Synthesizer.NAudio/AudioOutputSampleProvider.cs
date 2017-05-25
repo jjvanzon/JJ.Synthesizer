@@ -15,17 +15,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private readonly double _frameDuration;
         private readonly int _channelCount;
 
-        /// <summary> Public field for performance. </summary>
-        public double _time;
-        public volatile bool _isRunning;
+        public bool IsRunning { get; set; }
 
         public AudioOutputSampleProvider(IPatchCalculatorContainer patchCalculatorContainer, AudioOutput audioOutput)
         {
+            // ReSharper disable once JoinNullCheckWithUsage
             if (audioOutput == null) throw new NullException(() => audioOutput);
-                
+            
             _patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
             _frameDuration = audioOutput.GetFrameDuration();
-            _channelCount = audioOutput.SpeakerSetup.SpeakerSetupChannels.Count;
+            _channelCount = audioOutput.GetChannelCount();
             _waveFormat = CreateWaveFormat(audioOutput);
         }
 
@@ -33,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             WaveFormat waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(
                 audioOutput.SamplingRate, 
-                audioOutput.SpeakerSetup.SpeakerSetupChannels.Count);
+                audioOutput.GetChannelCount());
 
             return waveFormat;
         }
@@ -49,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 IPatchCalculator patchCalculator = _patchCalculatorContainer.Calculator;
 
-                if (!_isRunning || patchCalculator == null)
+                if (!IsRunning || patchCalculator == null)
                 {
                     Array.Clear(buffer, 0, buffer.Length);
                     return count;
@@ -57,9 +56,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                 int frameCount = count / _channelCount;
 
-                patchCalculator.Calculate(buffer, frameCount, _time);
+                patchCalculator.Calculate(buffer, frameCount, TimeProvider.Time);
 
-                _time += _frameDuration * frameCount;
+                TimeProvider.Time += _frameDuration * frameCount;
 
                 return count;
             }

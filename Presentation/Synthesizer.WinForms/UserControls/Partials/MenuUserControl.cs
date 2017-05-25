@@ -12,7 +12,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         public event EventHandler ShowDocumentGridRequested;
         public event EventHandler ShowDocumentTreeRequested;
         public event EventHandler DocumentCloseRequested;
-        public event EventHandler DocumentSaveRequested;
         public event EventHandler ShowCurrentInstrumentRequested;
         public event EventHandler ShowDocumentPropertiesRequested;
 

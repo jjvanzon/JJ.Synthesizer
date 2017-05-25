@@ -32,20 +32,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;
 
-        /// <summary> Only used to get the time. </summary>
-        private readonly AudioOutputProcessor _audioOutputProcessor;
-
         private MidiIn _midiIn;
         private readonly NoteRecycler _noteRecycler;
 
-        /// <param name="audioOutputProcessor">Only used to get the time.</param>
-        public MidiInputProcessor(
-            IPatchCalculatorContainer patchCalculatorContainer, 
-            AudioOutputProcessor audioOutputProcessor,
-            NoteRecycler noteRecycler)
+        public MidiInputProcessor(IPatchCalculatorContainer patchCalculatorContainer, NoteRecycler noteRecycler)
         {
             _patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
-            _audioOutputProcessor = audioOutputProcessor ?? throw new NullException(() => audioOutputProcessor);
             _noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
         }
 
@@ -110,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             lck.EnterWriteLock();
             try
             {
-                double time = _audioOutputProcessor.Time;
+                double time = TimeProvider.Time;
 
                 NoteInfo noteInfo = _noteRecycler.TryGetNoteInfoToStart(noteOnEvent.NoteNumber, time);
                 if (noteInfo == null)
@@ -119,37 +111,39 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 }
 
                 IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
-                if (calculator != null)
+                if (calculator == null)
                 {
-                    double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
-                    double volume = noteOnEvent.Velocity / MAX_VELOCITY;
+                    return;
+                }
 
-                    // Remember controller values.
-                    foreach (ControllerInfo controllerInfo in _controllerCode_To_ControllerInfo_Dictionary.Values)
+                double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
+                double volume = noteOnEvent.Velocity / MAX_VELOCITY;
+
+                // Remember controller values.
+                foreach (ControllerInfo controllerInfo in _controllerCode_To_ControllerInfo_Dictionary.Values)
+                {
+                    double controllerValue = calculator.GetValue(controllerInfo.DimensionEnum);
+                    controllerInfo.TempValue = controllerValue;
+                }
+
+                calculator.Reset(time, noteInfo.ListIndex);
+
+                calculator.SetValue(DimensionEnum.Frequency, noteInfo.ListIndex, frequency);
+                calculator.SetValue(DimensionEnum.Volume, noteInfo.ListIndex, volume);
+                calculator.SetValue(DimensionEnum.NoteStart, noteInfo.ListIndex, time);
+                calculator.SetValue(DimensionEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
+
+                // Re-apply controller values
+                foreach (ControllerInfo controllerInfo in _controllerCode_To_ControllerInfo_Dictionary.Values)
+                {
+                    double controllerValue = controllerInfo.TempValue;
+
+                    if (controllerValue < controllerInfo.MinValue)
                     {
-                        double controllerValue = calculator.GetValue(controllerInfo.DimensionEnum);
-                        controllerInfo.TempValue = controllerValue;
+                        controllerValue = controllerInfo.MinValue;
                     }
 
-                    calculator.Reset(time, noteInfo.ListIndex);
-
-                    calculator.SetValue(DimensionEnum.Frequency, noteInfo.ListIndex, frequency);
-                    calculator.SetValue(DimensionEnum.Volume, noteInfo.ListIndex, volume);
-                    calculator.SetValue(DimensionEnum.NoteStart, noteInfo.ListIndex, time);
-                    calculator.SetValue(DimensionEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
-
-                    // Re-apply controller values
-                    foreach (ControllerInfo controllerInfo in _controllerCode_To_ControllerInfo_Dictionary.Values)
-                    {
-                        double controllerValue = controllerInfo.TempValue;
-
-                        if (controllerValue < controllerInfo.MinValue)
-                        {
-                            controllerValue = controllerInfo.MinValue;
-                        }
-
-                        calculator.SetValue(controllerInfo.DimensionEnum, noteInfo.ListIndex, controllerValue);
-                    }
+                    calculator.SetValue(controllerInfo.DimensionEnum, noteInfo.ListIndex, controllerValue);
                 }
             }
             finally
@@ -168,25 +162,27 @@ namespace JJ.Presentation.Synthesizer.NAudio
             try
             {
                 IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
-                if (calculator != null)
+                if (calculator == null)
                 {
-                    double time = _audioOutputProcessor.Time;
-
-                    NoteInfo noteInfo = _noteRecycler.TryGetNoteInfoToRelease(noteEvent.NoteNumber, time);
-                    if (noteInfo == null)
-                    {
-                        return;
-                    }
-
-                    double noteStart = calculator.GetValue(DimensionEnum.NoteStart, noteInfo.ListIndex);
-                    double noteDuration = time - noteStart;
-                    calculator.SetValue(DimensionEnum.NoteDuration, noteInfo.ListIndex, noteDuration);
-
-                    double releaseDuration = calculator.GetValue(DimensionEnum.ReleaseDuration, noteInfo.ListIndex);
-                    double releaseTime = noteStart + noteDuration;
-                    double endTime = releaseTime + releaseDuration;
-                    _noteRecycler.ReleaseNoteInfo(noteInfo, releaseTime, endTime);
+                    return;
                 }
+
+                double time = TimeProvider.Time;
+
+                NoteInfo noteInfo = _noteRecycler.TryGetNoteInfoToRelease(noteEvent.NoteNumber, time);
+                if (noteInfo == null)
+                {
+                    return;
+                }
+
+                double noteStart = calculator.GetValue(DimensionEnum.NoteStart, noteInfo.ListIndex);
+                double noteDuration = time - noteStart;
+                calculator.SetValue(DimensionEnum.NoteDuration, noteInfo.ListIndex, noteDuration);
+
+                double releaseDuration = calculator.GetValue(DimensionEnum.ReleaseDuration, noteInfo.ListIndex);
+                double releaseTime = noteStart + noteDuration;
+                double endTime = releaseTime + releaseDuration;
+                _noteRecycler.ReleaseNoteInfo(noteInfo, releaseTime, endTime);
             }
             finally
             {
@@ -207,6 +203,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 double delta = (controlChangeEvent.ControllerValue - 64) * controllerInfo.ConversionFactor;
 
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (delta == 0.0)
                 {
                     return;
@@ -379,6 +376,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 },
             };
 
+            // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = controllerInfos.ToDictionary(x => x.ControllerCode);
             return dictionary;
         }

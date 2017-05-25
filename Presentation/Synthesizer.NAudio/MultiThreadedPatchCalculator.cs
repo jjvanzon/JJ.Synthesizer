@@ -10,7 +10,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Data.Canonical;
 using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
@@ -29,7 +28,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
             AudioOutput audioOutput,
             NoteRecycler noteRecycler,
             RepositoryWrapper repositories)
-            : base(audioOutput?.SamplingRate ?? default(int),
+            : base(
+                audioOutput?.SamplingRate ?? default(int),
                 audioOutput?.GetChannelCount() ?? default(int),
                 channelIndex: default(int))
         {
@@ -51,8 +51,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
             var calculatorCache = new CalculatorCache();
 
             Outlet signalOutlet = patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                .Where(x => x.DimensionEnum == DimensionEnum.Signal)
-                .SingleOrDefault();
+                                       .Where(x => x.DimensionEnum == DimensionEnum.Signal)
+                                       .SingleOrDefault();
             if (signalOutlet == null)
             {
                 signalOutlet = patchManager.Number();

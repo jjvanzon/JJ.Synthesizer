@@ -170,7 +170,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new[] { CreateDefaultSinePatch() };
             }
 
-            Program.PatchCalculatorContainer.RecreateCalculator(patches, Program.AudioOutput, _repositories);
+            var patchManager = new PatchManager(new PatchRepositories(_repositories));
+            patchManager.AutoPatch(patches);
+
+            Program.PatchCalculatorContainer.RecreateCalculator(patchManager.Patch, Program.AudioOutput, _repositories);
         }
 
         private Patch CreateDefaultSinePatch()

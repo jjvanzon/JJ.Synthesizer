@@ -49,6 +49,7 @@
     <Compile Include="NoteInfo.cs" />
     <Compile Include="NoteRecycler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\Canonical\JJ.Business.Canonical.csproj">
