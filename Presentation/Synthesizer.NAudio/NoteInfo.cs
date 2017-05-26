@@ -1,6 +1,6 @@
 ﻿namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class NoteInfo
+    internal class NoteInfo
     {
         public int NoteNumber { get; set; }
         public int ListIndex { get; set; }

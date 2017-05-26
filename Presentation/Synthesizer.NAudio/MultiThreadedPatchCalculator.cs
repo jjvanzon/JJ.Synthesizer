@@ -14,7 +14,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class MultiThreadedPatchCalculator : PatchCalculatorBase
+    internal class MultiThreadedPatchCalculator : PatchCalculatorBase
     {
         private readonly int _maxConcurrentNotes;
         private readonly NoteRecycler _noteRecycler;

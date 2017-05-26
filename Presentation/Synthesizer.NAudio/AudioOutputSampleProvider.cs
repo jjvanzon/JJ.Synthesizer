@@ -9,6 +9,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
     internal class AudioOutputSampleProvider : ISampleProvider
     {
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;
+        private readonly TimeProvider _timeProvider;
         private readonly object _lock = new object();
 
         private WaveFormat _waveFormat;
@@ -17,9 +18,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public bool IsRunning { get; set; }
 
-        public AudioOutputSampleProvider(IPatchCalculatorContainer patchCalculatorContainer, int samplingRate, int channelCount)
+        public AudioOutputSampleProvider(IPatchCalculatorContainer patchCalculatorContainer, TimeProvider timeProvider, int samplingRate, int channelCount)
         {
             _patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
+            _timeProvider = timeProvider ?? throw new NullException(() => timeProvider);
 
             SetAudioProperties(samplingRate, channelCount);
         }
@@ -58,9 +60,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                     int frameCount = count / _channelCount;
 
-                    patchCalculator.Calculate(buffer, frameCount, TimeProvider.Time);
+                    patchCalculator.Calculate(buffer, frameCount, _timeProvider.Time);
 
-                    TimeProvider.Time += _frameDuration * frameCount;
+                    _timeProvider.Time += _frameDuration * frameCount;
 
                     return count;
                 }

@@ -13,6 +13,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private static readonly bool _midiInputEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().MidiInputEnabled;
         private static readonly bool _audioOutputEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().AudioOutputEnabled;
 
+        private readonly TimeProvider _timeProvider;
         private readonly NoteRecycler _noteRecycler;
         private readonly AudioOutputProcessor _audioOutputProcessor;
         private readonly MidiInputProcessor _midiInputProcessor;
@@ -29,6 +30,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         public InfrastructureFacade(PatchRepositories patchRepositories)
         {
             _audioOutput = AudioOutputApi.Create();
+            _timeProvider = new TimeProvider();
             _noteRecycler = new NoteRecycler(_audioOutput.MaxConcurrentNotes);
 
             bool mustCreateEmptyPatchCalculatorContainer = !_audioOutputEnabled;
@@ -45,18 +47,19 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 _audioOutputProcessor = new AudioOutputProcessor(
                     _patchCalculatorContainer,
+                    _timeProvider,
                     _audioOutput.SamplingRate,
                     _audioOutput.GetChannelCount(),
                     _audioOutput.DesiredBufferDuration);
 
-                _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
+                _audioOutputThread = _audioOutputProcessor.StartThread();
             }
 
             // ReSharper disable once InvertIf
             if (_midiInputEnabled)
             {
-                _midiInputProcessor = new MidiInputProcessor(_patchCalculatorContainer, _noteRecycler);
-                _midiInputThread = StartMidiInputThread(_midiInputProcessor);
+                _midiInputProcessor = new MidiInputProcessor(_patchCalculatorContainer, _timeProvider, _noteRecycler);
+                _midiInputThread = _midiInputProcessor.StartThread();
             }
         }
 
@@ -84,13 +87,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
             if (_audioOutputProcessor != null)
             {
                 _audioOutputProcessor.UpdateAudioProperties(samplingRate, channelCount, desiredBufferDuration);
-                _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
+                _audioOutputThread = _audioOutputProcessor.StartThread();
             }
 
             // ReSharper disable once InvertIf
             if (_midiInputProcessor != null)
             {
-                _midiInputThread = StartMidiInputThread(_midiInputProcessor);
+                _midiInputThread = _midiInputProcessor.StartThread();
             }
         }
 
@@ -103,26 +106,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 _audioOutput.SamplingRate,
                 _audioOutput.GetChannelCount(),
                 _audioOutput.MaxConcurrentNotes);
-        }
-
-        private Thread StartMidiInputThread(MidiInputProcessor midiInputProcessor)
-        {
-            var thread = new Thread(() => midiInputProcessor.TryStart());
-            thread.Start();
-
-            return thread;
-        }
-
-        private Thread StartAudioOutputThread(AudioOutputProcessor audioOutputProcessor)
-        {
-            var thread = new Thread(() => audioOutputProcessor.Start());
-            thread.Start();
-
-            // Starting AudioOutputProcessor on another thread seems to 
-            // start and keep alive a new Windows message loop,
-            // but that does not mean that the thread keeps running.
-
-            return thread;
         }
     }
 }

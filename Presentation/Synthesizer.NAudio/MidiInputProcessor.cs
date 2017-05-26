@@ -11,7 +11,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class MidiInputProcessor
+    internal class MidiInputProcessor
     {
         private class ControllerInfo
         {
@@ -32,20 +32,30 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;
 
-        private MidiIn _midiIn;
+        private readonly TimeProvider _timeProvider;
         private readonly NoteRecycler _noteRecycler;
+        private MidiIn _midiIn;
 
-        public MidiInputProcessor(IPatchCalculatorContainer patchCalculatorContainer, NoteRecycler noteRecycler)
+        public MidiInputProcessor(IPatchCalculatorContainer patchCalculatorContainer, TimeProvider timeProvider, NoteRecycler noteRecycler)
         {
             _patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
+            _timeProvider = timeProvider ?? throw new NullException(() => timeProvider);
             _noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
+        }
+
+        public Thread StartThread()
+        {
+            var thread = new Thread(TryStart);
+            thread.Start();
+
+            return thread;
         }
 
         /// <summary> 
         /// For now will only work with the first MIDI device it finds. 
         /// Does nothing when no MIDI devices. 
         /// </summary>
-        public void TryStart()
+        private void TryStart()
         {
             if (MidiIn.NumberOfDevices == 0)
             {
@@ -102,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             lck.EnterWriteLock();
             try
             {
-                double time = TimeProvider.Time;
+                double time = _timeProvider.Time;
 
                 NoteInfo noteInfo = _noteRecycler.TryGetNoteInfoToStart(noteOnEvent.NoteNumber, time);
                 if (noteInfo == null)
@@ -167,7 +177,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     return;
                 }
 
-                double time = TimeProvider.Time;
+                double time = _timeProvider.Time;
 
                 NoteInfo noteInfo = _noteRecycler.TryGetNoteInfoToRelease(noteEvent.NoteNumber, time);
                 if (noteInfo == null)
@@ -198,43 +208,46 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             int controllerCode = (int)controlChangeEvent.Controller;
 
-            ControllerInfo controllerInfo;
-            if (_controllerCode_To_ControllerInfo_Dictionary.TryGetValue(controllerCode, out controllerInfo))
+            if (!_controllerCode_To_ControllerInfo_Dictionary.TryGetValue(controllerCode, out ControllerInfo controllerInfo))
             {
-                double delta = (controlChangeEvent.ControllerValue - 64) * controllerInfo.ConversionFactor;
+                return;
+            }
 
-                // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if (delta == 0.0)
+            double delta = (controlChangeEvent.ControllerValue - 64) * controllerInfo.ConversionFactor;
+
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            if (delta == 0.0)
+            {
+                return;
+            }
+
+            ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
+
+            lck.EnterWriteLock();
+            try
+            {
+                IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
+                if (calculator == null)
                 {
                     return;
                 }
 
-                ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
+                double value = calculator.GetValue(controllerInfo.DimensionEnum);
 
-                lck.EnterWriteLock();
-                try
+                value += delta;
+
+                if (value < controllerInfo.MinValue)
                 {
-                    IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
-                    if (calculator != null)
-                    {
-                        double value = calculator.GetValue(controllerInfo.DimensionEnum);
-
-                        value += delta;
-
-                        if (value < controllerInfo.MinValue)
-                        {
-                            value = controllerInfo.MinValue;
-                        }
-
-                        calculator.SetValue(controllerInfo.DimensionEnum, value);
-
-                        Debug.WriteLine($"{controllerInfo.DimensionEnum} = {value}");
-                    }
+                    value = controllerInfo.MinValue;
                 }
-                finally
-                {
-                    lck.ExitWriteLock();
-                }
+
+                calculator.SetValue(controllerInfo.DimensionEnum, value);
+
+                Debug.WriteLine($"{controllerInfo.DimensionEnum} = {value}");
+            }
+            finally
+            {
+                lck.ExitWriteLock();
             }
         }
 

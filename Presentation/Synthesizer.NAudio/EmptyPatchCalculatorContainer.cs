@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class EmptyPatchCalculatorContainer : IPatchCalculatorContainer
+    internal class EmptyPatchCalculatorContainer : IPatchCalculatorContainer
     {
         public IPatchCalculator Calculator => null;
         public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();

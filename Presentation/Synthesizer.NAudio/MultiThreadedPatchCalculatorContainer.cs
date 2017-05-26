@@ -6,7 +6,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class MultiThreadedPatchCalculatorContainer : IPatchCalculatorContainer
+    internal class MultiThreadedPatchCalculatorContainer : IPatchCalculatorContainer
     {
         private readonly PatchRepositories _repositories;
         private readonly NoteRecycler _noteRecycler;

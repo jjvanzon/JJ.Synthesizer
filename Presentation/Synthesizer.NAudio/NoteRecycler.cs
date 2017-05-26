@@ -7,15 +7,12 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class NoteRecycler
+    internal class NoteRecycler
     {
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
         private IList<NoteInfo> _noteInfos;
 
-        public NoteRecycler(int maxConcurrentNotes)
-        {
-            SetMaxConcurrentNotes(maxConcurrentNotes);
-        }
+        public NoteRecycler(int maxConcurrentNotes) => SetMaxConcurrentNotes(maxConcurrentNotes);
 
         public void SetMaxConcurrentNotes(int maxConcurrentNotes)
         {

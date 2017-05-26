@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Threading;
 using JJ.Framework.Exceptions;
 using NAudio.Wave;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
     /// <summary> Most of the work is done by the AudioOutputSampleProvider. </summary>
-    public class AudioOutputProcessor
+    internal class AudioOutputProcessor
     {
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;
+        private readonly TimeProvider _timeProvider;
         private readonly AudioOutputSampleProvider _sampleProvider;
 
         private int _desiredLatencyInMilliseconds;
@@ -15,14 +17,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public AudioOutputProcessor(
             IPatchCalculatorContainer patchCalculatorContainer,
+            TimeProvider timeProvider,
             int samplingRate,
             int channelCount,
             double desiredBufferDuration)
         {
-            _patchCalculatorContainer = patchCalculatorContainer;
+            _patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
+            _timeProvider = timeProvider ?? throw new NullException(() => timeProvider);
 
             _desiredLatencyInMilliseconds = ConvertDurationToMilliseconds(desiredBufferDuration);
-            _sampleProvider = new AudioOutputSampleProvider(_patchCalculatorContainer, samplingRate, channelCount);
+            _sampleProvider = new AudioOutputSampleProvider(_patchCalculatorContainer, _timeProvider, samplingRate, channelCount);
         }
 
         public void UpdateAudioProperties(int samplingRate, int channelCount, double desiredBufferDuration)
@@ -31,7 +35,19 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _sampleProvider.SetAudioProperties(samplingRate, channelCount);
         }
 
-        public void Start()
+        public Thread StartThread()
+        {
+            var thread = new Thread(Start);
+            thread.Start();
+
+            // Starting AudioOutputProcessor on another thread seems to 
+            // start and keep alive a new Windows message loop,
+            // but that does not mean that the thread keeps running.
+
+            return thread;
+        }
+
+        private void Start()
         {
             _waveOut = new WaveOut
             {
@@ -40,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             _waveOut.Init(_sampleProvider);
 
-            TimeProvider.Time = 0;
+            _timeProvider.Time = 0;
             _sampleProvider.IsRunning = true;
 
             _waveOut.Play();
@@ -55,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
 
             _sampleProvider.IsRunning = false;
-            TimeProvider.Time = 0;
+            _timeProvider.Time = 0;
         }
 
         // Helpers
