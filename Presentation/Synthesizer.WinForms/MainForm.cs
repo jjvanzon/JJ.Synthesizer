@@ -24,6 +24,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using JJ.Presentation.Synthesizer.NAudio;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -152,7 +153,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(viewModel.Entity.ID);
                 Patch patch = GetCurrentInstrumentPatch();
 
-                Program.UpdateInfrastructureObjects(audioOutput, patch, new PatchRepositories(_repositories));
+                InfrastructureFacade.UpdateInfrastructure(audioOutput, patch, new PatchRepositories(_repositories));
 
                 // Right the patch calculator must be recreated too,
                 // because the PatchCalculatorContainer has a reference to a NoteRecycler,
@@ -166,7 +167,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             Patch patch = GetCurrentInstrumentPatch();
 
-            Program.RecreatePatchCalculator(patch, new PatchRepositories(_repositories));
+            InfrastructureFacade.RecreatePatchCalculator(patch, new PatchRepositories(_repositories));
         }
 
         private Patch GetCurrentInstrumentPatch()

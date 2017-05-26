@@ -19,6 +19,7 @@ using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using NumberingSystems = JJ.Framework.Mathematics.NumberingSystems;
+using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Roslyn
 {
@@ -183,7 +184,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private const double SAMPLE_BASE_FREQUENCY = 440.0;
 
-        private static readonly CalculationMethodEnum _calculationMethodEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationMethod;
+        private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
         private readonly int _calculationIndentLevel;
         private readonly int _resetIndentLevel;

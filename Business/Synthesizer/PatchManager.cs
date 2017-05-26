@@ -26,6 +26,7 @@ using JJ.Business.Synthesizer.Roslyn;
 using JJ.Business.Synthesizer.Roslyn.Calculation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
+using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer
 {
@@ -36,8 +37,8 @@ namespace JJ.Business.Synthesizer
     /// </summary>
     public partial class PatchManager
     {
-        private static readonly double _secondsBetweenApplyFilterVariables = ConfigurationHelper.GetSection<ConfigurationSection>().SecondsBetweenApplyFilterVariables;
-        private static readonly CalculationMethodEnum _calculationMethodEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationMethod;
+        private static readonly double _secondsBetweenApplyFilterVariables = CustomConfigurationManager.GetSection<ConfigurationSection>().SecondsBetweenApplyFilterVariables;
+        private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
         private readonly PatchRepositories _repositories;
 

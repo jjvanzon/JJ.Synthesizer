@@ -22,6 +22,7 @@ using JJ.Framework.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
+using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Roslyn
 {
@@ -31,7 +32,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string GENERATED_CLASS_NAME = "GeneratedPatchCalculator";
         private const string GENERATED_CLASS_FULL_NAME = GENERATED_NAME_SPACE + "." + GENERATED_CLASS_NAME;
 
-        private static readonly bool _includeSymbols = ConfigurationHelper.GetSection<ConfigurationSection>().IncludeSymbolsWithCompilation;
+        private static readonly bool _includeSymbols = CustomConfigurationManager.GetSection<ConfigurationSection>().IncludeSymbolsWithCompilation;
         private static readonly CSharpCompilationOptions _csharpCompilationOptions = GetCSharpCompilationOptions();
 
         private static readonly SyntaxTree[] _includedSyntaxTrees = CreateIncludedSyntaxTrees(

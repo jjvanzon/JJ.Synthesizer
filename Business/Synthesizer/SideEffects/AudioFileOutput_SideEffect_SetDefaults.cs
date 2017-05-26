@@ -6,13 +6,14 @@ using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
     internal class AudioFileOutput_SideEffect_SetDefaults : ISideEffect
     {
-        private static readonly SpeakerSetupEnum _defaultSpeakerSetupEnum = ConfigurationHelper.GetSection<ConfigurationSection>().DefaultSpeakerSetup;
-        private static readonly int _defaultSamplingRate = ConfigurationHelper.GetSection<ConfigurationSection>().DefaultSamplingRate;
+        private static readonly SpeakerSetupEnum _defaultSpeakerSetupEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().DefaultSpeakerSetup;
+        private static readonly int _defaultSamplingRate = CustomConfigurationManager.GetSection<ConfigurationSection>().DefaultSamplingRate;
 
         private readonly AudioFileOutput _entity;
         private readonly ISampleDataTypeRepository _sampleDataTypeRepository;

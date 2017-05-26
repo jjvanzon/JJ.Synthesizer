@@ -7,13 +7,14 @@ using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
+using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
     /// <summary> Validates the inlet and outlet ListIndexes and that the inlet names are NOT filled in. </summary>
     internal class DataPropertyValidator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
-        private static readonly int? _dataMaxLength = GetDataMaxLength();
+        private static readonly int? _dataMaxLength = CustomConfigurationManager.GetSection<ConfigurationSection>().OperatorDataMaxLength;
 
         /// <summary> HashSet for unicity and value comparisons. </summary>
         private readonly HashSet<string> _expectedDataKeysHashSet;
@@ -87,11 +88,6 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
                     ValidationMessages.AddNotExistsMessage(PropertyNames.DataKey, ResourceFormatter.DataKey, expectedDataKey);
                 }
             }
-        }
-
-        private static int? GetDataMaxLength()
-        {
-            return ConfigurationHelper.GetSection<ConfigurationSection>().OperatorDataMaxLength;
         }
     }
 }

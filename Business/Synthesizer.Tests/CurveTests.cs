@@ -16,11 +16,6 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class CurveTests
     {
-        static CurveTests()
-        {
-            TestHelper.SetConfigurationSections();
-        }
-
         [TestMethod]
         public void Test_Curve_Off()
         {

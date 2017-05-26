@@ -4,16 +4,16 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
-using JJ.Framework.Common;
+using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
     internal class AudioOutput_SideEffect_SetDefaults : ISideEffect
     {
-        private static readonly SpeakerSetupEnum _defaultSpeakerSetupEnum = ConfigurationHelper.GetSection<ConfigurationSection>().DefaultSpeakerSetup;
-        private static readonly int _defaultSamplingRate = ConfigurationHelper.GetSection<ConfigurationSection>().DefaultSamplingRate;
-        private static readonly int _defaultMaxConcurrentNotes = ConfigurationHelper.GetSection<ConfigurationSection>().DefaultMaxConcurrentNotes;
+        private static readonly SpeakerSetupEnum _defaultSpeakerSetupEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().DefaultSpeakerSetup;
+        private static readonly int _defaultSamplingRate = CustomConfigurationManager.GetSection<ConfigurationSection>().DefaultSamplingRate;
+        private static readonly int _defaultMaxConcurrentNotes = CustomConfigurationManager.GetSection<ConfigurationSection>().DefaultMaxConcurrentNotes;
 
         private readonly AudioOutput _entity;
         private readonly ISpeakerSetupRepository _speakerSetupRepository;

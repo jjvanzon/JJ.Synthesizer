@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
-using JJ.Framework.Common;
-using JJ.Framework.Configuration;
-using JJ.Framework.Logging;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.NAudio;
-using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer.Entities;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Presentation.WinForms;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -24,55 +17,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
             public string PatchName { get; set; }
         }
 
-        private static bool _midiInputEnabled;
-        private static bool _audioOutputEnabled;
-
-        private static NoteRecycler _noteRecycler;
-        private static AudioOutputProcessor _audioOutputProcessor;
-        private static MidiInputProcessor _midiInputProcessor;
-
-        public static IPatchCalculatorContainer PatchCalculatorContainer { get; private set; }
-        public static AudioOutput AudioOutput { get; private set; }
-
-        // ReSharper disable once NotAccessedField.Local
-        private static Thread _audioOutputThread;
-
-        // ReSharper disable once NotAccessedField.Local
-        private static Thread _midiInputThread;
-
         [STAThread]
         private static void Main(string[] args)
         {
-            var businessConfig = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
-            ConfigurationHelper.SetSection(businessConfig);
-
-            var vectorGraphicsConfig = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.VectorGraphics.Configuration.ConfigurationSection>();
-            ConfigurationHelper.SetSection(vectorGraphicsConfig);
-
-            var winFormsConfig = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection>();
-            CultureHelper.SetThreadCultureName(winFormsConfig.DefaultCulture);
-
-            _midiInputEnabled = winFormsConfig.MidiInputEnabled;
-            _audioOutputEnabled = winFormsConfig.AudioOutputEnabled;
-
-            // TODO: Make a framework class to handle this.
-            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-            Application.ThreadException += Application_ThreadException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            AudioOutput audioOutput = AudioOutputApi.Create();
-            SetAudioOutput(audioOutput);
-
+            UnhandledExceptionMessageBoxShower.Initialize(ResourceFormatter.ApplicationName);
+            InfrastructureFacade.Initialize();
             ParsedCommandLineArguments parsedCommandLineArguments = ParseCommandLineArguments(args);
 
             MainForm form = ShowMainWindow(parsedCommandLineArguments.DocumentName, parsedCommandLineArguments.PatchName);
             Application.Run(form);
 
-            if (_audioOutputProcessor != null) _audioOutputProcessor.Stop();
-            if (_midiInputProcessor != null) _midiInputProcessor.Stop();
+            InfrastructureFacade.Dispose();
         }
 
         private static readonly Dictionary<string, MainForm> _documentNameToMainWindowDictionary = new Dictionary<string, MainForm>();
@@ -152,113 +110,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 default:
                     throw new GreaterThanException(() => args.Count, 2);
             }
-        }
-
-        private static void SetAudioOutput(AudioOutput audioOutput)
-        {
-            AudioOutput = audioOutput ?? throw new NullException(() => audioOutput);
-
-            _noteRecycler = new NoteRecycler(audioOutput.MaxConcurrentNotes);
-
-            bool mustCreateEmptyPatchCalculatorContainer = !_audioOutputEnabled;
-            if (mustCreateEmptyPatchCalculatorContainer)
-            {
-                PatchCalculatorContainer = new EmptyPatchCalculatorContainer();
-            }
-            else
-            {
-                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer();
-            }
-
-            if (_audioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, audioOutput.SamplingRate, audioOutput.GetChannelCount(), audioOutput.DesiredBufferDuration);
-            if (_midiInputEnabled) _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _noteRecycler);
-
-            if (_audioOutputEnabled) _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
-            if (_midiInputEnabled) _midiInputThread = StartMidiInputThread(_midiInputProcessor);
-        }
-
-        public static void UpdateInfrastructureObjects(AudioOutput audioOutput, Patch patch, PatchRepositories patchRepositories)
-        {
-            if (_audioOutputProcessor != null) _audioOutputProcessor.Stop();
-            if (_midiInputProcessor != null) _midiInputProcessor.Stop();
-
-            AudioOutput = audioOutput ?? throw new NullException(() => audioOutput);
-
-            _noteRecycler.SetMaxConcurrentNotes(audioOutput.MaxConcurrentNotes);
-
-            PatchCalculatorContainer.RecreateCalculator(
-                patch, 
-                audioOutput.SamplingRate, 
-                audioOutput.GetChannelCount(), 
-                audioOutput.MaxConcurrentNotes,
-                _noteRecycler,
-                patchRepositories);
-
-            if (_audioOutputEnabled) _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer, audioOutput.SamplingRate, audioOutput.GetChannelCount(), audioOutput.DesiredBufferDuration);
-            //if (_midiInputEnabled) _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _noteRecycler);
-
-            if (_audioOutputEnabled) _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
-            if (_midiInputEnabled) _midiInputThread = StartMidiInputThread(_midiInputProcessor);
-        }
-
-        public static void RecreatePatchCalculator(Patch patch, PatchRepositories patchRepositories)
-        {
-            if (patch == null) throw new NullException(() => patch);
-            if (patchRepositories == null) throw new NullException(() => patchRepositories);
-
-            PatchCalculatorContainer.RecreateCalculator(
-                patch,
-                AudioOutput.SamplingRate,
-                AudioOutput.GetChannelCount(),
-                AudioOutput.MaxConcurrentNotes,
-                _noteRecycler,
-                patchRepositories);
-        }
-
-        private static Thread StartMidiInputThread(MidiInputProcessor midiInputProcessor)
-        {
-            var thread = new Thread(() => midiInputProcessor.TryStart());
-            thread.Start();
-
-            return thread;
-        }
-
-        private static Thread StartAudioOutputThread(AudioOutputProcessor audioOutputProcessor)
-        {
-            var thread = new Thread(() => audioOutputProcessor.Start());
-            thread.Start();
-
-            // Starting AudioOutputProcessor on another thread seems to 
-            // start and keep alive a new Windows message loop,
-            // but that does not mean that the thread keeps running.
-
-            return thread;
-        }
-
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            string message;
-            if (e.ExceptionObject is Exception ex)
-            {
-                message = ExceptionHelper.FormatException(ExceptionHelper.GetInnermostException(ex), false);
-            }
-            else
-            {
-                message = Convert.ToString(e.ExceptionObject);
-            }
-
-            MessageBox.Show(message, GetMessageBoxCaption());
-        }
-
-        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
-        {
-            Exception ex = ExceptionHelper.GetInnermostException(e.Exception);
-            MessageBox.Show(ExceptionHelper.FormatException(ex, false), GetMessageBoxCaption());
-        }
-
-        private static string GetMessageBoxCaption()
-        {
-            return $"{ResourceFormatter.ApplicationName} - Exception";
         }
     }
 }

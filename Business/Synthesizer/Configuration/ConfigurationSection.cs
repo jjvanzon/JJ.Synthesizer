@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Configuration
 {
-    public class ConfigurationSection
+    internal class ConfigurationSection
     {
         [XmlAttribute]
         public int? NameMaxLength { get; set; }

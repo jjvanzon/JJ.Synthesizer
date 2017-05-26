@@ -14,6 +14,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
 using JJ.Framework.Validation;
+using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
@@ -121,7 +122,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
         private static int GetValueCountPerChunk()
         {
-            int bufferSizeInBytes = ConfigurationHelper.GetSection<ConfigurationSection>().AudioFileOutputBufferSizeInBytes;
+            int bufferSizeInBytes = CustomConfigurationManager.GetSection<ConfigurationSection>().AudioFileOutputBufferSizeInBytes;
             int valueCountPerChunk = bufferSizeInBytes / sizeof(float);
             return valueCountPerChunk;
         }

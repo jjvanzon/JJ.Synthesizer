@@ -37,11 +37,14 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioOutputProcessor.cs" />
     <Compile Include="AudioOutputSampleProvider.cs" />
+    <Compile Include="ConfigurationSection.cs" />
     <Compile Include="EmptyPatchCalculatorContainer.cs" />
+    <Compile Include="InfrastructureFacade.cs" />
     <Compile Include="IPatchCalculatorContainer.cs" />
     <Compile Include="MidiInputProcessor.cs" />
     <Compile Include="MultiThreadedPatchCalculatorContainer.cs" />
@@ -75,6 +78,10 @@
     <ProjectReference Include="..\..\Framework\Business\JJ.Framework.Business.csproj">
       <Project>{F44D03E8-FEEC-40D4-B866-A87799185B4C}</Project>
       <Name>JJ.Framework.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Configuration\JJ.Framework.Configuration.csproj">
+      <Project>{805A8237-05ED-40AE-8D1A-9288373EA5E0}</Project>
+      <Name>JJ.Framework.Configuration</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>

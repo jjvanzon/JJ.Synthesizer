@@ -2,7 +2,7 @@
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Configuration
 {
-    public class ConfigurationSection
+    internal class ConfigurationSection
     {
         [XmlAttribute]
         public bool MustShowInvisibleElements { get; set; }

@@ -16,10 +16,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var config = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
-            ConfigurationHelper.SetSection(config);
-
             Application.Run(new MainForm());
         }
-    }
-}
+    }}

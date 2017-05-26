@@ -9,6 +9,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Converters;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Framework.Collections;
+using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -334,14 +335,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private static int GetLineSegmentCount()
         {
-            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            var config = CustomConfigurationManager.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_LINE_SEGMENT_COUNT;
             return config.PatchLineSegmentCount;
         }
 
         private static bool GetMustShowInvisibleElements()
         {
-            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            var config = CustomConfigurationManager.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS;
             return config.MustShowInvisibleElements;
         }

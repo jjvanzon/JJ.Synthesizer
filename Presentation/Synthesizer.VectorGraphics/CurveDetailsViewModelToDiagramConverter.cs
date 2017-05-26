@@ -16,6 +16,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using Curve = JJ.Data.Synthesizer.Entities.Curve;
+using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -708,21 +709,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private static int GetLineSegmentCount()
         {
-            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            var config = CustomConfigurationManager.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_LINE_SEGMENT_COUNT;
             return config.CurveLineSegmentCount;
         }
 
         private static float GetNodeClickableRegionSizeInPixels()
         {
-            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            var config = CustomConfigurationManager.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_CLICKABLE_REGION_SIZE_IN_PIXELS;
             return config.NodeClickableRegionSizeInPixels;
         }
 
         private static bool GetMustShowInvisibleElements()
         {
-            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            var config = CustomConfigurationManager.TryGetSection<ConfigurationSection>();
             if (config == null) return DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS;
             return config.MustShowInvisibleElements;
         }

@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Mathematics;
+using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
@@ -52,14 +53,14 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private static int GetSamplingRate()
         {
-            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
+            var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
             if (config.CachedNoiseSamplingRate <= 0) throw new LessThanOrEqualException(() => config.CachedNoiseSamplingRate, 0);
             return config.CachedNoiseSamplingRate;
         }
 
         private static double GetCachedSeconds()
         {
-            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
+            var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
             if (config.CachedNoiseSeconds <= 0) throw new LessThanOrEqualException(() => config.CachedNoiseSeconds, 0);
             return config.CachedNoiseSeconds;
         }

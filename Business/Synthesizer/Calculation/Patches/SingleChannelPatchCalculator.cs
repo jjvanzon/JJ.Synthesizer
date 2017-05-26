@@ -11,6 +11,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -20,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         // ReSharper disable once UnusedMember.Local
         private const int TOP_LEVEL_DIMENSION_STACK_INDEX = 0;
 #endif
-        private static readonly CalculationMethodEnum _calculationMethodEnum = ConfigurationHelper.GetSection<ConfigurationSection>().CalculationMethod;
+        private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
         private readonly DimensionStackCollection _dimensionStackCollection;
         private readonly DimensionStack _timeDimensionStack;

@@ -28,11 +28,6 @@ namespace JJ.Business.Synthesizer.Tests
         private const int DEFAULT_CHANNEL_COUNT = 1;
         private const int DEFAULT_CHANNEL_INDEX = 0;
 
-        static SynthesizerTests()
-        {
-            TestHelper.SetConfigurationSections();
-        }
-
         [TestMethod]
         public void Test_Synthesizer()
         {

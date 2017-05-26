@@ -18,11 +18,6 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class SampleTests
     {
-        static SampleTests()
-        {
-            TestHelper.SetConfigurationSections();
-        }
-
         private const string OUTPUT_FILE_NAME = "AudioFileOutput.wav";
         private const int DEFAULT_SAMPLING_RATE = 44100;
         private const int DEFAULT_CHANNEL_COUNT = 1;
