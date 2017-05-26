@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.NAudio
@@ -14,8 +13,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             Patch patch, 
             int samplingRate,
             int channelCount,
-            int maxConcurrentNotes, 
-            NoteRecycler noteRecycler,
-            PatchRepositories repositories);
+            int maxConcurrentNotes);
     }
 }

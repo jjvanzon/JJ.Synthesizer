@@ -36,6 +36,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private readonly IContext _context;
         private readonly RepositoryWrapper _repositories;
         private readonly MainPresenter _presenter;
+        private readonly InfrastructureFacade _infrastructureFacade;
 
         private readonly DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
         private readonly AutoPatchPopupForm _autoPatchPopupForm = new AutoPatchPopupForm();
@@ -51,6 +52,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _repositories = PersistenceHelper.CreateRepositoryWrapper(_context);
             _presenter = new MainPresenter(_repositories);
 
+            _infrastructureFacade = new InfrastructureFacade(new PatchRepositories(_repositories));
+
             BindEvents();
             ApplyStyling();
         }
@@ -64,6 +67,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (disposing)
             {
                 components?.Dispose();
+                _infrastructureFacade?.Dispose();
                 _context?.Dispose();
             }
 
@@ -153,13 +157,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(viewModel.Entity.ID);
                 Patch patch = GetCurrentInstrumentPatch();
 
-                InfrastructureFacade.UpdateInfrastructure(audioOutput, patch, new PatchRepositories(_repositories));
-
-                // Right the patch calculator must be recreated too,
-                // because the PatchCalculatorContainer has a reference to a NoteRecycler,
-                // that has to be replaced. Therefore the Program.SetAudioOutput() replaced the
-                // PatchCalculatorContainer and now the patch calculator in it is lost.
-                RecreatePatchCalculator();
+                _infrastructureFacade.UpdateInfrastructure(audioOutput, patch);
             }
         }
 
@@ -167,7 +165,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             Patch patch = GetCurrentInstrumentPatch();
 
-            InfrastructureFacade.RecreatePatchCalculator(patch, new PatchRepositories(_repositories));
+            _infrastructureFacade.RecreatePatchCalculator(patch);
         }
 
         private Patch GetCurrentInstrumentPatch()

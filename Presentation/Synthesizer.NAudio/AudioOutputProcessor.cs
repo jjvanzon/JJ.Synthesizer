@@ -7,26 +7,38 @@ namespace JJ.Presentation.Synthesizer.NAudio
     /// <summary> Most of the work is done by the AudioOutputSampleProvider. </summary>
     public class AudioOutputProcessor
     {
-        private readonly int _desiredLatencyInMilliseconds;
-
+        private readonly IPatchCalculatorContainer _patchCalculatorContainer;
         private readonly AudioOutputSampleProvider _sampleProvider;
+
+        private int _desiredLatencyInMilliseconds;
         private WaveOut _waveOut;
 
         public AudioOutputProcessor(
-            IPatchCalculatorContainer patchCalculatorContainer, 
+            IPatchCalculatorContainer patchCalculatorContainer,
             int samplingRate,
             int channelCount,
             double desiredBufferDuration)
         {
-            if (desiredBufferDuration <= 0.0) throw new LessThanOrEqualException(() => desiredBufferDuration, 0.0);
+            _patchCalculatorContainer = patchCalculatorContainer;
 
-            _desiredLatencyInMilliseconds = (int)Math.Ceiling(desiredBufferDuration * 1000.0);
-            _sampleProvider = new AudioOutputSampleProvider(patchCalculatorContainer, samplingRate, channelCount);
+            _desiredLatencyInMilliseconds = ConvertDurationToMilliseconds(desiredBufferDuration);
+            _sampleProvider = new AudioOutputSampleProvider(_patchCalculatorContainer, samplingRate, channelCount);
+        }
+
+        public void UpdateAudioProperties(int samplingRate, int channelCount, double desiredBufferDuration)
+        {
+            _desiredLatencyInMilliseconds = ConvertDurationToMilliseconds(desiredBufferDuration);
+            _sampleProvider.SetAudioProperties(samplingRate, channelCount);
         }
 
         public void Start()
         {
-            _waveOut = CreateWaveOut();
+            _waveOut = new WaveOut
+            {
+                DesiredLatency = _desiredLatencyInMilliseconds 
+            };
+
+            _waveOut.Init(_sampleProvider);
 
             TimeProvider.Time = 0;
             _sampleProvider.IsRunning = true;
@@ -48,16 +60,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         // Helpers
 
-        private WaveOut CreateWaveOut()
+        private int ConvertDurationToMilliseconds(double duration)
         {
-            var waveOut = new WaveOut
-            {
-                DesiredLatency = _desiredLatencyInMilliseconds 
-            };
-
-            waveOut.Init(_sampleProvider);
-
-            return waveOut;
+            if (duration <= 0.0) throw new LessThanOrEqualException(() => duration, 0.0);
+            int milliseconds = (int)Math.Ceiling(duration * 1000.0);
+            return milliseconds;
         }
     }
 }

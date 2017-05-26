@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.WinForms;
 
@@ -24,13 +23,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.SetCompatibleTextRenderingDefault(false);
 
             UnhandledExceptionMessageBoxShower.Initialize(ResourceFormatter.ApplicationName);
-            InfrastructureFacade.Initialize();
             ParsedCommandLineArguments parsedCommandLineArguments = ParseCommandLineArguments(args);
 
             MainForm form = ShowMainWindow(parsedCommandLineArguments.DocumentName, parsedCommandLineArguments.PatchName);
             Application.Run(form);
-
-            InfrastructureFacade.Dispose();
         }
 
         private static readonly Dictionary<string, MainForm> _documentNameToMainWindowDictionary = new Dictionary<string, MainForm>();

@@ -135,7 +135,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             base.SetValue(name, noteIndex, value);
 
-            AssertPatchCalculatorNoteIndex(noteIndex);
+            if (!IsValidNoteIndex(noteIndex))
+            {
+                return;
+            }
 
             for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
             {
@@ -162,7 +165,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             base.SetValue(dimensionEnum, noteIndex, value);
 
-            AssertPatchCalculatorNoteIndex(noteIndex);
+            if (!IsValidNoteIndex(noteIndex))
+            {
+                return;
+            }
 
             for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
             {
@@ -184,9 +190,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
             // base.CloneValues may have yielded over all values to all patch calculators,
             // but could not be specific about which note.
             // By cloning the values per note here, we do accomplish setting the right values for te right notes.
+
             for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
             {
-                for (int noteIndex = 0; noteIndex < _maxConcurrentNotes; noteIndex++)
+                int maxConcurrentNotes = Math.Min(_maxConcurrentNotes, castedSourceCalculator._maxConcurrentNotes);
+
+                for (int noteIndex = 0; noteIndex < maxConcurrentNotes; noteIndex++)
                 {
                     IPatchCalculator source = castedSourceCalculator._patchCalculators[channelIndex][noteIndex];
                     IPatchCalculator dest = _patchCalculators[channelIndex][noteIndex];
@@ -200,7 +209,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public override void Reset(double time, int noteIndex)
         {
-            AssertPatchCalculatorNoteIndex(noteIndex);
+            AssertNoteIndex(noteIndex);
 
             for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
             {
@@ -235,11 +244,22 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         // Helpers
 
-        private void AssertPatchCalculatorNoteIndex(int patchCalcultorNoteIndex)
+        private void AssertNoteIndex(int noteIndex)
         {
-            if (patchCalcultorNoteIndex < 0) throw new LessThanException(() => patchCalcultorNoteIndex, 0);
+            if (!IsValidNoteIndex(noteIndex))
+            {
+                throw new Exception($"{noteIndex} should be between 0 and {_maxConcurrentNotes - 1}.");
+            }
+        }
+        
+        private bool IsValidNoteIndex(int noteIndex)
+        {
+            if (noteIndex < 0)
+            {
+                return false;
+            }
             int maxNoteIndex = _maxConcurrentNotes - 1;
-            if (patchCalcultorNoteIndex > maxNoteIndex) throw new GreaterThanException(() => patchCalcultorNoteIndex, () => maxNoteIndex);
+            return noteIndex <= maxNoteIndex;
         }
     }
 }
