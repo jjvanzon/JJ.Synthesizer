@@ -1,7 +1,9 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 
@@ -12,7 +14,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
         private IList<NoteInfo> _noteInfos;
 
-        public NoteRecycler(int maxConcurrentNotes) => SetMaxConcurrentNotes(maxConcurrentNotes);
+        public NoteRecycler(int maxConcurrentNotes)
+        {
+            if (maxConcurrentNotes < 1) throw new LessThanException(() => maxConcurrentNotes, 1);
+
+            _noteInfos = CollectionHelper.Repeat(maxConcurrentNotes, i => CreateNoteInfo(i)).ToArray();
+        }
 
         public void SetMaxConcurrentNotes(int maxConcurrentNotes)
         {
@@ -21,19 +28,23 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _lock.EnterWriteLock();
             try
             {
-                _noteInfos = new NoteInfo[maxConcurrentNotes];
+                IList<NoteInfo> noteInfos = new NoteInfo[maxConcurrentNotes];
 
-                for (int i = 0; i < maxConcurrentNotes; i++)
+                // Update
+                int minCount = Math.Min(noteInfos.Count, _noteInfos.Count);
+                for (int i = 0; i < minCount; i++)
                 {
-                    // TODO: Clone info if needed or do full-CRUD.
-                    _noteInfos[i] = new NoteInfo
-                    {
-                        ListIndex = i,
-                        EndTime = CalculationHelper.VERY_LOW_VALUE,
-                        ReleaseTime = CalculationHelper.VERY_LOW_VALUE,
-                        StartTime = CalculationHelper.VERY_LOW_VALUE
-                    };
+                    noteInfos[i] = _noteInfos[i];
                 }
+
+                // Insert
+                int previousCount = _noteInfos.Count;
+                for (int i = previousCount; i < maxConcurrentNotes; i++)
+                {
+                    noteInfos[i] = CreateNoteInfo(i);
+                }
+
+                _noteInfos = noteInfos;
             }
             finally
             {
@@ -112,6 +123,17 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 _lock.ExitReadLock();
             }
+        }
+
+        private static NoteInfo CreateNoteInfo(int listIndex)
+        {
+            return new NoteInfo
+            {
+                ListIndex = listIndex,
+                EndTime = CalculationHelper.VERY_LOW_VALUE,
+                ReleaseTime = CalculationHelper.VERY_LOW_VALUE,
+                StartTime = CalculationHelper.VERY_LOW_VALUE
+            };
         }
     }
 }

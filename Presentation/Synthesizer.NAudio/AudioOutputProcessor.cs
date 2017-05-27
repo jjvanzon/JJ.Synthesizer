@@ -56,7 +56,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             _waveOut.Init(_sampleProvider);
 
-            _timeProvider.Time = 0;
             _sampleProvider.IsRunning = true;
 
             _waveOut.Play();
@@ -71,7 +70,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
 
             _sampleProvider.IsRunning = false;
-            _timeProvider.Time = 0;
         }
 
         // Helpers

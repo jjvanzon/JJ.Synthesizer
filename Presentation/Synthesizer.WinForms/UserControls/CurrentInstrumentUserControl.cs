@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected override void ApplyViewModelToControls()
         {
             // Update
-            int minCount = new[] { _itemControls.Count, ViewModel.List.Count }.Min();
+            int minCount = Math.Min(_itemControls.Count, ViewModel.List.Count);
             for (int i = 0; i < minCount; i++)
             {
                 IDAndName itemViewModel = ViewModel.List[i];

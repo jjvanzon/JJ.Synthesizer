@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 {
@@ -59,6 +61,28 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 
                     sampleIndex -= jump;
                 }
+            }
+        }
+
+        public static IEnumerable<T> Repeat<T>(int count, Func<T> selector)
+        {
+            if (selector == null) throw new ArgumentNullException(nameof(selector));
+
+            for (int i = 0; i < count; i++)
+            {
+                T item = selector();
+                yield return item;
+            }
+        }
+
+        public static IEnumerable<T> Repeat<T>(int count, Func<int, T> selector)
+        {
+            if (selector == null) throw new ArgumentNullException(nameof(selector));
+
+            for (int i = 0; i < count; i++)
+            {
+                T item = selector(i);
+                yield return item;
             }
         }
     }
