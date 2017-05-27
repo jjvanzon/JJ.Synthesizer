@@ -16,7 +16,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private readonly TimeProvider _timeProvider;
         private readonly NoteRecycler _noteRecycler;
         private readonly AudioOutputProcessor _audioOutputProcessor;
-        private readonly MidiInputProcessor _midiInputProcessor;
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;
 
         private AudioOutput _audioOutput;
@@ -58,15 +57,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
             // ReSharper disable once InvertIf
             if (_midiInputEnabled)
             {
-                _midiInputProcessor = new MidiInputProcessor(_patchCalculatorContainer, _timeProvider, _noteRecycler);
-                _midiInputThread = _midiInputProcessor.StartThread();
+                MidiInputProcessor.Stop();
+                MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler);
+                _midiInputThread = MidiInputProcessor.StartThread();
             }
         }
 
         public void Dispose()
         {
             _audioOutputProcessor?.Stop();
-            _midiInputProcessor?.Stop();
+            MidiInputProcessor.Stop();
         }
 
         public void UpdateInfrastructure(AudioOutput audioOutput, Patch patch)
@@ -79,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             double desiredBufferDuration = audioOutput.DesiredBufferDuration;
 
             _audioOutputProcessor?.Stop();
-            _midiInputProcessor?.Stop();
+            MidiInputProcessor.Stop();
 
             _noteRecycler.SetMaxConcurrentNotes(maxConcurrentNotes);
             _patchCalculatorContainer.RecreateCalculator(patch, samplingRate, channelCount, maxConcurrentNotes);
@@ -91,10 +91,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
 
             // ReSharper disable once InvertIf
-            if (_midiInputProcessor != null)
-            {
-                _midiInputThread = _midiInputProcessor.StartThread();
-            }
+            MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler);
+            _midiInputThread = MidiInputProcessor.StartThread();
         }
 
         public void RecreatePatchCalculator(Patch patch)

@@ -11,7 +11,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    internal class MidiInputProcessor
+    internal static class MidiInputProcessor
     {
         private class ControllerInfo
         {
@@ -30,23 +30,33 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private static readonly Dictionary<int, ControllerInfo> _controllerCode_To_ControllerInfo_Dictionary = Create_ControllerCode_To_ControllerInfo_Dictionary();
         private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
 
-        private readonly IPatchCalculatorContainer _patchCalculatorContainer;
-        private readonly TimeProvider _timeProvider;
-        private readonly NoteRecycler _noteRecycler;
+        private static IPatchCalculatorContainer _patchCalculatorContainer;
+        private static TimeProvider _timeProvider;
+        private static NoteRecycler _noteRecycler;
 
-        private MidiIn _midiIn;
+        private static MidiIn _midiIn;
 
-        public MidiInputProcessor(
+        private static readonly object _lock = new object();
+
+        /// <summary> Can be called more than once. </summary>
+        public static void Initialize(
             IPatchCalculatorContainer patchCalculatorContainer, 
             TimeProvider timeProvider, 
             NoteRecycler noteRecycler)
         {
-            _patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
-            _timeProvider = timeProvider ?? throw new NullException(() => timeProvider);
-            _noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
+            lock (_lock)
+            {
+                if (patchCalculatorContainer == null) throw new NullException(() => patchCalculatorContainer);
+                if (timeProvider == null) throw new NullException(() => timeProvider);
+                if (noteRecycler == null) throw new NullException(() => noteRecycler);
+
+                _patchCalculatorContainer = patchCalculatorContainer;
+                _timeProvider = timeProvider;
+                _noteRecycler = noteRecycler;
+            }
         }
 
-        public Thread StartThread()
+        public static Thread StartThread()
         {
             var thread = new Thread(TryStart);
             thread.Start();
@@ -58,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// For now will only work with the first MIDI device it finds. 
         /// Does nothing when no MIDI devices. 
         /// </summary>
-        private void TryStart()
+        private static void TryStart()
         {
             if (MidiIn.NumberOfDevices == 0)
             {
@@ -71,9 +81,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             try
             {
-                _midiIn = new MidiIn(deviceIndex);
-                _midiIn.MessageReceived += _midiIn_MessageReceived;
-                _midiIn.Start();
+                lock (_lock)
+                {
+                    _midiIn = new MidiIn(deviceIndex);
+                    _midiIn.MessageReceived += _midiIn_MessageReceived;
+                    _midiIn.Start();
+                }
             }
             catch
             {
@@ -82,29 +95,32 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        public void Stop()
+        public static void Stop()
         {
-            if (_midiIn == null)
+            lock (_lock)
             {
-                return;
-            }
+                if (_midiIn == null)
+                {
+                    return;
+                }
 
-            try
-            {
-                _midiIn.MessageReceived -= _midiIn_MessageReceived;
-                // Not sure if I need to call of these methods,
-                // but when I omitted one I got an error upon application exit.
-                _midiIn.Stop();
-                _midiIn.Close();
-                _midiIn.Dispose();
-            }
-            catch
-            {
-                // Do not crash your whole application, if midi device communication fails.
+                try
+                {
+                    _midiIn.MessageReceived -= _midiIn_MessageReceived;
+                    // Not sure if I need to call of these methods,
+                    // but when I omitted one I got an error upon application exit.
+                    _midiIn.Stop();
+                    _midiIn.Close();
+                    _midiIn.Dispose();
+                }
+                catch
+                {
+                    // Do not crash your whole application, if midi device communication fails.
+                }
             }
         }
 
-        private void _midiIn_MessageReceived(object sender, MidiInMessageEventArgs e)
+        private static void _midiIn_MessageReceived(object sender, MidiInMessageEventArgs e)
         {
             switch (e.MidiEvent.CommandCode)
             {
@@ -122,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        private void HandleNoteOn(MidiEvent midiEvent)
+        private static void HandleNoteOn(MidiEvent midiEvent)
         {
             var noteOnEvent = (NoteOnEvent)midiEvent;
 
@@ -181,7 +197,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        private void HandleNoteOff(MidiEvent midiEvent)
+        private static void HandleNoteOff(MidiEvent midiEvent)
         {
             var noteEvent = (NoteEvent)midiEvent;
 
@@ -219,7 +235,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        private void HandleControlChange(MidiEvent midiEvent)
+        private static void HandleControlChange(MidiEvent midiEvent)
         {
             var controlChangeEvent = (ControlChangeEvent)midiEvent;
 
