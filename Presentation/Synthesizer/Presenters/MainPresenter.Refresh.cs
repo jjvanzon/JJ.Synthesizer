@@ -248,6 +248,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
+        /// <summary> Note that this does not do a ViewModel to Entity conversion. </summary>
         private void DocumentViewModelRefresh()
         {
             AudioFileOutputGridRefresh();

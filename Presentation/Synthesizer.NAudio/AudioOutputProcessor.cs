@@ -57,32 +57,47 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private void Start()
         {
-            lock (_lock)
+            try
             {
-                _waveOut = new WaveOut
+                lock (_lock)
                 {
-                    DesiredLatency = _desiredLatencyInMilliseconds
-                };
+                    _waveOut = new WaveOut
+                    {
+                        DesiredLatency = _desiredLatencyInMilliseconds
+                    };
 
-                _waveOut.Init(_sampleProvider);
+                    _waveOut.Init(_sampleProvider);
 
-                _sampleProvider.IsRunning = true;
+                    _sampleProvider.IsRunning = true;
 
-                _waveOut.Play();
+                    _waveOut.Play();
+                }
+            }
+            catch
+            {
+                // Do not crash your whole application, if midi device communication fails.
+                Stop();
             }
         }
 
         public void Stop()
         {
-            lock (_lock)
+            try
             {
-                if (_waveOut != null)
+                lock (_lock)
                 {
-                    _waveOut.Stop();
-                    _waveOut.Dispose();
-                }
+                    if (_waveOut != null)
+                    {
+                        _waveOut.Stop();
+                        _waveOut.Dispose();
+                    }
 
-                _sampleProvider.IsRunning = false;
+                    _sampleProvider.IsRunning = false;
+                }
+            }
+            catch
+            {
+                // Do not crash your whole application, if audio device communication fails.
             }
         }
 

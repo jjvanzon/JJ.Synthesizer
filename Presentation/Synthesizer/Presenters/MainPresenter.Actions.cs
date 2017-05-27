@@ -494,7 +494,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
                 PatchDetailsShow(userInput.PatchDetails.Entity.ID);
                 PatchPropertiesShow(userInput.PatchDetails.Entity.ID);
             }
@@ -607,7 +607,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -622,7 +622,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -680,7 +680,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleCurveProperties = null;
 
                 // Refresh
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -695,7 +695,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -710,7 +710,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1071,6 +1071,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemplateActionMethod(userInput, () => _documentPropertiesPresenter.Play(userInput));
         }
 
+        /// <summary>
+        /// Will do a a ViewModel to Entity conversion.
+        /// (The private Refresh methods do not.)
+        /// </summary>
         public void DocumentRefresh()
         {
             if (MainViewModel.Document.IsOpen)
@@ -1444,7 +1448,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1488,7 +1492,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 MainViewModel.Document.VisibleLibraryProperties = null;
 
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1503,7 +1507,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1536,7 +1540,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1551,7 +1555,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1575,7 +1579,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1791,7 +1795,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1849,7 +1853,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1939,7 +1943,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -1990,7 +1994,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2005,7 +2009,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2065,7 +2069,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForCurve = null;
 
                 // Refresh
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2083,7 +2087,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = null;
 
                 // Refresh
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2173,7 +2177,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForSample = null;
 
                 // Refresh
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2261,7 +2265,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2306,7 +2310,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2323,7 +2327,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2405,7 +2409,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2714,7 +2718,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2729,7 +2733,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2829,7 +2833,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisiblePatchProperties = null;
 
                 // Refresh
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2844,7 +2848,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2859,7 +2863,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2920,7 +2924,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2935,7 +2939,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -3022,7 +3026,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -3092,7 +3096,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -3107,7 +3111,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel.Successful)
             {
                 // Refresh
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
@@ -3196,7 +3200,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel.Successful)
             {
                 // Refresh
-                DocumentRefresh();
+                DocumentViewModelRefresh();
             }
         }
 
