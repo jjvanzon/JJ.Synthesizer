@@ -186,7 +186,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Off => Resources.Off;
         public static string Offset => Resources.Offset;
         public static string OneOverX => Resources.OneOverX;
-        public static string Operand => Resources.Operand;
         public static string Operator => Resources.Operator;
         public static string OperatorIsInGraphButNotInList => Resources.OperatorIsInGraphButNotInList;
         public static string OperatorType => Resources.OperatorType;

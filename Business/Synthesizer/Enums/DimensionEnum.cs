@@ -27,6 +27,26 @@
         Time = 22,
         Channel = 23,
         Harmonic = 24,
-        Balance = 25
+        Balance = 25,
+        Sound = 26,
+        Phase = 27,
+        PreviousPosition = 28,
+        Origin = 29,
+        Input = 30,
+        Result = 31,
+        A = 32,
+        B = 33,
+        Base = 36,
+        Exponent = 37,
+        Difference = 38,
+        Factor = 39,
+        SamplingRate = 40,
+        Start = 41,
+        End = 42,
+        Low = 43,
+        High = 44,
+        Ratio = 45,
+        PitchBend = 46,
+        MainVolume = 47
     }
 }

@@ -609,9 +609,6 @@
   <data name="OneOverX" xml:space="preserve">
     <value>1/x</value>
   </data>
-  <data name="Operand" xml:space="preserve">
-    <value>Operand</value>
-  </data>
   <data name="Operator" xml:space="preserve">
     <value>Operator</value>
   </data>
@@ -1026,5 +1023,20 @@
   </data>
   <data name="PatchesInLibrary" xml:space="preserve">
     <value>Schakelingen in bibliotheek</value>
+  </data>
+  <data name="MainVolume" xml:space="preserve">
+    <value>Main Volume</value>
+  </data>
+  <data name="Phase" xml:space="preserve">
+    <value>Fase</value>
+  </data>
+  <data name="PitchBend" xml:space="preserve">
+    <value>Pitch Bend</value>
+  </data>
+  <data name="PreviousPosition" xml:space="preserve">
+    <value>Vorige positie</value>
+  </data>
+  <data name="Sound" xml:space="preserve">
+    <value>Geluid</value>
   </data>
 </root>

@@ -1348,6 +1348,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main Volume.
+        /// </summary>
+        internal static string MainVolume {
+            get {
+                return ResourceManager.GetString("MainVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max.
         /// </summary>
         internal static string Max {
@@ -1645,15 +1654,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operand.
-        /// </summary>
-        internal static string Operand {
-            get {
-                return ResourceManager.GetString("Operand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Operator.
         /// </summary>
         internal static string Operator {
@@ -1834,6 +1834,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Phase.
+        /// </summary>
+        internal static string Phase {
+            get {
+                return ResourceManager.GetString("Phase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pitch Bend.
+        /// </summary>
+        internal static string PitchBend {
+            get {
+                return ResourceManager.GetString("PitchBend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Play.
         /// </summary>
         internal static string Play {
@@ -1857,6 +1875,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Power {
             get {
                 return ResourceManager.GetString("Power", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous Position.
+        /// </summary>
+        internal static string PreviousPosition {
+            get {
+                return ResourceManager.GetString("PreviousPosition", resourceCulture);
             }
         }
         
@@ -2271,6 +2298,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string SortOverInlets {
             get {
                 return ResourceManager.GetString("SortOverInlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sound.
+        /// </summary>
+        internal static string Sound {
+            get {
+                return ResourceManager.GetString("Sound", resourceCulture);
             }
         }
         

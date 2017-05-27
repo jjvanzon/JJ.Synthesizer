@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet Operand
+        public Outlet Input
         {
             get => Inlet.InputOutlet;
             set => Inlet.LinkTo(value);
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
 
-            string name = ResourceFormatter.GetDisplayName(() => Operand);
+            string name = ResourceFormatter.GetDisplayName(() => Input);
             return name;
         }
     }

@@ -351,6 +351,8 @@
     <Content Include="2017-04-14 020 SynthesizerDB Patch.Hidden not null.sql" />
     <Content Include="2017-04-14 010 SynthesizerDB Patch.Hidden.sql" />
     <Content Include="2017-03-03 010 SynthesizerDB DocumentReference column renames.sql" />
+    <Content Include="2017-05-27 010 SynthesizerDB Dimension insert many rows.sql" />
+    <Content Include="2017-05-27 020 SynthesizerDB Dimension delete 34 - Numerator and 35 - Denominator.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

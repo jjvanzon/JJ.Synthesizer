@@ -991,7 +991,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new DimensionToOutlets_OperatorWrapper(op)
             {
-                Operand = operand
+                Input = operand
             };
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
