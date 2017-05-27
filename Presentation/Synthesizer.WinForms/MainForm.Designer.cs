@@ -273,10 +273,13 @@
             this.patchDetailsUserControl.OpenExternallyButtonVisible = false;
             this.patchDetailsUserControl.PlayButtonVisible = true;
             this.patchDetailsUserControl.RefreshButtonVisible = false;
+            this.patchDetailsUserControl.RemoveButtonVisible = true;
             this.patchDetailsUserControl.SaveButtonVisible = false;
             this.patchDetailsUserControl.Size = new System.Drawing.Size(851, 532);
             this.patchDetailsUserControl.TabIndex = 1;
+            this.patchDetailsUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.patchDetailsUserControl.TitleBarText = "Patch Details";
+            this.patchDetailsUserControl.TitleLabelVisible = true;
             this.patchDetailsUserControl.ViewModel = null;
             this.patchDetailsUserControl.Visible = false;
             // 
@@ -300,7 +303,7 @@
             this.libraryPatchPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.libraryPatchPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.libraryPatchPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
-            this.libraryPatchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.libraryPatchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.libraryPatchPropertiesUserControl.Name = "libraryPatchPropertiesUserControl";
             this.libraryPatchPropertiesUserControl.OpenExternallyButtonVisible = true;
             this.libraryPatchPropertiesUserControl.PlayButtonVisible = true;
@@ -309,7 +312,9 @@
             this.libraryPatchPropertiesUserControl.SaveButtonVisible = false;
             this.libraryPatchPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.libraryPatchPropertiesUserControl.TabIndex = 1;
+            this.libraryPatchPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.libraryPatchPropertiesUserControl.TitleBarText = "Patch Properties";
+            this.libraryPatchPropertiesUserControl.TitleLabelVisible = true;
             this.libraryPatchPropertiesUserControl.ViewModel = null;
             // 
             // libraryPropertiesUserControl
@@ -320,15 +325,18 @@
             this.libraryPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.libraryPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.libraryPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
-            this.libraryPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.libraryPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.libraryPropertiesUserControl.Name = "libraryPropertiesUserControl";
             this.libraryPropertiesUserControl.OpenExternallyButtonVisible = true;
             this.libraryPropertiesUserControl.PlayButtonVisible = true;
             this.libraryPropertiesUserControl.RefreshButtonVisible = false;
+            this.libraryPropertiesUserControl.RemoveButtonVisible = true;
             this.libraryPropertiesUserControl.SaveButtonVisible = false;
             this.libraryPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.libraryPropertiesUserControl.TabIndex = 1;
+            this.libraryPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.libraryPropertiesUserControl.TitleBarText = "Library Properties";
+            this.libraryPropertiesUserControl.TitleLabelVisible = true;
             this.libraryPropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForNumber
@@ -345,10 +353,13 @@
             this.operatorPropertiesUserControl_ForNumber.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForNumber.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForNumber.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_ForNumber.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_ForNumber.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_ForNumber.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForNumber.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_ForNumber.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForNumber.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_ForNumber.ViewModel = null;
             // 
             // operatorPropertiesUserControl_WithCollectionRecalculation
@@ -365,10 +376,13 @@
             this.operatorPropertiesUserControl_WithCollectionRecalculation.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_WithCollectionRecalculation.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = null;
             // 
             // operatorPropertiesUserControl_WithInletCount
@@ -385,10 +399,13 @@
             this.operatorPropertiesUserControl_WithInletCount.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_WithInletCount.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_WithInletCount.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_WithInletCount.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_WithInletCount.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_WithInletCount.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_WithInletCount.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithInletCount.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_WithInletCount.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_WithInletCount.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_WithInletCount.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForInletsToDimension
@@ -405,10 +422,13 @@
             this.operatorPropertiesUserControl_ForInletsToDimension.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForInletsToDimension.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForInletsToDimension.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_ForInletsToDimension.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_ForInletsToDimension.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForInletsToDimension.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_ForInletsToDimension.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForInletsToDimension.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_ForInletsToDimension.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForInletsToDimension.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_ForInletsToDimension.ViewModel = null;
             // 
             // audioOutputPropertiesUserControl
@@ -424,10 +444,13 @@
             this.audioOutputPropertiesUserControl.OpenExternallyButtonVisible = false;
             this.audioOutputPropertiesUserControl.PlayButtonVisible = true;
             this.audioOutputPropertiesUserControl.RefreshButtonVisible = false;
+            this.audioOutputPropertiesUserControl.RemoveButtonVisible = false;
             this.audioOutputPropertiesUserControl.SaveButtonVisible = false;
             this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.audioOutputPropertiesUserControl.TabIndex = 1;
+            this.audioOutputPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.audioOutputPropertiesUserControl.TitleBarText = "Audio Output Properties";
+            this.audioOutputPropertiesUserControl.TitleLabelVisible = true;
             this.audioOutputPropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForCache
@@ -444,10 +467,13 @@
             this.operatorPropertiesUserControl_ForCache.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForCache.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForCache.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_ForCache.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_ForCache.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_ForCache.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForCache.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_ForCache.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForCache.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_ForCache.ViewModel = null;
             // 
             // operatorPropertiesUserControl_WithInterpolation
@@ -464,10 +490,13 @@
             this.operatorPropertiesUserControl_WithInterpolation.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_WithInterpolation.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_WithInterpolation.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_WithInterpolation.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_WithInterpolation.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_WithInterpolation.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_WithInterpolation.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithInterpolation.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_WithInterpolation.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_WithInterpolation.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_WithInterpolation.ViewModel = null;
             // 
             // operatorPropertiesUserControl_WithOutletCount
@@ -484,10 +513,13 @@
             this.operatorPropertiesUserControl_WithOutletCount.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_WithOutletCount.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_WithOutletCount.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_WithOutletCount.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_WithOutletCount.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_WithOutletCount.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_WithOutletCount.TabIndex = 1;
+            this.operatorPropertiesUserControl_WithOutletCount.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_WithOutletCount.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_WithOutletCount.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_WithOutletCount.ViewModel = null;
             // 
             // nodePropertiesUserControl
@@ -504,10 +536,13 @@
             this.nodePropertiesUserControl.OpenExternallyButtonVisible = false;
             this.nodePropertiesUserControl.PlayButtonVisible = false;
             this.nodePropertiesUserControl.RefreshButtonVisible = false;
+            this.nodePropertiesUserControl.RemoveButtonVisible = true;
             this.nodePropertiesUserControl.SaveButtonVisible = false;
             this.nodePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.nodePropertiesUserControl.TabIndex = 1;
+            this.nodePropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.nodePropertiesUserControl.TitleBarText = "Node Properties";
+            this.nodePropertiesUserControl.TitleLabelVisible = true;
             this.nodePropertiesUserControl.ViewModel = null;
             // 
             // curvePropertiesUserControl
@@ -524,10 +559,13 @@
             this.curvePropertiesUserControl.OpenExternallyButtonVisible = false;
             this.curvePropertiesUserControl.PlayButtonVisible = false;
             this.curvePropertiesUserControl.RefreshButtonVisible = false;
+            this.curvePropertiesUserControl.RemoveButtonVisible = true;
             this.curvePropertiesUserControl.SaveButtonVisible = false;
             this.curvePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.curvePropertiesUserControl.TabIndex = 1;
+            this.curvePropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.curvePropertiesUserControl.TitleBarText = "Curve Properties";
+            this.curvePropertiesUserControl.TitleLabelVisible = true;
             this.curvePropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForCurve
@@ -544,10 +582,13 @@
             this.operatorPropertiesUserControl_ForCurve.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForCurve.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForCurve.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_ForCurve.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_ForCurve.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_ForCurve.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForCurve.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_ForCurve.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForCurve.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_ForCurve.ViewModel = null;
             // 
             // scalePropertiesUserControl
@@ -564,10 +605,13 @@
             this.scalePropertiesUserControl.OpenExternallyButtonVisible = false;
             this.scalePropertiesUserControl.PlayButtonVisible = false;
             this.scalePropertiesUserControl.RefreshButtonVisible = false;
+            this.scalePropertiesUserControl.RemoveButtonVisible = true;
             this.scalePropertiesUserControl.SaveButtonVisible = false;
             this.scalePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.scalePropertiesUserControl.TabIndex = 1;
+            this.scalePropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.scalePropertiesUserControl.TitleBarText = "Scale Properties";
+            this.scalePropertiesUserControl.TitleLabelVisible = true;
             this.scalePropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForPatchInlet
@@ -584,10 +628,13 @@
             this.operatorPropertiesUserControl_ForPatchInlet.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchInlet.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForPatchInlet.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_ForPatchInlet.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_ForPatchInlet.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_ForPatchInlet.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForPatchInlet.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_ForPatchInlet.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForPatchInlet.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_ForPatchInlet.ViewModel = null;
             // 
             // documentPropertiesUserControl
@@ -608,7 +655,9 @@
             this.documentPropertiesUserControl.SaveButtonVisible = false;
             this.documentPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.documentPropertiesUserControl.TabIndex = 1;
+            this.documentPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.documentPropertiesUserControl.TitleBarText = "Document Properties";
+            this.documentPropertiesUserControl.TitleLabelVisible = true;
             this.documentPropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl
@@ -625,10 +674,13 @@
             this.operatorPropertiesUserControl.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl.PlayButtonVisible = true;
             this.operatorPropertiesUserControl.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl.SaveButtonVisible = false;
             this.operatorPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl.TabIndex = 1;
+            this.operatorPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl.TitleLabelVisible = true;
             this.operatorPropertiesUserControl.ViewModel = null;
             // 
             // patchPropertiesUserControl
@@ -645,10 +697,13 @@
             this.patchPropertiesUserControl.OpenExternallyButtonVisible = false;
             this.patchPropertiesUserControl.PlayButtonVisible = true;
             this.patchPropertiesUserControl.RefreshButtonVisible = false;
+            this.patchPropertiesUserControl.RemoveButtonVisible = true;
             this.patchPropertiesUserControl.SaveButtonVisible = false;
             this.patchPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.patchPropertiesUserControl.TabIndex = 1;
+            this.patchPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.patchPropertiesUserControl.TitleBarText = "Patch Properties";
+            this.patchPropertiesUserControl.TitleLabelVisible = true;
             this.patchPropertiesUserControl.ViewModel = null;
             // 
             // samplePropertiesUserControl
@@ -665,10 +720,13 @@
             this.samplePropertiesUserControl.OpenExternallyButtonVisible = false;
             this.samplePropertiesUserControl.PlayButtonVisible = true;
             this.samplePropertiesUserControl.RefreshButtonVisible = false;
+            this.samplePropertiesUserControl.RemoveButtonVisible = true;
             this.samplePropertiesUserControl.SaveButtonVisible = false;
             this.samplePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.samplePropertiesUserControl.TabIndex = 1;
+            this.samplePropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.samplePropertiesUserControl.TitleBarText = "Sample Properties";
+            this.samplePropertiesUserControl.TitleLabelVisible = true;
             this.samplePropertiesUserControl.ViewModel = null;
             // 
             // audioFileOutputPropertiesUserControl
@@ -685,10 +743,13 @@
             this.audioFileOutputPropertiesUserControl.OpenExternallyButtonVisible = false;
             this.audioFileOutputPropertiesUserControl.PlayButtonVisible = false;
             this.audioFileOutputPropertiesUserControl.RefreshButtonVisible = false;
+            this.audioFileOutputPropertiesUserControl.RemoveButtonVisible = true;
             this.audioFileOutputPropertiesUserControl.SaveButtonVisible = false;
             this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
             this.audioFileOutputPropertiesUserControl.TabIndex = 1;
+            this.audioFileOutputPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.audioFileOutputPropertiesUserControl.TitleBarText = "Title";
+            this.audioFileOutputPropertiesUserControl.TitleLabelVisible = true;
             this.audioFileOutputPropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForSample
@@ -705,10 +766,13 @@
             this.operatorPropertiesUserControl_ForSample.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForSample.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForSample.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_ForSample.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_ForSample.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_ForSample.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForSample.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_ForSample.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForSample.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_ForSample.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForCustomOperator
@@ -725,10 +789,13 @@
             this.operatorPropertiesUserControl_ForCustomOperator.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForCustomOperator.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForCustomOperator.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_ForCustomOperator.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_ForCustomOperator.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForCustomOperator.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_ForCustomOperator.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForCustomOperator.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_ForCustomOperator.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForCustomOperator.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_ForCustomOperator.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForPatchOutlet
@@ -745,10 +812,13 @@
             this.operatorPropertiesUserControl_ForPatchOutlet.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchOutlet.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForPatchOutlet.RefreshButtonVisible = false;
+            this.operatorPropertiesUserControl_ForPatchOutlet.RemoveButtonVisible = true;
             this.operatorPropertiesUserControl_ForPatchOutlet.SaveButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(333, 532);
             this.operatorPropertiesUserControl_ForPatchOutlet.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForPatchOutlet.TitleBarBackColor = System.Drawing.SystemColors.Control;
             this.operatorPropertiesUserControl_ForPatchOutlet.TitleBarText = "Operator Properties";
+            this.operatorPropertiesUserControl_ForPatchOutlet.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_ForPatchOutlet.ViewModel = null;
             // 
             // menuUserControl
@@ -812,6 +882,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.splitContainerTreeAndRightSide.Panel1.ResumeLayout(false);
             this.splitContainerTreeAndRightSide.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTreeAndRightSide)).EndInit();

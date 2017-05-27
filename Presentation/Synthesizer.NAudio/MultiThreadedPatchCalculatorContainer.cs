@@ -13,7 +13,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
 
-        /// <summary> null if RecreateCalculator is not yet called. </summary>
+        /// <summary>
+        /// Not thread-safe on its own. You need to use the Lock property
+        /// to manage thread-safety yourself.
+        /// null if RecreateCalculator is not yet called.
+        /// </summary>
         public IPatchCalculator Calculator { get; private set; }
 
         public MultiThreadedPatchCalculatorContainer(NoteRecycler noteRecycler, PatchRepositories repositories)
@@ -22,9 +26,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
         }
 
-        /// <summary> 
+        /// <summary>
         /// You must call this on the thread that keeps the IContext open. 
-        /// Will automatically use a WriteLock.
+        /// Thread-safe: Will automatically use a WriteLock.
         /// </summary>
         public void RecreateCalculator(Patch patch, int samplingRate, int channelCount, int maxConcurrentNotes)
         {

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using JJ.Data.Synthesizer.Entities;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
@@ -224,6 +226,28 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Program.RemoveMainWindow(this);
+        }
+
+        /// <summary>
+        /// HACK: This will reclaim ownership of the Midi device when switching between document windows.
+        /// </summary>
+        private void MainForm_Activated(object sender, EventArgs e)
+        {
+            if (_presenter.MainViewModel == null) return;
+            if (!_presenter.MainViewModel.Document.IsOpen) return;
+
+            TemplateActionHandler(
+                () =>
+                {
+                    // HACK: applies view model to entity model.
+                    _presenter.DocumentRefresh();
+
+                    int audioOutputID = _presenter.MainViewModel.Document.AudioOutputProperties.Entity.ID;
+                    AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(audioOutputID);
+                    Patch patch = GetCurrentInstrumentPatch();
+
+                    _infrastructureFacade.UpdateInfrastructure(audioOutput, patch);
+                });
         }
 
         // AudioFileOutput

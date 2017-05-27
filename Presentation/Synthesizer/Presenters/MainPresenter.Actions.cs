@@ -892,6 +892,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Document
 
+        public void DocumentClose()
+        {
+            if (MainViewModel.Document.IsOpen)
+            {
+                // Partial Actions
+                string titleBar = _titleBarPresenter.Show();
+                MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
+                DocumentViewModel documentViewModel = ViewModelHelper.CreateEmptyDocumentViewModel();
+
+                // DispatchViewModel
+                MainViewModel.TitleBar = titleBar;
+                MainViewModel.Menu = menuViewModel;
+                MainViewModel.Document = documentViewModel;
+
+                // Redirections
+                DocumentGridShow();
+            }
+        }
+
         public void DocumentOpen(string name)
         {
             Document document = _repositories.DocumentRepository.GetByName(name);
@@ -1004,62 +1023,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void DocumentSave()
-        {
-            // ToEntity
-            // Get rid of AutoPatch view model temporarily from the DocumentViewModel.
-            // It should not be saved and this is the only action upon which it should not be converted to Entity.
-            Document document;
-            AutoPatchPopupViewModel originalAutoPatchPopup = null;
-            try
-            {
-                originalAutoPatchPopup = MainViewModel.Document.AutoPatchPopup;
-                MainViewModel.Document.AutoPatchPopup = null;
-
-                document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-            }
-            finally
-            {
-                if (originalAutoPatchPopup != null)
-                {
-                    MainViewModel.Document.AutoPatchPopup = originalAutoPatchPopup;
-                }
-            }
-
-            // Business
-            IResultDto validationResult = _documentManager.Save(document);
-            IResultDto warningsResult = _documentManager.GetWarningsRecursive(document);
-
-            // Commit
-            if (validationResult.Successful)
-            {
-                _repositories.Commit();
-            }
-
-            // ToViewModel
-            MainViewModel.ValidationMessages = validationResult.Messages;
-            MainViewModel.WarningMessages = warningsResult.Messages;
-        }
-
-        public void DocumentClose()
-        {
-            if (MainViewModel.Document.IsOpen)
-            {
-                // Partial Actions
-                string titleBar = _titleBarPresenter.Show();
-                MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
-                DocumentViewModel documentViewModel = ViewModelHelper.CreateEmptyDocumentViewModel();
-
-                // DispatchViewModel
-                MainViewModel.TitleBar = titleBar;
-                MainViewModel.Menu = menuViewModel;
-                MainViewModel.Document = documentViewModel;
-
-                // Redirections
-                DocumentGridShow();
-            }
-        }
-
         public void DocumentOrPatchNotFoundOK()
         {
             // GetViewModel
@@ -1106,6 +1069,53 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             TemplateActionMethod(userInput, () => _documentPropertiesPresenter.Play(userInput));
+        }
+
+        public void DocumentRefresh()
+        {
+            if (MainViewModel.Document.IsOpen)
+            {
+                MainViewModel.ToEntityWithRelatedEntities(_repositories);
+
+                DocumentViewModelRefresh();
+            }
+        }
+
+        public void DocumentSave()
+        {
+            // ToEntity
+            // Get rid of AutoPatch view model temporarily from the DocumentViewModel.
+            // It should not be saved and this is the only action upon which it should not be converted to Entity.
+            Document document;
+            AutoPatchPopupViewModel originalAutoPatchPopup = null;
+            try
+            {
+                originalAutoPatchPopup = MainViewModel.Document.AutoPatchPopup;
+                MainViewModel.Document.AutoPatchPopup = null;
+
+                document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            }
+            finally
+            {
+                if (originalAutoPatchPopup != null)
+                {
+                    MainViewModel.Document.AutoPatchPopup = originalAutoPatchPopup;
+                }
+            }
+
+            // Business
+            IResultDto validationResult = _documentManager.Save(document);
+            IResultDto warningsResult = _documentManager.GetWarningsRecursive(document);
+
+            // Commit
+            if (validationResult.Successful)
+            {
+                _repositories.Commit();
+            }
+
+            // ToViewModel
+            MainViewModel.ValidationMessages = validationResult.Messages;
+            MainViewModel.WarningMessages = warningsResult.Messages;
         }
 
         public void DocumentTreeClose()

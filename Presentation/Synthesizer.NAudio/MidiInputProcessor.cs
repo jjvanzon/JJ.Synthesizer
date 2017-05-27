@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
+    /// <summary> thread-safe </summary>
     internal static class MidiInputProcessor
     {
         private class ControllerInfo
@@ -46,6 +47,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             lock (_lock)
             {
+                // NOTE: Don't turn into throw expressions.
+                // You want to check them all for null, before assigning any of them.
                 if (patchCalculatorContainer == null) throw new NullException(() => patchCalculatorContainer);
                 if (timeProvider == null) throw new NullException(() => timeProvider);
                 if (noteRecycler == null) throw new NullException(() => noteRecycler);

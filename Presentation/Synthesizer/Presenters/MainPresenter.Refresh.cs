@@ -9,6 +9,7 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -247,11 +248,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        public void DocumentRefresh()
+        private void DocumentViewModelRefresh()
         {
             AudioFileOutputGridRefresh();
             AudioFileOutputPropertiesDictionaryRefresh();
-            AudioOutputPropertiesRefresh();
             AudioOutputPropertiesRefresh();
             CurrentInstrumentRefresh();
             CurveDetailsDictionaryRefresh();

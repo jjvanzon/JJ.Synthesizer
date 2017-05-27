@@ -6,6 +6,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
+    /// <summary> thread-safe </summary>
     internal class AudioOutputSampleProvider : ISampleProvider
     {
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;

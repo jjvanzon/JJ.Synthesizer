@@ -9,6 +9,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
+    /// <summary> thread-safe </summary>
     internal class NoteRecycler
     {
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
@@ -110,12 +111,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool NoteIsReleased(int noteListIndex, double presentTime)
         {
-            if (noteListIndex < 0) throw new LessThanException(() => noteListIndex, 0);
-            if (noteListIndex > _noteInfos.Count) throw new GreaterThanException(() => noteListIndex, () => _noteInfos.Count);
-
             _lock.EnterReadLock();
             try
             {
+                if (noteListIndex < 0) throw new LessThanException(() => noteListIndex, 0);
+                if (noteListIndex > _noteInfos.Count) throw new GreaterThanException(() => noteListIndex, () => _noteInfos.Count);
+
                 bool isReleased = _noteInfos[noteListIndex].EndTime < presentTime;
                 return isReleased;
             }

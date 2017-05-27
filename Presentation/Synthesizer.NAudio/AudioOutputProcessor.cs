@@ -5,12 +5,13 @@ using NAudio.Wave;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    /// <summary> Most of the work is done by the AudioOutputSampleProvider. </summary>
+    /// <summary> Thread-safe. Most of the work is done by the AudioOutputSampleProvider. </summary>
     internal class AudioOutputProcessor
     {
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;
         private readonly TimeProvider _timeProvider;
         private readonly AudioOutputSampleProvider _sampleProvider;
+        private readonly object _lock = new object();
 
         private int _desiredLatencyInMilliseconds;
         private WaveOut _waveOut;
@@ -35,8 +36,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public void UpdateAudioProperties(int samplingRate, int channelCount, double desiredBufferDuration)
         {
-            _desiredLatencyInMilliseconds = ConvertDurationToMilliseconds(desiredBufferDuration);
-            _sampleProvider.SetAudioProperties(samplingRate, channelCount);
+            lock (_lock)
+            {
+                _desiredLatencyInMilliseconds = ConvertDurationToMilliseconds(desiredBufferDuration);
+                _sampleProvider.SetAudioProperties(samplingRate, channelCount);
+            }
         }
 
         public Thread StartThread()
@@ -53,27 +57,33 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private void Start()
         {
-            _waveOut = new WaveOut
+            lock (_lock)
             {
-                DesiredLatency = _desiredLatencyInMilliseconds 
-            };
+                _waveOut = new WaveOut
+                {
+                    DesiredLatency = _desiredLatencyInMilliseconds
+                };
 
-            _waveOut.Init(_sampleProvider);
+                _waveOut.Init(_sampleProvider);
 
-            _sampleProvider.IsRunning = true;
+                _sampleProvider.IsRunning = true;
 
-            _waveOut.Play();
+                _waveOut.Play();
+            }
         }
 
         public void Stop()
         {
-            if (_waveOut != null)
+            lock (_lock)
             {
-                _waveOut.Stop();
-                _waveOut.Dispose();
-            }
+                if (_waveOut != null)
+                {
+                    _waveOut.Stop();
+                    _waveOut.Dispose();
+                }
 
-            _sampleProvider.IsRunning = false;
+                _sampleProvider.IsRunning = false;
+            }
         }
 
         // Helpers
