@@ -15,6 +15,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private int _desiredLatencyInMilliseconds;
         private WaveOut _waveOut;
 
+        /// <summary>
+        /// Even though this constructor initializes a lot of things,
+        /// you can still mutate some of the things using the UpdateAudioProperties method.
+        /// </summary>
         public AudioOutputProcessor(
             IPatchCalculatorContainer patchCalculatorContainer,
             TimeProvider timeProvider,

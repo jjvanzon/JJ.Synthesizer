@@ -31,12 +31,15 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
 
         private readonly IPatchCalculatorContainer _patchCalculatorContainer;
-
         private readonly TimeProvider _timeProvider;
         private readonly NoteRecycler _noteRecycler;
+
         private MidiIn _midiIn;
 
-        public MidiInputProcessor(IPatchCalculatorContainer patchCalculatorContainer, TimeProvider timeProvider, NoteRecycler noteRecycler)
+        public MidiInputProcessor(
+            IPatchCalculatorContainer patchCalculatorContainer, 
+            TimeProvider timeProvider, 
+            NoteRecycler noteRecycler)
         {
             _patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
             _timeProvider = timeProvider ?? throw new NullException(() => timeProvider);
@@ -66,22 +69,38 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             const int deviceIndex = 0;
 
-            var midiIn = new MidiIn(deviceIndex);
-            midiIn.MessageReceived += _midiIn_MessageReceived;
-            midiIn.Start();
-
-            _midiIn = midiIn;
+            try
+            {
+                _midiIn = new MidiIn(deviceIndex);
+                _midiIn.MessageReceived += _midiIn_MessageReceived;
+                _midiIn.Start();
+            }
+            catch
+            {
+                // Do not crash your whole application, if midi device communication fails.
+                Stop();
+            }
         }
 
         public void Stop()
         {
-            if (_midiIn != null)
+            if (_midiIn == null)
+            {
+                return;
+            }
+
+            try
             {
                 _midiIn.MessageReceived -= _midiIn_MessageReceived;
-                // Not sure if I need to call of these methods, but when I omitted one I got an error upon application exit.
+                // Not sure if I need to call of these methods,
+                // but when I omitted one I got an error upon application exit.
                 _midiIn.Stop();
                 _midiIn.Close();
                 _midiIn.Dispose();
+            }
+            catch
+            {
+                // Do not crash your whole application, if midi device communication fails.
             }
         }
 
