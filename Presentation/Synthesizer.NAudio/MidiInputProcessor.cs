@@ -145,9 +145,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             var noteOnEvent = (NoteOnEvent)midiEvent;
 
-            ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
+            ReaderWriterLockSlim calculatorLock = _patchCalculatorContainer.Lock;
 
-            lck.EnterWriteLock();
+            calculatorLock.EnterWriteLock();
             try
             {
                 double time = _timeProvider.Time;
@@ -196,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
             finally
             {
-                lck.ExitWriteLock();
+                calculatorLock.ExitWriteLock();
             }
         }
 

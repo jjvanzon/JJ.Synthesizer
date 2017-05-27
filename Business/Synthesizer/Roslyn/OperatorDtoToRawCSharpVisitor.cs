@@ -4060,10 +4060,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return uniqueNamePascalCase;
         }
 
-        private int GetUniqueNumber()
-        {
-            return _counter++;
-        }
+        private int GetUniqueNumber() => _counter++;
 
         private void PutNumberOnStack(double value)
         {
