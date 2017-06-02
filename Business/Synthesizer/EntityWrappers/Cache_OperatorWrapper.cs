@@ -2,13 +2,12 @@
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Cache_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class Cache_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
     {
         public Cache_OperatorWrapper(Operator op)
             : base(op)
@@ -20,7 +19,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SignalInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SIGNAL_INDEX);
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Signal);
 
         public Outlet Start
         {
@@ -28,7 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => StartInlet.LinkTo(value);
         }
 
-        public Inlet StartInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_START_INDEX);
+        public Inlet StartInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Start);
 
         public Outlet End
         {
@@ -36,7 +35,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => EndInlet.LinkTo(value);
         }
 
-        public Inlet EndInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_END_INDEX);
+        public Inlet EndInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.End);
 
         public Outlet SamplingRate
         {
@@ -44,18 +43,18 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SamplingRateInlet.LinkTo(value);
         }
 
-        public Inlet SamplingRateInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.CACHE_SAMPLING_RATE_INDEX);
+        public Inlet SamplingRateInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.SamplingRate);
 
         public InterpolationTypeEnum InterpolationType
         {
-            get => DataPropertyParser.GetEnum<InterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType);
-            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value);
+            get => DataPropertyParser.GetEnum<InterpolationTypeEnum>(WrappedOperator, nameof(InterpolationType));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(InterpolationType), value);
         }
 
         public SpeakerSetupEnum SpeakerSetup
         {
-            get => DataPropertyParser.GetEnum<SpeakerSetupEnum>(WrappedOperator, PropertyNames.SpeakerSetup);
-            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.SpeakerSetup, value);
+            get => DataPropertyParser.GetEnum<SpeakerSetupEnum>(WrappedOperator, nameof(SpeakerSetup));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(SpeakerSetup), value);
         }
 
         public int GetChannelCount(ISpeakerSetupRepository speakerSetupRepository)
@@ -64,39 +63,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             SpeakerSetupEnum speakerSetupEnum = SpeakerSetup;
             SpeakerSetup speakerSetup = speakerSetupRepository.Get((int)speakerSetupEnum);
             return speakerSetup.SpeakerSetupChannels.Count;
-        }
-
-        public override string GetInletDisplayName(int listIndex)
-        {
-            switch (listIndex)
-            {
-                case OperatorConstants.CACHE_SIGNAL_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Signal);
-                        return name;
-                    }
-
-                case OperatorConstants.CACHE_START_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Start);
-                        return name;
-                    }
-
-                case OperatorConstants.CACHE_END_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => End);
-                        return name;
-                    }
-
-                case OperatorConstants.CACHE_SAMPLING_RATE_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => SamplingRate);
-                        return name;
-                    }
-
-                default:
-                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
-            }
         }
     }
 }

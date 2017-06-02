@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             if (Obj.Patch != null &&
                 Obj.Patch != _patch)
             {
-                ValidationMessages.Add(PropertyNames.Patch, ResourceFormatter.OperatorPatchIsNotTheExpectedPatch(Obj.Name, _patch.Name));
+                ValidationMessages.Add(nameof(Obj.Patch), ResourceFormatter.OperatorPatchIsNotTheExpectedPatch(Obj.Name, _patch.Name));
             }
 
             foreach (Inlet inlet in Obj.Inlets)

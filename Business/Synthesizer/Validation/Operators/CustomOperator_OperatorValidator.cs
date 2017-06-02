@@ -10,6 +10,7 @@ using JJ.Framework.Validation.Resources;
 using JJ.Framework.Exceptions;
 using System.Text;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 
@@ -18,7 +19,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     /// <summary> Does not derive from OperatorValidator_Base, because CustomOperator has very specific requirements. </summary>
     internal class CustomOperator_OperatorValidator : VersatileValidator<Operator>
     {
-        private static readonly string[] _allowedDataKeys = new[] { PropertyNames.UnderlyingPatchID };
+        private static readonly string[] _allowedDataKeys = { nameof(CustomOperator_OperatorWrapper.UnderlyingPatchID) };
 
         private readonly IPatchRepository _patchRepository;
 
@@ -44,7 +45,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            string underlyingPatchIDString = DataPropertyParser.TryGetString(op, PropertyNames.UnderlyingPatchID);
+            string underlyingPatchIDString = DataPropertyParser.TryGetString(op, nameof(CustomOperator_OperatorWrapper.UnderlyingPatchID));
 
             For(() => underlyingPatchIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.UnderlyingPatch)).IsInteger();
 
@@ -78,7 +79,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             if (!namesAreUnique)
             {
                 string message = ResourceFormatter.Inlets + ": " + ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names);
-                ValidationMessages.Add(PropertyNames.Inlets, message);
+                ValidationMessages.Add(nameof(Obj.Inlets), message);
             }
         }
 
@@ -93,7 +94,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             if (!namesAreUnique)
             {
                 string message = ResourceFormatter.Outlets + ": " + ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names);
-                ValidationMessages.Add(PropertyNames.Outlets, message);
+                ValidationMessages.Add(nameof(Obj.Outlets), message);
             }
         }
 
@@ -111,7 +112,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             bool isInList = op.Patch.Document.GetPatchesAndVisibleLowerDocumentPatches().Any(x => x.ID == underlyingPatch.ID);
             if (!isInList)
             {
-                ValidationMessages.AddNotInListMessage(PropertyNames.UnderlyingPatch, ResourceFormatter.UnderlyingPatch, underlyingPatch.ID);
+                ValidationMessages.AddNotInListMessage(nameof(CustomOperator_OperatorWrapper.UnderlyingPatch), ResourceFormatter.UnderlyingPatch, underlyingPatch.ID);
             }
         }
 
@@ -141,7 +142,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         underlyingPatchInletOperator,
                         customOperatorInlet.ListIndex,
                         underlyingPatchInlet_ListIndex);
-                    ValidationMessages.Add(PropertyNames.Inlet, message);
+                    ValidationMessages.Add(nameof(Inlet), message);
                 }
 
                 if (!string.Equals(customOperatorInlet.Name, underlyingPatchInletOperator.Name))
@@ -152,7 +153,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         underlyingPatchInletOperator,
                         customOperatorInlet.Name,
                         underlyingPatchInletOperator.Name);
-                    ValidationMessages.Add(PropertyNames.Inlet, message);
+                    ValidationMessages.Add(nameof(Inlet), message);
                 }
 
                 Inlet underlyingPatchInlet_Inlet = TryGetInlet(underlyingPatchInletOperator);
@@ -167,7 +168,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                             underlyingPatchInletOperator,
                             customOperatorInlet.GetDimensionEnum(),
                             underlyingPatchInlet_Inlet.GetDimensionEnum());
-                        ValidationMessages.Add(PropertyNames.Inlet, message);
+                        ValidationMessages.Add(nameof(Inlet), message);
                     }
 
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
@@ -180,7 +181,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                             underlyingPatchInletOperator,
                             customOperatorInlet.DefaultValue,
                             underlyingPatchInlet_Inlet.DefaultValue);
-                        ValidationMessages.Add(PropertyNames.Inlet, message);
+                        ValidationMessages.Add(nameof(Inlet), message);
                     }
                 }
             }
@@ -198,7 +199,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.True);
-                    ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
+                    ValidationMessages.Add(nameof(customOperatorInlet.IsObsolete), messagePrefix + message);
                 }
             }
             else
@@ -208,7 +209,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.False);
-                    ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
+                    ValidationMessages.Add(nameof(customOperatorInlet.IsObsolete), messagePrefix + message);
                 }
             }
         }
@@ -239,7 +240,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         underlyingPatchOutlet,
                         customOperatorOutlet.ListIndex,
                         underlyingPatchOutlet_ListIndex);
-                    ValidationMessages.Add(PropertyNames.Outlet, message);
+                    ValidationMessages.Add(nameof(Outlet), message);
                 }
 
                 if (!string.Equals(customOperatorOutlet.Name, underlyingPatchOutlet.Name))
@@ -250,7 +251,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         underlyingPatchOutlet,
                         customOperatorOutlet.Name,
                         underlyingPatchOutlet.Name);
-                    ValidationMessages.Add(PropertyNames.Outlet, message);
+                    ValidationMessages.Add(nameof(Outlet), message);
                 }
 
                 Outlet underlyingPatchOutlet_Outlet = TryGetOutlet(underlyingPatchOutlet);
@@ -266,7 +267,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                             underlyingPatchOutlet,
                             customOperatorOutlet.GetDimensionEnum(),
                             underlyingPatchOutlet_Outlet.GetDimensionEnum());
-                        ValidationMessages.Add(PropertyNames.Outlet, message);
+                        ValidationMessages.Add(nameof(Outlet), message);
                     }
                 }
             }
@@ -284,7 +285,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.True);
-                    ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
+                    ValidationMessages.Add(nameof(customOperatorOutlet.IsObsolete), messagePrefix + message);
                 }
             }
             else
@@ -294,7 +295,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.False);
-                    ValidationMessages.Add(PropertyNames.IsObsolete, messagePrefix + message);
+                    ValidationMessages.Add(nameof(customOperatorOutlet.IsObsolete), messagePrefix + message);
                 }
             }
         }
@@ -306,7 +307,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(patchInletOrPatchOutletOperator))
             {
-                int? listIndex = DataPropertyParser.TryParseInt32(patchInletOrPatchOutletOperator, PropertyNames.ListIndex);
+                int? listIndex = DataPropertyParser.TryParseInt32(patchInletOrPatchOutletOperator, nameof(PatchInlet_OperatorWrapper.ListIndex));
                 return listIndex;
             }
 

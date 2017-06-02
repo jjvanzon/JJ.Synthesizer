@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.TimePower,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.Exponent, DimensionEnum.Origin },
                 new[] { DimensionEnum.Signal })
         { }
     }

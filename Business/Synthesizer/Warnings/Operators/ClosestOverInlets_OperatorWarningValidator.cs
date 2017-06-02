@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 
@@ -25,8 +25,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             // ReSharper disable once InvertIf
             if (!anyItemsFilledIn)
             {
-                // TODO: Lower priority: This message slightly lies, because the signal inlet may very wel be filled in.
-                ValidationMessages.AddIsEmptyMessage(PropertyNames.Inlets, ResourceFormatter.Inlets);
+                ValidationMessages.AddIsEmptyMessage(nameof(ClosestOverInlets_OperatorWrapper.Items), ResourceFormatter.ItemList);
             }
         }
     }

@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class HighShelfFilter_OperatorDto : HighShelfFilter_OperatorDto_AllVars
     { }
 
-    internal class HighShelfFilter_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    internal class HighShelfFilter_OperatorDto_ConstSound : OperatorDtoBase_ConstSound
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighShelfFilter;
     }

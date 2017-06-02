@@ -101,12 +101,12 @@ namespace JJ.Business.Synthesizer.Calculation
         // Set Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetLowPassFilterVariables(double sampleRate, double cutoffFrequency, double q)
+        public void SetLowPassFilterVariables(double sampleRate, double cutoffFrequency, double blobVolume)
         {
             // H(s) = 1 / (s^2 + s/Q + 1)
             double w0 = MathHelper.TWO_PI * cutoffFrequency / sampleRate;
             double cosw0 = Math.Cos(w0);
-            double alpha = Math.Sin(w0) / (2 * q);
+            double alpha = Math.Sin(w0) / (2 * blobVolume);
 
             double b0 = (1 - cosw0) / 2;
             double b1 = 1 - cosw0;
@@ -118,16 +118,16 @@ namespace JJ.Business.Synthesizer.Calculation
             SetCoefficients(aa0, aa1, aa2, b0, b1, b2);
         }
 
-        /// <param name="q">Bandwidth (Q)</param>
+        /// <param name="width">Bandwidth (Q)</param>
         /// <param name="dbGain">Gain in decibels</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetPeakingEQVariables(double sampleRate, double centreFrequency, double q, double dbGain)
+        public void SetPeakingEQVariables(double sampleRate, double centreFrequency, double width, double dbGain)
         {
             // H(s) = (s^2 + s*(A/Q) + 1) / (s^2 + s/(A*Q) + 1)
             double w0 = MathHelper.TWO_PI * centreFrequency / sampleRate;
             double cosw0 = Math.Cos(w0);
             double sinw0 = Math.Sin(w0);
-            double alpha = sinw0 / (2 * q);
+            double alpha = sinw0 / (2 * width);
             double a = Math.Pow(10, dbGain / 40);     // TODO: should we square root this value?
 
             double b0 = 1 + alpha * a;
@@ -141,12 +141,12 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetHighPassFilterVariables(double sampleRate, double cutoffFrequency, double q)
+        public void SetHighPassFilterVariables(double sampleRate, double cutoffFrequency, double blobVolume)
         {
             // H(s) = s^2 / (s^2 + s/Q + 1)
             double w0 = MathHelper.TWO_PI * cutoffFrequency / sampleRate;
             double cosw0 = Math.Cos(w0);
-            double alpha = Math.Sin(w0) / (2 * q);
+            double alpha = Math.Sin(w0) / (2 * blobVolume);
 
             double b0 = (1 + cosw0) / 2;
             double b1 = -(1 + cosw0);
@@ -158,13 +158,13 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetBandPassFilterConstantSkirtGainVariables(double sampleRate, double centreFrequency, double q)
+        public void SetBandPassFilterConstantSkirtGainVariables(double sampleRate, double centreFrequency, double bandWidth)
         {
             // H(s) = s / (s^2 + s/Q + 1)  (constant skirt gain, peak gain = Q)
             double w0 = MathHelper.TWO_PI * centreFrequency / sampleRate;
             double cosw0 = Math.Cos(w0);
             double sinw0 = Math.Sin(w0);
-            double alpha = sinw0 / (2 * q);
+            double alpha = sinw0 / (2 * bandWidth);
 
             double b0 = sinw0 / 2; // =   Q*alpha
             const double b1 = 0;
@@ -177,13 +177,13 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetBandPassFilterConstantPeakGainVariables(double sampleRate, double centreFrequency, double q)
+        public void SetBandPassFilterConstantPeakGainVariables(double sampleRate, double centreFrequency, double bandWidth)
         {
             // H(s) = (s/Q) / (s^2 + s/Q + 1)      (constant 0 dB peak gain)
             double w0 = MathHelper.TWO_PI * centreFrequency / sampleRate;
             double cosw0 = Math.Cos(w0);
             double sinw0 = Math.Sin(w0);
-            double alpha = sinw0 / (2 * q);
+            double alpha = sinw0 / (2 * bandWidth);
 
             double b0 = alpha;
             const double b1 = 0;
@@ -215,13 +215,13 @@ namespace JJ.Business.Synthesizer.Calculation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetAllPassFilterVariables(double sampleRate, double centreFrequency, double q)
+        public void SetAllPassFilterVariables(double sampleRate, double centreFrequency, double bandWidth)
         {
             //H(s) = (s^2 - s/Q + 1) / (s^2 + s/Q + 1)
             double w0 = MathHelper.TWO_PI * centreFrequency / sampleRate;
             double cosw0 = Math.Cos(w0);
             double sinw0 = Math.Sin(w0);
-            double alpha = sinw0 / (2 * q);
+            double alpha = sinw0 / (2 * bandWidth);
 
             double b0 = 1 - alpha;
             double b1 = -2 * cosw0;

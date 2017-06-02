@@ -3,20 +3,20 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class SetDimension_OperatorDto : SetDimension_OperatorDto_VarPassThrough_VarValue
+    internal class SetDimension_OperatorDto : SetDimension_OperatorDto_VarPassThrough_VarX
     { }
 
-    internal class SetDimension_OperatorDto_VarPassThrough_VarValue : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
+    internal class SetDimension_OperatorDto_VarPassThrough_VarX : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
 
         public IOperatorDto PassThroughInputOperatorDto { get; set; }
-        public IOperatorDto ValueOperatorDto { get; set; }
+        public IOperatorDto XOperatorDto { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get => new[] { PassThroughInputOperatorDto, ValueOperatorDto };
-            set { PassThroughInputOperatorDto = value[0]; ValueOperatorDto = value[1]; }
+            get => new[] { PassThroughInputOperatorDto, XOperatorDto };
+            set { PassThroughInputOperatorDto = value[0]; XOperatorDto = value[1]; }
         }
 
         public IOperatorDto SignalOperatorDto
@@ -26,12 +26,12 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class SetDimension_OperatorDto_VarPassThrough_ConstValue : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
+    internal class SetDimension_OperatorDto_VarPassThrough_ConstX : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
 
         public IOperatorDto PassThroughInputOperatorDto { get; set; }
-        public double Value { get; set; }
+        public double X { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
@@ -46,26 +46,26 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class SetDimension_OperatorDto_ConstPassThrough_VarValue : OperatorDtoBase_WithDimension
+    internal class SetDimension_OperatorDto_ConstPassThrough_VarX : OperatorDtoBase_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
 
         public double PassThrough { get; set; }
-        public IOperatorDto ValueOperatorDto { get; set; }
+        public IOperatorDto XOperatorDto { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get => new[] { ValueOperatorDto };
-            set => ValueOperatorDto = value[0];
+            get => new[] { XOperatorDto };
+            set => XOperatorDto = value[0];
         }
     }
 
-    internal class SetDimension_OperatorDto_ConstPassThrough_ConstValue : OperatorDtoBase_WithDimension
+    internal class SetDimension_OperatorDto_ConstPassThrough_ConstX : OperatorDtoBase_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
 
         public double PassThrough { get; set; }
-        public double Value { get; set; }
+        public double X { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
     }

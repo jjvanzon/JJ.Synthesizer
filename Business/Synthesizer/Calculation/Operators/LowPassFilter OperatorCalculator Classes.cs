@@ -6,9 +6,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class LowPassFilter_OperatorCalculator_AllVars
         : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _soundCalculator;
         private readonly OperatorCalculatorBase _maxFrequencyCalculator;
-        private readonly OperatorCalculatorBase _bandWidthCalculator;
+        private readonly OperatorCalculatorBase _blobVolumeCalculator;
         private readonly double _targetSamplingRate;
         private readonly double _nyquistFrequency;
         private readonly int _samplesBetweenApplyFilterVariables;
@@ -17,24 +17,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private int _counter;
 
         public LowPassFilter_OperatorCalculator_AllVars(
-            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase soundCalculator,
             OperatorCalculatorBase maxFrequencyCalculator,
-            OperatorCalculatorBase bandWidthCalculator,
+            OperatorCalculatorBase blobVolumeCalculator,
             double targetSamplingRate,
             int samplesBetweenApplyFilterVariables)
                 : base(new []
                 {
-                    signalCalculator,
+                    soundCalculator,
                     maxFrequencyCalculator,
-                    bandWidthCalculator
+                    blobVolumeCalculator
                 })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(soundCalculator, () => soundCalculator);
             if (samplesBetweenApplyFilterVariables < 1) throw new LessThanException(() => samplesBetweenApplyFilterVariables, 1);
 
-            _signalCalculator = signalCalculator;
+            _soundCalculator = soundCalculator;
             _maxFrequencyCalculator = maxFrequencyCalculator ?? throw new NullException(() => maxFrequencyCalculator);
-            _bandWidthCalculator = bandWidthCalculator ?? throw new NullException(() => bandWidthCalculator);
+            _blobVolumeCalculator = blobVolumeCalculator ?? throw new NullException(() => blobVolumeCalculator);
             _targetSamplingRate = targetSamplingRate;
             _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
             _biQuadFilter = new BiQuadFilter();
@@ -53,12 +53,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _counter = 0;
             }
 
-            double signal = _signalCalculator.Calculate();
-            double value = _biQuadFilter.Transform(signal);
+            double sound = _soundCalculator.Calculate();
+            double result = _biQuadFilter.Transform(sound);
 
             _counter++;
 
-            return value;
+            return result;
         }
 
         public override void Reset()
@@ -79,36 +79,36 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private void SetFilterVariables()
         {
             double maxFrequency = _maxFrequencyCalculator.Calculate();
-            double bandWidth = _bandWidthCalculator.Calculate();
+            double blobVolume = _blobVolumeCalculator.Calculate();
 
             if (maxFrequency > _nyquistFrequency) maxFrequency = _nyquistFrequency;
 
-            _biQuadFilter.SetLowPassFilterVariables(_targetSamplingRate, maxFrequency, bandWidth);
+            _biQuadFilter.SetLowPassFilterVariables(_targetSamplingRate, maxFrequency, blobVolume);
         }
     }
 
     internal class LowPassFilter_OperatorCalculator_ManyConsts
         : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase soundCalculator;
         private readonly double _maxFrequency;
-        private readonly double _bandWidth;
+        private readonly double _width;
         private readonly double _samplingRate;
         private readonly BiQuadFilter _biQuadFilter;
 
         public LowPassFilter_OperatorCalculator_ManyConsts(
-            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase soundCalculator,
             double maxFrequency,
-            double bandWidth,
+            double width,
             double samplingRate)
-                : base(new[] { signalCalculator })
+                : base(new[] { soundCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(soundCalculator, () => soundCalculator);
             OperatorCalculatorHelper.AssertFilterFrequency(maxFrequency, samplingRate);
 
-            _signalCalculator = signalCalculator;
+            this.soundCalculator = soundCalculator;
             _maxFrequency = maxFrequency;
-            _bandWidth = bandWidth;
+            _width = width;
             _samplingRate = samplingRate;
             _biQuadFilter = new BiQuadFilter();
 
@@ -118,9 +118,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate();
-            double value = _biQuadFilter.Transform(signal);
-            return value;
+            double sound = soundCalculator.Calculate();
+            double result = _biQuadFilter.Transform(sound);
+            return result;
         }
 
         public override void Reset()
@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter.SetLowPassFilterVariables(_samplingRate, _maxFrequency, _bandWidth);
+            _biQuadFilter.SetLowPassFilterVariables(_samplingRate, _maxFrequency, _width);
             _biQuadFilter.ResetSamples();
         }
     }

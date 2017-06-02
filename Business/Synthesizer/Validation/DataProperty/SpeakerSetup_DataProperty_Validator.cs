@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
@@ -18,7 +19,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
-                string speakerSetupString = DataPropertyParser.TryGetString(Obj, PropertyNames.SpeakerSetup);
+                string speakerSetupString = DataPropertyParser.TryGetString(Obj, nameof(Cache_OperatorWrapper.SpeakerSetup));
 
                 For(() => speakerSetupString, ResourceFormatter.SpeakerSetup)
                     .NotNullOrEmpty()

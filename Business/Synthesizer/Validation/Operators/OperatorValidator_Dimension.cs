@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (dimensionIsFilledIn && customDimensionNameIsFilledIn)
                 {
                     ValidationMessages.AddNotBothValidationMessage(
-                        PropertyNames.Dimension,
+                        nameof(Dimension),
                         ResourceFormatter.StandardDimension,
                         ResourceFormatter.CustomDimensionName);
                 }

@@ -2,8 +2,8 @@
 <#@ assembly name="System.Core" #>
 <#@ output extension=".cs" #>
 
-<# int minOperands = 2; #>
-<# int maxOperands = 32; #>
+<# int minItems = 2; #>
+<# int maxItems = 32; #>
 
 using System.Collections.Generic;
 using JJ.Framework.Exceptions;
@@ -13,14 +13,14 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     internal static partial class OperatorCalculatorFactory
     {
-	    public static OperatorCalculatorBase CreateAddCalculator_Vars(IList<OperatorCalculatorBase> operandCalculators)
+	    public static OperatorCalculatorBase CreateAddCalculator_Vars(IList<OperatorCalculatorBase> itemCalculators)
         {
-			if (operandCalculators.Count < <#= minOperands #>) throw new LessThanException(() => operandCalculators.Count, <#= minOperands #>);
+			if (itemCalculators.Count < <#= minItems #>) throw new LessThanException(() => itemCalculators.Count, <#= minItems #>);
 
-            switch (operandCalculators.Count)
+            switch (itemCalculators.Count)
             {
 <#
-	for (int i = minOperands; i <= maxOperands; i++)
+	for (int i = minItems; i <= maxItems; i++)
 	{
 #>
                 case <#= i #>:
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Helpers
 		for (int j = 0; j < i; j++)
 		{
 #>
-						operandCalculators[<#=j#>]<#
+						itemCalculators[<#=j#>]<#
 						if (j != i - 1) Write(",");#>
 
 <#
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Helpers
 	}
 #>
                 default:
-                    return new Add_OperatorCalculator_VarArray(operandCalculators);
+                    return new Add_OperatorCalculator_VarArray(itemCalculators);
             }
         }
 	}

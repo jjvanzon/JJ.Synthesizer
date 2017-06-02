@@ -6,7 +6,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Curve_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class Curve_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
     {
         private readonly ICurveRepository _curveRepository;
 
@@ -18,8 +18,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? CurveID
         {
-            get => DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.CurveID);
-            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.CurveID, value);
+            get => DataPropertyParser.TryGetInt32(WrappedOperator, nameof(CurveID));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(CurveID), value);
         }
 
         /// <summary> nullable </summary>
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
         }
 
-        public override string GetInletDisplayName(int listIndex)
+        public override string GetInletDisplayName(Inlet inlet)
         {
             throw new NotSupportedException();
         }

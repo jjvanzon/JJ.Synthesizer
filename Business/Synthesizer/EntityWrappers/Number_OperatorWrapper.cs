@@ -1,10 +1,11 @@
-﻿using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Number_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class Number_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
     {
         public Number_OperatorWrapper(Operator op)
             : base(op)
@@ -12,13 +13,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public double Number
         {
-            get => DataPropertyParser.GetDouble(WrappedOperator, PropertyNames.Number);
-            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.Number, value);
+            get => DataPropertyParser.GetDouble(WrappedOperator, nameof(Number));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(Number), value);
         }
 
-        public override string GetInletDisplayName(int listIndex)
+        public override string GetInletDisplayName(Inlet inlet)
         {
-            throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+            throw new InvalidIndexException(() => inlet, () => WrappedOperator.Inlets.Count);
         }
 
         public static implicit operator double(Number_OperatorWrapper wrapper)

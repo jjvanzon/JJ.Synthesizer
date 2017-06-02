@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
@@ -19,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             if (!namesAreUnique)
             {
                 string message = ResourceFormatter.Inlets + ": " + ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names);
-                ValidationMessages.Add(PropertyNames.PatchInlet, message);
+                ValidationMessages.Add(nameof(OperatorTypeEnum.PatchInlet), message);
             }
         }
     }

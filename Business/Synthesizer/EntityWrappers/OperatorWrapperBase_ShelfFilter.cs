@@ -1,4 +1,7 @@
-﻿using JJ.Business.Synthesizer.LinkTo;
+﻿using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -6,24 +9,19 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public abstract class OperatorWrapperBase_ShelfFilter : OperatorWrapperBase_WithResult
+    public abstract class OperatorWrapperBase_ShelfFilter : OperatorWrapperBase_WithSoundOutlet
     {
-        private const int SIGNAL_INDEX = 0;
-        private const int TRANSITION_FREQUENCY_INDEX = 1;
-        private const int TRANSITION_SLOPE_INDEX = 2;
-        private const int DB_GAIN_INDEX = 3;
-
         public OperatorWrapperBase_ShelfFilter(Operator op)
             : base(op)
         { }
 
-        public Outlet Signal
+        public Outlet SoundInput
         {
-            get => SignalInlet.InputOutlet;
-            set => SignalInlet.LinkTo(value);
+            get => SoundInlet.InputOutlet;
+            set => SoundInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
+        public Inlet SoundInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Sound);
 
         public Outlet TransitionFrequency
         {
@@ -31,7 +29,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => TransitionFrequencyInlet.LinkTo(value);
         }
 
-        public Inlet TransitionFrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, TRANSITION_FREQUENCY_INDEX);
+        public Inlet TransitionFrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Frequency);
 
         public Outlet TransitionSlope
         {
@@ -39,7 +37,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => TransitionSlopeInlet.LinkTo(value);
         }
 
-        public Inlet TransitionSlopeInlet => OperatorHelper.GetInlet(WrappedOperator, TRANSITION_SLOPE_INDEX);
+        public Inlet TransitionSlopeInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Slope);
 
         public Outlet DBGain
         {
@@ -47,39 +45,26 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => DBGainInlet.LinkTo(value);
         }
 
-        public Inlet DBGainInlet => OperatorHelper.GetInlet(WrappedOperator, DB_GAIN_INDEX);
+        public Inlet DBGainInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Decibel);
 
-        public override string GetInletDisplayName(int listIndex)
+        public override string GetInletDisplayName([NotNull] Inlet inlet)
         {
-            switch (listIndex)
+            if (inlet == null) throw new NullException(() => inlet);
+
+            DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
+            switch (dimensionEnum)
             {
-                case SIGNAL_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Signal);
-                        return name;
-                    }
+                case DimensionEnum.Frequency:
+                    return ResourceFormatter.TransitionFrequency;
 
-                case TRANSITION_FREQUENCY_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => TransitionFrequency);
-                        return name;
-                    }
+                case DimensionEnum.Slope:
+                    return ResourceFormatter.TransitionSlope;
 
-                case TRANSITION_SLOPE_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => TransitionSlope);
-                        return name;
-                    }
-
-                case DB_GAIN_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => DBGain);
-                        return name;
-                    }
-
-                default:
-                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+                case DimensionEnum.Decibel:
+                    return ResourceFormatter.DBGain;
             }
+
+            return base.GetInletDisplayName(inlet);
         }
     }
 }

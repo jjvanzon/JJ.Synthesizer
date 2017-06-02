@@ -1,5 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Data.Synthesizer.Entities;
 
@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.ClosestOverDimensionExp,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined },
-                expectedDataKeys: new[] { PropertyNames.CollectionRecalculation })
+                new[] { DimensionEnum.Input, DimensionEnum.Collection, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
+                new[] { DimensionEnum.Result },
+                expectedDataKeys: new[] { nameof(ClosestOverDimensionExp_OperatorWrapper.CollectionRecalculation) })
         { }
 
         protected override void Execute()

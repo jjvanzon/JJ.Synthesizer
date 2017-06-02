@@ -3,15 +3,15 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Noise_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class Noise_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
     {
         public Noise_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public override string GetInletDisplayName(int listIndex)
+        public override string GetInletDisplayName(Inlet inlet)
         {
-            throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+            throw new InvalidIndexException(() => inlet, () => WrappedOperator.Inlets.Count);
         }
     }
 }

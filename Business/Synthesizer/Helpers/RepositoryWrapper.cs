@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public IToneRepository ToneRepository { get; }
         public IEntityPositionRepository EntityPositionRepository { get; }
 
+        // Enum-like entities
         public IAudioFileFormatRepository AudioFileFormatRepository { get; }
         public IInterpolationTypeRepository InterpolationTypeRepository { get; }
         public INodeTypeRepository NodeTypeRepository { get; }
@@ -49,6 +50,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             IEntityPositionRepository entityPositionRepository,
 
+            // Enum-like entities
             IAudioFileFormatRepository audioFileFormatRepository,
             IInterpolationTypeRepository interpolationTypeRepository,
             INodeTypeRepository nodeTypeRepository,
@@ -75,6 +77,7 @@ namespace JJ.Business.Synthesizer.Helpers
             ScaleRepository = scaleRepository ?? throw new NullException(() => scaleRepository);
             ToneRepository = toneRepository ?? throw new NullException(() => toneRepository);
 
+            // Enum-like entities
             AudioFileFormatRepository = audioFileFormatRepository ?? throw new NullException(() => audioFileFormatRepository);
             InterpolationTypeRepository = interpolationTypeRepository ?? throw new NullException(() => interpolationTypeRepository);
             NodeTypeRepository = nodeTypeRepository ?? throw new NullException(() => nodeTypeRepository);
@@ -86,19 +89,8 @@ namespace JJ.Business.Synthesizer.Helpers
             IDRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
-        public void Commit()
-        {
-            DocumentRepository.Commit();
-        }
-
-        public void Rollback()
-        {
-            DocumentRepository.Rollback();
-        }
-
-        public void Flush()
-        {
-            DocumentRepository.Flush();
-        }
+        public void Commit() => DocumentRepository.Commit();
+        public void Rollback() => DocumentRepository.Rollback();
+        public void Flush() => DocumentRepository.Flush();
     }
 }

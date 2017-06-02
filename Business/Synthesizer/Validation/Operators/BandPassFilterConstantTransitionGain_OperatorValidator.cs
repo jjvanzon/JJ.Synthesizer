@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.BandPassFilterConstantTransitionGain,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal },
+                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Width },
+                new[] { DimensionEnum.Sound },
                 expectedDataKeys: new string[0])
         { }
     }

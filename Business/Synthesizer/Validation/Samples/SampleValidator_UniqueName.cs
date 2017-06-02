@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Validation.Samples
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                ValidationMessages.AddNotUniqueMessageSingular(PropertyNames.Name, CommonResourceFormatter.Name, Obj.Name);
+                ValidationMessages.AddNotUniqueMessageSingular(nameof(Obj.Name), CommonResourceFormatter.Name, Obj.Name);
             }
         }
     }

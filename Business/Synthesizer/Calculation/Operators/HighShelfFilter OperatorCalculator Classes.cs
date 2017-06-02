@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class HighShelfFilter_OperatorCalculator_AllVars
         : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _soundCalculator;
         private readonly OperatorCalculatorBase _transitionFrequencyCalculator;
         private readonly OperatorCalculatorBase _transitionSlopeCalculator;
         private readonly OperatorCalculatorBase _dbGainCalculator;
@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private int _counter;
 
         public HighShelfFilter_OperatorCalculator_AllVars(
-            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase soundCalculator,
             OperatorCalculatorBase transitionFrequencyCalculator,
             OperatorCalculatorBase transitionSlopeCalculator,
             OperatorCalculatorBase dbGainCalculator,
@@ -26,16 +26,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             int samplesBetweenApplyFilterVariables)
             : base(new[]
             {
-                signalCalculator,
+                soundCalculator,
                 transitionFrequencyCalculator,
                 dbGainCalculator,
                 transitionSlopeCalculator
             })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(soundCalculator, () => soundCalculator);
             if (samplesBetweenApplyFilterVariables < 1) throw new LessThanException(() => samplesBetweenApplyFilterVariables, 1);
 
-            _signalCalculator = signalCalculator;
+            _soundCalculator = soundCalculator;
             _transitionFrequencyCalculator = transitionFrequencyCalculator ?? throw new NullException(() => transitionFrequencyCalculator);
             _transitionSlopeCalculator = transitionSlopeCalculator ?? throw new NullException(() => transitionSlopeCalculator);
             _dbGainCalculator = dbGainCalculator ?? throw new NullException(() => dbGainCalculator);
@@ -57,12 +57,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _counter = 0;
             }
 
-            double signal = _signalCalculator.Calculate();
-            double value = _biQuadFilter.Transform(signal);
+            double sound = _soundCalculator.Calculate();
+            double result = _biQuadFilter.Transform(sound);
 
             _counter++;
 
-            return value;
+            return result;
         }
 
         public override void Reset()
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class HighShelfFilter_OperatorCalculator_ManyConsts
         : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _soundCalculator;
         private readonly double _transitionFrequency;
         private readonly double _transitionSlope;
         private readonly double _dbGain;
@@ -103,17 +103,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly BiQuadFilter _biQuadFilter;
 
         public HighShelfFilter_OperatorCalculator_ManyConsts(
-            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase soundCalculator,
             double transitionFrequency,
             double transitionSlope,
             double dbGain,
             double targetSamplingRate)
-                : base(new[] { signalCalculator })
+                : base(new[] { soundCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(soundCalculator, () => soundCalculator);
             OperatorCalculatorHelper.AssertFilterFrequency(transitionFrequency, targetSamplingRate);
 
-            _signalCalculator = signalCalculator;
+            _soundCalculator = soundCalculator;
             _transitionFrequency = transitionFrequency;
             _transitionSlope = transitionSlope;
             _dbGain = dbGain;
@@ -126,9 +126,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate();
-            double value = _biQuadFilter.Transform(signal);
-            return value;
+            double sound = _soundCalculator.Calculate();
+            double result = _biQuadFilter.Transform(sound);
+            return result;
         }
 
         public override void Reset()

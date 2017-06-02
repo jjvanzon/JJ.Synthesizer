@@ -1,5 +1,6 @@
-﻿using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 
@@ -24,21 +25,21 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 double? number = inlet.TryGetConstantNumber();
 
-                switch (inlet.ListIndex)
+                switch (inlet.GetDimensionEnum())
                 {
-                    case OperatorConstants.CACHE_SIGNAL_INDEX:
+                    case DimensionEnum.Signal:
                         signal = number;
                         break;
 
-                    case OperatorConstants.CACHE_START_INDEX:
+                    case DimensionEnum.Start:
                         start = number;
                         break;
 
-                    case OperatorConstants.CACHE_END_INDEX:
+                    case DimensionEnum.End:
                         end = number;
                         break;
 
-                    case OperatorConstants.CACHE_SAMPLING_RATE_INDEX:
+                    case DimensionEnum.SamplingRate:
                         samplingRate = number;
                         break;
                 }
@@ -65,7 +66,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (end.Value < start.Value)
                 {
-                    ValidationMessages.AddLessThanMessage(PropertyNames.EndTime, ResourceFormatter.EndTime, ResourceFormatter.StartTime);
+                    ValidationMessages.AddLessThanMessage(nameof(Cache_OperatorWrapper.End), ResourceFormatter.End, ResourceFormatter.Start);
                 }
             }
         }

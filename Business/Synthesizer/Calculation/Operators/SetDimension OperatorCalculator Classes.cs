@@ -3,25 +3,25 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SetDimension_OperatorCalculator_VarPassThrough_VarValue : OperatorCalculatorBase_WithChildCalculators
+    internal class SetDimension_OperatorCalculator_VarPassThrough_VarX : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _passThroughCalculator;
-        private readonly OperatorCalculatorBase _valueCalculator;
+        private readonly OperatorCalculatorBase _xCalculator;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public SetDimension_OperatorCalculator_VarPassThrough_VarValue(
+        public SetDimension_OperatorCalculator_VarPassThrough_VarX(
             OperatorCalculatorBase passThroughCalculator,
-            OperatorCalculatorBase valueCalculator,
+            OperatorCalculatorBase xCalculator,
             DimensionStack dimensionStack)
-            : base(new[] { passThroughCalculator, valueCalculator })
+            : base(new[] { passThroughCalculator, xCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(passThroughCalculator, () => passThroughCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(valueCalculator, () => valueCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(xCalculator, () => xCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _passThroughCalculator = passThroughCalculator;
-            _valueCalculator = valueCalculator;
+            _xCalculator = xCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _valueCalculator.Calculate();
+            double position = _xCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
             _dimensionStack.Push(position);
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void Reset()
         {
-            double position = _valueCalculator.Calculate();
+            double position = _xCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
             _dimensionStack.Push(position);
@@ -67,22 +67,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SetDimension_OperatorCalculator_VarPassThrough_ConstValue : OperatorCalculatorBase_WithChildCalculators
+    internal class SetDimension_OperatorCalculator_VarPassThrough_ConstX : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _passThroughCalculator;
-        private readonly double _value;
+        private readonly double _x;
         private readonly DimensionStack _dimensionStack;
         private readonly int _dimensionStackIndex;
 
-        public SetDimension_OperatorCalculator_VarPassThrough_ConstValue(
+        public SetDimension_OperatorCalculator_VarPassThrough_ConstX(
             OperatorCalculatorBase passThroughCalculator,
-            double value,
+            double x,
             DimensionStack dimensionStack)
             : base(new[] { passThroughCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(passThroughCalculator, () => passThroughCalculator);
 
-            _value = value;
+            _x = x;
             _passThroughCalculator = passThroughCalculator;
             _dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
             _dimensionStackIndex = dimensionStack.CurrentIndex;
@@ -92,9 +92,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
 #if !USE_INVAR_INDICES
-            _dimensionStack.Push(_value);
+            _dimensionStack.Push(_x);
 #else
-            _dimensionStack.Set(_dimensionStackIndex, _value);
+            _dimensionStack.Set(_dimensionStackIndex, _x);
 #endif
 #if ASSERT_INVAR_INDICES
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);

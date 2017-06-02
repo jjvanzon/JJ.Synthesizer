@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class SortOverInlets_OperatorWrapper : OperatorWrapperBase_VariableInletCountOneResult
+    public class SortOverInlets_OperatorWrapper : OperatorWrapperBase_VariableInletCountSignalOutlet
     {
         public SortOverInlets_OperatorWrapper(Operator op)
             : base(op)

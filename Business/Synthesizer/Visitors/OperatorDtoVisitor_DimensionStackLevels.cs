@@ -26,8 +26,8 @@ namespace JJ.Business.Synthesizer.Visitors
             typeof(Reverse_OperatorDto_ConstFactor_WithOriginShifting),
             typeof(Reverse_OperatorDto_ConstFactor_NoOriginShifting),
             typeof(SetDimension_OperatorDto),
-            typeof(SetDimension_OperatorDto_VarPassThrough_VarValue),
-            typeof(SetDimension_OperatorDto_VarPassThrough_ConstValue),
+            typeof(SetDimension_OperatorDto_VarPassThrough_VarX),
+            typeof(SetDimension_OperatorDto_VarPassThrough_ConstX),
             typeof(Shift_OperatorDto),
             typeof(Shift_OperatorDto_VarSignal_ConstDistance),
             typeof(Shift_OperatorDto_VarSignal_VarDistance),
@@ -72,8 +72,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 operatorDto_WithDimension.DimensionStackLevel = GetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName);
             }
 
-            var operatorDto_WithAdditionalChannelDimension = dto as IOperatorDto_WithAdditionalChannelDimension;
-            if (operatorDto_WithAdditionalChannelDimension != null)
+            if (dto is IOperatorDto_WithAdditionalChannelDimension operatorDto_WithAdditionalChannelDimension)
             {
                 operatorDto_WithAdditionalChannelDimension.ChannelDimensionStackLevel = GetCurrentStackLevel(DimensionEnum.Channel, "");
             }
@@ -122,8 +121,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             var key = new Tuple<DimensionEnum, string>(standardDimensionEnum, canonicalCustomDimensionName);
 
-            int stackLevel;
-            if (!_dimensionToCurrentStackLevelDictionary.TryGetValue(key, out stackLevel))
+            if (!_dimensionToCurrentStackLevelDictionary.TryGetValue(key, out int stackLevel))
             {
                 _dimensionToCurrentStackLevelDictionary[key] = 0;
             }

@@ -44,8 +44,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Interpolation
             if (comboBoxInterpolation.DataSource == null)
             {
-                comboBoxInterpolation.ValueMember = PropertyNames.ID;
-                comboBoxInterpolation.DisplayMember = PropertyNames.Name;
+                comboBoxInterpolation.ValueMember = nameof(IDAndName.ID);
+                comboBoxInterpolation.DisplayMember = nameof(IDAndName.Name);
                 comboBoxInterpolation.DataSource = ViewModel.InterpolationLookup;
             }
             comboBoxInterpolation.SelectedValue = ViewModel.Interpolation?.ID ?? 0;

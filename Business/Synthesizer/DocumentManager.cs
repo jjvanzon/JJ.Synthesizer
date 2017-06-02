@@ -309,7 +309,7 @@ namespace JJ.Business.Synthesizer
 
             IList<Operator> flushedOperators = _repositories.OperatorRepository.GetManyByOperatorTypeID_AndSingleDataKeyAndValue(
                 (int)OperatorTypeEnum.CustomOperator,
-                PropertyNames.UnderlyingPatchID,
+                nameof(CustomOperator_OperatorWrapper.UnderlyingPatchID),
                 patch.ID.ToString());
             
             IList<Operator> externalOperators = flushedOperators.Where(x => x.Patch != null && // Handles orphaned operators up for deletion.

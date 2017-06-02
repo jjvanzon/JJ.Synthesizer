@@ -53,6 +53,30 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 45, "Ratio");
             RepositoryHelper.EnsureEnumEntity(this, 46, "PitchBend");
             RepositoryHelper.EnsureEnumEntity(this, 47, "MainVolume");
+            RepositoryHelper.EnsureEnumEntity(this, 48, "X");
+            RepositoryHelper.EnsureEnumEntity(this, 49, "SliceLength");
+            RepositoryHelper.EnsureEnumEntity(this, 50, "SampleCount");
+            RepositoryHelper.EnsureEnumEntity(this, 51, "From");
+            RepositoryHelper.EnsureEnumEntity(this, 52, "Till");
+            RepositoryHelper.EnsureEnumEntity(this, 53, "Step");
+            RepositoryHelper.EnsureEnumEntity(this, 54, "Item");
+            RepositoryHelper.EnsureEnumEntity(this, 55, "Width");
+            RepositoryHelper.EnsureEnumEntity(this, 56, "BlobVolume");
+            RepositoryHelper.EnsureEnumEntity(this, 58, "PassThrough");
+            RepositoryHelper.EnsureEnumEntity(this, 59, "Reset");
+            RepositoryHelper.EnsureEnumEntity(this, 60, "Collection");
+            RepositoryHelper.EnsureEnumEntity(this, 61, "Slope");
+            RepositoryHelper.EnsureEnumEntity(this, 62, "Decibel");
+            RepositoryHelper.EnsureEnumEntity(this, 63, "Condition");
+            RepositoryHelper.EnsureEnumEntity(this, 64, "Then");
+            RepositoryHelper.EnsureEnumEntity(this, 65, "Else");
+            RepositoryHelper.EnsureEnumEntity(this, 66, "Rate");
+            RepositoryHelper.EnsureEnumEntity(this, 67, "Offset");
+            RepositoryHelper.EnsureEnumEntity(this, 68, "FrequencyCount");
+            RepositoryHelper.EnsureEnumEntity(this, 69, "Skip");
+            RepositoryHelper.EnsureEnumEntity(this, 70, "LoopStartMarker");
+            RepositoryHelper.EnsureEnumEntity(this, 71, "LoopEndMarker");
+            RepositoryHelper.EnsureEnumEntity(this, 72, "ReleaseEndMarker");
         }
     }
 }

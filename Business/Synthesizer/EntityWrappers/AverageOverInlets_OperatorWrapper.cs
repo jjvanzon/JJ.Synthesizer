@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class AverageOverInlets_OperatorWrapper : OperatorWrapperBase_VariableInletCountOneResult
+    public class AverageOverInlets_OperatorWrapper : OperatorWrapperBase_VariableInletCountResultOutlet
     {
         public AverageOverInlets_OperatorWrapper(Operator op)
             : base(op)

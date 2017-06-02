@@ -7,16 +7,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Add_OperatorCalculator_VarArray_1Const : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase[] _varOperandCalculators;
-        private readonly int _varOperandCalculatorsCount;
+        private readonly OperatorCalculatorBase[] _varItemCalculators;
+        private readonly int _varItemCalculatorsCount;
 
         private readonly double _constValue;
 
-        public Add_OperatorCalculator_VarArray_1Const(IList<OperatorCalculatorBase> varOperandCalculators, double constValue)
-            : base(varOperandCalculators)
+        public Add_OperatorCalculator_VarArray_1Const(IList<OperatorCalculatorBase> varItemCalculators, double constValue)
+            : base(varItemCalculators)
         {
-            _varOperandCalculators = varOperandCalculators?.ToArray() ?? throw new NullException(() => varOperandCalculators);
-            _varOperandCalculatorsCount = _varOperandCalculators.Length;
+            _varItemCalculators = varItemCalculators?.ToArray() ?? throw new NullException(() => varItemCalculators);
+            _varItemCalculatorsCount = _varItemCalculators.Length;
             _constValue = constValue;
         }
 
@@ -25,9 +25,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double sum = _constValue;
 
-            for (int i = 0; i < _varOperandCalculatorsCount; i++)
+            for (int i = 0; i < _varItemCalculatorsCount; i++)
             {
-                double value = _varOperandCalculators[i].Calculate();
+                double value = _varItemCalculators[i].Calculate();
 
                 sum += value;
             }

@@ -1,32 +1,21 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Exceptions;
 using System;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class GetDimension_OperatorWrapper : OperatorWrapperBase_WithSingleOutlet
+    public class GetDimension_OperatorWrapper : OperatorWrapperBase_WithOneOutlet
     {
-        private const int VALUE_INDEX = 0;
-
         public GetDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public Outlet Value => OperatorHelper.GetOutlet(WrappedOperator, VALUE_INDEX);
+        public Outlet Value => OperatorHelper.GetOutlet(WrappedOperator, DimensionEnum.X);
 
-        public override string GetInletDisplayName(int listIndex)
+        public override string GetInletDisplayName(Inlet inlet)
         {
             throw new Exception("This operator does not have Inlets, so you cannot get an InletDisplayName.");
-        }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceFormatter.GetDisplayName(() => Value);
-            return name;
         }
     }
 }

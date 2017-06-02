@@ -45,8 +45,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (comboBoxNodeType.DataSource == null)
             {
-                comboBoxNodeType.ValueMember = PropertyNames.ID;
-                comboBoxNodeType.DisplayMember = PropertyNames.Name;
+                comboBoxNodeType.ValueMember = nameof(IDAndName.ID);
+                comboBoxNodeType.DisplayMember = nameof(IDAndName.Name);
                 comboBoxNodeType.DataSource = ViewModel.NodeTypeLookup;
             }
 

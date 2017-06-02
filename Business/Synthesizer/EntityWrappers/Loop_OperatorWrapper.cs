@@ -1,12 +1,11 @@
-﻿using JJ.Business.Synthesizer.LinkTo;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Loop_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class Loop_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
     {
         public Loop_OperatorWrapper(Operator op)
             : base(op)
@@ -18,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SignalInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SIGNAL_INDEX);
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Signal);
 
         public Outlet Skip
         {
@@ -26,7 +25,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SkipInlet.LinkTo(value);
         }
 
-        public Inlet SkipInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_SKIP_INDEX);
+        public Inlet SkipInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Skip);
 
         public Outlet LoopStartMarker
         {
@@ -34,7 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => LoopStartMarkerInlet.LinkTo(value);
         }
 
-        public Inlet LoopStartMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_START_MARKER_INDEX);
+        public Inlet LoopStartMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.LoopStartMarker);
 
         public Outlet LoopEndMarker
         {
@@ -42,7 +41,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => LoopEndMarkerInlet.LinkTo(value);
         }
 
-        public Inlet LoopEndMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_LOOP_END_MARKER_INDEX);
+        public Inlet LoopEndMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.LoopEndMarker);
 
         public Outlet ReleaseEndMarker
         {
@@ -50,7 +49,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => ReleaseEndMarkerInlet.LinkTo(value);
         }
 
-        public Inlet ReleaseEndMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX);
+        public Inlet ReleaseEndMarkerInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.ReleaseEndMarker);
 
         public Outlet NoteDuration
         {
@@ -58,51 +57,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => NoteDurationInlet.LinkTo(value);
         }
 
-        public Inlet NoteDurationInlet => OperatorHelper.GetInlet(WrappedOperator, OperatorConstants.LOOP_NOTE_DURATION_INDEX);
-
-        public override string GetInletDisplayName(int listIndex)
-        {
-            switch (listIndex)
-            {
-                case OperatorConstants.LOOP_SIGNAL_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Signal);
-                        return name;
-                    }
-
-                case OperatorConstants.LOOP_SKIP_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Skip);
-                        return name;
-                    }
-
-                case OperatorConstants.LOOP_LOOP_START_MARKER_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => LoopStartMarker);
-                        return name;
-                    }
-
-                case OperatorConstants.LOOP_LOOP_END_MARKER_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => LoopEndMarker);
-                        return name;
-                    }
-
-                case OperatorConstants.LOOP_RELEASE_END_MARKER_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => ReleaseEndMarker);
-                        return name;
-                    }
-
-                case OperatorConstants.LOOP_NOTE_DURATION_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => NoteDuration);
-                        return name;
-                    }
-
-                default:
-                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
-            }
-        }
+        public Inlet NoteDurationInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.NoteDuration);
     }
 }

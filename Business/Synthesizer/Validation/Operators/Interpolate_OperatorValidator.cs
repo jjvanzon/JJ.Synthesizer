@@ -1,5 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Data.Synthesizer.Entities;
 
@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Interpolate,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.SamplingRate },
                 new[] { DimensionEnum.Signal },
-                expectedDataKeys: new[] { PropertyNames.InterpolationType })
+                expectedDataKeys: new[] { nameof(Interpolate_OperatorWrapper.InterpolationType) })
         { }
 
         protected override void Execute()

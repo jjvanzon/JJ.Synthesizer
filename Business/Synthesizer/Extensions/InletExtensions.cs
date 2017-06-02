@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
@@ -21,7 +22,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 return null;
             }
 
-            double? number = DataPropertyParser.TryParseDouble(inlet.InputOutlet.Operator, PropertyNames.Number);
+            double? number = DataPropertyParser.TryParseDouble(inlet.InputOutlet.Operator, nameof(Number_OperatorWrapper.Number));
             return number;
         }
     }

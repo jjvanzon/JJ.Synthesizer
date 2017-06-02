@@ -1,18 +1,15 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using System.Linq;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class ClosestOverInlets_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class ClosestOverInlets_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
     {
-        private const int INPUT_INDEX = 0;
-
         public ClosestOverInlets_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -23,7 +20,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => InputInlet.LinkTo(value);
         }
 
-        public Inlet InputInlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
+        public Inlet InputInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Input);
 
         /// <summary> Executes a loop, so prevent calling it multiple times. </summary>
         public IList<Outlet> Items
@@ -49,21 +46,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
         }
 
-        public override string GetInletDisplayName(int listIndex)
+        public override string GetInletDisplayName(Inlet inlet)
         {
-            if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
-            if (listIndex > WrappedOperator.Inlets.Count + 1) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count + 1);
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (inlet.ListIndex > 0)
+            {
+                return $"{CommonResourceFormatter.Item} {inlet}";
+            }
 
-            if (listIndex == INPUT_INDEX)
-            {
-                string name = ResourceFormatter.GetDisplayName(() => Input);
-                return name;
-            }
-            else
-            {
-                string name = $"{CommonResourceFormatter.Item} {listIndex}";
-                return name;
-            }
+            return base.GetInletDisplayName(inlet);
         }
     }
 }

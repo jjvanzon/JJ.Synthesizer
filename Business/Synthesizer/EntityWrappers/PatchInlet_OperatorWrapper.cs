@@ -1,7 +1,6 @@
 ﻿using JetBrains.Annotations;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -10,9 +9,10 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class PatchInlet_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class PatchInlet_OperatorWrapper : OperatorWrapperBase_WithOneOutlet
     {
         private const int INPUT_INDEX = 0;
+        private const int OUTPUT_INDEX = 0;
 
         public PatchInlet_OperatorWrapper(Operator op)
             : base(op)
@@ -27,10 +27,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         [NotNull]
         public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
 
+        public Outlet Outlet => OperatorHelper.GetOutlet(WrappedOperator, OUTPUT_INDEX);
+
         public int? ListIndex
         {
-            get => DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex);
-            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value);
+            get => DataPropertyParser.TryGetInt32(WrappedOperator, nameof(ListIndex));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(ListIndex), value);
         }
 
         public Dimension Dimension
@@ -48,12 +50,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => Inlet.DefaultValue = value;
         }
 
-        public override string GetInletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceFormatter.GetDisplayName(() => Input);
-            return name;
-        }
+        public override string GetInletDisplayName(Inlet inlet) => ResourceFormatter.Input;
+        public override string GetOutletDisplayName(Outlet inlet) => ResourceFormatter.Outlet;
     }
 }

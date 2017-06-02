@@ -43,8 +43,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (comboBoxCollectionRecalculation.DataSource == null)
             {
-                comboBoxCollectionRecalculation.ValueMember = PropertyNames.ID;
-                comboBoxCollectionRecalculation.DisplayMember = PropertyNames.Name;
+                comboBoxCollectionRecalculation.ValueMember = nameof(IDAndName.ID);
+                comboBoxCollectionRecalculation.DisplayMember = nameof(IDAndName.Name);
                 comboBoxCollectionRecalculation.DataSource = ViewModel.CollectionRecalculationLookup;
             }
             comboBoxCollectionRecalculation.SelectedValue = ViewModel.CollectionRecalculation?.ID ?? 0;

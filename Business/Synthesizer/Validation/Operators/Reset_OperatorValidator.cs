@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 
@@ -10,9 +10,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Reset,
-                new[] { DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined },
-                expectedDataKeys: new[] { PropertyNames.ListIndex })
+                new[] { DimensionEnum.PassThrough },
+                new[] { DimensionEnum.PassThrough },
+                expectedDataKeys: new[] { nameof(Reset_OperatorWrapper.ListIndex) })
         { }
     }
 }

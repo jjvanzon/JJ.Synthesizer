@@ -69,19 +69,8 @@ namespace JJ.Business.Synthesizer.Helpers
             IDRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
-        public void Commit()
-        {
-            DocumentRepository.Commit();
-        }
-
-        public void Rollback()
-        {
-            DocumentRepository.Rollback();
-        }
-
-        public void Flush()
-        {
-            DocumentRepository.Flush();
-        }
+        public void Commit() => DocumentRepository.Commit();
+        public void Rollback() => DocumentRepository.Rollback();
+        public void Flush() => DocumentRepository.Flush();
     }
 }

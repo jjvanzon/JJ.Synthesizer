@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
                 string operatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForCurveOperator(op, _curveRepository);
 
                 ValidationMessages.Add(
-                    PropertyNames.Sample,
+                    nameof(Curve),
                     CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(curveIdentifier, patchPrefix + operatorIdentifier));
             }
         }

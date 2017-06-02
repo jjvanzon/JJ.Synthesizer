@@ -230,9 +230,6 @@
   <data name="BandPassFilterConstantTransitionGain" xml:space="preserve">
     <value>Band doorlaat filter, constante verhoging in overgang </value>
   </data>
-  <data name="BandWidth" xml:space="preserve">
-    <value>Bandbreedte</value>
-  </data>
   <data name="Base" xml:space="preserve">
     <value>Basis</value>
   </data>
@@ -373,9 +370,6 @@
   </data>
   <data name="End" xml:space="preserve">
     <value>Einde</value>
-  </data>
-  <data name="EndTime" xml:space="preserve">
-    <value>Eindtijd</value>
   </data>
   <data name="Equal" xml:space="preserve">
     <value>=</value>
@@ -1038,5 +1032,23 @@
   </data>
   <data name="Sound" xml:space="preserve">
     <value>Geluid</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="BlobVolume" xml:space="preserve">
+    <value>Blob volume</value>
+  </data>
+  <data name="ListOfItems" xml:space="preserve">
+    <value>Item lijst</value>
+  </data>
+  <data name="Decibel" xml:space="preserve">
+    <value>dB</value>
+  </data>
+  <data name="Slope" xml:space="preserve">
+    <value>Afbuiging</value>
+  </data>
+  <data name="Output" xml:space="preserve">
+    <value>Uitvoer</value>
   </data>
 </root>

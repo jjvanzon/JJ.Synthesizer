@@ -30,8 +30,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? UnderlyingPatchID
         {
-            get => DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.UnderlyingPatchID);
-            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.UnderlyingPatchID, value);
+            get => DataPropertyParser.TryGetInt32(WrappedOperator, nameof(UnderlyingPatchID));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(UnderlyingPatchID), value);
         }
 
         /// <summary> nullable </summary>
@@ -59,12 +59,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
         }
 
-        public override string GetInletDisplayName(int listIndex)
+        public override string GetInletDisplayName(Inlet inlet)
         {
-            if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => Inlets.Count);
-
-            Inlet inlet = Inlets[listIndex];
-
             // Use Name
             if (!string.IsNullOrEmpty(inlet.Name))
             {
@@ -84,12 +80,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return displayName;
         }
 
-        public override string GetOutletDisplayName(int listIndex)
+        public override string GetOutletDisplayName(Outlet outlet)
         {
-            if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => Outlets.Count);
-
-            Outlet outlet = Outlets[listIndex];
-
             // Use Name
             if (!string.IsNullOrEmpty(outlet.Name))
             {

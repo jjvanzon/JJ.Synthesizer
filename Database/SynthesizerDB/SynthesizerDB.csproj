@@ -95,6 +95,7 @@
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
     <Content Include="2016-06-23 040 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2017-06-02 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-01-24 020 SynthesizerDB OperatorType 26 - Select delete row.sql" />
     <Content Include="2017-01-24 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2016-12-26 020 SynthesizerDB RUN UTILITY %28again%29.sql" />
@@ -353,6 +354,21 @@
     <Content Include="2017-03-03 010 SynthesizerDB DocumentReference column renames.sql" />
     <Content Include="2017-05-27 010 SynthesizerDB Dimension insert many rows.sql" />
     <Content Include="2017-05-27 020 SynthesizerDB Dimension delete 34 - Numerator and 35 - Denominator.sql" />
+    <Content Include="2017-05-28 010 SynthesizerDB Dimension insert 48 - X.sql" />
+    <Content Include="2017-05-28 020 SynthesizerDB Dimension insert 49 - SliceLength and 50 - SampleCount.sql" />
+    <Content Include="2017-05-28 030 SynthesizerDB Dimension insert 51 - From, 52 - Till and 53 - Step.sql" />
+    <Content Include="2017-05-28 040 SynthesizerDB Dimension insert 54 - Item.sql" />
+    <Content Include="2017-05-29 010 SynthesizerDB Dimension insert 55 - BandWidth, 56 - BlobVolume, 57 - Squash.sql" />
+    <Content Include="2017-05-29 020 SynthesizerDB Dimension insert 58 - PassThrough, 59 - Reset.sql" />
+    <Content Include="2017-05-30 010 SynthesizerDB Dimension insert 60 - Collection.sql" />
+    <Content Include="2017-05-30 020 SynthesizerDB Dimension rename 55 - BandWidth to Width.sql" />
+    <Content Include="2017-05-31 010 SynthesizerDB Dimension delete 57 - Squash.sql" />
+    <Content Include="2017-05-31 020 SynthesizerDB Dimension insert 61 - Slope, 62 - Decibel.sql" />
+    <Content Include="2017-05-31 030 SynthesizerDB Dimension insert 63 - Condition, 64 - Then, 65 - Else.sql" />
+    <Content Include="2017-06-01 010 SynthesizerDB Dimension insert 66 - Rate.sql" />
+    <Content Include="2017-06-01 020 SynthesizerDB Dimension insert 67 - Offset.sql" />
+    <Content Include="2017-06-01 030 SynthesizerDB Dimension insert 68 - FrequencyCount.sql" />
+    <Content Include="2017-06-02 010 SynthesizerDB Dimension insert 69 - Skip, 70 - LoopStartMarker, 71 - LoopEndMarker, 72 = ReleaseEndMarker.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

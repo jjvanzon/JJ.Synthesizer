@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -134,7 +135,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             IList<int> listIndexes = patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
                                           .Where(x => DataPropertyParser.DataIsWellFormed(x))
-                                          .Select(x => DataPropertyParser.TryParseInt32(x, PropertyNames.ListIndex))
+                                          .Select(x => DataPropertyParser.TryParseInt32(x, nameof(PatchInlet_OperatorWrapper.ListIndex)))
                                           .Where(x => x.HasValue)
                                           .Select(x => x.Value)
                                           .ToArray();
@@ -149,7 +150,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             IList<int> listIndexes = patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
                                           .Where(x => DataPropertyParser.DataIsWellFormed(x))
-                                          .Select(x => DataPropertyParser.TryParseInt32(x, PropertyNames.ListIndex))
+                                          .Select(x => DataPropertyParser.TryParseInt32(x, nameof(PatchOutlet_OperatorWrapper.ListIndex)))
                                           .Where(x => x.HasValue)
                                           .Select(x => x.Value)
                                           .ToArray();

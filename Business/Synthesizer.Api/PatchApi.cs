@@ -23,26 +23,28 @@ namespace JJ.Business.Synthesizer.Api
         public Absolute_OperatorWrapper Absolute(Outlet x = null)
             => _patchManager.Absolute(x);
 
-        public Add_OperatorWrapper Add(params Outlet[] operands) 
-            => _patchManager.Add(operands);
+        public Add_OperatorWrapper Add(params Outlet[] items) 
+            => _patchManager.Add(items);
 
-        public Add_OperatorWrapper Add(IList<Outlet> operands)
-            => _patchManager.Add(operands);
+        public Add_OperatorWrapper Add(IList<Outlet> items)
+            => _patchManager.Add(items);
 
         public And_OperatorWrapper And(Outlet a = null, Outlet b = null)
             => _patchManager.And(a, b);
 
         public AllPassFilter_OperatorWrapper AllPassFilter(
-            Outlet signal = null, 
+            Outlet sound = null, 
             Outlet centerFrequency = null, 
-            Outlet bandWidth = null)
-            => _patchManager.AllPassFilter(signal, centerFrequency, bandWidth);
+            Outlet width = null)
+            => _patchManager.AllPassFilter(sound, centerFrequency, width);
 
-        public AverageOverInlets_OperatorWrapper AverageOverInlets(params Outlet[] operands)
-            => _patchManager.AverageOverInlets(operands);
-
-        public AverageOverInlets_OperatorWrapper AverageOverInlets(IList<Outlet> operands)
-            => _patchManager.AverageOverInlets(operands);
+        public AverageFollower_OperatorWrapper AverageFollower(
+            Outlet signal = null,
+            Outlet sliceLength = null,
+            Outlet sampleCount = null,
+            DimensionEnum standardDimension = DimensionEnum.Time,
+            string customDimension = null)
+            => _patchManager.AverageFollower(signal, sliceLength, sampleCount, standardDimension, customDimension);
 
         public AverageOverDimension_OperatorWrapper AverageOverDimension(
             Outlet signal = null,
@@ -54,25 +56,23 @@ namespace JJ.Business.Synthesizer.Api
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
             => _patchManager.AverageOverDimension(signal, from, till, step, standardDimension, customDimension, collectionRecalculation);
 
-        public AverageFollower_OperatorWrapper AverageFollower(
-            Outlet signal = null,
-            Outlet sliceLength = null,
-            Outlet sampleCount = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
-            string customDimension = null)
-            => _patchManager.AverageFollower(signal, sliceLength, sampleCount, standardDimension, customDimension);
+        public AverageOverInlets_OperatorWrapper AverageOverInlets(params Outlet[] items)
+            => _patchManager.AverageOverInlets(items);
+
+        public AverageOverInlets_OperatorWrapper AverageOverInlets(IList<Outlet> items)
+            => _patchManager.AverageOverInlets(items);
 
         public BandPassFilterConstantPeakGain_OperatorWrapper BandPassFilterConstantPeakGain(
-            Outlet signal = null,
+            Outlet sound = null,
             Outlet centerFrequency = null,
-            Outlet bandWidth = null)
-            => _patchManager.BandPassFilterConstantPeakGain(signal, centerFrequency, bandWidth);
+            Outlet width = null)
+            => _patchManager.BandPassFilterConstantPeakGain(sound, centerFrequency, width);
 
         public BandPassFilterConstantTransitionGain_OperatorWrapper BandPassFilterConstantTransitionGain(
-            Outlet signal = null,
+            Outlet sound = null,
             Outlet centerFrequency = null,
-            Outlet bandWidth = null)
-            => _patchManager.BandPassFilterConstantTransitionGain(signal, centerFrequency, bandWidth);
+            Outlet width = null)
+            => _patchManager.BandPassFilterConstantTransitionGain(sound, centerFrequency, width);
 
         public Cache_OperatorWrapper Cache(
             Outlet signal = null,
@@ -93,8 +93,8 @@ namespace JJ.Business.Synthesizer.Api
                 standardDimension,
                 customDimension);
 
-        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet calculation, Outlet reset)
-            => _patchManager.ChangeTrigger(calculation, reset);
+        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet passThrough, Outlet reset)
+            => _patchManager.ChangeTrigger(passThrough, reset);
 
         public ClosestOverInlets_OperatorWrapper ClosestOverInlets(Outlet input, params Outlet[] items)
             => _patchManager.ClosestOverInlets(input, items);
@@ -166,17 +166,17 @@ namespace JJ.Business.Synthesizer.Api
             => _patchManager.GreaterThanOrEqual(a, b);
 
         public HighPassFilter_OperatorWrapper HighPassFilter(
-            Outlet signal = null, 
+            Outlet sound = null, 
             Outlet minFrequency = null,
-            Outlet bandWidth = null)
-            => _patchManager.HighPassFilter(signal, minFrequency, bandWidth);
+            Outlet blobVolume = null)
+            => _patchManager.HighPassFilter(sound, minFrequency, blobVolume);
 
         public HighShelfFilter_OperatorWrapper HighShelfFilter(
-            Outlet signal = null,
+            Outlet sound = null,
             Outlet transitionFrequency = null,
             Outlet transitionSlope = null,
             Outlet dbGain = null)
-            => _patchManager.HighShelfFilter(signal, transitionFrequency, transitionSlope, dbGain);
+            => _patchManager.HighShelfFilter(sound, transitionFrequency, transitionSlope, dbGain);
 
         public If_OperatorWrapper If(Outlet condition = null, Outlet then = null, Outlet @else = null)
             => _patchManager.If(condition, then, @else);
@@ -199,17 +199,17 @@ namespace JJ.Business.Synthesizer.Api
             => _patchManager.Loop(signal, skip, loopStartMarker, loopEndMarker, releaseEndMarker, noteDuration, standardDimension, customDimension);
 
         public LowPassFilter_OperatorWrapper LowPassFilter(
-            Outlet signal = null, 
+            Outlet sound = null, 
             Outlet maxFrequency = null,
-            Outlet bandWidth = null)
-            => _patchManager.LowPassFilter(signal, maxFrequency, bandWidth);
+            Outlet width = null)
+            => _patchManager.LowPassFilter(sound, maxFrequency, width);
 
         public LowShelfFilter_OperatorWrapper LowShelfFilter(
-            Outlet signal = null,
+            Outlet sound = null,
             Outlet shelfFrequency = null,
             Outlet shelfSlope = null,
             Outlet dbGain = null)
-            => _patchManager.LowShelfFilter(signal, shelfFrequency, shelfSlope, dbGain);
+            => _patchManager.LowShelfFilter(sound, shelfFrequency, shelfSlope, dbGain);
 
         public InletsToDimension_OperatorWrapper InletsToDimension(ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension, params Outlet[] operands)
             => _patchManager.InletsToDimension(interpolation, standardDimension, operands);
@@ -358,10 +358,10 @@ namespace JJ.Business.Synthesizer.Api
             => _patchManager.Not(x);
 
         public NotchFilter_OperatorWrapper NotchFilter(
-            Outlet signal = null, 
+            Outlet sound = null, 
             Outlet centerFrequency = null, 
-            Outlet bandWidth = null)
-            => _patchManager.NotchFilter(signal, centerFrequency, bandWidth);
+            Outlet width = null)
+            => _patchManager.NotchFilter(sound, centerFrequency, width);
 
         public NotEqual_OperatorWrapper NotEqual(Outlet a = null, Outlet b = null)
             => _patchManager.NotEqual(a, b);
@@ -400,11 +400,11 @@ namespace JJ.Business.Synthesizer.Api
             => _patchManager.PatchOutlet(name, input);
 
         public PeakingEQFilter_OperatorWrapper PeakingEQFilter(
-            Outlet signal = null,
+            Outlet sound = null,
             Outlet centerFrequency = null,
-            Outlet bandWidth = null,
+            Outlet width = null,
             Outlet dbGain = null)
-            => _patchManager.PeakingEQFilter(signal, centerFrequency, bandWidth, dbGain);
+            => _patchManager.PeakingEQFilter(sound, centerFrequency, width, dbGain);
 
         public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
             => _patchManager.Power(@base, exponent);
@@ -446,8 +446,8 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _patchManager.Interpolate(signal, samplingRate, interpolationType, standardDimension, customDimension);
 
-        public Reset_OperatorWrapper Reset(Outlet operand = null, int? listIndex = null)
-            => _patchManager.Reset(operand, listIndex);
+        public Reset_OperatorWrapper Reset(Outlet passThrough = null, int? listIndex = null)
+            => _patchManager.Reset(passThrough, listIndex);
 
         public Reverse_OperatorWrapper Reverse(
             Outlet signal = null, 
@@ -478,10 +478,10 @@ namespace JJ.Business.Synthesizer.Api
 
         public SetDimension_OperatorWrapper SetDimension(
             Outlet calculation = null, 
-            Outlet value = null, 
+            Outlet x = null, 
             DimensionEnum standardDimension = DimensionEnum.Undefined, 
             string customDimension = null)
-            => _patchManager.SetDimension(calculation, value, standardDimension, customDimension);
+            => _patchManager.SetDimension(calculation, x, standardDimension, customDimension);
 
         public Shift_OperatorWrapper Shift(
             Outlet signal = null, 
@@ -510,13 +510,13 @@ namespace JJ.Business.Synthesizer.Api
             => _patchManager.SortOverDimension(signal, from, till, step, standardDimension, customDimension, collectionRecalculation);
 
         public Spectrum_OperatorWrapper Spectrum(
-            Outlet signal = null,
+            Outlet sound = null,
             Outlet start = null,
             Outlet end = null,
             Outlet samplingRate = null,
             DimensionEnum standardDimension = DimensionEnum.Time,
             string customDimension = null)
-            => _patchManager.Spectrum(signal, start, end, samplingRate, standardDimension, customDimension);
+            => _patchManager.Spectrum(sound, start, end, samplingRate, standardDimension, customDimension);
 
         public Square_OperatorWrapper Square(Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
             => _patchManager.Square(frequency, standardDimension, customDimension);
@@ -558,8 +558,8 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _patchManager.TimePower(signal, exponent, origin, standardDimension, customDimension);
 
-        public ToggleTrigger_OperatorWrapper ToggleTrigger(Outlet calculation, Outlet reset)
-            => _patchManager.ToggleTrigger(calculation, reset);
+        public ToggleTrigger_OperatorWrapper ToggleTrigger(Outlet passThrough, Outlet reset)
+            => _patchManager.ToggleTrigger(passThrough, reset);
 
         public Triangle_OperatorWrapper Triangle(Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
             => _patchManager.Triangle(frequency, standardDimension, customDimension);

@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.LinkTo;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -6,23 +8,19 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class NotchFilter_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class NotchFilter_OperatorWrapper : OperatorWrapperBase_WithSoundOutlet
     {
         public NotchFilter_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        private const int SIGNAL_INDEX = 0;
-        private const int CENTER_FREQUENCY_INDEX = 1;
-        private const int BAND_WIDTH_INDEX = 2;
-
-        public Outlet Signal
+        public Outlet SoundInput
         {
-            get => SignalInlet.InputOutlet;
-            set => SignalInlet.LinkTo(value);
+            get => SoundInlet.InputOutlet;
+            set => SoundInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
+        public Inlet SoundInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Sound);
 
         public Outlet CenterFrequency
         {
@@ -30,41 +28,28 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => CenterFrequencyInlet.LinkTo(value);
         }
 
-        public Inlet CenterFrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, CENTER_FREQUENCY_INDEX);
+        public Inlet CenterFrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Frequency);
 
-        public Outlet BandWidth
+        public Outlet Width
         {
-            get => BandWidthInlet.InputOutlet;
-            set => BandWidthInlet.LinkTo(value);
+            get => WidthInlet.InputOutlet;
+            set => WidthInlet.LinkTo(value);
         }
 
-        public Inlet BandWidthInlet => OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX);
+        public Inlet WidthInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Width);
 
-        public override string GetInletDisplayName(int listIndex)
+        public override string GetInletDisplayName(Inlet inlet)
         {
-            switch (listIndex)
+            if (inlet == null) throw new NullException(() => inlet);
+
+            DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
+            switch (dimensionEnum)
             {
-                case SIGNAL_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Signal);
-                        return name;
-                    }
-
-                case CENTER_FREQUENCY_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => CenterFrequency);
-                        return name;
-                    }
-
-                case BAND_WIDTH_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => BandWidth);
-                        return name;
-                    }
-
-                default:
-                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+                case DimensionEnum.Frequency:
+                    return ResourceFormatter.CenterFrequency;
             }
+
+            return base.GetInletDisplayName(inlet);
         }
    }
 }

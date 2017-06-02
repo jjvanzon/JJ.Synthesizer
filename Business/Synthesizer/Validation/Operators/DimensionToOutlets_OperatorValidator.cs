@@ -12,8 +12,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.DimensionToOutlets,
-                new[] { DimensionEnum.Undefined },
-                Enumerable.Repeat(DimensionEnum.Undefined, obj?.Outlets.Count ?? 0).ToArray())
+                new[] { DimensionEnum.Signal },
+                Enumerable.Repeat(DimensionEnum.Item, obj?.Outlets.Count ?? 0).ToArray())
         { }
 
         protected override void Execute()

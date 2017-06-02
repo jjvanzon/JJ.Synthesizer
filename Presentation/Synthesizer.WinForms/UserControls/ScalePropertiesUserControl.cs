@@ -48,8 +48,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (comboBoxScaleType.DataSource == null)
             {
-                comboBoxScaleType.ValueMember = PropertyNames.ID;
-                comboBoxScaleType.DisplayMember = PropertyNames.Name;
+                comboBoxScaleType.ValueMember = nameof(IDAndName.ID);
+                comboBoxScaleType.DisplayMember = nameof(IDAndName.Name);
                 comboBoxScaleType.DataSource = ViewModel.ScaleTypeLookup;
             }
             comboBoxScaleType.SelectedValue = ViewModel.Entity.ScaleType.ID;

@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using System.Linq;
+using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -59,24 +60,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (comboBoxAudioFileFormat.DataSource == null)
             {
-                comboBoxAudioFileFormat.ValueMember = PropertyNames.ID;
-                comboBoxAudioFileFormat.DisplayMember = PropertyNames.Name;
+                comboBoxAudioFileFormat.ValueMember = nameof(IDAndName.ID);
+                comboBoxAudioFileFormat.DisplayMember = nameof(IDAndName.Name);
                 comboBoxAudioFileFormat.DataSource = ViewModel.AudioFileFormatLookup.ToArray();
             }
             comboBoxAudioFileFormat.SelectedValue = ViewModel.Entity.AudioFileFormat.ID;
 
             if (comboBoxSampleDataType.DataSource == null)
             {
-                comboBoxSampleDataType.ValueMember = PropertyNames.ID;
-                comboBoxSampleDataType.DisplayMember = PropertyNames.Name;
+                comboBoxSampleDataType.ValueMember = nameof(IDAndName.ID);
+                comboBoxSampleDataType.DisplayMember = nameof(IDAndName.Name);
                 comboBoxSampleDataType.DataSource = ViewModel.SampleDataTypeLookup;
             }
             comboBoxSampleDataType.SelectedValue = ViewModel.Entity.SampleDataType.ID;
 
             if (comboBoxSpeakerSetup.DataSource == null)
             {
-                comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
-                comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
+                comboBoxSpeakerSetup.ValueMember = nameof(IDAndName.ID);
+                comboBoxSpeakerSetup.DisplayMember = nameof(IDAndName.Name);
                 comboBoxSpeakerSetup.DataSource = ViewModel.SpeakerSetupLookup;
             }
             comboBoxSpeakerSetup.SelectedValue = ViewModel.Entity.SpeakerSetup.ID;

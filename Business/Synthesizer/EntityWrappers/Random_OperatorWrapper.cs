@@ -1,16 +1,12 @@
 ﻿using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Random_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class Random_OperatorWrapper : OperatorWrapperBase_WithSignalOutlet
     {
-        private const int RATE_INDEX = 0;
-        
         public Random_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -21,27 +17,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => RateInlet.LinkTo(value);
         }
 
-        public Inlet RateInlet => OperatorHelper.GetInlet(WrappedOperator, RATE_INDEX);
+        public Inlet RateInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Rate);
 
         public ResampleInterpolationTypeEnum InterpolationType
         {
-            get => DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType);
-            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value);
-        }
-
-        public override string GetInletDisplayName(int listIndex)
-        {
-            switch (listIndex)
-            {
-                case RATE_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Rate);
-                        return name;
-                    }
-
-                default:
-                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
-            }
+            get => DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, nameof(InterpolationType));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(InterpolationType), value);
         }
     }
 }

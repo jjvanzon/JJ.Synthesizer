@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class MaxOverInlets_OperatorValidator : OperatorValidator_Base_VariableInletCountOneOutlet
     {
         public MaxOverInlets_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.MaxOverInlets, expectedDataKeys: new string[0])
+            : base(obj, OperatorTypeEnum.MaxOverInlets, DimensionEnum.Result, expectedDataKeys: new string[0])
         { }
     }
 }

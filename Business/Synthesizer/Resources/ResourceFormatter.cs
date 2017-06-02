@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
@@ -41,7 +39,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Balance => Resources.Balance;
         public static string BandPassFilterConstantPeakGain => Resources.BandPassFilterConstantPeakGain;
         public static string BandPassFilterConstantTransitionGain => Resources.BandPassFilterConstantTransitionGain;
-        public static string BandWidth => Resources.BandWidth;
         public static string Base => Resources.Base;
         public static string BaseFrequency => Resources.BaseFrequency;
         public static string Block => Resources.Block;
@@ -99,7 +96,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Duration => Resources.Duration;
         public static string Else => Resources.Else;
         public static string End => Resources.End;
-        public static string EndTime => Resources.EndTime;
         public static string Equal => Resources.Equal;
         public static string Exponent => Resources.Exponent;
         public static string Exponents => Resources.Exponents;
@@ -136,6 +132,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string InterpolationType => Resources.InterpolationType;
         public static string IsActive => Resources.IsActive;
         public static string IsObsolete => Resources.IsObsolete;
+        public static string ItemList => Resources.ItemList;
         public static string Left => Resources.Left;
         public static string LessThan => Resources.LessThan;
         public static string LessThanOrEqual => Resources.LessThanOrEqual;
@@ -154,6 +151,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Low => Resources.Low;
         public static string LowPassFilter => Resources.LowPassFilter;
         public static string LowShelfFilter => Resources.LowShelfFilter;
+        public static string MainVolume => Resources.MainVolume;
         public static string Max => Resources.Max;
         public static string MaxConcurrentNotes => Resources.MaxConcurrentNotes;
         public static string MaxFollower => Resources.MaxFollower;
@@ -196,6 +194,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Outlet => Resources.Outlet;
         public static string Outlets => Resources.Outlets;
         public static string OutletType => Resources.OutletType;
+        public static string Output => Resources.Output;
         public static string PassThrough => Resources.PassThrough;
         public static string Patch => Resources.Patch;
         public static string Patches => Resources.Patches;
@@ -203,9 +202,12 @@ namespace JJ.Business.Synthesizer.Resources
         public static string PatchInlet => Resources.PatchInlet;
         public static string PatchOutlet => Resources.PatchOutlet;
         public static string PeakingEQFilter => Resources.PeakingEQFilter;
+        public static string PitchBend => Resources.PitchBend;
+        public static string Phase => Resources.Phase;
         public static string Play => Resources.Play;
         public static string Position => Resources.Position;
         public static string Power => Resources.Power;
+        public static string PreviousPosition => Resources.PreviousPosition;
         public static string Pulse => Resources.Pulse;
         public static string PulseTrigger => Resources.PulseTrigger;
         public static string Random => Resources.Random;
@@ -248,6 +250,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Sort => Resources.Sort;
         public static string SortOverDimension => Resources.SortOverDimension;
         public static string SortOverInlets => Resources.SortOverInlets;
+        public static string Sound => Resources.Sound;
         public static string SourceValueA => Resources.SourceValueA;
         public static string SourceValueB => Resources.SourceValueB;
         public static string SpeakerSetup => Resources.SpeakerSetup;
@@ -300,8 +303,6 @@ namespace JJ.Business.Synthesizer.Resources
 
         [NotNull] public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber) => string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
         [NotNull] public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber) => string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
-        [Obsolete("Replace with better delete validation messages.")]
-        [NotNull] public static string DocumentIsDependentOnDocument(string dependentDocumentName, string dependentOnDocumentName) => string.Format(Resources.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
         [NotNull] public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
         [NotNull] public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
         [NotNull] public static string MustBePowerOf2(string name) => string.Format(Resources.MustBePowerOf2, name);
@@ -497,19 +498,19 @@ namespace JJ.Business.Synthesizer.Resources
             switch (scaleTypeEnum)
             {
                 case ScaleTypeEnum.LiteralFrequency:
-                    return GetDisplayName(PropertyNames.LiteralFrequencies);
+                    return LiteralFrequencies;
 
                 case ScaleTypeEnum.Factor:
-                    return GetDisplayName(PropertyNames.Factors);
+                    return Factors;
 
                 case ScaleTypeEnum.Exponent:
-                    return GetDisplayName(PropertyNames.Exponents);
+                    return Exponents;
 
                 case ScaleTypeEnum.SemiTone:
-                    return GetDisplayName(PropertyNames.SemiTones);
+                    return SemiTones;
 
                 case ScaleTypeEnum.Cent:
-                    return GetDisplayName(PropertyNames.Cents);
+                    return Cents;
 
                 case ScaleTypeEnum.Undefined:
                     // A direct call to ResourceManager.GetString does not crash if the key does not exist,

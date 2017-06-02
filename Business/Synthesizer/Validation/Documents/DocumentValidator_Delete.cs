@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             {
                 string higherDocumentReferenceIdentifier = ResourceFormatter.HigherDocument + " " + ValidationHelper.GetUserFriendlyIdentifier_ForHigherDocumentReference(higherDocumentReference);
                 string message = CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(lowerDocumentIdentifier, higherDocumentReferenceIdentifier);
-                ValidationMessages.Add(PropertyNames.DocumentReference, message);
+                ValidationMessages.Add(nameof(DocumentReference), message);
             }
         }
     }

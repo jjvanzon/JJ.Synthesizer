@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using System.Linq;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
@@ -14,8 +15,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   op,
                 OperatorTypeEnum.Curve,
                 new DimensionEnum[0],
-                new[] { DimensionEnum.Undefined },
-                expectedDataKeys: new[] { PropertyNames.CurveID })
+                new[] { DimensionEnum.Result },
+                expectedDataKeys: new[] { nameof(Curve_OperatorWrapper.CurveID) })
         { }
 
         protected override void Execute()
@@ -29,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            string curveIDString = DataPropertyParser.TryGetString(op, PropertyNames.CurveID);
+            string curveIDString = DataPropertyParser.TryGetString(op, nameof(Curve_OperatorWrapper.CurveID));
             For(() => curveIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.Curve)).IsInteger();
 
             int curveID;
@@ -51,7 +52,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            ValidationMessages.AddNotInListMessage(PropertyNames.Curve, ResourceFormatter.Curve, curveID);
+            ValidationMessages.AddNotInListMessage(nameof(Curve), ResourceFormatter.Curve, curveID);
         }
     }
 }

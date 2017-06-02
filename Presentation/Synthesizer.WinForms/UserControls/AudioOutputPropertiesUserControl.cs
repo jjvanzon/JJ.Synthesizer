@@ -44,8 +44,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (comboBoxSpeakerSetup.DataSource == null)
             {
-                comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
-                comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
+                comboBoxSpeakerSetup.ValueMember = nameof(IDAndName.ID);
+                comboBoxSpeakerSetup.DisplayMember = nameof(IDAndName.Name);
                 comboBoxSpeakerSetup.DataSource = ViewModel.SpeakerSetupLookup;
             }
             comboBoxSpeakerSetup.SelectedValue = ViewModel.Entity.SpeakerSetup.ID;

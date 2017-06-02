@@ -98,50 +98,50 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto)
         {
-            return Process_Filter_OperatorDto_VarSignal(dto);
+            return Process_Filter_OperatorDto_VarSound(dto);
         }
 
         protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto)
         {
-            return Process_Filter_OperatorDto_VarSignal(dto);
+            return Process_Filter_OperatorDto_VarSound(dto);
         }
 
         protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto(BandPassFilterConstantTransitionGain_OperatorDto dto)
         {
-            return Process_Filter_OperatorDto_VarSignal(dto);
+            return Process_Filter_OperatorDto_VarSound(dto);
         }
 
         protected override IOperatorDto Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto)
         {
-            return Process_Filter_OperatorDto_VarSignal(dto);
+            return Process_Filter_OperatorDto_VarSound(dto);
         }
 
         protected override IOperatorDto Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto)
         {
-            return Process_Filter_OperatorDto_VarSignal(dto);
+            return Process_Filter_OperatorDto_VarSound(dto);
         }
 
         protected override IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto)
         {
-            return Process_Filter_OperatorDto_VarSignal(dto);
+            return Process_Filter_OperatorDto_VarSound(dto);
         }
 
         protected override IOperatorDto Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto)
         {
-            return Process_Filter_OperatorDto_VarSignal(dto);
+            return Process_Filter_OperatorDto_VarSound(dto);
         }
 
         protected override IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto)
         {
-            return Process_Filter_OperatorDto_VarSignal(dto);
+            return Process_Filter_OperatorDto_VarSound(dto);
         }
 
         protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto)
         {
-            return Process_Filter_OperatorDto_VarSignal(dto);
+            return Process_Filter_OperatorDto_VarSound(dto);
         }
 
-        private IOperatorDto Process_Filter_OperatorDto_VarSignal(OperatorDtoBase_Filter_VarSignal dto)
+        private IOperatorDto Process_Filter_OperatorDto_VarSound(OperatorDtoBase_Filter_VarSound dto)
         {
             dto.SamplingRate = _samplingRate;
             dto.NyquistFrequency = _nyquistFrequency;

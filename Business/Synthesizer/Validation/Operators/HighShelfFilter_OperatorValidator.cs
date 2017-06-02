@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.HighShelfFilter,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal })
+                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Slope, DimensionEnum.Decibel },
+                new[] { DimensionEnum.Sound })
         { }
     }
 }

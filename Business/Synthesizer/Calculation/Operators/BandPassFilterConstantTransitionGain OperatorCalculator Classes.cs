@@ -3,12 +3,12 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth
+    internal class BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarWidth
         : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _soundCalculator;
         private readonly OperatorCalculatorBase _centerFrequencyCalculator;
-        private readonly OperatorCalculatorBase _bandWidthCalculator;
+        private readonly OperatorCalculatorBase _widthCalculator;
         private readonly double _targetSamplingRate;
         private readonly double _nyquistFrequency;
         private readonly int _samplesBetweenApplyFilterVariables;
@@ -16,25 +16,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private int _counter;
 
-        public BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(
-            OperatorCalculatorBase signalCalculator,
+        public BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarWidth(
+            OperatorCalculatorBase soundCalculator,
             OperatorCalculatorBase centerFrequencyCalculator,
-            OperatorCalculatorBase bandWidthCalculator,
+            OperatorCalculatorBase widthCalculator,
             double targetSamplingRate,
             int samplesBetweenApplyFilterVariables)
                 : base(new[]
                 {
-                    signalCalculator,
+                    soundCalculator,
                     centerFrequencyCalculator,
-                    bandWidthCalculator
+                    widthCalculator
                 })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(soundCalculator, () => soundCalculator);
             if (samplesBetweenApplyFilterVariables < 1) throw new LessThanException(() => samplesBetweenApplyFilterVariables, 1);
 
-            _signalCalculator = signalCalculator;
+            _soundCalculator = soundCalculator;
             _centerFrequencyCalculator = centerFrequencyCalculator ?? throw new NullException(() => centerFrequencyCalculator);
-            _bandWidthCalculator = bandWidthCalculator ?? throw new NullException(() => bandWidthCalculator);
+            _widthCalculator = widthCalculator ?? throw new NullException(() => widthCalculator);
             _targetSamplingRate = targetSamplingRate;
             _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
             _biQuadFilter = new BiQuadFilter();
@@ -53,12 +53,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _counter = 0;
             }
 
-            double signal = _signalCalculator.Calculate();
-            double value = _biQuadFilter.Transform(signal);
+            double sound = _soundCalculator.Calculate();
+            double result = _biQuadFilter.Transform(sound);
 
             _counter++;
 
-            return value;
+            return result;
         }
 
         public override void Reset()
@@ -79,36 +79,36 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private void SetFilterVariables()
         {
             double centerFrequency = _centerFrequencyCalculator.Calculate();
-            double bandWidth = _bandWidthCalculator.Calculate();
+            double width = _widthCalculator.Calculate();
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            _biQuadFilter.SetBandPassFilterConstantSkirtGainVariables(_targetSamplingRate, centerFrequency, bandWidth);
+            _biQuadFilter.SetBandPassFilterConstantSkirtGainVariables(_targetSamplingRate, centerFrequency, width);
         }
     }
 
-    internal class BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth
+    internal class BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstWidth
         : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _soundCalculator;
         private readonly double _centerFrequency;
-        private readonly double _bandWidth;
+        private readonly double _width;
         private readonly double _targetSamplingRate;
         private readonly BiQuadFilter _biQuadFilter;
 
-        public BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
-            OperatorCalculatorBase signalCalculator,
+        public BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstWidth(
+            OperatorCalculatorBase soundCalculator,
             double centerFrequency,
-            double bandWidth,
+            double width,
             double targetSamplingRate)
-            : base(new[] { signalCalculator })
+            : base(new[] { soundCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(soundCalculator, () => soundCalculator);
             OperatorCalculatorHelper.AssertFilterFrequency(centerFrequency, targetSamplingRate);
 
-            _signalCalculator = signalCalculator;
+            _soundCalculator = soundCalculator;
             _centerFrequency = centerFrequency;
-            _bandWidth = bandWidth;
+            _width = width;
             _targetSamplingRate = targetSamplingRate;
             _biQuadFilter = new BiQuadFilter();
 
@@ -118,9 +118,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double signal = _signalCalculator.Calculate();
-            double value = _biQuadFilter.Transform(signal);
-            return value;
+            double sound = _soundCalculator.Calculate();
+            double result = _biQuadFilter.Transform(sound);
+            return result;
         }
 
         public override void Reset()
@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-            _biQuadFilter.SetBandPassFilterConstantSkirtGainVariables(_targetSamplingRate, _centerFrequency, _bandWidth);
+            _biQuadFilter.SetBandPassFilterConstantSkirtGainVariables(_targetSamplingRate, _centerFrequency, _width);
             _biQuadFilter.ResetSamples();
         }
     }

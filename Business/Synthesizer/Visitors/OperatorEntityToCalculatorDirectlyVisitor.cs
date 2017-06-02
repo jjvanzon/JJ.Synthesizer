@@ -220,48 +220,48 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase soundCalculator = _stack.Pop();
             OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+            OperatorCalculatorBase widthCalculator = _stack.Pop();
 
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool soundIsConst = soundCalculator is Number_OperatorCalculator;
             bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
-            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+            bool widthIsConst = widthCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double sound = soundIsConst ? soundCalculator.Calculate() : 0.0;
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
-            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
+            double width = widthIsConst ? widthCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool soundIsConstSpecialValue = soundIsConst && DoubleHelper.IsSpecialValue(sound);
             bool centerFrequencyIsConstSpecialValue = centerFrequencyIsConst && DoubleHelper.IsSpecialValue(centerFrequency);
-            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
+            bool widthIsConstSpecialValue = widthIsConst && DoubleHelper.IsSpecialValue(width);
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
+            if (soundIsConstSpecialValue || centerFrequencyIsConstSpecialValue || widthIsConstSpecialValue)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            else if (signalIsConst)
+            else if (soundIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
-            else if (centerFrequencyIsConst && bandWidthIsConst)
+            else if (centerFrequencyIsConst && widthIsConst)
             {
                 calculator = new AllPassFilter_OperatorCalculator_ManyConsts(
-                    signalCalculator,
+                    soundCalculator,
                     centerFrequency,
-                    bandWidth,
+                    width,
                     _targetSamplingRate);
             }
             else
             {
                 calculator = new AllPassFilter_OperatorCalculator_AllVars(
-                    signalCalculator,
+                    soundCalculator,
                     centerFrequencyCalculator,
-                    bandWidthCalculator,
+                    widthCalculator,
                     _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
@@ -455,55 +455,55 @@ namespace JJ.Business.Synthesizer.Visitors
             base.VisitBandPassFilterConstantPeakGain(op);
 
             OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            
+            OperatorCalculatorBase soundCalculator = _stack.Pop();
             OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+            OperatorCalculatorBase widthCalculator = _stack.Pop();
 
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool soundIsConst = soundCalculator is Number_OperatorCalculator;
             bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
-            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+            bool widthIsConst = widthCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double sound = soundIsConst ? soundCalculator.Calculate() : 0.0;
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
-            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
+            double width = widthIsConst ? widthCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool soundIsConstSpecialValue = soundIsConst && DoubleHelper.IsSpecialValue(sound);
             bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
             bool centerFrequencyIsConstSpecialValue = centerFrequencyIsConst && DoubleHelper.IsSpecialValue(centerFrequency);
-            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
+            bool widthIsConstSpecialValue = widthIsConst && DoubleHelper.IsSpecialValue(width);
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
+            if (soundIsConstSpecialValue || centerFrequencyIsConstSpecialValue || widthIsConstSpecialValue)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            else if (signalIsConst)
+            else if (soundIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
             else if (centerFrequencyIsConstZero)
             {
                 // No filtering
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
-            else if (centerFrequencyIsConst && bandWidthIsConst)
+            else if (centerFrequencyIsConst && widthIsConst)
             {
-                calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
-                    signalCalculator,
+                calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_ConstCenterFrequency_ConstWidth(
+                    soundCalculator,
                     centerFrequency,
-                    bandWidth,
+                    width,
                     _targetSamplingRate);
             }
             else
             {
-                calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(
-                    signalCalculator,
+                calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_VarCenterFrequency_VarWidth(
+                    soundCalculator,
                     centerFrequencyCalculator,
-                    bandWidthCalculator,
+                    widthCalculator,
                     _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
@@ -516,55 +516,55 @@ namespace JJ.Business.Synthesizer.Visitors
             base.VisitBandPassFilterConstantTransitionGain(op);
 
             OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            
+            OperatorCalculatorBase soundCalculator = _stack.Pop();
             OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+            OperatorCalculatorBase widthCalculator = _stack.Pop();
 
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool soundIsConst = soundCalculator is Number_OperatorCalculator;
             bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
-            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+            bool widthIsConst = widthCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double sound = soundIsConst ? soundCalculator.Calculate() : 0.0;
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
-            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
+            double width = widthIsConst ? widthCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool soundIsConstSpecialValue = soundIsConst && DoubleHelper.IsSpecialValue(sound);
             bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
             bool centerFrequencyIsConstSpecialValue = centerFrequencyIsConst && DoubleHelper.IsSpecialValue(centerFrequency);
-            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
+            bool widthIsConstSpecialValue = widthIsConst && DoubleHelper.IsSpecialValue(width);
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
+            if (soundIsConstSpecialValue || centerFrequencyIsConstSpecialValue || widthIsConstSpecialValue)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            else if (signalIsConst)
+            else if (soundIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
             else if (centerFrequencyIsConstZero)
             {
                 // No filtering
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
-            else if (centerFrequencyIsConst && bandWidthIsConst)
+            else if (centerFrequencyIsConst && widthIsConst)
             {
-                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstBandWidth(
-                    signalCalculator,
+                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstWidth(
+                    soundCalculator,
                     centerFrequency,
-                    bandWidth,
+                    width,
                     _targetSamplingRate);
             }
             else
             {
-                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarBandWidth(
-                    signalCalculator,
+                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarWidth(
+                    soundCalculator,
                     centerFrequencyCalculator,
-                    bandWidthCalculator,
+                    widthCalculator,
                     _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
@@ -1352,53 +1352,53 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase soundCalculator = _stack.Pop();
             OperatorCalculatorBase minFrequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+            OperatorCalculatorBase blobVolumeCalculator = _stack.Pop();
 
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool soundIsConst = soundCalculator is Number_OperatorCalculator;
             bool minFrequencyIsConst = minFrequencyCalculator is Number_OperatorCalculator;
-            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
-
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            bool blobVolumeIsConst = blobVolumeCalculator is Number_OperatorCalculator;
+            
+            double sound = soundIsConst ? soundCalculator.Calculate() : 0.0;
             double minFrequency = minFrequencyIsConst ? minFrequencyCalculator.Calculate() : 0.0;
-            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
+            double blobVolume = blobVolumeIsConst ? blobVolumeCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool soundIsConstSpecialValue = soundIsConst && DoubleHelper.IsSpecialValue(sound);
             bool minFrequencyIsConstZero = minFrequencyIsConst && minFrequency == 0.0;
             bool minFrequencyIsConstSpecialValue = minFrequencyIsConst && DoubleHelper.IsSpecialValue(minFrequency);
-            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
+            bool blobVolumeIsConstSpecialValue = blobVolumeIsConst && DoubleHelper.IsSpecialValue(blobVolume);
 
             if (minFrequency > _nyquistFrequency) minFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialValue || minFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
+            if (soundIsConstSpecialValue || minFrequencyIsConstSpecialValue || blobVolumeIsConstSpecialValue)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            else if (signalIsConst)
+            else if (soundIsConst)
             {
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
             else if (minFrequencyIsConstZero)
             {
                 // No filtering
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
-            else if (minFrequencyIsConst && bandWidthIsConst)
+            else if (minFrequencyIsConst && blobVolumeIsConst)
             {
                 calculator = new HighPassFilter_OperatorCalculator_ManyConsts(
-                    signalCalculator, 
+                    soundCalculator, 
                     minFrequency, 
-                    bandWidth,
+                    blobVolume,
                     _targetSamplingRate);
             }
             else
             {
                 calculator = new HighPassFilter_OperatorCalculator_AllVars(
-                    signalCalculator, 
+                    soundCalculator, 
                     minFrequencyCalculator, 
-                    bandWidthCalculator,
+                    blobVolumeCalculator,
                     _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
@@ -1412,42 +1412,42 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase soundCalculator = _stack.Pop();
             OperatorCalculatorBase transitionFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase transitionSlopeCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
 
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool soundIsConst = soundCalculator is Number_OperatorCalculator;
             bool transitionFrequencyIsConst = transitionFrequencyCalculator is Number_OperatorCalculator;
             bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
             bool transitionSlopeIsConst = transitionSlopeCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double sound = soundIsConst ? soundCalculator.Calculate() : 0.0;
             double transitionFrequency = transitionFrequencyIsConst ? transitionFrequencyCalculator.Calculate() : 0.0;
             double transitionSlope = transitionSlopeIsConst ? transitionSlopeCalculator.Calculate() : 0.0;
             double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool soundIsConstSpecialValue = soundIsConst && DoubleHelper.IsSpecialValue(sound);
             bool transitionFrequencyIsConstSpecialValue = transitionFrequencyIsConst && DoubleHelper.IsSpecialValue(transitionFrequency);
             bool transitionSlopeIsConstSpecialValue = transitionSlopeIsConst && DoubleHelper.IsSpecialValue(transitionSlope);
             bool dbGainIsConstSpecialValue = dbGainIsConst && DoubleHelper.IsSpecialValue(dbGain);
 
             if (transitionFrequency > _nyquistFrequency) transitionFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialValue || transitionFrequencyIsConstSpecialValue || transitionSlopeIsConstSpecialValue || dbGainIsConstSpecialValue)
+            if (soundIsConstSpecialValue || transitionFrequencyIsConstSpecialValue || transitionSlopeIsConstSpecialValue || dbGainIsConstSpecialValue)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            else if (signalIsConst)
+            else if (soundIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
             else if (transitionFrequencyIsConst && dbGainIsConst && transitionSlopeIsConst)
             {
                 calculator = new HighShelfFilter_OperatorCalculator_ManyConsts(
-                    signalCalculator,
+                    soundCalculator,
                     transitionFrequency,
                     transitionSlope,
                     dbGain,
@@ -1456,7 +1456,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 calculator = new HighShelfFilter_OperatorCalculator_AllVars(
-                    signalCalculator,
+                    soundCalculator,
                     transitionFrequencyCalculator,
                     transitionSlopeCalculator,
                     dbGainCalculator,
@@ -1751,53 +1751,53 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase soundCalculator = _stack.Pop();
             OperatorCalculatorBase maxFrequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+            OperatorCalculatorBase blobVolumeCalculator = _stack.Pop();
 
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool soundIsConst = soundCalculator is Number_OperatorCalculator;
             bool maxFrequencyIsConst = maxFrequencyCalculator is Number_OperatorCalculator;
-            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+            bool blobVolumeIsConst = blobVolumeCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double sound = soundIsConst ? soundCalculator.Calculate() : 0.0;
             double maxFrequency = maxFrequencyIsConst ? maxFrequencyCalculator.Calculate() : 0.0;
-            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
+            double blobVolume = blobVolumeIsConst ? blobVolumeCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool soundIsConstSpecialValue = soundIsConst && DoubleHelper.IsSpecialValue(sound);
             bool maxFrequencyIsConstZero = maxFrequencyIsConst && maxFrequency == 0.0;
             bool maxFrequencyIsConstSpecialValue = maxFrequencyIsConst && DoubleHelper.IsSpecialValue(maxFrequency);
-            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
+            bool blobVolumeIsConstSpecialValue = blobVolumeIsConst && DoubleHelper.IsSpecialValue(blobVolume);
 
             if (maxFrequency > _nyquistFrequency) maxFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialValue || maxFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
+            if (soundIsConstSpecialValue || maxFrequencyIsConstSpecialValue || blobVolumeIsConstSpecialValue)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            else if (signalIsConst)
+            else if (soundIsConst)
             {
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
             else if (maxFrequencyIsConstZero)
             {
                 // Special Value: time stands still.
-                calculator = new Number_OperatorCalculator(signal);
+                calculator = new Number_OperatorCalculator(sound);
             }
-            else if (maxFrequencyIsConst && bandWidthIsConst)
+            else if (maxFrequencyIsConst && blobVolumeIsConst)
             {
                 calculator = new LowPassFilter_OperatorCalculator_ManyConsts(
-                    signalCalculator, 
+                    soundCalculator, 
                     maxFrequency, 
-                    bandWidth,
+                    blobVolume,
                     _targetSamplingRate);
             }
             else
             {
                 calculator = new LowPassFilter_OperatorCalculator_AllVars(
-                    signalCalculator, 
+                    soundCalculator, 
                     maxFrequencyCalculator, 
-                    bandWidthCalculator,
+                    blobVolumeCalculator,
                     _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
@@ -1811,42 +1811,42 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase soundCalculator = _stack.Pop();
             OperatorCalculatorBase transitionFrequencyCalculator = _stack.Pop();
             OperatorCalculatorBase transitionSlopeCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
 
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool soundIsConst = soundCalculator is Number_OperatorCalculator;
             bool transitionFrequencyIsConst = transitionFrequencyCalculator is Number_OperatorCalculator;
             bool transitionSlopeIsConst = transitionSlopeCalculator is Number_OperatorCalculator;
             bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double sound = soundIsConst ? soundCalculator.Calculate() : 0.0;
             double transitionFrequency = transitionFrequencyIsConst ? transitionFrequencyCalculator.Calculate() : 0.0;
             double transitionSlope = transitionSlopeIsConst ? transitionSlopeCalculator.Calculate() : 0.0;
             double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool soundIsConstSpecialValue = soundIsConst && DoubleHelper.IsSpecialValue(sound);
             bool transitionFrequencyIsConstSpecialValue = transitionFrequencyIsConst && DoubleHelper.IsSpecialValue(transitionFrequency);
             bool transitionSlopeIsConstSpecialValue = transitionSlopeIsConst && DoubleHelper.IsSpecialValue(transitionSlope);
             bool dbGainIsConstSpecialValue = dbGainIsConst && DoubleHelper.IsSpecialValue(dbGain);
 
             if (transitionFrequency > _nyquistFrequency) transitionFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialValue || transitionFrequencyIsConstSpecialValue || transitionSlopeIsConstSpecialValue || dbGainIsConstSpecialValue)
+            if (soundIsConstSpecialValue || transitionFrequencyIsConstSpecialValue || transitionSlopeIsConstSpecialValue || dbGainIsConstSpecialValue)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            else if (signalIsConst)
+            else if (soundIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
             else if (transitionFrequencyIsConst && dbGainIsConst && transitionSlopeIsConst)
             {
                 calculator = new LowShelfFilter_OperatorCalculator_ManyConsts(
-                    signalCalculator,
+                    soundCalculator,
                     transitionFrequency,
                     transitionSlope,
                     dbGain,
@@ -1855,7 +1855,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 calculator = new LowShelfFilter_OperatorCalculator_AllVars(
-                    signalCalculator,
+                    soundCalculator,
                     transitionFrequencyCalculator,
                     transitionSlopeCalculator,
                     dbGainCalculator,
@@ -2477,48 +2477,48 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase soundCalculator = _stack.Pop();
             OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+            OperatorCalculatorBase widthCalculator = _stack.Pop();
 
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool soundIsConst = soundCalculator is Number_OperatorCalculator;
             bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
-            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+            bool widthIsConst = widthCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double sound = soundIsConst ? soundCalculator.Calculate() : 0.0;
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
-            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
+            double width = widthIsConst ? widthCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool soundIsConstSpecialValue = soundIsConst && DoubleHelper.IsSpecialValue(sound);
             bool centerFrequencyIsConstSpecialValue = centerFrequencyIsConst && DoubleHelper.IsSpecialValue(centerFrequency);
-            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
+            bool widthIsConstSpecialValue = widthIsConst && DoubleHelper.IsSpecialValue(width);
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue)
+            if (soundIsConstSpecialValue || centerFrequencyIsConstSpecialValue || widthIsConstSpecialValue)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            else if (signalIsConst)
+            else if (soundIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
-            else if (centerFrequencyIsConst && bandWidthIsConst)
+            else if (centerFrequencyIsConst && widthIsConst)
             {
                 calculator = new NotchFilter_OperatorCalculator_ManyConsts(
-                    signalCalculator,
+                    soundCalculator,
                     centerFrequency,
-                    bandWidth,
+                    width,
                     _targetSamplingRate);
             }
             else
             {
                 calculator = new NotchFilter_OperatorCalculator_AllVars(
-                    signalCalculator,
+                    soundCalculator,
                     centerFrequencyCalculator,
-                    bandWidthCalculator,
+                    widthCalculator,
                     _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
             }
@@ -2679,59 +2679,59 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase soundCalculator = _stack.Pop();
             OperatorCalculatorBase centerFrequencyCalculator = _stack.Pop();
-            OperatorCalculatorBase bandWidthCalculator = _stack.Pop();
+            OperatorCalculatorBase widthCalculator = _stack.Pop();
             OperatorCalculatorBase dbGainCalculator = _stack.Pop();
 
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool soundIsConst = soundCalculator is Number_OperatorCalculator;
             bool centerFrequencyIsConst = centerFrequencyCalculator is Number_OperatorCalculator;
-            bool bandWidthIsConst = bandWidthCalculator is Number_OperatorCalculator;
+            bool widthIsConst = widthCalculator is Number_OperatorCalculator;
             bool dbGainIsConst = dbGainCalculator is Number_OperatorCalculator;
 
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
+            double sound = soundIsConst ? soundCalculator.Calculate() : 0.0;
             double centerFrequency = centerFrequencyIsConst ? centerFrequencyCalculator.Calculate() : 0.0;
-            double bandWidth = bandWidthIsConst ? bandWidthCalculator.Calculate() : 0.0;
+            double width = widthIsConst ? widthCalculator.Calculate() : 0.0;
             double dbGain = dbGainIsConst ? dbGainCalculator.Calculate() : 0.0;
 
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
+            bool soundIsConstSpecialValue = soundIsConst && DoubleHelper.IsSpecialValue(sound);
             bool centerFrequencyIsConstZero = centerFrequencyIsConst && centerFrequency == 0.0;
             bool centerFrequencyIsConstSpecialValue = centerFrequencyIsConst && DoubleHelper.IsSpecialValue(centerFrequency);
-            bool bandWidthIsConstSpecialValue = bandWidthIsConst && DoubleHelper.IsSpecialValue(bandWidth);
+            bool widthIsConstSpecialValue = widthIsConst && DoubleHelper.IsSpecialValue(width);
             bool dbGainIsConstSpecialValue = dbGainIsConst && DoubleHelper.IsSpecialValue(dbGain);
 
             if (centerFrequency > _nyquistFrequency) centerFrequency = _nyquistFrequency;
 
-            if (signalIsConstSpecialValue || centerFrequencyIsConstSpecialValue || bandWidthIsConstSpecialValue || dbGainIsConstSpecialValue)
+            if (soundIsConstSpecialValue || centerFrequencyIsConstSpecialValue || widthIsConstSpecialValue || dbGainIsConstSpecialValue)
             {
                 // Special Value
                 calculator = new Number_OperatorCalculator(double.NaN);
             }
-            else if (signalIsConst)
+            else if (soundIsConst)
             {
                 // There are no frequencies. So you a filter should do nothing.
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
             else if (centerFrequencyIsConstZero)
             {
                 // No filtering
-                calculator = signalCalculator;
+                calculator = soundCalculator;
             }
-            else if (centerFrequencyIsConst && bandWidthIsConst && dbGainIsConst)
+            else if (centerFrequencyIsConst && widthIsConst && dbGainIsConst)
             {
                 calculator = new PeakingEQFilter_OperatorCalculator_ManyConsts(
-                    signalCalculator,
+                    soundCalculator,
                     centerFrequency,
-                    bandWidth,
+                    width,
                     dbGain,
                     _targetSamplingRate);
             }
             else
             {
                 calculator = new PeakingEQFilter_OperatorCalculator_AllVars(
-                    signalCalculator,
+                    soundCalculator,
                     centerFrequencyCalculator,
-                    bandWidthCalculator,
+                    widthCalculator,
                     dbGainCalculator,
                     _targetSamplingRate,
                     _samplesBetweenApplyFilterVariables);
@@ -3589,11 +3589,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (valueIsConst)
             {
-                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_ConstValue(passThroughCalculator, value, dimensionStack);
+                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_ConstX(passThroughCalculator, value, dimensionStack);
             }
             else
             {
-                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_VarValue(passThroughCalculator, valueCalculator, dimensionStack);
+                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_VarX(passThroughCalculator, valueCalculator, dimensionStack);
             }
 
             _stack.Push(operatorCalculator);

@@ -1,4 +1,7 @@
-﻿using JJ.Business.Synthesizer.LinkTo;
+﻿using System;
+using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -6,9 +9,8 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Scaler_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class Scaler_OperatorWrapper : OperatorWrapperBase_WithSignalOutlet
     {
-        private const int SIGNAL_INDEX = 0;
         private const int SOURCE_VALUE_A_INDEX = 1;
         private const int SOURCE_VALUE_B_INDEX = 2;
         private const int TARGET_VALUE_A_INDEX = 3;
@@ -18,13 +20,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet Signal
+        public Outlet SignalInput
         {
             get => SignalInlet.InputOutlet;
             set => SignalInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Signal);
 
         public Outlet SourceValueA
         {
@@ -58,16 +60,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet TargetValueBInlet => OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_B_INDEX);
 
-        public override string GetInletDisplayName(int listIndex)
+        public override string GetInletDisplayName([NotNull] Inlet inlet)
         {
-            switch (listIndex)
-            {
-                case SIGNAL_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Signal);
-                        return name;
-                    }
+            if (inlet == null) throw new NullException(() => inlet);
 
+            switch (inlet.ListIndex)
+            {
                 case SOURCE_VALUE_A_INDEX:
                     {
                         string name = ResourceFormatter.GetDisplayName(() => SourceValueA);
@@ -91,10 +89,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                         string name = ResourceFormatter.GetDisplayName(() => TargetValueB);
                         return name;
                     }
-
-                default:
-                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
             }
+
+            return base.GetInletDisplayName(inlet);
         }
     }
 }

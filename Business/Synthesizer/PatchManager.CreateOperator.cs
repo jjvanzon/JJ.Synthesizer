@@ -18,9 +18,10 @@ namespace JJ.Business.Synthesizer
     {
         private const double DEFAULT_FILTER_FREQUENCY = 1760.0;
         private const double DEFAULT_FREQUENCY = 440.0;
-        private const double DEFAULT_AGGREGATE_FROM = 0.0;
-        private const double DEFAULT_AGGREGATE_TILL = 15.0;
-        private const double DEFAULT_BAND_WIDTH = 1.0;
+        private const double DEFAULT_FROM = 0.0;
+        private const double DEFAULT_TILL = 15.0;
+        private const double DEFAULT_FILTER_WIDTH = 1.0;
+        private const double DEFAULT_BLOB_VOLUME = 1.0;
         private const double DEFAULT_DB_GAIN = 3.0;
         private const double DEFAULT_DIFFERENCE = 1.0;
         private const double DEFAULT_END_TIME = 1.0;
@@ -48,8 +49,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Absolute,
-                new[] { DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.X },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new Absolute_OperatorWrapper(op)
             {
@@ -62,16 +63,16 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Add_OperatorWrapper Add(params Outlet[] operands)
+        public Add_OperatorWrapper Add(params Outlet[] items)
         {
-            return Add((IList<Outlet>)operands);
+            return Add((IList<Outlet>)items);
         }
 
-        public Add_OperatorWrapper Add(IList<Outlet> operands)
+        public Add_OperatorWrapper Add(IList<Outlet> items)
         {
-            if (operands == null) throw new NullException(() => operands);
+            if (items == null) throw new NullException(() => items);
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Add, operands);
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Add, items);
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -81,24 +82,24 @@ namespace JJ.Business.Synthesizer
         }
 
         public AllPassFilter_OperatorWrapper AllPassFilter(
-            Outlet signal = null,
+            Outlet sound = null,
             Outlet centerFrequency = null,
-            Outlet bandWidth = null)
+            Outlet width = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.AllPassFilter,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Width },
+                new[] { DimensionEnum.Sound });
 
             var wrapper = new AllPassFilter_OperatorWrapper(op)
             {
-                Signal = signal,
+                SoundInput = sound,
                 CenterFrequency = centerFrequency,
-                BandWidth = bandWidth
+                Width = width
             };
 
             wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+            wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -110,8 +111,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.And,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.A, DimensionEnum.B },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new And_OperatorWrapper(op)
             {
@@ -125,24 +126,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public AverageOverInlets_OperatorWrapper AverageOverInlets(params Outlet[] operands)
-        {
-            return AverageOverInlets((IList<Outlet>)operands);
-        }
-
-        public AverageOverInlets_OperatorWrapper AverageOverInlets(IList<Outlet> operands)
-        {
-            if (operands == null) throw new NullException(() => operands);
-
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.AverageOverInlets, operands);
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            var wrapper = new AverageOverInlets_OperatorWrapper(op);
-            return wrapper;
-        }
-
         public AverageFollower_OperatorWrapper AverageFollower(
             Outlet signal = null,
             Outlet sliceLength = null,
@@ -152,15 +135,15 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.AverageFollower,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Signal, DimensionEnum.SliceLength, DimensionEnum.SampleCount },
+                new[] { DimensionEnum.Signal });
 
             op.CustomDimensionName = customDimension;
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
 
             var wrapper = new AverageFollower_OperatorWrapper(op)
             {
-                Signal = signal,
+                SignalInput = signal,
                 SliceLength = sliceLength,
                 SampleCount = sampleCount,
             };
@@ -185,23 +168,23 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.AverageOverDimension,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Signal, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
+                new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
             var wrapper = new AverageOverDimension_OperatorWrapper(op)
             {
-                Signal = signal,
+                SignalInput = signal,
                 From = from,
                 Till = till,
                 Step = step,
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
-            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.FromInlet.DefaultValue = DEFAULT_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -210,25 +193,43 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public AverageOverInlets_OperatorWrapper AverageOverInlets(params Outlet[] operands)
+        {
+            return AverageOverInlets((IList<Outlet>)operands);
+        }
+
+        public AverageOverInlets_OperatorWrapper AverageOverInlets(IList<Outlet> items)
+        {
+            if (items == null) throw new NullException(() => items);
+
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.AverageOverInlets, items);
+
+            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            var wrapper = new AverageOverInlets_OperatorWrapper(op);
+            return wrapper;
+        }
+
         public BandPassFilterConstantPeakGain_OperatorWrapper BandPassFilterConstantPeakGain(
-            Outlet signal = null,
+            Outlet sound = null,
             Outlet centerFrequency = null,
-            Outlet bandWidth = null)
+            Outlet width = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.BandPassFilterConstantPeakGain,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Width },
+                new[] { DimensionEnum.Sound });
 
             var wrapper = new BandPassFilterConstantPeakGain_OperatorWrapper(op)
             {
-                Signal = signal,
+                SoundInput = sound,
                 CenterFrequency = centerFrequency,
-                BandWidth = bandWidth
+                Width = width
             };
 
             wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+            wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -239,22 +240,22 @@ namespace JJ.Business.Synthesizer
         public BandPassFilterConstantTransitionGain_OperatorWrapper BandPassFilterConstantTransitionGain(
             Outlet signal = null,
             Outlet centerFrequency = null,
-            Outlet bandWidth = null)
+            Outlet width = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.BandPassFilterConstantTransitionGain,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Width },
+                new[] { DimensionEnum.Sound });
 
             var wrapper = new BandPassFilterConstantTransitionGain_OperatorWrapper(op)
             {
-                Signal = signal,
+                SoundInput = signal,
                 CenterFrequency = centerFrequency,
-                BandWidth = bandWidth
+                Width = width
             };
 
             wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+            wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -274,7 +275,7 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Cache,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.Start, DimensionEnum.End, DimensionEnum.SamplingRate },
                 new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
@@ -304,52 +305,14 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.ChangeTrigger,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.PassThrough, DimensionEnum.Reset },
+                new[] { DimensionEnum.PassThrough });
 
             var wrapper = new ChangeTrigger_OperatorWrapper(op)
             {
                 PassThroughInput = calculation,
                 Reset = reset
             };
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
-        public ClosestOverInlets_OperatorWrapper ClosestOverInlets(Outlet input, params Outlet[] items)
-        {
-            return ClosestOverInlets(input, (IList<Outlet>)items);
-        }
-
-        public ClosestOverInlets_OperatorWrapper ClosestOverInlets(Outlet input, IList<Outlet> items)
-        {
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(
-                OperatorTypeEnum.ClosestOverInlets,
-                input.Concat(items).ToArray());
-
-            var wrapper = new ClosestOverInlets_OperatorWrapper(op);
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
-        public ClosestOverInletsExp_OperatorWrapper ClosestOverInletsExp(Outlet input, params Outlet[] items)
-        {
-            return ClosestOverInletsExp(input, (IList<Outlet>)items);
-        }
-
-        public ClosestOverInletsExp_OperatorWrapper ClosestOverInletsExp(Outlet input, IList<Outlet> items)
-        {
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(
-                OperatorTypeEnum.ClosestOverInletsExp,
-                input.Concat(items).ToArray());
-
-            var wrapper = new ClosestOverInletsExp_OperatorWrapper(op);
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -369,8 +332,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.ClosestOverDimension,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Input, DimensionEnum.Collection, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
+                new[] { DimensionEnum.Result });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -385,8 +348,8 @@ namespace JJ.Business.Synthesizer
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
-            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.FromInlet.DefaultValue = DEFAULT_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -407,8 +370,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.ClosestOverDimensionExp,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Input, DimensionEnum.Collection, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
+                new[] { DimensionEnum.Result });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -423,9 +386,52 @@ namespace JJ.Business.Synthesizer
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
-            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.FromInlet.DefaultValue = DEFAULT_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
+
+            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public ClosestOverInlets_OperatorWrapper ClosestOverInlets(Outlet input, params Outlet[] items)
+        {
+            return ClosestOverInlets(input, (IList<Outlet>)items);
+        }
+
+        public ClosestOverInlets_OperatorWrapper ClosestOverInlets(Outlet input, IList<Outlet> items)
+        {
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(
+                OperatorTypeEnum.ClosestOverInlets,
+                input.Concat(items).ToArray());
+
+            op.Inlets[0].SetDimensionEnum(DimensionEnum.Input, _repositories.DimensionRepository);
+
+            var wrapper = new ClosestOverInlets_OperatorWrapper(op);
+
+
+            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public ClosestOverInletsExp_OperatorWrapper ClosestOverInletsExp(Outlet input, params Outlet[] items)
+        {
+            return ClosestOverInletsExp(input, (IList<Outlet>)items);
+        }
+
+        public ClosestOverInletsExp_OperatorWrapper ClosestOverInletsExp(Outlet input, IList<Outlet> items)
+        {
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(
+                OperatorTypeEnum.ClosestOverInletsExp,
+                input.Concat(items).ToArray());
+
+            op.Inlets[0].SetDimensionEnum(DimensionEnum.Input, _repositories.DimensionRepository);
+
+            var wrapper = new ClosestOverInletsExp_OperatorWrapper(op);
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -441,7 +447,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Curve,
                 new DimensionEnum[0],
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Result });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -515,12 +521,90 @@ namespace JJ.Business.Synthesizer
             return CustomOperator(underlyingPatch, (IList<Outlet>)operands);
         }
 
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
+            => DimensionToOutletsPrivate(operand, standardDimension, customDimension, outletCount);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension)
+            => DimensionToOutletsPrivate(operand, standardDimension, customDimension, null);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, int outletCount)
+            => DimensionToOutletsPrivate(operand, standardDimension, null, outletCount);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension)
+            => DimensionToOutletsPrivate(operand, standardDimension, null, null);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, string customDimension, int outletCount)
+            => DimensionToOutletsPrivate(operand, null, customDimension, outletCount);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, string customDimension)
+            => DimensionToOutletsPrivate(operand, null, customDimension, null);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, int outletCount)
+            => DimensionToOutletsPrivate(operand, null, null, outletCount);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand)
+            => DimensionToOutletsPrivate(operand, null, null, null);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension, int outletCount)
+            => DimensionToOutletsPrivate(null, standardDimension, customDimension, outletCount);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension)
+            => DimensionToOutletsPrivate(null, standardDimension, customDimension, null);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, int outletCount)
+            => DimensionToOutletsPrivate(null, standardDimension, null, outletCount);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension)
+            => DimensionToOutletsPrivate(null, standardDimension, null, null);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(int outletCount, string customDimension)
+            => DimensionToOutletsPrivate(null, null, customDimension, outletCount);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(string customDimension)
+            => DimensionToOutletsPrivate(null, null, customDimension, null);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(int outletCount)
+            => DimensionToOutletsPrivate(null, null, null, outletCount);
+
+        public DimensionToOutlets_OperatorWrapper DimensionToOutlets()
+            => DimensionToOutletsPrivate(null, null, null, null);
+
+        private DimensionToOutlets_OperatorWrapper DimensionToOutletsPrivate(
+            Outlet operand,
+            DimensionEnum? dimension,
+            string customDimension,
+            int? outletCount)
+        {
+            dimension = dimension ?? DimensionEnum.Undefined;
+            outletCount = outletCount ?? 1;
+
+            if (outletCount < 1) throw new LessThanException(() => outletCount, 1);
+
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.DimensionToOutlets,
+                new[] { DimensionEnum.Signal },
+                Enumerable.Repeat(DimensionEnum.Item, outletCount.Value).ToArray());
+
+            op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
+            op.CustomDimensionName = customDimension;
+
+            var wrapper = new DimensionToOutlets_OperatorWrapper(op)
+            {
+                Input = operand
+            };
+
+            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
         public Divide_OperatorWrapper Divide(Outlet a = null, Outlet b = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Divide,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.A, DimensionEnum.B, DimensionEnum.Origin },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new Divide_OperatorWrapper(op)
             {
@@ -541,8 +625,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Equal,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.A, DimensionEnum.B },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new Equal_OperatorWrapper(op)
             {
@@ -560,8 +644,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Exponent,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Low, DimensionEnum.High, DimensionEnum.Ratio },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new Exponent_OperatorWrapper(op)
             {
@@ -583,7 +667,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.GetDimension,
                 new DimensionEnum[0],
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.X });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -600,8 +684,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.GreaterThan,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.A, DimensionEnum.B },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new GreaterThan_OperatorWrapper(op)
             {
@@ -619,8 +703,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.GreaterThanOrEqual,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.A, DimensionEnum.B },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new GreaterThanOrEqual_OperatorWrapper(op)
             {
@@ -635,24 +719,24 @@ namespace JJ.Business.Synthesizer
         }
 
         public HighPassFilter_OperatorWrapper HighPassFilter(
-            Outlet signal = null, 
+            Outlet sound = null, 
             Outlet minFrequency = null,
-            Outlet bandWidth = null)
+            Outlet blobVolume = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.HighPassFilter,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.BlobVolume },
+                new[] { DimensionEnum.Sound });
 
             var wrapper = new HighPassFilter_OperatorWrapper(op)
             {
-                Signal = signal,
+                SoundInput = sound,
                 MinFrequency = minFrequency,
-                BandWidth = bandWidth
+                BlobVolume = blobVolume
             };
 
             wrapper.MinFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+            wrapper.BlobVolumeInlet.DefaultValue = DEFAULT_BLOB_VOLUME;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -661,19 +745,19 @@ namespace JJ.Business.Synthesizer
         }
 
         public HighShelfFilter_OperatorWrapper HighShelfFilter(
-            Outlet signal = null,
+            Outlet sound = null,
             Outlet transitionFrequency = null,
             Outlet transitionSlope = null,
             Outlet dbGain = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.HighShelfFilter,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Slope, DimensionEnum.Decibel },
+                new[] { DimensionEnum.Sound });
 
             var wrapper = new HighShelfFilter_OperatorWrapper(op)
             {
-                Signal = signal,
+                SoundInput = sound,
                 TransitionFrequency = transitionFrequency,
                 TransitionSlope = transitionSlope,
                 DBGain = dbGain
@@ -693,8 +777,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Hold,
-                new[] { DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Signal },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new Hold_OperatorWrapper(op)
             {
@@ -711,8 +795,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.If,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Condition, DimensionEnum.Then, DimensionEnum.Else },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new If_OperatorWrapper(op)
             {
@@ -720,136 +804,6 @@ namespace JJ.Business.Synthesizer
                 Then = then,
                 Else = @else
             };
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
-        public LessThan_OperatorWrapper LessThan(Outlet a = null, Outlet b = null)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.LessThan,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
-
-            var wrapper = new LessThan_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
-        public LessThanOrEqual_OperatorWrapper LessThanOrEqual(Outlet a = null, Outlet b = null)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.LessThanOrEqual,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
-
-            var wrapper = new LessThanOrEqual_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
-        public Loop_OperatorWrapper Loop(
-            Outlet signal = null, 
-            Outlet skip = null, 
-            Outlet loopStartMarker = null, 
-            Outlet loopEndMarker = null, 
-            Outlet releaseEndMarker = null,
-            Outlet noteDuration = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
-            string customDimension = null)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Loop,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new Loop_OperatorWrapper(op)
-            {
-                Signal = signal,
-                Skip = skip,
-                LoopStartMarker = loopStartMarker,
-                LoopEndMarker = loopEndMarker,
-                ReleaseEndMarker = releaseEndMarker,
-                NoteDuration = noteDuration
-            };
-
-            wrapper.LoopStartMarkerInlet.DefaultValue = DEFAULT_START_TIME;
-            wrapper.LoopEndMarkerInlet.DefaultValue = DEFAULT_END_TIME;
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
-        public LowPassFilter_OperatorWrapper LowPassFilter(
-            Outlet signal = null, 
-            Outlet maxFrequency = null,
-            Outlet bandWidth = null)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.LowPassFilter,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
-
-            var wrapper = new LowPassFilter_OperatorWrapper(op)
-            {
-                Signal = signal,
-                MaxFrequency = maxFrequency,
-                BandWidth = bandWidth
-            };
-
-            wrapper.MaxFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
-        public LowShelfFilter_OperatorWrapper LowShelfFilter(
-            Outlet signal = null,
-            Outlet transitionFrequency = null,
-            Outlet transitionSlope = null,
-            Outlet dbGain = null)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.LowShelfFilter,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
-
-            var wrapper = new LowShelfFilter_OperatorWrapper(op)
-            {
-                Signal = signal,
-                TransitionFrequency = transitionFrequency,
-                TransitionSlope = transitionSlope,
-                DBGain = dbGain
-            };
-
-            wrapper.TransitionFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
-            wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -915,6 +869,7 @@ namespace JJ.Business.Synthesizer
             {
                 InterpolationType = interpolation.Value
             };
+            wrapper.SignalOutlet.SetDimensionEnum(DimensionEnum.Signal, _repositories.DimensionRepository);
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -922,77 +877,167 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount) 
-            => DimensionToOutletsPrivate(operand, standardDimension, customDimension, outletCount);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension)
-            => DimensionToOutletsPrivate(operand, standardDimension, customDimension, null);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, int outletCount) 
-            => DimensionToOutletsPrivate(operand, standardDimension, null, outletCount);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension) 
-            => DimensionToOutletsPrivate(operand, standardDimension, null, null);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, string customDimension, int outletCount)
-            => DimensionToOutletsPrivate(operand, null, customDimension, outletCount);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, string customDimension)
-            => DimensionToOutletsPrivate(operand, null, customDimension, null);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, int outletCount) 
-            => DimensionToOutletsPrivate(operand, null, null, outletCount);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand) 
-            => DimensionToOutletsPrivate(operand, null, null, null);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension, int outletCount) 
-            => DimensionToOutletsPrivate(null, standardDimension, customDimension, outletCount);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension)
-            => DimensionToOutletsPrivate(null, standardDimension, customDimension, null);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, int outletCount) 
-            => DimensionToOutletsPrivate(null, standardDimension, null, outletCount);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension) 
-            => DimensionToOutletsPrivate(null, standardDimension, null, null);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(int outletCount, string customDimension) 
-            => DimensionToOutletsPrivate(null, null, customDimension, outletCount);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(string customDimension)
-            => DimensionToOutletsPrivate(null, null, customDimension, null);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(int outletCount) 
-            => DimensionToOutletsPrivate(null, null, null, outletCount);
-
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets() 
-            => DimensionToOutletsPrivate(null, null, null, null);
-
-        private DimensionToOutlets_OperatorWrapper DimensionToOutletsPrivate(
-            Outlet operand, 
-            DimensionEnum? dimension,
-            string customDimension,
-            int? outletCount)
+        public Interpolate_OperatorWrapper Interpolate(
+            Outlet signal = null,
+            Outlet samplingRate = null,
+            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothSlope,
+            DimensionEnum standardDimension = DimensionEnum.Time,
+            string customDimension = null)
         {
-            dimension = dimension ?? DimensionEnum.Undefined;
-            outletCount = outletCount ?? 1;
-
-            if (outletCount < 1) throw new LessThanException(() => outletCount, 1);
-
             Operator op = CreateOperatorBase(
-                OperatorTypeEnum.DimensionToOutlets,
-                new[] { DimensionEnum.Undefined },
-                Enumerable.Repeat(DimensionEnum.Undefined, outletCount.Value).ToArray());
+                OperatorTypeEnum.Interpolate,
+                new[] { DimensionEnum.Signal, DimensionEnum.SamplingRate },
+                new[] { DimensionEnum.Signal });
 
-            op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
+            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new DimensionToOutlets_OperatorWrapper(op)
+            var wrapper = new Interpolate_OperatorWrapper(op)
             {
-                Input = operand
+                Signal = signal,
+                SamplingRate = samplingRate,
+                InterpolationType = interpolationType
             };
+
+            wrapper.SamplingRateInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+
+            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public LessThan_OperatorWrapper LessThan(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.LessThan,
+                new[] { DimensionEnum.A, DimensionEnum.B },
+                new[] { DimensionEnum.Result });
+
+            var wrapper = new LessThan_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public LessThanOrEqual_OperatorWrapper LessThanOrEqual(Outlet a = null, Outlet b = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.LessThanOrEqual,
+                new[] { DimensionEnum.A, DimensionEnum.B },
+                new[] { DimensionEnum.Result });
+
+            var wrapper = new LessThanOrEqual_OperatorWrapper(op)
+            {
+                A = a,
+                B = b
+            };
+
+            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public Loop_OperatorWrapper Loop(
+            Outlet signal = null,
+            Outlet skip = null,
+            Outlet loopStartMarker = null,
+            Outlet loopEndMarker = null,
+            Outlet releaseEndMarker = null,
+            Outlet noteDuration = null,
+            DimensionEnum standardDimension = DimensionEnum.Time,
+            string customDimension = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.Loop,
+                new[]
+                {
+                    DimensionEnum.Signal,
+                    DimensionEnum.Skip,
+                    DimensionEnum.LoopStartMarker,
+                    DimensionEnum.LoopEndMarker,
+                    DimensionEnum.ReleaseEndMarker,
+                    DimensionEnum.NoteDuration
+                },
+                new[] { DimensionEnum.Signal });
+
+            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
+            op.CustomDimensionName = customDimension;
+
+            var wrapper = new Loop_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Skip = skip,
+                LoopStartMarker = loopStartMarker,
+                LoopEndMarker = loopEndMarker,
+                ReleaseEndMarker = releaseEndMarker,
+                NoteDuration = noteDuration
+            };
+
+            wrapper.LoopStartMarkerInlet.DefaultValue = DEFAULT_START_TIME;
+            wrapper.LoopEndMarkerInlet.DefaultValue = DEFAULT_END_TIME;
+
+            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public LowPassFilter_OperatorWrapper LowPassFilter(
+            Outlet sound = null,
+            Outlet maxFrequency = null,
+            Outlet blobVolume = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.LowPassFilter,
+                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.BlobVolume },
+                new[] { DimensionEnum.Sound });
+
+            var wrapper = new LowPassFilter_OperatorWrapper(op)
+            {
+                SoundInput = sound,
+                MaxFrequency = maxFrequency,
+                BlobVolume = blobVolume
+            };
+
+            wrapper.MaxFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+            wrapper.BlobVolumeInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
+
+            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            return wrapper;
+        }
+
+        public LowShelfFilter_OperatorWrapper LowShelfFilter(
+            Outlet sound = null,
+            Outlet transitionFrequency = null,
+            Outlet transitionSlope = null,
+            Outlet dbGain = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.LowShelfFilter,
+                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Slope, DimensionEnum.Decibel },
+                new[] { DimensionEnum.Sound });
+
+            var wrapper = new LowShelfFilter_OperatorWrapper(op)
+            {
+                SoundInput = sound,
+                TransitionFrequency = transitionFrequency,
+                TransitionSlope = transitionSlope,
+                DBGain = dbGain
+            };
+
+            wrapper.TransitionFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
+            wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
+            wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1027,15 +1072,15 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.MaxFollower,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Signal, DimensionEnum.SliceLength, DimensionEnum.SampleCount },
+                new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
             var wrapper = new MaxFollower_OperatorWrapper(op)
             {
-                Signal = signal,
+                SignalInput = signal,
                 SliceLength = sliceLength,
                 SampleCount = sampleCount
             };
@@ -1060,23 +1105,23 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.MaxOverDimension,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Signal, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
+                new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
             var wrapper = new MaxOverDimension_OperatorWrapper(op)
             {
-                Signal = signal,
+                SignalInput = signal,
                 From = from,
                 Till = till,
                 Step = step,
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
-            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.FromInlet.DefaultValue = DEFAULT_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -1112,15 +1157,15 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.MinFollower,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Signal, DimensionEnum.SliceLength, DimensionEnum.SampleCount },
+                new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
             var wrapper = new MinFollower_OperatorWrapper(op)
             {
-                Signal = signal,
+                SignalInput = signal,
                 SliceLength = sliceLength,
                 SampleCount = sampleCount
             };
@@ -1145,23 +1190,23 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.MinOverDimension,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Signal, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
+                new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
             var wrapper = new MinOverDimension_OperatorWrapper(op)
             {
-                Signal = signal,
+                SignalInput = signal,
                 From = from,
                 Till = till,
                 Step = step,
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
-            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.FromInlet.DefaultValue = DEFAULT_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -1192,8 +1237,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.MultiplyWithOrigin,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.A, DimensionEnum.B, DimensionEnum.Origin },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new MultiplyWithOrigin_OperatorWrapper(op)
             {
@@ -1215,8 +1260,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Negative,
-                new[] { DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.X },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new Negative_OperatorWrapper(op)
             {
@@ -1236,7 +1281,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Noise,
                 new DimensionEnum[0],
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Sound });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -1253,8 +1298,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Not,
-                new[] { DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.X },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new Not_OperatorWrapper(op)
             {
@@ -1268,24 +1313,24 @@ namespace JJ.Business.Synthesizer
         }
 
         public NotchFilter_OperatorWrapper NotchFilter(
-            Outlet signal = null, 
+            Outlet sound = null, 
             Outlet centerFrequency = null, 
-            Outlet bandWidth = null)
+            Outlet width = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.NotchFilter,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Width },
+                new[] { DimensionEnum.Sound });
 
             var wrapper = new NotchFilter_OperatorWrapper(op)
             {
-                Signal = signal,
+                SoundInput = sound,
                 CenterFrequency = centerFrequency,
-                BandWidth = bandWidth
+                Width = width
             };
 
             wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+            wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1297,8 +1342,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.NotEqual,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.A, DimensionEnum.B },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new NotEqual_OperatorWrapper(op)
             {
@@ -1317,7 +1362,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Number,
                 new DimensionEnum[0],
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Result });
 
             var wrapper = new Number_OperatorWrapper(op)
             {
@@ -1334,8 +1379,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.OneOverX,
-                new[] { DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.X },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new OneOverX_OperatorWrapper(op)
             {
@@ -1354,8 +1399,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Or, 
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.A, DimensionEnum.B },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new Or_OperatorWrapper(op)
             {
@@ -1482,27 +1527,27 @@ namespace JJ.Business.Synthesizer
         }
 
         public PeakingEQFilter_OperatorWrapper PeakingEQFilter(
-            Outlet signal = null,
+            Outlet sound = null,
             Outlet centerFrequency = null,
-            Outlet bandWidth = null,
+            Outlet width = null,
             Outlet dbGain = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.PeakingEQFilter,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Width, DimensionEnum.Decibel },
+                new[] { DimensionEnum.Sound });
 
             var wrapper = new PeakingEQFilter_OperatorWrapper(op)
             {
-                Signal = signal,
+                Sound = sound,
                 CenterFrequency = centerFrequency,
-                BandWidth = bandWidth,
+                Width = width,
                 DBGain = dbGain
             };
 
             wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
-            wrapper.BandWidthInlet.DefaultValue = DEFAULT_BAND_WIDTH;
+            wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1514,8 +1559,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Power,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Base, DimensionEnum.Exponent },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new Power_OperatorWrapper(op)
             {
@@ -1537,8 +1582,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Pulse,
-                new[] { DimensionEnum.Frequency, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Frequency, DimensionEnum.Width },
+                new[] { DimensionEnum.Sound });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -1558,16 +1603,16 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PulseTrigger_OperatorWrapper PulseTrigger(Outlet calculation = null, Outlet reset = null)
+        public PulseTrigger_OperatorWrapper PulseTrigger(Outlet passThrough = null, Outlet reset = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.PulseTrigger,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.PassThrough, DimensionEnum.Reset },
+                new[] { DimensionEnum.PassThrough });
 
             var wrapper = new PulseTrigger_OperatorWrapper(op)
             {
-                PassThroughInput = calculation,
+                PassThroughInput = passThrough,
                 Reset = reset
             };
 
@@ -1584,8 +1629,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Random,
-                new[] { DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Rate },
+                new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -1613,8 +1658,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.RangeOverDimension,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
+                new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -1649,8 +1694,8 @@ namespace JJ.Business.Synthesizer
 
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.RangeOverOutlets,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                Enumerable.Repeat(DimensionEnum.Undefined, outletCount.Value).ToArray());
+                new[] { DimensionEnum.From, DimensionEnum.Step },
+                Enumerable.Repeat(DimensionEnum.Item, outletCount.Value).ToArray());
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -1670,46 +1715,16 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Interpolate_OperatorWrapper Interpolate(
-            Outlet signal = null, 
-            Outlet samplingRate = null, 
-            ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothSlope,
-            DimensionEnum standardDimension = DimensionEnum.Time,
-            string customDimension = null)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Interpolate,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Signal });
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new Interpolate_OperatorWrapper(op)
-            {
-                Signal = signal,
-                SamplingRate = samplingRate,
-                InterpolationType = interpolationType
-            };
-
-            wrapper.SamplingRateInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            return wrapper;
-        }
-
-        public Reset_OperatorWrapper Reset(Outlet operand = null, int? listIndex = null)
+        public Reset_OperatorWrapper Reset(Outlet passThrough = null, int? listIndex = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Reset,
-                new[] { DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.PassThrough },
+                new[] { DimensionEnum.PassThrough });
 
             var wrapper = new Reset_OperatorWrapper(op)
             {
-                PassThroughInput = operand,
+                PassThroughInput = passThrough,
                 ListIndex = listIndex
             };
 
@@ -1727,7 +1742,7 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Reverse,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.Factor },
                 new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
@@ -1751,7 +1766,7 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Round,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.Step, DimensionEnum.Offset },
                 new[] { DimensionEnum.Signal });
 
             var wrapper = new Round_OperatorWrapper(op)
@@ -1778,7 +1793,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Sample,
                 new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -1802,7 +1817,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.SawDown,
                 new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -1825,7 +1840,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.SawUp,
                 new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -1857,7 +1872,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Scaler_OperatorWrapper(op)
             {
-                Signal = signal,
+                SignalInput = signal,
                 SourceValueA = sourceValueA,
                 SourceValueB = sourceValueB,
                 TargetValueA = targetValueA,
@@ -1877,14 +1892,14 @@ namespace JJ.Business.Synthesizer
 
         public SetDimension_OperatorWrapper SetDimension(
             Outlet passThrough = null, 
-            Outlet value = null,
+            Outlet x = null,
             DimensionEnum standardDimension = DimensionEnum.Undefined,
             string customDimension = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.SetDimension,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.PassThrough, DimensionEnum.X },
+                new[] { DimensionEnum.PassThrough });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -1892,7 +1907,7 @@ namespace JJ.Business.Synthesizer
             var wrapper = new SetDimension_OperatorWrapper(op)
             {
                 PassThroughInput = passThrough,
-                Value = value
+                X = x
             };
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -1905,7 +1920,7 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Shift,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.Difference },
                 new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
@@ -1930,7 +1945,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Sine,
                 new[] { DimensionEnum.Frequency},
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -1948,24 +1963,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SortOverInlets_OperatorWrapper SortOverInlets(params Outlet[] operands)
-        {
-            return SortOverInlets((IList<Outlet>)operands);
-        }
-
-        public SortOverInlets_OperatorWrapper SortOverInlets(IList<Outlet> operands)
-        {
-            if (operands == null) throw new NullException(() => operands);
-
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.SortOverInlets, operands);
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
-            var wrapper = new SortOverInlets_OperatorWrapper(op);
-            return wrapper;
-        }
-
         public SortOverDimension_OperatorWrapper SortOverDimension(
             Outlet signal = null,
             Outlet from = null,
@@ -1977,7 +1974,7 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.SortOverDimension,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
                 new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
@@ -1985,15 +1982,15 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new SortOverDimension_OperatorWrapper(op)
             {
-                Signal = signal,
+                SignalInput = signal,
                 From = from,
                 Till = till,
                 Step = step,
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
-            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.FromInlet.DefaultValue = DEFAULT_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -2002,8 +1999,28 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public SortOverInlets_OperatorWrapper SortOverInlets(params Outlet[] operands)
+        {
+            return SortOverInlets((IList<Outlet>)operands);
+        }
+
+        public SortOverInlets_OperatorWrapper SortOverInlets(IList<Outlet> operands)
+        {
+            if (operands == null) throw new NullException(() => operands);
+
+            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.SortOverInlets, operands);
+            op.Outlets[0].SetDimensionEnum(DimensionEnum.Signal, _repositories.DimensionRepository);
+
+            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            ResultHelper.Assert(result);
+
+            var wrapper = new SortOverInlets_OperatorWrapper(op);
+
+            return wrapper;
+        }
+
         public Spectrum_OperatorWrapper Spectrum(
-            Outlet signal = null, 
+            Outlet sound = null, 
             Outlet start = null, 
             Outlet end = null, 
             Outlet frequencyCount = null,
@@ -2012,7 +2029,7 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Spectrum,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Sound, DimensionEnum.Start, DimensionEnum.End, DimensionEnum.FrequencyCount },
                 new[] { DimensionEnum.Volume });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
@@ -2020,7 +2037,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Spectrum_OperatorWrapper(op)
             {
-                Signal = signal,
+                Sound = sound,
                 Start = start,
                 End = end,
                 FrequencyCount = frequencyCount
@@ -2041,7 +2058,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Square,
                 new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -2068,7 +2085,7 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Squash,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.Factor, DimensionEnum.Origin },
                 new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
@@ -2098,7 +2115,7 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Stretch,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.Factor, DimensionEnum.Origin },
                 new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
@@ -2123,8 +2140,8 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Subtract,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.A, DimensionEnum.B },
+                new[] { DimensionEnum.Result });
 
             var wrapper = new Subtract_OperatorWrapper(op)
             {
@@ -2147,15 +2164,15 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.SumFollower,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Signal, DimensionEnum.SliceLength, DimensionEnum.SampleCount },
+                new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
             var wrapper = new SumFollower_OperatorWrapper(op)
             {
-                Signal = signal,
+                SignalInput = signal,
                 SliceLength = sliceLength,
                 SampleCount = sampleCount
             };
@@ -2180,23 +2197,23 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.SumOverDimension,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.Signal, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
+                new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
             var wrapper = new SumOverDimension_OperatorWrapper(op)
             {
-                Signal = signal,
+                SignalInput = signal,
                 From = from,
                 Till = till,
                 Step = step,
                 CollectionRecalculation = collectionRecalculation
             };
 
-            wrapper.FromInlet.DefaultValue = DEFAULT_AGGREGATE_FROM;
-            wrapper.TillInlet.DefaultValue = DEFAULT_AGGREGATE_TILL;
+            wrapper.FromInlet.DefaultValue = DEFAULT_FROM;
+            wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -2214,7 +2231,7 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.TimePower,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.Exponent, DimensionEnum.Origin },
                 new[] { DimensionEnum.Signal });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
@@ -2235,16 +2252,16 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public ToggleTrigger_OperatorWrapper ToggleTrigger(Outlet calculation = null, Outlet reset = null)
+        public ToggleTrigger_OperatorWrapper ToggleTrigger(Outlet passThrough = null, Outlet reset = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.ToggleTrigger,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+                new[] { DimensionEnum.PassThrough, DimensionEnum.Reset },
+                new[] { DimensionEnum.PassThrough });
 
             var wrapper = new ToggleTrigger_OperatorWrapper(op)
             {
-                PassThroughInput = calculation,
+                PassThroughInput = passThrough,
                 Reset = reset
             };
 
@@ -2259,7 +2276,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Triangle,
                 new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Signal });
+                new[] { DimensionEnum.Sound });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -2447,6 +2464,7 @@ namespace JJ.Business.Synthesizer
                     ID = _repositories.IDRepository.GetID(),
                     ListIndex = i
                 };
+                inlet.SetDimensionEnum(DimensionEnum.Item, _repositories.DimensionRepository);
                 inlet.LinkTo(op);
                 _repositories.InletRepository.Insert(inlet);
 
@@ -2455,6 +2473,7 @@ namespace JJ.Business.Synthesizer
             }
 
             var outlet = new Outlet { ID = _repositories.IDRepository.GetID() };
+            outlet.SetDimensionEnum(DimensionEnum.Result, _repositories.DimensionRepository);
             outlet.LinkTo(op);
             _repositories.OutletRepository.Insert(outlet);
 

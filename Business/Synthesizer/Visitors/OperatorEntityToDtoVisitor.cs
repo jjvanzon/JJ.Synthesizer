@@ -115,9 +115,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new AllPassFilter_OperatorDto
             {
-                SignalOperatorDto = _stack.Pop(),
+                SoundOperatorDto = _stack.Pop(),
                 CenterFrequencyOperatorDto = _stack.Pop(),
-                BandWidthOperatorDto = _stack.Pop()
+                WidthOperatorDto = _stack.Pop()
             };
 
             _stack.Push(dto);
@@ -150,13 +150,13 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitBandPassFilterConstantPeakGain(Operator op)
         {
             var dto = new BandPassFilterConstantPeakGain_OperatorDto();
-            Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(op, dto);
+            Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth(op, dto);
         }
 
         protected override void VisitBandPassFilterConstantTransitionGain(Operator op)
         {
             var dto = new BandPassFilterConstantTransitionGain_OperatorDto();
-            Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(op, dto);
+            Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth(op, dto);
         }
 
         protected override void VisitChangeTrigger(Operator op)
@@ -323,9 +323,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new HighPassFilter_OperatorDto
             {
-                SignalOperatorDto = _stack.Pop(),
+                SoundOperatorDto = _stack.Pop(),
                 MinFrequencyOperatorDto = _stack.Pop(),
-                BandWidthOperatorDto = _stack.Pop()
+                BlobVolumeOperatorDto = _stack.Pop()
             };
 
             _stack.Push(dto);
@@ -420,9 +420,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new LowPassFilter_OperatorDto
             {
-                SignalOperatorDto = _stack.Pop(),
+                SoundOperatorDto = _stack.Pop(),
                 MaxFrequencyOperatorDto = _stack.Pop(),
-                BandWidthOperatorDto = _stack.Pop()
+                BlobVolumeOperatorDto = _stack.Pop()
             };
 
             _stack.Push(dto);
@@ -433,7 +433,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new LowShelfFilter_OperatorDto();
             Process_OperatorDtoBase_ShelfFilter_AllVars(op, dto);
         }
-
+        
         protected override void VisitMaxOverDimension(Operator op)
         {
             var dto = new MaxOverDimension_OperatorDto();
@@ -523,9 +523,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new NotchFilter_OperatorDto
             {
-                SignalOperatorDto = _stack.Pop(),
+                SoundOperatorDto = _stack.Pop(),
                 CenterFrequencyOperatorDto = _stack.Pop(),
-                BandWidthOperatorDto = _stack.Pop()
+                WidthOperatorDto = _stack.Pop()
             };
 
             _stack.Push(dto);
@@ -569,9 +569,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new PeakingEQFilter_OperatorDto
             {
-                SignalOperatorDto = _stack.Pop(),
+                SoundOperatorDto = _stack.Pop(),
                 CenterFrequencyOperatorDto = _stack.Pop(),
-                BandWidthOperatorDto = _stack.Pop(),
+                WidthOperatorDto = _stack.Pop(),
                 DBGainOperatorDto = _stack.Pop()
             };
 
@@ -759,7 +759,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new SetDimension_OperatorDto
             {
                 PassThroughInputOperatorDto = _stack.Pop(),
-                ValueOperatorDto = _stack.Pop(),
+                XOperatorDto = _stack.Pop(),
             };
 
             SetDimensionProperties(op, dto);
@@ -812,7 +812,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new Spectrum_OperatorDto
             {
-                SignalOperatorDto = _stack.Pop(),
+                SoundOperatorDto = _stack.Pop(),
                 StartOperatorDto = _stack.Pop(),
                 EndOperatorDto = _stack.Pop(),
                 FrequencyCountOperatorDto = _stack.Pop(),
@@ -947,15 +947,15 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth(
+        private void Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth(
             Operator op,
-            OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarBandWidth dto)
+            OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth dto)
         {
             VisitOperatorBase(op);
 
-            dto.SignalOperatorDto = _stack.Pop();
+            dto.SoundOperatorDto = _stack.Pop();
             dto.CenterFrequencyOperatorDto = _stack.Pop();
-            dto.BandWidthOperatorDto = _stack.Pop();
+            dto.WidthOperatorDto = _stack.Pop();
 
             _stack.Push(dto);
         }
@@ -977,7 +977,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             VisitOperatorBase(op);
 
-            dto.SignalOperatorDto = _stack.Pop();
+            dto.SoundOperatorDto = _stack.Pop();
             dto.TransitionFrequencyOperatorDto = _stack.Pop();
             dto.TransitionSlopeOperatorDto = _stack.Pop();
             dto.DBGainOperatorDto = _stack.Pop();
@@ -1075,8 +1075,7 @@ namespace JJ.Business.Synthesizer.Visitors
             bool isTopLevelPatchInlet = IsTopLevelPatchInlet(op);
             if (isTopLevelPatchInlet)
             {
-                VariableInput_OperatorDto dto;
-                if (!_patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary.TryGetValue(op, out dto))
+                if (!_patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary.TryGetValue(op, out VariableInput_OperatorDto dto))
                 {
                     var wrapper = new PatchInlet_OperatorWrapper(op);
 

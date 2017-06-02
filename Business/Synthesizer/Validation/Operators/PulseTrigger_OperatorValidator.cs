@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.PulseTrigger,
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined })
+                new[] { DimensionEnum.PassThrough, DimensionEnum.Reset },
+                new[] { DimensionEnum.PassThrough })
         { }
     }
 }

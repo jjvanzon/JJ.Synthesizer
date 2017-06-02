@@ -1,6 +1,6 @@
 ﻿namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_Filter_ManyConsts : OperatorDtoBase_Filter_VarSignal
+    internal abstract class OperatorDtoBase_Filter_ManyConsts : OperatorDtoBase_Filter_VarSound
     {
         public abstract double Frequency { get; }
 

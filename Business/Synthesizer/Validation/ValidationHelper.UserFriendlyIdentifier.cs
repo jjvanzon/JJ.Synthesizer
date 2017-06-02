@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -165,7 +166,7 @@ namespace JJ.Business.Synthesizer.Validation
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(entity))
             {
-                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, PropertyNames.CurveID);
+                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, nameof(Curve_OperatorWrapper.CurveID));
                 // ReSharper disable once InvertIf
                 if (underlyingEntityID.HasValue)
                 {
@@ -197,7 +198,7 @@ namespace JJ.Business.Synthesizer.Validation
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(entity))
             {
-                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, PropertyNames.UnderlyingPatchID);
+                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, nameof(CustomOperator_OperatorWrapper.UnderlyingPatchID));
                 // ReSharper disable once InvertIf
                 if (underlyingEntityID.HasValue)
                 {
@@ -228,7 +229,7 @@ namespace JJ.Business.Synthesizer.Validation
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(entity.Data))
             {
-                double? number = DataPropertyParser.TryParseDouble(entity.Data, PropertyNames.Number);
+                double? number = DataPropertyParser.TryParseDouble(entity.Data, nameof(Number_OperatorWrapper.Number));
                 // ReSharper disable once InvertIf
                 if (number.HasValue)
                 {
@@ -314,7 +315,7 @@ namespace JJ.Business.Synthesizer.Validation
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(entity))
             {
-                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, PropertyNames.SampleID);
+                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, nameof(Sample_OperatorWrapper.SampleID));
                 // ReSharper disable once InvertIf
                 if (underlyingEntityID.HasValue)
                 {

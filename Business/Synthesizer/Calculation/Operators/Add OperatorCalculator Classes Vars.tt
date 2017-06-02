@@ -3,8 +3,8 @@
 
 <#@ output extension=".cs" #>
 
-<# int minOperands = 2; #>
-<# int maxOperands = 32; #>
+<# int minItems = 2; #>
+<# int maxItems = 32; #>
 
 using JJ.Framework.Exceptions;
 
@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 
 <# 
-	for (int i = minOperands; i <= maxOperands; i++)
+	for (int i = minItems; i <= maxItems; i++)
 	{
 #>
 		internal class Add_OperatorCalculator_<#= i #>Vars : OperatorCalculatorBase_WithChildCalculators
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			for (int j = 1; j <= i; j++)
 			{
 #>
-				private readonly OperatorCalculatorBase _operandCalculator<#= j #>;
+				private readonly OperatorCalculatorBase _itemCalculator<#= j #>;
 <# 
 			}
 #>
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				for (int j = 1; j <= i; j++)
 				{
 #>
-					OperatorCalculatorBase operandCalculator<#= j #>
+					OperatorCalculatorBase itemCalculator<#= j #>
 <#
 					if (j != i)
 					{
@@ -44,12 +44,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				}
 #>
 			: base
-			(new OperatorCalculatorBase[] { 
+			(new [] { 
 <#
 				for (int j = 1; j <= i; j++)
 				{
 #>
-					operandCalculator<#= j #>
+					itemCalculator<#= j #>
 <#
 					if (j != i)
 					{
@@ -63,8 +63,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				for (int j = 1; j <= i; j++)
 				{
 #>
-					if (operandCalculator<#= j #> == null) throw new NullException(() => operandCalculator<#= j #>);
-					_operandCalculator<#= j #> = operandCalculator<#= j #>;
+					_itemCalculator<#= j #> = itemCalculator<#= j #> ?? throw new NullException(() => itemCalculator<#= j #>);
 <#
 				}
 #>
@@ -78,7 +77,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					for (int j = 1; j <= i; j++)
 					{
 #>
-						_operandCalculator<#= j #>.Calculate()
+						_itemCalculator<#= j #>.Calculate()
 <#
 						if (j != i)
 						{

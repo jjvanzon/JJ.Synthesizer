@@ -120,10 +120,6 @@
   <data name="UnderlyingPatchIsCircular" xml:space="preserve">
     <value>There is a circular dependency with its underlying patch.</value>
   </data>
-  <data name="DocumentIsDependentOnDocument" xml:space="preserve">
-    <value>Document '{0}' is dependent on document '{1}'.</value>
-    <comment>{0} = dependent document, {1} = dependent on document</comment>
-  </data>
   <data name="CircularReference" xml:space="preserve">
     <value>Circular reference</value>
   </data>
@@ -226,9 +222,6 @@
   </data>
   <data name="BandPassFilterConstantTransitionGain" xml:space="preserve">
     <value>Band Pass Filter, Constant Transition Gain</value>
-  </data>
-  <data name="BandWidth" xml:space="preserve">
-    <value>Band Width</value>
   </data>
   <data name="Base" xml:space="preserve">
     <value>Base</value>
@@ -372,9 +365,6 @@
   </data>
   <data name="End" xml:space="preserve">
     <value>End</value>
-  </data>
-  <data name="EndTime" xml:space="preserve">
-    <value>End Time</value>
   </data>
   <data name="Equal" xml:space="preserve">
     <value>=</value>
@@ -1036,5 +1026,23 @@
   </data>
   <data name="Sound" xml:space="preserve">
     <value>Sound</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="BlobVolume" xml:space="preserve">
+    <value>Blob Volume</value>
+  </data>
+  <data name="ItemList" xml:space="preserve">
+    <value>Item List</value>
+  </data>
+  <data name="Decibel" xml:space="preserve">
+    <value>dB</value>
+  </data>
+  <data name="Slope" xml:space="preserve">
+    <value>Slope</value>
+  </data>
+  <data name="Output" xml:space="preserve">
+    <value>Output</value>
   </data>
 </root>

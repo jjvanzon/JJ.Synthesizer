@@ -277,15 +277,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Band Width.
-        /// </summary>
-        internal static string BandWidth {
-            get {
-                return ResourceManager.GetString("BandWidth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Base.
         /// </summary>
         internal static string Base {
@@ -300,6 +291,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string BaseFrequency {
             get {
                 return ResourceManager.GetString("BaseFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blob Volume.
+        /// </summary>
+        internal static string BlobVolume {
+            get {
+                return ResourceManager.GetString("BlobVolume", resourceCulture);
             }
         }
         
@@ -691,6 +691,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to dB.
+        /// </summary>
+        internal static string Decibel {
+            get {
+                return ResourceManager.GetString("Decibel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default Value.
         /// </summary>
         internal static string DefaultValue {
@@ -763,15 +772,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Document &apos;{0}&apos; is dependent on document &apos;{1}&apos;..
-        /// </summary>
-        internal static string DocumentIsDependentOnDocument {
-            get {
-                return ResourceManager.GetString("DocumentIsDependentOnDocument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Document List.
         /// </summary>
         internal static string DocumentList {
@@ -831,15 +831,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string End {
             get {
                 return ResourceManager.GetString("End", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to End Time.
-        /// </summary>
-        internal static string EndTime {
-            get {
-                return ResourceManager.GetString("EndTime", resourceCulture);
             }
         }
         
@@ -1191,6 +1182,24 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string IsObsolete {
             get {
                 return ResourceManager.GetString("IsObsolete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item.
+        /// </summary>
+        internal static string Item {
+            get {
+                return ResourceManager.GetString("Item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item List.
+        /// </summary>
+        internal static string ItemList {
+            get {
+                return ResourceManager.GetString("ItemList", resourceCulture);
             }
         }
         
@@ -1762,6 +1771,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Output.
+        /// </summary>
+        internal static string Output {
+            get {
+                return ResourceManager.GetString("Output", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Passthrough.
         /// </summary>
         internal static string PassThrough {
@@ -2271,6 +2289,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string SliceLength {
             get {
                 return ResourceManager.GetString("SliceLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slope.
+        /// </summary>
+        internal static string Slope {
+            get {
+                return ResourceManager.GetString("Slope", resourceCulture);
             }
         }
         

@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_ShelfFilter_AllVars : OperatorDtoBase_Filter_VarSignal
+    internal abstract class OperatorDtoBase_ShelfFilter_AllVars : OperatorDtoBase_Filter_VarSound
     {
         public IOperatorDto TransitionFrequencyOperatorDto { get; set; }
         public IOperatorDto TransitionSlopeOperatorDto { get; set; }
@@ -10,8 +10,8 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get => new[] { SignalOperatorDto, TransitionFrequencyOperatorDto, TransitionSlopeOperatorDto, DBGainOperatorDto };
-            set { SignalOperatorDto = value[0]; TransitionFrequencyOperatorDto = value[1]; TransitionSlopeOperatorDto = value[2]; DBGainOperatorDto = value[3]; }
+            get => new[] { SoundOperatorDto, TransitionFrequencyOperatorDto, TransitionSlopeOperatorDto, DBGainOperatorDto };
+            set { SoundOperatorDto = value[0]; TransitionFrequencyOperatorDto = value[1]; TransitionSlopeOperatorDto = value[2]; DBGainOperatorDto = value[3]; }
         }
     }
 

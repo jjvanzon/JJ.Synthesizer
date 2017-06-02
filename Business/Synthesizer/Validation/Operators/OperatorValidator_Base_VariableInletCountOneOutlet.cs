@@ -12,12 +12,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public OperatorValidator_Base_VariableInletCountOneOutlet(
             Operator obj, 
             OperatorTypeEnum expectedOperatorTypeEnum,
+            DimensionEnum expectedOutletDimensionEnum,
             IList<string> expectedDataKeys)
             : base(
                 obj,
                 expectedOperatorTypeEnum,
-                Enumerable.Repeat(DimensionEnum.Undefined, obj.Inlets.Count).ToArray(),
-                new[] { DimensionEnum.Undefined },
+                Enumerable.Repeat(DimensionEnum.Item, obj.Inlets.Count).ToArray(),
+                new[] { expectedOutletDimensionEnum },
                 expectedDataKeys)
         { }
 

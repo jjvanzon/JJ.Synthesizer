@@ -7,29 +7,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Add_OperatorCalculator_VarArray : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _firstOperandCalculator;
-        private readonly OperatorCalculatorBase[] _remainingOperandCalculators;
-        private readonly int _remainingOperandCalculatorsCount;
+        private readonly OperatorCalculatorBase _firstItemCalculator;
+        private readonly OperatorCalculatorBase[] _remainingItemCalculators;
+        private readonly int _remainingItemCalculatorsCount;
 
-        public Add_OperatorCalculator_VarArray(IList<OperatorCalculatorBase> operandCalculators)
-            : base(operandCalculators)
+        public Add_OperatorCalculator_VarArray(IList<OperatorCalculatorBase> itemCalculators)
+            : base(itemCalculators)
         {
-            if (operandCalculators == null) throw new NullException(() => operandCalculators);
-            if (operandCalculators.Count == 0) throw new CollectionEmptyException(() => operandCalculators);
+            if (itemCalculators == null) throw new NullException(() => itemCalculators);
+            if (itemCalculators.Count == 0) throw new CollectionEmptyException(() => itemCalculators);
 
-            _firstOperandCalculator = operandCalculators.First();
-            _remainingOperandCalculators = operandCalculators.Skip(1).ToArray();
-            _remainingOperandCalculatorsCount = _remainingOperandCalculators.Length;
+            _firstItemCalculator = itemCalculators.First();
+            _remainingItemCalculators = itemCalculators.Skip(1).ToArray();
+            _remainingItemCalculatorsCount = _remainingItemCalculators.Length;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double sum = _firstOperandCalculator.Calculate();
+            double sum = _firstItemCalculator.Calculate();
 
-            for (int i = 0; i < _remainingOperandCalculatorsCount; i++)
+            for (int i = 0; i < _remainingItemCalculatorsCount; i++)
             {
-                double value = _remainingOperandCalculators[i].Calculate();
+                double value = _remainingItemCalculators[i].Calculate();
 
                 sum += value;
             }

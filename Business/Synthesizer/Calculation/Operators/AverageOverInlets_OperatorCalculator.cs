@@ -5,36 +5,36 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    // You could imagine many more optimized calculations, such as first operand is const and several,
+    // You could imagine many more optimized calculations, such as first item is const and several,
     // that omit the loop, but future optimizations will just make that work obsolete again.
 
     internal class AverageOverInlets_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _firstOperandCalculator;
-        private readonly OperatorCalculatorBase[] _remainingOperandCalculators;
-        private readonly double _remainingOperandCalculatorsCount;
+        private readonly OperatorCalculatorBase _firstItemCalculator;
+        private readonly OperatorCalculatorBase[] _remainingItemCalculators;
+        private readonly double _remainingItemCalculatorsCount;
         private readonly double _count;
 
-        public AverageOverInlets_OperatorCalculator(IList<OperatorCalculatorBase> operandCalculators)
-            : base(operandCalculators)
+        public AverageOverInlets_OperatorCalculator(IList<OperatorCalculatorBase> itemCalculators)
+            : base(itemCalculators)
         {
-            if (operandCalculators == null) throw new NullException(() => operandCalculators);
-            if (operandCalculators.Count == 0) throw new CollectionEmptyException(() => operandCalculators);
+            if (itemCalculators == null) throw new NullException(() => itemCalculators);
+            if (itemCalculators.Count == 0) throw new CollectionEmptyException(() => itemCalculators);
 
-            _firstOperandCalculator = operandCalculators.First();
-            _remainingOperandCalculators = operandCalculators.Skip(1).ToArray();
-            _remainingOperandCalculatorsCount = _remainingOperandCalculators.Length;
-            _count = operandCalculators.Count;
+            _firstItemCalculator = itemCalculators.First();
+            _remainingItemCalculators = itemCalculators.Skip(1).ToArray();
+            _remainingItemCalculatorsCount = _remainingItemCalculators.Length;
+            _count = itemCalculators.Count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double sum = _firstOperandCalculator.Calculate();
+            double sum = _firstItemCalculator.Calculate();
 
-            for (int i = 0; i < _remainingOperandCalculatorsCount; i++)
+            for (int i = 0; i < _remainingItemCalculatorsCount; i++)
             {
-                double value = _remainingOperandCalculators[i].Calculate();
+                double value = _remainingItemCalculators[i].Calculate();
                 sum += value;
             }
 

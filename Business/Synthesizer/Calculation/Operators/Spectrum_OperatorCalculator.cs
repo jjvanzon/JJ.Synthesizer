@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Spectrum_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _soundCalculator;
         private readonly OperatorCalculatorBase _startCalculator;
         private readonly OperatorCalculatorBase _endCalculator;
         private readonly OperatorCalculatorBase _frequencyCountCalculator;
@@ -22,26 +22,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private int _maxPosition;
 
         public Spectrum_OperatorCalculator(
-            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase soundCalculator,
             OperatorCalculatorBase startCalculator,
             OperatorCalculatorBase endCalculator,
             OperatorCalculatorBase frequencyCountCalculator,
             DimensionStack dimensionStack)
             : base(new[]
             {
-                signalCalculator,
+                soundCalculator,
                 startCalculator,
                 endCalculator,
                 frequencyCountCalculator
             })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(soundCalculator, () => soundCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(startCalculator, () => startCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(endCalculator, () => endCalculator);
             OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(frequencyCountCalculator, () => frequencyCountCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _signalCalculator = signalCalculator;
+            _soundCalculator = soundCalculator;
             _startCalculator = startCalculator;
             _endCalculator = endCalculator;
             _frequencyCountCalculator = frequencyCountCalculator;
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // NOTE: Do not call base.
             // The Spectrum Operator is an exception to the rule.
-            // Reset for spectrum means NOT resetting the signal,
+            // Reset for spectrum means NOT resetting the calculation,
             // but just recalculating the spectrum.
         }
 
@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 #if ASSERT_INVAR_INDICES
                 OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
 #endif
-                double value = _signalCalculator.Calculate();
+                double value = _soundCalculator.Calculate();
 
 #if !USE_INVAR_INDICES
                 _dimensionStack.Pop();

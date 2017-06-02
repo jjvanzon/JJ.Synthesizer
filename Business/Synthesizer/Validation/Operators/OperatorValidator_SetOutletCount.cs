@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class OperatorValidator_SetOutletCount : VersatileValidator<Operator>
     {
         private readonly int _newOutletCount;
-        private static readonly OperatorTypeEnum[] _allowedOperatorTypeEnums = new[]
+        private static readonly OperatorTypeEnum[] _allowedOperatorTypeEnums =
         {
             OperatorTypeEnum.DimensionToOutlets,
             OperatorTypeEnum.RangeOverOutlets
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (outlet.ConnectedInlets.Count > 0)
                 {
                     string message = ResourceFormatter.CannotChangeOutletsBecauseOneIsStillFilledIn(i + 1);
-                    ValidationMessages.Add(PropertyNames.Outlets, message);
+                    ValidationMessages.Add(nameof(op.Outlets), message);
                 }
             }
         }

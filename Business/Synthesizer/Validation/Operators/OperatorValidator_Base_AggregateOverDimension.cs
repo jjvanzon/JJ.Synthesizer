@@ -1,5 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Data.Synthesizer.Entities;
 
@@ -7,17 +7,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class OperatorValidator_Base_AggregateOverDimension : OperatorValidator_Base
     {
-        /// <param name="outletDimensionEnum">
-        /// Inlets have dimensions Signal, Undefined, Undefined and Undefined,
-        /// Outlet usually has dimension Undefined, but in an exceptional case it might have a different dimension, like Signal.
-        /// </param>
-        public OperatorValidator_Base_AggregateOverDimension(Operator obj, OperatorTypeEnum operatorTypeEnum, DimensionEnum outletDimensionEnum = DimensionEnum.Undefined)
+        public OperatorValidator_Base_AggregateOverDimension(Operator obj, OperatorTypeEnum operatorTypeEnum)
             : base(
                 obj,
                 operatorTypeEnum,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { outletDimensionEnum },
-                expectedDataKeys: new[] { PropertyNames.CollectionRecalculation })
+                new[] { DimensionEnum.Signal, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
+                new[] { DimensionEnum.Signal },
+                expectedDataKeys: new[] { nameof(OperatorWrapperBase_AggregateOverDimension.CollectionRecalculation) })
         { }
 
         protected override void Execute()

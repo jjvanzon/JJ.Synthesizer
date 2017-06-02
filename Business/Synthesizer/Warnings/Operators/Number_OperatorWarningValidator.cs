@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 
@@ -15,7 +16,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(Obj))
             {
-                double? number = DataPropertyParser.TryParseDouble(Obj, PropertyNames.Number);
+                double? number = DataPropertyParser.TryParseDouble(Obj, nameof(Number_OperatorWrapper.Number));
 
                 For(() => number, ResourceFormatter.Number).NotZero();
             }

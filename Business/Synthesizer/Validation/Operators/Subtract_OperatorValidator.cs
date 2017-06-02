@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Subtract, 
-                new[] { DimensionEnum.Undefined, DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined })
+                new[] { DimensionEnum.A, DimensionEnum.B },
+                new[] { DimensionEnum.Result })
         { }
     }
 }

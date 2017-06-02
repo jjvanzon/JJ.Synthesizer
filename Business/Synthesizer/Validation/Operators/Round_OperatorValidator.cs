@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj, 
                 OperatorTypeEnum.Round,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.Step, DimensionEnum.Offset },
                 new[] { DimensionEnum.Signal })
         { }
     }

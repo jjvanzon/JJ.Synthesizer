@@ -1,15 +1,12 @@
-﻿using JJ.Business.Synthesizer.LinkTo;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Hold_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class Hold_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
     {
-        private const int SIGNAL_INDEX = 0;
-
         public Hold_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -20,14 +17,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SignalInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
-
-        public override string GetInletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceFormatter.GetDisplayName(() => Signal);
-            return name;
-        }
+        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Signal);
     }
 }

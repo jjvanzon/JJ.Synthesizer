@@ -6,33 +6,33 @@ namespace JJ.Business.Synthesizer.Dto
     internal class PeakingEQFilter_OperatorDto : PeakingEQFilter_OperatorDto_AllVars
     { }
 
-    internal class PeakingEQFilter_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    internal class PeakingEQFilter_OperatorDto_ConstSound : OperatorDtoBase_ConstSound
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
     }
 
-    internal class PeakingEQFilter_OperatorDto_AllVars : OperatorDtoBase_Filter_VarSignal
+    internal class PeakingEQFilter_OperatorDto_AllVars : OperatorDtoBase_Filter_VarSound
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
 
         public IOperatorDto CenterFrequencyOperatorDto { get; set; }
-        public IOperatorDto BandWidthOperatorDto { get; set; }
+        public IOperatorDto WidthOperatorDto { get; set; }
         public IOperatorDto DBGainOperatorDto { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
             get => new[]
             {
-                SignalOperatorDto,
+                SoundOperatorDto,
                 CenterFrequencyOperatorDto,
-                BandWidthOperatorDto,
+                WidthOperatorDto,
                 DBGainOperatorDto
             };
             set
             {
-                SignalOperatorDto = value[0];
+                SoundOperatorDto = value[0];
                 CenterFrequencyOperatorDto = value[1];
-                BandWidthOperatorDto = value[2];
+                WidthOperatorDto = value[2];
                 DBGainOperatorDto = value[3];
             }
         }
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override double Frequency => CenterFrequency;
 
         public double CenterFrequency { get; set; }
-        public double BandWidth { get; set; }
+        public double Width { get; set; }
         public double DBGain { get; set; }
     }
 }

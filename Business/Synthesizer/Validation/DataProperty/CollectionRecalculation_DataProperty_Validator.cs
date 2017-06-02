@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Validation;
 
@@ -17,9 +18,11 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
-                string collectionRecalculationString = DataPropertyParser.TryGetString(data, PropertyNames.CollectionRecalculation);
+                const string dataKey = nameof(OperatorWrapperBase_AggregateOverDimension.CollectionRecalculation);
 
-                For(() => collectionRecalculationString, PropertyNames.CollectionRecalculation)
+                string collectionRecalculationString = DataPropertyParser.TryGetString(data, dataKey);
+
+                For(() => collectionRecalculationString, dataKey)
                     .NotNullOrEmpty()
                     .IsEnum<CollectionRecalculationEnum>()
                     .IsNot(CollectionRecalculationEnum.Undefined);

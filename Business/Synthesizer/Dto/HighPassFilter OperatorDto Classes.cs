@@ -6,30 +6,32 @@ namespace JJ.Business.Synthesizer.Dto
     internal class HighPassFilter_OperatorDto : HighPassFilter_OperatorDto_AllVars
     { }
 
-    internal class HighPassFilter_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    internal class HighPassFilter_OperatorDto_ConstSound : OperatorDtoBase_ConstSound
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighPassFilter;
     }
 
-    internal class HighPassFilter_OperatorDto_AllVars : OperatorDtoBase_Filter_VarSignal
+    internal class HighPassFilter_OperatorDto_AllVars : OperatorDtoBase_Filter_VarSound
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighPassFilter;
 
         public IOperatorDto MinFrequencyOperatorDto { get; set; }
-        public IOperatorDto BandWidthOperatorDto { get; set; }
+        public IOperatorDto BlobVolumeOperatorDto { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get => new[] { SignalOperatorDto, MinFrequencyOperatorDto, BandWidthOperatorDto };
-            set { SignalOperatorDto = value[0]; MinFrequencyOperatorDto = value[1]; BandWidthOperatorDto = value[2]; }
+            get => new[] { SoundOperatorDto, MinFrequencyOperatorDto, BlobVolumeOperatorDto };
+            set { SoundOperatorDto = value[0]; MinFrequencyOperatorDto = value[1]; BlobVolumeOperatorDto = value[2]; }
         }
     }
 
-    internal class HighPassFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts_WithBandWidth
+    internal class HighPassFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts_WithWidthOrBlobVolume
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighPassFilter;
         public override double Frequency => MinFrequency;
+        public override double WidthOrBlobVolume => BlobVolume;
 
         public double MinFrequency { get; set; }
+        public double BlobVolume { get; set; }
     }
 }

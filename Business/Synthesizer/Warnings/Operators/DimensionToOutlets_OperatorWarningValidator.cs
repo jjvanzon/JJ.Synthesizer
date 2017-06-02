@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
@@ -25,7 +24,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 if (inlet.InputOutlet == null)
                 {
                     string inletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(inlet);
-                    ValidationMessages.AddNotFilledInMessage(PropertyNames.Inlet, inletIdentifier);
+                    ValidationMessages.AddNotFilledInMessage(nameof(Inlet), inletIdentifier);
                 }
             }
         }

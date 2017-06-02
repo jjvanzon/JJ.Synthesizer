@@ -1,15 +1,12 @@
-﻿using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class DimensionToOutlets_OperatorWrapper : OperatorWrapperBase_VariableOutletCount
     {
-        private const int OPERAND_INDEX = 0;
-
         public DimensionToOutlets_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -20,14 +17,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => Inlet.LinkTo(value);
         }
 
-        public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, OPERAND_INDEX);
-
-        public override string GetInletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceFormatter.GetDisplayName(() => Input);
-            return name;
-        }
+        public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Signal);
     }
 }

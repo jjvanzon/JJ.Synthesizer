@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Multiply_OperatorWrapper : OperatorWrapperBase_VariableInletCountOneResult
+    public class Multiply_OperatorWrapper : OperatorWrapperBase_VariableInletCountResultOutlet
     {
         public Multiply_OperatorWrapper(Operator op)
             : base(op)

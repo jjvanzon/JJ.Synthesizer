@@ -46,8 +46,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Interpolation
             if (comboBoxInterpolation.DataSource == null)
             {
-                comboBoxInterpolation.ValueMember = PropertyNames.ID;
-                comboBoxInterpolation.DisplayMember = PropertyNames.Name;
+                comboBoxInterpolation.ValueMember = nameof(IDAndName.ID);
+                comboBoxInterpolation.DisplayMember = nameof(IDAndName.Name);
                 comboBoxInterpolation.DataSource = ViewModel.InterpolationLookup;
             }
             comboBoxInterpolation.SelectedValue = ViewModel.Interpolation?.ID ?? 0;
@@ -55,8 +55,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // SpeakerSetup
             if (comboBoxSpeakerSetup.DataSource == null)
             {
-                comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
-                comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
+                comboBoxSpeakerSetup.ValueMember = nameof(IDAndName.ID);
+                comboBoxSpeakerSetup.DisplayMember = nameof(IDAndName.Name);
                 comboBoxSpeakerSetup.DataSource = ViewModel.SpeakerSetupLookup;
             }
             comboBoxSpeakerSetup.SelectedValue = ViewModel.SpeakerSetup?.ID ?? 0;

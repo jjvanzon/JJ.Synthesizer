@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 obj,
                 OperatorTypeEnum.Noise,
                 new DimensionEnum[0],
-                new[] { DimensionEnum.Undefined })
+                new[] { DimensionEnum.Sound })
         { }
     }
 }

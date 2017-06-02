@@ -893,7 +893,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var sb = new StringBuilder();
 
             var wrapper = new PatchOutlet_OperatorWrapper(op);
-            Outlet outlet = wrapper.Result;
+            Outlet outlet = wrapper.Outlet;
             DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
 
             // Use OperatorType DisplayName
@@ -1009,7 +1009,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     curveRepository,
                     sampleRepository,
                     patchRepository);
-                string inletDisplayName = wrapper.GetInletDisplayName(inlet.ListIndex);
+                string inletDisplayName = wrapper.GetInletDisplayName(inlet);
                 sb.Append(inletDisplayName);
             }
 
@@ -1063,7 +1063,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 var wrapper = new CustomOperator_OperatorWrapper(outlet.Operator, patchRepository);
 
-                string inletDisplayName = wrapper.GetOutletDisplayName(outlet.ListIndex);
+                string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
                 sb.Append(inletDisplayName);
             }
 
@@ -1124,7 +1124,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     sampleRepository,
                     patchRepository);
 
-                string inletDisplayName = wrapper.GetOutletDisplayName(outlet.ListIndex);
+                string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
                 sb.Append(inletDisplayName);
             }
 

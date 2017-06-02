@@ -20,8 +20,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static void TryClone_AggregateOverDimensionProperties(OperatorDtoBase_AggregateOverDimension_AllVars source, IOperatorDto dest)
         {
-            var castedDest = dest as OperatorDtoBase_AggregateOverDimension_AllVars;
-            if (castedDest != null)
+            if (dest is OperatorDtoBase_AggregateOverDimension_AllVars castedDest)
             {
                 Clone_AggregateOverDimensionProperties(source, castedDest);
             }
@@ -38,8 +37,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static void TryClone_AggregateFollowerProperties(OperatorDtoBase_AggregateFollower_AllVars source, IOperatorDto dest)
         {
-            var castedDest = dest as OperatorDtoBase_AggregateFollower_AllVars;
-            if (castedDest != null)
+            if (dest is OperatorDtoBase_AggregateFollower_AllVars castedDest)
             {
                 Clone_AggregateFollowerProperties(source, castedDest);
             }
@@ -62,8 +60,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static void TryClone_CacheOperatorProperties(Cache_OperatorDtoBase_NotConstSignal source, IOperatorDto dest)
         {
-            var castedDest = dest as Cache_OperatorDtoBase_NotConstSignal;
-            if (castedDest != null)
+            if (dest is Cache_OperatorDtoBase_NotConstSignal castedDest)
             {
                 Clone_CacheOperatorProperties(source, castedDest);
             }
@@ -86,8 +83,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void TryClone_CurveProperties(Curve_OperatorDto source, IOperatorDto dest)
         {
             {
-                var castedDest = dest as Curve_OperatorDtoBase_WithMinX;
-                if (castedDest != null)
+                if (dest is Curve_OperatorDtoBase_WithMinX castedDest)
                 {
                     Clone_CurveProperties_WithMinX(source, castedDest);
                     return;
@@ -95,8 +91,7 @@ namespace JJ.Business.Synthesizer.Helpers
             }
 
             {
-                var castedDest = dest as Curve_OperatorDtoBase_WithoutMinX;
-                if (castedDest != null)
+                if (dest is Curve_OperatorDtoBase_WithoutMinX castedDest)
                 {
                     Clone_CurveProperties_WithoutMinX(source, castedDest);
                 }
@@ -132,25 +127,23 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static void TryClone_WithDimensionProperties(IOperatorDto_WithDimension source, IOperatorDto dest)
         {
-            var castedDest = dest as IOperatorDto_WithDimension;
-            if (castedDest != null)
+            if (dest is IOperatorDto_WithDimension castedDest)
             {
                 Clone_WithDimensionProperties(source, castedDest);
             }
         }
 
-        public static void TryClone_FilterProperties(OperatorDtoBase_Filter_VarSignal source, IOperatorDto dest)
+        public static void TryClone_FilterProperties(OperatorDtoBase_Filter_VarSound source, IOperatorDto dest)
         {
-            var castedDest = dest as OperatorDtoBase_Filter_VarSignal;
-            if (castedDest != null)
+            if (dest is OperatorDtoBase_Filter_VarSound castedDest)
             {
                 Clone_FilterProperties(source, castedDest);
             }
         }
 
-        public static void Clone_FilterProperties(OperatorDtoBase_Filter_VarSignal source, OperatorDtoBase_Filter_VarSignal dest)
+        public static void Clone_FilterProperties(OperatorDtoBase_Filter_VarSound source, OperatorDtoBase_Filter_VarSound dest)
         {
-            dest.SignalOperatorDto = source.SignalOperatorDto;
+            dest.SoundOperatorDto = source.SoundOperatorDto;
             dest.SamplingRate = source.SamplingRate;
             dest.NyquistFrequency = source.NyquistFrequency;
 
@@ -167,8 +160,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static void TryClone_InterpolateOperatorProperties(Interpolate_OperatorDto source, IOperatorDto dest)
         {
-            var castedDest = dest as IInterpolate_OperatorDto_VarSignal;
-            if (castedDest != null)
+            if (dest is IInterpolate_OperatorDto_VarSignal castedDest)
             {
                 Clone_InterpolateOperatorProperties(source, castedDest);
             }
@@ -185,8 +177,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static void TryClone_RandomOperatorProperties(IRandom_OperatorDto source, IOperatorDto dest)
         {
-            var castedDest = dest as IRandom_OperatorDto;
-            if (castedDest != null)
+            if (dest is IRandom_OperatorDto castedDest)
             {
                 Clone_RandomOperatorProperties(source, castedDest);
             }
@@ -207,8 +198,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static void TryClone_SampleProperties(Sample_OperatorDto source, IOperatorDto dest)
         {
-            var castedDest = dest as ISample_OperatorDto_WithSampleID;
-            if (castedDest != null)
+            if (dest is ISample_OperatorDto_WithSampleID castedDest)
             {
                 Clone_SampleProperties(source, castedDest);
             }

@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
 
@@ -17,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
-                string listIndexString = DataPropertyParser.TryGetString(Obj, PropertyNames.ListIndex);
+                string listIndexString = DataPropertyParser.TryGetString(Obj, nameof(PatchInlet_OperatorWrapper.ListIndex));
 
                 For(() => listIndexString, ResourceFormatter.ListIndex)
                     .NotNullOrEmpty()

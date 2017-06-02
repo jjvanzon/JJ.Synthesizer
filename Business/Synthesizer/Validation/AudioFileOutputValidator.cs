@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (!referenceIsValid)
             {
-                ValidationMessages.AddNotInListMessage(PropertyNames.Outlet, ResourceFormatter.Outlet, Obj.Outlet.ID);
+                ValidationMessages.AddNotInListMessage(nameof(Outlet), ResourceFormatter.Outlet, Obj.Outlet.ID);
             }
         }
     }

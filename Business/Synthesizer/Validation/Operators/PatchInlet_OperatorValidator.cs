@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using System.Linq;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 
@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 OperatorTypeEnum.PatchInlet,
                 new[] { GetInletDimensionEnum(obj) },
                 new[] { DimensionEnum.Undefined },
-                expectedDataKeys: new[] { PropertyNames.ListIndex })
+                expectedDataKeys: new[] { nameof(PatchInlet_OperatorWrapper.ListIndex) })
         { }
 
         protected override void Execute()

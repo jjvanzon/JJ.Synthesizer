@@ -69,7 +69,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 AutoSize = true,
                 Enabled = true,
                 Font = new Font("Microsoft Sans Serif", 8F),
-                Location = new Point(263, 123),
+                Location = new Point(163, 123),
                 Margin = new Padding(4),
                 Name = "radioButton" + methodName,
                 Size = new Size(191, 18),

@@ -57,8 +57,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Always refill the lookup, so changes to the sample collection are reflected.
             int? selectedID = TryGetSelectedSampleID();
             comboBoxSample.DataSource = null; // Do this or WinForms will not refresh the list.
-            comboBoxSample.ValueMember = PropertyNames.ID;
-            comboBoxSample.DisplayMember = PropertyNames.Name;
+            comboBoxSample.ValueMember = nameof(IDAndName.ID);
+            comboBoxSample.DisplayMember = nameof(IDAndName.Name);
             comboBoxSample.DataSource = sampleLookup;
             if (selectedID != null)
             {

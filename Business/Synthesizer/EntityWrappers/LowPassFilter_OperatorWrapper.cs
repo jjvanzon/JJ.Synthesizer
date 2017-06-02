@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.LinkTo;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -6,23 +8,19 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class LowPassFilter_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class LowPassFilter_OperatorWrapper : OperatorWrapperBase_WithSoundOutlet
     {
-        private const int SIGNAL_INDEX = 0;
-        private const int MAX_FREQUENCY_INDEX = 1;
-        private const int BAND_WIDTH_INDEX = 2;
-
         public LowPassFilter_OperatorWrapper(Operator op)
             : base(op)
         { }
 
-        public Outlet Signal
+        public Outlet SoundInput
         {
-            get => SignalInlet.InputOutlet;
-            set => SignalInlet.LinkTo(value);
+            get => SoundInlet.InputOutlet;
+            set => SoundInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, SIGNAL_INDEX);
+        public Inlet SoundInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Sound);
 
         public Outlet MaxFrequency
         {
@@ -30,41 +28,27 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => MaxFrequencyInlet.LinkTo(value);
         }
 
-        public Inlet MaxFrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, MAX_FREQUENCY_INDEX);
+        public Inlet MaxFrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Frequency);
 
-        public Outlet BandWidth
+        public Outlet BlobVolume
         {
-            get => BandWidthInlet.InputOutlet;
-            set => BandWidthInlet.LinkTo(value);
+            get => BlobVolumeInlet.InputOutlet;
+            set => BlobVolumeInlet.LinkTo(value);
         }
 
-        public Inlet BandWidthInlet => OperatorHelper.GetInlet(WrappedOperator, BAND_WIDTH_INDEX);
+        public Inlet BlobVolumeInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.BlobVolume);
 
-        public override string GetInletDisplayName(int listIndex)
+        public override string GetInletDisplayName(Inlet inlet)
         {
-            switch (listIndex)
+            if (inlet == null) throw new NullException(() => inlet);
+
+            switch (inlet.GetDimensionEnum())
             {
-                case SIGNAL_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Signal);
-                        return name;
-                    }
-
-                case MAX_FREQUENCY_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => MaxFrequency);
-                        return name;
-                    }
-
-                case BAND_WIDTH_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => BandWidth);
-                        return name;
-                    }
-
-                default:
-                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+                case DimensionEnum.Frequency:
+                    return ResourceFormatter.MaxFrequency;
             }
+
+            return base.GetInletDisplayName(inlet);
         }
     }
 }

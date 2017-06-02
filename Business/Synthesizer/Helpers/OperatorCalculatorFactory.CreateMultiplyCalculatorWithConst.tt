@@ -2,8 +2,8 @@
 <#@ assembly name="System.Core" #>
 <#@ output extension=".cs" #>
 
-<# int minVarOperands = 1; #>
-<# int maxVarOperands = 15; #>
+<# int minVarItems = 1; #>
+<# int maxVarItems = 15; #>
 
 using System.Collections.Generic;
 using JJ.Framework.Exceptions;
@@ -13,14 +13,14 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     internal static partial class OperatorCalculatorFactory
     {
-	    public static OperatorCalculatorBase CreateMultiplyCalculator_Vars_1Const(IList<OperatorCalculatorBase> varOperandCalculators, double constValue)
+	    public static OperatorCalculatorBase CreateMultiplyCalculator_Vars_1Const(IList<OperatorCalculatorBase> varItemCalculators, double constValue)
         {
-			if (varOperandCalculators.Count < <#= minVarOperands #>) throw new LessThanException(() => varOperandCalculators.Count, <#= minVarOperands #>);
+			if (varItemCalculators.Count < <#= minVarItems #>) throw new LessThanException(() => varItemCalculators.Count, <#= minVarItems #>);
 
-            switch (varOperandCalculators.Count)
+            switch (varItemCalculators.Count)
             {
 <#
-	for (int i = minVarOperands; i <= maxVarOperands; i++)
+	for (int i = minVarItems; i <= maxVarItems; i++)
 	{
 #>
                 case <#= i #>:
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Helpers
 		for (int j = 0; j < i; j++)
 		{
 #>
-						varOperandCalculators[<#=j#>],
+						varItemCalculators[<#=j#>],
 <#
 		}
 #>
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Helpers
 	}
 #>
                 default:
-                    return new Multiply_OperatorCalculator_VarArray_1Const(varOperandCalculators, constValue);
+                    return new Multiply_OperatorCalculator_VarArray_1Const(varItemCalculators, constValue);
             }
         }
 	}

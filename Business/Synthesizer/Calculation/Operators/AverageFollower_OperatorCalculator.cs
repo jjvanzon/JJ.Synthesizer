@@ -13,9 +13,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected override double PostProcessAggregate()
-        {
-            return _sum / _sampleCountDouble;
-        }
+        protected override double PostProcessAggregate() => _sum / _sampleCountDouble;
     }
 }

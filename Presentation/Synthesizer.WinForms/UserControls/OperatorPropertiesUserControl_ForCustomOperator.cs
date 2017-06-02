@@ -56,8 +56,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int? selectedID = TryGetSelectedUnderlyingPatchID();
             comboBoxUnderlyingPatch.DataSource = null; // Do this or WinForms will not refresh the list.
-            comboBoxUnderlyingPatch.ValueMember = PropertyNames.ID;
-            comboBoxUnderlyingPatch.DisplayMember = PropertyNames.Name;
+            comboBoxUnderlyingPatch.ValueMember = nameof(IDAndName.ID);
+            comboBoxUnderlyingPatch.DisplayMember = nameof(IDAndName.Name);
             comboBoxUnderlyingPatch.DataSource = underlyingPatchLookup;
             if (selectedID != null)
             {

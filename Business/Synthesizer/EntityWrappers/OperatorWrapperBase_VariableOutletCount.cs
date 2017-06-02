@@ -13,12 +13,11 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public IList<Outlet> Results => WrappedOperator.Outlets;
 
-        public override string GetOutletDisplayName(int listIndex)
+        public override string GetOutletDisplayName(Outlet outlet)
         {
-            if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Outlets.Count);
-            if (listIndex > WrappedOperator.Outlets.Count) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Outlets.Count);
+            if (outlet == null) throw new NullException(() => outlet);
 
-            string name = $"{ResourceFormatter.Outlet} {listIndex + 1}";
+            string name = $"{ResourceFormatter.Outlet} {outlet.ListIndex + 1}";
             return name;
         }
     }

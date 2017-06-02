@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
                 string messagePrefix = ValidationHelper.GetMessagePrefix(operatorMissingInList, _sampleRepository, _curveRepository, _patchRepository);
                 string message = ResourceFormatter.OperatorIsInGraphButNotInList;
 
-                ValidationMessages.Add(PropertyNames.Operators, messagePrefix + message);
+                ValidationMessages.Add(nameof(patch.Operators), messagePrefix + message);
             }
         }
     }

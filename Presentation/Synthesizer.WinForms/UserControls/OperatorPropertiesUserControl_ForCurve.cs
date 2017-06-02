@@ -57,8 +57,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Always refill the lookup, so changes to the curve collection are reflected.
             int? selectedID = TryGetSelectedCurveID();
             comboBoxCurve.DataSource = null; // Do this or WinForms will not refresh the list.
-            comboBoxCurve.ValueMember = PropertyNames.ID;
-            comboBoxCurve.DisplayMember = PropertyNames.Name;
+            comboBoxCurve.ValueMember = nameof(IDAndName.ID);
+            comboBoxCurve.DisplayMember = nameof(IDAndName.Name);
             comboBoxCurve.DataSource = curveLookup;
             if (selectedID != null)
             {

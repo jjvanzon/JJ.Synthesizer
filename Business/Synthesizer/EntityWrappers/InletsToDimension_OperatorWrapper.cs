@@ -7,30 +7,29 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class InletsToDimension_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class InletsToDimension_OperatorWrapper : OperatorWrapperBase_WithSignalOutlet
     {
         public InletsToDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
 
         /// <summary> Executes a loop, so prevent calling it multiple times. </summary>
-        public IList<Outlet> Operands => OperatorHelper.GetSortedInputOutlets(WrappedOperator);
+        public IList<Outlet> Inputs => OperatorHelper.GetSortedInputOutlets(WrappedOperator);
 
         /// <summary> Executes a loop, so prevent calling it multiple times. </summary>
         public IList<Inlet> Inlets => OperatorHelper.GetSortedInlets(WrappedOperator);
 
         public ResampleInterpolationTypeEnum InterpolationType
         {
-            get => DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, PropertyNames.InterpolationType);
-            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.InterpolationType, value);
+            get => DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, nameof(InterpolationType));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(InterpolationType), value);
         }
 
-        public override string GetInletDisplayName(int listIndex)
+        public override string GetInletDisplayName(Inlet inlet)
         {
-            if (listIndex < 0) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
-            if (listIndex > WrappedOperator.Inlets.Count) throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
+            if (inlet == null) throw new NullException(() => inlet);
 
-            string name = $"{ResourceFormatter.Inlet} {listIndex + 1}";
+            string name = $"{ResourceFormatter.Inlet} {inlet.ListIndex + 1}";
             return name;
         }
     }

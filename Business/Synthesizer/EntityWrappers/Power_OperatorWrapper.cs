@@ -1,16 +1,12 @@
-﻿using JJ.Business.Synthesizer.LinkTo;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Power_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class Power_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
     {
-        private const int BASE_INDEX = 0;
-        private const int EXPONENT_INDEX = 1;
-
         public Power_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -21,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => BaseInlet.LinkTo(value);
         }
 
-        public Inlet BaseInlet => OperatorHelper.GetInlet(WrappedOperator, BASE_INDEX);
+        public Inlet BaseInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Base);
 
         public Outlet Exponent
         {
@@ -29,27 +25,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => ExponentInlet.LinkTo(value);
         }
 
-        public Inlet ExponentInlet => OperatorHelper.GetInlet(WrappedOperator, EXPONENT_INDEX);
-
-        public override string GetInletDisplayName(int listIndex)
-        {
-            switch (listIndex)
-            {
-                case BASE_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Base);
-                        return name;
-                    }
-
-                case EXPONENT_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Exponent);
-                        return name;
-                    }
-
-                default:
-                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
-            }
-        }
+        public Inlet ExponentInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Exponent);
     }
 }

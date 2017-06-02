@@ -82,8 +82,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
             if (_comboBoxStandardDimension.DataSource == null)
             {
-                _comboBoxStandardDimension.ValueMember = PropertyNames.ID;
-                _comboBoxStandardDimension.DisplayMember = PropertyNames.Name;
+                _comboBoxStandardDimension.ValueMember = nameof(IDAndName.ID);
+                _comboBoxStandardDimension.DisplayMember = nameof(IDAndName.Name);
                 _comboBoxStandardDimension.DataSource = ViewModel.StandardDimensionLookup;
             }
 

@@ -1,16 +1,12 @@
-﻿using JJ.Business.Synthesizer.LinkTo;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Pulse_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class Pulse_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
     {
-        private const int FREQUENCY_INDEX = 0;
-        private const int WIDTH_INDEX = 1;
-
         public Pulse_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -21,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => FrequencyInlet.LinkTo(value);
         }
 
-        public Inlet FrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, FREQUENCY_INDEX);
+        public Inlet FrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Frequency);
 
         public Outlet Width
         {
@@ -29,27 +25,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => WidthInlet.LinkTo(value);
         }
 
-        public Inlet WidthInlet => OperatorHelper.GetInlet(WrappedOperator, WIDTH_INDEX);
-
-        public override string GetInletDisplayName(int listIndex)
-        {
-            switch (listIndex)
-            {
-                case FREQUENCY_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Frequency);
-                        return name;
-                    }
-
-                case WIDTH_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Width);
-                        return name;
-                    }
-
-                default:
-                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
-            }
-        }
-   }
+        public Inlet WidthInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Width);
+    }
 }

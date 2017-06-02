@@ -154,7 +154,7 @@ namespace JJ.Business.Synthesizer
             destPatchInletWrapper.Dimension = intermediateInlet.Dimension;
             destPatchInletWrapper.DefaultValue = intermediateInlet.DefaultValue;
 
-            intermediateInlet.LinkTo(destPatchInletWrapper.Result);
+            intermediateInlet.LinkTo(destPatchInletWrapper.Outlet);
 
             return destPatchInletWrapper;
         }
@@ -356,7 +356,7 @@ namespace JJ.Business.Synthesizer
         {
             IList<Outlet> signalPatchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
                                                           .Where(x => x.DimensionEnum == DimensionEnum.Signal)
-                                                          .Select(x => x.Result)
+                                                          .Select(x => x.Outlet)
                                                           .ToArray();
             if (signalPatchOutlets.Count != 0)
             {
@@ -367,7 +367,7 @@ namespace JJ.Business.Synthesizer
             // Patch has no Signal PatchOutlets:
             // Return all PatchOutlets.
             IList<Outlet> patchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                    .Select(x => x.Result)
+                                                    .Select(x => x.Outlet)
                                                     .ToArray();
 
             return patchOutlets;
@@ -467,7 +467,7 @@ namespace JJ.Business.Synthesizer
                                             .OrderBy(x => x.Name)
                                             .SelectMany(x => x.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>())
                                             .Where(x => x.DimensionEnum == DimensionEnum.Signal)
-                                            .Select(x => x.Result)
+                                            .Select(x => x.Outlet)
                                             .ToArray();
             return patches2;
         }

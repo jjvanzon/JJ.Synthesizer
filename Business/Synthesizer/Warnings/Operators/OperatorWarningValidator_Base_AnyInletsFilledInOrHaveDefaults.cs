@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             // ReSharper disable once InvertIf
             if (!anyInletsFilledIn)
             {
-                ValidationMessages.AddIsEmptyMessage(PropertyNames.Inlets, ResourceFormatter.Inlets);
+                ValidationMessages.AddIsEmptyMessage(nameof(op.Inlets), ResourceFormatter.Inlets);
             }
         }
     }

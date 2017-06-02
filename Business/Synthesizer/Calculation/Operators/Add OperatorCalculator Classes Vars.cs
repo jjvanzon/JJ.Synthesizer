@@ -8,3133 +8,3133 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 		internal class Add_OperatorCalculator_2Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
 			
 			public Add_OperatorCalculator_2Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_3Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
 			
 			public Add_OperatorCalculator_3Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_4Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
 			
 			public Add_OperatorCalculator_4Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_5Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
 			
 			public Add_OperatorCalculator_5Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_6Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
 			
 			public Add_OperatorCalculator_6Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_7Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
 			
 			public Add_OperatorCalculator_7Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_8Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
 			
 			public Add_OperatorCalculator_8Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_9Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
 			
 			public Add_OperatorCalculator_9Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_10Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
 			
 			public Add_OperatorCalculator_10Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_11Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
 			
 			public Add_OperatorCalculator_11Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_12Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
 			
 			public Add_OperatorCalculator_12Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_13Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
 			
 			public Add_OperatorCalculator_13Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_14Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
 			
 			public Add_OperatorCalculator_14Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_15Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
 			
 			public Add_OperatorCalculator_15Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_16Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
 			
 			public Add_OperatorCalculator_16Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_17Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
 			
 			public Add_OperatorCalculator_17Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_18Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
 			
 			public Add_OperatorCalculator_18Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_19Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
 			
 			public Add_OperatorCalculator_19Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_20Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
 			
 			public Add_OperatorCalculator_20Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_21Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
 			
 			public Add_OperatorCalculator_21Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_22Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
-				private readonly OperatorCalculatorBase _operandCalculator22;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator22;
 			
 			public Add_OperatorCalculator_22Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
-,					OperatorCalculatorBase operandCalculator22
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
+,					OperatorCalculatorBase itemCalculator22
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
-,					operandCalculator22
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
+,					itemCalculator22
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
-			    _operandCalculator22 = operandCalculator22 ?? throw new NullException(() => operandCalculator22);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
+					_itemCalculator22 = itemCalculator22 ?? throw new NullException(() => itemCalculator22);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
++						_itemCalculator22.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_23Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
-				private readonly OperatorCalculatorBase _operandCalculator22;
-				private readonly OperatorCalculatorBase _operandCalculator23;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator22;
+				private readonly OperatorCalculatorBase _itemCalculator23;
 			
 			public Add_OperatorCalculator_23Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
-,					OperatorCalculatorBase operandCalculator22
-,					OperatorCalculatorBase operandCalculator23
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
+,					OperatorCalculatorBase itemCalculator22
+,					OperatorCalculatorBase itemCalculator23
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
-,					operandCalculator22
-,					operandCalculator23
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
+,					itemCalculator22
+,					itemCalculator23
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
-			    _operandCalculator22 = operandCalculator22 ?? throw new NullException(() => operandCalculator22);
-			    _operandCalculator23 = operandCalculator23 ?? throw new NullException(() => operandCalculator23);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
+					_itemCalculator22 = itemCalculator22 ?? throw new NullException(() => itemCalculator22);
+					_itemCalculator23 = itemCalculator23 ?? throw new NullException(() => itemCalculator23);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
++						_itemCalculator22.Calculate()
++						_itemCalculator23.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_24Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
-				private readonly OperatorCalculatorBase _operandCalculator22;
-				private readonly OperatorCalculatorBase _operandCalculator23;
-				private readonly OperatorCalculatorBase _operandCalculator24;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator22;
+				private readonly OperatorCalculatorBase _itemCalculator23;
+				private readonly OperatorCalculatorBase _itemCalculator24;
 			
 			public Add_OperatorCalculator_24Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
-,					OperatorCalculatorBase operandCalculator22
-,					OperatorCalculatorBase operandCalculator23
-,					OperatorCalculatorBase operandCalculator24
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
+,					OperatorCalculatorBase itemCalculator22
+,					OperatorCalculatorBase itemCalculator23
+,					OperatorCalculatorBase itemCalculator24
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
-,					operandCalculator22
-,					operandCalculator23
-,					operandCalculator24
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
+,					itemCalculator22
+,					itemCalculator23
+,					itemCalculator24
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
-			    _operandCalculator22 = operandCalculator22 ?? throw new NullException(() => operandCalculator22);
-			    _operandCalculator23 = operandCalculator23 ?? throw new NullException(() => operandCalculator23);
-			    _operandCalculator24 = operandCalculator24 ?? throw new NullException(() => operandCalculator24);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
+					_itemCalculator22 = itemCalculator22 ?? throw new NullException(() => itemCalculator22);
+					_itemCalculator23 = itemCalculator23 ?? throw new NullException(() => itemCalculator23);
+					_itemCalculator24 = itemCalculator24 ?? throw new NullException(() => itemCalculator24);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
++						_itemCalculator22.Calculate()
++						_itemCalculator23.Calculate()
++						_itemCalculator24.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_25Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
-				private readonly OperatorCalculatorBase _operandCalculator22;
-				private readonly OperatorCalculatorBase _operandCalculator23;
-				private readonly OperatorCalculatorBase _operandCalculator24;
-				private readonly OperatorCalculatorBase _operandCalculator25;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator22;
+				private readonly OperatorCalculatorBase _itemCalculator23;
+				private readonly OperatorCalculatorBase _itemCalculator24;
+				private readonly OperatorCalculatorBase _itemCalculator25;
 			
 			public Add_OperatorCalculator_25Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
-,					OperatorCalculatorBase operandCalculator22
-,					OperatorCalculatorBase operandCalculator23
-,					OperatorCalculatorBase operandCalculator24
-,					OperatorCalculatorBase operandCalculator25
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
+,					OperatorCalculatorBase itemCalculator22
+,					OperatorCalculatorBase itemCalculator23
+,					OperatorCalculatorBase itemCalculator24
+,					OperatorCalculatorBase itemCalculator25
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
-,					operandCalculator22
-,					operandCalculator23
-,					operandCalculator24
-,					operandCalculator25
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
+,					itemCalculator22
+,					itemCalculator23
+,					itemCalculator24
+,					itemCalculator25
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
-			    _operandCalculator22 = operandCalculator22 ?? throw new NullException(() => operandCalculator22);
-			    _operandCalculator23 = operandCalculator23 ?? throw new NullException(() => operandCalculator23);
-			    _operandCalculator24 = operandCalculator24 ?? throw new NullException(() => operandCalculator24);
-			    _operandCalculator25 = operandCalculator25 ?? throw new NullException(() => operandCalculator25);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
+					_itemCalculator22 = itemCalculator22 ?? throw new NullException(() => itemCalculator22);
+					_itemCalculator23 = itemCalculator23 ?? throw new NullException(() => itemCalculator23);
+					_itemCalculator24 = itemCalculator24 ?? throw new NullException(() => itemCalculator24);
+					_itemCalculator25 = itemCalculator25 ?? throw new NullException(() => itemCalculator25);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
++						_itemCalculator22.Calculate()
++						_itemCalculator23.Calculate()
++						_itemCalculator24.Calculate()
++						_itemCalculator25.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_26Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
-				private readonly OperatorCalculatorBase _operandCalculator22;
-				private readonly OperatorCalculatorBase _operandCalculator23;
-				private readonly OperatorCalculatorBase _operandCalculator24;
-				private readonly OperatorCalculatorBase _operandCalculator25;
-				private readonly OperatorCalculatorBase _operandCalculator26;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator22;
+				private readonly OperatorCalculatorBase _itemCalculator23;
+				private readonly OperatorCalculatorBase _itemCalculator24;
+				private readonly OperatorCalculatorBase _itemCalculator25;
+				private readonly OperatorCalculatorBase _itemCalculator26;
 			
 			public Add_OperatorCalculator_26Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
-,					OperatorCalculatorBase operandCalculator22
-,					OperatorCalculatorBase operandCalculator23
-,					OperatorCalculatorBase operandCalculator24
-,					OperatorCalculatorBase operandCalculator25
-,					OperatorCalculatorBase operandCalculator26
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
+,					OperatorCalculatorBase itemCalculator22
+,					OperatorCalculatorBase itemCalculator23
+,					OperatorCalculatorBase itemCalculator24
+,					OperatorCalculatorBase itemCalculator25
+,					OperatorCalculatorBase itemCalculator26
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
-,					operandCalculator22
-,					operandCalculator23
-,					operandCalculator24
-,					operandCalculator25
-,					operandCalculator26
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
+,					itemCalculator22
+,					itemCalculator23
+,					itemCalculator24
+,					itemCalculator25
+,					itemCalculator26
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
-			    _operandCalculator22 = operandCalculator22 ?? throw new NullException(() => operandCalculator22);
-			    _operandCalculator23 = operandCalculator23 ?? throw new NullException(() => operandCalculator23);
-			    _operandCalculator24 = operandCalculator24 ?? throw new NullException(() => operandCalculator24);
-			    _operandCalculator25 = operandCalculator25 ?? throw new NullException(() => operandCalculator25);
-			    _operandCalculator26 = operandCalculator26 ?? throw new NullException(() => operandCalculator26);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
+					_itemCalculator22 = itemCalculator22 ?? throw new NullException(() => itemCalculator22);
+					_itemCalculator23 = itemCalculator23 ?? throw new NullException(() => itemCalculator23);
+					_itemCalculator24 = itemCalculator24 ?? throw new NullException(() => itemCalculator24);
+					_itemCalculator25 = itemCalculator25 ?? throw new NullException(() => itemCalculator25);
+					_itemCalculator26 = itemCalculator26 ?? throw new NullException(() => itemCalculator26);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
++						_itemCalculator22.Calculate()
++						_itemCalculator23.Calculate()
++						_itemCalculator24.Calculate()
++						_itemCalculator25.Calculate()
++						_itemCalculator26.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_27Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
-				private readonly OperatorCalculatorBase _operandCalculator22;
-				private readonly OperatorCalculatorBase _operandCalculator23;
-				private readonly OperatorCalculatorBase _operandCalculator24;
-				private readonly OperatorCalculatorBase _operandCalculator25;
-				private readonly OperatorCalculatorBase _operandCalculator26;
-				private readonly OperatorCalculatorBase _operandCalculator27;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator22;
+				private readonly OperatorCalculatorBase _itemCalculator23;
+				private readonly OperatorCalculatorBase _itemCalculator24;
+				private readonly OperatorCalculatorBase _itemCalculator25;
+				private readonly OperatorCalculatorBase _itemCalculator26;
+				private readonly OperatorCalculatorBase _itemCalculator27;
 			
 			public Add_OperatorCalculator_27Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
-,					OperatorCalculatorBase operandCalculator22
-,					OperatorCalculatorBase operandCalculator23
-,					OperatorCalculatorBase operandCalculator24
-,					OperatorCalculatorBase operandCalculator25
-,					OperatorCalculatorBase operandCalculator26
-,					OperatorCalculatorBase operandCalculator27
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
+,					OperatorCalculatorBase itemCalculator22
+,					OperatorCalculatorBase itemCalculator23
+,					OperatorCalculatorBase itemCalculator24
+,					OperatorCalculatorBase itemCalculator25
+,					OperatorCalculatorBase itemCalculator26
+,					OperatorCalculatorBase itemCalculator27
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
-,					operandCalculator22
-,					operandCalculator23
-,					operandCalculator24
-,					operandCalculator25
-,					operandCalculator26
-,					operandCalculator27
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
+,					itemCalculator22
+,					itemCalculator23
+,					itemCalculator24
+,					itemCalculator25
+,					itemCalculator26
+,					itemCalculator27
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
-			    _operandCalculator22 = operandCalculator22 ?? throw new NullException(() => operandCalculator22);
-			    _operandCalculator23 = operandCalculator23 ?? throw new NullException(() => operandCalculator23);
-			    _operandCalculator24 = operandCalculator24 ?? throw new NullException(() => operandCalculator24);
-			    _operandCalculator25 = operandCalculator25 ?? throw new NullException(() => operandCalculator25);
-			    _operandCalculator26 = operandCalculator26 ?? throw new NullException(() => operandCalculator26);
-			    _operandCalculator27 = operandCalculator27 ?? throw new NullException(() => operandCalculator27);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
+					_itemCalculator22 = itemCalculator22 ?? throw new NullException(() => itemCalculator22);
+					_itemCalculator23 = itemCalculator23 ?? throw new NullException(() => itemCalculator23);
+					_itemCalculator24 = itemCalculator24 ?? throw new NullException(() => itemCalculator24);
+					_itemCalculator25 = itemCalculator25 ?? throw new NullException(() => itemCalculator25);
+					_itemCalculator26 = itemCalculator26 ?? throw new NullException(() => itemCalculator26);
+					_itemCalculator27 = itemCalculator27 ?? throw new NullException(() => itemCalculator27);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
++						_itemCalculator22.Calculate()
++						_itemCalculator23.Calculate()
++						_itemCalculator24.Calculate()
++						_itemCalculator25.Calculate()
++						_itemCalculator26.Calculate()
++						_itemCalculator27.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_28Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
-				private readonly OperatorCalculatorBase _operandCalculator22;
-				private readonly OperatorCalculatorBase _operandCalculator23;
-				private readonly OperatorCalculatorBase _operandCalculator24;
-				private readonly OperatorCalculatorBase _operandCalculator25;
-				private readonly OperatorCalculatorBase _operandCalculator26;
-				private readonly OperatorCalculatorBase _operandCalculator27;
-				private readonly OperatorCalculatorBase _operandCalculator28;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator22;
+				private readonly OperatorCalculatorBase _itemCalculator23;
+				private readonly OperatorCalculatorBase _itemCalculator24;
+				private readonly OperatorCalculatorBase _itemCalculator25;
+				private readonly OperatorCalculatorBase _itemCalculator26;
+				private readonly OperatorCalculatorBase _itemCalculator27;
+				private readonly OperatorCalculatorBase _itemCalculator28;
 			
 			public Add_OperatorCalculator_28Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
-,					OperatorCalculatorBase operandCalculator22
-,					OperatorCalculatorBase operandCalculator23
-,					OperatorCalculatorBase operandCalculator24
-,					OperatorCalculatorBase operandCalculator25
-,					OperatorCalculatorBase operandCalculator26
-,					OperatorCalculatorBase operandCalculator27
-,					OperatorCalculatorBase operandCalculator28
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
+,					OperatorCalculatorBase itemCalculator22
+,					OperatorCalculatorBase itemCalculator23
+,					OperatorCalculatorBase itemCalculator24
+,					OperatorCalculatorBase itemCalculator25
+,					OperatorCalculatorBase itemCalculator26
+,					OperatorCalculatorBase itemCalculator27
+,					OperatorCalculatorBase itemCalculator28
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
-,					operandCalculator22
-,					operandCalculator23
-,					operandCalculator24
-,					operandCalculator25
-,					operandCalculator26
-,					operandCalculator27
-,					operandCalculator28
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
+,					itemCalculator22
+,					itemCalculator23
+,					itemCalculator24
+,					itemCalculator25
+,					itemCalculator26
+,					itemCalculator27
+,					itemCalculator28
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
-			    _operandCalculator22 = operandCalculator22 ?? throw new NullException(() => operandCalculator22);
-			    _operandCalculator23 = operandCalculator23 ?? throw new NullException(() => operandCalculator23);
-			    _operandCalculator24 = operandCalculator24 ?? throw new NullException(() => operandCalculator24);
-			    _operandCalculator25 = operandCalculator25 ?? throw new NullException(() => operandCalculator25);
-			    _operandCalculator26 = operandCalculator26 ?? throw new NullException(() => operandCalculator26);
-			    _operandCalculator27 = operandCalculator27 ?? throw new NullException(() => operandCalculator27);
-			    _operandCalculator28 = operandCalculator28 ?? throw new NullException(() => operandCalculator28);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
+					_itemCalculator22 = itemCalculator22 ?? throw new NullException(() => itemCalculator22);
+					_itemCalculator23 = itemCalculator23 ?? throw new NullException(() => itemCalculator23);
+					_itemCalculator24 = itemCalculator24 ?? throw new NullException(() => itemCalculator24);
+					_itemCalculator25 = itemCalculator25 ?? throw new NullException(() => itemCalculator25);
+					_itemCalculator26 = itemCalculator26 ?? throw new NullException(() => itemCalculator26);
+					_itemCalculator27 = itemCalculator27 ?? throw new NullException(() => itemCalculator27);
+					_itemCalculator28 = itemCalculator28 ?? throw new NullException(() => itemCalculator28);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
++						_itemCalculator22.Calculate()
++						_itemCalculator23.Calculate()
++						_itemCalculator24.Calculate()
++						_itemCalculator25.Calculate()
++						_itemCalculator26.Calculate()
++						_itemCalculator27.Calculate()
++						_itemCalculator28.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_29Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
-				private readonly OperatorCalculatorBase _operandCalculator22;
-				private readonly OperatorCalculatorBase _operandCalculator23;
-				private readonly OperatorCalculatorBase _operandCalculator24;
-				private readonly OperatorCalculatorBase _operandCalculator25;
-				private readonly OperatorCalculatorBase _operandCalculator26;
-				private readonly OperatorCalculatorBase _operandCalculator27;
-				private readonly OperatorCalculatorBase _operandCalculator28;
-				private readonly OperatorCalculatorBase _operandCalculator29;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator22;
+				private readonly OperatorCalculatorBase _itemCalculator23;
+				private readonly OperatorCalculatorBase _itemCalculator24;
+				private readonly OperatorCalculatorBase _itemCalculator25;
+				private readonly OperatorCalculatorBase _itemCalculator26;
+				private readonly OperatorCalculatorBase _itemCalculator27;
+				private readonly OperatorCalculatorBase _itemCalculator28;
+				private readonly OperatorCalculatorBase _itemCalculator29;
 			
 			public Add_OperatorCalculator_29Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
-,					OperatorCalculatorBase operandCalculator22
-,					OperatorCalculatorBase operandCalculator23
-,					OperatorCalculatorBase operandCalculator24
-,					OperatorCalculatorBase operandCalculator25
-,					OperatorCalculatorBase operandCalculator26
-,					OperatorCalculatorBase operandCalculator27
-,					OperatorCalculatorBase operandCalculator28
-,					OperatorCalculatorBase operandCalculator29
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
+,					OperatorCalculatorBase itemCalculator22
+,					OperatorCalculatorBase itemCalculator23
+,					OperatorCalculatorBase itemCalculator24
+,					OperatorCalculatorBase itemCalculator25
+,					OperatorCalculatorBase itemCalculator26
+,					OperatorCalculatorBase itemCalculator27
+,					OperatorCalculatorBase itemCalculator28
+,					OperatorCalculatorBase itemCalculator29
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
-,					operandCalculator22
-,					operandCalculator23
-,					operandCalculator24
-,					operandCalculator25
-,					operandCalculator26
-,					operandCalculator27
-,					operandCalculator28
-,					operandCalculator29
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
+,					itemCalculator22
+,					itemCalculator23
+,					itemCalculator24
+,					itemCalculator25
+,					itemCalculator26
+,					itemCalculator27
+,					itemCalculator28
+,					itemCalculator29
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
-			    _operandCalculator22 = operandCalculator22 ?? throw new NullException(() => operandCalculator22);
-			    _operandCalculator23 = operandCalculator23 ?? throw new NullException(() => operandCalculator23);
-			    _operandCalculator24 = operandCalculator24 ?? throw new NullException(() => operandCalculator24);
-			    _operandCalculator25 = operandCalculator25 ?? throw new NullException(() => operandCalculator25);
-			    _operandCalculator26 = operandCalculator26 ?? throw new NullException(() => operandCalculator26);
-			    _operandCalculator27 = operandCalculator27 ?? throw new NullException(() => operandCalculator27);
-			    _operandCalculator28 = operandCalculator28 ?? throw new NullException(() => operandCalculator28);
-			    _operandCalculator29 = operandCalculator29 ?? throw new NullException(() => operandCalculator29);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
+					_itemCalculator22 = itemCalculator22 ?? throw new NullException(() => itemCalculator22);
+					_itemCalculator23 = itemCalculator23 ?? throw new NullException(() => itemCalculator23);
+					_itemCalculator24 = itemCalculator24 ?? throw new NullException(() => itemCalculator24);
+					_itemCalculator25 = itemCalculator25 ?? throw new NullException(() => itemCalculator25);
+					_itemCalculator26 = itemCalculator26 ?? throw new NullException(() => itemCalculator26);
+					_itemCalculator27 = itemCalculator27 ?? throw new NullException(() => itemCalculator27);
+					_itemCalculator28 = itemCalculator28 ?? throw new NullException(() => itemCalculator28);
+					_itemCalculator29 = itemCalculator29 ?? throw new NullException(() => itemCalculator29);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
++						_itemCalculator22.Calculate()
++						_itemCalculator23.Calculate()
++						_itemCalculator24.Calculate()
++						_itemCalculator25.Calculate()
++						_itemCalculator26.Calculate()
++						_itemCalculator27.Calculate()
++						_itemCalculator28.Calculate()
++						_itemCalculator29.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_30Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
-				private readonly OperatorCalculatorBase _operandCalculator22;
-				private readonly OperatorCalculatorBase _operandCalculator23;
-				private readonly OperatorCalculatorBase _operandCalculator24;
-				private readonly OperatorCalculatorBase _operandCalculator25;
-				private readonly OperatorCalculatorBase _operandCalculator26;
-				private readonly OperatorCalculatorBase _operandCalculator27;
-				private readonly OperatorCalculatorBase _operandCalculator28;
-				private readonly OperatorCalculatorBase _operandCalculator29;
-				private readonly OperatorCalculatorBase _operandCalculator30;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator22;
+				private readonly OperatorCalculatorBase _itemCalculator23;
+				private readonly OperatorCalculatorBase _itemCalculator24;
+				private readonly OperatorCalculatorBase _itemCalculator25;
+				private readonly OperatorCalculatorBase _itemCalculator26;
+				private readonly OperatorCalculatorBase _itemCalculator27;
+				private readonly OperatorCalculatorBase _itemCalculator28;
+				private readonly OperatorCalculatorBase _itemCalculator29;
+				private readonly OperatorCalculatorBase _itemCalculator30;
 			
 			public Add_OperatorCalculator_30Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
-,					OperatorCalculatorBase operandCalculator22
-,					OperatorCalculatorBase operandCalculator23
-,					OperatorCalculatorBase operandCalculator24
-,					OperatorCalculatorBase operandCalculator25
-,					OperatorCalculatorBase operandCalculator26
-,					OperatorCalculatorBase operandCalculator27
-,					OperatorCalculatorBase operandCalculator28
-,					OperatorCalculatorBase operandCalculator29
-,					OperatorCalculatorBase operandCalculator30
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
+,					OperatorCalculatorBase itemCalculator22
+,					OperatorCalculatorBase itemCalculator23
+,					OperatorCalculatorBase itemCalculator24
+,					OperatorCalculatorBase itemCalculator25
+,					OperatorCalculatorBase itemCalculator26
+,					OperatorCalculatorBase itemCalculator27
+,					OperatorCalculatorBase itemCalculator28
+,					OperatorCalculatorBase itemCalculator29
+,					OperatorCalculatorBase itemCalculator30
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
-,					operandCalculator22
-,					operandCalculator23
-,					operandCalculator24
-,					operandCalculator25
-,					operandCalculator26
-,					operandCalculator27
-,					operandCalculator28
-,					operandCalculator29
-,					operandCalculator30
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
+,					itemCalculator22
+,					itemCalculator23
+,					itemCalculator24
+,					itemCalculator25
+,					itemCalculator26
+,					itemCalculator27
+,					itemCalculator28
+,					itemCalculator29
+,					itemCalculator30
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
-			    _operandCalculator22 = operandCalculator22 ?? throw new NullException(() => operandCalculator22);
-			    _operandCalculator23 = operandCalculator23 ?? throw new NullException(() => operandCalculator23);
-			    _operandCalculator24 = operandCalculator24 ?? throw new NullException(() => operandCalculator24);
-			    _operandCalculator25 = operandCalculator25 ?? throw new NullException(() => operandCalculator25);
-			    _operandCalculator26 = operandCalculator26 ?? throw new NullException(() => operandCalculator26);
-			    _operandCalculator27 = operandCalculator27 ?? throw new NullException(() => operandCalculator27);
-			    _operandCalculator28 = operandCalculator28 ?? throw new NullException(() => operandCalculator28);
-			    _operandCalculator29 = operandCalculator29 ?? throw new NullException(() => operandCalculator29);
-			    _operandCalculator30 = operandCalculator30 ?? throw new NullException(() => operandCalculator30);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
+					_itemCalculator22 = itemCalculator22 ?? throw new NullException(() => itemCalculator22);
+					_itemCalculator23 = itemCalculator23 ?? throw new NullException(() => itemCalculator23);
+					_itemCalculator24 = itemCalculator24 ?? throw new NullException(() => itemCalculator24);
+					_itemCalculator25 = itemCalculator25 ?? throw new NullException(() => itemCalculator25);
+					_itemCalculator26 = itemCalculator26 ?? throw new NullException(() => itemCalculator26);
+					_itemCalculator27 = itemCalculator27 ?? throw new NullException(() => itemCalculator27);
+					_itemCalculator28 = itemCalculator28 ?? throw new NullException(() => itemCalculator28);
+					_itemCalculator29 = itemCalculator29 ?? throw new NullException(() => itemCalculator29);
+					_itemCalculator30 = itemCalculator30 ?? throw new NullException(() => itemCalculator30);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
-+						_operandCalculator30.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
++						_itemCalculator22.Calculate()
++						_itemCalculator23.Calculate()
++						_itemCalculator24.Calculate()
++						_itemCalculator25.Calculate()
++						_itemCalculator26.Calculate()
++						_itemCalculator27.Calculate()
++						_itemCalculator28.Calculate()
++						_itemCalculator29.Calculate()
++						_itemCalculator30.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_31Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
-				private readonly OperatorCalculatorBase _operandCalculator22;
-				private readonly OperatorCalculatorBase _operandCalculator23;
-				private readonly OperatorCalculatorBase _operandCalculator24;
-				private readonly OperatorCalculatorBase _operandCalculator25;
-				private readonly OperatorCalculatorBase _operandCalculator26;
-				private readonly OperatorCalculatorBase _operandCalculator27;
-				private readonly OperatorCalculatorBase _operandCalculator28;
-				private readonly OperatorCalculatorBase _operandCalculator29;
-				private readonly OperatorCalculatorBase _operandCalculator30;
-				private readonly OperatorCalculatorBase _operandCalculator31;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator22;
+				private readonly OperatorCalculatorBase _itemCalculator23;
+				private readonly OperatorCalculatorBase _itemCalculator24;
+				private readonly OperatorCalculatorBase _itemCalculator25;
+				private readonly OperatorCalculatorBase _itemCalculator26;
+				private readonly OperatorCalculatorBase _itemCalculator27;
+				private readonly OperatorCalculatorBase _itemCalculator28;
+				private readonly OperatorCalculatorBase _itemCalculator29;
+				private readonly OperatorCalculatorBase _itemCalculator30;
+				private readonly OperatorCalculatorBase _itemCalculator31;
 			
 			public Add_OperatorCalculator_31Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
-,					OperatorCalculatorBase operandCalculator22
-,					OperatorCalculatorBase operandCalculator23
-,					OperatorCalculatorBase operandCalculator24
-,					OperatorCalculatorBase operandCalculator25
-,					OperatorCalculatorBase operandCalculator26
-,					OperatorCalculatorBase operandCalculator27
-,					OperatorCalculatorBase operandCalculator28
-,					OperatorCalculatorBase operandCalculator29
-,					OperatorCalculatorBase operandCalculator30
-,					OperatorCalculatorBase operandCalculator31
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
+,					OperatorCalculatorBase itemCalculator22
+,					OperatorCalculatorBase itemCalculator23
+,					OperatorCalculatorBase itemCalculator24
+,					OperatorCalculatorBase itemCalculator25
+,					OperatorCalculatorBase itemCalculator26
+,					OperatorCalculatorBase itemCalculator27
+,					OperatorCalculatorBase itemCalculator28
+,					OperatorCalculatorBase itemCalculator29
+,					OperatorCalculatorBase itemCalculator30
+,					OperatorCalculatorBase itemCalculator31
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
-,					operandCalculator22
-,					operandCalculator23
-,					operandCalculator24
-,					operandCalculator25
-,					operandCalculator26
-,					operandCalculator27
-,					operandCalculator28
-,					operandCalculator29
-,					operandCalculator30
-,					operandCalculator31
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
+,					itemCalculator22
+,					itemCalculator23
+,					itemCalculator24
+,					itemCalculator25
+,					itemCalculator26
+,					itemCalculator27
+,					itemCalculator28
+,					itemCalculator29
+,					itemCalculator30
+,					itemCalculator31
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
-			    _operandCalculator22 = operandCalculator22 ?? throw new NullException(() => operandCalculator22);
-			    _operandCalculator23 = operandCalculator23 ?? throw new NullException(() => operandCalculator23);
-			    _operandCalculator24 = operandCalculator24 ?? throw new NullException(() => operandCalculator24);
-			    _operandCalculator25 = operandCalculator25 ?? throw new NullException(() => operandCalculator25);
-			    _operandCalculator26 = operandCalculator26 ?? throw new NullException(() => operandCalculator26);
-			    _operandCalculator27 = operandCalculator27 ?? throw new NullException(() => operandCalculator27);
-			    _operandCalculator28 = operandCalculator28 ?? throw new NullException(() => operandCalculator28);
-			    _operandCalculator29 = operandCalculator29 ?? throw new NullException(() => operandCalculator29);
-			    _operandCalculator30 = operandCalculator30 ?? throw new NullException(() => operandCalculator30);
-			    _operandCalculator31 = operandCalculator31 ?? throw new NullException(() => operandCalculator31);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
+					_itemCalculator22 = itemCalculator22 ?? throw new NullException(() => itemCalculator22);
+					_itemCalculator23 = itemCalculator23 ?? throw new NullException(() => itemCalculator23);
+					_itemCalculator24 = itemCalculator24 ?? throw new NullException(() => itemCalculator24);
+					_itemCalculator25 = itemCalculator25 ?? throw new NullException(() => itemCalculator25);
+					_itemCalculator26 = itemCalculator26 ?? throw new NullException(() => itemCalculator26);
+					_itemCalculator27 = itemCalculator27 ?? throw new NullException(() => itemCalculator27);
+					_itemCalculator28 = itemCalculator28 ?? throw new NullException(() => itemCalculator28);
+					_itemCalculator29 = itemCalculator29 ?? throw new NullException(() => itemCalculator29);
+					_itemCalculator30 = itemCalculator30 ?? throw new NullException(() => itemCalculator30);
+					_itemCalculator31 = itemCalculator31 ?? throw new NullException(() => itemCalculator31);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
-+						_operandCalculator30.Calculate()
-+						_operandCalculator31.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
++						_itemCalculator22.Calculate()
++						_itemCalculator23.Calculate()
++						_itemCalculator24.Calculate()
++						_itemCalculator25.Calculate()
++						_itemCalculator26.Calculate()
++						_itemCalculator27.Calculate()
++						_itemCalculator28.Calculate()
++						_itemCalculator29.Calculate()
++						_itemCalculator30.Calculate()
++						_itemCalculator31.Calculate()
 ;			}
 		}
 		internal class Add_OperatorCalculator_32Vars : OperatorCalculatorBase_WithChildCalculators
 		{
-				private readonly OperatorCalculatorBase _operandCalculator1;
-				private readonly OperatorCalculatorBase _operandCalculator2;
-				private readonly OperatorCalculatorBase _operandCalculator3;
-				private readonly OperatorCalculatorBase _operandCalculator4;
-				private readonly OperatorCalculatorBase _operandCalculator5;
-				private readonly OperatorCalculatorBase _operandCalculator6;
-				private readonly OperatorCalculatorBase _operandCalculator7;
-				private readonly OperatorCalculatorBase _operandCalculator8;
-				private readonly OperatorCalculatorBase _operandCalculator9;
-				private readonly OperatorCalculatorBase _operandCalculator10;
-				private readonly OperatorCalculatorBase _operandCalculator11;
-				private readonly OperatorCalculatorBase _operandCalculator12;
-				private readonly OperatorCalculatorBase _operandCalculator13;
-				private readonly OperatorCalculatorBase _operandCalculator14;
-				private readonly OperatorCalculatorBase _operandCalculator15;
-				private readonly OperatorCalculatorBase _operandCalculator16;
-				private readonly OperatorCalculatorBase _operandCalculator17;
-				private readonly OperatorCalculatorBase _operandCalculator18;
-				private readonly OperatorCalculatorBase _operandCalculator19;
-				private readonly OperatorCalculatorBase _operandCalculator20;
-				private readonly OperatorCalculatorBase _operandCalculator21;
-				private readonly OperatorCalculatorBase _operandCalculator22;
-				private readonly OperatorCalculatorBase _operandCalculator23;
-				private readonly OperatorCalculatorBase _operandCalculator24;
-				private readonly OperatorCalculatorBase _operandCalculator25;
-				private readonly OperatorCalculatorBase _operandCalculator26;
-				private readonly OperatorCalculatorBase _operandCalculator27;
-				private readonly OperatorCalculatorBase _operandCalculator28;
-				private readonly OperatorCalculatorBase _operandCalculator29;
-				private readonly OperatorCalculatorBase _operandCalculator30;
-				private readonly OperatorCalculatorBase _operandCalculator31;
-				private readonly OperatorCalculatorBase _operandCalculator32;
+				private readonly OperatorCalculatorBase _itemCalculator1;
+				private readonly OperatorCalculatorBase _itemCalculator2;
+				private readonly OperatorCalculatorBase _itemCalculator3;
+				private readonly OperatorCalculatorBase _itemCalculator4;
+				private readonly OperatorCalculatorBase _itemCalculator5;
+				private readonly OperatorCalculatorBase _itemCalculator6;
+				private readonly OperatorCalculatorBase _itemCalculator7;
+				private readonly OperatorCalculatorBase _itemCalculator8;
+				private readonly OperatorCalculatorBase _itemCalculator9;
+				private readonly OperatorCalculatorBase _itemCalculator10;
+				private readonly OperatorCalculatorBase _itemCalculator11;
+				private readonly OperatorCalculatorBase _itemCalculator12;
+				private readonly OperatorCalculatorBase _itemCalculator13;
+				private readonly OperatorCalculatorBase _itemCalculator14;
+				private readonly OperatorCalculatorBase _itemCalculator15;
+				private readonly OperatorCalculatorBase _itemCalculator16;
+				private readonly OperatorCalculatorBase _itemCalculator17;
+				private readonly OperatorCalculatorBase _itemCalculator18;
+				private readonly OperatorCalculatorBase _itemCalculator19;
+				private readonly OperatorCalculatorBase _itemCalculator20;
+				private readonly OperatorCalculatorBase _itemCalculator21;
+				private readonly OperatorCalculatorBase _itemCalculator22;
+				private readonly OperatorCalculatorBase _itemCalculator23;
+				private readonly OperatorCalculatorBase _itemCalculator24;
+				private readonly OperatorCalculatorBase _itemCalculator25;
+				private readonly OperatorCalculatorBase _itemCalculator26;
+				private readonly OperatorCalculatorBase _itemCalculator27;
+				private readonly OperatorCalculatorBase _itemCalculator28;
+				private readonly OperatorCalculatorBase _itemCalculator29;
+				private readonly OperatorCalculatorBase _itemCalculator30;
+				private readonly OperatorCalculatorBase _itemCalculator31;
+				private readonly OperatorCalculatorBase _itemCalculator32;
 			
 			public Add_OperatorCalculator_32Vars(
-					OperatorCalculatorBase operandCalculator1
-,					OperatorCalculatorBase operandCalculator2
-,					OperatorCalculatorBase operandCalculator3
-,					OperatorCalculatorBase operandCalculator4
-,					OperatorCalculatorBase operandCalculator5
-,					OperatorCalculatorBase operandCalculator6
-,					OperatorCalculatorBase operandCalculator7
-,					OperatorCalculatorBase operandCalculator8
-,					OperatorCalculatorBase operandCalculator9
-,					OperatorCalculatorBase operandCalculator10
-,					OperatorCalculatorBase operandCalculator11
-,					OperatorCalculatorBase operandCalculator12
-,					OperatorCalculatorBase operandCalculator13
-,					OperatorCalculatorBase operandCalculator14
-,					OperatorCalculatorBase operandCalculator15
-,					OperatorCalculatorBase operandCalculator16
-,					OperatorCalculatorBase operandCalculator17
-,					OperatorCalculatorBase operandCalculator18
-,					OperatorCalculatorBase operandCalculator19
-,					OperatorCalculatorBase operandCalculator20
-,					OperatorCalculatorBase operandCalculator21
-,					OperatorCalculatorBase operandCalculator22
-,					OperatorCalculatorBase operandCalculator23
-,					OperatorCalculatorBase operandCalculator24
-,					OperatorCalculatorBase operandCalculator25
-,					OperatorCalculatorBase operandCalculator26
-,					OperatorCalculatorBase operandCalculator27
-,					OperatorCalculatorBase operandCalculator28
-,					OperatorCalculatorBase operandCalculator29
-,					OperatorCalculatorBase operandCalculator30
-,					OperatorCalculatorBase operandCalculator31
-,					OperatorCalculatorBase operandCalculator32
+					OperatorCalculatorBase itemCalculator1
+,					OperatorCalculatorBase itemCalculator2
+,					OperatorCalculatorBase itemCalculator3
+,					OperatorCalculatorBase itemCalculator4
+,					OperatorCalculatorBase itemCalculator5
+,					OperatorCalculatorBase itemCalculator6
+,					OperatorCalculatorBase itemCalculator7
+,					OperatorCalculatorBase itemCalculator8
+,					OperatorCalculatorBase itemCalculator9
+,					OperatorCalculatorBase itemCalculator10
+,					OperatorCalculatorBase itemCalculator11
+,					OperatorCalculatorBase itemCalculator12
+,					OperatorCalculatorBase itemCalculator13
+,					OperatorCalculatorBase itemCalculator14
+,					OperatorCalculatorBase itemCalculator15
+,					OperatorCalculatorBase itemCalculator16
+,					OperatorCalculatorBase itemCalculator17
+,					OperatorCalculatorBase itemCalculator18
+,					OperatorCalculatorBase itemCalculator19
+,					OperatorCalculatorBase itemCalculator20
+,					OperatorCalculatorBase itemCalculator21
+,					OperatorCalculatorBase itemCalculator22
+,					OperatorCalculatorBase itemCalculator23
+,					OperatorCalculatorBase itemCalculator24
+,					OperatorCalculatorBase itemCalculator25
+,					OperatorCalculatorBase itemCalculator26
+,					OperatorCalculatorBase itemCalculator27
+,					OperatorCalculatorBase itemCalculator28
+,					OperatorCalculatorBase itemCalculator29
+,					OperatorCalculatorBase itemCalculator30
+,					OperatorCalculatorBase itemCalculator31
+,					OperatorCalculatorBase itemCalculator32
 )			: base
-			(new[] { 
-					operandCalculator1
-,					operandCalculator2
-,					operandCalculator3
-,					operandCalculator4
-,					operandCalculator5
-,					operandCalculator6
-,					operandCalculator7
-,					operandCalculator8
-,					operandCalculator9
-,					operandCalculator10
-,					operandCalculator11
-,					operandCalculator12
-,					operandCalculator13
-,					operandCalculator14
-,					operandCalculator15
-,					operandCalculator16
-,					operandCalculator17
-,					operandCalculator18
-,					operandCalculator19
-,					operandCalculator20
-,					operandCalculator21
-,					operandCalculator22
-,					operandCalculator23
-,					operandCalculator24
-,					operandCalculator25
-,					operandCalculator26
-,					operandCalculator27
-,					operandCalculator28
-,					operandCalculator29
-,					operandCalculator30
-,					operandCalculator31
-,					operandCalculator32
+			(new [] { 
+					itemCalculator1
+,					itemCalculator2
+,					itemCalculator3
+,					itemCalculator4
+,					itemCalculator5
+,					itemCalculator6
+,					itemCalculator7
+,					itemCalculator8
+,					itemCalculator9
+,					itemCalculator10
+,					itemCalculator11
+,					itemCalculator12
+,					itemCalculator13
+,					itemCalculator14
+,					itemCalculator15
+,					itemCalculator16
+,					itemCalculator17
+,					itemCalculator18
+,					itemCalculator19
+,					itemCalculator20
+,					itemCalculator21
+,					itemCalculator22
+,					itemCalculator23
+,					itemCalculator24
+,					itemCalculator25
+,					itemCalculator26
+,					itemCalculator27
+,					itemCalculator28
+,					itemCalculator29
+,					itemCalculator30
+,					itemCalculator31
+,					itemCalculator32
 			})
 			{
-			    _operandCalculator1 = operandCalculator1 ?? throw new NullException(() => operandCalculator1);
-			    _operandCalculator2 = operandCalculator2 ?? throw new NullException(() => operandCalculator2);
-			    _operandCalculator3 = operandCalculator3 ?? throw new NullException(() => operandCalculator3);
-			    _operandCalculator4 = operandCalculator4 ?? throw new NullException(() => operandCalculator4);
-			    _operandCalculator5 = operandCalculator5 ?? throw new NullException(() => operandCalculator5);
-			    _operandCalculator6 = operandCalculator6 ?? throw new NullException(() => operandCalculator6);
-			    _operandCalculator7 = operandCalculator7 ?? throw new NullException(() => operandCalculator7);
-			    _operandCalculator8 = operandCalculator8 ?? throw new NullException(() => operandCalculator8);
-			    _operandCalculator9 = operandCalculator9 ?? throw new NullException(() => operandCalculator9);
-			    _operandCalculator10 = operandCalculator10 ?? throw new NullException(() => operandCalculator10);
-			    _operandCalculator11 = operandCalculator11 ?? throw new NullException(() => operandCalculator11);
-			    _operandCalculator12 = operandCalculator12 ?? throw new NullException(() => operandCalculator12);
-			    _operandCalculator13 = operandCalculator13 ?? throw new NullException(() => operandCalculator13);
-			    _operandCalculator14 = operandCalculator14 ?? throw new NullException(() => operandCalculator14);
-			    _operandCalculator15 = operandCalculator15 ?? throw new NullException(() => operandCalculator15);
-			    _operandCalculator16 = operandCalculator16 ?? throw new NullException(() => operandCalculator16);
-			    _operandCalculator17 = operandCalculator17 ?? throw new NullException(() => operandCalculator17);
-			    _operandCalculator18 = operandCalculator18 ?? throw new NullException(() => operandCalculator18);
-			    _operandCalculator19 = operandCalculator19 ?? throw new NullException(() => operandCalculator19);
-			    _operandCalculator20 = operandCalculator20 ?? throw new NullException(() => operandCalculator20);
-			    _operandCalculator21 = operandCalculator21 ?? throw new NullException(() => operandCalculator21);
-			    _operandCalculator22 = operandCalculator22 ?? throw new NullException(() => operandCalculator22);
-			    _operandCalculator23 = operandCalculator23 ?? throw new NullException(() => operandCalculator23);
-			    _operandCalculator24 = operandCalculator24 ?? throw new NullException(() => operandCalculator24);
-			    _operandCalculator25 = operandCalculator25 ?? throw new NullException(() => operandCalculator25);
-			    _operandCalculator26 = operandCalculator26 ?? throw new NullException(() => operandCalculator26);
-			    _operandCalculator27 = operandCalculator27 ?? throw new NullException(() => operandCalculator27);
-			    _operandCalculator28 = operandCalculator28 ?? throw new NullException(() => operandCalculator28);
-			    _operandCalculator29 = operandCalculator29 ?? throw new NullException(() => operandCalculator29);
-			    _operandCalculator30 = operandCalculator30 ?? throw new NullException(() => operandCalculator30);
-			    _operandCalculator31 = operandCalculator31 ?? throw new NullException(() => operandCalculator31);
-			    _operandCalculator32 = operandCalculator32 ?? throw new NullException(() => operandCalculator32);
+					_itemCalculator1 = itemCalculator1 ?? throw new NullException(() => itemCalculator1);
+					_itemCalculator2 = itemCalculator2 ?? throw new NullException(() => itemCalculator2);
+					_itemCalculator3 = itemCalculator3 ?? throw new NullException(() => itemCalculator3);
+					_itemCalculator4 = itemCalculator4 ?? throw new NullException(() => itemCalculator4);
+					_itemCalculator5 = itemCalculator5 ?? throw new NullException(() => itemCalculator5);
+					_itemCalculator6 = itemCalculator6 ?? throw new NullException(() => itemCalculator6);
+					_itemCalculator7 = itemCalculator7 ?? throw new NullException(() => itemCalculator7);
+					_itemCalculator8 = itemCalculator8 ?? throw new NullException(() => itemCalculator8);
+					_itemCalculator9 = itemCalculator9 ?? throw new NullException(() => itemCalculator9);
+					_itemCalculator10 = itemCalculator10 ?? throw new NullException(() => itemCalculator10);
+					_itemCalculator11 = itemCalculator11 ?? throw new NullException(() => itemCalculator11);
+					_itemCalculator12 = itemCalculator12 ?? throw new NullException(() => itemCalculator12);
+					_itemCalculator13 = itemCalculator13 ?? throw new NullException(() => itemCalculator13);
+					_itemCalculator14 = itemCalculator14 ?? throw new NullException(() => itemCalculator14);
+					_itemCalculator15 = itemCalculator15 ?? throw new NullException(() => itemCalculator15);
+					_itemCalculator16 = itemCalculator16 ?? throw new NullException(() => itemCalculator16);
+					_itemCalculator17 = itemCalculator17 ?? throw new NullException(() => itemCalculator17);
+					_itemCalculator18 = itemCalculator18 ?? throw new NullException(() => itemCalculator18);
+					_itemCalculator19 = itemCalculator19 ?? throw new NullException(() => itemCalculator19);
+					_itemCalculator20 = itemCalculator20 ?? throw new NullException(() => itemCalculator20);
+					_itemCalculator21 = itemCalculator21 ?? throw new NullException(() => itemCalculator21);
+					_itemCalculator22 = itemCalculator22 ?? throw new NullException(() => itemCalculator22);
+					_itemCalculator23 = itemCalculator23 ?? throw new NullException(() => itemCalculator23);
+					_itemCalculator24 = itemCalculator24 ?? throw new NullException(() => itemCalculator24);
+					_itemCalculator25 = itemCalculator25 ?? throw new NullException(() => itemCalculator25);
+					_itemCalculator26 = itemCalculator26 ?? throw new NullException(() => itemCalculator26);
+					_itemCalculator27 = itemCalculator27 ?? throw new NullException(() => itemCalculator27);
+					_itemCalculator28 = itemCalculator28 ?? throw new NullException(() => itemCalculator28);
+					_itemCalculator29 = itemCalculator29 ?? throw new NullException(() => itemCalculator29);
+					_itemCalculator30 = itemCalculator30 ?? throw new NullException(() => itemCalculator30);
+					_itemCalculator31 = itemCalculator31 ?? throw new NullException(() => itemCalculator31);
+					_itemCalculator32 = itemCalculator32 ?? throw new NullException(() => itemCalculator32);
 			}
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
 			{
 				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
-+						_operandCalculator30.Calculate()
-+						_operandCalculator31.Calculate()
-+						_operandCalculator32.Calculate()
+						_itemCalculator1.Calculate()
++						_itemCalculator2.Calculate()
++						_itemCalculator3.Calculate()
++						_itemCalculator4.Calculate()
++						_itemCalculator5.Calculate()
++						_itemCalculator6.Calculate()
++						_itemCalculator7.Calculate()
++						_itemCalculator8.Calculate()
++						_itemCalculator9.Calculate()
++						_itemCalculator10.Calculate()
++						_itemCalculator11.Calculate()
++						_itemCalculator12.Calculate()
++						_itemCalculator13.Calculate()
++						_itemCalculator14.Calculate()
++						_itemCalculator15.Calculate()
++						_itemCalculator16.Calculate()
++						_itemCalculator17.Calculate()
++						_itemCalculator18.Calculate()
++						_itemCalculator19.Calculate()
++						_itemCalculator20.Calculate()
++						_itemCalculator21.Calculate()
++						_itemCalculator22.Calculate()
++						_itemCalculator23.Calculate()
++						_itemCalculator24.Calculate()
++						_itemCalculator25.Calculate()
++						_itemCalculator26.Calculate()
++						_itemCalculator27.Calculate()
++						_itemCalculator28.Calculate()
++						_itemCalculator29.Calculate()
++						_itemCalculator30.Calculate()
++						_itemCalculator31.Calculate()
++						_itemCalculator32.Calculate()
 ;			}
 		}
 }

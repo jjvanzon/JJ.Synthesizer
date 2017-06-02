@@ -1,5 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Data.Synthesizer.Entities;
 
@@ -11,12 +11,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(
                 obj,
                 OperatorTypeEnum.Cache,
-                new[] { DimensionEnum.Signal, DimensionEnum.Undefined, DimensionEnum.Undefined, DimensionEnum.Undefined },
+                new[] { DimensionEnum.Signal, DimensionEnum.Start, DimensionEnum.End, DimensionEnum.SamplingRate},
                 new[] { DimensionEnum.Signal },
                 expectedDataKeys: new[]
                 {
-                    PropertyNames.InterpolationType,
-                    PropertyNames.SpeakerSetup
+                    nameof(Cache_OperatorWrapper.InterpolationType),
+                    nameof(Cache_OperatorWrapper.SpeakerSetup)
                 })
         { }
 

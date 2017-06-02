@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
                     documentReferenceIdentifier,
                     higherPatchPrefix + higherCustomOperatorIdentifier);
 
-                ValidationMessages.Add(PropertyNames.DocumentReference, message);
+                ValidationMessages.Add(nameof(DocumentReference), message);
             }
         }
     }

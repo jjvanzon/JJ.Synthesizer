@@ -48,8 +48,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (comboBoxDimension.DataSource == null)
             {
-                comboBoxDimension.ValueMember = PropertyNames.ID;
-                comboBoxDimension.DisplayMember = PropertyNames.Name;
+                comboBoxDimension.ValueMember = nameof(IDAndName.ID);
+                comboBoxDimension.DisplayMember = nameof(IDAndName.Name);
                 comboBoxDimension.DataSource = ViewModel.DimensionLookup;
             }
 

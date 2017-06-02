@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Validation.Samples
                 string operatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForSampleOperator(op, _sampleRepository);
 
                 ValidationMessages.Add(
-                    PropertyNames.Sample,
+                    nameof(Sample),
                     CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(sampleIdentifier, patchPrefix + operatorIdentifier));
             }
         }

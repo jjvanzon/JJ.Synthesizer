@@ -390,7 +390,7 @@ namespace JJ.Business.Synthesizer
             Operator dest_UnderlyingPatch_PatchOutlet = GetPatchOutlet(source_CustomOperator_Outlet, patchRepository);
 
             PatchOutlet_OperatorWrapper dest_UnderlyingPatch_PatchOutlet_Wrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
-            return dest_UnderlyingPatch_PatchOutlet_Wrapper.Result;
+            return dest_UnderlyingPatch_PatchOutlet_Wrapper.Outlet;
         }
     }
 }

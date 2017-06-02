@@ -1,20 +1,12 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class ClosestOverDimension_OperatorWrapper : OperatorWrapperBase_WithResult
+    public class ClosestOverDimension_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
     {
-        private const int INPUT_INDEX = 0;
-        private const int COLLECTION_INDEX = 1;
-        private const int FROM_INDEX = 2;
-        private const int TILL_INDEX = 3;
-        private const int STEP_INDEX = 4;
-
         public ClosestOverDimension_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -25,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => InputInlet.LinkTo(value);
         }
 
-        public Inlet InputInlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
+        public Inlet InputInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Input);
 
         public Outlet Collection
         {
@@ -33,7 +25,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => CollectionInlet.LinkTo(value);
         }
 
-        public Inlet CollectionInlet => OperatorHelper.GetInlet(WrappedOperator, COLLECTION_INDEX);
+        public Inlet CollectionInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Collection);
 
         public Outlet From
         {
@@ -41,7 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => FromInlet.LinkTo(value);
         }
 
-        public Inlet FromInlet => OperatorHelper.GetInlet(WrappedOperator, FROM_INDEX);
+        public Inlet FromInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.From);
 
         public Outlet Till
         {
@@ -49,7 +41,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => TillInlet.LinkTo(value);
         }
 
-        public Inlet TillInlet => OperatorHelper.GetInlet(WrappedOperator, TILL_INDEX);
+        public Inlet TillInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Till);
 
         public Outlet Step
         {
@@ -57,51 +49,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => StepInlet.LinkTo(value);
         }
 
-        public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, STEP_INDEX);
+        public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Step);
 
         public CollectionRecalculationEnum CollectionRecalculation
         {
-            get => DataPropertyParser.GetEnum<CollectionRecalculationEnum>(WrappedOperator, PropertyNames.CollectionRecalculation);
-            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.CollectionRecalculation, value);
-        }
-
-        public override string GetInletDisplayName(int listIndex)
-        {
-            switch (listIndex)
-            {
-                case INPUT_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Input);
-                        return name;
-                    }
-
-                case COLLECTION_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Collection);
-                        return name;
-                    }
-
-                case FROM_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => From);
-                        return name;
-                    }
-
-                case TILL_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Till);
-                        return name;
-                    }
-
-                case STEP_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => Step);
-                        return name;
-                    }
-
-                default:
-                    throw new InvalidIndexException(() => listIndex, () => WrappedOperator.Inlets.Count);
-            }
+            get => DataPropertyParser.GetEnum<CollectionRecalculationEnum>(WrappedOperator, nameof(CollectionRecalculation));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(CollectionRecalculation), value);
         }
     }
 }

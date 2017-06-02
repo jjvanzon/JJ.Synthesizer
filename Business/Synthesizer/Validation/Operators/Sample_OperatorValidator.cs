@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Resources;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
@@ -15,8 +16,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 op,
                 OperatorTypeEnum.Sample,
                 new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Signal },
-                expectedDataKeys: new[] { PropertyNames.SampleID })
+                new[] { DimensionEnum.Sound },
+                expectedDataKeys: new[] { nameof(Sample_OperatorWrapper.SampleID) })
         { }
 
         protected override void Execute()
@@ -30,7 +31,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            string sampleIDString = DataPropertyParser.TryGetString(op, PropertyNames.SampleID);
+            string sampleIDString = DataPropertyParser.TryGetString(op, nameof(Sample_OperatorWrapper.SampleID));
 
             For(() => sampleIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.Sample)).IsInteger();
 
@@ -54,7 +55,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (!isInList)
             {
-                ValidationMessages.AddNotInListMessage(PropertyNames.Sample, ResourceFormatter.Sample, sampleID);
+                ValidationMessages.AddNotInListMessage(nameof(Sample), ResourceFormatter.Sample, sampleID);
             }
         }
     }

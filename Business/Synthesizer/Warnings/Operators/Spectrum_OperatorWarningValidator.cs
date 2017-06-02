@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Extensions;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -26,21 +28,23 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 double? number = inlet.TryGetConstantNumber();
 
-                switch (inlet.ListIndex)
+                DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
+
+                switch (dimensionEnum)
                 {
-                    case OperatorConstants.SPECTRUM_SIGNAL_INDEX:
+                    case DimensionEnum.Signal:
                         signal = number;
                         break;
 
-                    case OperatorConstants.SPECTRUM_START_INDEX:
+                    case DimensionEnum.Start:
                         start = number;
                         break;
 
-                    case OperatorConstants.SPECTRUM_END_INDEX:
+                    case DimensionEnum.End:
                         end = number;
                         break;
 
-                    case OperatorConstants.SPECTRUM_FREQUENCY_COUNT_INDEX:
+                    case DimensionEnum.FrequencyCount:
                         frequencyCount = number;
                         break;
                 }
@@ -66,7 +70,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (end.Value < start.Value)
                 {
-                    ValidationMessages.AddLessThanMessage(PropertyNames.End, ResourceFormatter.End, ResourceFormatter.Start);
+                    ValidationMessages.AddLessThanMessage(nameof(Spectrum_OperatorWrapper.End), ResourceFormatter.End, ResourceFormatter.Start);
                 }   
             }
 
@@ -77,7 +81,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 if (!MathHelper.IsPowerOf2((int)frequencyCount.Value))
                 {
                     string message = ResourceFormatter.MustBePowerOf2(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Frequencies));
-                    ValidationMessages.Add(PropertyNames.FrequencyCount, message);
+                    ValidationMessages.Add(nameof(Spectrum_OperatorWrapper.FrequencyCount), message);
                 }
             }
         }

@@ -1,50 +1,30 @@
-﻿using JJ.Business.Synthesizer.LinkTo;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Reset_OperatorWrapper : OperatorWrapperBase_WithSingleOutlet
+    public class Reset_OperatorWrapper : OperatorWrapperBase_WithOneOutlet
     {
-        private const int PASS_THROUGH_INLET_INDEX = 0;
-        private const int PASS_THROUGH_OUTLET_INDEX = 0;
-
         public Reset_OperatorWrapper(Operator op)
             : base(op)
         { }
 
         public Outlet PassThroughInput
         {
-            get => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INLET_INDEX).InputOutlet;
+            get => PassThroughInlet.InputOutlet;
             set => PassThroughInlet.LinkTo(value);
         }
 
-        public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, PASS_THROUGH_INLET_INDEX);
+        public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.PassThrough);
 
-        public Outlet PassThroughOutlet => OperatorHelper.GetOutlet(WrappedOperator, PASS_THROUGH_OUTLET_INDEX);
+        public Outlet PassThroughOutlet => OperatorHelper.GetOutlet(WrappedOperator, DimensionEnum.PassThrough);
 
         public int? ListIndex
         {
-            get => DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.ListIndex);
-            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.ListIndex, value);
-        }
-
-        public override string GetInletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceFormatter.GetDisplayName(PropertyNames.PassThrough);
-            return name;
-        }
-
-        public override string GetOutletDisplayName(int listIndex)
-        {
-            if (listIndex != 0) throw new NotEqualException(() => listIndex, 0);
-
-            string name = ResourceFormatter.GetDisplayName(PropertyNames.PassThrough);
-            return name;
+            get => DataPropertyParser.TryGetInt32(WrappedOperator, nameof(ListIndex));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(ListIndex), value);
         }
     }
 }

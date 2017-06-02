@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.Add(new Message(PropertyNames.LowerDocument, ResourceFormatter.SelectALibraryFirst).ToCanonical());
+                viewModel.ValidationMessages.Add(new Message(nameof(DocumentReference.LowerDocument), ResourceFormatter.SelectALibraryFirst).ToCanonical());
             }
             else
             {

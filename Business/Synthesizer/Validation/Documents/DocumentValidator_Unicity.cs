@@ -28,13 +28,13 @@ namespace JJ.Business.Synthesizer.Validation.Documents
         private void ValidateAudioFileOutputNamesUnique()
         {
             IList<string> duplicateNames = ValidationHelper.GetDuplicateAudioFileOutputNames(Obj);
-
+            
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
                 string messagePrefix = ResourceFormatter.AudioFileOutput + ": ";
                 string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
-                ValidationMessages.Add(PropertyNames.AudioFileOutputs, messagePrefix + message);
+                ValidationMessages.Add(nameof(Obj.AudioFileOutputs), messagePrefix + message);
             }
         }
 

@@ -5,6 +5,7 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Presentation.WinForms.EventArg;
 using System.IO;
+using JJ.Data.Canonical;
 using JJ.Framework.IO;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
@@ -75,24 +76,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (comboBoxAudioFileFormat.DataSource == null)
             {
-                comboBoxAudioFileFormat.ValueMember = PropertyNames.ID;
-                comboBoxAudioFileFormat.DisplayMember = PropertyNames.Name;
+                comboBoxAudioFileFormat.ValueMember = nameof(IDAndName.ID);
+                comboBoxAudioFileFormat.DisplayMember = nameof(IDAndName.Name);
                 comboBoxAudioFileFormat.DataSource = ViewModel.AudioFileFormatLookup;
             }
             comboBoxAudioFileFormat.SelectedValue = ViewModel.Entity.AudioFileFormat.ID;
 
             if (comboBoxSampleDataType.DataSource == null)
             {
-                comboBoxSampleDataType.ValueMember = PropertyNames.ID;
-                comboBoxSampleDataType.DisplayMember = PropertyNames.Name;
+                comboBoxSampleDataType.ValueMember = nameof(IDAndName.ID);
+                comboBoxSampleDataType.DisplayMember = nameof(IDAndName.Name);
                 comboBoxSampleDataType.DataSource = ViewModel.SampleDataTypeLookup;
             }
             comboBoxSampleDataType.SelectedValue = ViewModel.Entity.SampleDataType.ID;
 
             if (comboBoxSpeakerSetup.DataSource == null)
             {
-                comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
-                comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
+                comboBoxSpeakerSetup.ValueMember = nameof(IDAndName.ID);
+                comboBoxSpeakerSetup.DisplayMember = nameof(IDAndName.Name);
                 comboBoxSpeakerSetup.DataSource = ViewModel.SpeakerSetupLookup;
             }
             comboBoxSpeakerSetup.SelectedValue = ViewModel.Entity.SpeakerSetup.ID;
@@ -104,8 +105,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (comboBoxInterpolationType.DataSource == null)
             {
-                comboBoxInterpolationType.ValueMember = PropertyNames.ID;
-                comboBoxInterpolationType.DisplayMember = PropertyNames.Name;
+                comboBoxInterpolationType.ValueMember = nameof(IDAndName.ID);
+                comboBoxInterpolationType.DisplayMember = nameof(IDAndName.Name);
                 comboBoxInterpolationType.DataSource = ViewModel.InterpolationTypeLookup;
             }
             comboBoxInterpolationType.SelectedValue = ViewModel.Entity.InterpolationType.ID;

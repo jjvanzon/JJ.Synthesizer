@@ -2,6 +2,7 @@
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+#pragma warning disable IDE0003
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -17,8 +18,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? SampleID
         {
-            get => DataPropertyParser.TryGetInt32(WrappedOperator, PropertyNames.SampleID);
-            set => DataPropertyParser.SetValue(WrappedOperator, PropertyNames.SampleID, value);
+            get => DataPropertyParser.TryGetInt32(WrappedOperator, nameof(SampleID));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(SampleID), value);
         }
 
         /// <summary> nullable </summary>

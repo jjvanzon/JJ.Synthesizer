@@ -378,26 +378,26 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(
-            BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstWidth(
+            BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstWidth dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth(
-            BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarWidth(
+            BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarWidth dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables));
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth(
-            BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth(
+            BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth dto)
         {
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth(
-            BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarBandWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarWidth(
+            BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarWidth dto)
         {
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables));
         }
@@ -2491,24 +2491,24 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstValue(SetDimension_OperatorDto_VarPassThrough_ConstValue dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstX(SetDimension_OperatorDto_VarPassThrough_ConstX dto)
         {
-            return ProcessSetDimension(dto, value: dto.Value);
+            return ProcessSetDimension(dto, x: dto.X);
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarValue(SetDimension_OperatorDto_VarPassThrough_VarValue dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarX(SetDimension_OperatorDto_VarPassThrough_VarX dto)
         {
-            return ProcessSetDimension(dto, dto.ValueOperatorDto);
+            return ProcessSetDimension(dto, dto.XOperatorDto);
         }
 
-        private IOperatorDto ProcessSetDimension(IOperatorDto_VarSignal_WithDimension dto, IOperatorDto valueOperatorDto = null, double? value = null)
+        private IOperatorDto ProcessSetDimension(IOperatorDto_VarSignal_WithDimension dto, IOperatorDto xOperatorDto = null, double? x = null)
         {
-            string valueLiteral = GetLiteralFromOperatorDtoOrValue(valueOperatorDto, value);
+            string xLiteral = GetLiteralFromOperatorDtoOrValue(xOperatorDto, x);
             string position = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             AppendOperatorTitleComment(dto);
 
-            AppendLine($"{position} = {valueLiteral};");
+            AppendLine($"{position} = {xLiteral};");
             AppendLine();
 
             Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
@@ -3040,13 +3040,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         // Generalized Methods
 
-        private IOperatorDto Process_Filter_OperatorDto_AllVars(OperatorDtoBase_Filter_VarSignal dto, string biQuadFilterSetFilterVariablesMethodName)
+        private IOperatorDto Process_Filter_OperatorDto_AllVars(OperatorDtoBase_Filter_VarSound dto, string biQuadFilterSetFilterVariablesMethodName)
         {
             Visit_OperatorDto_Base(dto);
 
             AppendOperatorTitleComment(dto);
 
-            string signal = _stack.Pop();
+            string sound = _stack.Pop();
             string frequency = _stack.Pop();
             IList<string> additionalFilterParameters = dto.InputOperatorDtos.Skip(2).Select(x => _stack.Pop()).ToArray();
             string output = GetLocalOutputName(dto);
@@ -3087,7 +3087,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine($"double {output} = {biQuadFilterClassName}.{transformMethodName}(");
             {
                 Indent();
-                AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4},");
+                AppendLine($"{sound}, {a0}, {a1}, {a2}, {a3}, {a4},");
                 AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
                 Unindent();
             }
@@ -3097,11 +3097,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private IOperatorDto Process_Filter_OperatorDto_ManyConsts(OperatorDtoBase_Filter_ManyConsts dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.SoundOperatorDto);
 
             AppendOperatorTitleComment(dto);
 
-            string signal = _stack.Pop();
+            string sound = _stack.Pop();
 
             string x1 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
             string x2 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
@@ -3123,7 +3123,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine($"double {output} = {biQuadFilterClassName}.{transformMethodName}(");
             {
                 Indent();
-                AppendLine($"{signal}, {a0}, {a1}, {a2}, {a3}, {a4},");
+                AppendLine($"{sound}, {a0}, {a1}, {a2}, {a3}, {a4},");
                 AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
                 Unindent();
             }

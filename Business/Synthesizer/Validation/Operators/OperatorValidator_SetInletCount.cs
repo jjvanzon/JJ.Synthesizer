@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 if (inlet.InputOutlet != null)
                 {
                     string message = ResourceFormatter.CannotChangeInletsBecauseOneIsStillFilledIn(i + 1);
-                    ValidationMessages.Add(PropertyNames.Inlets, message);
+                    ValidationMessages.Add(nameof(op.Inlets), message);
                 }
             }
         }
