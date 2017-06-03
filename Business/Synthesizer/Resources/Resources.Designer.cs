@@ -1024,6 +1024,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Highest Frequency.
+        /// </summary>
+        internal static string HighestFrequency {
+            get {
+                return ResourceManager.GetString("HighestFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to High Pass Filter.
         /// </summary>
         internal static string HighPassFilter {
@@ -1920,6 +1929,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string PulseTrigger {
             get {
                 return ResourceManager.GetString("PulseTrigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Radians.
+        /// </summary>
+        internal static string Radians {
+            get {
+                return ResourceManager.GetString("Radians", resourceCulture);
             }
         }
         

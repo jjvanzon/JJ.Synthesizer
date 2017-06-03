@@ -328,6 +328,7 @@
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator.cs" />
     <Compile Include="Roslyn\Calculation\HardCodedPatchCalculator.cs" />
     <Compile Include="Roslyn\ActivationInfo.cs" />
+    <Compile Include="Roslyn\Helpers\GeneratedMethodInfo.cs" />
     <Compile Include="Roslyn\Helpers\DoubleArrayVariableInfo.cs" />
     <Compile Include="Roslyn\Helpers\GeneratedParameterInfo.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoToPatchCalculatorCSharpGeneratorResult.cs" />
@@ -340,6 +341,7 @@
     <Compile Include="Roslyn\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
     <Compile Include="Roslyn\OperatorDtoVisitorBase_AfterCodeGenerationSimplification.cs" />
     <Compile Include="Roslyn\OperatorDtoVisitor_CodeGenerationSimplification.cs" />
+    <Compile Include="Roslyn\Helpers\VariableCollections.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Basic.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Delete.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_DoesNotReferenceItself.cs" />

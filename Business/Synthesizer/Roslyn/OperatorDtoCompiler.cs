@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             var codeGenerationSimplificationVisitor = new OperatorDtoVisitor_CodeGenerationSimplification();
             dto = codeGenerationSimplificationVisitor.Execute(dto);
 
-            var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex);
+            var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(samplingRate, channelCount, channelIndex);
             OperatorDtoToPatchCalculatorCSharpGeneratorResult codeGeneratorResult = codeGenerator.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 
             Type type = Compile(codeGeneratorResult.GeneratedCode);

@@ -67,7 +67,6 @@ namespace JJ.Business.Synthesizer.Calculation
             _a4 = aa2 / aa0;
         }
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ResetSamples()
         {
@@ -101,10 +100,10 @@ namespace JJ.Business.Synthesizer.Calculation
         // Set Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetLowPassFilterVariables(double sampleRate, double cutoffFrequency, double blobVolume)
+        public void SetLowPassFilterVariables(double samplingRate, double cutoffFrequency, double blobVolume)
         {
             // H(s) = 1 / (s^2 + s/Q + 1)
-            double w0 = MathHelper.TWO_PI * cutoffFrequency / sampleRate;
+            double w0 = MathHelper.TWO_PI * cutoffFrequency / samplingRate;
             double cosw0 = Math.Cos(w0);
             double alpha = Math.Sin(w0) / (2 * blobVolume);
 

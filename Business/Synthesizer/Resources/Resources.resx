@@ -1042,4 +1042,10 @@
   <data name="Output" xml:space="preserve">
     <value>Output</value>
   </data>
+  <data name="Radians" xml:space="preserve">
+    <value>Radians</value>
+  </data>
+  <data name="HighestFrequency" xml:space="preserve">
+    <value>Highest Frequency</value>
+  </data>
 </root>

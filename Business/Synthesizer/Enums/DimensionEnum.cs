@@ -89,6 +89,8 @@
         Skip = 69,
         LoopStartMarker = 70,
         LoopEndMarker = 71,
-        ReleaseEndMarker = 72
+        ReleaseEndMarker = 72,
+        Radians = 73,
+        HighestFrequency = 74
     }
 }

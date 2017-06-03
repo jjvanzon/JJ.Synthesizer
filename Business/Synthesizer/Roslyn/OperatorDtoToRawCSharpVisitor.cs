@@ -18,6 +18,8 @@ using JJ.Business.Synthesizer.Visitors;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
+// Class alias to prevent accidentally use other things from JJ.Framework.Mathematics, 
+// for which the copy from JJ.Business.Synthesizer.CopiedCode.FromFramework should be used.
 using NumberingSystems = JJ.Framework.Mathematics.NumberingSystems;
 using JJ.Framework.Configuration;
 
@@ -41,107 +43,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             Squash
         }
 
-        private class GeneratedMethodInfo
-        {
-            public string MethodNameForCalculate { get; set; }
-            public string MethodNameForReset { get; set; }
-            public string MethodCodeForCalculate { get; set; }
-            public string MethodCodeForReset { get; set; }
-            public bool MethodGenerationIsComplete { get; set; }
-
-            public StringBuilderWithIndentation MethodBodyStringBuilderForCalculate { get; } = new StringBuilderWithIndentation(TAB_STRING)
-            {
-                IndentLevel = METHOD_BODY_INDENT_LEVEL
-            };
-
-            public StringBuilderWithIndentation MethodBodyStringBuilderForReset { get; } = new StringBuilderWithIndentation(TAB_STRING)
-            {
-                IndentLevel = METHOD_BODY_INDENT_LEVEL
-            };
-
-            public VariableInfo VariableInfo { get; set; } = new VariableInfo();
-
-            public IList<GeneratedParameterInfo> GetGeneratedParameterInfos()
-            {
-                // TODO: Repeated code from Execute method.
-                IList<ExtendedVariableInfo> longLivedDimensionVariableInfos =
-                    VariableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                                .Where(x => x.ListIndex == 0)
-                                .ToArray();
-
-                IList<string> locallyReusedDoubleVariableNamesCamelCase =
-                    VariableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                                // ReSharper disable once PossibleMultipleEnumeration
-                                .Except(longLivedDimensionVariableInfos)
-                                .Select(x => x.VariableNameCamelCase)
-                                .ToArray();
-
-                IList<ExtendedVariableInfo> inputVariableInfos = VariableInfo.VariableName_To_InputVariableInfo_Dictionary.Values.ToArray();
-                IList<ArrayCalculationInfo> arrayCalculationInfos = VariableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray();
-
-                IList<string> longLivedDoubleVariableNamesCamelCase = VariableInfo.LongLivedDoubleVariableNamesCamelCase.ToArray();
-                DoubleArrayVariableInfo[] longLivedDoubleArrayVariableInfos = VariableInfo.LongLivedDoubleArrayVariableInfos.ToArray();
-
-                IList<GeneratedParameterInfo> list =
-                    longLivedDoubleVariableNamesCamelCase.Select(y => new GeneratedParameterInfo { NameCamelCase = y, TypeName = nameof(Double) })
-                                                         .Union(
-                                                             locallyReusedDoubleVariableNamesCamelCase.Select(
-                                                                 y => new GeneratedParameterInfo { NameCamelCase = y, TypeName = nameof(Double) }))
-                                                         .Union(
-                                                             longLivedDimensionVariableInfos.Select(
-                                                                 y => new GeneratedParameterInfo { NameCamelCase = y.VariableNameCamelCase, TypeName = nameof(Double) }))
-                                                         .Union(
-                                                             inputVariableInfos.Select(
-                                                                 y => new GeneratedParameterInfo { NameCamelCase = y.VariableNameCamelCase, TypeName = nameof(Double) }))
-                                                         .Union(
-                                                             arrayCalculationInfos.Select(
-                                                                 y => new GeneratedParameterInfo { NameCamelCase = y.NameCamelCase, TypeName = y.TypeName }))
-                                                         .Union(
-                                                             longLivedDoubleArrayVariableInfos.Select(
-                                                                 y => new GeneratedParameterInfo { NameCamelCase = y.NameCamelCase, TypeName = nameof(Double) + "[]" }))
-                                                         .ToArray();
-
-                return list;
-            }
-        }
-
-        private class VariableInfo
-        {
-            // Simple Sets of Variable Names
-
-            /// <summary> HashSet for unicity. </summary>
-            public HashSet<string> PositionVariableNamesCamelCaseHashSet { get; } = new HashSet<string>();
-
-            public IList<string> LongLivedDoubleVariableNamesCamelCase { get; } = new List<string>();
-            public IList<DoubleArrayVariableInfo> LongLivedDoubleArrayVariableInfos { get; } = new List<DoubleArrayVariableInfo>();
-
-            // Information for Input Variables
-
-            /// <summary> Dictionary for unicity. Key is variable name camel-case. </summary>
-            public Dictionary<string, ExtendedVariableInfo> VariableName_To_InputVariableInfo_Dictionary { get; } = new Dictionary<string, ExtendedVariableInfo>();
-
-            /// <summary> To maintain instance integrity of input variables when converting from DTO to C# code. </summary>
-            public Dictionary<VariableInput_OperatorDto, string> VariableInput_OperatorDto_To_VariableName_Dictionary { get; } =
-                new Dictionary<VariableInput_OperatorDto, string>();
-
-            // Information for Dimension Values
-
-            public Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo> DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary
-            { get; } = new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
-
-            public Dictionary<Tuple<DimensionEnum, string>, string> StandardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary { get; } =
-                new Dictionary<Tuple<DimensionEnum, string>, string>();
-
-            // Information about Satellite Calculators
-
-            public Dictionary<ArrayDto, ArrayCalculationInfo> ArrayDto_To_ArrayCalculationInfo_Dictionary { get; } =
-                new Dictionary<ArrayDto, ArrayCalculationInfo>();
-
-            public Dictionary<int, string> RandomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary { get; } = new Dictionary<int, string>();
-        }
-
         private const string TAB_STRING = "    ";
-        private const int METHOD_BODY_INDENT_LEVEL = 3;
         private const int METHOD_SIGNATURE_INDENT_LEVEL = 2;
         private const int MULTI_LINE_PARAMETER_LIST_INDENT_LEVEL = 3;
 
@@ -186,6 +88,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
+        private readonly int _samplingRate;
+        private readonly int _channelIndex;
         private readonly int _calculationIndentLevel;
         private readonly int _resetIndentLevel;
 
@@ -195,7 +99,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private int _counter;
         private Stack<bool> _holdOperatorIsActiveStack;
 
-        private VariableInfo _variableInfo;
+        private VariableCollections _variableInfo;
 
         // We need botha list and a stack. A stack for where we are in the processing,
         // a list to not lose generated methods, when they are popped from the stack.
@@ -203,17 +107,19 @@ namespace JJ.Business.Synthesizer.Roslyn
         private Stack<GeneratedMethodInfo> _generatedMethodInfoStack;
         private Dictionary<int, GeneratedMethodInfo> _operatorID_To_GeneratedMethodInfo_Dictionary;
 
-        public OperatorDtoToRawCSharpVisitor(int calculationIndentLevel, int resetIndentLevel)
+        public OperatorDtoToRawCSharpVisitor(int samplingRate, int channelIndex, int calculationIndentLevel, int resetIndentLevel)
         {
+            _samplingRate = samplingRate;
+            _channelIndex = channelIndex;
             _calculationIndentLevel = calculationIndentLevel;
             _resetIndentLevel = resetIndentLevel;
-            _variableInfo = new VariableInfo();
+            _variableInfo = new VariableCollections();
         }
 
         public OperatorDtoToCSharpVisitorResult Execute(IOperatorDto dto)
         {
             _stack = new Stack<string>();
-            _variableInfo = new VariableInfo();
+            _variableInfo = new VariableCollections();
             _generatedMethodInfoStack = new Stack<GeneratedMethodInfo>();
             _operatorID_To_GeneratedMethodInfo_Dictionary = new Dictionary<int, GeneratedMethodInfo>();
             _counter = 0;
@@ -229,6 +135,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             {
                 IndentLevel = _resetIndentLevel
             };
+
+            AppendInitializeDimensionValues();
 
             Visit_OperatorDto_Polymorphic(dto);
 
@@ -272,6 +180,22 @@ namespace JJ.Business.Synthesizer.Roslyn
                 _variableInfo.LongLivedDoubleArrayVariableInfos,
                 calculationMethodCodeList,
                 resetMethodCodeList);
+        }
+
+        private void AppendInitializeDimensionValues()
+        {
+            AppendLineToReset("// Initialize Dimensions Values");
+
+            string samplingRate = GetPositionNameCamelCase(0, DimensionEnum.SamplingRate);
+            AppendLineToReset($"{samplingRate} = {_samplingRate};");
+
+            string highestFrequency = GetPositionNameCamelCase(0, DimensionEnum.HighestFrequency);
+            AppendLineToReset($"{highestFrequency} = {_samplingRate / 2.0};");
+
+            string channel = GetPositionNameCamelCase(0, DimensionEnum.Channel);
+            AppendLineToReset($"{channel} = {_channelIndex};");
+
+            AppendLineToReset();
         }
 
         [DebuggerHidden]
@@ -3526,7 +3450,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                     else
                     {
                         // For an already written method, create a new argument list.
-                        generatedMethodInfo.VariableInfo = new VariableInfo();
+                        generatedMethodInfo.VariableInfo = new VariableCollections();
                     }
 
                     _generatedMethodInfoStack.Push(generatedMethodInfo);
@@ -3759,7 +3683,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 variableNameCamelCase = GetUniqueLongLivedVariableName(OFFSET_MNEMONIC);
             }
 
-            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            foreach (VariableCollections variableInfo in GetVariableInfoList())
             {
                 variableInfo.RandomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
             }
@@ -3787,7 +3711,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 };
             }
 
-            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            foreach (VariableCollections variableInfo in GetVariableInfoList())
             {
                 variableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary[arrayDto] = arrayCalculationInfo;
             }
@@ -3818,7 +3742,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 alias = GetUniqueDimensionAlias(mnemonic);
             }
 
-            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            foreach (VariableCollections variableInfo in GetVariableInfoList())
             {
                 variableInfo.StandardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
             }
@@ -3856,7 +3780,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 inputVariableInfo = new ExtendedVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
             }
 
-            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            foreach (VariableCollections variableInfo in GetVariableInfoList())
             {
                 variableInfo.VariableInput_OperatorDto_To_VariableName_Dictionary[dto] = variableName;
                 variableInfo.VariableName_To_InputVariableInfo_Dictionary[variableName] = inputVariableInfo;
@@ -3966,7 +3890,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             // Format PositionVariableNAme
             string positionVariableName = $"{dimensionAlias}_{stackLevel}";
 
-            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            foreach (VariableCollections variableInfo in GetVariableInfoList())
             {
                 variableInfo.PositionVariableNamesCamelCaseHashSet.Add(positionVariableName);
             }
@@ -3985,7 +3909,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                     defaultValue: null);
             }
 
-            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            foreach (VariableCollections variableInfo in GetVariableInfoList())
             {
                 variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary[key] = extendedVariableInfo;
             }
@@ -4033,7 +3957,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string variableName = GetUniqueVariableNameCamelCase(mnemonic);
 
-            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            foreach (VariableCollections variableInfo in GetVariableInfoList())
             {
                 variableInfo.LongLivedDoubleVariableNamesCamelCase.Add(variableName);
             }
@@ -4045,7 +3969,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string variableName = GetUniqueVariableNameCamelCase(ARRAY_MNEMONIC);
 
-            foreach (VariableInfo variableInfo in GetVariableInfoList())
+            foreach (VariableCollections variableInfo in GetVariableInfoList())
             {
                 variableInfo.LongLivedDoubleArrayVariableInfos.Add(new DoubleArrayVariableInfo { NameCamelCase = variableName, ArrayLength = arrayLength });
             }
@@ -4067,9 +3991,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             _stack.Push(CompilationHelper.FormatValue(value));
         }
 
-        private IList<VariableInfo> GetVariableInfoList()
+        private IList<VariableCollections> GetVariableInfoList()
         {
-            IList<VariableInfo> list = _generatedMethodInfoStack.Select(x => x.VariableInfo).Union(_variableInfo).ToArray();
+            IList<VariableCollections> list = _generatedMethodInfoStack.Select(x => x.VariableInfo).Union(_variableInfo).ToArray();
             return list;
         }
     }
