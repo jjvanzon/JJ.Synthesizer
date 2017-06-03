@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OneOverX_OperatorWrapper : OperatorWrapperBase_WithXAndResult
+    public class OneOverX_OperatorWrapper : OperatorWrapperBase_WithNumberInletAndResultOutlet
     {
         public OneOverX_OperatorWrapper(Operator op)
             : base(op)

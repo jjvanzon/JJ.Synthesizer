@@ -4,21 +4,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class OneOverX_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly OperatorCalculatorBase _xCalculator;
+        private readonly OperatorCalculatorBase _numberCalculator;
 
-        public OneOverX_OperatorCalculator(OperatorCalculatorBase xCalculator)
-            : base(new[] { xCalculator })
+        public OneOverX_OperatorCalculator(OperatorCalculatorBase numberCalculator)
+            : base(new[] { numberCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(xCalculator, () => xCalculator);
+            OperatorCalculatorHelper.AssertChildOperatorCalculator(numberCalculator, () => numberCalculator);
 
-            _xCalculator = xCalculator;
+            _numberCalculator = numberCalculator;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double x = _xCalculator.Calculate();
-            return 1.0 / x;
+            double number = _numberCalculator.Calculate();
+            return 1.0 / number;
         }
     }
 }

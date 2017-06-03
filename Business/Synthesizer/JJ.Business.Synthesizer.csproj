@@ -268,7 +268,7 @@
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\AverageFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaxFollower_OperatorCalculator_AllVars.cs" />
-    <Compile Include="Calculation\Operators\Absolute_OperatorCalculator_VarX.cs" />
+    <Compile Include="Calculation\Operators\Absolute_OperatorCalculator_VarNumber.cs" />
     <Compile Include="Calculation\Operators\OneOverX_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Negative_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Not_OperatorCalculator.cs" />
@@ -375,7 +375,7 @@
     <Compile Include="Dto\OperatorDtoBase_Consts.cs" />
     <Compile Include="Dto\OperatorDtoBase_ConstSignal.cs" />
     <Compile Include="Dto\OperatorDtoBase_ShelfFilter.cs" />
-    <Compile Include="Dto\OperatorDtoBase_ConstX.cs" />
+    <Compile Include="Dto\OperatorDtoBase_ConstNumber.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarSignal.cs" />
     <Compile Include="Dto\OperatorDtoBase_Vars_Consts.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithDimension.cs" />
@@ -418,7 +418,7 @@
     <Compile Include="Dto\Round OperatorDto Classes.cs" />
     <Compile Include="Dto\Scaler OperatorDto Classes.cs" />
     <Compile Include="Dto\OperatorDtoBase_AggregateFollower_AllVars.cs" />
-    <Compile Include="Dto\OperatorDtoBase_VarX.cs" />
+    <Compile Include="Dto\OperatorDtoBase_VarNumber.cs" />
     <Compile Include="Dto\Not OperatorDto Classes.cs" />
     <Compile Include="Dto\Or OperatorDto Classes.cs" />
     <Compile Include="Dto\And OperatorDto Classes.cs" />
@@ -468,7 +468,7 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithABAndOrigin.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_BandPassFilter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_VariableOutletCount.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_WithXAndResult.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase_WithNumberInletAndResultOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithOneOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithResultOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithAAndB.cs" />

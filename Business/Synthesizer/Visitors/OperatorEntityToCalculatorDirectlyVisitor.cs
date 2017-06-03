@@ -134,29 +134,29 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase calculatorX = _stack.Pop();
-            double x = calculatorX.Calculate();
-            bool xIsConst = calculatorX is Number_OperatorCalculator;
+            OperatorCalculatorBase calculatorNumber = _stack.Pop();
+            double number = calculatorNumber.Calculate();
+            bool numberIsConst = calculatorNumber is Number_OperatorCalculator;
 
-            if (xIsConst)
+            if (numberIsConst)
             {
                 double value;
 
-                if (x >= 0.0)
+                if (number >= 0.0)
                 {
-                    value = x;
+                    value = number;
                 }
                 else
                 {
-                    value = -x;
+                    value = -number;
                 }
 
                 calculator = new Number_OperatorCalculator(value);
             }
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            else if (!xIsConst)
+            else if (!numberIsConst)
             {
-                calculator = new Absolute_OperatorCalculator_VarX(calculatorX);
+                calculator = new Absolute_OperatorCalculator_VarNumber(calculatorNumber);
             }
             else
             // ReSharper disable once HeuristicUnreachableCode
@@ -2403,18 +2403,18 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase xCalculator = _stack.Pop();
+            OperatorCalculatorBase numberCalculator = _stack.Pop();
 
-            double x = xCalculator.Calculate();
-            bool xIsConst = xCalculator is Number_OperatorCalculator;
+            double number = numberCalculator.Calculate();
+            bool numberIsConst = numberCalculator is Number_OperatorCalculator;
 
-            if (xIsConst)
+            if (numberIsConst)
             {
-                calculator = new Number_OperatorCalculator(-x);
+                calculator = new Number_OperatorCalculator(-number);
             }
             else
             {
-                calculator = new Negative_OperatorCalculator(xCalculator);
+                calculator = new Negative_OperatorCalculator(numberCalculator);
             }
 
             _stack.Push(calculator);
@@ -2439,27 +2439,33 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase xCalculator = _stack.Pop();
+            OperatorCalculatorBase numberCalculator = _stack.Pop();
 
-            double x = xCalculator.Calculate();
+            double number = numberCalculator.Calculate();
 
-            bool xIsConst = xCalculator is Number_OperatorCalculator;
+            bool numberIsConst = numberCalculator is Number_OperatorCalculator;
 
-            if (xIsConst)
+            if (numberIsConst)
             {
-                double value;
+                double result;
 
-                bool aIsFalse = x == 0.0;
+                bool numberIsFalse = number == 0.0;
 
-                if (aIsFalse) value = 1.0;
-                else value = 0.0;
+                if (numberIsFalse)
+                {
+                    result = 1.0;
+                }
+                else
+                {
+                    result = 0.0;
+                }
 
-                calculator = new Number_OperatorCalculator(value);
+                calculator = new Number_OperatorCalculator(result);
             }
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            else if (!xIsConst)
+            else if (!numberIsConst)
             {
-                calculator = new Not_OperatorCalculator(xCalculator);
+                calculator = new Not_OperatorCalculator(numberCalculator);
             }
             else
             // ReSharper disable once HeuristicUnreachableCode
@@ -2604,18 +2610,18 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase xCalculator = _stack.Pop();
+            OperatorCalculatorBase numberCalculator = _stack.Pop();
 
-            double x = xCalculator.Calculate();
-            bool xIsConst = xCalculator is Number_OperatorCalculator;
+            double number = numberCalculator.Calculate();
+            bool numberIsConst = numberCalculator is Number_OperatorCalculator;
 
-            if (xIsConst)
+            if (numberIsConst)
             {
-                calculator = new Number_OperatorCalculator(1 / x);
+                calculator = new Number_OperatorCalculator(1 / number);
             }
             else
             {
-                calculator = new OneOverX_OperatorCalculator(xCalculator);
+                calculator = new OneOverX_OperatorCalculator(numberCalculator);
             }
 
             _stack.Push(calculator);
@@ -3574,12 +3580,12 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase operatorCalculator;
 
             OperatorCalculatorBase passThroughCalculator = _stack.Pop();
-            OperatorCalculatorBase valueCalculator = _stack.Pop();
+            OperatorCalculatorBase numberCalculator = _stack.Pop();
 
             bool passThroughIsConst = passThroughCalculator is Number_OperatorCalculator;
-            bool valueIsConst = valueCalculator is Number_OperatorCalculator;
+            bool numberIsConst = numberCalculator is Number_OperatorCalculator;
 
-            double value = valueCalculator.Calculate();
+            double number = numberCalculator.Calculate();
 
             dimensionStack.Pop();
 
@@ -3587,13 +3593,13 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 operatorCalculator = passThroughCalculator;
             }
-            else if (valueIsConst)
+            else if (numberIsConst)
             {
-                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_ConstX(passThroughCalculator, value, dimensionStack);
+                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_ConstNumber(passThroughCalculator, number, dimensionStack);
             }
             else
             {
-                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_VarX(passThroughCalculator, valueCalculator, dimensionStack);
+                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_VarNumber(passThroughCalculator, numberCalculator, dimensionStack);
             }
 
             _stack.Push(operatorCalculator);

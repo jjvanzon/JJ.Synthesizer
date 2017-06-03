@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitAbsolute(Operator op)
         {
             var dto = new Absolute_OperatorDto();
-            Process_OperatorDtoBase_VarX(op, dto);
+            Process_OperatorDtoBase_VarNumber(op, dto);
         }
 
         protected override void VisitAdd(Operator op)
@@ -493,7 +493,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitNegative(Operator op)
         {
             var dto = new Negative_OperatorDto();
-            Process_OperatorDtoBase_VarX(op, dto);
+            Process_OperatorDtoBase_VarNumber(op, dto);
         }
 
         protected override void VisitNoise(Operator op)
@@ -514,7 +514,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitNot(Operator op)
         {
             var dto = new Not_OperatorDto();
-            Process_OperatorDtoBase_VarX(op, dto);
+            Process_OperatorDtoBase_VarNumber(op, dto);
         }
 
         protected override void VisitNotchFilter(Operator op)
@@ -554,7 +554,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitOneOverX(Operator op)
         {
             var dto = new OneOverX_OperatorDto();
-            Process_OperatorDtoBase_VarX(op, dto);
+            Process_OperatorDtoBase_VarNumber(op, dto);
         }
 
         protected override void VisitOr(Operator op)
@@ -759,7 +759,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new SetDimension_OperatorDto
             {
                 PassThroughInputOperatorDto = _stack.Pop(),
-                XOperatorDto = _stack.Pop(),
+                NumberOperatorDto = _stack.Pop(),
             };
 
             SetDimensionProperties(op, dto);
@@ -1025,11 +1025,11 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        private void Process_OperatorDtoBase_VarX(Operator op, OperatorDtoBase_VarX dto)
+        private void Process_OperatorDtoBase_VarNumber(Operator op, OperatorDtoBase_VarNumber dto)
         {
             VisitOperatorBase(op);
 
-            dto.XOperatorDto = _stack.Pop();
+            dto.NumberOperatorDto = _stack.Pop();
 
             _stack.Push(dto);
         }

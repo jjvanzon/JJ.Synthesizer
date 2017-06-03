@@ -20,8 +20,8 @@ namespace JJ.Business.Synthesizer.Api
             _patchManager.CreatePatch();
         }
 
-        public Absolute_OperatorWrapper Absolute(Outlet x = null)
-            => _patchManager.Absolute(x);
+        public Absolute_OperatorWrapper Absolute(Outlet number = null)
+            => _patchManager.Absolute(number);
 
         public Add_OperatorWrapper Add(params Outlet[] items) 
             => _patchManager.Add(items);
@@ -348,14 +348,14 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _patchManager.Squash(signal, factor, origin, standardDimension, customDimension);
 
-        public Negative_OperatorWrapper Negative(Outlet x = null)
-            => _patchManager.Negative(x);
+        public Negative_OperatorWrapper Negative(Outlet number = null)
+            => _patchManager.Negative(number);
 
         public Noise_OperatorWrapper Noise(DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
             => _patchManager.Noise(standardDimension, customDimension);
 
-        public Not_OperatorWrapper Not(Outlet x = null)
-            => _patchManager.Not(x);
+        public Not_OperatorWrapper Not(Outlet number = null)
+            => _patchManager.Not(number);
 
         public NotchFilter_OperatorWrapper NotchFilter(
             Outlet sound = null, 
@@ -369,8 +369,8 @@ namespace JJ.Business.Synthesizer.Api
         public Number_OperatorWrapper Number(double number = 0)
             => _patchManager.Number(number);
 
-        public OneOverX_OperatorWrapper OneOverX(Outlet x = null)
-            => _patchManager.OneOverX(x);
+        public OneOverX_OperatorWrapper OneOverX(Outlet number = null)
+            => _patchManager.OneOverX(number);
 
         public Or_OperatorWrapper Or(Outlet a = null, Outlet b = null)
             => _patchManager.Or(a, b);
@@ -478,10 +478,10 @@ namespace JJ.Business.Synthesizer.Api
 
         public SetDimension_OperatorWrapper SetDimension(
             Outlet calculation = null, 
-            Outlet x = null, 
+            Outlet number = null, 
             DimensionEnum standardDimension = DimensionEnum.Undefined, 
             string customDimension = null)
-            => _patchManager.SetDimension(calculation, x, standardDimension, customDimension);
+            => _patchManager.SetDimension(calculation, number, standardDimension, customDimension);
 
         public Shift_OperatorWrapper Shift(
             Outlet signal = null, 

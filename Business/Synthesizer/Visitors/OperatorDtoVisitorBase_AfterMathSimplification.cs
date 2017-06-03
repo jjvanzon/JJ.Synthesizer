@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitorBase_AfterMathSimplification : OperatorDtoVisitorBase_AfterClassSpecialization
     {
-        protected sealed override IOperatorDto Visit_Absolute_OperatorDto_ConstX(Absolute_OperatorDto_ConstX dto)
+        protected sealed override IOperatorDto Visit_Absolute_OperatorDto_ConstNumber(Absolute_OperatorDto_ConstNumber dto)
         {
             throw new NotSupportedException();
         }
@@ -315,7 +315,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_Negative_OperatorDto_ConstX(Negative_OperatorDto_ConstX dto)
+        protected sealed override IOperatorDto Visit_Negative_OperatorDto_ConstNumber(Negative_OperatorDto_ConstNumber dto)
         {
             throw new NotSupportedException();
         }
@@ -335,12 +335,12 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_Not_OperatorDto_ConstX(Not_OperatorDto_ConstX dto)
+        protected sealed override IOperatorDto Visit_Not_OperatorDto_ConstNumber(Not_OperatorDto_ConstNumber dto)
         {
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_OneOverX_OperatorDto_ConstX(OneOverX_OperatorDto_ConstX dto)
+        protected sealed override IOperatorDto Visit_OneOverX_OperatorDto_ConstNumber(OneOverX_OperatorDto_ConstNumber dto)
         {
             throw new NotSupportedException();
         }
@@ -460,12 +460,12 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_ConstX(SetDimension_OperatorDto_ConstPassThrough_ConstX dto)
+        protected sealed override IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_ConstNumber(SetDimension_OperatorDto_ConstPassThrough_ConstNumber dto)
         {
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_VarX(SetDimension_OperatorDto_ConstPassThrough_VarX dto)
+        protected sealed override IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_VarNumber(SetDimension_OperatorDto_ConstPassThrough_VarNumber dto)
         {
             throw new NotSupportedException();
         }

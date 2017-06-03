@@ -117,7 +117,7 @@ namespace JJ.Business.Synthesizer
 
             return null;
         }
-
+    
         public static Operator GetPatchInlet(Inlet source_CustomOperator_Inlet, IPatchRepository patchRepository)
         {
             if (source_CustomOperator_Inlet == null) throw new NullException(() => source_CustomOperator_Inlet);

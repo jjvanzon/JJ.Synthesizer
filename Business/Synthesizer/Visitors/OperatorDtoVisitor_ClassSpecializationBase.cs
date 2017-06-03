@@ -14,17 +14,17 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Absolute_OperatorDto(dto);
 
-            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.XOperatorDto);
+            MathPropertiesDto numberMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.NumberOperatorDto);
 
             IOperatorDto dto2;
 
-            if (xMathPropertiesDto.IsConst)
+            if (numberMathPropertiesDto.IsConst)
             {
-                dto2 = new Absolute_OperatorDto_ConstX { X = xMathPropertiesDto.ConstValue };
+                dto2 = new Absolute_OperatorDto_ConstNumber { Number = numberMathPropertiesDto.ConstValue };
             }
-            else if (xMathPropertiesDto.IsVar)
+            else if (numberMathPropertiesDto.IsVar)
             {
-                dto2 = new Absolute_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
+                dto2 = new Absolute_OperatorDto_VarNumber { NumberOperatorDto = dto.NumberOperatorDto };
             }
             else
             {
@@ -1463,17 +1463,17 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Negative_OperatorDto(dto);
 
-            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.XOperatorDto);
+            MathPropertiesDto numberMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.NumberOperatorDto);
 
             IOperatorDto dto2;
 
-            if (xMathPropertiesDto.IsConst)
+            if (numberMathPropertiesDto.IsConst)
             {
-                dto2 = new Negative_OperatorDto_ConstX { X = xMathPropertiesDto.ConstValue };
+                dto2 = new Negative_OperatorDto_ConstNumber { Number = numberMathPropertiesDto.ConstValue };
             }
-            else if (xMathPropertiesDto.IsVar)
+            else if (numberMathPropertiesDto.IsVar)
             {
-                dto2 = new Negative_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
+                dto2 = new Negative_OperatorDto_VarNumber { NumberOperatorDto = dto.NumberOperatorDto };
             }
             else
             {
@@ -1489,17 +1489,17 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Not_OperatorDto(dto);
 
-            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.XOperatorDto);
+            MathPropertiesDto numberMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.NumberOperatorDto);
 
             IOperatorDto dto2;
 
-            if (xMathPropertiesDto.IsConst)
+            if (numberMathPropertiesDto.IsConst)
             {
-                dto2 = new Not_OperatorDto_ConstX { X = xMathPropertiesDto.ConstValue };
+                dto2 = new Not_OperatorDto_ConstNumber { Number = numberMathPropertiesDto.ConstValue };
             }
-            else if (xMathPropertiesDto.IsVar)
+            else if (numberMathPropertiesDto.IsVar)
             {
-                dto2 = new Not_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
+                dto2 = new Not_OperatorDto_VarNumber { NumberOperatorDto = dto.NumberOperatorDto };
             }
             else
             {
@@ -1578,17 +1578,17 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_OneOverX_OperatorDto(dto);
 
-            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.XOperatorDto);
+            MathPropertiesDto numberMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.NumberOperatorDto);
 
             IOperatorDto dto2;
 
-            if (xMathPropertiesDto.IsConst)
+            if (numberMathPropertiesDto.IsConst)
             {
-                dto2 = new OneOverX_OperatorDto_ConstX { X = xMathPropertiesDto.ConstValue };
+                dto2 = new OneOverX_OperatorDto_ConstNumber { Number = numberMathPropertiesDto.ConstValue };
             }
-            else if (xMathPropertiesDto.IsVar)
+            else if (numberMathPropertiesDto.IsVar)
             {
-                dto2 = new OneOverX_OperatorDto_VarX { XOperatorDto = dto.XOperatorDto };
+                dto2 = new OneOverX_OperatorDto_VarNumber { NumberOperatorDto = dto.NumberOperatorDto };
             }
             else
             {
@@ -2245,25 +2245,25 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_SetDimension_OperatorDto(dto);
 
             MathPropertiesDto passThroughMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.PassThroughInputOperatorDto);
-            MathPropertiesDto xMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.XOperatorDto);
+            MathPropertiesDto numberMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.NumberOperatorDto);
 
             OperatorDtoBase_WithDimension dto2;
 
-            if (passThroughMathPropertiesDto.IsConst && xMathPropertiesDto.IsConst)
+            if (passThroughMathPropertiesDto.IsConst && numberMathPropertiesDto.IsConst)
             {
-                dto2 = new SetDimension_OperatorDto_ConstPassThrough_ConstX { PassThrough = passThroughMathPropertiesDto.ConstValue, X = xMathPropertiesDto.ConstValue };
+                dto2 = new SetDimension_OperatorDto_ConstPassThrough_ConstNumber { PassThrough = passThroughMathPropertiesDto.ConstValue, Number = numberMathPropertiesDto.ConstValue };
             }
-            else if (passThroughMathPropertiesDto.IsVar && xMathPropertiesDto.IsConst)
+            else if (passThroughMathPropertiesDto.IsVar && numberMathPropertiesDto.IsConst)
             {
-                dto2 = new SetDimension_OperatorDto_VarPassThrough_ConstX { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, X = xMathPropertiesDto.ConstValue };
+                dto2 = new SetDimension_OperatorDto_VarPassThrough_ConstNumber { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, Number = numberMathPropertiesDto.ConstValue };
             }
-            else if (passThroughMathPropertiesDto.IsConst && xMathPropertiesDto.IsVar)
+            else if (passThroughMathPropertiesDto.IsConst && numberMathPropertiesDto.IsVar)
             {
-                dto2 = new SetDimension_OperatorDto_ConstPassThrough_VarX { PassThrough = passThroughMathPropertiesDto.ConstValue, XOperatorDto = dto.XOperatorDto };
+                dto2 = new SetDimension_OperatorDto_ConstPassThrough_VarNumber { PassThrough = passThroughMathPropertiesDto.ConstValue, NumberOperatorDto = dto.NumberOperatorDto };
             }
-            else if (passThroughMathPropertiesDto.IsVar && xMathPropertiesDto.IsVar)
+            else if (passThroughMathPropertiesDto.IsVar && numberMathPropertiesDto.IsVar)
             {
-                dto2 = new SetDimension_OperatorDto_VarPassThrough_VarX { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, XOperatorDto = dto.XOperatorDto };
+                dto2 = new SetDimension_OperatorDto_VarPassThrough_VarNumber { PassThroughInputOperatorDto = dto.PassThroughInputOperatorDto, NumberOperatorDto = dto.NumberOperatorDto };
             }
             else
             {

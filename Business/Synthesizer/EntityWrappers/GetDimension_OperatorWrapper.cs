@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet Value => OperatorHelper.GetOutlet(WrappedOperator, DimensionEnum.X);
+        public Outlet Number => OperatorHelper.GetOutlet(WrappedOperator, DimensionEnum.Number);
 
         public override string GetInletDisplayName(Inlet inlet)
         {

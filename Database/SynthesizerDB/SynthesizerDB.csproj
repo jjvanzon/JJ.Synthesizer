@@ -369,6 +369,7 @@
     <Content Include="2017-06-01 020 SynthesizerDB Dimension insert 67 - Offset.sql" />
     <Content Include="2017-06-01 030 SynthesizerDB Dimension insert 68 - FrequencyCount.sql" />
     <Content Include="2017-06-02 010 SynthesizerDB Dimension insert 69 - Skip, 70 - LoopStartMarker, 71 - LoopEndMarker, 72 = ReleaseEndMarker.sql" />
+    <Content Include="2017-06-03 010 SynthesizerDB Dimension rename 48 - X to Number.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

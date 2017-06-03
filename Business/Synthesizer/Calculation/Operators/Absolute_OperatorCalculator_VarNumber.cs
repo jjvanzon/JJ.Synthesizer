@@ -2,11 +2,11 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Negative_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
+    internal class Absolute_OperatorCalculator_VarNumber : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _numberCalculator;
 
-        public Negative_OperatorCalculator(OperatorCalculatorBase numberCalculator)
+        public Absolute_OperatorCalculator_VarNumber(OperatorCalculatorBase numberCalculator)
             : base(new[] { numberCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(numberCalculator, () => numberCalculator);
@@ -18,7 +18,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate()
         {
             double number = _numberCalculator.Calculate();
-            return -number;
+
+            if (number >= 0.0)
+            {
+                return number;
+            }
+            else
+            {
+                return -number;
+            }
         }
     }
 }

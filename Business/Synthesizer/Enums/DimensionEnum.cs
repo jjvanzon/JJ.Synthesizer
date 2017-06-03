@@ -63,7 +63,7 @@
         PitchBend = 46,
         MainVolume = 47,
         /// <summary> Abstract dimension. Could be anything. Usually used with operators that have only one inlet. </summary>
-        X = 48,
+        Number = 48,
         SliceLength = 49,
         SampleCount = 50,
         /// <summary> Usually a starting point in a discrete set. </summary>

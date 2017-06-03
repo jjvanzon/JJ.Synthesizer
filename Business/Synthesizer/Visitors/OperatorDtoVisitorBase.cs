@@ -59,8 +59,8 @@ namespace JJ.Business.Synthesizer.Visitors
             _delegateDictionary = new Dictionary<Type, Func<IOperatorDto, IOperatorDto>>
             {
                 { typeof(Absolute_OperatorDto), x => Visit_Absolute_OperatorDto((Absolute_OperatorDto)x ) },
-                { typeof(Absolute_OperatorDto_VarX), x => Visit_Absolute_OperatorDto_VarX((Absolute_OperatorDto_VarX)x ) },
-                { typeof(Absolute_OperatorDto_ConstX), x => Visit_Absolute_OperatorDto_ConstX((Absolute_OperatorDto_ConstX)x ) },
+                { typeof(Absolute_OperatorDto_VarNumber), x => Visit_Absolute_OperatorDto_VarNumber((Absolute_OperatorDto_VarNumber)x ) },
+                { typeof(Absolute_OperatorDto_ConstNumber), x => Visit_Absolute_OperatorDto_ConstNumber((Absolute_OperatorDto_ConstNumber)x ) },
                 { typeof(Add_OperatorDto), x => Visit_Add_OperatorDto((Add_OperatorDto)x ) },
                 { typeof(Add_OperatorDto_Vars_Consts), x => Visit_Add_OperatorDto_Vars_Consts((Add_OperatorDto_Vars_Consts)x ) },
                 { typeof(Add_OperatorDto_Vars_NoConsts), x => Visit_Add_OperatorDto_Vars_NoConsts((Add_OperatorDto_Vars_NoConsts)x ) },
@@ -286,12 +286,12 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin), x => Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin((MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin)x ) },
                 { typeof(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin), x => Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin((MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin)x ) },
                 { typeof(Negative_OperatorDto), x => Visit_Negative_OperatorDto((Negative_OperatorDto)x ) },
-                { typeof(Negative_OperatorDto_VarX), x => Visit_Negative_OperatorDto_VarX((Negative_OperatorDto_VarX)x ) },
-                { typeof(Negative_OperatorDto_ConstX), x => Visit_Negative_OperatorDto_ConstX((Negative_OperatorDto_ConstX)x ) },
+                { typeof(Negative_OperatorDto_VarNumber), x => Visit_Negative_OperatorDto_VarNumber((Negative_OperatorDto_VarNumber)x ) },
+                { typeof(Negative_OperatorDto_ConstNumber), x => Visit_Negative_OperatorDto_ConstNumber((Negative_OperatorDto_ConstNumber)x ) },
                 { typeof(Noise_OperatorDto), x => Visit_Noise_OperatorDto((Noise_OperatorDto)x ) },
                 { typeof(Not_OperatorDto), x => Visit_Not_OperatorDto((Not_OperatorDto)x ) },
-                { typeof(Not_OperatorDto_VarX), x => Visit_Not_OperatorDto_VarX((Not_OperatorDto_VarX)x ) },
-                { typeof(Not_OperatorDto_ConstX), x => Visit_Not_OperatorDto_ConstX((Not_OperatorDto_ConstX)x ) },
+                { typeof(Not_OperatorDto_VarNumber), x => Visit_Not_OperatorDto_VarNumber((Not_OperatorDto_VarNumber)x ) },
+                { typeof(Not_OperatorDto_ConstNumber), x => Visit_Not_OperatorDto_ConstNumber((Not_OperatorDto_ConstNumber)x ) },
                 { typeof(NotchFilter_OperatorDto), x => Visit_NotchFilter_OperatorDto((NotchFilter_OperatorDto)x ) },
                 { typeof(NotchFilter_OperatorDto_ConstSound), x => Visit_NotchFilter_OperatorDto_ConstSound((NotchFilter_OperatorDto_ConstSound)x ) },
                 { typeof(NotchFilter_OperatorDto_AllVars), x => Visit_NotchFilter_OperatorDto_AllVars((NotchFilter_OperatorDto_AllVars)x ) },
@@ -306,8 +306,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Number_OperatorDto_One), x => Visit_Number_OperatorDto_One((Number_OperatorDto_One)x ) },
                 { typeof(Number_OperatorDto_Zero), x => Visit_Number_OperatorDto_Zero((Number_OperatorDto_Zero)x ) },
                 { typeof(OneOverX_OperatorDto), x => Visit_OneOverX_OperatorDto((OneOverX_OperatorDto)x ) },
-                { typeof(OneOverX_OperatorDto_VarX), x => Visit_OneOverX_OperatorDto_VarX((OneOverX_OperatorDto_VarX)x ) },
-                { typeof(OneOverX_OperatorDto_ConstX), x => Visit_OneOverX_OperatorDto_ConstX((OneOverX_OperatorDto_ConstX)x ) },
+                { typeof(OneOverX_OperatorDto_VarNumber), x => Visit_OneOverX_OperatorDto_VarNumber((OneOverX_OperatorDto_VarNumber)x ) },
+                { typeof(OneOverX_OperatorDto_ConstNumber), x => Visit_OneOverX_OperatorDto_ConstNumber((OneOverX_OperatorDto_ConstNumber)x ) },
                 { typeof(Or_OperatorDto), x => Visit_Or_OperatorDto((Or_OperatorDto)x ) },
                 { typeof(Or_OperatorDto_ConstA_ConstB), x => Visit_Or_OperatorDto_ConstA_ConstB((Or_OperatorDto_ConstA_ConstB)x ) },
                 { typeof(Or_OperatorDto_ConstA_VarB), x => Visit_Or_OperatorDto_ConstA_VarB((Or_OperatorDto_ConstA_VarB)x ) },
@@ -412,10 +412,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Scaler_OperatorDto_ManyConsts), x => Visit_Scaler_OperatorDto_ManyConsts((Scaler_OperatorDto_ManyConsts)x ) },
                 { typeof(Scaler_OperatorDto_AllVars), x => Visit_Scaler_OperatorDto_AllVars((Scaler_OperatorDto_AllVars)x ) },
                 { typeof(SetDimension_OperatorDto), x => Visit_SetDimension_OperatorDto((SetDimension_OperatorDto)x ) },
-                { typeof(SetDimension_OperatorDto_VarPassThrough_VarX), x => Visit_SetDimension_OperatorDto_VarPassThrough_VarX((SetDimension_OperatorDto_VarPassThrough_VarX)x ) },
-                { typeof(SetDimension_OperatorDto_VarPassThrough_ConstX), x => Visit_SetDimension_OperatorDto_VarPassThrough_ConstX((SetDimension_OperatorDto_VarPassThrough_ConstX)x ) },
-                { typeof(SetDimension_OperatorDto_ConstPassThrough_VarX), x => Visit_SetDimension_OperatorDto_ConstPassThrough_VarX((SetDimension_OperatorDto_ConstPassThrough_VarX)x ) },
-                { typeof(SetDimension_OperatorDto_ConstPassThrough_ConstX), x => Visit_SetDimension_OperatorDto_ConstPassThrough_ConstX((SetDimension_OperatorDto_ConstPassThrough_ConstX)x ) },
+                { typeof(SetDimension_OperatorDto_VarPassThrough_VarNumber), x => Visit_SetDimension_OperatorDto_VarPassThrough_VarNumber((SetDimension_OperatorDto_VarPassThrough_VarNumber)x ) },
+                { typeof(SetDimension_OperatorDto_VarPassThrough_ConstNumber), x => Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber((SetDimension_OperatorDto_VarPassThrough_ConstNumber)x ) },
+                { typeof(SetDimension_OperatorDto_ConstPassThrough_VarNumber), x => Visit_SetDimension_OperatorDto_ConstPassThrough_VarNumber((SetDimension_OperatorDto_ConstPassThrough_VarNumber)x ) },
+                { typeof(SetDimension_OperatorDto_ConstPassThrough_ConstNumber), x => Visit_SetDimension_OperatorDto_ConstPassThrough_ConstNumber((SetDimension_OperatorDto_ConstPassThrough_ConstNumber)x ) },
                 { typeof(Shift_OperatorDto), x => Visit_Shift_OperatorDto((Shift_OperatorDto)x ) },
                 { typeof(Shift_OperatorDto_ConstSignal_ConstDistance), x => Visit_Shift_OperatorDto_ConstSignal_ConstDistance((Shift_OperatorDto_ConstSignal_ConstDistance)x ) },
                 { typeof(Shift_OperatorDto_ConstSignal_VarDistance), x => Visit_Shift_OperatorDto_ConstSignal_VarDistance((Shift_OperatorDto_ConstSignal_VarDistance)x ) },
@@ -508,8 +508,8 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Absolute_OperatorDto_ConstX(Absolute_OperatorDto_ConstX dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Absolute_OperatorDto_VarNumber(Absolute_OperatorDto_VarNumber dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Absolute_OperatorDto_ConstNumber(Absolute_OperatorDto_ConstNumber dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Add_OperatorDto_Vars_Consts(Add_OperatorDto_Vars_Consts dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto) => Visit_OperatorDto_Base(dto);
@@ -735,12 +735,12 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Negative_OperatorDto_ConstX(Negative_OperatorDto_ConstX dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Negative_OperatorDto_VarNumber(Negative_OperatorDto_VarNumber dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Negative_OperatorDto_ConstNumber(Negative_OperatorDto_ConstNumber dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Noise_OperatorDto(Noise_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Not_OperatorDto_ConstX(Not_OperatorDto_ConstX dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Not_OperatorDto_VarNumber(Not_OperatorDto_VarNumber dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Not_OperatorDto_ConstNumber(Not_OperatorDto_ConstNumber dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_NotchFilter_OperatorDto_ConstSound(NotchFilter_OperatorDto_ConstSound dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_NotchFilter_OperatorDto_AllVars(NotchFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
@@ -755,8 +755,8 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_OneOverX_OperatorDto(OneOverX_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_OneOverX_OperatorDto_ConstX(OneOverX_OperatorDto_ConstX dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_OneOverX_OperatorDto_VarNumber(OneOverX_OperatorDto_VarNumber dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_OneOverX_OperatorDto_ConstNumber(OneOverX_OperatorDto_ConstNumber dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Or_OperatorDto_ConstA_ConstB(Or_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Or_OperatorDto_ConstA_VarB(Or_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
@@ -861,10 +861,10 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Scaler_OperatorDto_ManyConsts(Scaler_OperatorDto_ManyConsts dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Scaler_OperatorDto_AllVars(Scaler_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarX(SetDimension_OperatorDto_VarPassThrough_VarX dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstX(SetDimension_OperatorDto_VarPassThrough_ConstX dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_VarX(SetDimension_OperatorDto_ConstPassThrough_VarX dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_ConstX(SetDimension_OperatorDto_ConstPassThrough_ConstX dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarNumber(SetDimension_OperatorDto_VarPassThrough_VarNumber dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber(SetDimension_OperatorDto_VarPassThrough_ConstNumber dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_VarNumber(SetDimension_OperatorDto_ConstPassThrough_VarNumber dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_ConstNumber(SetDimension_OperatorDto_ConstPassThrough_ConstNumber dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Shift_OperatorDto(Shift_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto) => Visit_OperatorDto_Base(dto);

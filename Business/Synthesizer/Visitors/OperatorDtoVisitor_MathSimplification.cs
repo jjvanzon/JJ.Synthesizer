@@ -50,15 +50,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Absolute
 
-        protected override IOperatorDto Visit_Absolute_OperatorDto_ConstX(Absolute_OperatorDto_ConstX dto)
+        protected override IOperatorDto Visit_Absolute_OperatorDto_ConstNumber(Absolute_OperatorDto_ConstNumber dto)
         {
-            base.Visit_Absolute_OperatorDto_ConstX(dto);
+            base.Visit_Absolute_OperatorDto_ConstNumber(dto);
 
             // Pre-calculate
-            return new Number_OperatorDto { Number = Math.Abs(dto.X) };
+            return new Number_OperatorDto { Number = Math.Abs(dto.Number) };
         }
 
-        protected override IOperatorDto Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Absolute_OperatorDto_VarNumber(Absolute_OperatorDto_VarNumber dto)
         {
             return Process_Nothing(dto);
         }
@@ -1349,15 +1349,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Negative
 
-        protected override IOperatorDto Visit_Negative_OperatorDto_ConstX(Negative_OperatorDto_ConstX dto)
+        protected override IOperatorDto Visit_Negative_OperatorDto_ConstNumber(Negative_OperatorDto_ConstNumber dto)
         {
-            base.Visit_Negative_OperatorDto_ConstX(dto);
+            base.Visit_Negative_OperatorDto_ConstNumber(dto);
 
             // Pre-calculate
-            return new Number_OperatorDto { Number = -dto.X };
+            return new Number_OperatorDto { Number = -dto.Number };
         }
 
-        protected override IOperatorDto Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Negative_OperatorDto_VarNumber(Negative_OperatorDto_VarNumber dto)
         {
             return Process_Nothing(dto);
         }
@@ -1424,13 +1424,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Not
 
-        protected override IOperatorDto Visit_Not_OperatorDto_ConstX(Not_OperatorDto_ConstX dto)
+        protected override IOperatorDto Visit_Not_OperatorDto_ConstNumber(Not_OperatorDto_ConstNumber dto)
         {
-            base.Visit_Not_OperatorDto_ConstX(dto);
+            base.Visit_Not_OperatorDto_ConstNumber(dto);
 
             // Pre-calculate
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isFalse = dto.X == 0.0;
+            bool isFalse = dto.Number == 0.0;
             if (isFalse)
             {
                 return new Number_OperatorDto_One();
@@ -1441,7 +1441,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override IOperatorDto Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Not_OperatorDto_VarNumber(Not_OperatorDto_VarNumber dto)
         {
             return Process_Nothing(dto);
         }
@@ -1470,15 +1470,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // OneOverX
 
-        protected override IOperatorDto Visit_OneOverX_OperatorDto_ConstX(OneOverX_OperatorDto_ConstX dto)
+        protected override IOperatorDto Visit_OneOverX_OperatorDto_ConstNumber(OneOverX_OperatorDto_ConstNumber dto)
         {
-            base.Visit_OneOverX_OperatorDto_ConstX(dto);
+            base.Visit_OneOverX_OperatorDto_ConstNumber(dto);
 
             // Pre-calculate
-            return new Number_OperatorDto { Number = 1.0 / dto.X };
+            return new Number_OperatorDto { Number = 1.0 / dto.Number };
         }
 
-        protected override IOperatorDto Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_OneOverX_OperatorDto_VarNumber(OneOverX_OperatorDto_VarNumber dto)
         {
             return Process_Nothing(dto);
         }
@@ -2078,22 +2078,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // SetDimension
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_ConstX(SetDimension_OperatorDto_ConstPassThrough_ConstX dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_ConstNumber(SetDimension_OperatorDto_ConstPassThrough_ConstNumber dto)
         {
-            return Process_ConstSignal_Identity(dto.PassThrough);
+            return Process_ConstNumber_Identity(dto.PassThrough);
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_VarX(SetDimension_OperatorDto_ConstPassThrough_VarX dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_VarNumber(SetDimension_OperatorDto_ConstPassThrough_VarNumber dto)
         {
-            return Process_ConstSignal_Identity(dto.PassThrough);
+            return Process_ConstNumber_Identity(dto.PassThrough);
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstX(SetDimension_OperatorDto_VarPassThrough_ConstX dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber(SetDimension_OperatorDto_VarPassThrough_ConstNumber dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarX(SetDimension_OperatorDto_VarPassThrough_VarX dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarNumber(SetDimension_OperatorDto_VarPassThrough_VarNumber dto)
         {
             return Process_Nothing(dto);
         }
@@ -2406,7 +2406,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (aMathPropertiesDto.IsConstZero)
             {
                 // Identity, switch sign
-                return new Negative_OperatorDto_VarX { XOperatorDto = dto.BOperatorDto, OperatorID = dto.OperatorID };
+                return new Negative_OperatorDto_VarNumber { NumberOperatorDto = dto.BOperatorDto, OperatorID = dto.OperatorID };
             }
 
             return dto;
@@ -2541,6 +2541,12 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         // Helpers
+
+        private IOperatorDto Process_ConstNumber_Identity(double number)
+        {
+            // Identity
+            return new Number_OperatorDto { Number = number };
+        }
 
         private IOperatorDto Process_ConstSignal_Identity(double signal)
         {

@@ -72,9 +72,9 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override IOperatorDto Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Absolute_OperatorDto_VarNumber(Absolute_OperatorDto_VarNumber dto)
         {
-            return ProcessOperatorDto(dto, () => new Absolute_OperatorCalculator_VarX(_stack.Pop()));
+            return ProcessOperatorDto(dto, () => new Absolute_OperatorCalculator_VarNumber(_stack.Pop()));
         }
 
         protected override IOperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
@@ -636,7 +636,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
-        protected override IOperatorDto Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Negative_OperatorDto_VarNumber(Negative_OperatorDto_VarNumber dto)
         {
             return ProcessOperatorDto(dto, () => new Negative_OperatorCalculator(_stack.Pop()));
         }
@@ -675,7 +675,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new NotEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
-        protected override IOperatorDto Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Not_OperatorDto_VarNumber(Not_OperatorDto_VarNumber dto)
         {
             return ProcessOperatorDto(dto, () => new Not_OperatorCalculator(_stack.Pop()));
         }
@@ -700,7 +700,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new Number_OperatorCalculator_Zero());
         }
 
-        protected override IOperatorDto Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_OneOverX_OperatorDto_VarNumber(OneOverX_OperatorDto_VarNumber dto)
         {
             return ProcessOperatorDto(dto, () => new OneOverX_OperatorCalculator(_stack.Pop()));
         }
@@ -1111,14 +1111,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new Scaler_OperatorCalculator_ManyConsts(_stack.Pop(), dto.SourceValueA, dto.SourceValueB, dto.TargetValueA, dto.TargetValueB));
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstX(SetDimension_OperatorDto_VarPassThrough_ConstX dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber(SetDimension_OperatorDto_VarPassThrough_ConstNumber dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new SetDimension_OperatorCalculator_VarPassThrough_ConstX(_stack.Pop(), dto.X, dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new SetDimension_OperatorCalculator_VarPassThrough_ConstNumber(_stack.Pop(), dto.Number, dimensionStack));
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarX(SetDimension_OperatorDto_VarPassThrough_VarX dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarNumber(SetDimension_OperatorDto_VarPassThrough_VarNumber dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new SetDimension_OperatorCalculator_VarPassThrough_VarX(_stack.Pop(), _stack.Pop(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new SetDimension_OperatorCalculator_VarPassThrough_VarNumber(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)

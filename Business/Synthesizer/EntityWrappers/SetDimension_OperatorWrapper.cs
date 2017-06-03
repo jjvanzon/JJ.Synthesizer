@@ -19,13 +19,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.PassThrough);
 
-        public Outlet X
+        public Outlet Number
         {
-            get => XInlet.InputOutlet;
-            set => XInlet.LinkTo(value);
+            get => NumberInlet.InputOutlet;
+            set => NumberInlet.LinkTo(value);
         }
 
-        public Inlet XInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.X);
+        public Inlet NumberInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Number);
 
         public Outlet PassThroughOutlet => OperatorHelper.GetOutlet(WrappedOperator, DimensionEnum.PassThrough);
     }

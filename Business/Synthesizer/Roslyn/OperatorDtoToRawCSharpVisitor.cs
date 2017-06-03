@@ -282,19 +282,19 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
-        protected override IOperatorDto Visit_Absolute_OperatorDto_VarX(Absolute_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Absolute_OperatorDto_VarNumber(Absolute_OperatorDto_VarNumber dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
-            string x = _stack.Pop();
+            Visit_OperatorDto_Polymorphic(dto.NumberOperatorDto);
+            string number = _stack.Pop();
 
-            string variable = GetLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendOperatorTitleComment(dto);
 
-            AppendLine($"double {variable} = {x};");
-            AppendLine($"if ({variable} < 0.0) {variable} = -{variable};");
+            AppendLine($"double {output} = {number};");
+            AppendLine($"if ({output} < 0.0) {output} = -{output};");
 
-            return GenerateOperatorWrapUp(dto, variable);
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
@@ -1511,16 +1511,16 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiplyOrDivide_VarA_VarB_VarOrigin(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override IOperatorDto Visit_Negative_OperatorDto_VarX(Negative_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Negative_OperatorDto_VarNumber(Negative_OperatorDto_VarNumber dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.NumberOperatorDto);
 
             AppendOperatorTitleComment(dto);
 
-            string x = _stack.Pop();
+            string number = _stack.Pop();
             string output = GetLocalOutputName(dto);
 
-            AppendLine($"double {output} = -{x};");
+            AppendLine($"double {output} = -{number};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1544,16 +1544,16 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_Not_OperatorDto_VarX(Not_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_Not_OperatorDto_VarNumber(Not_OperatorDto_VarNumber dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.NumberOperatorDto);
 
             AppendOperatorTitleComment(dto);
 
-            string x = _stack.Pop();
+            string number = _stack.Pop();
             string output = GetLocalOutputName(dto);
 
-            AppendLine($"double {output} = {x} == 0.0 ? 1.0 : 0.0;");
+            AppendLine($"double {output} = {number} == 0.0 ? 1.0 : 0.0;");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1605,16 +1605,16 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
-        protected override IOperatorDto Visit_OneOverX_OperatorDto_VarX(OneOverX_OperatorDto_VarX dto)
+        protected override IOperatorDto Visit_OneOverX_OperatorDto_VarNumber(OneOverX_OperatorDto_VarNumber dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.XOperatorDto);
+            Visit_OperatorDto_Polymorphic(dto.NumberOperatorDto);
 
             AppendOperatorTitleComment(dto);
 
-            string x = _stack.Pop();
+            string number = _stack.Pop();
             string output = GetLocalOutputName(dto);
 
-            AppendLine($"double {output} = 1.0 / {x};");
+            AppendLine($"double {output} = 1.0 / {number};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2491,14 +2491,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstX(SetDimension_OperatorDto_VarPassThrough_ConstX dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber(SetDimension_OperatorDto_VarPassThrough_ConstNumber dto)
         {
-            return ProcessSetDimension(dto, x: dto.X);
+            return ProcessSetDimension(dto, x: dto.Number);
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarX(SetDimension_OperatorDto_VarPassThrough_VarX dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarNumber(SetDimension_OperatorDto_VarPassThrough_VarNumber dto)
         {
-            return ProcessSetDimension(dto, dto.XOperatorDto);
+            return ProcessSetDimension(dto, dto.NumberOperatorDto);
         }
 
         private IOperatorDto ProcessSetDimension(IOperatorDto_VarSignal_WithDimension dto, IOperatorDto xOperatorDto = null, double? x = null)

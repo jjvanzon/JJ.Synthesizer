@@ -81,7 +81,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 var inletTuples = new List<InletOrOutletTuple>();
                 var outletTuples = new List<InletOrOutletTuple>();
 
-                inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Absolute, 0, DimensionEnum.X));
+                inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Absolute, 0, DimensionEnum.Number));
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Absolute, 0, DimensionEnum.Result));
 
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Add, 0, DimensionEnum.Result));
@@ -210,12 +210,12 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.MultiplyWithOrigin, 2, DimensionEnum.Origin));
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.MultiplyWithOrigin, 0, DimensionEnum.Result));
 
-                inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Negative, 0, DimensionEnum.X));
+                inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Negative, 0, DimensionEnum.Number));
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Negative, 0, DimensionEnum.Result));
 
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Number, 0, DimensionEnum.Result));
 
-                inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.OneOverX, 0, DimensionEnum.X));
+                inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.OneOverX, 0, DimensionEnum.Number));
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.OneOverX, 0, DimensionEnum.Result));
 
                 inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Power, 0, DimensionEnum.Base));
@@ -226,7 +226,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Subtract, 1, DimensionEnum.B));
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Subtract, 0, DimensionEnum.Result));
 
-                inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Not, 0, DimensionEnum.X));
+                inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Not, 0, DimensionEnum.Number));
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Not, 0, DimensionEnum.Result));
 
                 inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.NotEqual, 0, DimensionEnum.A));
@@ -299,7 +299,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Reverse, 0, DimensionEnum.Signal));
 
                 inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SetDimension, 0, DimensionEnum.PassThrough));
-                inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SetDimension, 1, DimensionEnum.X));
+                inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SetDimension, 1, DimensionEnum.Number));
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.SetDimension, 0, DimensionEnum.PassThrough));
 
                 inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.Shift, 0, DimensionEnum.Signal));
@@ -321,7 +321,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.TimePower, 2, DimensionEnum.Origin));
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.TimePower, 0, DimensionEnum.Signal));
 
-                outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.GetDimension, 0, DimensionEnum.X));
+                outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.GetDimension, 0, DimensionEnum.Number));
 
                 outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.MaxOverInlets, 0, DimensionEnum.Result));
 

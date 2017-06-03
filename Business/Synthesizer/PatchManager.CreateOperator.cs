@@ -45,16 +45,16 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_STEP = 1.0;
         private const double MULTIPLICATIVE_IDENTITY = 1.0;
 
-        public Absolute_OperatorWrapper Absolute(Outlet x = null)
+        public Absolute_OperatorWrapper Absolute(Outlet number = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Absolute,
-                new[] { DimensionEnum.X },
+                new[] { DimensionEnum.Number },
                 new[] { DimensionEnum.Result });
 
             var wrapper = new Absolute_OperatorWrapper(op)
             {
-                X = x,
+                Number = number
             };
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -667,7 +667,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.GetDimension,
                 new DimensionEnum[0],
-                new[] { DimensionEnum.X });
+                new[] { DimensionEnum.Number });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -1256,16 +1256,16 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Negative_OperatorWrapper Negative(Outlet x = null)
+        public Negative_OperatorWrapper Negative(Outlet number = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Negative,
-                new[] { DimensionEnum.X },
+                new[] { DimensionEnum.Number },
                 new[] { DimensionEnum.Result });
 
             var wrapper = new Negative_OperatorWrapper(op)
             {
-                X = x,
+                Number = number,
             };
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -1294,16 +1294,16 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Not_OperatorWrapper Not(Outlet x = null)
+        public Not_OperatorWrapper Not(Outlet number = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Not,
-                new[] { DimensionEnum.X },
+                new[] { DimensionEnum.Number },
                 new[] { DimensionEnum.Result });
 
             var wrapper = new Not_OperatorWrapper(op)
             {
-                X = x,
+                Number = number
             };
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -1375,19 +1375,19 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public OneOverX_OperatorWrapper OneOverX(Outlet x = null)
+        public OneOverX_OperatorWrapper OneOverX(Outlet number = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.OneOverX,
-                new[] { DimensionEnum.X },
+                new[] { DimensionEnum.Number },
                 new[] { DimensionEnum.Result });
 
             var wrapper = new OneOverX_OperatorWrapper(op)
             {
-                X = x,
+                Number = number
             };
 
-            wrapper.XInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
+            wrapper.NumberInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
@@ -1892,13 +1892,13 @@ namespace JJ.Business.Synthesizer
 
         public SetDimension_OperatorWrapper SetDimension(
             Outlet passThrough = null, 
-            Outlet x = null,
+            Outlet number = null,
             DimensionEnum standardDimension = DimensionEnum.Undefined,
             string customDimension = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.SetDimension,
-                new[] { DimensionEnum.PassThrough, DimensionEnum.X },
+                new[] { DimensionEnum.PassThrough, DimensionEnum.Number },
                 new[] { DimensionEnum.PassThrough });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
@@ -1907,7 +1907,7 @@ namespace JJ.Business.Synthesizer
             var wrapper = new SetDimension_OperatorWrapper(op)
             {
                 PassThroughInput = passThrough,
-                X = x
+                Number = number
             };
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);

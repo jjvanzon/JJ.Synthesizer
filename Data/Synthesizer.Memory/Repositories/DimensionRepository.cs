@@ -53,7 +53,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 45, "Ratio");
             RepositoryHelper.EnsureEnumEntity(this, 46, "PitchBend");
             RepositoryHelper.EnsureEnumEntity(this, 47, "MainVolume");
-            RepositoryHelper.EnsureEnumEntity(this, 48, "X");
+            RepositoryHelper.EnsureEnumEntity(this, 48, "Number");
             RepositoryHelper.EnsureEnumEntity(this, 49, "SliceLength");
             RepositoryHelper.EnsureEnumEntity(this, 50, "SampleCount");
             RepositoryHelper.EnsureEnumEntity(this, 51, "From");
