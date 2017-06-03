@@ -186,12 +186,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             AppendLineToReset("// Initialize Dimensions Values");
 
-            string samplingRate = GetPositionNameCamelCase(0, DimensionEnum.SamplingRate);
-            AppendLineToReset($"{samplingRate} = {_samplingRate};");
-
-            string highestFrequency = GetPositionNameCamelCase(0, DimensionEnum.HighestFrequency);
-            AppendLineToReset($"{highestFrequency} = {_samplingRate / 2.0};");
-
             string channel = GetPositionNameCamelCase(0, DimensionEnum.Channel);
             AppendLineToReset($"{channel} = {_channelIndex};");
 

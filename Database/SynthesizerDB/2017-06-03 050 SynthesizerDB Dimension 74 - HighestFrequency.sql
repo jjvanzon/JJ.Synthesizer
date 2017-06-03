@@ -1,0 +1,1 @@
+insert into Dimension (Name, ID) values ('HighestFrequency', 74)

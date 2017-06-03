@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
 using JJ.Framework.Mathematics;
@@ -626,6 +627,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
         {
+            switch (dto.StandardDimensionEnum)
+            {
+                case DimensionEnum.SamplingRate:
+                    return new Number_OperatorDto { Number = dto.SamplingRate, OperatorID = dto.OperatorID };
+
+                case DimensionEnum.HighestFrequency:
+                    return new Number_OperatorDto { Number = dto.SamplingRate / 2.0, OperatorID = dto.OperatorID };
+            }
+
             return Process_Nothing(dto);
         }
 
