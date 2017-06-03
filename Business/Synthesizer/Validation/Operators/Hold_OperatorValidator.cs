@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   obj, 
                   OperatorTypeEnum.Hold, 
                   new[] { DimensionEnum.Signal },
-                  new[] { DimensionEnum.Result })
+                  new[] { DimensionEnum.Number })
         { }
     }
 }

@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 obj, 
                 OperatorTypeEnum.NotEqual,
                 new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Result })
+                new[] { DimensionEnum.Number })
         { }
     }
 }

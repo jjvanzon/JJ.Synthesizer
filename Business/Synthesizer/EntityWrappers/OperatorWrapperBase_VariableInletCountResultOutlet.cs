@@ -10,6 +10,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, DimensionEnum.Result);
+        public Outlet Result => OperatorHelper.GetOutlet(WrappedOperator, DimensionEnum.Number);
     }
 }

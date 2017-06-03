@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class Multiply_OperatorValidator : OperatorValidator_Base_VariableInletCountOneOutlet
     {
         public Multiply_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.Multiply, DimensionEnum.Result, expectedDataKeys: new string[0])
+            : base(obj, OperatorTypeEnum.Multiply, DimensionEnum.Number, expectedDataKeys: new string[0])
         { }
     }
 }

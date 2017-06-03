@@ -680,7 +680,7 @@ namespace JJ.Business.Synthesizer
                     {
                         var number = Number(inlet.DefaultValue.Value);
 
-                        inlet.LinkTo(number.Result);
+                        inlet.LinkTo(number.NumberOutlet);
 
                         EntityPosition numberEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(number.WrappedOperator.ID);
                         numberEntityPosition.X = x;

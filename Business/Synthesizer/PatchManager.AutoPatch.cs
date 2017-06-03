@@ -223,7 +223,7 @@ namespace JJ.Business.Synthesizer
 
             foreach (Inlet customOperatorFrequencyInlet in customOperatorFrequencyInlets)
             {
-                customOperatorFrequencyInlet.LinkTo(frequency.Result);
+                customOperatorFrequencyInlet.LinkTo(frequency.NumberOutlet);
             }
 
             IList<Outlet> signalOutlets = customOperator.Outlets.GetMany(DimensionEnum.Signal);

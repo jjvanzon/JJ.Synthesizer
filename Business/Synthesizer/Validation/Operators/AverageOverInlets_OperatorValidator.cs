@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class AverageOverInlets_OperatorValidator : OperatorValidator_Base_VariableInletCountOneOutlet
     {
         public AverageOverInlets_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.AverageOverInlets, DimensionEnum.Result, expectedDataKeys: new string[0])
+            : base(obj, OperatorTypeEnum.AverageOverInlets, DimensionEnum.Number, expectedDataKeys: new string[0])
         { }
     }
 }

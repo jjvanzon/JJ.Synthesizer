@@ -5,13 +5,13 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public abstract class OperatorWrapperBase_WithNumberInletAndResultOutlet : OperatorWrapperBase_WithResultOutlet
+    public abstract class OperatorWrapperBase_WithNumberInletAndNumberOutlet : OperatorWrapperBase_WithNumberOutlet
     {
-        public OperatorWrapperBase_WithNumberInletAndResultOutlet(Operator op)
+        public OperatorWrapperBase_WithNumberInletAndNumberOutlet(Operator op)
             : base(op)
         { }
 
-        public Outlet Number
+        public Outlet NumberInput
         {
             get => NumberInlet.InputOutlet;
             set => NumberInlet.LinkTo(value);

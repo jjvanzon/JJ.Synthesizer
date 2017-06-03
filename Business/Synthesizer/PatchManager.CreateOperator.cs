@@ -50,11 +50,11 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Absolute,
                 new[] { DimensionEnum.Number },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new Absolute_OperatorWrapper(op)
             {
-                Number = number
+                NumberInput = number
             };
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.And,
                 new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new And_OperatorWrapper(op)
             {
@@ -333,7 +333,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.ClosestOverDimension,
                 new[] { DimensionEnum.Input, DimensionEnum.Collection, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -371,7 +371,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.ClosestOverDimensionExp,
                 new[] { DimensionEnum.Input, DimensionEnum.Collection, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -447,7 +447,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Curve,
                 new DimensionEnum[0],
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -604,7 +604,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Divide,
                 new[] { DimensionEnum.A, DimensionEnum.B, DimensionEnum.Origin },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new Divide_OperatorWrapper(op)
             {
@@ -626,7 +626,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Equal,
                 new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new Equal_OperatorWrapper(op)
             {
@@ -645,7 +645,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Exponent,
                 new[] { DimensionEnum.Low, DimensionEnum.High, DimensionEnum.Ratio },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new Exponent_OperatorWrapper(op)
             {
@@ -685,7 +685,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.GreaterThan,
                 new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new GreaterThan_OperatorWrapper(op)
             {
@@ -704,7 +704,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.GreaterThanOrEqual,
                 new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new GreaterThanOrEqual_OperatorWrapper(op)
             {
@@ -778,7 +778,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Hold,
                 new[] { DimensionEnum.Signal },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new Hold_OperatorWrapper(op)
             {
@@ -796,7 +796,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.If,
                 new[] { DimensionEnum.Condition, DimensionEnum.Then, DimensionEnum.Else },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new If_OperatorWrapper(op)
             {
@@ -912,7 +912,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.LessThan,
                 new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new LessThan_OperatorWrapper(op)
             {
@@ -931,7 +931,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.LessThanOrEqual,
                 new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new LessThanOrEqual_OperatorWrapper(op)
             {
@@ -1238,7 +1238,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.MultiplyWithOrigin,
                 new[] { DimensionEnum.A, DimensionEnum.B, DimensionEnum.Origin },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new MultiplyWithOrigin_OperatorWrapper(op)
             {
@@ -1261,11 +1261,11 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Negative,
                 new[] { DimensionEnum.Number },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new Negative_OperatorWrapper(op)
             {
-                Number = number,
+                NumberInput = number,
             };
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -1299,11 +1299,11 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Not,
                 new[] { DimensionEnum.Number },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new Not_OperatorWrapper(op)
             {
-                Number = number
+                NumberInput = number
             };
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
@@ -1343,7 +1343,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.NotEqual,
                 new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new NotEqual_OperatorWrapper(op)
             {
@@ -1362,7 +1362,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Number,
                 new DimensionEnum[0],
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new Number_OperatorWrapper(op)
             {
@@ -1380,11 +1380,11 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.OneOverX,
                 new[] { DimensionEnum.Number },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new OneOverX_OperatorWrapper(op)
             {
-                Number = number
+                NumberInput = number
             };
 
             wrapper.NumberInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
@@ -1400,7 +1400,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Or, 
                 new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new Or_OperatorWrapper(op)
             {
@@ -1560,7 +1560,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Power,
                 new[] { DimensionEnum.Base, DimensionEnum.Exponent },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new Power_OperatorWrapper(op)
             {
@@ -2141,7 +2141,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Subtract,
                 new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Result });
+                new[] { DimensionEnum.Number });
 
             var wrapper = new Subtract_OperatorWrapper(op)
             {
@@ -2473,7 +2473,7 @@ namespace JJ.Business.Synthesizer
             }
 
             var outlet = new Outlet { ID = _repositories.IDRepository.GetID() };
-            outlet.SetDimensionEnum(DimensionEnum.Result, _repositories.DimensionRepository);
+            outlet.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
             outlet.LinkTo(op);
             _repositories.OutletRepository.Insert(outlet);
 

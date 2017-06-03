@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   obj, 
                   OperatorTypeEnum.Exponent,
                   new[] { DimensionEnum.Low, DimensionEnum.High, DimensionEnum.Ratio },
-                  new[] { DimensionEnum.Result })
+                  new[] { DimensionEnum.Number })
         { }
     }
 }

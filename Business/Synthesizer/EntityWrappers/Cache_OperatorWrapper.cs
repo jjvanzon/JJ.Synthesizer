@@ -7,7 +7,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Cache_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
+    public class Cache_OperatorWrapper : OperatorWrapperBase_WithNumberOutlet
     {
         public Cache_OperatorWrapper(Operator op)
             : base(op)

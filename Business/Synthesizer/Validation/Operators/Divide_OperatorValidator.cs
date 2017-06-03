@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   obj, 
                   OperatorTypeEnum.Divide,
                   new[] { DimensionEnum.A, DimensionEnum.B, DimensionEnum.Origin },
-                  new[] { DimensionEnum.Result })
+                  new[] { DimensionEnum.Number })
         { }
     }
 }

@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class MinOverInlets_OperatorValidator : OperatorValidator_Base_VariableInletCountOneOutlet
     {
         public MinOverInlets_OperatorValidator(Operator obj)
-            : base(obj, OperatorTypeEnum.MinOverInlets, DimensionEnum.Result, expectedDataKeys: new string[0])
+            : base(obj, OperatorTypeEnum.MinOverInlets, DimensionEnum.Number, expectedDataKeys: new string[0])
         { }
     }
 }

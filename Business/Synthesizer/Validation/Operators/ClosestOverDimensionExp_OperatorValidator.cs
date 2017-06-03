@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 obj,
                 OperatorTypeEnum.ClosestOverDimensionExp,
                 new[] { DimensionEnum.Input, DimensionEnum.Collection, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
-                new[] { DimensionEnum.Result },
+                new[] { DimensionEnum.Number },
                 expectedDataKeys: new[] { nameof(ClosestOverDimensionExp_OperatorWrapper.CollectionRecalculation) })
         { }
 

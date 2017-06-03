@@ -38,7 +38,6 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 28, "PreviousPosition");
             RepositoryHelper.EnsureEnumEntity(this, 29, "Origin");
             RepositoryHelper.EnsureEnumEntity(this, 30, "Input");
-            RepositoryHelper.EnsureEnumEntity(this, 31, "Result");
             RepositoryHelper.EnsureEnumEntity(this, 32, "A");
             RepositoryHelper.EnsureEnumEntity(this, 33, "B");
             RepositoryHelper.EnsureEnumEntity(this, 36, "Base");

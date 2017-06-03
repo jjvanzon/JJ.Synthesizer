@@ -220,7 +220,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string ReleaseDuration => Resources.ReleaseDuration;
         public static string ReleaseEndMarker => Resources.ReleaseEndMarker;
         public static string Reset => Resources.Reset;
-        public static string Result => Resources.Result;
         public static string Reverse => Resources.Reverse;
         public static string Right => Resources.Right;
         public static string Round => Resources.Round;

@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 obj,
                 OperatorTypeEnum.Number,
                 new DimensionEnum[0],
-                new[] { DimensionEnum.Result },
+                new[] { DimensionEnum.Number },
                 expectedDataKeys: new[] { nameof(Number_OperatorWrapper.Number) })
         { }
 

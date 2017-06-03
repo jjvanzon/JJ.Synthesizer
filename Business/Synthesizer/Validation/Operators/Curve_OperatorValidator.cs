@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   op,
                 OperatorTypeEnum.Curve,
                 new DimensionEnum[0],
-                new[] { DimensionEnum.Result },
+                new[] { DimensionEnum.Number },
                 expectedDataKeys: new[] { nameof(Curve_OperatorWrapper.CurveID) })
         { }
 

@@ -95,6 +95,7 @@
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
     <Content Include="2016-06-23 040 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2017-06-03 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-06-02 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-01-24 020 SynthesizerDB OperatorType 26 - Select delete row.sql" />
     <Content Include="2017-01-24 010 SynthesizerDB RUN UTILITY.sql" />
@@ -370,6 +371,7 @@
     <Content Include="2017-06-01 030 SynthesizerDB Dimension insert 68 - FrequencyCount.sql" />
     <Content Include="2017-06-02 010 SynthesizerDB Dimension insert 69 - Skip, 70 - LoopStartMarker, 71 - LoopEndMarker, 72 = ReleaseEndMarker.sql" />
     <Content Include="2017-06-03 010 SynthesizerDB Dimension rename 48 - X to Number.sql" />
+    <Content Include="2017-06-03 030 SynthesizerDB Dimension delete 31 - Result.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

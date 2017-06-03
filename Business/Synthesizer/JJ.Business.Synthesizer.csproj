@@ -468,9 +468,9 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithABAndOrigin.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_BandPassFilter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_VariableOutletCount.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_WithNumberInletAndResultOutlet.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase_WithNumberInletAndNumberOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithOneOutlet.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_WithResultOutlet.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase_WithNumberOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithAAndB.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_Trigger.cs" />
     <Compile Include="EntityWrappers\RangeOverOutlets_OperatorWrapper.cs" />

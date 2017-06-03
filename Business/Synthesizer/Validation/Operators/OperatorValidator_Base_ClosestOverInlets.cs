@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 obj,
                 operatorTypeEnum,
                 DimensionEnum.Input.Concat(Enumerable.Repeat(DimensionEnum.Item, itemCount)).ToArray(),
-                new[] { DimensionEnum.Result },
+                new[] { DimensionEnum.Number },
                 expectedDataKeys: new string[0])
         { }
 

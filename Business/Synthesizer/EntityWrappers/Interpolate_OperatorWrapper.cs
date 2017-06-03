@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Interpolate_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
+    public class Interpolate_OperatorWrapper : OperatorWrapperBase_WithNumberOutlet
     {
         public Interpolate_OperatorWrapper(Operator op)
             : base(op)

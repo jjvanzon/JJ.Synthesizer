@@ -35,8 +35,6 @@
         /// <summary> Origin is usually over the X dimension. Offset is usually over the Y dimension. </summary>
         Origin = 29,
         Input = 30,
-        /// <summary> Abstract dimension could be anything coming out of an outlet. </summary>
-        Result = 31,
         /// <summary> Abstract dimension. Common used with mathematical operators that have only 2 inlets. </summary>
         A = 32,
         /// <summary> Abstract dimension. Common used with mathematical operators that have only 2 inlets. </summary>
@@ -62,7 +60,7 @@
         Ratio = 45,
         PitchBend = 46,
         MainVolume = 47,
-        /// <summary> Abstract dimension. Could be anything. Usually used with operators that have only one inlet. </summary>
+        /// <summary> Abstract dimension. Could be anything coming out of an outlet. As an inlet it is usually used if the operator has only one inlet. </summary>
         Number = 48,
         SliceLength = 49,
         SampleCount = 50,

@@ -8,7 +8,7 @@ using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class ClosestOverInlets_OperatorWrapper : OperatorWrapperBase_WithResultOutlet
+    public class ClosestOverInlets_OperatorWrapper : OperatorWrapperBase_WithNumberOutlet
     {
         public ClosestOverInlets_OperatorWrapper(Operator op)
             : base(op)
