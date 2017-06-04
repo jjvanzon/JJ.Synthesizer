@@ -2311,11 +2311,16 @@ namespace JJ.Business.Synthesizer
             }
         }
 
+        /// <summary>
+        /// A little better performant than calling SaveOperator from the Create methods,
+        /// since it prevents validating the whole patch. However, one might choose for the 
+        /// 'lack of choice = guarantees' principe here and call SaveOperator anyway.
+        /// </summary>
         private void ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(Operator op)
         {
             new Operator_SideEffect_GeneratePatchInletListIndex(op).Execute();
             new Operator_SideEffect_GeneratePatchOutletListIndex(op).Execute();
-            new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories).Execute();
+            new Operator_SideEffect_UpdateDependentCustomOperators(op, _repositories).Execute();
         }
 
         // Generic methods for operator creation
