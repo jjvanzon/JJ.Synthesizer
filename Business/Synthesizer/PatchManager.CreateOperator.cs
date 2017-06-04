@@ -1426,6 +1426,7 @@ namespace JJ.Business.Synthesizer
                 // You have to set this property or the wrapper's ListIndex getter would crash.
                 ListIndex = 0
             };
+            wrapper.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
 
             ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
 
@@ -1493,8 +1494,9 @@ namespace JJ.Business.Synthesizer
             {
                 Input = input,
                 // You have to set this property two or the wrapper's ListIndex property getter would crash.
-                ListIndex = 0,
+                ListIndex = 0
             };
+            wrapper.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
 
             ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
 

@@ -46,8 +46,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         public static LineStyle LineStyleDashed { get; }
         public static LineStyle LineStyle { get; }
         public static LineStyle LineStyleWarning { get; }
+        public static LineStyle LineStyleWarningThick { get; }
         public static LineStyle LineStyleTransparent { get; }
         public static LineStyle LineStyleThick { get; }
+        public static LineStyle LineStyleThickDark { get; }
         public static PointStyle PointStyle { get; }
         public static PointStyle PointStyleWarning { get; }
         public static PointStyle PointStyleThick { get; }
@@ -131,6 +133,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 Color = orange
             };
 
+            LineStyleWarningThick = new LineStyle
+            {
+                Width = 2,
+                Color = orange
+            };
+
             LineStyleTransparent = new LineStyle
             {
                 Width = 1,
@@ -141,6 +149,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             {
                 Width = 2,
                 Color = mediumGrey
+            };
+
+            LineStyleThickDark = new LineStyle
+            {
+                Width = 2,
+                Color = almostBlack
             };
 
             LineStyleDashed = new LineStyle

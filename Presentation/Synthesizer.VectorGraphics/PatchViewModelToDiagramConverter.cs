@@ -218,15 +218,30 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 _convertedElements.Add(destCurve);
 
+                bool lineMustBeThick = sourceOperatorViewModel1.IsSelected || sourceOperatorViewModel2.IsSelected;
                 bool mustHaveWarningAppearance = inletViewModel.HasWarningAppearance ||
                                                  (inletViewModel.InputOutlet?.HasWarningAppearance ?? false);
                 if (mustHaveWarningAppearance)
                 {
-                    destCurve.LineStyle = StyleHelper.LineStyleWarning;
+                    if (lineMustBeThick)
+                    {
+                        destCurve.LineStyle = StyleHelper.LineStyleWarningThick;
+                    }
+                    else
+                    {
+                        destCurve.LineStyle = StyleHelper.LineStyleWarning;
+                    }
                 }
                 else
                 {
-                    destCurve.LineStyle = StyleHelper.LineStyle;
+                    if (lineMustBeThick)
+                    {
+                        destCurve.LineStyle = StyleHelper.LineStyleThickDark;
+                    }
+                    else
+                    {
+                        destCurve.LineStyle = StyleHelper.LineStyle;
+                    }
                 }
 
                 destCurve.PointA = operatorVectorGraphicsElements1.InletPoints[i];

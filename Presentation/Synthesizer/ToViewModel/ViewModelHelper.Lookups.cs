@@ -228,8 +228,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             list.AddRange(
                 from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true)
-                orderby patchGroupDto.FriendlyGroupName
                 from patch in patchGroupDto.Patches
+                orderby patchGroupDto.FriendlyGroupName, patch.Name
                 let name = $"{patch.Name} | {patchGroupDto.FriendlyGroupName}"
                 select new IDAndName { ID = patch.ID, Name = name });
 
@@ -246,8 +246,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 list.AddRange(
                     from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden: false)
-                    orderby patchGroupDto.FriendlyGroupName
                     from patch in patchGroupDto.Patches
+                    orderby patchGroupDto.FriendlyGroupName, patch.Name
                     let name = $"{patch.Name} | {patchGroupDto.FriendlyGroupName} | {lowerDocumentReferenceAliasOrName}"
                     select new IDAndName { ID = patch.ID, Name = name });
             }
