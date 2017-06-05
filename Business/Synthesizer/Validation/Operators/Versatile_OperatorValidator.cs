@@ -112,23 +112,29 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             OperatorTypeEnum operatorTypeEnum = Obj.GetOperatorTypeEnum();
 
-            if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
+            switch (operatorTypeEnum)
             {
-                ExecuteValidator(new CustomOperator_OperatorValidator(Obj, _patchRepository));
-                return;
-            }
+                case OperatorTypeEnum.Undefined:
+                    break;
 
-            Type validatorType;
-            if (!_validatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
-            {
-                throw new Exception($"_validatorTypeDictionary does not contain key OperatorTypeEnum '{operatorTypeEnum}'.");
-            }
-            else
-            {
-                if (validatorType != null)
-                {
-                    ExecuteValidator(validatorType);
-                }
+                case OperatorTypeEnum.CustomOperator:
+                    ExecuteValidator(new CustomOperator_OperatorValidator(Obj, _patchRepository));
+                    break;
+
+                default:
+                    Type validatorType;
+                    if (!_validatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
+                    {
+                        throw new Exception($"_validatorTypeDictionary does not contain key OperatorTypeEnum '{operatorTypeEnum}'.");
+                    }
+                    else
+                    {
+                        if (validatorType != null)
+                        {
+                            ExecuteValidator(validatorType);
+                        }
+                    }
+                    break;
             }
         }
     }

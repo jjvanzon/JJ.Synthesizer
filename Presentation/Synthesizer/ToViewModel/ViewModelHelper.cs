@@ -688,19 +688,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             EntityPositionManager entityPositionManager)
         {
             if (entity == null) throw new NullException(() => entity);
+            if (entity.OperatorType == null) throw new NullException(() => entity.OperatorType);
             if (viewModel == null) throw new NullException(() => viewModel);
 
             viewModel.ID = entity.ID;
             viewModel.StyleGrade = StyleGradeEnum.StyleGradeNeutral;
             viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, patchRepository);
-            viewModel.OperatorType = entity.OperatorType?.ToIDAndDisplayName();
             viewModel.IsOwned = GetOperatorIsOwned(entity);
+            viewModel.OperatorType = entity.OperatorType.ToIDAndDisplayName();
 
             EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
             viewModel.EntityPositionID = entityPosition.ID;
             viewModel.CenterX = entityPosition.X;
             viewModel.CenterY = entityPosition.Y;
             viewModel.Dimension = entity.ToDimensionViewModel();
+
         }
 
         public static DimensionViewModel ToDimensionViewModel(this Operator entity)
@@ -1002,15 +1004,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var sb = new StringBuilder();
 
             OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
-            if (!OperatorTypeEnums_WithHiddenInletNames.Contains(operatorTypeEnum))
+            if (operatorTypeEnum != OperatorTypeEnum.Undefined)
             {
-                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
-                    inlet.Operator,
-                    curveRepository,
-                    sampleRepository,
-                    patchRepository);
-                string inletDisplayName = wrapper.GetInletDisplayName(inlet);
-                sb.Append(inletDisplayName);
+                if (!OperatorTypeEnums_WithHiddenInletNames.Contains(operatorTypeEnum))
+                {
+                    OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                        inlet.Operator,
+                        curveRepository,
+                        sampleRepository,
+                        patchRepository);
+                    string inletDisplayName = wrapper.GetInletDisplayName(inlet);
+                    sb.Append(inletDisplayName);
+                }
             }
 
             if (inlet.InputOutlet == null)
