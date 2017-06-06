@@ -71,7 +71,6 @@ namespace JJ.Business.Synthesizer
             {
                 return validator.ToResult();
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 sample.UnlinkRelatedEntities();

@@ -242,11 +242,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     // HACK: applies view model to entity model.
                     _presenter.DocumentRefresh();
 
-                    int audioOutputID = _presenter.MainViewModel.Document.AudioOutputProperties.Entity.ID;
-                    AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(audioOutputID);
-                    Patch patch = GetCurrentInstrumentPatch();
+                    // Temporary: I cannot debug my code. It keeps going off all the time.
+                    return;
 
-                    _infrastructureFacade.UpdateInfrastructure(audioOutput, patch);
+                    if (_presenter.MainViewModel.Successful)
+                    {
+                        int audioOutputID = _presenter.MainViewModel.Document.AudioOutputProperties.Entity.ID;
+                        AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(audioOutputID);
+                        Patch patch = GetCurrentInstrumentPatch();
+
+                        _infrastructureFacade.UpdateInfrastructure(audioOutput, patch);
+                    }
                 });
         }
 
@@ -295,7 +301,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.AudioOutputPropertiesClose();
-                    RecreatePatchCalculator();
+
+                    RecreatePatchCalculatorIfSuccessful();
                     SetAudioOutputIfNeeded();
                 });
         }
@@ -306,7 +313,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.AudioOutputPropertiesLoseFocus();
-                    RecreatePatchCalculator();
+
+                    RecreatePatchCalculatorIfSuccessful();
                     SetAudioOutputIfNeeded();
                 });
         }
@@ -317,6 +325,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.AudioOutputPropertiesPlay();
+
                     PlayOutletIfNeeded();
                 });
         }
@@ -329,7 +338,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.AddToInstrument(e.Value);
-                    RecreatePatchCalculator();
+
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -341,6 +351,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.CurrentInstrumentPlay();
+
                     PlayOutletIfNeeded();
                 });
         }
@@ -351,7 +362,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.RemoveFromInstrument(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -390,7 +401,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.NodeCreate(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -400,7 +411,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.NodeDeleteSelected(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -424,7 +435,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.NodeMoved(e.CurveID, e.NodeID, e.X, e.Y);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -434,7 +445,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.NodeChangeSelectedNodeType(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -623,7 +634,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.DocumentRefresh();
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -688,9 +699,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void libraryPatchGridUserControl_CloseRequested(object sender, EventArgs e)
         {
             TemplateActionHandler(
-                () => _presenter.LibraryPatchGridClose(
-                    libraryPatchGridUserControl.ViewModel.LowerDocumentReferenceID,
-                    libraryPatchGridUserControl.ViewModel.Group));
+                () =>
+                {
+                    _presenter.LibraryPatchGridClose(libraryPatchGridUserControl.ViewModel.LowerDocumentReferenceID, libraryPatchGridUserControl.ViewModel.Group);
+                });
         }
 
         private void libraryPatchGridUserControl_OpenItemExternallyRequested(object sender, EventArgs<int> e)
@@ -727,7 +739,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.AddToInstrument(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -846,7 +858,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.NodePropertiesClose(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -856,7 +868,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.NodePropertiesLoseFocus(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -866,7 +878,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.NodePropertiesDelete(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -888,7 +900,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesDelete(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -898,7 +910,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -908,7 +920,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -918,7 +930,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_ForCache(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -928,7 +940,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_ForCache(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -938,7 +950,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_ForCurve(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -948,7 +960,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_ForCurve(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -958,7 +970,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_ForCustomOperator(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -968,7 +980,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_ForCustomOperator(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -978,7 +990,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_ForInletsToDimension(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -988,7 +1000,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_ForInletsToDimension(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -998,7 +1010,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_ForNumber(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1008,7 +1020,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_ForNumber(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1018,7 +1030,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_ForPatchInlet(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1028,7 +1040,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_ForPatchInlet(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1038,7 +1050,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_ForPatchOutlet(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1048,7 +1060,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_ForPatchOutlet(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1058,7 +1070,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_ForSample(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1068,7 +1080,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_ForSample(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1078,7 +1090,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_WithInterpolation(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1088,7 +1100,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_WithInterpolation(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1098,7 +1110,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_WithCollectionRecalculation(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1108,7 +1120,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_WithCollectionRecalculation(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1118,7 +1130,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_WithOutletCount(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1128,7 +1140,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_WithOutletCount(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1138,7 +1150,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesLoseFocus_WithInletCount(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1148,7 +1160,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_WithInletCount(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1160,7 +1172,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1172,7 +1184,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorCreate(e.PatchID, e.OperatorTypeID);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1182,7 +1194,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorDeleteSelected(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1202,6 +1214,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.PatchDetailsPlay(e.Value);
+
                     PlayOutletIfNeeded();
                 });
         }
@@ -1213,7 +1226,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorDeleteSelected(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1248,7 +1261,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.PatchGridDelete(patchGridUserControl.ViewModel.Group, e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1290,7 +1303,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.PatchPropertiesDelete(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1320,7 +1333,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.SamplePropertiesLoseFocus(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1330,7 +1343,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.SamplePropertiesClose(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1367,7 +1380,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.ToneGridEditEdit(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1382,7 +1395,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.ToneCreate(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1392,7 +1405,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.ToneDelete(e.ScaleID, e.ToneID);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1412,7 +1425,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.ScalePropertiesClose(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1422,7 +1435,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.ScalePropertiesLoseFocus(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -1432,7 +1445,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.ScalePropertiesDelete(e.Value);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 

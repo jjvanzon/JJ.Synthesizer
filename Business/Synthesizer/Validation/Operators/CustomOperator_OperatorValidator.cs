@@ -120,9 +120,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator customOperator = Obj;
 
-            foreach (Inlet customOperatorInlet in customOperator.Inlets)
+            IList<(Inlet sourceCustomOperatorInlet, Operator destPatchInlet)> tuples =
+                InletOutletMatcher.Match_CustomOperator_With_UnderlyingPatchInlets(customOperator, _patchRepository);
+
+            foreach ((Inlet sourceCustomOperatorInlet, Operator destPatchInlet) tuple in tuples)
             {
-                Operator underlyingPatchInletOperator = InletOutletMatcher.TryGetPatchInlet(customOperatorInlet, _patchRepository);
+                Inlet customOperatorInlet = tuple.sourceCustomOperatorInlet;
+                Operator underlyingPatchInletOperator = tuple.destPatchInlet;
 
                 ValidateIsObsolete(customOperatorInlet, underlyingPatchInletOperator);
 
@@ -145,7 +149,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
 
-                if (!string.Equals(customOperatorInlet.Name, underlyingPatchInletOperator.Name))
+                if (!NameHelper.AreEqual(customOperatorInlet.Name, underlyingPatchInletOperator.Name))
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
                         CommonResourceFormatter.Name,
@@ -218,9 +222,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator customOperator = Obj;
 
-            foreach (Outlet customOperatorOutlet in customOperator.Outlets)
+            IList<(Outlet customOperatorOutlet, Operator underlyingPatchOutlet)> tuples =
+                InletOutletMatcher.Match_CustomOperator_With_UnderlyingPatchOutlets(customOperator, _patchRepository);
+
+            foreach ((Outlet customOperatorOutlet, Operator underlyingPatchOutlet) tuple in tuples)
             {
-                Operator underlyingPatchOutlet = InletOutletMatcher.TryGetPatchOutlet(customOperatorOutlet, _patchRepository);
+                Operator underlyingPatchOutlet = tuple.underlyingPatchOutlet;
+                Outlet customOperatorOutlet = tuple.customOperatorOutlet;
 
                 ValidateIsObsolete(customOperatorOutlet, underlyingPatchOutlet);
 
@@ -243,7 +251,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
 
-                if (!string.Equals(customOperatorOutlet.Name, underlyingPatchOutlet.Name))
+                if (!NameHelper.AreEqual(customOperatorOutlet.Name, underlyingPatchOutlet.Name))
                 {
                     string message = GetOutletPropertyDoesNotMatchMessage(
                         CommonResourceFormatter.Name,
@@ -314,15 +322,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             return null;
         }
 
-        private Inlet TryGetInlet(Operator op)
-        {
-            return op.Inlets.FirstOrDefault();
-        }
+        private Inlet TryGetInlet(Operator op) => op.Inlets.FirstOrDefault();
 
-        private Outlet TryGetOutlet(Operator op)
-        {
-            return op.Outlets.FirstOrDefault();
-        }
+        private Outlet TryGetOutlet(Operator op) => op.Outlets.FirstOrDefault();
 
         private static string GetInletPropertyDoesNotMatchMessage(
             string propertyDisplayName,

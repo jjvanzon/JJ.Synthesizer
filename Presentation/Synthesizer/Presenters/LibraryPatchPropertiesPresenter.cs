@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Business
                 var patchManager = new PatchManager(patch, repositories);
-                Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch);
+                Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(patch);
                 Outlet outlet = result.Data;
 
                 // Non-Persisted

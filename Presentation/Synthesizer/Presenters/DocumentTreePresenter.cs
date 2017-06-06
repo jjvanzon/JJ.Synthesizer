@@ -5,6 +5,8 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System;
+using System.Linq;
+using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -124,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel =>
                 {
                     viewModel.SelectedPatchGroupLowerDocumentReferenceID = lowerDocumentReferenceID;
-                    viewModel.SelectedPatchGroup = patchGroup;
+                    viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(patchGroup);
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatchGroup;
                 });
         }
@@ -166,7 +168,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput,
                 viewModel =>
                 {
-                    viewModel.SelectedPatchGroup = group;
+                    viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(group);
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.PatchGroup;
                 });
         }
@@ -196,6 +198,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
+            ClearSelectedItemIfDeleted(viewModel);
 
             // Action
             action(viewModel);
@@ -217,9 +220,92 @@ namespace JJ.Presentation.Synthesizer.Presenters
             destViewModel.SelectedNodeType = sourceViewModel.SelectedNodeType;
             destViewModel.SelectedItemID = sourceViewModel.SelectedItemID;
             destViewModel.OutletIDToPlay = sourceViewModel.OutletIDToPlay;
-            destViewModel.SelectedPatchGroup = sourceViewModel.SelectedPatchGroup;
+            destViewModel.SelectedCanonicalPatchGroup = sourceViewModel.SelectedCanonicalPatchGroup;
             destViewModel.SelectedPatchGroupLowerDocumentReferenceID = sourceViewModel.SelectedPatchGroupLowerDocumentReferenceID;
             destViewModel.CanPlay = sourceViewModel.CanPlay;
+        }
+
+        private void ClearSelectedItemIfDeleted(DocumentTreeViewModel viewModel)
+        {
+            if (!viewModel.SelectedItemID.HasValue)
+            {
+                return;
+            }
+
+            switch (viewModel.SelectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.Library:
+                {
+                    DocumentReference entity = _repositories.DocumentReferenceRepository.TryGet(viewModel.SelectedItemID.Value);
+                    if (entity == null)
+                    {
+                        ClearSelection(viewModel);
+                    }
+                    break;
+                }
+
+                case DocumentTreeNodeTypeEnum.LibraryPatch:
+                {
+                    Patch entity = _repositories.PatchRepository.TryGet(viewModel.SelectedItemID.Value);
+                    if (entity == null)
+                    {
+                        ClearSelection(viewModel);
+                    }
+                    break;
+                }
+
+                case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
+                {
+                    // ReSharper disable once SimplifyLinqExpression
+                    bool nodeExists = viewModel.LibrariesNode.List
+                                               .SelectMany(x => x.PatchGroupNodes)
+                                               .Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup))
+                                               .Any();
+                    if (!nodeExists)
+                    { 
+                
+                        
+                        ClearSelection(viewModel);
+                    }
+                    break;
+                }
+
+                case DocumentTreeNodeTypeEnum.Patch:
+                {
+                    Patch entity = _repositories.PatchRepository.TryGet(viewModel.SelectedItemID.Value);
+                    if (entity == null)
+                    {
+                        ClearSelection(viewModel);
+                    }
+                    break;
+                }
+
+                case DocumentTreeNodeTypeEnum.PatchGroup:
+                {
+                    bool nodeExists1 = viewModel.PatchesNode
+                                                .PatchGroupNodes
+                                                .Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup))
+                                                .Any();
+
+                    bool nodeExists2 = NameHelper.AreEqual(viewModel.SelectedCanonicalPatchGroup, "");
+
+                    bool nodeExists = nodeExists1 || nodeExists2;
+
+                    if (!nodeExists)
+                    {
+                        ClearSelection(viewModel);
+                    }
+                    break;
+                }
+            }
+        }
+
+        private void ClearSelection(DocumentTreeViewModel viewModel)
+        {
+            viewModel.SelectedItemID = null;
+            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Undefined;
+            viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(null);
+            viewModel.SelectedPatchGroupLowerDocumentReferenceID = null;
         }
     }
 }

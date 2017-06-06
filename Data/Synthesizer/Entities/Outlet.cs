@@ -46,6 +46,6 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual IList<Inlet> ConnectedInlets { get; set; }
         public virtual IList<AudioFileOutput> InAudioFileOutputs { get; set; }
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

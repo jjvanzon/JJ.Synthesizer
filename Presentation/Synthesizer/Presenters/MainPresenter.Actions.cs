@@ -330,7 +330,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     var patchManager = new PatchManager(_patchRepositories);
                     patchManager.AutoPatch(entities);
                     Patch autoPatch = patchManager.Patch;
-                    Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(autoPatch);
+                    Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(autoPatch);
                     Outlet outlet = result.Data;
 
                     // ToViewModel
@@ -1172,7 +1172,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         var patchManager = new PatchManager(_patchRepositories);
                         patchManager.AutoPatch(entities);
                         Patch autoPatch = patchManager.Patch;
-                        result = patchManager.AutoPatch_TryCombineSignals(autoPatch);
+                        result = patchManager.AutoPatch_TryCombineSounds(autoPatch);
 
                         break;
                     }
@@ -1201,7 +1201,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                         // Business
                         var patchManager = new PatchManager(patch, _patchRepositories);
-                        result = patchManager.AutoPatch_TryCombineSignals(patch);
+                        result = patchManager.AutoPatch_TryCombineSounds(patch);
 
                         break;
                     }
@@ -1217,7 +1217,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         var patchManager = new PatchManager(_patchRepositories);
                         result = patchManager.TryAutoPatchFromPatchGroupRandomly(
                             lowerDocumentReference.LowerDocument,
-                            userInput.SelectedPatchGroup,
+                            userInput.SelectedCanonicalPatchGroup,
                             mustIncludeHidden: false);
 
                         break;
@@ -1227,7 +1227,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     {
                         // Business
                         var patchManager = new PatchManager(_patchRepositories);
-                        result = patchManager.TryAutoPatchFromPatchGroupRandomly(document, userInput.SelectedPatchGroup, mustIncludeHidden: false);
+                        result = patchManager.TryAutoPatchFromPatchGroupRandomly(document, userInput.SelectedCanonicalPatchGroup, mustIncludeHidden: false);
                         
                         break;
                     }
@@ -1300,7 +1300,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel.OutletIDToPlay = outlet?.ID;
                 viewModel.SelectedItemID = userInput.SelectedItemID;
                 viewModel.SelectedNodeType = userInput.SelectedNodeType;
-                viewModel.SelectedPatchGroup = userInput.SelectedPatchGroup;
+                viewModel.SelectedCanonicalPatchGroup = userInput.SelectedCanonicalPatchGroup;
                 viewModel.SelectedPatchGroupLowerDocumentReferenceID = userInput.SelectedPatchGroupLowerDocumentReferenceID;
                 viewModel.CanPlay = userInput.CanPlay;
 

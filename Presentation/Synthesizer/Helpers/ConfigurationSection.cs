@@ -12,5 +12,9 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         [XmlAttribute]
         public string TitleBarExtraText { get; set; }
+
+        [XmlAttribute("idsVisible")]
+        // ReSharper disable once InconsistentNaming
+        public bool IDsVisible { get; set; }
     }
 }

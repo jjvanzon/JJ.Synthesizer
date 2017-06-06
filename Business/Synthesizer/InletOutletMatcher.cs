@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
@@ -14,25 +14,46 @@ namespace JJ.Business.Synthesizer
 {
     internal static class InletOutletMatcher
     {
-        public static Inlet TryGetCustomOperatorInlet(Operator sourcePatchInlet, IList<Inlet> destCustomOperatorInlets)
+        // Patch to CustomOperator (e.g. for Converters)
+
+        /// <summary> Returned tuples can contain null-elements. </summary>
+        public static IList<(Operator sourcePatchInlet, Inlet destCustomOperatorInlet)> Match_PatchInlets_With_CustomOperatorInlets(
+            IList<Operator> sourcePatchInlets,
+            IList<Inlet> destCustomOperatorInlets)
         {
-            if (destCustomOperatorInlets == null) throw new NullException(() => destCustomOperatorInlets);
+            IList<Operator> sourceSortedPatchInlets = SortPatchInlets(sourcePatchInlets);
+            IList<Inlet> destCandidateCustomOperatorInlets = SortInlets(destCustomOperatorInlets);
+
+            var tuples = new List<(Operator sourcePatchInlet, Inlet destCustomOperatorInlet)>();
+
+            foreach (Operator sourcePatchInlet in sourceSortedPatchInlets)
+            {
+                Inlet destCustomOperatorInlet = TryGetCustomOperatorInlet(sourcePatchInlet, destCandidateCustomOperatorInlets);
+
+                tuples.Add((sourcePatchInlet, destCustomOperatorInlet));
+
+                destCandidateCustomOperatorInlets.Remove(destCustomOperatorInlet);
+            }
+
+            return tuples;
+        }
+
+        private static Inlet TryGetCustomOperatorInlet(Operator sourcePatchInlet, IList<Inlet> destCandicateCustomOperatorInlets)
+        {
+            if (destCandicateCustomOperatorInlets == null) throw new NullException(() => destCandicateCustomOperatorInlets);
 
             var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
 
             // Try match by name
             if (NameHelper.IsFilledIn(sourcePatchInletWrapper.Name))
             {
-                string canonical_SourcePatchInlet_Name = NameHelper.ToCanonical(sourcePatchInletWrapper.Name);
+                string canonicalSourceName = NameHelper.ToCanonical(sourcePatchInletWrapper.Name);
 
-                foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
+                foreach (Inlet destCustomOperatorInlet in destCandicateCustomOperatorInlets)
                 {
-                    string canonical_DestCustomOperatorInlet_Name = NameHelper.ToCanonical(destCustomOperatorInlet.Name);
+                    string canonicalDestName = NameHelper.ToCanonical(destCustomOperatorInlet.Name);
 
-                    bool namesAreEqual = string.Equals(
-                        canonical_DestCustomOperatorInlet_Name,
-                        canonical_SourcePatchInlet_Name);
-
+                    bool namesAreEqual = string.Equals(canonicalDestName, canonicalSourceName);
                     if (namesAreEqual)
                     {
                         return destCustomOperatorInlet;
@@ -40,51 +61,65 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            // Try match by Dimension (if unique)
+            // Try match by Dimension
             DimensionEnum sourceDimensionEnum = sourcePatchInletWrapper.DimensionEnum;
-
-            if (sourceDimensionEnum != DimensionEnum.Undefined)
+            bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
+            if (dimensionIsFilledIn)
             {
-                IList<Inlet> destCustomOperatorInlets_WithMatchingDimension =
-                    destCustomOperatorInlets.Where(x => x.GetDimensionEnum() == sourceDimensionEnum).ToArray();
+                Inlet destCustomOperatorInlet_WithMatchingDimension =
+                    destCandicateCustomOperatorInlets.FirstOrDefault(x => x.GetDimensionEnum() == sourceDimensionEnum);
 
-                if (destCustomOperatorInlets_WithMatchingDimension.Count == 1)
+                if (destCustomOperatorInlet_WithMatchingDimension != null)
                 {
-                    return destCustomOperatorInlets_WithMatchingDimension[0];
+                    return destCustomOperatorInlet_WithMatchingDimension;
                 }
             }
 
             // Try match by list index
-            foreach (Inlet destInlet in destCustomOperatorInlets)
-            {
-                if (destInlet.ListIndex == sourcePatchInletWrapper.ListIndex)
-                {
-                    return destInlet;
-                }
-            }
+            Inlet destCustomOperatorInlet_WithMatchingListIndex =
+                destCandicateCustomOperatorInlets.FirstOrDefault(destInlet => destInlet.ListIndex == sourcePatchInletWrapper.ListIndex);
 
-            return null;
+            return destCustomOperatorInlet_WithMatchingListIndex;
         }
 
-        public static Outlet TryGetCustomOperatorOutlet(Operator sourcePatchOutlet, IList<Outlet> destCustomOperatorOutlets)
+        /// <summary> Returned tuples can contain null-elements. </summary>
+        public static IList<(Operator sourcePatchOutlet, Outlet destCustomOperatorOutlet)> Match_PatchOutlets_With_CustomOperatorOutlets(
+            IList<Operator> sourcePatchOutlets, 
+            IList<Outlet> destCustomOperatorOutlets)
         {
-            if (destCustomOperatorOutlets == null) throw new NullException(() => destCustomOperatorOutlets);
+            IList<Operator> sourceSortedPatchOutlets = SortPatchOutlets(sourcePatchOutlets);
+            IList<Outlet> destCandidateCustomOperatorOutlets = SortOutlets(destCustomOperatorOutlets);
+
+            var tuples = new List<(Operator sourcePatchOutlet, Outlet destCustomOperatorOutlet)>();
+
+            foreach (Operator sourcePatchOutlet in sourceSortedPatchOutlets)
+            {
+                Outlet destCustomOperatorOutlet = TryGetCustomOperatorOutlet(sourcePatchOutlet, destCandidateCustomOperatorOutlets);
+
+                tuples.Add((sourcePatchOutlet, destCustomOperatorOutlet));
+
+                destCandidateCustomOperatorOutlets.Remove(destCustomOperatorOutlet);
+            }
+
+            return tuples;
+        }
+
+        private static Outlet TryGetCustomOperatorOutlet(Operator sourcePatchOutlet, IList<Outlet> destCandicateCustomOperatorOutlets)
+        {
+            if (destCandicateCustomOperatorOutlets == null) throw new NullException(() => destCandicateCustomOperatorOutlets);
 
             var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
 
             // Try match by name
             if (NameHelper.IsFilledIn(sourcePatchOutletWrapper.Name))
             {
-                string canonical_SourcePatchOutlet_Name = NameHelper.ToCanonical(sourcePatchOutletWrapper.Name);
+                string canonicalSourceName = NameHelper.ToCanonical(sourcePatchOutletWrapper.Name);
 
-                foreach (Outlet destCustomOperatorOutlet in destCustomOperatorOutlets)
+                foreach (Outlet destCustomOperatorOutlet in destCandicateCustomOperatorOutlets)
                 {
-                    string canonical_DestCustomOperatorOutlet_Name = NameHelper.ToCanonical(destCustomOperatorOutlet.Name);
+                    string canonicalDestName = NameHelper.ToCanonical(destCustomOperatorOutlet.Name);
 
-                    bool namesAreEqual = string.Equals(
-                        canonical_DestCustomOperatorOutlet_Name,
-                        canonical_SourcePatchOutlet_Name);
-
+                    bool namesAreEqual = string.Equals(canonicalDestName, canonicalSourceName);
                     if (namesAreEqual)
                     {
                         return destCustomOperatorOutlet;
@@ -92,217 +127,294 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            // Try match by Dimension (if unique)
+            // Try match by Dimension
             DimensionEnum sourceDimensionEnum = sourcePatchOutletWrapper.DimensionEnum;
-
-            if (sourceDimensionEnum != DimensionEnum.Undefined)
-            {
-                IList<Outlet> destCustomOperatorOutlets_WithMatchingDimension =
-                    destCustomOperatorOutlets.Where(x => x.GetDimensionEnum() == sourceDimensionEnum).ToArray();
-
-                if (destCustomOperatorOutlets_WithMatchingDimension.Count == 1)
-                {
-                    return destCustomOperatorOutlets_WithMatchingDimension[0];
-                }
-            }
-
-            // Try match by list index
-            foreach (Outlet destOutlet in destCustomOperatorOutlets)
-            {
-                if (destOutlet.ListIndex == sourcePatchOutletWrapper.ListIndex)
-                {
-                    return destOutlet;
-                }
-            }
-
-            return null;
-        }
-    
-        public static Operator GetPatchInlet(Inlet source_CustomOperator_Inlet, IPatchRepository patchRepository)
-        {
-            if (source_CustomOperator_Inlet == null) throw new NullException(() => source_CustomOperator_Inlet);
-
-            Operator dest_UnderlyingPatch_PatchInlet = TryGetPatchInlet(source_CustomOperator_Inlet, patchRepository);
-
-            // ReSharper disable once InvertIf
-            if (dest_UnderlyingPatch_PatchInlet == null)
-            {
-                var identifier = new
-                {
-                    source_CustomOperator_Inlet.Name,
-                    DimensionEnum =source_CustomOperator_Inlet.GetDimensionEnum(),
-                    source_CustomOperator_Inlet.ListIndex
-                };
-
-                throw new Exception($"PatchInlet not found in UnderlyingPatch. {nameof(source_CustomOperator_Inlet)}: {identifier}");
-            }
-
-            return dest_UnderlyingPatch_PatchInlet;
-        }
-
-        public static Operator TryGetPatchInlet(Inlet source_CustomOperator_Inlet, IPatchRepository patchRepository)
-        {
-            if (source_CustomOperator_Inlet == null) throw new NullException(() => source_CustomOperator_Inlet);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-
-            IList<Operator> dest_UnderlyingPatch_PatchInlets;
-            {
-                Operator source_CustomOperator = source_CustomOperator_Inlet.Operator;
-                CustomOperator_OperatorWrapper source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
-                Patch dest_UnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
-                dest_UnderlyingPatch_PatchInlets = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
-            }
-
-            // Try match by name
-            if (NameHelper.IsFilledIn(source_CustomOperator_Inlet.Name))
-            {
-                string canonical_Source_CustomOperator_Inlet_Name = NameHelper.ToCanonical(source_CustomOperator_Inlet.Name);
-
-                foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
-                {
-                    string canonical_Dest_UnderlyingPatch_PatchInlet_Name = NameHelper.ToCanonical(dest_UnderlyingPatch_PatchInlet.Name);
-
-                    bool namesAreEqual = string.Equals(
-                        canonical_Dest_UnderlyingPatch_PatchInlet_Name,
-                        canonical_Source_CustomOperator_Inlet_Name);
-
-                    if (namesAreEqual)
-                    {
-                        return dest_UnderlyingPatch_PatchInlet;
-                    }
-                }
-            }
-
-            // Try match by Dimension (if unique)
-            DimensionEnum sourceDimensionEnum = source_CustomOperator_Inlet.GetDimensionEnum();
-
             bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
             if (dimensionIsFilledIn)
             {
-                var dest_Underlying_PatchInlets_WithMatchingDimension = new List<Operator>();
+                Outlet destCustomOperatorOutlet_WithMatchingDimension =
+                    destCandicateCustomOperatorOutlets.FirstOrDefault(x => x.GetDimensionEnum() == sourceDimensionEnum);
 
-                foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
+                if (destCustomOperatorOutlet_WithMatchingDimension != null)
                 {
-                    var destWrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
-
-                    bool dimensionsAreEqual = destWrapper.DimensionEnum == sourceDimensionEnum;
-                    if (dimensionsAreEqual)
-                    {
-                        dest_Underlying_PatchInlets_WithMatchingDimension.Add(dest_UnderlyingPatch_PatchInlet);
-                    }
-                }
-
-                if (dest_Underlying_PatchInlets_WithMatchingDimension.Count == 1)
-                {
-                    return dest_Underlying_PatchInlets_WithMatchingDimension[0];
+                    return destCustomOperatorOutlet_WithMatchingDimension;
                 }
             }
 
             // Try match by list index
-            foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
-            {
-                var destWrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
-                if (destWrapper.ListIndex == source_CustomOperator_Inlet.ListIndex)
-                {
-                    return dest_UnderlyingPatch_PatchInlet;
-                }
-            }
+            Outlet customOperatorOutlet_WithMatchingListIndex =
+                destCandicateCustomOperatorOutlets.FirstOrDefault(destOutlet => destOutlet.ListIndex == sourcePatchOutletWrapper.ListIndex);
 
-            return null;
+            return customOperatorOutlet_WithMatchingListIndex;
+        }
+        
+        // CustomOperator to Patch (e.g. for Validation)
+
+        /// <summary> destPatchInlet in returned tuples can be null. </summary>
+        public static IList<(Inlet sourceCustomOperatorInlet, Operator destPatchInlet)> Match_CustomOperator_With_UnderlyingPatchInlets(
+            Operator sourceCustomOperator, 
+            IPatchRepository patchRepository)
+        {
+            IList<Inlet> sourceCustomOperatorInlets = sourceCustomOperator.Inlets.ToList();
+            IList<Operator> destPatchInlets = GetUnderlyingPatchInlets(sourceCustomOperator, patchRepository);
+
+            return Match_CustomOperatorInlets_With_UnderlyingPatchInlets(sourceCustomOperatorInlets, destPatchInlets);
         }
 
-        public static Operator GetPatchOutlet(Outlet source_CustomOperator_Outlet, IPatchRepository patchRepository)
+        /// <summary> destPatchInlet in returned tuples can be null. </summary>
+        private static IList<(Inlet sourceCustomOperatorInlet, Operator destPatchInlet)> Match_CustomOperatorInlets_With_UnderlyingPatchInlets(
+            IList<Inlet> sourceCustomOperatorInlets, 
+            IList<Operator> destPatchInlets)
         {
-            if (source_CustomOperator_Outlet == null) throw new NullException(() => source_CustomOperator_Outlet);
+            IList<Inlet> sourceSortedCustomOperatorInlets = SortInlets(sourceCustomOperatorInlets);
+            IList<Operator> destCandidatePatchInlets = SortPatchInlets(destPatchInlets);
 
-            Operator dest_UnderlyingPatch_PatchOutlet = TryGetPatchOutlet(source_CustomOperator_Outlet, patchRepository);
+            var tuples = new List<(Inlet sourceCustomOperatorInlet, Operator destPatchInlet)>();
 
-            // ReSharper disable once InvertIf
-            if (dest_UnderlyingPatch_PatchOutlet == null)
+            foreach (Inlet sourceCustomOperatorInlet in sourceSortedCustomOperatorInlets)
             {
-                var identifier = new
-                {
-                    source_CustomOperator_Outlet.Name,
-                    DimensionEnum = source_CustomOperator_Outlet.GetDimensionEnum(),
-                    source_CustomOperator_Outlet.ListIndex
-                };
+                Operator destPatchInlet = TryGetPatchInlet(sourceCustomOperatorInlet, destCandidatePatchInlets);
 
-                throw new Exception($"PatchOutlet not found in UnderlyingPatch. {nameof(source_CustomOperator_Outlet)}: {identifier}.");
+                tuples.Add((sourceCustomOperatorInlet, destPatchInlet));
+
+                destCandidatePatchInlets.Remove(destPatchInlet);
             }
 
-            return dest_UnderlyingPatch_PatchOutlet;
+            return tuples;
         }
 
-        public static Operator TryGetPatchOutlet(Outlet source_CustomOperator_Outlet, IPatchRepository patchRepository)
+        private static IList<Operator> GetUnderlyingPatchInlets(Operator sourceCustomOperator, IPatchRepository patchRepository)
         {
-            if (source_CustomOperator_Outlet == null) throw new NullException(() => source_CustomOperator_Outlet);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
+            CustomOperator_OperatorWrapper sourceCustomOperatorWrapper = new CustomOperator_OperatorWrapper(sourceCustomOperator, patchRepository);
 
-            IList<Operator> dest_UnderlyingPatch_PatchOutlets;
+            Patch destUnderlyingPatch = sourceCustomOperatorWrapper.UnderlyingPatch;
+
+            if (destUnderlyingPatch == null)
             {
-                Operator source_CustomOperator = source_CustomOperator_Outlet.Operator;
-                CustomOperator_OperatorWrapper source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
-                Patch dest_UnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
-                dest_UnderlyingPatch_PatchOutlets = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+                return new List<Operator>();
             }
+
+            IList<Operator> destUnderlyingPatchInlets = destUnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
+
+            return destUnderlyingPatchInlets;
+        }
+
+        private static Operator TryGetPatchInlet([NotNull] Inlet sourceCustomOperatorInlet, [NotNull] IList<Operator> destUnderlyingPatchInlets)
+        {
+            if (sourceCustomOperatorInlet == null) throw new NullException(() => sourceCustomOperatorInlet);
+            if (destUnderlyingPatchInlets == null) throw new NullException(() => destUnderlyingPatchInlets);
 
             // Try match by name
-            if (NameHelper.IsFilledIn(source_CustomOperator_Outlet.Name))
+            if (NameHelper.IsFilledIn(sourceCustomOperatorInlet.Name))
             {
-                string canonical_Source_CustomOperator_Outlet_Name = NameHelper.ToCanonical(source_CustomOperator_Outlet.Name);
+                string canonicalSourceName = NameHelper.ToCanonical(sourceCustomOperatorInlet.Name);
 
-                foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
+                foreach (Operator destUnderlyingPatchInlet in destUnderlyingPatchInlets)
                 {
-                    string canonical_Dest_UnderlyingPatch_PatchOutlet_Name = NameHelper.ToCanonical(dest_UnderlyingPatch_PatchOutlet.Name);
+                    string canonicalDestName = NameHelper.ToCanonical(destUnderlyingPatchInlet.Name);
 
-                    bool namesAreEqual = string.Equals(
-                        canonical_Dest_UnderlyingPatch_PatchOutlet_Name,
-                        canonical_Source_CustomOperator_Outlet_Name);
-
+                    bool namesAreEqual = string.Equals(canonicalDestName, canonicalSourceName);
                     if (namesAreEqual)
                     {
-                        return dest_UnderlyingPatch_PatchOutlet;
+                        return destUnderlyingPatchInlet;
                     }
                 }
             }
 
-            // Try match by Dimension (if unique)
-            DimensionEnum sourceDimensionEnum = source_CustomOperator_Outlet.GetDimensionEnum();
-
+            // Try match by Dimension
+            DimensionEnum sourceDimensionEnum = sourceCustomOperatorInlet.GetDimensionEnum();
             bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
             if (dimensionIsFilledIn)
             {
-                var dest_UnderlyingPatch_PatchOutlets_WithMatchingDimension = new List<Operator>();
+                Operator destUnderlyingPatchInlet_WithMatchingDimension =
+                    (from destUnderlyingPatchInlet in destUnderlyingPatchInlets
+                     let destWrapper = new PatchInlet_OperatorWrapper(destUnderlyingPatchInlet)
+                     let dimensionsAreEqual = destWrapper.DimensionEnum == sourceDimensionEnum
+                     where dimensionsAreEqual
+                     select destUnderlyingPatchInlet).FirstOrDefault();
 
-                foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
+                if (destUnderlyingPatchInlet_WithMatchingDimension != null)
                 {
-                    var destWrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
-
-                    bool dimensionsAreEqual = destWrapper.DimensionEnum == sourceDimensionEnum;
-                    if (dimensionsAreEqual)
-                    {
-                        dest_UnderlyingPatch_PatchOutlets_WithMatchingDimension.Add(dest_UnderlyingPatch_PatchOutlet);
-                    }
-                }
-
-                if (dest_UnderlyingPatch_PatchOutlets_WithMatchingDimension.Count == 1)
-                {
-                    return dest_UnderlyingPatch_PatchOutlets_WithMatchingDimension[0];
+                    return destUnderlyingPatchInlet_WithMatchingDimension;
                 }
             }
 
             // Try match by list index
-            foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
+            Operator destUnderlyingPatchInlet_WithMatchingListIndex =
+                (from destUnderlyingPatchInlet in destUnderlyingPatchInlets
+                 let destWrapper = new PatchInlet_OperatorWrapper(destUnderlyingPatchInlet)
+                 where destWrapper.ListIndex == sourceCustomOperatorInlet.ListIndex
+                 select destUnderlyingPatchInlet).FirstOrDefault();
+
+            return destUnderlyingPatchInlet_WithMatchingListIndex;
+        }
+
+        public static IList<(Outlet sourceCustomOperatorOutlet, Operator destPatchOutlet)> Match_CustomOperator_With_UnderlyingPatchOutlets(
+            Operator sourceCustomOperator, 
+            IPatchRepository patchRepository)
+        {
+            IList<Outlet> sourceCustomOperatorOutlets = sourceCustomOperator.Outlets.ToList();
+            IList<Operator> destUnderlyingPatchOutlet = GetUnderlyingPatchOutlets(sourceCustomOperator, patchRepository);
+
+            return Match_CustomOperatorOutlets_With_UnderlyingPatchOutlets(sourceCustomOperatorOutlets, destUnderlyingPatchOutlet);
+        }
+
+        private static IList<(Outlet sourceCustomOperatorOutlet, Operator destPatchOutlet)> Match_CustomOperatorOutlets_With_UnderlyingPatchOutlets(
+            IList<Outlet> sourceCustomOperatorOutlets, 
+            IList<Operator> destPatchOutlets)
+        {
+            IList<Outlet> sourceSortedCustomOperatorOutlets = SortOutlets(sourceCustomOperatorOutlets);
+            IList<Operator> destCandidatePatchOutlets = SortPatchOutlets(destPatchOutlets);
+
+            var tuples = new List<(Outlet sourceCustomOperatorOutlet, Operator destPatchOutlet)>();
+            foreach (Outlet sourceCustomOperatorOutlet in sourceSortedCustomOperatorOutlets)
             {
-                var destWrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
-                if (destWrapper.ListIndex == source_CustomOperator_Outlet.ListIndex)
+                Operator destPatchOutlet = TryGetPatchOutlet(sourceCustomOperatorOutlet, destCandidatePatchOutlets);
+
+                tuples.Add((sourceCustomOperatorOutlet, destPatchOutlet));
+
+                destCandidatePatchOutlets.Remove(destPatchOutlet);
+            }
+
+            return tuples;
+        }
+
+        private static IList<Operator> GetUnderlyingPatchOutlets(Operator sourceCustomOperator, IPatchRepository patchRepository)
+        {
+            var sourceCustomOperatorWrapper = new CustomOperator_OperatorWrapper(sourceCustomOperator, patchRepository);
+            Patch destUnderlyingPatch = sourceCustomOperatorWrapper.UnderlyingPatch;
+            IList<Operator> destUnderlyingPatchOutlets = destUnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+            return destUnderlyingPatchOutlets;
+        }
+
+        private static Operator TryGetPatchOutlet([NotNull] Outlet sourceCustomOperatorOutlet, [NotNull] IList<Operator> destUnderlyingPatchOutlets)
+        {
+            if (sourceCustomOperatorOutlet == null) throw new NullException(() => sourceCustomOperatorOutlet);
+            if (destUnderlyingPatchOutlets == null) throw new NullException(() => destUnderlyingPatchOutlets);
+
+            // Try match by name
+            if (NameHelper.IsFilledIn(sourceCustomOperatorOutlet.Name))
+            {
+                string canonicalSourceName = NameHelper.ToCanonical(sourceCustomOperatorOutlet.Name);
+
+                foreach (Operator destUnderlyingPatchOutlet in destUnderlyingPatchOutlets)
                 {
-                    return dest_UnderlyingPatch_PatchOutlet;
+                    string canonicalDestName = NameHelper.ToCanonical(destUnderlyingPatchOutlet.Name);
+
+                    bool namesAreEqual = string.Equals(canonicalDestName, canonicalSourceName);
+                    if (namesAreEqual)
+                    {
+                        return destUnderlyingPatchOutlet;
+                    }
                 }
+            }
+
+            // Try match by Dimension
+            DimensionEnum sourceDimensionEnum = sourceCustomOperatorOutlet.GetDimensionEnum();
+            bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
+            if (dimensionIsFilledIn)
+            {
+                var destUnderlyingPatchOutlet_WithMatchingDimension = (
+                    from destUnderlyingPatchOutlet in destUnderlyingPatchOutlets
+                    let destWrapper = new PatchOutlet_OperatorWrapper(destUnderlyingPatchOutlet)
+                    let dimensionsAreEqual = destWrapper.DimensionEnum == sourceDimensionEnum
+                    where dimensionsAreEqual
+                    select destUnderlyingPatchOutlet).FirstOrDefault();
+
+                if (destUnderlyingPatchOutlet_WithMatchingDimension != null)
+                {
+                    return destUnderlyingPatchOutlet_WithMatchingDimension;
+                }
+            }
+
+            // Try match by list index
+            Operator destUnderlyingPatchOutlet_WithMatchingListIndex =
+                (from destUnderlyingPatchOutlet in destUnderlyingPatchOutlets
+                 let destWrapper = new PatchOutlet_OperatorWrapper(destUnderlyingPatchOutlet)
+                 where destWrapper.ListIndex == sourceCustomOperatorOutlet.ListIndex
+                 select destUnderlyingPatchOutlet).FirstOrDefault();
+
+            return destUnderlyingPatchOutlet_WithMatchingListIndex;
+        }
+
+        // Fill in PatchInlet.Inlet and PatchOutlet.Outlet (For Calculations)
+
+        /// <summary>
+        /// Used as a helper in producing the output calculation structure.
+        ///
+        /// Returns the corresponding Outlet (of the PatchOutlet) in the Underlying Patch 
+        /// after having assigned the Underlying Patch's (PatchInlets') Inlets.
+        /// The returned outlet is then ready to be used like any other operator.
+        /// 
+        /// Note that even though a CustomOperator can have multiple outlets, you will only be using one at a time in your calculations.
+        /// </summary>
+        public static Outlet ApplyCustomOperatorToUnderlyingPatch(Outlet sourceCustomOperatorOutlet, IPatchRepository patchRepository)
+        {
+            Outlet destPatchOutletOutlet = TryApplyCustomOperatorToUnderlyingPatch(sourceCustomOperatorOutlet, patchRepository);
+            if (destPatchOutletOutlet == null)
+            {
+                // TODO: Low priority: This is a vague error message. Can it be made more specific?
+                throw new Exception($"{nameof(destPatchOutletOutlet)} was null after {nameof(TryApplyCustomOperatorToUnderlyingPatch)}.");
+            }
+
+            return destPatchOutletOutlet;
+        }
+
+        /// <summary>
+        /// Used as a helper in producing the output calculation structure.
+        /// 
+        /// Returns the corresponding Outlet (of the PatchOutlet) in the Underlying Patch 
+        /// after having assigned the Underlying Patch's (PatchInlets') Inlets.
+        /// The returned outlet is then ready to be used like any other operator.
+        /// 
+        /// Note that even though a CustomOperator can have multiple outlets, you will only be using one at a time in your calculations.
+        /// </summary>
+        private static Outlet TryApplyCustomOperatorToUnderlyingPatch(Outlet sourceCustomOperatorOutlet, IPatchRepository patchRepository)
+        {
+            if (sourceCustomOperatorOutlet == null) throw new NullException(() => sourceCustomOperatorOutlet);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
+            Operator sourceCustomOperator = sourceCustomOperatorOutlet.Operator;
+            CustomOperator_OperatorWrapper sourceCustomOperatorWrapper = new CustomOperator_OperatorWrapper(sourceCustomOperator, patchRepository);
+            Patch destUnderlyingPatch = sourceCustomOperatorWrapper.UnderlyingPatch;
+
+            if (destUnderlyingPatch == null)
+            {
+                return null;
+            }
+
+            IList<(Inlet sourceCustomOperatorInlet, Operator destPatchInlet)> inletTuples =
+                Match_CustomOperator_With_UnderlyingPatchInlets(sourceCustomOperator, patchRepository);
+
+            foreach ((Inlet sourceCustomOperatorInlet, Operator destPatchInlet) tuple in inletTuples)
+            {
+                Inlet sourceCustomOperatorInlet = tuple.sourceCustomOperatorInlet;
+
+                Operator destUnderlyingPatchInlet = tuple.destPatchInlet;
+                // ReSharper disable once InvertIf
+                if (destUnderlyingPatchInlet != null)
+                {
+                    new PatchInlet_OperatorWrapper(destUnderlyingPatchInlet)
+                    {
+                        Input = sourceCustomOperatorInlet.InputOutlet
+                    };
+                }
+            }
+
+            IList<(Outlet sourceCustomOperatorOutlet, Operator destPatchOutlet)> outletTuples =
+                Match_CustomOperator_With_UnderlyingPatchOutlets(sourceCustomOperator, patchRepository);
+            Operator destUnderlyingPatchOutlet = outletTuples.Where(x => x.sourceCustomOperatorOutlet == sourceCustomOperatorOutlet).Single().destPatchOutlet;
+            // ReSharper disable once InvertIf
+            if (destUnderlyingPatchOutlet != null)
+            {
+                var destUnderlyingPatchOutletWrapper = new PatchOutlet_OperatorWrapper(destUnderlyingPatchOutlet);
+                return destUnderlyingPatchOutletWrapper.Outlet;
             }
 
             return null;
         }
+
+        // Inlet-Outlet Matching (e.g. for Auto-Patching)
 
         public static bool AreMatch(Outlet outlet, Inlet inlet)
         {
@@ -339,58 +451,52 @@ namespace JJ.Business.Synthesizer
             return false;
         }
 
-        /// <summary>
-        /// Returns the corresponding Outlet (of the PatchOutlet) in the Underlying Patch 
-        /// after having assigned the Underlying Patch's (PatchInlets') Inlets.
-        /// The returned outlet is then ready to be used like any other operator.
-        /// 
-        /// Note that even though a CustomOperator can have multiple outlets, you will only be using one at a time in your calculations.
-        /// </summary>
-        public static Outlet ApplyCustomOperatorToUnderlyingPatch(Outlet source_CustomOperator_Outlet, IPatchRepository patchRepository)
-        {
-            Outlet dest_PatchOutlet_Outlet = TryApplyCustomOperatorToUnderlyingPatch(source_CustomOperator_Outlet, patchRepository);
-            if (dest_PatchOutlet_Outlet == null)
-            {
-                // TODO: Low priority: This is a vague error message. Can it be made more specific?
-                throw new Exception($"{nameof(dest_PatchOutlet_Outlet)} was null after {nameof(TryApplyCustomOperatorToUnderlyingPatch)}.");
-            }
+        // Helpers
 
-            return dest_PatchOutlet_Outlet;
+        private static IList<Operator> SortPatchInlets(IList<Operator> patchInlets)
+        {
+            return patchInlets.Select(x => new PatchInlet_OperatorWrapper(x))
+                              .OrderBy(x => x.ListIndex)
+                              .ThenBy(x => x.DimensionEnum == DimensionEnum.Undefined)
+                              .ThenBy(x => x.DimensionEnum)
+                              .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
+                              .ThenBy(x => x.Name)
+                              .Select(x => x.WrappedOperator)
+                              .ToList();
         }
 
-        /// <summary>
-        /// Returns the corresponding Outlet (of the PatchOutlet) in the Underlying Patch 
-        /// after having assigned the Underlying Patch's (PatchInlets') Inlets.
-        /// The returned outlet is then ready to be used like any other operator.
-        /// 
-        /// Note that even though a CustomOperator can have multiple outlets, you will only be using one at a time in your calculations.
-        /// </summary>
-        public static Outlet TryApplyCustomOperatorToUnderlyingPatch(Outlet source_CustomOperator_Outlet, IPatchRepository patchRepository)
+        private static IList<Operator> SortPatchOutlets(IList<Operator> patchOutlets)
         {
-            if (source_CustomOperator_Outlet == null) throw new NullException(() => source_CustomOperator_Outlet);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
+            return patchOutlets.Select(x => new PatchOutlet_OperatorWrapper(x))
+                               .OrderBy(x => x.ListIndex)
+                               .ThenBy(x => x.DimensionEnum == DimensionEnum.Undefined)
+                               .ThenBy(x => x.DimensionEnum)
+                               .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
+                               .ThenBy(x => x.Name)
+                               .Select(x => x.WrappedOperator)
+                               .ToList();
+        }
 
-            Operator source_CustomOperator = source_CustomOperator_Outlet.Operator;
-            CustomOperator_OperatorWrapper source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
-            Patch dest_UnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
+        private static IList<Inlet> SortInlets(IList<Inlet> inlets)
+        {
+            return inlets.OrderBy(x => x.ListIndex)
+                         .ThenBy(x => x.GetDimensionEnum() == DimensionEnum.Undefined)
+                         .ThenBy(x => x.GetDimensionEnum())
+                         .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
+                         .ThenBy(x => x.Name)
+                         //.ThenBy(x => x.IsObsolete)
+                         .ToList();
+        }
 
-            if (dest_UnderlyingPatch == null)
-            {
-                return null;
-            }
-
-            foreach (Inlet source_CustomOperator_Inlet in source_CustomOperator.Inlets)
-            {
-                Operator dest_UnderlyingPatch_PatchInlet = GetPatchInlet(source_CustomOperator_Inlet, patchRepository);
-
-                PatchInlet_OperatorWrapper dest_UnderlyingPatch_PatchInlet_Wrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
-                dest_UnderlyingPatch_PatchInlet_Wrapper.Inlet.LinkTo(source_CustomOperator_Inlet.InputOutlet);
-            }
-
-            Operator dest_UnderlyingPatch_PatchOutlet = GetPatchOutlet(source_CustomOperator_Outlet, patchRepository);
-
-            PatchOutlet_OperatorWrapper dest_UnderlyingPatch_PatchOutlet_Wrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
-            return dest_UnderlyingPatch_PatchOutlet_Wrapper.Outlet;
+        private static IList<Outlet> SortOutlets(IList<Outlet> outlets)
+        {
+            return outlets.OrderBy(x => x.ListIndex)
+                          .ThenBy(x => x.GetDimensionEnum() == DimensionEnum.Undefined)
+                          .ThenBy(x => x.GetDimensionEnum())
+                          .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
+                          .ThenBy(x => x.Name)
+                          //.ThenBy(x => x.IsObsolete)
+                          .ToList();
         }
     }
 }

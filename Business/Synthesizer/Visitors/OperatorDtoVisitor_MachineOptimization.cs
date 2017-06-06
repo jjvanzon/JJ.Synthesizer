@@ -119,13 +119,11 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new Power_OperatorDto_VarBase_Exponent2 { BaseOperatorDto = dto.BaseOperatorDto, OperatorID = dto.OperatorID };
             }
-            // ReSharper disable once RedundantIfElseBlock
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             else if (dto.Exponent == 3.0)
             {
                 return new Power_OperatorDto_VarBase_Exponent3 { BaseOperatorDto = dto.BaseOperatorDto, OperatorID = dto.OperatorID };
             }
-            // ReSharper disable once RedundantIfElseBlock
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             else if (dto.Exponent == 4.0)
             {

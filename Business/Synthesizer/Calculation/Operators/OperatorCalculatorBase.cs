@@ -16,6 +16,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// <summary> Does nothing </summary>
         public virtual void Reset() { }
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

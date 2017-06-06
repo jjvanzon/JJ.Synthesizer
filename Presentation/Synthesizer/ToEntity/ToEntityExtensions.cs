@@ -565,6 +565,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.ListIndex = viewModel.ListIndex;
             entity.Name = viewModel.Name;
             entity.DefaultValue = viewModel.DefaultValue;
+            entity.IsObsolete = viewModel.IsObsolete;
 
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
             entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
@@ -1045,6 +1046,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
             entity.ListIndex = viewModel.ListIndex;
             entity.Name = viewModel.Name;
+            entity.IsObsolete = viewModel.IsObsolete;
 
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
             entity.SetDimensionEnum(dimensionEnum, dimensionRepository);

@@ -165,6 +165,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Name = entity.Name;
             viewModel.ListIndex = entity.ListIndex;
             viewModel.DefaultValue = entity.DefaultValue;
+            viewModel.IsObsolete = entity.IsObsolete;
             viewModel.HasWarningAppearance = entity.IsObsolete;
             viewModel.Visible = ViewModelHelper.GetInletVisible(entity);
             viewModel.Caption = ViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository, patchRepository);
@@ -304,6 +305,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.ID = entity.ID;
             viewModel.Name = entity.Name;
             viewModel.ListIndex = entity.ListIndex;
+            viewModel.IsObsolete = entity.IsObsolete;
             viewModel.HasWarningAppearance = entity.IsObsolete;
             viewModel.Visible = ViewModelHelper.GetOutletVisible(entity);
             viewModel.Caption = ViewModelHelper.GetOutletCaption(entity, sampleRepository, curveRepository, patchRepository);

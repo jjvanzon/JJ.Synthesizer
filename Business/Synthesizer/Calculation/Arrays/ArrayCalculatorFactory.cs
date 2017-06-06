@@ -62,7 +62,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                         {
                             return new ArrayCalculator_MinPositionZero_Stripe_NoRate(array, valueBefore, valueAfter);
                         }
-                        // ReSharper disable once RedundantIfElseBlock
                         else
                         {
                             return new ArrayCalculator_MinPositionZero_Stripe(array, rate, valueBefore, valueAfter);
@@ -72,7 +71,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                         throw new ValueNotSupportedException(interpolationTypeEnum);
                 }
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 switch (interpolationTypeEnum)
@@ -111,7 +109,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                     {
                         return new ArrayCalculator_RotatePosition_Block_NoRate(array);
                     }
-                    // ReSharper disable once RedundantIfElseBlock
                     else
                     {
                         return new ArrayCalculator_RotatePosition_Block(array, rate);
@@ -129,7 +126,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                     {
                         return new ArrayCalculator_RotatePosition_Line_NoRate(array);
                     }
-                    // ReSharper disable once RedundantIfElseBlock
                     else
                     {
                         return new ArrayCalculator_RotatePosition_Line(array, rate);
@@ -141,7 +137,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
                     {
                         return new ArrayCalculator_RotatePosition_Stripe_NoRate(array);
                     }
-                    // ReSharper disable once RedundantIfElseBlock
                     else
                     {
                         return new ArrayCalculator_RotatePosition_Stripe(array, rate);

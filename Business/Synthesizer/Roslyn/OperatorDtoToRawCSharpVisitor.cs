@@ -1997,7 +1997,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             {
                 return ProcessRoundZeroOffset(dto, signalValue: dto.Signal, stepOperatorDto: dto.StepOperatorDto);
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return ProcessRoundWithOffset(dto, signalValue: dto.Signal, stepOperatorDto: dto.StepOperatorDto, offsetOperatorDto: dto.OffsetOperatorDto);
@@ -3797,7 +3796,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                 string literal = _stack.Pop();
                 return literal;
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return CompilationHelper.FormatValue(value.Value);

@@ -162,7 +162,6 @@ namespace JJ.Business.Synthesizer.Helpers
                 {
                     return new Curve_OperatorCalculator_MinX_WithOriginShifting(arrayCalculator_MinPosition, dimensionStack);
                 }
-                // ReSharper disable once RedundantIfElseBlock
                 else
                 {
                     return new Curve_OperatorCalculator_MinX_NoOriginShifting(arrayCalculator_MinPosition, dimensionStack);
@@ -176,7 +175,6 @@ namespace JJ.Business.Synthesizer.Helpers
                 {
                     return new Curve_OperatorCalculator_MinXZero_WithOriginShifting(arrayCalculator_MinPositionZero, dimensionStack);
                 }
-                // ReSharper disable once RedundantIfElseBlock
                 else
                 {
                     return new Curve_OperatorCalculator_MinXZero_NoOriginShifting(arrayCalculator_MinPositionZero, dimensionStack);

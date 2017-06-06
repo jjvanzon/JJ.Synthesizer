@@ -18,6 +18,6 @@ namespace JJ.Data.Synthesizer.Entities
         [CanBeNull]
         public virtual Document Document { get; set; }
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

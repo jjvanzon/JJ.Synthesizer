@@ -135,16 +135,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     continue;
                 }
 
-                var rectangleToDelete = elementToDelete as Rectangle;
-                if (rectangleToDelete != null)
+                if (elementToDelete is Rectangle rectangleToDelete)
                 {
                     _inletRectangleConverter.TryRemove(rectangleToDelete);
                     _outletRectangleConverter.TryRemove(rectangleToDelete);
                     _operatorRectangleConverter.TryRemove(rectangleToDelete);
                 }
 
-                var pointToDelete = elementToDelete as Point;
-                if (pointToDelete != null)
+                if (elementToDelete is Point pointToDelete)
                 {
                     _inletPointConverter.TryRemove(pointToDelete);
                     _inletControlPointConverter.TryRemove(pointToDelete);
@@ -152,8 +150,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     _outletControlPointConverter.TryRemove(pointToDelete);
                 }
 
-                var labelToDelete = elementToDelete as Label;
-                if (labelToDelete != null)
+                if (elementToDelete is Label labelToDelete)
                 {
                     _operatorLabelConverter.TryRemove(labelToDelete);
                     _operatorDimensionLabelConverter.TryRemove(labelToDelete);

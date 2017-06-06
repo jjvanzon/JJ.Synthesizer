@@ -13,6 +13,6 @@ namespace JJ.Business.Synthesizer.Dto
 
         public int OperatorID { get; set; }
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

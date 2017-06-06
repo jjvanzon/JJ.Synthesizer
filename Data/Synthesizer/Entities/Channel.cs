@@ -20,6 +20,6 @@ namespace JJ.Data.Synthesizer.Entities
         /// <summary> bridge entity </summary>
         public virtual IList<SpeakerSetupChannel> SpeakerSetupChannels { get; set; }
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

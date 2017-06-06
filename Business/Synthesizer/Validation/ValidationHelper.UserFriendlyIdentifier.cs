@@ -460,7 +460,6 @@ namespace JJ.Business.Synthesizer.Validation
             {
                 return $"'{name}'";
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return GetNoNameIdentifier();

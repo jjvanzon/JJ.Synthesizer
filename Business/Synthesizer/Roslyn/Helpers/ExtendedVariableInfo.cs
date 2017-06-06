@@ -35,6 +35,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             Value = defaultValue;
         }
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

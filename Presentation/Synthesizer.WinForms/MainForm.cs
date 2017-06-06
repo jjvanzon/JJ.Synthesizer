@@ -84,7 +84,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.Show(documentName, patchName);
-                    RecreatePatchCalculator();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
@@ -149,6 +149,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void SetAudioOutputIfNeeded()
         {
+            if (!_presenter.MainViewModel.Successful)
+            {
+                return;
+            }
+
             AudioOutputPropertiesViewModel viewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
 
             // ReSharper disable once InvertIf
@@ -161,8 +166,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
         }
 
-        private void RecreatePatchCalculator()
+        private void RecreatePatchCalculatorIfSuccessful()
         {
+            if (!_presenter.MainViewModel.Successful)
+            {
+                return;
+            }
+
             Patch patch = GetCurrentInstrumentPatch();
 
             _infrastructureFacade.RecreatePatchCalculator(patch);
@@ -217,6 +227,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void PlayOutletIfNeeded()
         {
+            if (!_presenter.MainViewModel.Successful)
+            {
+                return;
+            }
+
             int? outletIDToPlay = _presenter.MainViewModel.Document.OutletIDToPlay;
             if (!outletIDToPlay.HasValue)
             {

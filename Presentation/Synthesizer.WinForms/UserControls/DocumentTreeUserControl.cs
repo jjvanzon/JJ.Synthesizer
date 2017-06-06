@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -389,7 +390,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             string tag = FormatLibraryPatchGroupTag(lowerDocumentReferenceID, viewModel.CanonicalGroupName);
 
             TreeNode treeNode = treeNodes.Cast<TreeNode>()
-                                         .Where(x => string.Equals(x.Tag, tag))
+                                         .Where(x => NameHelper.AreEqual((string)x.Tag, tag))
                                          .SingleOrDefault();
             if (treeNode == null)
             {
@@ -445,7 +446,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private TreeNode ConvertPatchGroup(PatchGroupTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
         {
             TreeNode treeNode = treeNodes.Cast<TreeNode>()
-                                         .Where(x => string.Equals(x.Tag, viewModel.CanonicalGroupName))
+                                         .Where(x => NameHelper.AreEqual((string)x.Tag, viewModel.CanonicalGroupName))
                                          .SingleOrDefault();
             isNewOrIsDirtyName = false;
             if (treeNode == null)
@@ -536,8 +537,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                         throw new NullException(() => ViewModel.SelectedPatchGroupLowerDocumentReferenceID);
                     }
 
-                    string tag = FormatLibraryPatchGroupTag(ViewModel.SelectedPatchGroupLowerDocumentReferenceID.Value, ViewModel.SelectedPatchGroup);
-                    treeView.SelectedNode = _libraryPatchGroupTreeNodes.Where(x => string.Equals((string)x.Tag, tag)).First();
+                    string tag = FormatLibraryPatchGroupTag(ViewModel.SelectedPatchGroupLowerDocumentReferenceID.Value, ViewModel.SelectedCanonicalPatchGroup);
+                    treeView.SelectedNode = _libraryPatchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, tag)).First();
                     break;
 
                 case DocumentTreeNodeTypeEnum.Samples:
@@ -553,7 +554,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     break;
 
                 case DocumentTreeNodeTypeEnum.PatchGroup:
-                    treeView.SelectedNode = _patchGroupTreeNodes.Where(x => string.Equals((string)x.Tag, ViewModel.SelectedPatchGroup)).First();
+                    treeView.SelectedNode = _patchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, ViewModel.SelectedCanonicalPatchGroup)).First();
                     break;
             }
         }
@@ -731,9 +732,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private string FormatLibraryPatchGroupTag(int lowerDocumentReferenceID, string patchGroupID)
+        private string FormatLibraryPatchGroupTag(int lowerDocumentReferenceID, string patchGroupNameCanonical)
         {
-            return $"{lowerDocumentReferenceID}{_separator}{patchGroupID}";
+            return $"{lowerDocumentReferenceID}{_separator}{patchGroupNameCanonical}";
         }
 
         private LibraryPatchGroupEventArgs ParseLibraryPatchGroupTag(object tag)

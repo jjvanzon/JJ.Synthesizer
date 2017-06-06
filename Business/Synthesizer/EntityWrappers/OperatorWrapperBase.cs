@@ -51,6 +51,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public static implicit operator Operator(OperatorWrapperBase wrapper) => wrapper?.WrappedOperator;
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

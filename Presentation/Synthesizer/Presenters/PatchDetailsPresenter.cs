@@ -251,11 +251,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(patch, _patchRepositories);
-            Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(patch, userInput.SelectedOperator?.ID);
+            Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(patch, userInput.SelectedOperator?.ID);
             Outlet outlet = result.Data;
 
             // ToViewModel
-            PatchDetailsViewModel viewModel = CreateViewModel(patch);
+
+            // HACK: AutoPatch can generate PatchOutlets and adders on the fly, that we do not even want to see.
+            // That is not nice of it, but I mitigate the problem here a little.
+
+            //PatchDetailsViewModel viewModel = CreateViewModel(patch);
+            PatchDetailsViewModel viewModel = userInput;
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

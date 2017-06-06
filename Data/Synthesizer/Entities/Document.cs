@@ -34,6 +34,6 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual IList<DocumentReference> LowerDocumentReferences { get; set; }
         public virtual IList<DocumentReference> HigherDocumentReferences { get; set; }
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

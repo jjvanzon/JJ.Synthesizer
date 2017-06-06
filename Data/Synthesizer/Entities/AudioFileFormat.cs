@@ -9,6 +9,6 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

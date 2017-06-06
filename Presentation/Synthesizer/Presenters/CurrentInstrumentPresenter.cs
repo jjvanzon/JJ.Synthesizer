@@ -214,7 +214,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var patchManager = new PatchManager(_repositories);
             patchManager.AutoPatch(entities);
             Patch autoPatch = patchManager.Patch;
-            Result<Outlet> result = patchManager.AutoPatch_TryCombineSignals(autoPatch);
+            Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(autoPatch);
             Outlet outlet = result.Data;
 
             // ToViewModel

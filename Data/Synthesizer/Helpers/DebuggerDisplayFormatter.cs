@@ -4,7 +4,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Data.Synthesizer.Helpers
 {
-    public static class DebugHelper
+    public static class DebuggerDisplayFormatter
     {
         public static string GetDebuggerDisplay(AudioFileFormat entity)
         {

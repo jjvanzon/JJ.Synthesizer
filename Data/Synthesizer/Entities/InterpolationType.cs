@@ -10,6 +10,6 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual string Name { get; set; }
         public virtual float SortOrder { get; set; }
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

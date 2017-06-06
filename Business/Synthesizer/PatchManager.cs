@@ -180,10 +180,10 @@ namespace JJ.Business.Synthesizer
         {
             if (op == null) throw new NullException(() => op);
 
-            IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, Patch);
+            IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, Patch, _repositories.SampleRepository, _repositories.CurveRepository, _repositories.PatchRepository);
             if (!validator.IsValid)
             {
-                validator.ToCanonical();
+                return validator.ToCanonical();
             }
 
             AddToPatchRecursive_WithoutValidation(op);

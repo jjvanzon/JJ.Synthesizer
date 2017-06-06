@@ -1428,9 +1428,10 @@ namespace JJ.Business.Synthesizer
             };
             wrapper.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
 
-            ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
+            new Operator_SideEffect_GeneratePatchInletListIndex(op).Execute();
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            // Call save to execute side-effects and robust validation.
+            VoidResultDto result = SaveOperator(op);
             ResultHelper.Assert(result);
 
             return wrapper;
@@ -1498,9 +1499,10 @@ namespace JJ.Business.Synthesizer
             };
             wrapper.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
 
-            ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
+            new Operator_SideEffect_GeneratePatchOutletListIndex(op).Execute();
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
+            // Call save to execute side-effects and robust validation.
+            VoidResultDto result = SaveOperator(op);
             ResultHelper.Assert(result);
 
             return wrapper;
@@ -2309,18 +2311,6 @@ namespace JJ.Business.Synthesizer
 
                 inlet.LinkTo(operand);
             }
-        }
-
-        /// <summary>
-        /// A little better performant than calling SaveOperator from the Create methods,
-        /// since it prevents validating the whole patch. However, one might choose for the 
-        /// 'lack of choice = guarantees' principe here and call SaveOperator anyway.
-        /// </summary>
-        private void ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(Operator op)
-        {
-            new Operator_SideEffect_GeneratePatchInletListIndex(op).Execute();
-            new Operator_SideEffect_GeneratePatchOutletListIndex(op).Execute();
-            new Operator_SideEffect_UpdateDependentCustomOperators(op, _repositories).Execute();
         }
 
         // Generic methods for operator creation

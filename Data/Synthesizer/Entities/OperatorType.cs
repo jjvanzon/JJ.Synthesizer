@@ -10,6 +10,6 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual string Name { get; set; }
         public virtual bool HasDimension { get; set; }
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

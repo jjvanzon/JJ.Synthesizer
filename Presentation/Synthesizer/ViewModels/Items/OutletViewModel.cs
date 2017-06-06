@@ -36,6 +36,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// <summary> Read-only, nullable, not necessarily displayed. </summary>
         public IDAndName Dimension { get; set; }
 
+        /// <summary> not displayed  </summary>
+        public bool IsObsolete { get; set; }
+
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }
 }

@@ -75,7 +75,6 @@ namespace JJ.Business.Synthesizer.Validation
             {
                 return $"{entityTypeDisplayName}: ";
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return $"{entityTypeDisplayName} {identifier}: ";

@@ -950,6 +950,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
+            MainViewModel.Successful = castedViewModel.Successful;
         }
     }
 }

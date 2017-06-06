@@ -75,7 +75,7 @@
     </Compile>
     <Compile Include="Entities\DocumentReference.cs" />
     <Compile Include="Entities\EntityPosition.cs" />
-    <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Entities\Dimension.cs" />
     <Compile Include="Entities\OperatorType.cs" />
     <Compile Include="Entities\Scale.cs" />

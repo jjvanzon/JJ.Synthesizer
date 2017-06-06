@@ -19,6 +19,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Framework.Collections;
+using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -28,9 +29,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public const string DIMENSION_KEY_EMPTY = "";
         public const string STANDARD_DIMENSION_KEY_PREFIX = "0C26ADA8-0BFC-484C-BF80-774D055DAA3F-StandardDimension-";
         public const string CUSTOM_DIMENSION_KEY_PREFIX = "5133584A-BA76-42DB-BD0E-42801FCB96DF-CustomDimension-";
+
         private const int STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX = 2;
         private const int RANGE_OVER_OUTLETS_FROM_LIST_INDEX = 0;
         private const int RANGE_OVER_OUTLETS_STEP_LIST_INDEX = 1;
+
+        private static bool _idsVisible = CustomConfigurationManager.GetSection<ConfigurationSection>().IDsVisible;
 
         // OperatorTypeEnum HashSets
 
@@ -332,7 +336,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 return $"{CUSTOM_DIMENSION_KEY_PREFIX}{op.CustomDimensionName}";
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return GetDimensionKey(op.GetStandardDimensionEnum());
@@ -702,7 +705,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.CenterX = entityPosition.X;
             viewModel.CenterY = entityPosition.Y;
             viewModel.Dimension = entity.ToDimensionViewModel();
-
         }
 
         public static DimensionViewModel ToDimensionViewModel(this Operator entity)
@@ -730,66 +732,92 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
+            string operatorCaption;
+
             switch (operatorTypeEnum)
             {
                 case OperatorTypeEnum.AverageOverDimension:
                 case OperatorTypeEnum.AverageOverInlets:
-                    return ResourceFormatter.Average;
+                    operatorCaption =ResourceFormatter.Average;
+                    break;
 
                 case OperatorTypeEnum.ClosestOverDimension:
                 case OperatorTypeEnum.ClosestOverInlets:
-                    return ResourceFormatter.Closest;
+                    operatorCaption = ResourceFormatter.Closest;
+                    break;
 
                 case OperatorTypeEnum.ClosestOverDimensionExp:
                 case OperatorTypeEnum.ClosestOverInletsExp:
-                    return ResourceFormatter.ClosestExp;
+                    operatorCaption = ResourceFormatter.ClosestExp;
+                    break;
 
                 case OperatorTypeEnum.Curve:
-                    return GetOperatorCaption_ForCurve(op, curveRepository);
+                    operatorCaption = GetOperatorCaption_ForCurve(op, curveRepository);
+                    break;
 
                 case OperatorTypeEnum.CustomOperator:
-                    return GetOperatorCaption_ForCustomOperator(op, patchRepository);
+                    operatorCaption = GetOperatorCaption_ForCustomOperator(op, patchRepository);
+                    break;
 
                 case OperatorTypeEnum.GetDimension:
-                    return GetOperatorCaption_ForGetDimension(op);
+                    operatorCaption = GetOperatorCaption_ForGetDimension(op);
+                    break;
 
                 case OperatorTypeEnum.MaxOverDimension:
                 case OperatorTypeEnum.MaxOverInlets:
-                    return ResourceFormatter.Max;
+                    operatorCaption = ResourceFormatter.Max;
+                    break;
 
                 case OperatorTypeEnum.MinOverDimension:
                 case OperatorTypeEnum.MinOverInlets:
-                    return ResourceFormatter.Min;
+                    operatorCaption = ResourceFormatter.Min;
+                    break;
 
                 case OperatorTypeEnum.Number:
-                    return GetOperatorCaption_ForNumber(op);
+                    operatorCaption = GetOperatorCaption_ForNumber(op);
+                    break;
 
                 case OperatorTypeEnum.PatchInlet:
-                    return GetOperatorCaption_ForPatchInlet(op);
+                    operatorCaption = GetOperatorCaption_ForPatchInlet(op);
+                    break;
 
                 case OperatorTypeEnum.PatchOutlet:
-                    return GetOperatorCaption_ForPatchOutlet(op);
+                    operatorCaption = GetOperatorCaption_ForPatchOutlet(op);
+                    break;
 
                 case OperatorTypeEnum.RangeOverDimension:
                 case OperatorTypeEnum.RangeOverOutlets:
-                    return ResourceFormatter.Range;
+                    operatorCaption = ResourceFormatter.Range;
+                    break;
 
                 case OperatorTypeEnum.Sample:
-                    return GetOperatorCaption_ForSample(op, sampleRepository);
+                    operatorCaption = GetOperatorCaption_ForSample(op, sampleRepository);
+                    break;
 
                 case OperatorTypeEnum.SetDimension:
-                    return GetOperatorCaption_ForSetDimension(op);
+                    operatorCaption = GetOperatorCaption_ForSetDimension(op);
+                    break;
 
                 case OperatorTypeEnum.SortOverDimension:
                 case OperatorTypeEnum.SortOverInlets:
-                    return ResourceFormatter.Sort;
+                    operatorCaption = ResourceFormatter.Sort;
+                    break;
 
                 case OperatorTypeEnum.SumOverDimension:
-                    return ResourceFormatter.Sum;
+                    operatorCaption = ResourceFormatter.Sum;
+                    break;
 
                 default:
-                    return GetOperatorCaption_ForOtherOperators(op);
+                    operatorCaption = GetOperatorCaption_ForOtherOperators(op);
+                    break;
             }
+
+            if (_idsVisible)
+            {
+                operatorCaption += $" ({op.ID})";
+            }
+
+            return operatorCaption;
         }
 
         private static string GetOperatorCaption_ForCurve(Operator op, ICurveRepository curveRepository)
@@ -847,7 +875,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 return formattedValue;
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return $"{op.Name}: {formattedValue}";
@@ -973,7 +1000,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 return $"{formattedOperatorTypeDisplayName}: {op.Name}";
             }
             // Use OperatorType DisplayName only.
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return formattedOperatorTypeDisplayName;

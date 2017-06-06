@@ -16,7 +16,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// <summary> It is suggested you show this as a modal window. </summary>
         public IList<MessageDto> PopupMessages { get; set; }
         public DocumentOrPatchNotFoundPopupViewModel DocumentOrPatchNotFound { get; set; }
-        
+        public bool Successful { get; set; }
+
         // The Document List
 
         public DocumentGridViewModel DocumentGrid { get; set; }

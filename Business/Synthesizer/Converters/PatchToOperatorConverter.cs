@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Enums;
@@ -70,23 +71,21 @@ namespace JJ.Business.Synthesizer.Converters
 
         private void ConvertInlets(IList<Operator> sourcePatchInlets, Operator destCustomOperator)
         {
-            IList<int> idsToKeep = new List<int>(destCustomOperator.Inlets.Count);
+            IList<(Operator sourcePatchInlet, Inlet destCustomOperatorInlet)> tuples =
+                InletOutletMatcher.Match_PatchInlets_With_CustomOperatorInlets(sourcePatchInlets, destCustomOperator.Inlets);
 
-            IList<Inlet> destCandidateCustomOperatorInlets = destCustomOperator.Inlets.ToList();
+            var idsToKeep = new HashSet<int>();
 
-            foreach (Operator sourcePatchInlet in sourcePatchInlets)
+            foreach ((Operator sourcePatchInlet, Inlet destCustomOperatorInlet) tuple in tuples)
             {
-                Inlet destCustomOperatorInlet = ConvertInlet(sourcePatchInlet, destCandidateCustomOperatorInlets, destCustomOperator);
-
-                destCandidateCustomOperatorInlets.Remove(destCustomOperatorInlet);
-
+                Inlet destCustomOperatorInlet = ConvertInlet(tuple.sourcePatchInlet, tuple.destCustomOperatorInlet, destCustomOperator);
                 idsToKeep.Add(destCustomOperatorInlet.ID);
             }
 
-            int[] existingIDs = destCustomOperator.Inlets.Select(x => x.ID).ToArray();
-            int[] idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep).ToArray();
+            IEnumerable<int> existingIDs = destCustomOperator.Inlets.Select(x => x.ID);
+            IEnumerable<int> idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep);
 
-            foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse)
+            foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse.ToArray())
             {
                 Inlet entityToDeleteIfNotInUse = _repositories.InletRepository.Get(idToDeleteIfNotInUse);
                 bool isInUse = entityToDeleteIfNotInUse.InputOutlet != null;
@@ -102,12 +101,11 @@ namespace JJ.Business.Synthesizer.Converters
             }
         }
 
-        /// <param name="destCandidateCustomOperatorInlets">Excludes destCandidateCustomOperatorInlets already matched with another sourcePatchInlet.</param>
-        private Inlet ConvertInlet(Operator sourcePatchInlet, IList<Inlet> destCandidateCustomOperatorInlets, Operator destCustomOperator)
+        /// <param name="destCustomOperatorInlet">nullable</param>
+        private Inlet ConvertInlet(Operator sourcePatchInlet, Inlet destCustomOperatorInlet, Operator destCustomOperator)
         {
             var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
 
-            Inlet destCustomOperatorInlet = InletOutletMatcher.TryGetCustomOperatorInlet(sourcePatchInlet, destCandidateCustomOperatorInlets);
             if (destCustomOperatorInlet == null)
             {
                 destCustomOperatorInlet = new Inlet { ID = _repositories.IDRepository.GetID() };
@@ -131,23 +129,22 @@ namespace JJ.Business.Synthesizer.Converters
 
         private void ConvertOutlets(IList<Operator> sourcePatchOutlets, Operator destCustomOperator)
         {
-            IList<int> idsToKeep = new List<int>(destCustomOperator.Outlets.Count);
+            IList<(Operator sourcePatchOutlet, Outlet destCustomOperatorOutlet)> tuples =
+                InletOutletMatcher.Match_PatchOutlets_With_CustomOperatorOutlets(sourcePatchOutlets, destCustomOperator.Outlets);
 
-            IList<Outlet> destCandidateCustomOperatorOutlets = destCustomOperator.Outlets.ToList();
+            var idsToKeep = new HashSet<int>();
 
-            foreach (Operator sourcePatchOutlet in sourcePatchOutlets)
+            foreach ((Operator sourcePatchOutlet, Outlet destCustomOperatorOutlet) tuple in tuples)
             {
-                Outlet destCustomOperatorOutlet = ConvertOutlet(sourcePatchOutlet, destCandidateCustomOperatorOutlets, destCustomOperator);
-
-                destCandidateCustomOperatorOutlets.Remove(destCustomOperatorOutlet);
+                Outlet destCustomOperatorOutlet = ConvertOutlet(tuple.sourcePatchOutlet, tuple.destCustomOperatorOutlet, destCustomOperator);
 
                 idsToKeep.Add(destCustomOperatorOutlet.ID);
             }
 
-            int[] existingIDs = destCustomOperator.Outlets.Select(x => x.ID).ToArray();
-            int[] idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep).ToArray();
+            IEnumerable<int> existingIDs = destCustomOperator.Outlets.Select(x => x.ID);
+            IEnumerable<int> idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep);
 
-            foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse)
+            foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse.ToArray())
             {
                 Outlet entityToDeleteIfNotInUse = _repositories.OutletRepository.Get(idToDeleteIfNotInUse);
                 bool isInUse = entityToDeleteIfNotInUse.ConnectedInlets.Count != 0;
@@ -163,12 +160,11 @@ namespace JJ.Business.Synthesizer.Converters
             }
         }
 
-        /// <param name="destCandidateCustomOperatorOutlets">Excludes destCandidateCustomOperatorOutlets already matched with another sourcePatchOutlet.</param>
-        private Outlet ConvertOutlet(Operator sourcePatchOutlet, IList<Outlet> destCandidateCustomOperatorOutlets, Operator destCustomOperator)
+        /// <param name="destCustomOperatorOutlet">nullable</param>
+        private Outlet ConvertOutlet(Operator sourcePatchOutlet, Outlet destCustomOperatorOutlet, Operator destCustomOperator)
         {
             var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
 
-            Outlet destCustomOperatorOutlet = InletOutletMatcher.TryGetCustomOperatorOutlet(sourcePatchOutlet, destCandidateCustomOperatorOutlets);
             if (destCustomOperatorOutlet == null)
             {
                 destCustomOperatorOutlet = new Outlet { ID = _repositories.IDRepository.GetID() };
@@ -185,6 +181,7 @@ namespace JJ.Business.Synthesizer.Converters
                 throw new NullException(() => sourcePatchOutletWrapper.ListIndex);
             }
             destCustomOperatorOutlet.ListIndex = sourcePatchOutletWrapper.ListIndex.Value;
+
             return destCustomOperatorOutlet;
         }
     }

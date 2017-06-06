@@ -21,6 +21,6 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual double? BaseFrequency { get; set; }
         public virtual IList<Tone> Tones { get; set; }
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

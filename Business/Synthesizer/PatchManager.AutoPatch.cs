@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer
             return destPatchOutletWrapper;
         }
 
-        /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
+        /// <summary> Will return null if no Frequency inlet or Sound outlet is found. </summary>
         public Outlet TryAutoPatchWithTone(Tone tone, IList<Patch> sourceUnderlyingPatches)
         {
             if (tone == null) throw new NullException(() => tone);
@@ -226,17 +226,17 @@ namespace JJ.Business.Synthesizer
                 customOperatorFrequencyInlet.LinkTo(frequency.NumberOutlet);
             }
 
-            IList<Outlet> signalOutlets = customOperator.Outlets.GetMany(DimensionEnum.Signal);
-            switch (signalOutlets.Count)
+            IList<Outlet> soundOutlets = customOperator.Outlets.GetMany(DimensionEnum.Sound);
+            switch (soundOutlets.Count)
             {
                 case 0:
                     return null;
 
                 case 1:
-                    return signalOutlets[0];
+                    return soundOutlets[0];
 
                 default:
-                    var add = Add(signalOutlets);
+                    var add = Add(soundOutlets);
                     return add;
             }
         }
@@ -248,79 +248,65 @@ namespace JJ.Business.Synthesizer
         /// Tries to find outlets to combine into sound.
         /// If selectedOperatorID is provided, only outlets of the selected Operator are considered.
         /// If selectedOperatorID is not provided, all outlets of the patch are considered.
-        /// Outlets of type signal are preferred,
+        /// Outlets of type sound are preferred,
         /// but if none are found, all outlets are considered.
         /// 
         /// If no suitable outlets were found, a result with Successful = false is returned.
         /// If outlets to combine were found, PatchManager's Patch property will reference the a patch.
         /// Also the outlet that returns the sound is returned through the result.
         /// </summary>
-        public Result<Outlet> AutoPatch_TryCombineSignals(Patch sourcePatch, int? selectedOperatorID = null)
+        public Result<Outlet> AutoPatch_TryCombineSounds(Patch sourcePatch, int? selectedOperatorID = null)
         {
+            if (selectedOperatorID.HasValue)
+            {
+                // If an (internal) operator is selected, generate some patch outlets in the patch, before turning it into a custom operator.
+                Patch = sourcePatch;
+
+                foreach (Outlet soundOutlet in GetSoundOutletsFromOperatorCreatively(selectedOperatorID.Value))
+                {
+                    PatchOutlet(DimensionEnum.Sound, soundOutlet);
+                }
+            }
+
             CreatePatch();
             Patch.Name = "Auto-Generated Patch";
 
-            IList<Outlet> signalOutlets;
+            CustomOperator_OperatorWrapper customOperator = CustomOperator(sourcePatch);
+            //IList<Outlet> soundOutlets = customOperator.Outlets.Where(x => x.GetDimensionEnum() == DimensionEnum.Sound).ToArray();
+            IList<Outlet> soundOutlets = GetSoundOutletsFromOperatorCreatively(customOperator);
 
-            if (selectedOperatorID.HasValue)
+            if (soundOutlets.Count == 0)
             {
-                signalOutlets = GetSignalOutletsFromOperator(selectedOperatorID.Value);
-                if (signalOutlets.Count == 0)
+                return new Result<Outlet>
                 {
-                    var result = new Result<Outlet> { Successful = false };
-                    result.Messages.Add(nameof(signalOutlets), ResourceFormatter.SelectedOperatorHasNoOutlets);
-                    return result;
-                }
+                    Successful = false,
+                    Messages = new Messages { new Message(nameof(soundOutlets), ResourceFormatter.PatchHasNoOutlets) }
+                };
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
-                signalOutlets = GetSignalOutletsFromPatch(sourcePatch);
-                if (signalOutlets.Count == 0)
+                Outlet add = Add(soundOutlets);
+                Outlet patchOutlet = PatchOutlet(DimensionEnum.Sound, add);
+
+                return new Result<Outlet>
                 {
-                    var result = new Result<Outlet> { Successful = false };
-                    result.Messages.Add(nameof(signalOutlets), ResourceFormatter.PatchHasNoOutlets);
-                    return result;
-                }
-            }
-
-            switch (signalOutlets.Count)
-            {
-                // case 0 already handled above.
-
-                case 1:
-                {
-                    Outlet patchOutlet = PatchOutlet(signalOutlets[0]);
-
-                    var result = new Result<Outlet>
-                    {
-                        Successful = true,
-                        Data = patchOutlet
-                    };
-
-                    return result;
-                }
-
-                default:
-                {
-                    Outlet add = Add(signalOutlets);
-
-                    var result = new Result<Outlet>
-                    {
-                        Successful = true,
-                        Data = add
-                    };
-
-                    return result;
-                }
+                    Successful = true,
+                    Data = patchOutlet
+                };
             }
         }
 
-        /// <summary> In case no signal outlets are present, all outlets are returned. </summary>
-        private IList<Outlet> GetSignalOutletsFromOperator(int selectedOperatorID)
+        /// <summary> In case no sound outlets are present, all outlets are returned. </summary>
+        private IList<Outlet> GetSoundOutletsFromOperatorCreatively(int operatorID)
         {
-            Operator selectedOperator = _repositories.OperatorRepository.Get(selectedOperatorID);
+            Operator selectedOperator = _repositories.OperatorRepository.Get(operatorID);
 
+            return GetSoundOutletsFromOperatorCreatively(selectedOperator);
+        }
+
+        /// <summary> In case no sound outlets are present, all outlets are returned. </summary>
+        private static IList<Outlet> GetSoundOutletsFromOperatorCreatively(Operator selectedOperator)
+        {
             switch (selectedOperator.Outlets.Count)
             {
                 case 0:
@@ -333,56 +319,57 @@ namespace JJ.Business.Synthesizer
                     return new Outlet[] { selectedOperator.Outlets[0] };
 
                 default:
-                    IList<Outlet> signalOutlets = selectedOperator.Outlets
-                                                                  .Where(x => x.GetDimensionEnum() == DimensionEnum.Signal)
-                                                                  .ToArray();
+                    IList<Outlet> soundOutlets = selectedOperator.Outlets
+                                                                 .Where(x => x.GetDimensionEnum() == DimensionEnum.Sound)
+                                                                 .ToArray();
 
                     // ReSharper disable once ConvertIfStatementToReturnStatement
-                    if (signalOutlets.Count != 0)
+                    if (soundOutlets.Count != 0)
                     {
-                        // Selected Operator has signal outlets.
-                        return signalOutlets;
+                        // Selected Operator has sound outlets.
+                        return soundOutlets;
                     }
                     else
                     {
-                        // Selected Operator has no signal outlets.
+                        // Selected Operator has no sound outlets.
                         return selectedOperator.Outlets;
                     }
             }
         }
 
-        /// <summary> In case no signal outlets are presents, all patch outlets are returned. </summary>
-        private IList<Outlet> GetSignalOutletsFromPatch(Patch sourcePatch)
-        {
-            IList<Outlet> signalPatchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                          .Where(x => x.DimensionEnum == DimensionEnum.Signal)
-                                                          .Select(x => x.Outlet)
-                                                          .ToArray();
-            if (signalPatchOutlets.Count != 0)
-            {
-                // Patch has Signal PatchOutlets.
-                return signalPatchOutlets;
-            }
+        // TODO: Remove outcommented code.
+        ///// <summary> In case no sound outlets are presents, all patch outlets are returned. </summary>
+        //private IList<Outlet> GetSoundOutletsFromPatch(Patch sourcePatch)
+        //{
+        //    IList<Outlet> soundPatchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+        //                                                 .Where(x => x.DimensionEnum == DimensionEnum.Sound)
+        //                                                 .Select(x => x.Outlet)
+        //                                                 .ToArray();
+        //    if (soundPatchOutlets.Count != 0)
+        //    {
+        //        // Patch has Sound PatchOutlets.
+        //        return soundPatchOutlets;
+        //    }
 
-            // Patch has no Signal PatchOutlets:
-            // Return all PatchOutlets.
-            IList<Outlet> patchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                    .Select(x => x.Outlet)
-                                                    .ToArray();
+        //    // Patch has no Sound PatchOutlets:
+        //    // Return all PatchOutlets.
+        //    IList<Outlet> patchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+        //                                            .Select(x => x.Outlet)
+        //                                            .ToArray();
 
-            return patchOutlets;
-        }
+        //    return patchOutlets;
+        //}
 
         public Result<Outlet> TryAutoPatchFromDocumentsRandomly([NotNull] IList<Document> documents, bool mustIncludeHidden)
         {
             if (documents == null) throw new NullException(() => documents);
 
             IList<Patch> patches = documents.SelectMany(x => x.Patches).ToArray();
-            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(patches, mustIncludeHidden);
+            IList<Outlet> soundOutlets = GetSoundOutletsFromPatchesWithoutSoundInlets(patches, mustIncludeHidden);
 
-            Outlet signalOutlet = Randomizer.TryGetRandomItem(signalOutlets);
+            Outlet soundOutlet = Randomizer.TryGetRandomItem(soundOutlets);
 
-            if (signalOutlet == null)
+            if (soundOutlet == null)
             {
                 return new Result<Outlet>
                 {
@@ -390,13 +377,12 @@ namespace JJ.Business.Synthesizer
                     Messages = new Messages { new Message(nameof(DocumentReference), ResourceFormatter.NoSoundFound) }
                 };
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return new Result<Outlet>
                 {
                     Successful = true,
-                    Data = signalOutlet
+                    Data = soundOutlet
                 };
             }
         }
@@ -404,13 +390,13 @@ namespace JJ.Business.Synthesizer
         /// <summary> Can be used to for instance quickly generate an example sound from a document used as library. </summary>
         public Result<Outlet> TryAutoPatchFromDocumentRandomly(Document document, bool mustIncludeHidden)
         {
-            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(document.Patches, mustIncludeHidden);
+            IList<Outlet> soundOutlets = GetSoundOutletsFromPatchesWithoutSoundInlets(document.Patches, mustIncludeHidden);
 
-            // TODO: Select the first patch with a signal inlet and use autopatch those two together.
+            // TODO: Select the first patch with a sound inlet and use autopatch those two together.
 
-            Outlet signalOutlet = Randomizer.TryGetRandomItem(signalOutlets);
+            Outlet soundOutlet = Randomizer.TryGetRandomItem(soundOutlets);
 
-            if (signalOutlet == null)
+            if (soundOutlet == null)
             {
                 return new Result<Outlet>
                 {
@@ -418,13 +404,12 @@ namespace JJ.Business.Synthesizer
                     Messages = new Messages { new Message(nameof(DocumentReference), ResourceFormatter.NoSoundFound) }
                 };
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return new Result<Outlet>
                 {
                     Successful = true,
-                    Data = signalOutlet
+                    Data = soundOutlet
                 };
             }
         }
@@ -433,11 +418,11 @@ namespace JJ.Business.Synthesizer
         public Result<Outlet> TryAutoPatchFromPatchGroupRandomly(Document document, string groupName, bool mustIncludeHidden)
         {
             IList<Patch> patchesInGroup = GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, groupName, mustIncludeHidden);
-            IList<Outlet> signalOutlets = GetSignalOutletsFromPatchesWithoutSignalInlets(patchesInGroup, mustIncludeHidden);
+            IList<Outlet> soundOutlets = GetSoundOutletsFromPatchesWithoutSoundInlets(patchesInGroup, mustIncludeHidden);
 
-            Outlet signalOutlet = Randomizer.TryGetRandomItem(signalOutlets);
+            Outlet soundOutlet = Randomizer.TryGetRandomItem(soundOutlets);
 
-            if (signalOutlet == null)
+            if (soundOutlet == null)
             {
                 return new Result<Outlet>
                 {
@@ -445,28 +430,27 @@ namespace JJ.Business.Synthesizer
                     Messages = new Messages { new Message(nameof(Document), ResourceFormatter.NoSoundFound) }
                 };
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return new Result<Outlet>
                 {
                     Successful = true,
-                    Data = signalOutlet
+                    Data = soundOutlet
                 };
             }
         }
 
         // ReSharper disable once ReturnTypeCanBeEnumerable.Local
-        private IList<Outlet> GetSignalOutletsFromPatchesWithoutSignalInlets(IList<Patch> patches, bool mustIncludeHidden)
+        private IList<Outlet> GetSoundOutletsFromPatchesWithoutSoundInlets(IList<Patch> patches, bool mustIncludeHidden)
         {
             IList<Outlet> patches2 = patches.Where(x => !x.Hidden || mustIncludeHidden)
                                             .Where(
                                                 x => !x.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                       .Where(y => y.DimensionEnum == DimensionEnum.Signal)
+                                                       .Where(y => y.DimensionEnum == DimensionEnum.Sound)
                                                        .Any())
                                             .OrderBy(x => x.Name)
                                             .SelectMany(x => x.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>())
-                                            .Where(x => x.DimensionEnum == DimensionEnum.Signal)
+                                            .Where(x => x.DimensionEnum == DimensionEnum.Sound)
                                             .Select(x => x.Outlet)
                                             .ToArray();
             return patches2;

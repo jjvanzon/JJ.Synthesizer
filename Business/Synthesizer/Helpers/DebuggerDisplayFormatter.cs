@@ -5,11 +5,11 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Framework.Exceptions;
-using DebugHelper_Data = JJ.Data.Synthesizer.Helpers.DebugHelper;
+using DebugHelper_Data = JJ.Data.Synthesizer.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
-    internal static class DebugHelper
+    internal static class DebuggerDisplayFormatter
     {
         public static string GetDebuggerDisplay(OperatorCalculatorBase operatorCalculatorBase)
         {

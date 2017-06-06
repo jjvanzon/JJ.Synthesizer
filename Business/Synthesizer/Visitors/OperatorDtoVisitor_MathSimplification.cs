@@ -552,7 +552,6 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new Number_OperatorDto_One();
             }
-            // ReSharper disable once RedundantIfElseBlock
             else
             {
                 return new Number_OperatorDto_Zero();
