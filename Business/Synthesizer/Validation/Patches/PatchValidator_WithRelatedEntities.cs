@@ -40,10 +40,6 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
             ExecuteValidator(new PatchValidator_Name(Obj));
             ExecuteValidator(new PatchValidator_UniqueName(Obj));
-            ExecuteValidator(new PatchValidator_UniqueInletNames(Obj));
-            ExecuteValidator(new PatchValidator_UniqueInletListIndexes(Obj));
-            ExecuteValidator(new PatchValidator_UniqueOutletNames(Obj));
-            ExecuteValidator(new PatchValidator_UniqueOutletListIndexes(Obj));
             ExecuteValidator(new PatchValidator_IsOperatorsListComplete(Obj, _sampleRepository, _curveRepository, _patchRepository));
             ExecuteValidator(new PatchValidator_HiddenButInUse(Obj, _patchRepository));
 

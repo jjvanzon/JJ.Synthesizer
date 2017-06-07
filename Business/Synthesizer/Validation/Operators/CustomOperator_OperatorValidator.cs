@@ -35,9 +35,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator op = Obj;
 
-            ValidateInletNamesUnique();
-            ValidateOutletNamesUnique();
-
             ExecuteValidator(new DataPropertyValidator(op.Data, _allowedDataKeys));
 
             if (!DataPropertyParser.DataIsWellFormed(op))
@@ -64,37 +61,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 ValidateUnderlyingPatchReferenceConstraint(underlyingPatch);
                 ValidateInletsAgainstUnderlyingPatch();
                 ValidateOutletsAgainstUnderlyingPatch();
-            }
-        }
-
-        private void ValidateInletNamesUnique()
-        {
-            IList<string> names = Obj.Inlets
-                                     .Where(x => !string.IsNullOrEmpty(x.Name))
-                                     .Select(x => x.Name)
-                                     .ToArray();
-
-            bool namesAreUnique = names.Distinct().Count() == names.Count;
-            // ReSharper disable once InvertIf
-            if (!namesAreUnique)
-            {
-                string message = ResourceFormatter.Inlets + ": " + ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names);
-                ValidationMessages.Add(nameof(Obj.Inlets), message);
-            }
-        }
-
-        private void ValidateOutletNamesUnique()
-        {
-            IList<string> names = Obj.Outlets.Where(x => !string.IsNullOrEmpty(x.Name))
-                                                .Select(x => x.Name)
-                                                .ToArray();
-
-            bool namesAreUnique = names.Distinct().Count() == names.Count;
-            // ReSharper disable once InvertIf
-            if (!namesAreUnique)
-            {
-                string message = ResourceFormatter.Outlets + ": " + ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names);
-                ValidationMessages.Add(nameof(Obj.Outlets), message);
             }
         }
 

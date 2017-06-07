@@ -114,64 +114,6 @@ namespace JJ.Business.Synthesizer.Validation
             return duplicateAliases;
         }
 
-        // Operator
-
-        public static bool PatchInletNamesAreUniqueWithinPatch(Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            IList<string> names = patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                       .Where(x => NameHelper.IsFilledIn(x.Name))
-                                       .Select(x => NameHelper.ToCanonical(x.Name))
-                                       .ToArray();
-
-            bool namesAreUnique = names.Distinct().Count() == names.Count;
-            return namesAreUnique;
-        }
-
-        public static bool PatchInletListIndexesAreUniqueWithinPatch(Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            IList<int> listIndexes = patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                          .Where(x => DataPropertyParser.DataIsWellFormed(x))
-                                          .Select(x => DataPropertyParser.TryParseInt32(x, nameof(PatchInlet_OperatorWrapper.ListIndex)))
-                                          .Where(x => x.HasValue)
-                                          .Select(x => x.Value)
-                                          .ToArray();
-
-            bool listIndexesAreUnique = listIndexes.Distinct().Count() == listIndexes.Count;
-            return listIndexesAreUnique;
-        }
-
-        public static bool PatchOutletListIndexesAreUniqueWithinPatch(Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            IList<int> listIndexes = patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                          .Where(x => DataPropertyParser.DataIsWellFormed(x))
-                                          .Select(x => DataPropertyParser.TryParseInt32(x, nameof(PatchOutlet_OperatorWrapper.ListIndex)))
-                                          .Where(x => x.HasValue)
-                                          .Select(x => x.Value)
-                                          .ToArray();
-
-            bool listIndexesAreUnique = listIndexes.Distinct().Count() == listIndexes.Count;
-            return listIndexesAreUnique;
-        }
-
-        public static bool PatchOutletNamesAreUniqueWithinPatch(Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            IList<string> names = patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                       .Where(x => NameHelper.IsFilledIn(x.Name))
-                                       .Select(x => NameHelper.ToCanonical(x.Name))
-                                       .ToArray();
-
-            bool namesAreUnique = names.Distinct().Count() == names.Count;
-            return namesAreUnique;
-        }
-
         // Patch
 
         public static bool PatchNameIsUnique(Patch patch)
