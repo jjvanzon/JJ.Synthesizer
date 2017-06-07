@@ -1,8 +1,6 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;

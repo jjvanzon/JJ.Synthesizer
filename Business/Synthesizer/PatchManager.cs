@@ -17,7 +17,6 @@ using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Business.Synthesizer.Configuration;
-using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Validation.Patches;
 using JJ.Framework.Collections;
 using JJ.Business.Synthesizer.Dto;

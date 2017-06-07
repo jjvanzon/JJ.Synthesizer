@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Enums;
@@ -8,7 +7,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Converters
 {

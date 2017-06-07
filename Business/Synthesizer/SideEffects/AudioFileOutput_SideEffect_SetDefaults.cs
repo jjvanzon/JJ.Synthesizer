@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;

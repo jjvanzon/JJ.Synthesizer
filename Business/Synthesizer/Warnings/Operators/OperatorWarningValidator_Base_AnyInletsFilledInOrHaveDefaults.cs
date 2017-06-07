@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;

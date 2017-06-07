@@ -1,5 +1,4 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;

@@ -7,7 +7,6 @@ using JJ.Framework.Validation;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.Entities;

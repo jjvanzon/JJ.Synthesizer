@@ -2,7 +2,6 @@
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;

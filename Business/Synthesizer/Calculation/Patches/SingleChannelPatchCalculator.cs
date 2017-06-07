@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Visitors;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
-using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Configuration;
 

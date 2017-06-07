@@ -10,7 +10,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
 using JJ.Framework.Validation;

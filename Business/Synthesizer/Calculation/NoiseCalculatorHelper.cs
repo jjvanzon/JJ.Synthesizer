@@ -1,7 +1,6 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Configuration;

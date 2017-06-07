@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
