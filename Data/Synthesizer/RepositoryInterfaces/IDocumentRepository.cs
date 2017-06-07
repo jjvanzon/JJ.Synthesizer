@@ -22,5 +22,7 @@ namespace JJ.Data.Synthesizer.RepositoryInterfaces
 
         Document TryGetByName(string name);
         Document GetByName(string name);
+
+        Document GetByNameComplete(string name);
     }
 }

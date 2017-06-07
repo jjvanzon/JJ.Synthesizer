@@ -86,14 +86,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator customOperator = Obj;
 
-            IList<(Operator underlyingPatchInlet, Inlet customOperatorInlet)> tuples = InletOutletMatcher.Match_PatchInlets_With_CustomOperatorInlets(
-                customOperator, 
-                _patchRepository);
+            IList<InletTuple> tuples = InletOutletMatcher.Match_PatchInlets_With_CustomOperatorInlets(customOperator, _patchRepository);
             
-            foreach ((Operator underlyingPatchInlet, Inlet customOperatorInlet) tuple in tuples)
+            foreach (InletTuple tuple in tuples)
             {
-                Inlet customOperatorInlet = tuple.customOperatorInlet;
-                Operator underlyingPatchInletOperator = tuple.underlyingPatchInlet;
+                Inlet customOperatorInlet = tuple.CustomOperatorInlet;
+                Operator underlyingPatchInletOperator = tuple.UnderlyingPatchInlet;
 
                 ValidateIsObsolete(customOperatorInlet, underlyingPatchInletOperator);
 
@@ -189,12 +187,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator customOperator = Obj;
 
-            IList<(Operator underlyingPatchOutlet, Outlet customOperatorOutlet)> tuples = InletOutletMatcher.Match_PatchOutlets_With_CustomOperatorOutlets(customOperator, _patchRepository);
+            IList<OutletTuple> tuples = InletOutletMatcher.Match_PatchOutlets_With_CustomOperatorOutlets(customOperator, _patchRepository);
 
-            foreach ((Operator underlyingPatchOutlet, Outlet customOperatorOutlet) tuple in tuples)
+            foreach (OutletTuple tuple in tuples)
             {
-                Operator underlyingPatchOutlet = tuple.underlyingPatchOutlet;
-                Outlet customOperatorOutlet = tuple.customOperatorOutlet;
+                Operator underlyingPatchOutlet = tuple.UnderlyingPatchOutlet;
+                Outlet customOperatorOutlet = tuple.CustomOperatorOutlet;
 
                 ValidateIsObsolete(customOperatorOutlet, underlyingPatchOutlet);
 

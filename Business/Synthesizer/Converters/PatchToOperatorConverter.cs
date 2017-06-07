@@ -69,14 +69,13 @@ namespace JJ.Business.Synthesizer.Converters
 
         private void ConvertInlets(IList<Operator> sourcePatchInlets, Operator destCustomOperator)
         {
-            IList<(Operator sourcePatchInlet, Inlet destCustomOperatorInlet)> tuples =
-                InletOutletMatcher.Match_PatchInlets_With_CustomOperatorInlets(sourcePatchInlets, destCustomOperator.Inlets);
+            IList<InletTuple> tuples = InletOutletMatcher.Match_PatchInlets_With_CustomOperatorInlets(sourcePatchInlets, destCustomOperator.Inlets);
 
             var idsToKeep = new HashSet<int>();
 
-            foreach ((Operator sourcePatchInlet, Inlet destCustomOperatorInlet) tuple in tuples)
+            foreach (InletTuple tuple in tuples)
             {
-                Inlet destCustomOperatorInlet = ConvertInlet(tuple.sourcePatchInlet, tuple.destCustomOperatorInlet, destCustomOperator);
+                Inlet destCustomOperatorInlet = ConvertInlet(tuple.UnderlyingPatchInlet, tuple.CustomOperatorInlet, destCustomOperator);
                 idsToKeep.Add(destCustomOperatorInlet.ID);
             }
 
@@ -127,14 +126,13 @@ namespace JJ.Business.Synthesizer.Converters
 
         private void ConvertOutlets(IList<Operator> sourcePatchOutlets, Operator destCustomOperator)
         {
-            IList<(Operator sourcePatchOutlet, Outlet destCustomOperatorOutlet)> tuples =
-                InletOutletMatcher.Match_PatchOutlets_With_CustomOperatorOutlets(sourcePatchOutlets, destCustomOperator.Outlets);
+            IList<OutletTuple> tuples = InletOutletMatcher.Match_PatchOutlets_With_CustomOperatorOutlets(sourcePatchOutlets, destCustomOperator.Outlets);
 
             var idsToKeep = new HashSet<int>();
 
-            foreach ((Operator sourcePatchOutlet, Outlet destCustomOperatorOutlet) tuple in tuples)
+            foreach (OutletTuple tuple in tuples)
             {
-                Outlet destCustomOperatorOutlet = ConvertOutlet(tuple.sourcePatchOutlet, tuple.destCustomOperatorOutlet, destCustomOperator);
+                Outlet destCustomOperatorOutlet = ConvertOutlet(tuple.UnderlyingPatchOutlet, tuple.CustomOperatorOutlet, destCustomOperator);
 
                 idsToKeep.Add(destCustomOperatorOutlet.ID);
             }

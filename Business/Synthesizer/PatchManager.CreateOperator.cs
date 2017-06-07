@@ -63,6 +63,12 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        //private Operator CreateFromSystemDocument(string name)
+        //{
+        //    // TODO: System document should be cached somewhere.
+        //    Document document = _repositories.DocumentRepository.GetByNameComplete(name);
+        //}
+
         public Add_OperatorWrapper Add(params Outlet[] items)
         {
             return Add((IList<Outlet>)items);

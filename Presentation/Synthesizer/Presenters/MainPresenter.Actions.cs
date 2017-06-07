@@ -913,8 +913,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentOpen(string name)
         {
-            Document document = _repositories.DocumentRepository.GetByName(name);
-            document = _repositories.DocumentRepository.GetComplete(document.ID);
+            Document document = _repositories.DocumentRepository.GetByNameComplete(name);
             DocumentOpen(document);
         }
 

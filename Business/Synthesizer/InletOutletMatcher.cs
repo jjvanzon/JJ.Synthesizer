@@ -15,9 +15,7 @@ namespace JJ.Business.Synthesizer
     {
         // Patch to CustomOperator (e.g. for Converters and validators)
 
-        public static IList<(Operator underlyingPatchInlet, Inlet customOperatorInlet)> Match_PatchInlets_With_CustomOperatorInlets(
-            Operator customOperator, 
-            IPatchRepository patchRepository)
+        public static IList<InletTuple> Match_PatchInlets_With_CustomOperatorInlets(Operator customOperator, IPatchRepository patchRepository)
         {
             IList<Inlet> customOperatorInlets = customOperator.Inlets.ToList();
             IList<Operator> underlyingPatchInlets = GetUnderlyingPatchInlets(customOperator, patchRepository);
@@ -26,20 +24,18 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary> Returned tuples can contain null-customOperatorInlets. </summary>
-        public static IList<(Operator underlyingPatchInlet, Inlet customOperatorInlet)> Match_PatchInlets_With_CustomOperatorInlets(
-            IList<Operator> underlyingPatchInlets,
-            IList<Inlet> customOperatorInlets)
+        public static IList<InletTuple> Match_PatchInlets_With_CustomOperatorInlets(IList<Operator> underlyingPatchInlets, IList<Inlet> customOperatorInlets)
         {
             IList<Operator> sourceSortedPatchInlets = SortPatchInlets(underlyingPatchInlets);
             IList<Inlet> destCandidateCustomOperatorInlets = SortInlets(customOperatorInlets);
 
-            var tuples = new List<(Operator underlyingPatchInlet, Inlet customOperatorInlet)>();
+            var tuples = new List<InletTuple>();
 
             foreach (Operator underlyingPatchInlet in sourceSortedPatchInlets)
             {
                 Inlet customOperatorInlet = TryGetCustomOperatorInlet(underlyingPatchInlet, destCandidateCustomOperatorInlets);
 
-                tuples.Add((underlyingPatchInlet, customOperatorInlet));
+                tuples.Add(new InletTuple(underlyingPatchInlet, customOperatorInlet));
 
                 destCandidateCustomOperatorInlets.Remove(customOperatorInlet);
             }
@@ -47,7 +43,7 @@ namespace JJ.Business.Synthesizer
             return tuples;
         }
 
-        public static Inlet TryGetCustomOperatorInlet(Operator underlyingPatchInlet, IList<Inlet> destCandicateCustomOperatorInlets)
+        private static Inlet TryGetCustomOperatorInlet(Operator underlyingPatchInlet, IList<Inlet> destCandicateCustomOperatorInlets)
         {
             if (destCandicateCustomOperatorInlets == null) throw new NullException(() => destCandicateCustomOperatorInlets);
 
@@ -91,9 +87,7 @@ namespace JJ.Business.Synthesizer
             return customOperatorInlet_WithMatchingListIndex;
         }
 
-        public static IList<(Operator underlyingPatchOutlet, Outlet customOperatorOutlet)> Match_PatchOutlets_With_CustomOperatorOutlets(
-            Operator customOperator,
-            IPatchRepository patchRepository)
+        public static IList<OutletTuple> Match_PatchOutlets_With_CustomOperatorOutlets(Operator customOperator, IPatchRepository patchRepository)
         {
             IList<Outlet> customOperatorOutlets = customOperator.Outlets.ToList();
             IList<Operator> underlyingPatchOutlets = GetUnderlyingPatchOutlets(customOperator, patchRepository);
@@ -102,20 +96,18 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary> Returned tuples can contain null-elements. </summary>
-        public static IList<(Operator underlyingPatchOutlet, Outlet customOperatorOutlet)> Match_PatchOutlets_With_CustomOperatorOutlets(
-            IList<Operator> underlyingPatchOutlets, 
-            IList<Outlet> customOperatorOutlets)
+        public static IList<OutletTuple> Match_PatchOutlets_With_CustomOperatorOutlets(IList<Operator> underlyingPatchOutlets, IList<Outlet> customOperatorOutlets)
         {
             IList<Operator> sourceSortedPatchOutlets = SortPatchOutlets(underlyingPatchOutlets);
             IList<Outlet> destCandidateCustomOperatorOutlets = SortOutlets(customOperatorOutlets);
 
-            var tuples = new List<(Operator underlyingPatchOutlet, Outlet customOperatorOutlet)>();
+            var tuples = new List<OutletTuple>();
 
             foreach (Operator underlyingPatchOutlet in sourceSortedPatchOutlets)
             {
                 Outlet customOperatorOutlet = TryGetCustomOperatorOutlet(underlyingPatchOutlet, destCandidateCustomOperatorOutlets);
 
-                tuples.Add((underlyingPatchOutlet, customOperatorOutlet));
+                tuples.Add(new OutletTuple(underlyingPatchOutlet, customOperatorOutlet));
 
                 destCandidateCustomOperatorOutlets.Remove(customOperatorOutlet);
             }
@@ -245,12 +237,12 @@ namespace JJ.Business.Synthesizer
                 return null;
             }
 
-            IList<(Operator underlyingPatchInlet, Inlet customOperatorInlet)> inletTuples = Match_PatchInlets_With_CustomOperatorInlets(customOperator, patchRepository);
+            IList<InletTuple> inletTuples = Match_PatchInlets_With_CustomOperatorInlets(customOperator, patchRepository);
 
-            foreach ((Operator underlyingPatchInlet, Inlet customOperatorInlet) tuple in inletTuples)
+            foreach (InletTuple tuple in inletTuples)
             {
-                Inlet customOperatorInlet = tuple.customOperatorInlet;
-                Operator destUnderlyingPatchInlet = tuple.underlyingPatchInlet;
+                Inlet customOperatorInlet = tuple.CustomOperatorInlet;
+                Operator destUnderlyingPatchInlet = tuple.UnderlyingPatchInlet;
 
                 // ReSharper disable once InvertIf
                 if (destUnderlyingPatchInlet != null)
@@ -262,9 +254,9 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            IList<(Operator underlyingPatchOutlet, Outlet customOperatorOutlet)> outletTuples = Match_PatchOutlets_With_CustomOperatorOutlets(customOperator, patchRepository);
+            IList<OutletTuple> outletTuples = Match_PatchOutlets_With_CustomOperatorOutlets(customOperator, patchRepository);
 
-            Operator destUnderlyingPatchOutlet = outletTuples.Where(x => x.customOperatorOutlet == customOperatorOutlet).Single().underlyingPatchOutlet;
+            Operator destUnderlyingPatchOutlet = outletTuples.Where(x => x.CustomOperatorOutlet == customOperatorOutlet).Single().UnderlyingPatchOutlet;
             // ReSharper disable once InvertIf
             if (destUnderlyingPatchOutlet != null)
             {
@@ -291,7 +283,7 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            // Try match by Dimension (be tollerant towards non-unicity, for more chance to get a match).
+            // Try match by Dimension
             DimensionEnum outletDimensionEnum = outlet.GetDimensionEnum();
             // ReSharper disable once InvertIf
             if (outletDimensionEnum != DimensionEnum.Undefined)
@@ -345,7 +337,7 @@ namespace JJ.Business.Synthesizer
                          .ThenBy(x => x.GetDimensionEnum())
                          .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
                          .ThenBy(x => x.Name)
-                         //.ThenBy(x => x.IsObsolete)
+                         .ThenBy(x => x.IsObsolete)
                          .ToList();
         }
 
@@ -356,7 +348,7 @@ namespace JJ.Business.Synthesizer
                           .ThenBy(x => x.GetDimensionEnum())
                           .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
                           .ThenBy(x => x.Name)
-                          //.ThenBy(x => x.IsObsolete)
+                          .ThenBy(x => x.IsObsolete)
                           .ToList();
         }
     }

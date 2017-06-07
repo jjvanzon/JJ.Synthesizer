@@ -43,6 +43,13 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             return entity;
         }
 
+        public Document GetByNameComplete(string name)
+        {
+            Document entity = GetByName(name);
+            entity = GetComplete(entity.ID);
+            return entity;
+        }
+
         public virtual Document TryGetByName(string name) => throw new RepositoryMethodNotImplementedException();
     }
 }
