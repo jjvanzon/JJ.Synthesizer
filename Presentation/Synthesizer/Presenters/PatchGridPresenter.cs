@@ -81,5 +81,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     viewModel.Successful = result.Successful;
                 });
         }
+
     }
 }

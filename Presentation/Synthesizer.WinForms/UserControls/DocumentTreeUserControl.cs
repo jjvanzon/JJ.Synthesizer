@@ -297,6 +297,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private static TreeNode ConvertLibrary(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
         {
             TreeNode treeNode = treeNodes.Cast<TreeNode>()
+                                         .Where(x => x.Tag is int)
                                          .Where(x => (int)x.Tag == viewModel.LowerDocumentReferenceID)
                                          .SingleOrDefault();
             isNewOrIsDirtyName = false;
@@ -390,6 +391,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             string tag = FormatLibraryPatchGroupTag(lowerDocumentReferenceID, viewModel.CanonicalGroupName);
 
             TreeNode treeNode = treeNodes.Cast<TreeNode>()
+                                         .Where(x => x.Tag is string)
                                          .Where(x => NameHelper.AreEqual((string)x.Tag, tag))
                                          .SingleOrDefault();
             if (treeNode == null)
@@ -446,6 +448,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private TreeNode ConvertPatchGroup(PatchGroupTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
         {
             TreeNode treeNode = treeNodes.Cast<TreeNode>()
+                                         .Where(x => x.Tag is string)
                                          .Where(x => NameHelper.AreEqual((string)x.Tag, viewModel.CanonicalGroupName))
                                          .SingleOrDefault();
             isNewOrIsDirtyName = false;

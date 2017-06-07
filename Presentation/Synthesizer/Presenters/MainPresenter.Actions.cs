@@ -2689,6 +2689,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
 
+            int patchID = 0;
+
             // Template Method
             PatchGridViewModel viewModel = TemplateActionMethod(
                 userInput,
@@ -2706,8 +2708,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Business
                     var patchManager = new PatchManager(_patchRepositories);
                     patchManager.CreatePatch(document, mustGenerateName: true);
-                    Patch patch = patchManager.Patch;
-                    patch.GroupName = group;
+                    patchManager.Patch.GroupName = group;
+                    patchID = patchManager.Patch.ID;
 
                     // Successful
                     userInput.Successful = true;
@@ -2715,10 +2717,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     return userInput;
                 });
 
-            // Refresh
             if (viewModel.Successful)
             {
+                // Refresh
                 DocumentViewModelRefresh();
+
+                // Redirect
+                PatchDetailsShow(patchID);
+                PatchPropertiesShow(patchID);
             }
         }
 
