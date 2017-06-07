@@ -150,14 +150,6 @@
     <value>Cannot change the amount of outlets, because outlet {0} is still in use.</value>
     <comment>{0} = number</comment>
   </data>
-  <data name="InletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
-    <value>{0} of inlet does not match with underlying patch.</value>
-    <comment>{0} = property name</comment>
-  </data>
-  <data name="OutletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
-    <value>{0} of outlet does not match with underlying patch.</value>
-    <comment>{0} = property name</comment>
-  </data>
   <data name="MustBePowerOf2" xml:space="preserve">
     <value>{0} must be a power of 2.</value>
     <comment>{0} = name</comment>
@@ -1047,5 +1039,8 @@
   </data>
   <data name="HighestFrequency" xml:space="preserve">
     <value>Highest Frequency</value>
+  </data>
+  <data name="MismatchBetweenCustomOperatorAndUnderlyingPatch" xml:space="preserve">
+    <value>Mismatch between custom operator and underlying patch.</value>
   </data>
 </root>

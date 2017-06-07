@@ -2,6 +2,7 @@
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
@@ -86,11 +87,20 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             // because deleting an operator has the side-effect of updating the dependent CustomOperators,
             // which requires data from the PatchInlet and PatchOutlet PropertiesViewModels to be
             // converted first.
-            var patchManager = new PatchManager(patch, _repositories);
+            // TODO: How does converting PatchProperties instead of PatchInlet and PatchOutlet properties help with that?
+
+            //var patchManager = new PatchManager(patch, _repositories);
 
             foreach (Operator op in operatorsToDelete)
             {
-                patchManager.DeleteOperatorWithRelatedEntities(op);
+                //patchManager.DeleteOperatorWithRelatedEntities(op);
+
+                // HACK: Do cascading here, without causing delete constraints or side-effects to go off.
+                // In practice these were already executed before.
+                op.UnlinkRelatedEntities();
+                op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
+                _repositories.OperatorRepository.Delete(op);
+
             }
 
             return patch;

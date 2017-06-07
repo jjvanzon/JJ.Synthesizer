@@ -163,6 +163,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string MinFrequency => Resources.MinFrequency;
         public static string MinOverDimension => Resources.MinOverDimension;
         public static string MinOverInlets => Resources.MinOverInlets;
+        public static string MismatchBetweenCustomOperatorAndUnderlyingPatch => Resources.MismatchBetweenCustomOperatorAndUnderlyingPatch;
         public static string Mono => Resources.Mono;
         public static string Multiply => Resources.Multiply;
         public static string MultiplyWithOrigin => Resources.MultiplyWithOrigin;
@@ -303,10 +304,8 @@ namespace JJ.Business.Synthesizer.Resources
         [NotNull] public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber) => string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
         [NotNull] public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber) => string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
         [NotNull] public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
-        [NotNull] public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
         [NotNull] public static string MustBePowerOf2(string name) => string.Format(Resources.MustBePowerOf2, name);
         [NotNull] public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName) => string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
-        [NotNull] public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName) => string.Format(Resources.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName);
         [NotNull] public static string SetDimensionWithPlaceholder(string dimension) => string.Format(Resources.SetDimensionWithPlaceholder, dimension);
 
         // Generic methods that could return several different resource text

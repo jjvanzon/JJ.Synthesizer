@@ -1078,15 +1078,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} of inlet does not match with underlying patch..
-        /// </summary>
-        internal static string InletPropertyDoesNotMatchWithUnderlyingPatch {
-            get {
-                return ResourceManager.GetString("InletPropertyDoesNotMatchWithUnderlyingPatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Inlets.
         /// </summary>
         internal static string Inlets {
@@ -1474,6 +1465,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mismatch between custom operator and underlying patch..
+        /// </summary>
+        internal static string MismatchBetweenCustomOperatorAndUnderlyingPatch {
+            get {
+                return ResourceManager.GetString("MismatchBetweenCustomOperatorAndUnderlyingPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mono.
         /// </summary>
         internal static string Mono {
@@ -1749,15 +1749,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Outlet {
             get {
                 return ResourceManager.GetString("Outlet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} of outlet does not match with underlying patch..
-        /// </summary>
-        internal static string OutletPropertyDoesNotMatchWithUnderlyingPatch {
-            get {
-                return ResourceManager.GetString("OutletPropertyDoesNotMatchWithUnderlyingPatch", resourceCulture);
             }
         }
         

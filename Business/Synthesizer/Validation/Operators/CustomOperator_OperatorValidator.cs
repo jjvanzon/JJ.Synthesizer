@@ -120,13 +120,14 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator customOperator = Obj;
 
-            IList<(Inlet sourceCustomOperatorInlet, Operator destPatchInlet)> tuples =
-                InletOutletMatcher.Match_CustomOperator_With_UnderlyingPatchInlets(customOperator, _patchRepository);
-
-            foreach ((Inlet sourceCustomOperatorInlet, Operator destPatchInlet) tuple in tuples)
+            IList<(Operator underlyingPatchInlet, Inlet customOperatorInlet)> tuples = InletOutletMatcher.Match_PatchInlets_With_CustomOperatorInlets(
+                customOperator, 
+                _patchRepository);
+            
+            foreach ((Operator underlyingPatchInlet, Inlet customOperatorInlet) tuple in tuples)
             {
-                Inlet customOperatorInlet = tuple.sourceCustomOperatorInlet;
-                Operator underlyingPatchInletOperator = tuple.destPatchInlet;
+                Inlet customOperatorInlet = tuple.customOperatorInlet;
+                Operator underlyingPatchInletOperator = tuple.underlyingPatchInlet;
 
                 ValidateIsObsolete(customOperatorInlet, underlyingPatchInletOperator);
 
@@ -222,10 +223,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator customOperator = Obj;
 
-            IList<(Outlet customOperatorOutlet, Operator underlyingPatchOutlet)> tuples =
-                InletOutletMatcher.Match_CustomOperator_With_UnderlyingPatchOutlets(customOperator, _patchRepository);
+            IList<(Operator underlyingPatchOutlet, Outlet customOperatorOutlet)> tuples = InletOutletMatcher.Match_PatchOutlets_With_CustomOperatorOutlets(customOperator, _patchRepository);
 
-            foreach ((Outlet customOperatorOutlet, Operator underlyingPatchOutlet) tuple in tuples)
+            foreach ((Operator underlyingPatchOutlet, Outlet customOperatorOutlet) tuple in tuples)
             {
                 Operator underlyingPatchOutlet = tuple.underlyingPatchOutlet;
                 Outlet customOperatorOutlet = tuple.customOperatorOutlet;
@@ -339,7 +339,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             var sb = new StringBuilder();
 
-            sb.Append(ResourceFormatter.InletPropertyDoesNotMatchWithUnderlyingPatch(propertyDisplayName));
+            sb.Append(ResourceFormatter.MismatchBetweenCustomOperatorAndUnderlyingPatch);
 
             string customOperatorInletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(customOperatorInlet);
             sb.AppendFormat(
@@ -376,7 +376,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             var sb = new StringBuilder();
 
-            sb.Append(ResourceFormatter.OutletPropertyDoesNotMatchWithUnderlyingPatch(propertyDisplayName));
+            sb.Append(ResourceFormatter.MismatchBetweenCustomOperatorAndUnderlyingPatch);
 
             string customOperatorOutletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(customOperatorOutlet);
             sb.AppendFormat(

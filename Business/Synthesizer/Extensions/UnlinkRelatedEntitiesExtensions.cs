@@ -6,7 +6,7 @@ using JJ.Data.Synthesizer.Entities;
 namespace JJ.Business.Synthesizer.Extensions
 {
     /// <summary> Unlinks related entities that are not inherently part of the entity. </summary>
-    internal static class UnlinkRelatedEntitiesExtensions
+    public static class UnlinkRelatedEntitiesExtensions
     {
         public static void UnlinkRelatedEntities(this AudioFileOutput audioFileOutput)
         {

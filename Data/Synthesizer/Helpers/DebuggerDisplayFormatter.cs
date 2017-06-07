@@ -99,6 +99,11 @@ namespace JJ.Data.Synthesizer.Helpers
                 sb.Append(operatorDebuggerDisplay);
             }
 
+            if (entity.IsObsolete)
+            {
+                sb.Append(" (obsolete)");
+            }
+
             return sb.ToString();
         }
 
@@ -217,6 +222,11 @@ namespace JJ.Data.Synthesizer.Helpers
                 sb.Append(" for ");
                 string operatorDebuggerDisplay = GetDebuggerDisplay(entity.Operator);
                 sb.Append(operatorDebuggerDisplay);
+            }
+
+            if (entity.IsObsolete)
+            {
+                sb.Append(" (obsolete)");
             }
 
             return sb.ToString();

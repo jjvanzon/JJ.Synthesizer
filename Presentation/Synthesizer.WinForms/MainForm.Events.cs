@@ -239,11 +239,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(
                 () =>
                 {
+                    // Temporary: I cannot debug my code. It keeps going off all the time.
+                    //return;
+
                     // HACK: applies view model to entity model.
                     _presenter.DocumentRefresh();
-
-                    // Temporary: I cannot debug my code. It keeps going off all the time.
-                    return;
 
                     if (_presenter.MainViewModel.Successful)
                     {
