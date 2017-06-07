@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => PassThroughInlet.LinkTo(value);
         }
 
-        public Inlet PassThroughInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.PassThrough);
+        public Inlet PassThroughInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.PassThrough);
 
         public Outlet Reset
         {
@@ -25,8 +25,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => ResetInlet.LinkTo(value);
         }
 
-        public Inlet ResetInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Reset);
+        public Inlet ResetInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Reset);
 
-        public Outlet PassThroughOutlet => OperatorHelper.GetOutlet(WrappedOperator, DimensionEnum.PassThrough);
+        public Outlet PassThroughOutlet => InletOutletSelector.GetOutlet(WrappedOperator, DimensionEnum.PassThrough);
     }
 }

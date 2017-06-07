@@ -17,6 +17,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => OriginInlet.LinkTo(value);
         }
 
-        public Inlet OriginInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Origin);
+        public Inlet OriginInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Origin);
     }
 }

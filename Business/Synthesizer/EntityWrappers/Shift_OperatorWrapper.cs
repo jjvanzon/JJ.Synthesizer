@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SignalInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Signal);
+        public Inlet SignalInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Signal);
 
         public Outlet Difference
         {
@@ -25,6 +25,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => DifferenceInlet.LinkTo(value);
         }
 
-        public Inlet DifferenceInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Difference);
+        public Inlet DifferenceInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Difference);
     }
 }

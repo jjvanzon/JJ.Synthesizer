@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             foreach (DimensionEnum dimensionEnum in _dimensionEnumsToCheck)
             {
-                Inlet inlet = OperatorHelper.TryGetInlet(Obj, dimensionEnum);
+                Inlet inlet = InletOutletSelector.TryGetInlet(Obj, dimensionEnum);
                 if (inlet == null)
                 {
                     continue;

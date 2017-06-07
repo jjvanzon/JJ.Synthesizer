@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SoundInlet.LinkTo(value);
         }
 
-        public Inlet SoundInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Sound);
+        public Inlet SoundInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Sound);
 
         public Outlet Start
         {
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => StartInlet.LinkTo(value);
         }
 
-        public Inlet StartInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Start);
+        public Inlet StartInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Start);
 
         public Outlet End
         {
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => EndInlet.LinkTo(value);
         }
 
-        public Inlet EndInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.End);
+        public Inlet EndInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.End);
 
         public Outlet FrequencyCount
         {
@@ -41,8 +41,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => FrequencyCountInlet.LinkTo(value);
         }
 
-        public Inlet FrequencyCountInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.FrequencyCount);
+        public Inlet FrequencyCountInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.FrequencyCount);
 
-        public Outlet VolumeOutlet => OperatorHelper.GetOutlet(WrappedOperator, DimensionEnum.Volume);
+        public Outlet VolumeOutlet => InletOutletSelector.GetOutlet(WrappedOperator, DimensionEnum.Volume);
     }
 }

@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SignalInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Signal);
+        public Inlet SignalInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Signal);
 
         public Outlet Exponent
         {
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => ExponentInlet.LinkTo(value);
         }
 
-        public Inlet ExponentInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Exponent);
+        public Inlet ExponentInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Exponent);
 
         public Outlet Origin
         {
@@ -33,6 +33,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => OriginInlet.LinkTo(value);
         }
 
-        public Inlet OriginInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Origin);
+        public Inlet OriginInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Origin);
     }
 }

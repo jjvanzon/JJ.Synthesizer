@@ -10,7 +10,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
-    internal static class OperatorHelper
+    internal static class InletOutletSelector
     {
         // Sorting
 

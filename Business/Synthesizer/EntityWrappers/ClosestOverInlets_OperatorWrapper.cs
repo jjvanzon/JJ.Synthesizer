@@ -20,14 +20,14 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => InputInlet.LinkTo(value);
         }
 
-        public Inlet InputInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Input);
+        public Inlet InputInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Input);
 
         /// <summary> Executes a loop, so prevent calling it multiple times. </summary>
         public IList<Outlet> Items
         {
             get
             {
-                IList<Outlet> items = OperatorHelper.EnumerateSortedInputOutlets(WrappedOperator)
+                IList<Outlet> items = InletOutletSelector.EnumerateSortedInputOutlets(WrappedOperator)
                                                     .Skip(1)
                                                     .ToArray();
                 return items;
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             get
             {
-                IList<Inlet> inlets = OperatorHelper.EnumerateSortedInlets(WrappedOperator)
+                IList<Inlet> inlets = InletOutletSelector.EnumerateSortedInlets(WrappedOperator)
                                                     .Skip(1)
                                                     .ToArray();
                 return inlets;

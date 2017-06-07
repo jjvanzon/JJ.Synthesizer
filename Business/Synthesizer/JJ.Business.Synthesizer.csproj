@@ -621,7 +621,7 @@
     <Compile Include="Helpers\CurveRepositories.cs" />
     <Compile Include="Helpers\CalculatorNotFoundException.cs" />
     <Compile Include="Helpers\DataPropertyParser.cs" />
-    <Compile Include="Helpers\OperatorHelper.cs" />
+    <Compile Include="Helpers\InletOutletSelector.cs" />
     <Compile Include="Helpers\PatchRepositories.cs" />
     <Compile Include="Helpers\SampleInfo.cs" />
     <Compile Include="Helpers\ScaleRepositories.cs" />

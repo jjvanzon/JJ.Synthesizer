@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SignalInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Signal);
+        public Inlet SignalInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Signal);
 
         public Outlet SliceLength
         {
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SliceLengthInlet.LinkTo(value);
         }
 
-        public Inlet SliceLengthInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.SliceLength);
+        public Inlet SliceLengthInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.SliceLength);
 
         public Outlet SampleCount
         {
@@ -33,6 +33,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SampleCountInlet.LinkTo(value);
         }
 
-        public Inlet SampleCountInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.SampleCount);
+        public Inlet SampleCountInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.SampleCount);
     }
 }

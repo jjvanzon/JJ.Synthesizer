@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SignalInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Signal);
+        public Inlet SignalInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Signal);
 
         public Outlet Start
         {
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => StartInlet.LinkTo(value);
         }
 
-        public Inlet StartInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Start);
+        public Inlet StartInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Start);
 
         public Outlet End
         {
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => EndInlet.LinkTo(value);
         }
 
-        public Inlet EndInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.End);
+        public Inlet EndInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.End);
 
         public Outlet SamplingRate
         {
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SamplingRateInlet.LinkTo(value);
         }
 
-        public Inlet SamplingRateInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.SamplingRate);
+        public Inlet SamplingRateInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.SamplingRate);
 
         public InterpolationTypeEnum InterpolationType
         {

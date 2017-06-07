@@ -25,9 +25,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         }
 
         [NotNull]
-        public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
+        public Inlet Inlet => InletOutletSelector.GetInlet(WrappedOperator, INPUT_INDEX);
 
-        public Outlet Outlet => OperatorHelper.GetOutlet(WrappedOperator, OUTPUT_INDEX);
+        public Outlet Outlet => InletOutletSelector.GetOutlet(WrappedOperator, OUTPUT_INDEX);
 
         public int? ListIndex
         {

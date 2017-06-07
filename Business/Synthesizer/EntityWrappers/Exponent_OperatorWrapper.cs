@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => LowInlet.LinkTo(value);
         }
 
-        public Inlet LowInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Low);
+        public Inlet LowInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Low);
 
         public Outlet High
         {
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => HighInlet.LinkTo(value);
         }
 
-        public Inlet HighInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.High);
+        public Inlet HighInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.High);
 
         public Outlet Ratio
         {
@@ -33,6 +33,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => RatioInlet.LinkTo(value);
         }
 
-        public Inlet RatioInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Ratio);
+        public Inlet RatioInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Ratio);
     }
 }

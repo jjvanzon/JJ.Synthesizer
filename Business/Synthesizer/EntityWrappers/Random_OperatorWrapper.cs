@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => RateInlet.LinkTo(value);
         }
 
-        public Inlet RateInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Rate);
+        public Inlet RateInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Rate);
 
         public ResampleInterpolationTypeEnum InterpolationType
         {

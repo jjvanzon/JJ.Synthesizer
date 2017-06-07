@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SoundInlet.LinkTo(value);
         }
 
-        public Inlet SoundInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Sound);
+        public Inlet SoundInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Sound);
 
         public Outlet MaxFrequency
         {
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => MaxFrequencyInlet.LinkTo(value);
         }
 
-        public Inlet MaxFrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Frequency);
+        public Inlet MaxFrequencyInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Frequency);
 
         public Outlet BlobVolume
         {
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => BlobVolumeInlet.LinkTo(value);
         }
 
-        public Inlet BlobVolumeInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.BlobVolume);
+        public Inlet BlobVolumeInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.BlobVolume);
 
         public override string GetInletDisplayName(Inlet inlet)
         {

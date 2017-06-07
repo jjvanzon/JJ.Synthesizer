@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SignalInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Signal);
+        public Inlet SignalInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Signal);
 
         public Outlet SourceValueA
         {
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SourceValueAInlet.LinkTo(value);
         }
 
-        public Inlet SourceValueAInlet => OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_A_INDEX);
+        public Inlet SourceValueAInlet => InletOutletSelector.GetInlet(WrappedOperator, SOURCE_VALUE_A_INDEX);
 
         public Outlet SourceValueB
         {
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SourceValueBInlet.LinkTo(value);
         }
 
-        public Inlet SourceValueBInlet => OperatorHelper.GetInlet(WrappedOperator, SOURCE_VALUE_B_INDEX);
+        public Inlet SourceValueBInlet => InletOutletSelector.GetInlet(WrappedOperator, SOURCE_VALUE_B_INDEX);
 
         public Outlet TargetValueA
         {
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => TargetValueAInlet.LinkTo(value);
         }
 
-        public Inlet TargetValueAInlet => OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_A_INDEX);
+        public Inlet TargetValueAInlet => InletOutletSelector.GetInlet(WrappedOperator, TARGET_VALUE_A_INDEX);
 
         public Outlet TargetValueB
         {
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => TargetValueBInlet.LinkTo(value);
         }
 
-        public Inlet TargetValueBInlet => OperatorHelper.GetInlet(WrappedOperator, TARGET_VALUE_B_INDEX);
+        public Inlet TargetValueBInlet => InletOutletSelector.GetInlet(WrappedOperator, TARGET_VALUE_B_INDEX);
 
         public override string GetInletDisplayName([NotNull] Inlet inlet)
         {

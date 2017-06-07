@@ -19,25 +19,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet this[string name]
         {
-            get => OperatorHelper.GetInputOutlet(_operator, name);
-            set => OperatorHelper.GetInlet(_operator, name).LinkTo(value);
+            get => InletOutletSelector.GetInputOutlet(_operator, name);
+            set => InletOutletSelector.GetInlet(_operator, name).LinkTo(value);
         }
 
         public Outlet this[int index]
         {
-            get => OperatorHelper.GetInputOutlet(_operator, index);
-            set => OperatorHelper.GetInlet(_operator, index).LinkTo(value);
+            get => InletOutletSelector.GetInputOutlet(_operator, index);
+            set => InletOutletSelector.GetInlet(_operator, index).LinkTo(value);
         }
 
         public Outlet this[DimensionEnum dimensionEnum]
         {
-            get => OperatorHelper.GetInputOutlet(_operator, dimensionEnum);
-            set => OperatorHelper.GetInlet(_operator, dimensionEnum).LinkTo(value);
+            get => InletOutletSelector.GetInputOutlet(_operator, dimensionEnum);
+            set => InletOutletSelector.GetInlet(_operator, dimensionEnum).LinkTo(value);
         }
 
         public IEnumerator<Outlet> GetEnumerator()
         {
-            foreach (Outlet outlet in OperatorHelper.GetSortedInputOutlets(_operator))
+            foreach (Outlet outlet in InletOutletSelector.GetSortedInputOutlets(_operator))
             {
                 yield return outlet;
             }
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            foreach (Outlet outlet in OperatorHelper.GetSortedInputOutlets(_operator))
+            foreach (Outlet outlet in InletOutletSelector.GetSortedInputOutlets(_operator))
             {
                 yield return outlet;
             }

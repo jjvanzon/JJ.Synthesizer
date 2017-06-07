@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => FromInlet.LinkTo(value);
         }
 
-        public Inlet FromInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.From);
+        public Inlet FromInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.From);
 
         public Outlet Till
         {
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => TillInlet.LinkTo(value);
         }
 
-        public Inlet TillInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Till);
+        public Inlet TillInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Till);
 
         public Outlet Step
         {
@@ -33,6 +33,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => StepInlet.LinkTo(value);
         }
 
-        public Inlet StepInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Step);
+        public Inlet StepInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Step);
     }
 }

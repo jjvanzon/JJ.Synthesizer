@@ -16,24 +16,24 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             _operator = op ?? throw new NullException(() => op);
         }
 
-        public Outlet this[string name] => OperatorHelper.GetOutlet(_operator, name);
-        public Outlet TryGet(string name) => OperatorHelper.TryGetOutlet(_operator, name);
-        public IList<Outlet> GetMany(string name) => OperatorHelper.GetOutlets(_operator, name);
+        public Outlet this[string name] => InletOutletSelector.GetOutlet(_operator, name);
+        public Outlet TryGet(string name) => InletOutletSelector.TryGetOutlet(_operator, name);
+        public IList<Outlet> GetMany(string name) => InletOutletSelector.GetOutlets(_operator, name);
 
         /// <summary> not fast </summary>
-        public Outlet this[int index] => OperatorHelper.GetOutlet(_operator, index);
-        public Outlet TryGet(int index) => OperatorHelper.TryGetOutlet(_operator, index);
-        public IList<Outlet> GetMany(int index) => OperatorHelper.GetOutlets(_operator, index);
+        public Outlet this[int index] => InletOutletSelector.GetOutlet(_operator, index);
+        public Outlet TryGet(int index) => InletOutletSelector.TryGetOutlet(_operator, index);
+        public IList<Outlet> GetMany(int index) => InletOutletSelector.GetOutlets(_operator, index);
 
-        public Outlet this[DimensionEnum dimensionEnum] => OperatorHelper.GetOutlet(_operator, dimensionEnum);
-        public Outlet TryGet(DimensionEnum dimensionEnum) => OperatorHelper.TryGetOutlet(_operator, dimensionEnum);
-        public IList<Outlet> GetMany(DimensionEnum dimensionEnum) => OperatorHelper.GetOutlets(_operator, dimensionEnum);
+        public Outlet this[DimensionEnum dimensionEnum] => InletOutletSelector.GetOutlet(_operator, dimensionEnum);
+        public Outlet TryGet(DimensionEnum dimensionEnum) => InletOutletSelector.TryGetOutlet(_operator, dimensionEnum);
+        public IList<Outlet> GetMany(DimensionEnum dimensionEnum) => InletOutletSelector.GetOutlets(_operator, dimensionEnum);
 
         public int Count => _operator.Outlets.Count;
 
         public IEnumerator<Outlet> GetEnumerator()
         {
-            foreach (Outlet outlet in OperatorHelper.GetSortedOutlets(_operator))
+            foreach (Outlet outlet in InletOutletSelector.GetSortedOutlets(_operator))
             {
                 yield return outlet;
             }
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            foreach (Outlet outlet in OperatorHelper.GetSortedOutlets(_operator))
+            foreach (Outlet outlet in InletOutletSelector.GetSortedOutlets(_operator))
             {
                 yield return outlet;
             }

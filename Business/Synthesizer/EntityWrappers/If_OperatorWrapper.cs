@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => ConditionInlet.LinkTo(value);
         }
 
-        public Inlet ConditionInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Condition);
+        public Inlet ConditionInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Condition);
 
         public Outlet Then
         {
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => ThenInlet.LinkTo(value);
         }
 
-        public Inlet ThenInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Then);
+        public Inlet ThenInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Then);
 
         public Outlet Else
         {
@@ -34,6 +34,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => ElseInlet.LinkTo(value);
         }
 
-        public Inlet ElseInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Else);
+        public Inlet ElseInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Else);
     }
 }

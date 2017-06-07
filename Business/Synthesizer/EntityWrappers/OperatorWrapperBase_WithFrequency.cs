@@ -17,6 +17,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => FrequencyInlet.LinkTo(value);
         }
 
-        public Inlet FrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Frequency);
+        public Inlet FrequencyInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Frequency);
     }
 }

@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet SoundOutlet => OperatorHelper.GetOutlet(WrappedOperator, SOUND_OUTLET_INDEX);
+        public Outlet SoundOutlet => InletOutletSelector.GetOutlet(WrappedOperator, SOUND_OUTLET_INDEX);
 
         public override string GetOutletDisplayName(Outlet outlet)
         {

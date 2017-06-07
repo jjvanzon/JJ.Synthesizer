@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SignalInlet.LinkTo(value);
         }
 
-        public Inlet SignalInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Signal);
+        public Inlet SignalInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Signal);
 
         public Outlet Factor
         {
@@ -25,6 +25,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => FactorInlet.LinkTo(value);
         }
 
-        public Inlet FactorInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Factor);
+        public Inlet FactorInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Factor);
     }
 }

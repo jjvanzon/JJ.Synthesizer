@@ -14,10 +14,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         { }
 
         /// <summary> Executes a loop, so prevent calling it multiple times. </summary>
-        public IList<Outlet> Items => OperatorHelper.GetSortedInputOutlets(WrappedOperator);
+        public IList<Outlet> Items => InletOutletSelector.GetSortedInputOutlets(WrappedOperator);
 
         /// <summary> Executes a loop, so prevent calling it multiple times. </summary>
-        public IList<Inlet> Inlets => OperatorHelper.GetSortedInlets(WrappedOperator);
+        public IList<Inlet> Inlets => InletOutletSelector.GetSortedInlets(WrappedOperator);
 
         public override string GetInletDisplayName(Inlet inlet)
         {

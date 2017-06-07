@@ -23,9 +23,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => Inlet.LinkTo(value);
         }
 
-        public Inlet Inlet => OperatorHelper.GetInlet(WrappedOperator, INPUT_INDEX);
+        public Inlet Inlet => InletOutletSelector.GetInlet(WrappedOperator, INPUT_INDEX);
 
-        public Outlet Outlet => OperatorHelper.GetOutlet(WrappedOperator, OUTLET_INDEX);
+        public Outlet Outlet => InletOutletSelector.GetOutlet(WrappedOperator, OUTLET_INDEX);
 
         public int? ListIndex
         {

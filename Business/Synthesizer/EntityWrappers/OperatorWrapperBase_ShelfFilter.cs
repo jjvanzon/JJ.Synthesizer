@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => SoundInlet.LinkTo(value);
         }
 
-        public Inlet SoundInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Sound);
+        public Inlet SoundInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Sound);
 
         public Outlet TransitionFrequency
         {
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => TransitionFrequencyInlet.LinkTo(value);
         }
 
-        public Inlet TransitionFrequencyInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Frequency);
+        public Inlet TransitionFrequencyInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Frequency);
 
         public Outlet TransitionSlope
         {
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => TransitionSlopeInlet.LinkTo(value);
         }
 
-        public Inlet TransitionSlopeInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Slope);
+        public Inlet TransitionSlopeInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Slope);
 
         public Outlet DBGain
         {
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set => DBGainInlet.LinkTo(value);
         }
 
-        public Inlet DBGainInlet => OperatorHelper.GetInlet(WrappedOperator, DimensionEnum.Decibel);
+        public Inlet DBGainInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Decibel);
 
         public override string GetInletDisplayName([NotNull] Inlet inlet)
         {
