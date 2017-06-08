@@ -26,28 +26,22 @@ namespace JJ.Business.Synthesizer
 
         // Create
 
-        public Scale Create(Document document, bool mustSetDefaults, bool mustGenerateName)
+        public Scale Create(Document document, bool mustSetDefaults)
         {
-            return Create(document, default(ScaleTypeEnum), mustSetDefaults, mustGenerateName);
+            return Create(document, default(ScaleTypeEnum), mustSetDefaults);
         }
 
         public Scale Create(
             Document document,
             ScaleTypeEnum scaleTypeEnum = ScaleTypeEnum.Undefined, 
-            bool mustSetDefaults = false, 
-            bool mustGenerateName = false)
+            bool mustSetDefaults = false)
         {
             if (document == null) throw new NullException(() => document);
 
             Scale scale = Create(scaleTypeEnum, mustSetDefaults);
             scale.LinkTo(document);
 
-            // NOTE: This side-effect can only be executed if the scale has a document.
-            // ReSharper disable once InvertIf
-            if (mustGenerateName)
-            {
-                new Scale_SideEffect_GenerateName(scale).Execute();
-            }
+            new Scale_SideEffect_GenerateName(scale).Execute();
 
             return scale;
         }

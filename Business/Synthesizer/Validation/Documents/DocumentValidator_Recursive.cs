@@ -14,19 +14,22 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 {
     internal class DocumentValidator_Recursive : VersatileValidator<Document>
     {
+        private readonly IDocumentRepository _documentRepository;
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly IPatchRepository _patchRepository;
         private readonly HashSet<object> _alreadyDone;
 
         public DocumentValidator_Recursive(
-            Document document, 
+            Document document,
+            IDocumentRepository documentRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository,
             HashSet<object> alreadyDone)
             : base(document, postponeExecute: true)
         {
+            _documentRepository = documentRepository;
             _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
             _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
             _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
@@ -46,8 +49,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             _alreadyDone.Add(document);
 
             ExecuteValidator(new DocumentValidator_Basic(document));
-            ExecuteValidator(new DocumentValidator_Unicity(document));
+            ExecuteValidator(new DocumentValidator_Unicity(document, _documentRepository));
             ExecuteValidator(new DocumentValidator_DoesNotReferenceItself(document));
+            ExecuteValidator(new DocumentValidator_SystemDocumentReferenceMustExist(document, _documentRepository));
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {

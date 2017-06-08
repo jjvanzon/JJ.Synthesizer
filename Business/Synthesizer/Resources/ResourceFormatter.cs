@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Resources;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -12,6 +13,8 @@ namespace JJ.Business.Synthesizer.Resources
 {
     public static class ResourceFormatter
     {
+        public static ResourceManager ResourceManager => Resources.ResourceManager;
+
         // Resource texts without placeholders
 
         public static string A => Resources.A;

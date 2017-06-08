@@ -13,6 +13,8 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             : base(context)
         { }
 
+        public virtual IList<Document> GetAll() => _context.Query<Document>().ToArray();
+
         public virtual IList<Document> OrderByName()
         {
             return _context.Query<Document>()

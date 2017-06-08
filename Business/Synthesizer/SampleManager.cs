@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer
         // Create 
 
         /// <summary> Creates a Sample and sets its defaults. </summary>
-        public Sample CreateSample([CanBeNull] Document document = null, bool mustGenerateName = false)
+        public Sample CreateSample([CanBeNull] Document document = null)
         {
             var sample = new Sample { ID = _repositories.IDRepository.GetID() };
             _repositories.SampleRepository.Insert(sample);
@@ -91,12 +91,7 @@ namespace JJ.Business.Synthesizer
             sample.LinkTo(document);
 
             new Sample_SideEffect_SetDefaults(sample, _repositories).Execute();
-
-            // ReSharper disable once InvertIf
-            if (mustGenerateName)
-            {
-                new Sample_SideEffect_GenerateName(sample).Execute();
-            }
+            new Sample_SideEffect_GenerateName(sample).Execute();
 
             return sample;
         }

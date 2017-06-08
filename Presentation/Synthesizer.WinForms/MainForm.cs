@@ -203,7 +203,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             x.PatchOutlet
             (
                 DimensionEnum.Signal,
-                x.MultiplyWithOrigin
+                x.Multiply
                 (
                     x.Sine
                     (

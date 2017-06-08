@@ -12,6 +12,8 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             : base(context)
         { }
 
+        public virtual IList<Operator> GetAll() => _context.Query<Operator>().ToArray();
+
         public virtual IList<Operator> GetManyByOperatorTypeID(int operatorTypeID)
         {
             return _context.Query<Operator>()

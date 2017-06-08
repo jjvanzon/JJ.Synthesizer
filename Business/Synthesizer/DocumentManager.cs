@@ -39,12 +39,17 @@ namespace JJ.Business.Synthesizer
             var document = new Document { ID = _repositories.IDRepository.GetID() };
             _repositories.DocumentRepository.Insert(document);
 
-            new Document_SideEffect_AutoCreateAudioOutput(
+            new Document_SideEffect_GenerateName(document, _repositories.DocumentRepository).Execute();
+            new Document_SideEffect_AutoCreate_SystemDocumentReference(document, _repositories).Execute();
+            new Document_SideEffect_AutoCreate_AudioOutput(
                 document,
                 _repositories.AudioOutputRepository,
                 _repositories.SpeakerSetupRepository,
                 _repositories.IDRepository)
                 .Execute();
+
+            VoidResultDto result = Save(document);
+            result.Assert();
 
             return document;
         }
@@ -97,6 +102,7 @@ namespace JJ.Business.Synthesizer
 
             IValidator validator = new DocumentValidator_Recursive(
                 document, 
+                _repositories.DocumentRepository,
                 _repositories.CurveRepository, 
                 _repositories. SampleRepository, 
                 _repositories.PatchRepository, 
@@ -156,7 +162,7 @@ namespace JJ.Business.Synthesizer
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
-            IValidator validator = new DocumentReferenceValidator_Delete(documentReference, _repositories.PatchRepository);
+            IValidator validator = new DocumentReferenceValidator_Delete(documentReference, _repositories.DocumentRepository, _repositories.PatchRepository);
 
             // ReSharper disable once InvertIf
             if (validator.IsValid)

@@ -11,6 +11,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public AudioOutputViewModel AudioOutput { get; set; }
 
         /// <summary> Do not show in the UI. Is there to persist along with the document create action. </summary>
+        public LibraryPropertiesViewModel SystemLibraryProperties { get; set; }
+
+        /// <summary> Do not show in the UI. Is there to persist along with the document create action. </summary>
         public IDAndName Patch { get; set; }
 
         public bool CanDelete { get; set; }

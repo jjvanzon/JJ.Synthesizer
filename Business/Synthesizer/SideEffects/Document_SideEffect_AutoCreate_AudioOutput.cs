@@ -5,12 +5,12 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    internal class Document_SideEffect_AutoCreateAudioOutput : ISideEffect
+    internal class Document_SideEffect_AutoCreate_AudioOutput : ISideEffect
     {
         private readonly Document _document;
         private readonly AudioOutputManager _audioOutputManager;
 
-        public Document_SideEffect_AutoCreateAudioOutput(
+        public Document_SideEffect_AutoCreate_AudioOutput(
             Document document,
             IAudioOutputRepository audioOutputRepository,
             ISpeakerSetupRepository speakerSetupRepository,

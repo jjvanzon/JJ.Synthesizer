@@ -21,24 +21,30 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             // ReSharper disable once JoinDeclarationAndInitializer
             SpeakerSetupChannel entity;
 
-            entity = new SpeakerSetupChannel();
-            entity.ID = id++;
-            entity.SpeakerSetup = speakerSetupRepository.Get(EntityIDs.ENTITY_ID_SPEAKER_SETUP_MONO);
-            entity.Channel = channelRepository.Get(EntityIDs.ENTITY_ID_CHANNEL_SINGLE);
+            entity = new SpeakerSetupChannel
+            {
+                ID = id++,
+                SpeakerSetup = speakerSetupRepository.Get(EntityIDs.ENTITY_ID_SPEAKER_SETUP_MONO),
+                Channel = channelRepository.Get(EntityIDs.ENTITY_ID_CHANNEL_SINGLE)
+            };
             Insert(entity);
             _list.Add(entity);
 
-            entity = new SpeakerSetupChannel();
-            entity.ID = id++;
-            entity.SpeakerSetup = speakerSetupRepository.Get(EntityIDs.ENTITY_ID_SPEAKER_SETUP_STEREO);
-            entity.Channel = channelRepository.Get(EntityIDs.ENTITY_ID_CHANNEL_LEFT);
+            entity = new SpeakerSetupChannel
+            {
+                ID = id++,
+                SpeakerSetup = speakerSetupRepository.Get(EntityIDs.ENTITY_ID_SPEAKER_SETUP_STEREO),
+                Channel = channelRepository.Get(EntityIDs.ENTITY_ID_CHANNEL_LEFT)
+            };
             Insert(entity);
             _list.Add(entity);
 
-            entity = new SpeakerSetupChannel();
-            entity.ID = id++;
-            entity.SpeakerSetup = speakerSetupRepository.Get(EntityIDs.ENTITY_ID_SPEAKER_SETUP_STEREO);
-            entity.Channel = channelRepository.Get(EntityIDs.ENTITY_ID_CHANNEL_RIGHT);
+            entity = new SpeakerSetupChannel
+            {
+                ID = id++,
+                SpeakerSetup = speakerSetupRepository.Get(EntityIDs.ENTITY_ID_SPEAKER_SETUP_STEREO),
+                Channel = channelRepository.Get(EntityIDs.ENTITY_ID_CHANNEL_RIGHT)
+            };
             Insert(entity);
             _list.Add(entity);
         }

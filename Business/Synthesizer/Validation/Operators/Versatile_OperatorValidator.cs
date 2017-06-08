@@ -117,6 +117,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 case OperatorTypeEnum.Undefined:
                     break;
 
+                case OperatorTypeEnum.Absolute:
+                    ExecuteValidator(new Absolute_OperatorValidator(Obj, _patchRepository));
+                    break;
+
                 case OperatorTypeEnum.CustomOperator:
                     ExecuteValidator(new CustomOperator_OperatorValidator(Obj, _patchRepository));
                     break;

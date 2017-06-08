@@ -288,8 +288,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //            // Move patches to their own child document.
         //            foreach (Patch patch in rootDocument.Patches.ToArray())
         //            {
-        //                //Document newChildDocument = documentManager.CreateChildDocument(rootDocument, ChildDocumentTypeEnum.Instrument, mustGenerateName: true);
-        //                Document newChildDocument = documentManager.CreateChildDocument(rootDocument, mustGenerateName: true);
+        //                //Document newChildDocument = documentManager.CreateChildDocument(rootDocument, ChildDocumentTypeEnum.Instrument);
+        //                Document newChildDocument = documentManager.CreateChildDocument(rootDocument);
         //                patch.LinkTo(newChildDocument);
         //            }
 
@@ -298,7 +298,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //            {
         //                if (childDocument.Patches.Count == 0)
         //                {
-        //                    patchManager.CreatePatch(childDocument, mustGenerateName: true);
+        //                    patchManager.CreatePatch(childDocument);
         //                    Patch newPatch = patchManager.Patch;
         //                }
         //            }

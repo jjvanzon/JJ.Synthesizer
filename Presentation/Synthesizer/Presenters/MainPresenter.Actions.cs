@@ -187,7 +187,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                     // Business
-                    audioFileOutput = _audioFileOutputManager.Create(document, mustGenerateName: true);
+                    audioFileOutput = _audioFileOutputManager.Create(document);
 
                     // Successful
                     userInput.Successful = true;
@@ -596,7 +596,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                     // Business
-                    _curveManager.Create(document, mustGenerateName: true);
+                    _curveManager.Create(document);
 
                     // Successful
                     userInput.Successful = true;
@@ -842,7 +842,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             
             // Commit
             // (do it before opening the document, which does a big query, which requires at least a flush.)
-            _repositories.DocumentRepository.Commit();
+            if (viewModel.Successful)
+            {
+                _repositories.DocumentRepository.Commit();
+            }
 
             // DispatchViewModel
             DispatchViewModel(viewModel);
@@ -2706,7 +2709,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Business
                     var patchManager = new PatchManager(_patchRepositories);
-                    patchManager.CreatePatch(document, mustGenerateName: true);
+                    patchManager.CreatePatch(document);
                     patchManager.Patch.GroupName = group;
                     patchID = patchManager.Patch.ID;
 
@@ -2918,7 +2921,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Business
                     // ReSharper disable once UnusedVariable
-                    Sample sample = _sampleManager.CreateSample(document, mustGenerateName: true);
+                    Sample sample = _sampleManager.CreateSample(document);
 
                     // Successful
                     userInput.Successful = true;
@@ -3090,7 +3093,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Business
                     // ReSharper disable once UnusedVariable
-                    Scale scale = _scaleManager.Create(document, mustSetDefaults: true, mustGenerateName: true);
+                    Scale scale = _scaleManager.Create(document, mustSetDefaults: true);
 
                     // Successful
                     userInput.Successful = true;

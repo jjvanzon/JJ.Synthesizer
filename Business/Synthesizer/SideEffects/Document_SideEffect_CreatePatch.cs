@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             if (mustCreatePatch)
             {
                 var patchManager = new PatchManager(_repositories);
-                patchManager.CreatePatch(_entity, mustGenerateName: true);
+                patchManager.CreatePatch(_entity);
             }
         }
     }

@@ -39,16 +39,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         // OperatorTypeEnum HashSets
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithCollectionRecalculationPropertyViews { get; } =
-                  new HashSet<OperatorTypeEnum>
-                  {
-            OperatorTypeEnum.AverageOverDimension,
-            OperatorTypeEnum.ClosestOverDimension,
-            OperatorTypeEnum.ClosestOverDimensionExp,
-            OperatorTypeEnum.MaxOverDimension,
-            OperatorTypeEnum.MinOverDimension,
-            OperatorTypeEnum.SortOverDimension,
-            OperatorTypeEnum.SumOverDimension
-        };
+            new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.AverageOverDimension,
+                OperatorTypeEnum.ClosestOverDimension,
+                OperatorTypeEnum.ClosestOverDimensionExp,
+                OperatorTypeEnum.MaxOverDimension,
+                OperatorTypeEnum.MinOverDimension,
+                OperatorTypeEnum.SortOverDimension,
+                OperatorTypeEnum.SumOverDimension
+            };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCountPropertyViews { get; } =
             new HashSet<OperatorTypeEnum>
@@ -64,127 +64,127 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInterpolationPropertyViews { get; } =
-                  new HashSet<OperatorTypeEnum>
-                  {
-            OperatorTypeEnum.Random,
-            OperatorTypeEnum.Interpolate
-        };
+            new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.Random,
+                OperatorTypeEnum.Interpolate
+            };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithOutletCountPropertyViews { get; } =
-                  new HashSet<OperatorTypeEnum>
-                  {
-            OperatorTypeEnum.DimensionToOutlets,
-            OperatorTypeEnum.RangeOverOutlets
-        };
+            new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.DimensionToOutlets,
+                OperatorTypeEnum.RangeOverOutlets
+            };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } =
-                  new HashSet<OperatorTypeEnum>
-                  {
-            OperatorTypeEnum.Cache,
-            OperatorTypeEnum.Curve,
-            OperatorTypeEnum.CustomOperator,
-            OperatorTypeEnum.InletsToDimension,
-            OperatorTypeEnum.Number,
-            OperatorTypeEnum.PatchInlet,
-            OperatorTypeEnum.PatchOutlet,
-            OperatorTypeEnum.Sample
-        };
+            new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.Cache,
+                OperatorTypeEnum.Curve,
+                OperatorTypeEnum.CustomOperator,
+                OperatorTypeEnum.InletsToDimension,
+                OperatorTypeEnum.Number,
+                OperatorTypeEnum.PatchInlet,
+                OperatorTypeEnum.PatchOutlet,
+                OperatorTypeEnum.Sample
+            };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView { get; } =
             EnumHelper.GetValues<OperatorTypeEnum>().Except(OperatorTypeEnums_WithTheirOwnPropertyViews)
-                                                    .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
-                                                    .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
-                                                    .Except(OperatorTypeEnums_WithOutletCountPropertyViews)
-                                                    .Except(OperatorTypeEnums_WithInletCountPropertyViews)
-                                                    .ToHashSet();
+                      .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
+                      .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
+                      .Except(OperatorTypeEnums_WithOutletCountPropertyViews)
+                      .Except(OperatorTypeEnums_WithInletCountPropertyViews)
+                      .ToHashSet();
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithHiddenInletNames { get; } =
-                  new HashSet<OperatorTypeEnum>
-                  {
-            OperatorTypeEnum.Add,
-            //OperatorTypeEnum.Divide,
-            //OperatorTypeEnum.MultiplyWithOrigin,
-            OperatorTypeEnum.PatchInlet,
-            OperatorTypeEnum.PatchOutlet,
-            //OperatorTypeEnum.Power,
-            //OperatorTypeEnum.Sine,
-            OperatorTypeEnum.Subtract,
-            //OperatorTypeEnum.TimePower,
-            OperatorTypeEnum.Number,
-            OperatorTypeEnum.Curve,
-            //OperatorTypeEnum.Sample,
-            OperatorTypeEnum.Noise,
-            //OperatorTypeEnum.Interpolate,
-            //OperatorTypeEnum.CustomOperator,
-            //OperatorTypeEnum.SawUp,
-            //OperatorTypeEnum.Square,
-            //OperatorTypeEnum.Triangle,
-            //OperatorTypeEnum.Exponent,
-            //OperatorTypeEnum.Loop,
-            //OperatorTypeEnum.Select,
-            //OperatorTypeEnum.Stretch,
-            //OperatorTypeEnum.Squash,
-            //OperatorTypeEnum.Shift,
-            //OperatorTypeEnum.Reset,
-            //OperatorTypeEnum.LowPassFilter,
-            //OperatorTypeEnum.HighPassFilter,
-            //OperatorTypeEnum.Spectrum,
-            //OperatorTypeEnum.Pulse,
-            //OperatorTypeEnum.Random,
-            OperatorTypeEnum.Equal,
-            OperatorTypeEnum.NotEqual,
-            OperatorTypeEnum.LessThan,
-            OperatorTypeEnum.GreaterThan,
-            OperatorTypeEnum.LessThanOrEqual,
-            OperatorTypeEnum.GreaterThanOrEqual,
-            OperatorTypeEnum.And,
-            OperatorTypeEnum.Or,
-            OperatorTypeEnum.Not,
-            //OperatorTypeEnum.If,
-            //OperatorTypeEnum.MinFollower,
-            //OperatorTypeEnum.MaxFollower,
-            //OperatorTypeEnum.AverageFollower,
-            //OperatorTypeEnum.Scaler,
-            //OperatorTypeEnum.SawDown,
-            OperatorTypeEnum.Absolute,
-            //OperatorTypeEnum.Reverse,
-            //OperatorTypeEnum.Round,
-            OperatorTypeEnum.Negative,
-            OperatorTypeEnum.OneOverX,
-            //OperatorTypeEnum.Cache,
-            //OperatorTypeEnum.PulseTrigger,
-            //OperatorTypeEnum.ChangeTrigger,
-            //OperatorTypeEnum.ToggleTrigger,
-            OperatorTypeEnum.GetDimension,
-            //OperatorTypeEnum.SetDimension,
-            OperatorTypeEnum.Hold,
-            //OperatorTypeEnum.RangeOverDimension,
-            //OperatorTypeEnum.RangeOverOutlets,
-            OperatorTypeEnum.DimensionToOutlets,
-            OperatorTypeEnum.InletsToDimension,
-            OperatorTypeEnum.MaxOverInlets,
-            OperatorTypeEnum.MinOverInlets,
-            OperatorTypeEnum.AverageOverInlets,
-            //OperatorTypeEnum.MaxOverDimension,
-            //OperatorTypeEnum.MinOverDimension,
-            //OperatorTypeEnum.AverageOverDimension,
-            //OperatorTypeEnum.SumOverDimension,
-            //OperatorTypeEnum.SumFollower,
-            OperatorTypeEnum.Multiply,
-            //OperatorTypeEnum.ClosestOverInlets,
-            //OperatorTypeEnum.ClosestOverDimension,
-            //OperatorTypeEnum.ClosestOverInletsExp,
-            //OperatorTypeEnum.ClosestOverDimensionExp,
-            OperatorTypeEnum.SortOverInlets,
-            //OperatorTypeEnum.SortOverDimension,
-            //OperatorTypeEnum.BandPassFilterConstantTransitionGain,
-            //OperatorTypeEnum.BandPassFilterConstantPeakGain,
-            //OperatorTypeEnum.NotchFilter,
-            //OperatorTypeEnum.AllPassFilter,
-            //OperatorTypeEnum.PeakingEQFilter,
-            //OperatorTypeEnum.LowShelfFilter,
-            //OperatorTypeEnum.HighShelfFilter
-        };
+            new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.Add,
+                //OperatorTypeEnum.Divide,
+                //OperatorTypeEnum.MultiplyWithOrigin,
+                OperatorTypeEnum.PatchInlet,
+                OperatorTypeEnum.PatchOutlet,
+                //OperatorTypeEnum.Power,
+                //OperatorTypeEnum.Sine,
+                OperatorTypeEnum.Subtract,
+                //OperatorTypeEnum.TimePower,
+                OperatorTypeEnum.Number,
+                OperatorTypeEnum.Curve,
+                //OperatorTypeEnum.Sample,
+                OperatorTypeEnum.Noise,
+                //OperatorTypeEnum.Interpolate,
+                //OperatorTypeEnum.CustomOperator,
+                //OperatorTypeEnum.SawUp,
+                //OperatorTypeEnum.Square,
+                //OperatorTypeEnum.Triangle,
+                //OperatorTypeEnum.Exponent,
+                //OperatorTypeEnum.Loop,
+                //OperatorTypeEnum.Select,
+                //OperatorTypeEnum.Stretch,
+                //OperatorTypeEnum.Squash,
+                //OperatorTypeEnum.Shift,
+                //OperatorTypeEnum.Reset,
+                //OperatorTypeEnum.LowPassFilter,
+                //OperatorTypeEnum.HighPassFilter,
+                //OperatorTypeEnum.Spectrum,
+                //OperatorTypeEnum.Pulse,
+                //OperatorTypeEnum.Random,
+                OperatorTypeEnum.Equal,
+                OperatorTypeEnum.NotEqual,
+                OperatorTypeEnum.LessThan,
+                OperatorTypeEnum.GreaterThan,
+                OperatorTypeEnum.LessThanOrEqual,
+                OperatorTypeEnum.GreaterThanOrEqual,
+                OperatorTypeEnum.And,
+                OperatorTypeEnum.Or,
+                OperatorTypeEnum.Not,
+                //OperatorTypeEnum.If,
+                //OperatorTypeEnum.MinFollower,
+                //OperatorTypeEnum.MaxFollower,
+                //OperatorTypeEnum.AverageFollower,
+                //OperatorTypeEnum.Scaler,
+                //OperatorTypeEnum.SawDown,
+                OperatorTypeEnum.Absolute,
+                //OperatorTypeEnum.Reverse,
+                //OperatorTypeEnum.Round,
+                OperatorTypeEnum.Negative,
+                OperatorTypeEnum.OneOverX,
+                //OperatorTypeEnum.Cache,
+                //OperatorTypeEnum.PulseTrigger,
+                //OperatorTypeEnum.ChangeTrigger,
+                //OperatorTypeEnum.ToggleTrigger,
+                OperatorTypeEnum.GetDimension,
+                //OperatorTypeEnum.SetDimension,
+                OperatorTypeEnum.Hold,
+                //OperatorTypeEnum.RangeOverDimension,
+                //OperatorTypeEnum.RangeOverOutlets,
+                OperatorTypeEnum.DimensionToOutlets,
+                OperatorTypeEnum.InletsToDimension,
+                OperatorTypeEnum.MaxOverInlets,
+                OperatorTypeEnum.MinOverInlets,
+                OperatorTypeEnum.AverageOverInlets,
+                //OperatorTypeEnum.MaxOverDimension,
+                //OperatorTypeEnum.MinOverDimension,
+                //OperatorTypeEnum.AverageOverDimension,
+                //OperatorTypeEnum.SumOverDimension,
+                //OperatorTypeEnum.SumFollower,
+                OperatorTypeEnum.Multiply,
+                //OperatorTypeEnum.ClosestOverInlets,
+                //OperatorTypeEnum.ClosestOverDimension,
+                //OperatorTypeEnum.ClosestOverInletsExp,
+                //OperatorTypeEnum.ClosestOverDimensionExp,
+                OperatorTypeEnum.SortOverInlets,
+                //OperatorTypeEnum.SortOverDimension,
+                //OperatorTypeEnum.BandPassFilterConstantTransitionGain,
+                //OperatorTypeEnum.BandPassFilterConstantPeakGain,
+                //OperatorTypeEnum.NotchFilter,
+                //OperatorTypeEnum.AllPassFilter,
+                //OperatorTypeEnum.PeakingEQFilter,
+                //OperatorTypeEnum.LowShelfFilter,
+                //OperatorTypeEnum.HighShelfFilter
+            };
 
         // A list until it will have more items. Then it might be made a HashSet for performance.
         public static IList<OperatorTypeEnum> OperatorTypeEnums_WithVisibleOutletNames { get; } =
@@ -384,7 +384,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return entity.OperatorType.HasDimension;
         }
-        
+
         // Document
 
         public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
@@ -468,7 +468,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         // Node
-   
+
         public static string GetNodeCaption(Node entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -738,7 +738,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 case OperatorTypeEnum.AverageOverDimension:
                 case OperatorTypeEnum.AverageOverInlets:
-                    operatorCaption =ResourceFormatter.Average;
+                    operatorCaption = ResourceFormatter.Average;
                     break;
 
                 case OperatorTypeEnum.ClosestOverDimension:
@@ -972,12 +972,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_ForGetDimension(Operator op)
         {
-            return GetOperatorCaption_WithDimensionPlaceholder(op, ResourceFormatter.GetDimensionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
+            return GetOperatorCaption_WithDimensionPlaceholder(
+                op,
+                ResourceFormatter.GetDimensionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
         }
 
         private static string GetOperatorCaption_ForSetDimension(Operator op)
         {
-            return GetOperatorCaption_WithDimensionPlaceholder(op, ResourceFormatter.SetDimensionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
+            return GetOperatorCaption_WithDimensionPlaceholder(
+                op,
+                ResourceFormatter.SetDimensionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
         }
 
         private static string GetOperatorCaption_WithDimensionPlaceholder(Operator op, string operatorTypeDisplayNameWithPlaceholder)

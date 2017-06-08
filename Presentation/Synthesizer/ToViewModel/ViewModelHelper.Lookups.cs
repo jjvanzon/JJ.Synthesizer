@@ -3,6 +3,8 @@ using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Resources;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
@@ -12,6 +14,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Presentation;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -260,38 +263,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static IList<IDAndName> CreateEnumLookupViewModel<TEnum>(bool mustIncludeUndefined)
             where TEnum : struct
         {
-            var enumValues = (TEnum[])Enum.GetValues(typeof(TEnum));
-
-            var idAndNames = new List<IDAndName>(enumValues.Length);
-
-            // Add Undefined separately, so it is shown as a null string.
-            if (mustIncludeUndefined)
-            {
-                idAndNames.Add(new IDAndName { ID = 0, Name = null });
-            }
-
-            foreach (TEnum enumValue in enumValues)
-            {
-                int enumValueInt = (int)(object)enumValue;
-                bool isUndefined = enumValueInt == 0;
-                if (isUndefined)
-                {
-                    continue;
-                }
-
-                string displayName = ResourceFormatter.GetDisplayName(enumValue.ToString());
-
-                var idAndName = new IDAndName
-                {
-                    ID = enumValueInt,
-                    Name = displayName
-                };
-
-
-                idAndNames.Add(idAndName);
-            }
-
-            return idAndNames;
+            return EnumToIDAndNameConverter.Convert<TEnum>(ResourceFormatter.ResourceManager, mustIncludeUndefined);
         }
     }
 }

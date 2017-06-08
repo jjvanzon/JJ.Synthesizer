@@ -53,6 +53,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToEntity
             Document document = userInput.ToEntityWithAudioOutput(
                 _repositories.DocumentRepository,
+                _repositories.DocumentReferenceRepository,
                 _repositories.AudioOutputRepository,
                 _repositories.PatchRepository,
                 _repositories.SpeakerSetupRepository);
@@ -100,6 +101,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToEntity
             Document document = userInput.ToEntityWithAudioOutput(
                 _repositories.DocumentRepository,
+                _repositories.DocumentReferenceRepository,
                 _repositories.AudioOutputRepository,
                 _repositories.PatchRepository,
                 _repositories.SpeakerSetupRepository);

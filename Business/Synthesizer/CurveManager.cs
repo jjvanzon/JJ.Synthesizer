@@ -51,18 +51,14 @@ namespace JJ.Business.Synthesizer
             return curve;
         }
 
-        public Curve Create(Document document, bool mustGenerateName = false)
+        public Curve Create(Document document)
         {
             if (document == null) throw new NullException(() => document);
 
             Curve curve = Create();
             curve.LinkTo(document);
 
-            // ReSharper disable once InvertIf
-            if (mustGenerateName)
-            {
-                new Curve_SideEffect_GenerateName(curve).Execute();
-            }
+            new Curve_SideEffect_GenerateName(curve).Execute();
 
             return curve;
         }

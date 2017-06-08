@@ -348,12 +348,16 @@
     <Compile Include="Roslyn\OperatorDtoVisitorBase_AfterCodeGenerationSimplification.cs" />
     <Compile Include="Roslyn\OperatorDtoVisitor_CodeGenerationSimplification.cs" />
     <Compile Include="Roslyn\Helpers\VariableCollections.cs" />
+    <Compile Include="SideEffects\Document_SideEffect_AutoCreate_SystemDocumentReference.cs" />
+    <Compile Include="SideEffects\Document_SideEffect_GenerateName.cs" />
+    <Compile Include="SystemDocumentManager.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Basic.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Delete.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_DoesNotReferenceItself.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_UniqueAlias.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_UniqueLowerDocument.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_DoesNotReferenceItself.cs" />
+    <Compile Include="Validation\Documents\DocumentValidator_SystemDocumentReferenceMustExist.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_ClosestOverInlets.cs" />
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
@@ -681,7 +685,7 @@
     <Compile Include="PatchManager.AutoPatch.cs" />
     <Compile Include="SideEffects\AudioOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Nodes.cs" />
-    <Compile Include="SideEffects\Document_SideEffect_AutoCreateAudioOutput.cs" />
+    <Compile Include="SideEffects\Document_SideEffect_AutoCreate_AudioOutput.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_UpdateDependentCustomOperators.cs" />
     <Compile Include="SideEffects\SideEffectHelper.cs" />

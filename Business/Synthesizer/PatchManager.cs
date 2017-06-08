@@ -40,6 +40,7 @@ namespace JJ.Business.Synthesizer
         private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
         private readonly PatchRepositories _repositories;
+        private readonly SystemDocumentManager _systemDocumentManager;
 
         /// <summary> nullable </summary>
         public Patch Patch { get; set; }
@@ -71,25 +72,21 @@ namespace JJ.Business.Synthesizer
         public PatchManager(PatchRepositories repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
+            _systemDocumentManager = new SystemDocumentManager(_repositories.DocumentRepository);
         }
 
         // Create
 
         /// <summary> Use the Patch property after calling this method. </summary>
         /// <param name="document">Nullable. Used e.g. to generate a unique name for a Patch.</param>
-        /// <param name="mustGenerateName">Only possible if you also pass a document.</param>
-        public void CreatePatch(Document document = null, bool mustGenerateName = false)
+        public void CreatePatch(Document document = null)
         {
             Patch = new Patch { ID = _repositories.IDRepository.GetID() };
             _repositories.PatchRepository.Insert(Patch);
 
             Patch.LinkTo(document);
 
-            // ReSharper disable once InvertIf
-            if (mustGenerateName)
-            {
-                new Patch_SideEffect_GenerateName(Patch).Execute();
-            }
+            new Patch_SideEffect_GenerateName(Patch).Execute();
         }
 
         public Inlet CreateInlet(Operator op)

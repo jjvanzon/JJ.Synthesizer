@@ -161,7 +161,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             //  but data the from property boxes would be leading or missing from PatchDetails.)
             foreach (OperatorPropertiesViewModel propertiesViewModel in viewModel.OperatorPropertiesDictionary.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository, repositories.PatchRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForCache propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForCaches.Values)
@@ -379,7 +379,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             //  but data the from property boxes would be leading or missing from PatchDetails.)
             foreach (OperatorPropertiesViewModel propertiesViewModel in viewModel.OperatorPropertiesDictionary.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository, repositories.PatchRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForCache propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForCaches.Values)
@@ -488,6 +488,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static Document ToEntityWithAudioOutput(
             this DocumentDetailsViewModel viewModel, 
             IDocumentRepository documentRepository,
+            IDocumentReferenceRepository documentReferenceRepository,
             IAudioOutputRepository audioOutputRepository,
             IPatchRepository patchRepository,
             ISpeakerSetupRepository speakerSetupRepository)
@@ -503,6 +504,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Patch patch = viewModel.Patch.ToPatch(patchRepository);
             patch.LinkTo(document);
+
+            DocumentReference documentReference = viewModel.SystemLibraryProperties.ToEntity(documentReferenceRepository, documentRepository);
+            documentReference.LinkToHigherDocument(document);
 
             return document;
         }
@@ -716,13 +720,23 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel viewModel,
-            IOperatorRepository operatorRepository, 
+            IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
-            IDimensionRepository dimensionRepository)
+            IDimensionRepository dimensionRepository,
+            IPatchRepository patchRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
+
+            // HACK
+            if ((viewModel.UnderlyingPatch?.ID ?? 0) != 0)
+            {
+                new CustomOperator_OperatorWrapper(entity, patchRepository)
+                {
+                    UnderlyingPatchID = viewModel.UnderlyingPatch.ID
+                };
+            }
 
             return entity;
         }

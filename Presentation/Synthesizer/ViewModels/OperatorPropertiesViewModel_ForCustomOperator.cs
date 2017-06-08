@@ -2,7 +2,7 @@
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class OperatorPropertiesViewModel_ForCustomOperator : OperatorPropertiesViewModelBase
+    public class OperatorPropertiesViewModel_ForCustomOperator : OperatorPropertiesViewModelBase
     {
         /// <summary>
         /// The lookup is inside the DocumentViewModel,

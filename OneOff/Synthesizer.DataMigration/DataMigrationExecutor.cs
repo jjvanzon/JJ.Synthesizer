@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
@@ -481,6 +482,130 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                 //throw new Exception("Temporarily not committing, for debugging.");
 
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
+        public static void Migrate_SetUnderlyingPatch_ForAbsoluteOperators(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+                SystemDocumentManager systemDocumentManager = new SystemDocumentManager(repositories.DocumentRepository);
+
+
+                Patch underlyingPatch = systemDocumentManager.GetPatch(OperatorTypeEnum.Absolute);
+                IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Absolute);
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    new CustomOperator_OperatorWrapper(op, repositories.PatchRepository)
+                    {
+                        UnderlyingPatch = underlyingPatch
+                    };
+
+                    string progressMessage = $"Migrated Operator {i + 1}/{operators.Count}.";
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
+        public static void Migrate_Convert_SignalToSound_ForCustomOperators_PatchInlets_And_PatchOutlets(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                IList<Operator> customOperators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.CustomOperator);
+                IList<Operator> patchInlets = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.PatchInlet);
+                IList<Operator> patchOutlets = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.PatchOutlet);
+                IList<Operator> operators = customOperators.Union(patchInlets).Union(patchOutlets).ToArray();
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    foreach (Inlet inlet in op.Inlets)
+                    {
+                        if (inlet.GetDimensionEnum() == DimensionEnum.Signal)
+                        {
+                            inlet.SetDimensionEnum(DimensionEnum.Sound, repositories.DimensionRepository);
+                        }
+                    }
+
+                    foreach (Outlet outlet in op.Outlets)
+                    {
+                        if (outlet.GetDimensionEnum() == DimensionEnum.Signal)
+                        {
+                            outlet.SetDimensionEnum(DimensionEnum.Sound, repositories.DimensionRepository);
+                        }
+                    }
+
+                    string progressMessage = $"Migrated Operator {i + 1}/{operators.Count}.";
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
+        public static void Migrate_SystemDocument_AsLibrary_ToAllDocument(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                SystemDocumentManager systemDocumentManager = new SystemDocumentManager(repositories.DocumentRepository);
+                DocumentManager documentManager = new DocumentManager(repositories);
+
+                Document systemDocument = systemDocumentManager.GetSystemDocument();
+                IList<Document> documents = repositories.DocumentRepository.GetAll();
+
+                for (int i = 0; i < documents.Count; i++)
+                {
+                    Document document = documents[i];
+
+                    if (document.ID == systemDocument.ID)
+                    {
+                        continue;
+                    }
+
+                    documentManager.CreateDocumentReference(document, systemDocument);
+
+                    string progressMessage = $"Migrated {nameof(Document)} {i + 1}/{documents.Count}.";
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+                
                 context.Commit();
             }
 

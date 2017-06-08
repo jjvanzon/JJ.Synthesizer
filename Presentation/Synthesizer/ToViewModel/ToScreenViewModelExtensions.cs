@@ -154,6 +154,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Document = document.ToIDAndName(),
                 AudioOutput = document.AudioOutput.ToViewModel(),
+                SystemLibraryProperties = document.LowerDocumentReferences.Single().ToPropertiesViewModel(),
                 // Single Patch, because this is only used upon creating a new document.
                 Patch = document.Patches.Single().ToIDAndName(),
                 ValidationMessages = new List<MessageDto>()
@@ -279,7 +280,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         // Operator
 
         /// <summary> Converts to properties view models, the operators that do not have a specialized properties view. </summary>
-        public static IList<OperatorPropertiesViewModel> ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView(this Patch patch)
+        public static IList<OperatorPropertiesViewModel> ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView(
+            this Patch patch,
+            IPatchRepository patchRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
@@ -293,7 +296,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     continue;
                 }
 
-                OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
+                OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel(patchRepository);
                 viewModels.Add(viewModel);
             }
 
@@ -409,11 +412,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                   .ToList();
         }
 
-        public static OperatorPropertiesViewModel ToPropertiesViewModel(this Operator entity)
+        public static OperatorPropertiesViewModel ToPropertiesViewModel(this Operator entity, IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
 
             var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel>(entity);
+
+            var wrapper = new CustomOperator_OperatorWrapper(entity, patchRepository);
+
+            Patch underlyingPatch = wrapper.UnderlyingPatch;
+            if (underlyingPatch != null)
+            {
+                viewModel.UnderlyingPatch = underlyingPatch.ToIDAndName();
+            }
+            else
+            {
+                viewModel.UnderlyingPatch = ViewModelHelper.CreateEmptyIDAndName();
+            }
 
             return viewModel;
         }

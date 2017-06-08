@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 using JJ.Framework.Validation.Resources;
@@ -11,18 +14,34 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 {
     internal class DocumentValidator_Unicity : VersatileValidator<Document>
     {
-        public DocumentValidator_Unicity(Document obj)
-            : base(obj)
-        { }
+        private readonly IDocumentRepository _documentRepository;
 
+        public DocumentValidator_Unicity(Document obj, [NotNull] IDocumentRepository documentRepository)
+            : base(obj, postponeExecute: true)
+        {
+            _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
+
+            Execute();
+        }
         protected override void Execute()
         {
+            ValidateDocumentNameUnique();
             ValidateAudioFileOutputNamesUnique();
             ValidatePatchNamesUnique();
             ValidateSampleNamesUnique();
             ValidateScaleNamesUnique();
             ValidateDocumentReferencesUnique();
             ValidateDocumentReferenceAliasesUnique();
+        }
+
+        private void ValidateDocumentNameUnique()
+        {
+            bool isUnique = ValidationHelper.DocumentNameIsUnique(Obj, _documentRepository);
+            // ReSharper disable once InvertIf
+            if (!isUnique)
+            {
+                ValidationMessages.AddNotUniqueMessageSingular(nameof(Obj.Name), CommonResourceFormatter.Name, Obj.Name);
+            }
         }
 
         private void ValidateAudioFileOutputNamesUnique()

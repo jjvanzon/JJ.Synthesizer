@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Framework.Validation.Resources;
 using JJ.Framework.Exceptions;
 using System.Text;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -23,7 +22,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private readonly IPatchRepository _patchRepository;
 
-        public CustomOperator_OperatorValidator([NotNull] Operator op, [NotNull] IPatchRepository patchRepository)
+        public CustomOperator_OperatorValidator(Operator op, IPatchRepository patchRepository)
             : base(op, postponeExecute: true)
         {
             _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
@@ -31,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Execute();
         }
 
-        protected sealed override void Execute()
+        protected override void Execute()
         {
             Operator op = Obj;
 
@@ -76,6 +75,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
 
             bool isInList = op.Patch.Document.GetPatchesAndVisibleLowerDocumentPatches().Any(x => x.ID == underlyingPatch.ID);
+            
             if (!isInList)
             {
                 ValidationMessages.AddNotInListMessage(nameof(CustomOperator_OperatorWrapper.UnderlyingPatch), ResourceFormatter.UnderlyingPatch, underlyingPatch.ID);

@@ -44,30 +44,29 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_START_TIME = 0.0;
         private const double DEFAULT_STEP = 1.0;
         private const double MULTIPLICATIVE_IDENTITY = 1.0;
-
+        
         public Absolute_OperatorWrapper Absolute(Outlet number = null)
         {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Absolute,
-                new[] { DimensionEnum.Number },
-                new[] { DimensionEnum.Number });
+            Operator op = FromSystem(OperatorTypeEnum.Absolute);
 
             var wrapper = new Absolute_OperatorWrapper(op)
             {
                 NumberInput = number
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
-
             return wrapper;
         }
 
-        //private Operator CreateFromSystemDocument(string name)
-        //{
-        //    // TODO: System document should be cached somewhere.
-        //    Document document = _repositories.DocumentRepository.GetByNameComplete(name);
-        //}
+        private Operator FromSystem(OperatorTypeEnum operatorTypeEnum)
+        {
+            Patch patch = _systemDocumentManager.GetPatch(operatorTypeEnum);
+
+            Operator op = CustomOperator(patch);
+
+            op.SetOperatorTypeEnum(OperatorTypeEnum.Absolute, _repositories.OperatorTypeRepository);
+
+            return op;
+        }
 
         public Add_OperatorWrapper Add(params Outlet[] items)
         {

@@ -625,7 +625,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel();
+                    viewModel = op.ToPropertiesViewModel(_repositories.PatchRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }

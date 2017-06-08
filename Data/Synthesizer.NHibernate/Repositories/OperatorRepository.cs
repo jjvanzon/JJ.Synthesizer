@@ -17,6 +17,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             _context = (NHibernateContext)context;
         }
 
+        public override IList<Operator> GetAll() => _context.Session.QueryOver<Operator>().List();
+
         public override IList<Operator> GetManyByOperatorTypeID(int operatorTypeID)
         {
             return _context.Session.QueryOver<Operator>()

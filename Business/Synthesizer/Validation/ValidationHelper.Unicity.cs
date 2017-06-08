@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation
@@ -36,6 +39,34 @@ namespace JJ.Business.Synthesizer.Validation
             IList<string> duplicateNames = GetDuplicateNames(document.AudioFileOutputs.Select(x => x.Name));
 
             return duplicateNames;
+        }
+
+        // Document
+
+        public static bool DocumentNameIsUnique(Document document, IDocumentRepository documentRepository)
+        {
+            bool isUnique = DocumentNameIsUnique(document, documentRepository, document.Name);
+
+            return isUnique;
+        }
+
+        public static bool DocumentNameIsUnique(Document document, IDocumentRepository documentRepository, string name)
+        {
+            if (document == null) throw new NullException(() => document);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+
+            IList<Document> documents = documentRepository.GetAll();
+
+            string canonicalName = NameHelper.ToCanonical(name);
+
+            bool alreadyExists = documents.Where(x => x.ID != document.ID)
+                                          .Select(x => x.Name)
+                                          .Where(x => NameHelper.AreEqual(x, canonicalName))
+                                          .Any();
+
+            bool isUnique = !alreadyExists;
+
+            return isUnique;
         }
 
         // DocumentReference

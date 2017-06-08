@@ -18,6 +18,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             _context = (NHibernateContext)context;
         }
 
+        public override IList<Document> GetAll() => _context.Session.QueryOver<Document>().List();
+
         public override IList<Document> OrderByName()
         {
             return _context.Session.QueryOver<Document>()

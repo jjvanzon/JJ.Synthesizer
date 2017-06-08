@@ -12,17 +12,19 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public Scale_SideEffect_GenerateName(Scale entity)
         {
-            if (entity == null) throw new NullException(() => entity);
-            if (entity.Document == null) throw new NullException(() => entity.Document);
-
-            _entity = entity;
+            _entity = entity ?? throw new NullException(() => entity);
         }
 
         public void Execute()
         {
-            IEnumerable<string> existingNames = _entity.Document.Scales.Select(x => x.Name);
+            bool mustExecute = _entity.Document != null;
+            // ReSharper disable once InvertIf
+            if (mustExecute)
+            {
+                IEnumerable<string> existingNames = _entity.Document.Scales.Select(x => x.Name);
 
-            _entity.Name = SideEffectHelper.GenerateName<Scale>(existingNames);
+                _entity.Name = SideEffectHelper.GenerateName<Scale>(existingNames);
+            }
         }
     }
 }

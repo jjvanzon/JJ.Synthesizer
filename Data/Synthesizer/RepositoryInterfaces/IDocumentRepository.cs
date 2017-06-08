@@ -6,6 +6,7 @@ namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
     public interface IDocumentRepository : IRepository<Document, int>
     {
+        IList<Document> GetAll();
         IList<Document> OrderByName();
 
         /// <summary>
