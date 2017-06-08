@@ -8,7 +8,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class OperatorPropertiesPresenter_ForCache
         : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForCache>
     {
-        public OperatorPropertiesPresenter_ForCache(PatchRepositories repositories)
+        public OperatorPropertiesPresenter_ForCache(RepositoryWrapper repositories)
             : base(repositories)
         { }
 

@@ -1,21 +1,20 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
     internal class DocumentValidator_SystemDocumentReferenceMustExist : VersatileValidator<Document>
     {
-        private readonly SystemDocumentManager _systemDocumentManager;
+        private readonly DocumentManager _documentManager;
 
-        public DocumentValidator_SystemDocumentReferenceMustExist([NotNull] Document obj, IDocumentRepository documentRepository, bool postponeExecute = true)
-            : base(obj, postponeExecute)
+        public DocumentValidator_SystemDocumentReferenceMustExist([NotNull] Document obj, RepositoryWrapper repositories)
+            : base(obj, postponeExecute: true)
         {
-            _systemDocumentManager = new SystemDocumentManager(documentRepository);
+            _documentManager = new DocumentManager(repositories);
 
             // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
@@ -25,15 +24,15 @@ namespace JJ.Business.Synthesizer.Validation.Documents
         {
             Document document = Obj;
 
-            if (_systemDocumentManager.IsSystemDocument(document))
+            if (_documentManager.IsSystemDocument(document))
             {
                 return;
             }
 
-            bool hasSystemDocumentReference = document.LowerDocumentReferences.Any(x => _systemDocumentManager.IsSystemDocument(x.LowerDocument));
+            bool hasSystemDocumentReference = document.LowerDocumentReferences.Any(x => _documentManager.IsSystemDocument(x.LowerDocument));
             if (!hasSystemDocumentReference)
             {
-                string systemDocumentIdentifier = ValidationHelper.GetUserFriendlyIdentifier(_systemDocumentManager.GetSystemDocument());
+                string systemDocumentIdentifier = ValidationHelper.GetUserFriendlyIdentifier(_documentManager.GetSystemDocument());
 
                 ValidationMessages.AddNotContainsMessage(nameof(DocumentReference), ResourceFormatter.Libraries, systemDocumentIdentifier);
 

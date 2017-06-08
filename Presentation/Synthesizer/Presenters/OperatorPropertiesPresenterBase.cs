@@ -14,9 +14,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         : PropertiesPresenterBase<TViewModel>, IOperatorPropertiesPresenter
         where TViewModel : OperatorPropertiesViewModelBase
     {
-        protected readonly PatchRepositories _repositories;
+        protected readonly RepositoryWrapper _repositories;
 
-        public OperatorPropertiesPresenterBase(PatchRepositories repositories)
+        public OperatorPropertiesPresenterBase(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
         }

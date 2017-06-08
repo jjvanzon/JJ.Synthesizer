@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentReference lowerDocumentReference = _repositories.DocumentReferenceRepository.Get(userInput.LowerDocumentReferenceID);
 
             // Business
-            var patchManager = new PatchManager(_patchRepositories);
+            var patchManager = new PatchManager(_repositories);
             IList<Patch> patches = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(lowerDocumentReference.LowerDocument.Patches, userInput.Group, mustIncludeHidden: false);
 
             // ToViewModel
@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = _repositories.PatchRepository.Get(patchID);
 
                 // Business
-                var patchManager = new PatchManager(patch, _patchRepositories);
+                var patchManager = new PatchManager(patch, _repositories);
                 Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(patch);
                 Outlet outlet = result.Data;
 

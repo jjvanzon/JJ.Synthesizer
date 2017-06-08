@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer
         {
             Document document = Create();
 
-            new Document_SideEffect_CreatePatch(document, new PatchRepositories(_repositories)).Execute();
+            new Document_SideEffect_CreatePatch(document, _repositories).Execute();
 
             return document;
         }
@@ -100,13 +100,7 @@ namespace JJ.Business.Synthesizer
         {
             if (document == null) throw new NullException(() => document);
 
-            IValidator validator = new DocumentValidator_Recursive(
-                document, 
-                _repositories.DocumentRepository,
-                _repositories.CurveRepository, 
-                _repositories. SampleRepository, 
-                _repositories.PatchRepository, 
-                new HashSet<object>());
+            IValidator validator = new DocumentValidator_Recursive(document, _repositories, new HashSet<object>());
 
             return validator.ToCanonical();
         }
@@ -162,7 +156,7 @@ namespace JJ.Business.Synthesizer
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
-            IValidator validator = new DocumentReferenceValidator_Delete(documentReference, _repositories.DocumentRepository, _repositories.PatchRepository);
+            IValidator validator = new DocumentReferenceValidator_Delete(documentReference, _repositories);
 
             // ReSharper disable once InvertIf
             if (validator.IsValid)
@@ -347,6 +341,35 @@ namespace JJ.Business.Synthesizer
             }
 
             return idAndNames;
+        }
+
+        // System Document
+
+        public const string SYSTEM_DOCUMENT_NAME = "System";
+
+        public bool IsSystemDocument([NotNull] Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            bool isSystemDocument = string.Equals(document.Name, SYSTEM_DOCUMENT_NAME);
+            return isSystemDocument;
+        }
+
+        public Document GetSystemDocument()
+        {
+            // TODO: System document should be cached.
+            Document document = _repositories.DocumentRepository.GetByNameComplete(SYSTEM_DOCUMENT_NAME);
+            return document;
+        }
+
+        public Patch GetSystemPatch(OperatorTypeEnum operatorTypeEnum)
+        {
+            Document document = GetSystemDocument();
+            string patchName = operatorTypeEnum.ToString();
+            Patch patch = document.Patches.Where(x => string.Equals(x.Name, patchName)).SingleWithClearException(new { name = patchName });
+
+            return patch;
+
         }
     }
 }

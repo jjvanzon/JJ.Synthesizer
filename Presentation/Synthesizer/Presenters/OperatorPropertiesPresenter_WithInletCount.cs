@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class OperatorPropertiesPresenter_WithInletCount
         : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_WithInletCount>
     {
-        public OperatorPropertiesPresenter_WithInletCount(PatchRepositories repositories)
+        public OperatorPropertiesPresenter_WithInletCount(RepositoryWrapper repositories)
             : base(repositories)
         { }
 

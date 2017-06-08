@@ -303,7 +303,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void LibraryPatchGridDictionaryRefresh()
         {
-            var patchManager = new PatchManager(_patchRepositories);
+            var patchManager = new PatchManager(_repositories);
 
             Document higherDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
@@ -1242,7 +1242,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
-            var patchManager = new PatchManager(_patchRepositories);
+            var patchManager = new PatchManager(_repositories);
             IList<string> groups = patchManager.GetPatchGroupNames(document.Patches, mustIncludeHidden: true);
 
             // Always include groupless, even when empty, 
@@ -1514,7 +1514,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void UnderylingPatchLookupRefresh()
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            MainViewModel.Document.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(document, _patchRepositories);
+            MainViewModel.Document.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(document, _repositories);
         }
     }
 }

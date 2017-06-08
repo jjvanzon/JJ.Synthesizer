@@ -327,7 +327,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IList<Patch> entities = MainViewModel.Document.CurrentInstrument.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
 
                     // Business
-                    var patchManager = new PatchManager(_patchRepositories);
+                    var patchManager = new PatchManager(_repositories);
                     patchManager.AutoPatch(entities);
                     Patch autoPatch = patchManager.Patch;
                     Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(autoPatch);
@@ -369,7 +369,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Patch> underlyingPatches = currentInstrumentUserInput.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
 
             // Business
-            var patchManager = new PatchManager(_patchRepositories);
+            var patchManager = new PatchManager(_repositories);
             patchManager.AutoPatch(underlyingPatches);
             Patch autoPatch = patchManager.Patch;
 
@@ -455,11 +455,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                     // ToEntity
-                    Patch patch = userInput.ToEntityWithRelatedEntities(_patchRepositories);
+                    Patch patch = userInput.ToEntityWithRelatedEntities(_repositories);
 
                     // Business
                     patch.LinkTo(document);
-                    var patchManager = new PatchManager(patch, _patchRepositories);
+                    var patchManager = new PatchManager(patch, _repositories);
                     IResultDto result = patchManager.SavePatch();
 
                     AutoPatchPopupViewModel viewModel2;
@@ -929,7 +929,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DocumentOpen(Document document)
         { 
             // Business
-            var patchManager = new PatchManager(_patchRepositories);
+            var patchManager = new PatchManager(_repositories);
             IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
             IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true);
             IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
@@ -1171,7 +1171,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                              .Select(x => _repositories.PatchRepository.Get(x.ID))
                                                              .ToArray();
                         // Business
-                        var patchManager = new PatchManager(_patchRepositories);
+                        var patchManager = new PatchManager(_repositories);
                         patchManager.AutoPatch(entities);
                         Patch autoPatch = patchManager.Patch;
                         result = patchManager.AutoPatch_TryCombineSounds(autoPatch);
@@ -1187,7 +1187,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(userInput.SelectedItemID.Value);
 
                         // Business
-                        var patchManager = new PatchManager(_patchRepositories);
+                        var patchManager = new PatchManager(_repositories);
                         result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, mustIncludeHidden: false);
 
                         break;
@@ -1202,7 +1202,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
 
                         // Business
-                        var patchManager = new PatchManager(patch, _patchRepositories);
+                        var patchManager = new PatchManager(patch, _repositories);
                         result = patchManager.AutoPatch_TryCombineSounds(patch);
 
                         break;
@@ -1216,7 +1216,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         DocumentReference lowerDocumentReference = _repositories.DocumentReferenceRepository.Get(userInput.SelectedPatchGroupLowerDocumentReferenceID.Value);
 
                         // Business
-                        var patchManager = new PatchManager(_patchRepositories);
+                        var patchManager = new PatchManager(_repositories);
                         result = patchManager.TryAutoPatchFromPatchGroupRandomly(
                             lowerDocumentReference.LowerDocument,
                             userInput.SelectedCanonicalPatchGroup,
@@ -1228,7 +1228,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case DocumentTreeNodeTypeEnum.PatchGroup:
                     {
                         // Business
-                        var patchManager = new PatchManager(_patchRepositories);
+                        var patchManager = new PatchManager(_repositories);
                         result = patchManager.TryAutoPatchFromPatchGroupRandomly(document, userInput.SelectedCanonicalPatchGroup, mustIncludeHidden: false);
                         
                         break;
@@ -1240,7 +1240,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         Sample sample = Randomizer.TryGetRandomItem(document.Samples);
                         if (sample != null)
                         {
-                            var x = new PatchManager(_patchRepositories);
+                            var x = new PatchManager(_repositories);
                             x.CreatePatch();
                             Outlet outlet2 = x.Sample(sample);
                             VoidResultDto result2 = x.SavePatch();
@@ -1267,7 +1267,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case DocumentTreeNodeTypeEnum.Libraries:
                     {
                         // Business
-                        var patchManager = new PatchManager(_patchRepositories);
+                        var patchManager = new PatchManager(_repositories);
                         IList<Document> lowerDocuments = document.LowerDocumentReferences.Select(x => x.LowerDocument).ToArray();
                         result = patchManager.TryAutoPatchFromDocumentsRandomly(lowerDocuments, mustIncludeHidden: false);
                         break;
@@ -1293,7 +1293,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // ToViewModel
                 var converter = new RecursiveToDocumentTreeViewModelFactory();
-                DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _patchRepositories);
+                DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _repositories);
 
                 // Non-Persisted
                 viewModel.Visible = userInput.Visible;
@@ -1680,7 +1680,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Play(userInput, _patchRepositories));
+            TemplateActionMethod(userInput, () => _libraryPatchPropertiesPresenter.Play(userInput, _repositories));
         }
 
         public void LibraryPatchPropertiesShow(int patchID)
@@ -2708,7 +2708,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                     // Business
-                    var patchManager = new PatchManager(_patchRepositories);
+                    var patchManager = new PatchManager(_repositories);
                     patchManager.CreatePatch(document);
                     patchManager.Patch.GroupName = group;
                     patchID = patchManager.Patch.ID;
@@ -3400,7 +3400,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
 
                     // Business
-                    var patchManager = new PatchManager(_patchRepositories);
+                    var patchManager = new PatchManager(_repositories);
 
                     Outlet outlet = null;
                     if (underlyingPatches.Count != 0)

@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer
         private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
         private readonly PatchRepositories _repositories;
-        private readonly SystemDocumentManager _systemDocumentManager;
+        private readonly DocumentManager _documentManager;
 
         /// <summary> nullable </summary>
         public Patch Patch { get; set; }
@@ -63,16 +63,19 @@ namespace JJ.Business.Synthesizer
 
         // Constructors
 
-        public PatchManager(Patch patch, PatchRepositories repositories)
+        public PatchManager(Patch patch, RepositoryWrapper repositories)
             : this(repositories)
         {
             Patch = patch ?? throw new NullException(() => patch);
         }
 
-        public PatchManager(PatchRepositories repositories)
+        public PatchManager([NotNull] RepositoryWrapper repositories)
         {
-            _repositories = repositories ?? throw new NullException(() => repositories);
-            _systemDocumentManager = new SystemDocumentManager(_repositories.DocumentRepository);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            _repositories = new PatchRepositories(repositories);
+
+            _documentManager = new DocumentManager(repositories);
         }
 
         // Create

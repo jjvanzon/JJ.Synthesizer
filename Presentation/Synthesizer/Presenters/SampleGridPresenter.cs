@@ -14,15 +14,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class SampleGridPresenter : GridPresenterBase<SampleGridViewModel>
     {
-        private readonly PatchRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
         private readonly SampleManager _sampleManager;
 
         public SampleGridPresenter(RepositoryWrapper repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _repositories = new PatchRepositories(repositories);
+            _repositories = repositories ?? throw new NullException(() => repositories);
             _documentManager = new DocumentManager(repositories);
             _sampleManager = new SampleManager(new SampleRepositories(repositories));
         }

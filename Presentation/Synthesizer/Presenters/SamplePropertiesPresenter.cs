@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
 
                     // Business
-                    var x = new PatchManager(new PatchRepositories(_repositories));
+                    var x = new PatchManager(_repositories);
                     x.CreatePatch();
                     Outlet outlet = x.Sample(entity);
                     VoidResultDto result = x.SavePatch();

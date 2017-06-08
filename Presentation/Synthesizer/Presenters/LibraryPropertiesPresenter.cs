@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(userInput.DocumentReferenceID);
 
                     // Business
-                    var patchManager = new PatchManager(new PatchRepositories(_repositories));
+                    var patchManager = new PatchManager(_repositories);
                     Framework.Business.Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, mustIncludeHidden: false);
                     Outlet outlet = result.Data;
 

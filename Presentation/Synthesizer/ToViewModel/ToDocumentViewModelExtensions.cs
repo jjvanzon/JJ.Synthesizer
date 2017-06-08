@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             var converter = new RecursiveToDocumentTreeViewModelFactory();
-            viewModel.DocumentTree = converter.ToTreeViewModel(document, patchRepositories);
+            viewModel.DocumentTree = converter.ToTreeViewModel(document, repositories);
 
             if (document.AudioOutput != null)
             {
@@ -88,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.AudioOutputProperties = ViewModelHelper.CreateEmptyAudioOutputPropertiesViewModel();
             }
 
-            viewModel.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(document, patchRepositories);
+            viewModel.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(document, repositories);
 
             return viewModel;
         }

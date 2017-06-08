@@ -213,11 +213,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // UnderlyingPatch
 
-        public static IList<IDAndName> CreateUnderlyingPatchLookupViewModel(Document document, PatchRepositories patchRepositories)
+        public static IList<IDAndName> CreateUnderlyingPatchLookupViewModel(Document document, RepositoryWrapper repositories)
         {
             if (document == null) throw new NullException(() => document);
 
-            var patchManager = new PatchManager(patchRepositories);
+            var patchManager = new PatchManager(repositories);
 
             var list = new List<IDAndName>
             {

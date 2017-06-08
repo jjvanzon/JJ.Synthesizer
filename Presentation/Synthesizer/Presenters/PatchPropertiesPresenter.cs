@@ -14,12 +14,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class PatchPropertiesPresenter : PropertiesPresenterBase<PatchPropertiesViewModel>
     {
         private readonly RepositoryWrapper _repositories;
-        private readonly PatchRepositories _patchRepositories;
 
         public PatchPropertiesPresenter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
-            _patchRepositories = new PatchRepositories(_repositories);
         }
 
         protected override PatchPropertiesViewModel CreateViewModel(PatchPropertiesViewModel userInput)
@@ -39,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch patch = _repositories.PatchRepository.Get(viewModel.ID);
 
             // Business
-            var patchManager = new PatchManager(patch, _patchRepositories);
+            var patchManager = new PatchManager(patch, _repositories);
             Canonicals.VoidResultDto result = patchManager.SavePatch();
 
             // Non-Persisted
@@ -57,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Patch patch = _repositories.PatchRepository.Get(userInput.ID);
 
                     // Business
-                    var patchManager = new PatchManager(patch, _patchRepositories);
+                    var patchManager = new PatchManager(patch, _repositories);
                     Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(patch);
                     Outlet outlet = result.Data;
 
@@ -78,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Patch patch = _repositories.PatchRepository.Get(userInput.ID);
 
                     // Businesss
-                    var patchManager = new PatchManager(patch, _patchRepositories);
+                    var patchManager = new PatchManager(patch, _repositories);
                     IResult result = patchManager.DeletePatchWithRelatedEntities();
 
                     // Non-Persisted

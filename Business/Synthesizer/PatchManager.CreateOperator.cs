@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer
 
         private Operator FromSystem(OperatorTypeEnum operatorTypeEnum)
         {
-            Patch patch = _systemDocumentManager.GetPatch(operatorTypeEnum);
+            Patch patch = _documentManager.GetSystemPatch(operatorTypeEnum);
 
             Operator op = CustomOperator(patch);
 

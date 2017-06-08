@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
 
                 x.CreatePatch();
 
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
 
                 x.CreatePatch();
 
@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
 
                 x.CreatePatch();
 
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Tests
                 CurveManager curveManager = new CurveManager(new CurveRepositories(repositories));
                 Curve curve = curveManager.Create(1, 0, 1, 0.8, null, null, 0.8, 0);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
 
                 x.CreatePatch();
 
@@ -221,7 +221,7 @@ namespace JJ.Business.Synthesizer.Tests
                 var repositories = PersistenceHelper.CreateRepositories(context);
                 var sampleManager = new SampleManager(new SampleRepositories(repositories));
                 var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
-                var patchManager = new PatchManager(new PatchRepositories(repositories));
+                var patchManager = new PatchManager(repositories);
                 patchManager.CreatePatch();
 
                 Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
@@ -258,7 +258,7 @@ namespace JJ.Business.Synthesizer.Tests
                 var repositories = PersistenceHelper.CreateRepositories(context);
                 var sampleManager =  new SampleManager(new SampleRepositories(repositories));
                 var audioFileOutputManager = new AudioFileOutputManager (new AudioFileOutputRepositories(repositories));
-                var patchManager = new PatchManager(new PatchRepositories(repositories));
+                var patchManager = new PatchManager(repositories);
                 patchManager.CreatePatch();
 
                 Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
@@ -412,7 +412,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
 
                 x.CreatePatch();
 
@@ -429,7 +429,7 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
                 x.CreatePatch();
                 Outlet outlet = x.Add(null, x.Number(2));
                 IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
@@ -444,7 +444,7 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
                 x.CreatePatch();
                 Outlet outlet = x.Add(x.Number(1), x.Add(x.Number(2), null));
                 IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
@@ -459,7 +459,7 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
 
                 x.CreatePatch();
 
@@ -529,7 +529,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 var repositories = PersistenceHelper.CreateRepositories(context);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
 
                 x.CreatePatch();
@@ -580,7 +580,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
 
                 x.CreatePatch();
@@ -640,13 +640,13 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 SampleManager sampleManager = new SampleManager(new SampleRepositories(repositories));
 
                 const double duration = 2;
                 const int outputSamplingRate = 44100;
-                int alternativeSamplingRate = outputSamplingRate / 8;
+                const int alternativeSamplingRate = outputSamplingRate / 8;
 
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
                 SampleInfo sampleInfo = sampleManager.CreateSample(stream);
@@ -697,7 +697,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 CurveManager curveManager = new CurveManager(new CurveRepositories(repositories));
 
@@ -759,14 +759,14 @@ namespace JJ.Business.Synthesizer.Tests
             const double duration = 6;
             const int outputSamplingRate = 44100;
             const int samplingRate1 = 11025;
-            int samplingRate2 = samplingRate1 / 1024;
+            const int samplingRate2 = samplingRate1 / 1024;
             const int amplification = 20000;
 
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 CurveManager curveManager = new CurveManager(new CurveRepositories(repositories));
 
@@ -796,7 +796,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
                 SampleManager sampleManager = new SampleManager(new SampleRepositories(repositories));
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 CurveManager curveManager = new CurveManager(new CurveRepositories(repositories));
@@ -838,7 +838,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
 
                 x.CreatePatch();
@@ -876,11 +876,10 @@ namespace JJ.Business.Synthesizer.Tests
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
                 // Create Business Logic Objects
-                DocumentManager documentManager = new DocumentManager(repositories);
                 SampleManager sampleManager = new SampleManager(new SampleRepositories(repositories));
 
                 // Create Reusable Patch
-                PatchManager underlyingPatchManager = new PatchManager(new PatchRepositories(repositories));
+                PatchManager underlyingPatchManager = new PatchManager(repositories);
                 underlyingPatchManager.CreatePatch();
                 Patch underlyingPatch = underlyingPatchManager.Patch;
 
@@ -897,7 +896,7 @@ namespace JJ.Business.Synthesizer.Tests
                 SampleInfo sampleInfo = sampleManager.CreateSample(stream);
                 Sample sample = sampleInfo.Sample;
 
-                PatchManager consumingPatchManager = new PatchManager(new PatchRepositories(repositories));
+                PatchManager consumingPatchManager = new PatchManager(repositories);
                 consumingPatchManager.CreatePatch();
                 x = consumingPatchManager;
                 var sampleOperator = x.Sample(sample);

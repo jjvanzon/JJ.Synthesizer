@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Api
 
         public PatchApi()
         {
-            _patchManager = new PatchManager(RepositoryHelper.PatchRepositories);
+            _patchManager = new PatchManager(RepositoryHelper.Repositories);
             _patchManager.CreatePatch();
         }
 

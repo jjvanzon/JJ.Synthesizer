@@ -52,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _repositories = PersistenceHelper.CreateRepositoryWrapper(_context);
             _presenter = new MainPresenter(_repositories);
 
-            _infrastructureFacade = new InfrastructureFacade(new PatchRepositories(_repositories));
+            _infrastructureFacade = new InfrastructureFacade(_repositories);
 
             BindEvents();
             ApplyStyling();
@@ -188,8 +188,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new[] { CreateDefaultSinePatch() };
             }
 
-            var patchRepositories = new PatchRepositories(_repositories);
-            var patchManager = new PatchManager(patchRepositories);
+            var patchManager = new PatchManager(_repositories);
             patchManager.AutoPatch(patches);
 
             return patchManager.Patch;
@@ -197,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private Patch CreateDefaultSinePatch()
         {
-            var x = new PatchManager(new PatchRepositories(_repositories));
+            var x = new PatchManager(_repositories);
             x.CreatePatch();
 
             x.PatchOutlet
@@ -259,7 +258,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             AudioOutput audioOutput = document.AudioOutput;
 
             // Calculate
-            var patchManager = new PatchManager(outlet.Operator.Patch, new PatchRepositories(_repositories));
+            var patchManager = new PatchManager(outlet.Operator.Patch, _repositories);
             var calculatorCache = new CalculatorCache();
             int channelCount = audioOutput.GetChannelCount();
             var patchCalculators = new IPatchCalculator[channelCount];

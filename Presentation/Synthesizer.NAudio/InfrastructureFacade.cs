@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         // ReSharper disable once NotAccessedField.Local
         private Thread _midiInputThread;
 
-        public InfrastructureFacade(PatchRepositories patchRepositories)
+        public InfrastructureFacade(RepositoryWrapper repositories)
         {
             _audioOutput = AudioOutputApi.Create();
             _timeProvider = new TimeProvider();
@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
             else
             {
-                _patchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(_noteRecycler, patchRepositories);
+                _patchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(_noteRecycler, repositories);
             }
 
             if (_audioOutputEnabled)

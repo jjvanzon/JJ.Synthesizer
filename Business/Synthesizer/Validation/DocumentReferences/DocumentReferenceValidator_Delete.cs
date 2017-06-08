@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -15,13 +17,15 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
     internal class DocumentReferenceValidator_Delete : VersatileValidator<DocumentReference>
     {
         private readonly IPatchRepository _patchRepository;
-        private readonly SystemDocumentManager _systemDocumentManager;
+        private readonly DocumentManager _systemDocumentManager;
 
-        public DocumentReferenceValidator_Delete([NotNull] DocumentReference obj, IDocumentRepository documentRepository, [NotNull] IPatchRepository patchRepository)
+        public DocumentReferenceValidator_Delete([NotNull] DocumentReference obj, [NotNull] RepositoryWrapper repositories)
             : base(obj, postponeExecute: true)
         {
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
-            _systemDocumentManager = new SystemDocumentManager(documentRepository);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            _patchRepository = repositories.PatchRepository;
+            _systemDocumentManager = new DocumentManager(repositories);
 
             // ReSharper disable once VirtualMemberCallInConstructor
             Execute();

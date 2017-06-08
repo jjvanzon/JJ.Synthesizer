@@ -10,18 +10,16 @@ namespace JJ.Business.Synthesizer.SideEffects
     {
         private readonly Document _document;
         private readonly DocumentManager _documentManager;
-        private readonly SystemDocumentManager _systemDocumentManager;
 
         public Document_SideEffect_AutoCreate_SystemDocumentReference([NotNull] Document document, RepositoryWrapper repositories)
         {
             _document = document ?? throw new NullException(() => document);
             _documentManager = new DocumentManager(repositories);
-            _systemDocumentManager = new SystemDocumentManager(repositories.DocumentRepository);
         }
 
         public void Execute()
         {
-            Document systemDocument = _systemDocumentManager.GetSystemDocument();
+            Document systemDocument = _documentManager.GetSystemDocument();
 
             _documentManager.CreateDocumentReference(_document, systemDocument);
         }

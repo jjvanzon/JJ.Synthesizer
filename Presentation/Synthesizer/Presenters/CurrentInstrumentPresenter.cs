@@ -14,9 +14,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class CurrentInstrumentPresenter : PresenterBase<CurrentInstrumentViewModel>
     {
-        private readonly PatchRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
 
-        public CurrentInstrumentPresenter(PatchRepositories repositories)
+        public CurrentInstrumentPresenter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
         }

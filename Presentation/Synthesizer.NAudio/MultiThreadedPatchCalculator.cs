@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             int channelCount,
             int maxConcurrentNotes,
             NoteRecycler noteRecycler,
-            PatchRepositories repositories)
+            RepositoryWrapper repositories)
             : base(samplingRate, channelCount, channelIndex: default(int))
         {
             if (patch == null) throw new NullException(() => patch);

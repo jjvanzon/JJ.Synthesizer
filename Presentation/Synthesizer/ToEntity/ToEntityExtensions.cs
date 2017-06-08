@@ -147,7 +147,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // AutoPatch
 
-        public static Patch ToEntityWithRelatedEntities([NotNull] this AutoPatchPopupViewModel viewModel, [NotNull] PatchRepositories repositories)
+        public static Patch ToEntityWithRelatedEntities([NotNull] this AutoPatchPopupViewModel viewModel, [NotNull] RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
             if (repositories == null) throw new ArgumentNullException(nameof(repositories));
@@ -367,7 +367,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             destDocument = viewModel.ToEntity(repositories.DocumentRepository);
             viewModel.DocumentProperties.ToEntity(repositories.DocumentRepository);
 
-            var converter = new RecursiveToEntityConverter(patchRepositories);
+            var converter = new RecursiveToEntityConverter(repositories);
 
             converter.ConvertToEntitiesWithRelatedEntities(
                 viewModel.PatchDetailsDictionary.Values,
@@ -409,12 +409,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForPatchInlets.Values)
             {
-                propertiesViewModel.ToOperatorWithInlet(patchRepositories);
+                propertiesViewModel.ToOperatorWithInlet(repositories);
             }
 
             foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForPatchOutlets.Values)
             {
-                propertiesViewModel.ToOperatorWithOutlet(patchRepositories);
+                propertiesViewModel.ToOperatorWithOutlet(repositories);
             }
 
             foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForSamples.Values)
@@ -455,7 +455,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             viewModel.ScalePropertiesDictionary.Values.ToEntities(scaleRepositories, destDocument);
             viewModel.ToneGridEditDictionary.Values.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
 
-            viewModel.AutoPatchPopup?.ToEntityWithRelatedEntities(patchRepositories);
+            viewModel.AutoPatchPopup?.ToEntityWithRelatedEntities(repositories);
 
             return destDocument;
         }
@@ -853,7 +853,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToOperatorWithInlet(
             this OperatorPropertiesViewModel_ForPatchInlet viewModel,
-            PatchRepositories repositories)
+            RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
@@ -898,8 +898,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToOperatorWithOutlet(
-            this OperatorPropertiesViewModel_ForPatchOutlet viewModel, 
-            PatchRepositories repositories)
+            this OperatorPropertiesViewModel_ForPatchOutlet viewModel,
+            RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);

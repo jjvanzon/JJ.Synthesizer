@@ -60,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Document document = _repositories.DocumentRepository.Get(userInput.Entity.ID);
 
                     // Business
-                    var patchManager = new PatchManager(new PatchRepositories(_repositories));
+                    var patchManager = new PatchManager(_repositories);
                     Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(document, mustIncludeHidden: true);
                     Outlet outlet = result.Data;
 

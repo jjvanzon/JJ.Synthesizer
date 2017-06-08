@@ -8,9 +8,9 @@ namespace JJ.Business.Synthesizer.SideEffects
     internal class Document_SideEffect_CreatePatch : ISideEffect
     {
         private readonly Document _entity;
-        private readonly PatchRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
 
-        public Document_SideEffect_CreatePatch(Document entity, PatchRepositories repositories)
+        public Document_SideEffect_CreatePatch(Document entity, RepositoryWrapper repositories)
         {
             _entity = entity ?? throw new NullException(() => entity);
             _repositories = repositories ?? throw new NullException(() => repositories);

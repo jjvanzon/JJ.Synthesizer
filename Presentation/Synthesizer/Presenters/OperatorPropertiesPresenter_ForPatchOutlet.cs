@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class OperatorPropertiesPresenter_ForPatchOutlet
         : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForPatchOutlet>
     {
-        public OperatorPropertiesPresenter_ForPatchOutlet(PatchRepositories repositories)
+        public OperatorPropertiesPresenter_ForPatchOutlet(RepositoryWrapper repositories)
             : base(repositories)
         { }
 

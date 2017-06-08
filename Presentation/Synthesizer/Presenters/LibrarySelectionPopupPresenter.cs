@@ -150,7 +150,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document lowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID);
 
             // Business
-            var patchManager = new PatchManager(new PatchRepositories(_repositories));
+            var patchManager = new PatchManager(_repositories);
             Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(lowerDocument, mustIncludeHidden: false);
             Outlet outlet = result.Data;
 

@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests
                 const double timeMultiplier = 1;
                 double duration = sample.GetDuration(stream.Length);
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
                 x.CreatePatch();
                 Outlet outlet = x.Stretch(x.Sample(sample), x.Number(timeMultiplier));
                 IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Tests
                 SampleInfo sampleInfo = sampleManager.CreateSample(stream, AudioFileFormatEnum.Wav);
                 Sample sample = sampleInfo.Sample;
 
-                PatchManager x = new PatchManager(new PatchRepositories(repositories));
+                PatchManager x = new PatchManager(repositories);
 
                 x.CreatePatch();
 

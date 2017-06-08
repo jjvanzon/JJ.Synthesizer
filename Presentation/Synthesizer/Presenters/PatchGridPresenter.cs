@@ -15,15 +15,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class PatchGridPresenter : GridPresenterBase<PatchGridViewModel>
     {
-        private readonly PatchRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
 
         public PatchGridPresenter(RepositoryWrapper repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
+            _repositories = repositories ?? throw new NullException(() => repositories);
             _documentManager = new DocumentManager(repositories);
-            _repositories = new PatchRepositories(repositories);
         }
 
         protected override PatchGridViewModel CreateViewModel(PatchGridViewModel userInput)

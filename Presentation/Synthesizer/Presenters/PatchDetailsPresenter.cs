@@ -33,13 +33,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private const float OPERATOR_HEIGHT = 30f;
 
         private readonly RepositoryWrapper _repositories;
-        private readonly PatchRepositories _patchRepositories;
         private readonly EntityPositionManager _entityPositionManager;
 
         public PatchDetailsPresenter([NotNull] RepositoryWrapper repositories, EntityPositionManager entityPositionManager)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
-            _patchRepositories = new PatchRepositories(_repositories);
             _entityPositionManager = entityPositionManager ?? throw new NullException(() => entityPositionManager);
         }
 
@@ -101,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
-            var patchManager = new PatchManager(entity, _patchRepositories);
+            var patchManager = new PatchManager(entity, _repositories);
             var operatorTypeEnum = (OperatorTypeEnum)operatorTypeID;
             int variableInletOrOutletCount = GetVariableInletOrOutletCount(operatorTypeEnum);
             Operator op = patchManager.CreateOperator(operatorTypeEnum, variableInletOrOutletCount);
@@ -133,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Businesss
-            var patchManager = new PatchManager(patch, _patchRepositories);
+            var patchManager = new PatchManager(patch, _repositories);
             IResult result = patchManager.DeletePatchWithRelatedEntities();
 
             // ToViewModel
@@ -180,7 +178,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             else
             {
                 // Business
-                var patchManager = new PatchManager(entity, _patchRepositories);
+                var patchManager = new PatchManager(entity, _repositories);
                 patchManager.DeleteOwnedNumberOperators(userInput.SelectedOperator.ID);
                 patchManager.DeleteOperatorWithRelatedEntities(userInput.SelectedOperator.ID);
 
@@ -250,7 +248,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
-            var patchManager = new PatchManager(patch, _patchRepositories);
+            var patchManager = new PatchManager(patch, _repositories);
             Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(patch, userInput.SelectedOperator?.ID);
             Outlet outlet = result.Data;
 
@@ -364,7 +362,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
-            var patchManager = new PatchManager(entity, _patchRepositories);
+            var patchManager = new PatchManager(entity, _repositories);
             Canonicals.VoidResultDto result = patchManager.SavePatch();
 
             // ToViewModel

@@ -497,10 +497,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-                SystemDocumentManager systemDocumentManager = new SystemDocumentManager(repositories.DocumentRepository);
+                var documentManager = new DocumentManager(repositories);
 
-
-                Patch underlyingPatch = systemDocumentManager.GetPatch(OperatorTypeEnum.Absolute);
+                Patch underlyingPatch = documentManager.GetSystemPatch(OperatorTypeEnum.Absolute);
                 IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Absolute);
 
                 for (int i = 0; i < operators.Count; i++)
@@ -581,10 +580,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                SystemDocumentManager systemDocumentManager = new SystemDocumentManager(repositories.DocumentRepository);
                 DocumentManager documentManager = new DocumentManager(repositories);
 
-                Document systemDocument = systemDocumentManager.GetSystemDocument();
+                Document systemDocument = documentManager.GetSystemDocument();
                 IList<Document> documents = repositories.DocumentRepository.GetAll();
 
                 for (int i = 0; i < documents.Count; i++)

@@ -8,7 +8,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class OperatorPropertiesPresenter_ForSample
         : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForSample>
     {
-        public OperatorPropertiesPresenter_ForSample(PatchRepositories repositories)
+        public OperatorPropertiesPresenter_ForSample(RepositoryWrapper repositories)
             : base(repositories)
         { }
 

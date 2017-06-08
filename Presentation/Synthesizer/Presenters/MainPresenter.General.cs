@@ -5,8 +5,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Framework.Configuration;
 using JJ.Framework.Collections;
 using JJ.Presentation.Synthesizer.ToViewModel;
 
@@ -28,12 +26,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     /// </summary>
     public partial class MainPresenter
     {
-        private const double DEFAULT_DURATION = 0.75;
-
-        private static readonly string _playOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionOutputFilePath;
-
         private readonly RepositoryWrapper _repositories;
-        private readonly PatchRepositories _patchRepositories;
         private readonly SampleRepositories _sampleRepositories;
         private readonly CurveRepositories _curveRepositories;
 
@@ -96,7 +89,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Create Repositories
             _repositories = repositories ?? throw new NullException(() => repositories);
             _curveRepositories = new CurveRepositories(_repositories);
-            _patchRepositories = new PatchRepositories(_repositories);
             _sampleRepositories = new SampleRepositories(_repositories);
             var scaleRepositories = new ScaleRepositories(_repositories);
             var audioFileOutputRepositories = new AudioFileOutputRepositories(_repositories);
@@ -118,7 +110,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.AudioOutputRepository,
                 _repositories.SpeakerSetupRepository, 
                 _repositories.IDRepository);
-            _currentInstrumentPresenter = new CurrentInstrumentPresenter(_patchRepositories);
+            _currentInstrumentPresenter = new CurrentInstrumentPresenter(_repositories);
             _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
             _curveGridPresenter = new CurveGridPresenter(_repositories);
             _curvePropertiesPresenter = new CurvePropertiesPresenter(_curveRepositories);
@@ -138,19 +130,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _menuPresenter = new MenuPresenter();
             _nodePropertiesPresenter = new NodePropertiesPresenter(_curveRepositories);
-            _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);
-            _operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_patchRepositories);
-            _operatorPropertiesPresenter_ForCurve = new OperatorPropertiesPresenter_ForCurve(_patchRepositories);
-            _operatorPropertiesPresenter_ForCustomOperator = new OperatorPropertiesPresenter_ForCustomOperator(_patchRepositories);
-            _operatorPropertiesPresenter_ForInletsToDimension = new OperatorPropertiesPresenter_ForInletsToDimension(_patchRepositories);
-            _operatorPropertiesPresenter_ForNumber = new OperatorPropertiesPresenter_ForNumber(_patchRepositories);
-            _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(_patchRepositories);
-            _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(_patchRepositories);
-            _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_patchRepositories);
-            _operatorPropertiesPresenter_WithInterpolation = new OperatorPropertiesPresenter_WithInterpolation(_patchRepositories);
-            _operatorPropertiesPresenter_WithCollectionRecalculation= new OperatorPropertiesPresenter_WithCollectionRecalculation(_patchRepositories);
-            _operatorPropertiesPresenter_WithOutletCount = new OperatorPropertiesPresenter_WithOutletCount(_patchRepositories);
-            _operatorPropertiesPresenter_WithInletCount = new OperatorPropertiesPresenter_WithInletCount(_patchRepositories);
+            _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_repositories);
+            _operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_repositories);
+            _operatorPropertiesPresenter_ForCurve = new OperatorPropertiesPresenter_ForCurve(_repositories);
+            _operatorPropertiesPresenter_ForCustomOperator = new OperatorPropertiesPresenter_ForCustomOperator(_repositories);
+            _operatorPropertiesPresenter_ForInletsToDimension = new OperatorPropertiesPresenter_ForInletsToDimension(_repositories);
+            _operatorPropertiesPresenter_ForNumber = new OperatorPropertiesPresenter_ForNumber(_repositories);
+            _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(_repositories);
+            _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(_repositories);
+            _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_repositories);
+            _operatorPropertiesPresenter_WithInterpolation = new OperatorPropertiesPresenter_WithInterpolation(_repositories);
+            _operatorPropertiesPresenter_WithCollectionRecalculation= new OperatorPropertiesPresenter_WithCollectionRecalculation(_repositories);
+            _operatorPropertiesPresenter_WithOutletCount = new OperatorPropertiesPresenter_WithOutletCount(_repositories);
+            _operatorPropertiesPresenter_WithInletCount = new OperatorPropertiesPresenter_WithInletCount(_repositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_repositories, _entityPositionManager);
             _patchGridPresenter = new PatchGridPresenter(repositories);
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);

@@ -190,7 +190,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             var converter = new RecursiveToDocumentTreeViewModelFactory();
-            DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _patchRepositories);
+            DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _repositories);
 
             // NOTE: Keep split up into two Non-Persisted phases:
             // CopyNonPersisted must be done first, because action will change some of the properties.

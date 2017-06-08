@@ -21,11 +21,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
     /// </summary>
     internal class RecursiveToEntityConverter
     {
-        private readonly PatchRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
         private readonly Dictionary<int, Operator> _operatorDictionary = new Dictionary<int, Operator>();
         private readonly Dictionary<int, Outlet> _outletDictionary = new Dictionary<int, Outlet>();
 
-        public RecursiveToEntityConverter(PatchRepositories repositories)
+        public RecursiveToEntityConverter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
         }

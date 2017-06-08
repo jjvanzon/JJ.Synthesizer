@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class OperatorPropertiesPresenter_ForInletsToDimension
         : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_ForInletsToDimension>
     {
-        public OperatorPropertiesPresenter_ForInletsToDimension(PatchRepositories repositories)
+        public OperatorPropertiesPresenter_ForInletsToDimension(RepositoryWrapper repositories)
             : base(repositories)
         { }
 

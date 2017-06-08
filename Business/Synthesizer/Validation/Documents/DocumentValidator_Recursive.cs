@@ -1,38 +1,30 @@
-﻿using JJ.Business.Synthesizer.Helpers;
+﻿using System;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Business.Synthesizer.Validation.DocumentReferences;
 using JJ.Business.Synthesizer.Validation.Patches;
 using JJ.Business.Synthesizer.Validation.Samples;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
     internal class DocumentValidator_Recursive : VersatileValidator<Document>
     {
-        private readonly IDocumentRepository _documentRepository;
-        private readonly ICurveRepository _curveRepository;
-        private readonly ISampleRepository _sampleRepository;
-        private readonly IPatchRepository _patchRepository;
         private readonly HashSet<object> _alreadyDone;
+        private RepositoryWrapper _repositories;
 
         public DocumentValidator_Recursive(
             Document document,
-            IDocumentRepository documentRepository,
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
-            IPatchRepository patchRepository,
+            [NotNull] RepositoryWrapper repositories,
             HashSet<object> alreadyDone)
             : base(document, postponeExecute: true)
         {
-            _documentRepository = documentRepository;
-            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
+            _repositories = repositories ?? throw new NullException(() => repositories);
             _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
 
             Execute();
@@ -49,9 +41,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             _alreadyDone.Add(document);
 
             ExecuteValidator(new DocumentValidator_Basic(document));
-            ExecuteValidator(new DocumentValidator_Unicity(document, _documentRepository));
+            ExecuteValidator(new DocumentValidator_Unicity(document, _repositories.DocumentRepository));
             ExecuteValidator(new DocumentValidator_DoesNotReferenceItself(document));
-            ExecuteValidator(new DocumentValidator_SystemDocumentReferenceMustExist(document, _documentRepository));
+            ExecuteValidator(new DocumentValidator_SystemDocumentReferenceMustExist(document, _repositories));
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {
@@ -79,7 +71,14 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             foreach (Patch patch in document.Patches)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
-                ExecuteValidator(new PatchValidator_WithRelatedEntities(patch, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
+                ExecuteValidator(
+                    new PatchValidator_WithRelatedEntities(
+                        patch,
+                        _repositories.CurveRepository,
+                        _repositories.SampleRepository,
+                        _repositories.PatchRepository,
+                        _alreadyDone),
+                    messagePrefix);
             }
 
             foreach (Scale scale in document.Scales)

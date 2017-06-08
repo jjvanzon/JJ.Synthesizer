@@ -8,7 +8,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class OperatorPropertiesPresenter_WithCollectionRecalculation
         : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_WithCollectionRecalculation>
     {
-        public OperatorPropertiesPresenter_WithCollectionRecalculation(PatchRepositories repositories)
+        public OperatorPropertiesPresenter_WithCollectionRecalculation(RepositoryWrapper repositories)
             : base(repositories)
         { }
 

@@ -8,7 +8,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 {
     internal class MultiThreadedPatchCalculatorContainer : IPatchCalculatorContainer
     {
-        private readonly PatchRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
         private readonly NoteRecycler _noteRecycler;
 
         public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// </summary>
         public IPatchCalculator Calculator { get; private set; }
 
-        public MultiThreadedPatchCalculatorContainer(NoteRecycler noteRecycler, PatchRepositories repositories)
+        public MultiThreadedPatchCalculatorContainer(NoteRecycler noteRecycler, RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
             _noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);

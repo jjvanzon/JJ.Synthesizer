@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public DocumentTreeViewModel ToTreeViewModel(Document document, PatchRepositories repositories)
+        public DocumentTreeViewModel ToTreeViewModel(Document document, RepositoryWrapper repositories)
         {
             if (document == null) throw new NullException(() => document);
 
@@ -88,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private LibraryTreeNodeViewModel ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(DocumentReference lowerDocumentReference, PatchRepositories repositories)
+        private LibraryTreeNodeViewModel ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(DocumentReference lowerDocumentReference, RepositoryWrapper repositories)
         {
             Document document = lowerDocumentReference.LowerDocument;
 
