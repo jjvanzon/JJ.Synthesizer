@@ -186,30 +186,6 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
-        public static OperatorTypeEnum GetOperatorTypeEnum(this Operator op)
-        {
-            if (op == null) throw new NullException(() => op);
-
-            if (op.OperatorType == null) return OperatorTypeEnum.Undefined;
-
-            return (OperatorTypeEnum)op.OperatorType.ID;
-        }
-
-        public static void SetOperatorTypeEnum(this Operator entity, OperatorTypeEnum enumValue, IOperatorTypeRepository repository)
-        {
-            if (repository == null) throw new NullException(() => repository);
-
-            if (enumValue == OperatorTypeEnum.Undefined)
-            {
-                entity.UnlinkOperatorType();
-            }
-            else
-            {
-                OperatorType enumEntity = repository.Get((int)enumValue);
-                entity.LinkTo(enumEntity);
-            }
-        }
-
         // Outlet
 
         public static DimensionEnum GetDimensionEnum(this Outlet entity)

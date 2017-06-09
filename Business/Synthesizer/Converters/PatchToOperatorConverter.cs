@@ -30,9 +30,9 @@ namespace JJ.Business.Synthesizer.Converters
     /// </summary>
     internal class PatchToOperatorConverter
     {
-        private readonly PatchRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
 
-        public PatchToOperatorConverter(PatchRepositories repositories)
+        public PatchToOperatorConverter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
         }
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Converters
                 UnderlyingPatch = sourceUnderlyingPatch
             };
 
-            destCustomOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
+            destCustomOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories);
         }
 
         private void ConvertInlets(IList<Operator> sourcePatchInlets, Operator destCustomOperator)

@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer
 
             Operator op = CustomOperator(patch);
 
-            op.SetOperatorTypeEnum(OperatorTypeEnum.Absolute, _repositories.OperatorTypeRepository);
+            op.SetOperatorTypeEnum(OperatorTypeEnum.Absolute, _repositories);
 
             return op;
         }
@@ -471,7 +471,7 @@ namespace JJ.Business.Synthesizer
         public CustomOperator_OperatorWrapper CustomOperator()
         {
             var op = new Operator { ID = _repositories.IDRepository.GetID() };
-            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
+            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories);
 
             _repositories.OperatorRepository.Insert(op);
 
@@ -2425,7 +2425,7 @@ namespace JJ.Business.Synthesizer
             int outletCount = outletDimensionEnums.Count;
 
             var op = new Operator { ID = _repositories.IDRepository.GetID() };
-            op.SetOperatorTypeEnum(operatorTypeEnum, _repositories.OperatorTypeRepository);
+            op.SetOperatorTypeEnum(operatorTypeEnum, _repositories);
 
             op.LinkTo(Patch);
             _repositories.OperatorRepository.Insert(op);
@@ -2456,7 +2456,7 @@ namespace JJ.Business.Synthesizer
             if (operands == null) throw new NullException(() => operands);
 
             var op = new Operator { ID = _repositories.IDRepository.GetID() };
-            op.SetOperatorTypeEnum(operatorTypeEnum, _repositories.OperatorTypeRepository);
+            op.SetOperatorTypeEnum(operatorTypeEnum, _repositories);
             _repositories.OperatorRepository.Insert(op);
 
             for (int i = 0; i < operands.Count; i++)

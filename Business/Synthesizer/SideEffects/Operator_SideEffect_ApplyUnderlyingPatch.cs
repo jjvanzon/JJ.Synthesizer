@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.SideEffects
     internal class Operator_SideEffect_ApplyUnderlyingPatch : ISideEffect
     {
         private readonly Operator _entity;
-        private readonly PatchRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
 
-        public Operator_SideEffect_ApplyUnderlyingPatch(Operator entity, PatchRepositories repositories)
+        public Operator_SideEffect_ApplyUnderlyingPatch(Operator entity, RepositoryWrapper repositories)
         {
             _entity = entity ?? throw new NullException(() => entity);
             _repositories = repositories ?? throw new NullException(() => repositories);

@@ -25,6 +25,7 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual string Data { get; set; }
         public virtual IList<Inlet> Inlets { get; set; }
         public virtual IList<Outlet> Outlets { get; set; }
+        public virtual Patch UnderlyingPatch { get; set; }
 
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }

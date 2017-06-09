@@ -109,7 +109,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // ReSharper disable once InvokeAsExtensionMethod
             Enumerable.Union(
                 OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch,
-                OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch).ToHashSet();
+                OperatorTypeEnums_WithoutAlternativePropertiesView_WithoutUnderlyingPatch).ToHashSet();
 
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithHiddenInletNames { get; } =

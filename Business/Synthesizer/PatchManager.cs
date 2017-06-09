@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer
         private static readonly double _secondsBetweenApplyFilterVariables = CustomConfigurationManager.GetSection<ConfigurationSection>().SecondsBetweenApplyFilterVariables;
         private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
-        private readonly PatchRepositories _repositories;
+        private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
 
         /// <summary> nullable </summary>
@@ -71,10 +71,7 @@ namespace JJ.Business.Synthesizer
 
         public PatchManager([NotNull] RepositoryWrapper repositories)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _repositories = new PatchRepositories(repositories);
-
+            _repositories = repositories ?? throw new NullException(() => repositories);
             _documentManager = new DocumentManager(repositories);
         }
 

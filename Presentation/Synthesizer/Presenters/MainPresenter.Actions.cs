@@ -1115,6 +1115,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (validationResult.Successful)
             {
                 _repositories.Commit();
+                _documentManager.RefreshSystemDocumentIfNeeded(document);
             }
 
             // ToViewModel

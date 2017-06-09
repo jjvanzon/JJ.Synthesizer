@@ -355,21 +355,53 @@ namespace JJ.Business.Synthesizer
             return isSystemDocument;
         }
 
+        private static readonly object _systemDocumentLock = new object();
+        private static Document _systemDocument;
+
         public Document GetSystemDocument()
         {
-            // TODO: System document should be cached.
-            Document document = _repositories.DocumentRepository.GetByNameComplete(SYSTEM_DOCUMENT_NAME);
-            return document;
+            lock (_systemDocumentLock)
+            {
+                // ReSharper disable once ConvertIfStatementToNullCoalescingExpression
+                if (_systemDocument == null)
+                {
+                    _systemDocument = _repositories.DocumentRepository.GetByNameComplete(SYSTEM_DOCUMENT_NAME);
+                }
+                return _systemDocument;
+            }
+        }
+
+        public void RefreshSystemDocumentIfNeeded(Document document)
+        {
+            // ReSharper disable once InvertIf
+            if (IsSystemDocument(document))
+            {
+                lock (_systemDocumentLock)
+                {
+                    _systemDocument = _repositories.DocumentRepository.GetByNameComplete(SYSTEM_DOCUMENT_NAME);
+                }
+            }
         }
 
         public Patch GetSystemPatch(OperatorTypeEnum operatorTypeEnum)
         {
-            Document document = GetSystemDocument();
-            string patchName = operatorTypeEnum.ToString();
-            Patch patch = document.Patches.Where(x => string.Equals(x.Name, patchName)).SingleWithClearException(new { name = patchName });
+            Patch patch = TryGetSystemPatch(operatorTypeEnum);
+
+            if (patch == null)
+            {
+                throw new NotFoundException<Patch>(new { name = operatorTypeEnum.ToString() });
+            }
 
             return patch;
+        }
 
+        public Patch TryGetSystemPatch(OperatorTypeEnum operatorTypeEnum)
+        {
+            Document document = GetSystemDocument();
+            string patchName = operatorTypeEnum.ToString();
+            Patch patch = document.Patches.Where(x => string.Equals(x.Name, patchName)).SingleOrDefaultWithClearException(new { name = patchName });
+
+            return patch;
         }
     }
 }
