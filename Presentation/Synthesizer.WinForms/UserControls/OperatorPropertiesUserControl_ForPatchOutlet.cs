@@ -1,6 +1,5 @@
 ﻿using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Resources;
 

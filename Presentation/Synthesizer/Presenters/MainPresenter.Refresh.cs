@@ -9,7 +9,6 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -269,7 +268,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             NodePropertiesDictionaryRefresh();
             OperatorPropertiesDictionary_ForCaches_Refresh();
             OperatorPropertiesDictionary_ForCurves_Refresh();
-            OperatorPropertiesDictionary_ForCustomOperators_Refresh();
             OperatorPropertiesDictionary_ForInletsToDimension_Refresh();
             OperatorPropertiesDictionary_ForNumbers_Refresh();
             OperatorPropertiesDictionary_ForPatchInlets_Refresh();
@@ -550,12 +548,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void OperatorProperties_ForCustomOperator_Refresh(OperatorPropertiesViewModel_ForCustomOperator userInput)
-        {
-            OperatorPropertiesViewModel_ForCustomOperator viewModel = _operatorPropertiesPresenter_ForCustomOperator.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
         private void OperatorProperties_ForInletsToDimension_Refresh(OperatorPropertiesViewModel_ForInletsToDimension userInput)
         {
             OperatorPropertiesViewModel_ForInletsToDimension viewModel = _operatorPropertiesPresenter_ForInletsToDimension.Refresh(userInput);
@@ -665,7 +657,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForCache viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_ForCache(_repositories.InterpolationTypeRepository);
+                    viewModel = op.ToPropertiesViewModel_ForCache(_repositories.PatchRepository, _repositories.InterpolationTypeRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
@@ -705,7 +697,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForCurve viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
+                    viewModel = op.ToPropertiesViewModel_ForCurve(_repositories.PatchRepository, _repositories.CurveRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
@@ -730,45 +722,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void OperatorPropertiesDictionary_ForCustomOperators_Refresh()
-        {
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCustomOperators;
-
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            IList<Operator> operators = document.Patches
-                                                .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.CustomOperator))
-                                                .ToArray();
-            foreach (Operator op in operators)
-            {
-                OperatorPropertiesViewModel_ForCustomOperator viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, op.ID);
-                if (viewModel == null)
-                {
-                    viewModel = op.ToPropertiesViewModel_ForCustomOperator(_repositories.PatchRepository);
-                    viewModel.Successful = true;
-                    viewModelDictionary[op.ID] = viewModel;
-                }
-                else
-                {
-                    OperatorProperties_ForCustomOperator_Refresh(viewModel);
-                }
-            }
-
-            IEnumerable<int> existingIDs = viewModelDictionary.Keys;
-            IEnumerable<int> idsToKeep = operators.Select(x => x.ID);
-            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
-
-            foreach (int idToDelete in idsToDelete.ToArray())
-            {
-                viewModelDictionary.Remove(idToDelete);
-
-                if (MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator?.ID == idToDelete)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = null;
-                }
-            }
-        }
-
         private void OperatorPropertiesDictionary_ForInletsToDimension_Refresh()
         {
             // ReSharper disable once SuggestVarOrType_Elsewhere
@@ -783,7 +736,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForInletsToDimension viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_ForInletsToDimension();
+                    viewModel = op.ToPropertiesViewModel_ForInletsToDimension(_repositories.PatchRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
@@ -822,7 +775,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForNumber viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_ForNumber();
+                    viewModel = op.ToPropertiesViewModel_ForNumber(_repositories.PatchRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
@@ -861,7 +814,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForPatchInlet viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_ForPatchInlet();
+                    viewModel = op.ToPropertiesViewModel_ForPatchInlet(_repositories.PatchRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
@@ -900,7 +853,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForPatchOutlet viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_ForPatchOutlet();
+                    viewModel = op.ToPropertiesViewModel_ForPatchOutlet(_repositories.PatchRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
@@ -939,7 +892,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForSample viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_ForSample(_repositories.SampleRepository);
+                    viewModel = op.ToPropertiesViewModel_ForSample(_repositories.PatchRepository, _repositories.SampleRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
@@ -982,7 +935,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_WithInterpolation();
+                    viewModel = op.ToPropertiesViewModel_WithInterpolation(_repositories.PatchRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
@@ -1025,7 +978,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_WithCollectionRecalculation();
+                    viewModel = op.ToPropertiesViewModel_WithCollectionRecalculation(_repositories.PatchRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
@@ -1067,7 +1020,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_WithInletCount viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_WithInletCount();
+                    viewModel = op.ToPropertiesViewModel_WithInletCount(_repositories.PatchRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
@@ -1108,7 +1061,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_WithOutletCount viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_WithOutletCount();
+                    viewModel = op.ToPropertiesViewModel_WithOutletCount(_repositories.PatchRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }

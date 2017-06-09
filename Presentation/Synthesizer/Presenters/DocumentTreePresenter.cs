@@ -6,7 +6,6 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System;
 using System.Linq;
-using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

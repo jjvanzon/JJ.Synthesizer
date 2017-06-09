@@ -968,7 +968,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.AutoPatchPopup.OperatorPropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Successful = true);
             viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Successful = true);
             viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForInletsToDimension.Values.ForEach(x => x.Successful = true);
             viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForNumbers.Values.ForEach(x => x.Successful = true);
             viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Successful = true);
@@ -988,7 +987,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.OperatorPropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForCaches.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForCurves.Values.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesDictionary_ForCustomOperators.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForInletsToDimension.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForNumbers.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_ForPatchInlets.Values.ForEach(x => x.Successful = true);
@@ -1818,7 +1816,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.ValidationMessages.Add(
                     new MessageDto
                     {
-                        Key = PresentationPropertyNames.SelectedNodeID,
+                        Key = nameof(userInput.SelectedNodeID),
                         Text = ResourceFormatter.SelectANodeFirst
                     });
                 return;
@@ -2037,7 +2035,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties = null;
 
                 // Refresh
-                PatchDetails_RefreshOperator(userInput.ID);
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2069,24 +2067,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel.Successful)
             {
                 MainViewModel.Document.VisibleOperatorProperties_ForCurve = null;
-
-                // Refresh
-                DocumentViewModelRefresh();
-            }
-        }
-
-        public void OperatorPropertiesClose_ForCustomOperator(int id)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_ForCustomOperator userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_ForCustomOperator viewModel =
-                TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCustomOperator.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = null;
 
                 // Refresh
                 DocumentViewModelRefresh();
@@ -2282,7 +2262,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(userInput.ID);
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2308,23 +2288,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             OperatorPropertiesViewModel_ForCurve viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.LoseFocus(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
-        }
-
-        public void OperatorPropertiesLoseFocus_ForCustomOperator(int id)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_ForCustomOperator userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_ForCustomOperator viewModel = TemplateActionMethod(
-                userInput,
-                () => _operatorPropertiesPresenter_ForCustomOperator.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
@@ -2527,21 +2490,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     if (viewModel.Successful)
                     {
                         MainViewModel.Document.VisibleOperatorProperties_ForCurve = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_ForCustomOperator userInput =
-                    ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCustomOperator(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_ForCustomOperator viewModel = TemplateActionMethod(
-                        userInput,
-                        () => _operatorPropertiesPresenter_ForCustomOperator.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = viewModel;
                     }
                     return;
                 }

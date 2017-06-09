@@ -1,5 +1,4 @@
-﻿using System;
-using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
@@ -178,7 +177,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 TryGetOperatorPropertiesViewModel(documentViewModel, operatorID) ??
                 TryGetOperatorPropertiesViewModel_ForCache(documentViewModel, operatorID) ??
                 TryGetOperatorPropertiesViewModel_ForCurve(documentViewModel, operatorID) ??
-                TryGetOperatorPropertiesViewModel_ForCustomOperator(documentViewModel, operatorID) ??
                 TryGetOperatorPropertiesViewModel_ForInletsToDimension(documentViewModel, operatorID) ??
                 TryGetOperatorPropertiesViewModel_ForNumber(documentViewModel, operatorID) ??
                 TryGetOperatorPropertiesViewModel_ForPatchInlet(documentViewModel, operatorID) ??
@@ -276,35 +274,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             // ReSharper disable once ConvertIfStatementToReturnStatement
             if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCurves.TryGetValue(operatorID, out viewModel))
-            {
-                return viewModel;
-            }
-
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_ForCustomOperator GetOperatorPropertiesViewModel_ForCustomOperator(DocumentViewModel documentViewModel, int operatorID)
-        {
-            OperatorPropertiesViewModel_ForCustomOperator viewModel = TryGetOperatorPropertiesViewModel_ForCustomOperator(documentViewModel, operatorID);
-            if (viewModel == null)
-            {
-                throw new NotFoundException<OperatorPropertiesViewModel_ForCustomOperator>(operatorID);
-            }
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_ForCustomOperator TryGetOperatorPropertiesViewModel_ForCustomOperator(DocumentViewModel documentViewModel, int operatorID)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            OperatorPropertiesViewModel_ForCustomOperator viewModel;
-
-            if (documentViewModel.OperatorPropertiesDictionary_ForCustomOperators.TryGetValue(operatorID, out viewModel))
-            {
-                return viewModel;
-            }
-
-            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCustomOperators.TryGetValue(operatorID, out viewModel))
             {
                 return viewModel;
             }

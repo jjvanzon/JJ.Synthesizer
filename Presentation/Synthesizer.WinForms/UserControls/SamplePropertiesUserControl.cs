@@ -2,7 +2,6 @@
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Presentation.WinForms.EventArg;
 using System.IO;
 using JJ.Data.Canonical;

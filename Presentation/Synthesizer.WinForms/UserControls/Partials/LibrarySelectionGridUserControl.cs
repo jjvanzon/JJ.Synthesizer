@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Framework.Presentation.Resources;

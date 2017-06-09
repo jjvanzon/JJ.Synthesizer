@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private const int RANGE_OVER_OUTLETS_FROM_LIST_INDEX = 0;
         private const int RANGE_OVER_OUTLETS_STEP_LIST_INDEX = 1;
 
-        private static bool _idsVisible = CustomConfigurationManager.GetSection<ConfigurationSection>().IDsVisible;
+        private static readonly bool _idsVisible = CustomConfigurationManager.GetSection<ConfigurationSection>().IDsVisible;
 
         // OperatorTypeEnum HashSets
 
@@ -82,7 +82,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorTypeEnum.Cache,
                 OperatorTypeEnum.Curve,
-                OperatorTypeEnum.CustomOperator,
                 OperatorTypeEnum.InletsToDimension,
                 OperatorTypeEnum.Number,
                 OperatorTypeEnum.PatchInlet,
@@ -90,13 +89,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.Sample
             };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch { get; } =
+            new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.Absolute,
+                OperatorTypeEnum.CustomOperator
+            };
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView_WithoutUnderlyingPatch { get; } =
             EnumHelper.GetValues<OperatorTypeEnum>().Except(OperatorTypeEnums_WithTheirOwnPropertyViews)
                       .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
                       .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
                       .Except(OperatorTypeEnums_WithOutletCountPropertyViews)
                       .Except(OperatorTypeEnums_WithInletCountPropertyViews)
+                      .Except(OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch)
                       .ToHashSet();
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView { get; } =
+            // ReSharper disable once InvokeAsExtensionMethod
+            Enumerable.Union(
+                OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch,
+                OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch).ToHashSet();
+
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithHiddenInletNames { get; } =
             new HashSet<OperatorTypeEnum>
@@ -1065,6 +1079,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AppendObsoleteFlag(sb);
             }
 
+            if (_idsVisible)
+            {
+                sb.Append($" ({inlet.ID})");
+            }
+
             return sb.ToString();
         }
 
@@ -1107,6 +1126,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AppendObsoleteFlag(sb);
             }
 
+            if (_idsVisible)
+            {
+                sb.Append($" ({outlet.ID})");
+            }
+
             return sb.ToString();
         }
 
@@ -1139,6 +1163,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AppendObsoleteFlag(sb);
             }
 
+            if (_idsVisible)
+            {
+                sb.Append($" ({outlet.ID})");
+            }
+
             return sb.ToString();
         }
 
@@ -1166,6 +1195,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (outlet.IsObsolete)
             {
                 AppendObsoleteFlag(sb);
+            }
+
+            if (_idsVisible)
+            {
+                sb.Append($" ({outlet.ID})");
             }
 
             return sb.ToString();

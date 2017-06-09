@@ -44,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
                 { typeof(OperatorPropertiesViewModel_ForCache), DispatchOperatorPropertiesViewModel_ForCache },
                 { typeof(OperatorPropertiesViewModel_ForCurve), DispatchOperatorPropertiesViewModel_ForCurve },
-                { typeof(OperatorPropertiesViewModel_ForCustomOperator), DispatchOperatorPropertiesViewModel_ForCustomOperator },
                 { typeof(OperatorPropertiesViewModel_ForInletsToDimension), DispatchOperatorPropertiesViewModel_ForInletsToDimension },
                 { typeof(OperatorPropertiesViewModel_ForNumber), DispatchOperatorPropertiesViewModel_ForNumber },
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
@@ -567,24 +566,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
                 MainViewModel.Document.VisibleOperatorProperties_ForCurve = castedViewModel;
-            }
-
-            DispatchOperatorPropertiesViewModelBase(castedViewModel);
-        }
-
-        private void DispatchOperatorPropertiesViewModel_ForCustomOperator(ViewModelBase viewModel)
-        {
-            var castedViewModel = (OperatorPropertiesViewModel_ForCustomOperator)viewModel;
-
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_ForCustomOperators;
-            dictionary[castedViewModel.ID] = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-                MainViewModel.Document.VisibleOperatorProperties_ForCustomOperator = castedViewModel;
             }
 
             DispatchOperatorPropertiesViewModelBase(castedViewModel);

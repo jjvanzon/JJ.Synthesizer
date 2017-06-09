@@ -15,7 +15,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             : base(repositories)
         { }
 
-        protected override OperatorPropertiesViewModel_WithOutletCount ToViewModel(Operator op) => op.ToPropertiesViewModel_WithOutletCount();
+        protected override OperatorPropertiesViewModel_WithOutletCount ToViewModel(Operator op)
+        {
+            return op.ToPropertiesViewModel_WithOutletCount(_repositories.PatchRepository);
+        }
 
         protected override void UpdateEntity(OperatorPropertiesViewModel_WithOutletCount viewModel)
         {

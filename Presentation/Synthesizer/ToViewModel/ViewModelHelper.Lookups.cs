@@ -2,9 +2,6 @@
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using System.Resources;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;

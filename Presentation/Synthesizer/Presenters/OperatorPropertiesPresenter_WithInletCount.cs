@@ -1,5 +1,4 @@
 ﻿using JJ.Data.Canonical;
-using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
@@ -18,8 +17,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override OperatorPropertiesViewModel_WithInletCount ToViewModel(Operator op)
         {
-            OperatorPropertiesViewModel_WithInletCount viewModel = op.ToPropertiesViewModel_WithInletCount();
-            return viewModel;
+            return op.ToPropertiesViewModel_WithInletCount(_repositories.PatchRepository);
         }
 
         protected override void UpdateEntity(OperatorPropertiesViewModel_WithInletCount viewModel)

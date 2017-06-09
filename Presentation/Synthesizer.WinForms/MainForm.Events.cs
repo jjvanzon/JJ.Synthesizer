@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
@@ -121,10 +120,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForCurve.LoseFocusRequested += operatorPropertiesUserControl_ForCurve_LoseFocusRequested;
             operatorPropertiesUserControl_ForCurve.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_ForCurve.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
-            operatorPropertiesUserControl_ForCustomOperator.CloseRequested += operatorPropertiesUserControl_ForCustomOperator_CloseRequested;
-            operatorPropertiesUserControl_ForCustomOperator.LoseFocusRequested += operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested;
-            operatorPropertiesUserControl_ForCustomOperator.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
-            operatorPropertiesUserControl_ForCustomOperator.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             operatorPropertiesUserControl_ForInletsToDimension.CloseRequested += operatorPropertiesUserControl_ForInletsToDimension_CloseRequested;
             operatorPropertiesUserControl_ForInletsToDimension.LoseFocusRequested += operatorPropertiesUserControl_ForInletsToDimension_LoseFocusRequested;
             operatorPropertiesUserControl_ForInletsToDimension.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
@@ -239,9 +234,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(
                 () =>
                 {
-                    // Temporary: I cannot debug my code. It keeps going off all the time.
-                    //return;
-
                     // HACK: applies view model to entity model.
                     _presenter.DocumentRefresh();
 
@@ -960,26 +952,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_ForCurve(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.OperatorPropertiesLoseFocus_ForCustomOperator(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void operatorPropertiesUserControl_ForCustomOperator_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.OperatorPropertiesClose_ForCustomOperator(e.Value);
                     RecreatePatchCalculatorIfSuccessful();
                 });
         }

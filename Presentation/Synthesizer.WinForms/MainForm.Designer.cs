@@ -50,7 +50,6 @@
             this.samplePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SamplePropertiesUserControl();
             this.audioFileOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputPropertiesUserControl();
             this.operatorPropertiesUserControl_ForSample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForSample();
-            this.operatorPropertiesUserControl_ForCustomOperator = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCustomOperator();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             this.currentInstrumentUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentInstrumentUserControl();
@@ -146,7 +145,6 @@
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.samplePropertiesUserControl);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.audioFileOutputPropertiesUserControl);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForSample);
-            this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCustomOperator);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchOutlet);
             this.splitContainerCenterAndProperties.Size = new System.Drawing.Size(1189, 532);
             this.splitContainerCenterAndProperties.SplitterDistance = 851;
@@ -775,29 +773,6 @@
             this.operatorPropertiesUserControl_ForSample.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_ForSample.ViewModel = null;
             // 
-            // operatorPropertiesUserControl_ForCustomOperator
-            // 
-            this.operatorPropertiesUserControl_ForCustomOperator.AddButtonVisible = false;
-            this.operatorPropertiesUserControl_ForCustomOperator.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForCustomOperator.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForCustomOperator.CloseButtonVisible = true;
-            this.operatorPropertiesUserControl_ForCustomOperator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForCustomOperator.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForCustomOperator.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForCustomOperator.Margin = new System.Windows.Forms.Padding(5);
-            this.operatorPropertiesUserControl_ForCustomOperator.Name = "operatorPropertiesUserControl_ForCustomOperator";
-            this.operatorPropertiesUserControl_ForCustomOperator.OpenExternallyButtonVisible = false;
-            this.operatorPropertiesUserControl_ForCustomOperator.PlayButtonVisible = true;
-            this.operatorPropertiesUserControl_ForCustomOperator.RefreshButtonVisible = false;
-            this.operatorPropertiesUserControl_ForCustomOperator.RemoveButtonVisible = true;
-            this.operatorPropertiesUserControl_ForCustomOperator.SaveButtonVisible = false;
-            this.operatorPropertiesUserControl_ForCustomOperator.Size = new System.Drawing.Size(333, 532);
-            this.operatorPropertiesUserControl_ForCustomOperator.TabIndex = 1;
-            this.operatorPropertiesUserControl_ForCustomOperator.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_ForCustomOperator.TitleBarText = "Operator Properties";
-            this.operatorPropertiesUserControl_ForCustomOperator.TitleLabelVisible = true;
-            this.operatorPropertiesUserControl_ForCustomOperator.ViewModel = null;
-            // 
             // operatorPropertiesUserControl_ForPatchOutlet
             // 
             this.operatorPropertiesUserControl_ForPatchOutlet.AddButtonVisible = false;
@@ -920,7 +895,6 @@
         private UserControls.OperatorPropertiesUserControl_ForPatchInlet operatorPropertiesUserControl_ForPatchInlet;
         private UserControls.OperatorPropertiesUserControl_ForPatchOutlet operatorPropertiesUserControl_ForPatchOutlet;
         private UserControls.OperatorPropertiesUserControl_ForNumber operatorPropertiesUserControl_ForNumber;
-        private UserControls.OperatorPropertiesUserControl_ForCustomOperator operatorPropertiesUserControl_ForCustomOperator;
         private UserControls.OperatorPropertiesUserControl_ForSample operatorPropertiesUserControl_ForSample;
         private UserControls.ScaleGridUserControl scaleGridUserControl;
         private UserControls.ToneGridEditUserControl toneGridEditUserControl;

@@ -170,7 +170,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Non-Persisted
                 userInput.ValidationMessages.Add(
                     new Message(
-                        PresentationPropertyNames.SelectedOperator,
+                        nameof(userInput.SelectedOperator),
                         ResourceFormatter.SelectAnOperatorFirst).ToCanonical());
 
                 return userInput;

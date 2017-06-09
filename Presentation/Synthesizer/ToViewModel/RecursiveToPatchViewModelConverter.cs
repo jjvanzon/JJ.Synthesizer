@@ -166,7 +166,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private IList<InletViewModel> ConvertToViewModelsRecursive(IList<Inlet> entities)
         {
             IList<InletViewModel> viewModels = entities.Select(x => ConvertToViewModelRecursive(x))
-                                                       .OrderBy(x => x.ListIndex)
+                                                       .OrderBy(x => x.IsObsolete)
+                                                       .ThenBy(x => x.ListIndex)
+                                                       .ThenBy(x => !string.IsNullOrWhiteSpace(x.Name))
+                                                       .ThenBy(x => x.Name)
+                                                       .ThenBy(x => !string.IsNullOrWhiteSpace(x.Dimension.Name))
+                                                       .ThenBy(x => x.Dimension.Name)
                                                        .ToList();
             return viewModels;
         }
@@ -190,7 +195,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private IList<OutletViewModel> ConvertToViewModelsRecursive(IList<Outlet> entities)
         {
             IList<OutletViewModel> viewModels = entities.Select(x => ConvertToViewModelRecursive(x))
-                                                        .OrderBy(x => x.ListIndex)
+                                                        .OrderBy(x => x.IsObsolete)
+                                                        .ThenBy(x => x.ListIndex)
+                                                        .ThenBy(x => !string.IsNullOrWhiteSpace(x.Name))
+                                                        .ThenBy(x => x.Name)
+                                                        .ThenBy(x => !string.IsNullOrWhiteSpace(x.Dimension.Name))
+                                                        .ThenBy(x => x.Dimension.Name)
                                                         .ToList();
             return viewModels;
         }

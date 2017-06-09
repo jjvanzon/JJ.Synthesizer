@@ -17,6 +17,7 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -161,32 +162,40 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             //  but data the from property boxes would be leading or missing from PatchDetails.)
             foreach (OperatorPropertiesViewModel propertiesViewModel in viewModel.OperatorPropertiesDictionary.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository, repositories.PatchRepository);
+                propertiesViewModel.ToEntity(
+                    repositories.OperatorRepository,
+                    repositories.OperatorTypeRepository,
+                    repositories.PatchRepository,
+                    repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForCache propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForCaches.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(
+                    repositories.OperatorRepository,
+                    repositories.OperatorTypeRepository,
+                    repositories.PatchRepository,
+                    repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForCurve propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForCurves.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.CurveRepository, repositories.DimensionRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForCustomOperators.Values)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(
+                    repositories.OperatorRepository,
+                    repositories.OperatorTypeRepository,
+                    repositories.PatchRepository,
+                    repositories.CurveRepository,
+                    repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForInletsToDimension propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForInletsToDimension.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForNumbers.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForPatchInlets.Values)
@@ -201,27 +210,33 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForSamples.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(
+                    repositories.OperatorRepository,
+                    repositories.OperatorTypeRepository,
+                    repositories.PatchRepository,
+                    repositories.SampleRepository,
+                    repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_WithInterpolation propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithInterpolation.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_WithCollectionRecalculation propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithCollectionRecalculation.Values)
+            foreach (OperatorPropertiesViewModel_WithCollectionRecalculation propertiesViewModel in viewModel
+                .OperatorPropertiesDictionary_WithCollectionRecalculation.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_WithOutletCount propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithOutletCount.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_WithInletCount propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithInletCount.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             return patch;
@@ -359,7 +374,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (repositories == null) throw new NullException(() => repositories);
 
             var curveRepositories = new CurveRepositories(repositories);
-            var patchRepositories = new PatchRepositories(repositories);
             var scaleRepositories = new ScaleRepositories(repositories);
 
             // ReSharper disable once RedundantAssignment
@@ -379,32 +393,27 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             //  but data the from property boxes would be leading or missing from PatchDetails.)
             foreach (OperatorPropertiesViewModel propertiesViewModel in viewModel.OperatorPropertiesDictionary.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository, repositories.PatchRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForCache propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForCaches.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForCurve propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForCurves.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.CurveRepository, repositories.DimensionRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForCustomOperators.Values)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.CurveRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForInletsToDimension propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForInletsToDimension.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForNumbers.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForPatchInlets.Values)
@@ -419,27 +428,27 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForSamples.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.SampleRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_WithInterpolation propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithInterpolation.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_WithCollectionRecalculation propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithCollectionRecalculation.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_WithOutletCount propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithOutletCount.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             foreach (OperatorPropertiesViewModel_WithInletCount propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithInletCount.Values)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository, repositories.DimensionRepository);
             }
 
             viewModel.AudioFileOutputPropertiesDictionary.Values.ToEntities(destDocument, new AudioFileOutputRepositories(repositories));
@@ -532,9 +541,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static EntityPosition ToEntityPosition(this OperatorViewModel viewModel, IEntityPositionRepository entityPositionRepository)
         {
-            // TODO: Low priority: Delegate ToEntityPosition to the EntityPositionManager?
-            // Because now the ToEntityPosition method needs to know too much about how EntityPosition works. 
-
             if (viewModel == null) throw new NullException(() => viewModel);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
@@ -722,21 +728,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this OperatorPropertiesViewModel viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
-            IDimensionRepository dimensionRepository,
-            IPatchRepository patchRepository)
+            IPatchRepository patchRepository,
+            IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
-
-            // HACK
-            if ((viewModel.UnderlyingPatch?.ID ?? 0) != 0)
-            {
-                new CustomOperator_OperatorWrapper(entity, patchRepository)
-                {
-                    UnderlyingPatchID = viewModel.UnderlyingPatch.ID
-                };
-            }
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, patchRepository, dimensionRepository);
 
             return entity;
         }
@@ -745,11 +742,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this OperatorPropertiesViewModel_ForCache viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
+            IPatchRepository patchRepository,
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, patchRepository, dimensionRepository);
 
             new Cache_OperatorWrapper(entity)
             {
@@ -762,14 +760,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForCurve viewModel,
-            IOperatorRepository operatorRepository, 
-            IOperatorTypeRepository operatorTypeRepository, 
+            IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository,
+            IPatchRepository patchRepository,
             ICurveRepository curveRepository,
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, patchRepository, dimensionRepository);
 
             var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
 
@@ -787,40 +786,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForCustomOperator viewModel,
-            IOperatorRepository operatorRepository, 
-            IOperatorTypeRepository operatorTypeRepository, 
+            this OperatorPropertiesViewModel_ForInletsToDimension viewModel,
+            IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository,
             IPatchRepository patchRepository,
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
-
-            var wrapper = new CustomOperator_OperatorWrapper(entity, patchRepository);
-
-            bool underlyingPatchIsFilledIn = viewModel.UnderlyingPatch != null && viewModel.UnderlyingPatch.ID != 0;
-            if (underlyingPatchIsFilledIn)
-            {
-                wrapper.UnderlyingPatchID = viewModel.UnderlyingPatch.ID;
-            }
-            else
-            {
-                wrapper.UnderlyingPatchID = null;
-            }
-
-            return entity;
-        }
-
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForInletsToDimension viewModel,
-            IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository,
-            IDimensionRepository dimensionRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, patchRepository, dimensionRepository);
 
             new InletsToDimension_OperatorWrapper(entity)
             {
@@ -834,18 +808,20 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this OperatorPropertiesViewModel_ForNumber viewModel,
             IOperatorRepository operatorRepository, 
             IOperatorTypeRepository operatorTypeRepository,
+            IPatchRepository patchRepository,
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, patchRepository, dimensionRepository);
 
-            // TODO: Low Priority: ViewModel validator to detect, that it is not a valid integer number.
-            var wrapper = new Number_OperatorWrapper(entity);
-
+            // ReSharper disable once InvertIf
             if (double.TryParse(viewModel.Number, out double number))
             {
-                wrapper.Number = number;
+                new Number_OperatorWrapper(entity)
+                {
+                    Number = number
+                };
             }
 
             return entity;
@@ -858,7 +834,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            Operator op = ConvertToOperator_Base(viewModel, repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+            Operator op = ConvertToOperator_Base(
+                viewModel,
+                repositories.OperatorRepository,
+                repositories.OperatorTypeRepository,
+                repositories.PatchRepository,
+                repositories.DimensionRepository);
 
             new PatchInlet_OperatorWrapper(op) { ListIndex = viewModel.Number - 1 };
 
@@ -904,7 +885,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            Operator op = ConvertToOperator_Base(viewModel, repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DimensionRepository);
+            Operator op = ConvertToOperator_Base(
+                viewModel,
+                repositories.OperatorRepository,
+                repositories.OperatorTypeRepository,
+                repositories.PatchRepository,
+                repositories.DimensionRepository);
 
             new PatchOutlet_OperatorWrapper(op) { ListIndex = viewModel.Number - 1 };
 
@@ -934,12 +920,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this OperatorPropertiesViewModel_ForSample viewModel,
             IOperatorRepository operatorRepository, 
             IOperatorTypeRepository operatorTypeRepository,
+            IPatchRepository patchRepository,
             ISampleRepository sampleRepository,
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, patchRepository, dimensionRepository);
 
             var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
 
@@ -960,11 +947,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this OperatorPropertiesViewModel_WithInterpolation viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
+            IPatchRepository patchRepository,
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, patchRepository, dimensionRepository);
 
             new Interpolate_OperatorWrapper(entity) { InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0) };
 
@@ -975,11 +963,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this OperatorPropertiesViewModel_WithCollectionRecalculation viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
+            IPatchRepository patchRepository,
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, patchRepository, dimensionRepository);
 
             new SumOverDimension_OperatorWrapper(entity)
             {
@@ -993,11 +982,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this OperatorPropertiesViewModel_WithOutletCount viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
+            IPatchRepository patchRepository,
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, patchRepository, dimensionRepository);
 
             return entity;
         }
@@ -1006,11 +996,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this OperatorPropertiesViewModel_WithInletCount viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
+            IPatchRepository patchRepository,
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, dimensionRepository);
+            Operator entity = ConvertToOperator_Base(viewModel, operatorRepository, operatorTypeRepository, patchRepository, dimensionRepository);
 
             return entity;
         }
@@ -1019,10 +1010,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             OperatorPropertiesViewModelBase viewModel,
             IOperatorRepository operatorRepository,
             IOperatorTypeRepository operatorTypeRepository,
+            IPatchRepository patchRepository,
             IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
@@ -1040,6 +1033,23 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             var operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
             entity.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
+
+            bool canHaveUnderlyingPatch = ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch.Contains(operatorTypeEnum);
+            // ReSharper disable once InvertIf
+            if (canHaveUnderlyingPatch)
+            {
+                var wrapper = new CustomOperator_OperatorWrapper(entity, patchRepository);
+
+                bool underlyingPatchIsFilledIn = viewModel.UnderlyingPatch != null && viewModel.UnderlyingPatch.ID != 0;
+                if (underlyingPatchIsFilledIn)
+                {
+                    wrapper.UnderlyingPatchID = viewModel.UnderlyingPatch.ID;
+                }
+                else
+                {
+                    wrapper.UnderlyingPatchID = null;
+                }
+            }
 
             return entity;
         }
@@ -1085,7 +1095,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             return entity;
         }
-
 
         public static Patch ToEntity(this PatchPropertiesViewModel viewModel, IPatchRepository patchRepository)
         {

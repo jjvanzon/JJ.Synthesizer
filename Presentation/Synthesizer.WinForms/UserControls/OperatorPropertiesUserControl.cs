@@ -24,6 +24,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Trying to recreate the rows dynamically made a total mess of my base class.
             AddProperty(_labelStandardDimension, _comboBoxStandardDimension);
             AddProperty(_labelCustomDimensionName, _textBoxCustomDimensionName);
+            AddProperty(_labelUnderlyingPatch, _comboBoxUnderlyingPatch);
         }
     }
 }

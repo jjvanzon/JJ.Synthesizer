@@ -1,5 +1,4 @@
 ﻿using JJ.Data.Canonical;
-using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
@@ -19,7 +18,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             : base(repositories)
         { }
 
-        protected override OperatorPropertiesViewModel_ForPatchOutlet ToViewModel(Operator op) => op.ToPropertiesViewModel_ForPatchOutlet();
+        protected override OperatorPropertiesViewModel_ForPatchOutlet ToViewModel(Operator op)
+        {
+            return op.ToPropertiesViewModel_ForPatchOutlet(_repositories.PatchRepository);
+        }
 
         protected override void UpdateEntity(OperatorPropertiesViewModel_ForPatchOutlet viewModel)
         {

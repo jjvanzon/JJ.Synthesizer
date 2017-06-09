@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override OperatorPropertiesViewModel_ForCurve ToViewModel(Operator entity)
         {
-            return entity.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
+            return entity.ToPropertiesViewModel_ForCurve(_repositories.PatchRepository, _repositories.CurveRepository);
         }
     }
 }

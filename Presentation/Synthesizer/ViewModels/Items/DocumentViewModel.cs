@@ -48,8 +48,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, OperatorPropertiesViewModel_ForCache> OperatorPropertiesDictionary_ForCaches { get; set; }
         public OperatorPropertiesViewModel_ForCurve VisibleOperatorProperties_ForCurve { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForCurve> OperatorPropertiesDictionary_ForCurves { get; set; }
-        public OperatorPropertiesViewModel_ForCustomOperator VisibleOperatorProperties_ForCustomOperator { get; set; }
-        public Dictionary<int, OperatorPropertiesViewModel_ForCustomOperator> OperatorPropertiesDictionary_ForCustomOperators { get; set; }
         public OperatorPropertiesViewModel_ForInletsToDimension VisibleOperatorProperties_ForInletsToDimension { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_ForInletsToDimension> OperatorPropertiesDictionary_ForInletsToDimension { get; set; }
         public OperatorPropertiesViewModel_ForNumber VisibleOperatorProperties_ForNumber { get; set; }

@@ -52,7 +52,6 @@
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\PatchGroupDto_WithUsedIn.cs" />
-    <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Helpers\StyleGradeEnum.cs" />
     <Compile Include="Helpers\ToPatchWithRelatedEntitiesResult.cs" />
     <Compile Include="Helpers\ViewModelNotFoundByIDException.cs" />
@@ -78,7 +77,6 @@
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithOutletCount.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCurve.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForSample.cs" />
-    <Compile Include="Presenters\OperatorPropertiesPresenter_ForCustomOperator.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForNumber.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchOutlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchInlet.cs" />
@@ -180,7 +178,6 @@
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithOutletCount.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCurve.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForSample.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCustomOperator.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForNumber.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchOutlet.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchInlet.cs" />
