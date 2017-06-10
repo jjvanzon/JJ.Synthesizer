@@ -4407,10 +4407,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
                     variableInputCalculator = new VariableInput_OperatorCalculator
                     (
-                        dimensionEnum: wrapper.DimensionEnum,
+                        dimensionEnum: wrapper.Inlet.GetDimensionEnum(),
                         canonicalName: NameHelper.ToCanonical(wrapper.Name),
-                        listIndex: wrapper.ListIndex ?? 0,
-                        defaultValue: wrapper.DefaultValue ?? 0.0
+                        listIndex: wrapper.Inlet.ListIndex,
+                        defaultValue: wrapper.Inlet.DefaultValue ?? 0.0
                     );
 
                     _patchInlet_To_Calculator_Dictionary.Add(patchInlet, variableInputCalculator);

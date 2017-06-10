@@ -44,13 +44,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
             var patchManager = new PatchManager(patch, repositories);
             var calculatorCache = new CalculatorCache();
 
-            Outlet signalOutlet = patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                       .Where(x => x.DimensionEnum == DimensionEnum.Signal)
-                                       .SingleOrDefault();
-            if (signalOutlet == null)
+            Outlet soundOutlet = patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                      .Where(x => x.Outlet.GetDimensionEnum() == DimensionEnum.Sound)
+                                      .SingleOrDefault();
+            if (soundOutlet == null)
             {
-                signalOutlet = patchManager.Number();
-                signalOutlet.Operator.Name = "Dummy operator, because Auto-Patch has no signal outlets.";
+                soundOutlet = patchManager.Number();
+                soundOutlet.Operator.Name = "Dummy operator, because Auto-Patch has no signal outlets.";
             }
 
             // Create PatchCalculators
@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 _patchCalculators[channelIndex] = patchManager.CreateCalculators(
                     _maxConcurrentNotes,
-                    signalOutlet,
+                    soundOutlet,
                     samplingRate,
                     _channelCount,
                     channelIndex,

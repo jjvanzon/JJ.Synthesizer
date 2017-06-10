@@ -8,14 +8,15 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
+    /// <summary> Only effective if Operator is CustomOperator. (Might change in the future.) </summary>
     internal class Operator_SideEffect_ApplyUnderlyingPatch : ISideEffect
     {
-        private readonly Operator _entity;
+        private readonly Operator _operator;
         private readonly RepositoryWrapper _repositories;
 
-        public Operator_SideEffect_ApplyUnderlyingPatch(Operator entity, RepositoryWrapper repositories)
+        public Operator_SideEffect_ApplyUnderlyingPatch(Operator op, RepositoryWrapper repositories)
         {
-            _entity = entity ?? throw new NullException(() => entity);
+            _operator = op ?? throw new NullException(() => op);
             _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
@@ -25,16 +26,16 @@ namespace JJ.Business.Synthesizer.SideEffects
             // ReSharper disable once InvertIf
             if (mustExecute)
             {
-                Patch sourceUnderlyingPatch = _entity.UnderlyingPatch;
+                Patch sourceUnderlyingPatch = _operator.UnderlyingPatch;
 
                 var converter = new PatchToOperatorConverter(_repositories);
-                converter.Convert(sourceUnderlyingPatch, _entity);
+                converter.Convert(sourceUnderlyingPatch, _operator);
             }
         }
 
         private bool MustExecute()
         {
-            return _entity.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator;
+            return _operator.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator;
         }
     }
 }

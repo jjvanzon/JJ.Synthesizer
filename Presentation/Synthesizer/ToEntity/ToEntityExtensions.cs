@@ -798,7 +798,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator op = ConvertToOperator_Base(viewModel, repositories);
 
-            new PatchInlet_OperatorWrapper(op) { ListIndex = viewModel.Number - 1 };
+            var wrapper = new PatchInlet_OperatorWrapper(op);
+            wrapper.Inlet.ListIndex = viewModel.Number - 1;
 
             Inlet inlet = op.Inlets.FirstOrDefault();
             if (inlet == null)
@@ -844,7 +845,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator op = ConvertToOperator_Base(viewModel, repositories);
 
-            new PatchOutlet_OperatorWrapper(op) { ListIndex = viewModel.Number - 1 };
+            var wrapper = new PatchOutlet_OperatorWrapper(op);
+
+            wrapper.Outlet.ListIndex = viewModel.Number - 1;
 
             Outlet outlet = op.Outlets.FirstOrDefault();
             if (outlet == null)

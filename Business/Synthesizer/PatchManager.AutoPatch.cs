@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer
             foreach (var intermediateUnmatchedInletGroup in intermediateUnmatchedInlets_GroupedByDimension)
             {
                 PatchInlet_OperatorWrapper patchInletOperatorWrapper = ConvertToPatchInlet(intermediateUnmatchedInletGroup.ToArray());
-                patchInletOperatorWrapper.ListIndex = listIndex++;
+                patchInletOperatorWrapper.Inlet.ListIndex = listIndex++;
             }
 
             // If there is overlap in name, they will merge to a single PatchInlet.
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer
             foreach (var intermediateUnmatchedInletGroup in intermediateUnmatchedInlets_WithoutDimension_GroupedByName)
             {
                 PatchInlet_OperatorWrapper patchInletOperatorWrapper = ConvertToPatchInlet(intermediateUnmatchedInletGroup.ToArray());
-                patchInletOperatorWrapper.ListIndex = listIndex++;
+                patchInletOperatorWrapper.Inlet.ListIndex = listIndex++;
             }
 
             // If there is no Inlet Dimension or name, unmatched Inlets will convert to individual PatchInlets.
@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer
             foreach (Inlet unmatchedInlet in intermediateUnmatchedInlets_WithoutDimensionOrName)
             {
                 PatchInlet_OperatorWrapper patchInletOperatorWrapper = ConvertToPatchInlet(unmatchedInlet);
-                patchInletOperatorWrapper.ListIndex = listIndex++;
+                patchInletOperatorWrapper.Inlet.ListIndex = listIndex++;
             }
 
             // Unmatched outlets of the custom operators become outlets of the new patch.
@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer
             foreach (var intermediateUnmatchedOutletGroup in intermediateUnmatchedOutlets_GroupedByDimension)
             {
                 PatchOutlet_OperatorWrapper patchOutlet_OperatorWrapper = ConvertToPatchOutlet(intermediateUnmatchedOutletGroup.ToArray());
-                patchOutlet_OperatorWrapper.ListIndex = listIndex++;
+                patchOutlet_OperatorWrapper.Outlet.ListIndex = listIndex++;
             }
 
             // If there is overlap in name, they will merge to a single PatchOutlet.
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer
             foreach (var intermediateUnmatchedOutletGroup in intermediateUnmatchedOutlets_WithoutDimension_GroupedByName)
             {
                 PatchOutlet_OperatorWrapper patchOutlet_OperatorWrapper = ConvertToPatchOutlet(intermediateUnmatchedOutletGroup.ToArray());
-                patchOutlet_OperatorWrapper.ListIndex = listIndex++;
+                patchOutlet_OperatorWrapper.Outlet.ListIndex = listIndex++;
             }
 
             // If there is no Dimension or name, unmatched Outlets will convert to individual PatchOutlets.
@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer
             foreach (Outlet intermediateUnmatchedOutlet in intermediateUnmatchedOutlets_WithoutDimensionOrName)
             {
                 PatchOutlet_OperatorWrapper destPatchOutletOperatorWrapper = ConvertToPatchOutlet(intermediateUnmatchedOutlet);
-                destPatchOutletOperatorWrapper.ListIndex = listIndex++;
+                destPatchOutletOperatorWrapper.Outlet.ListIndex = listIndex++;
             }
 
             // This is sensitive, error prone code, so verify its result with the validators.
@@ -149,9 +149,9 @@ namespace JJ.Business.Synthesizer
         {
             PatchInlet_OperatorWrapper destPatchInletWrapper = PatchInlet();
             destPatchInletWrapper.Name = intermediateInlet.Name;
-            destPatchInletWrapper.ListIndex = intermediateInlet.ListIndex;
-            destPatchInletWrapper.Dimension = intermediateInlet.Dimension;
-            destPatchInletWrapper.DefaultValue = intermediateInlet.DefaultValue;
+            destPatchInletWrapper.Inlet.ListIndex = intermediateInlet.ListIndex;
+            destPatchInletWrapper.Inlet.Dimension = intermediateInlet.Dimension;
+            destPatchInletWrapper.Inlet.DefaultValue = intermediateInlet.DefaultValue;
 
             intermediateInlet.LinkTo(destPatchInletWrapper.Outlet);
 
@@ -193,9 +193,9 @@ namespace JJ.Business.Synthesizer
         {
             PatchOutlet_OperatorWrapper destPatchOutletWrapper = PatchOutlet();
             destPatchOutletWrapper.Name = intermediateUnmatchedOutlet.Name;
-            destPatchOutletWrapper.ListIndex = intermediateUnmatchedOutlet.ListIndex;
+            destPatchOutletWrapper.Outlet.ListIndex = intermediateUnmatchedOutlet.ListIndex;
+            destPatchOutletWrapper.Outlet.Dimension = intermediateUnmatchedOutlet.Dimension;
             destPatchOutletWrapper.Input = intermediateUnmatchedOutlet;
-            destPatchOutletWrapper.Dimension = intermediateUnmatchedOutlet.Dimension;
 
             return destPatchOutletWrapper;
         }
@@ -445,11 +445,11 @@ namespace JJ.Business.Synthesizer
             IList<Outlet> patches2 = patches.Where(x => !x.Hidden || mustIncludeHidden)
                                             .Where(
                                                 x => !x.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                       .Where(y => y.DimensionEnum == DimensionEnum.Sound)
+                                                       .Where(y => y.Inlet.GetDimensionEnum() == DimensionEnum.Sound)
                                                        .Any())
                                             .OrderBy(x => x.Name)
                                             .SelectMany(x => x.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>())
-                                            .Where(x => x.DimensionEnum == DimensionEnum.Sound)
+                                            .Where(x => x.Outlet.GetDimensionEnum() == DimensionEnum.Sound)
                                             .Select(x => x.Outlet)
                                             .ToArray();
             return patches2;

@@ -107,15 +107,10 @@ namespace JJ.Business.Synthesizer.Converters
             }
 
             destCustomOperatorInlet.Name = sourcePatchInletWrapper.Name;
-            destCustomOperatorInlet.DefaultValue = sourcePatchInletWrapper.DefaultValue;
-            destCustomOperatorInlet.Dimension = sourcePatchInletWrapper.Dimension;
+            destCustomOperatorInlet.DefaultValue = sourcePatchInletWrapper.Inlet.DefaultValue;
+            destCustomOperatorInlet.Dimension = sourcePatchInletWrapper.Inlet.Dimension;
             destCustomOperatorInlet.IsObsolete = false;
-
-            if (!sourcePatchInletWrapper.ListIndex.HasValue)
-            {
-                throw new NullException(() => sourcePatchInletWrapper.ListIndex);
-            }
-            destCustomOperatorInlet.ListIndex = sourcePatchInletWrapper.ListIndex.Value;
+            destCustomOperatorInlet.ListIndex = sourcePatchInletWrapper.Inlet.ListIndex;
 
             return destCustomOperatorInlet;
         }
@@ -165,14 +160,9 @@ namespace JJ.Business.Synthesizer.Converters
             }
 
             destCustomOperatorOutlet.Name = sourcePatchOutletWrapper.Name;
-            destCustomOperatorOutlet.Dimension = sourcePatchOutletWrapper.Dimension;
+            destCustomOperatorOutlet.Dimension = sourcePatchOutletWrapper.Outlet.Dimension;
             destCustomOperatorOutlet.IsObsolete = false;
-
-            if (!sourcePatchOutletWrapper.ListIndex.HasValue)
-            {
-                throw new NullException(() => sourcePatchOutletWrapper.ListIndex);
-            }
-            destCustomOperatorOutlet.ListIndex = sourcePatchOutletWrapper.ListIndex.Value;
+            destCustomOperatorOutlet.ListIndex = sourcePatchOutletWrapper.Outlet.ListIndex;
 
             return destCustomOperatorOutlet;
         }

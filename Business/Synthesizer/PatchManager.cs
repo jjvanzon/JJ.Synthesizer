@@ -592,7 +592,7 @@ namespace JJ.Business.Synthesizer
         {
             if (mustSubstituteSineForUnfilledInSignalPatchInlets)
             {
-                SubstituteSineForUnfilledInSignalPatchInlets();
+                SubstituteSineForUnfilledInSoundPatchInlets();
             }
 
             IPatchCalculator patchCalculator;
@@ -711,14 +711,14 @@ namespace JJ.Business.Synthesizer
             }
         }
 
-        private void SubstituteSineForUnfilledInSignalPatchInlets()
+        private void SubstituteSineForUnfilledInSoundPatchInlets()
         {
             AssertPatchNotNull();
 
             IList<PatchInlet_OperatorWrapper> patchInletWrappers = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                                        .Where(x => x.DimensionEnum == DimensionEnum.Signal &&
-                                                                                    x.Input == null &&
-                                                                                   !x.DefaultValue.HasValue)
+                                                                        .Where(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Sound &&
+                                                                                    !x.Inlet.DefaultValue.HasValue &&
+                                                                                    x.Input == null)
                                                                         .ToArray();
             // ReSharper disable once InvertIf
             if (patchInletWrappers.Count != 0)

@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
@@ -635,7 +634,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     Operator op = operators[i];
 
                     int? underlyingPatchID = DataPropertyParser.TryGetInt32(op, "UnderlyingPatchID");
-                    DataPropertyParser.RemoveKey(op, "UnderlyingPatchID");
+                    DataPropertyParser.TryRemoveKey(op, "UnderlyingPatchID");
 
                     if (!underlyingPatchID.HasValue)
                     {
@@ -661,7 +660,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
-
         public static void Migrate_Clear_AbsoluteOperator_OperatorType(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
@@ -681,6 +679,72 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                     string progressMessage = $"Migrated Operator {i + 1}/{operators.Count}.";
                     progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
+        public static void Migrate_PatchInletOutlet_ListIndexes_FromDataProperty_ToInletAndOutlet(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                {
+                    const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.PatchInlet;
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);
+                    for (int i = 0; i < operators.Count; i++)
+                    {
+                        Operator op = operators[i];
+
+                        const string key = nameof(Inlet.ListIndex);
+                        int? listIndex = DataPropertyParser.TryGetInt32(op, key);
+                        if (!listIndex.HasValue)
+                        {
+                            throw new NullException(() => listIndex);
+                        }
+                        DataPropertyParser.TryRemoveKey(op, key);
+
+                        Inlet inlet = op.Inlets.Single();
+                        inlet.ListIndex = listIndex.Value;
+
+                        string progressMessage = $"Step 1: Migrated {operatorTypeEnum} {nameof(Operator)} {i + 1}/{operators.Count}.";
+                        progressCallback(progressMessage);
+                    }
+                }
+
+                {
+                    const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.PatchOutlet;
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);
+                    for (int i = 0; i < operators.Count; i++)
+                    {
+                        Operator op = operators[i];
+
+                        const string key = nameof(Outlet.ListIndex);
+                        int? listIndex = DataPropertyParser.TryGetInt32(op, key);
+                        if (!listIndex.HasValue)
+                        {
+                            throw new NullException(() => listIndex);
+                        }
+                        DataPropertyParser.TryRemoveKey(op, key);
+
+                        Outlet outlet = op.Outlets.Single();
+                        outlet.ListIndex = listIndex.Value;
+
+                        string progressMessage = $"Step 2: Migrated {operatorTypeEnum} {nameof(Operator)} {i + 1}/{operators.Count}.";
+                        progressCallback(progressMessage);
+                    }
                 }
 
                 AssertDocuments(repositories, progressCallback);

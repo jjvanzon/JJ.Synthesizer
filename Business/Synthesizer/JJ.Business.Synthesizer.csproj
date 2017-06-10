@@ -331,6 +331,7 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Helpers\OutletTuple.cs" />
     <Compile Include="Helpers\InletTuple.cs" />
+    <Compile Include="2017-06-10 Backup of InletOutletMatcher.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator.cs" />
     <Compile Include="Roslyn\Calculation\HardCodedPatchCalculator.cs" />
     <Compile Include="Roslyn\ActivationInfo.cs" />
@@ -694,7 +695,7 @@
     <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DataProperty\CollectionRecalculation_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\ResampleInterpolationType_DataProperty_Validator.cs" />
-    <Compile Include="Validation\DataProperty\ListIndex_DataProperty_Validator.cs" />
+    <Compile Include="Validation\DataProperty\2017-06-10 Backup of ListIndex_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\SpeakerSetup_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\InterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_BootStrapped.cs" />

@@ -30,9 +30,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 
             IList<int> listIndexes = _entity.Patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
                                                   .Where(x => x.ID != _entity.ID) // Not itself
-                                                  .Select(x => new PatchInlet_OperatorWrapper(x).ListIndex)
-                                                  .Where(x => x.HasValue)
-                                                  .Select(x => x.Value)
+                                                  .Select(x => new PatchInlet_OperatorWrapper(x).Inlet.ListIndex)
                                                   .ToArray();
             int suggestedListIndex = 0;
             bool listIndexExists = listIndexes.Contains(suggestedListIndex);
@@ -43,10 +41,8 @@ namespace JJ.Business.Synthesizer.SideEffects
                 listIndexExists = listIndexes.Contains(suggestedListIndex);
             }
 
-            new PatchInlet_OperatorWrapper(_entity)
-            {
-                ListIndex = suggestedListIndex
-            };
+            var wrapper = new PatchInlet_OperatorWrapper(_entity);
+            wrapper.Inlet.ListIndex = suggestedListIndex;
         }
     }
 }

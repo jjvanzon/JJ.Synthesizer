@@ -6,7 +6,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer
@@ -67,7 +66,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // Try match by Dimension
-            DimensionEnum sourceDimensionEnum = underlyingPatchInletWrapper.DimensionEnum;
+            DimensionEnum sourceDimensionEnum = underlyingPatchInletWrapper.Inlet.GetDimensionEnum();
             bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
             if (dimensionIsFilledIn)
             {
@@ -82,7 +81,7 @@ namespace JJ.Business.Synthesizer
 
             // Try match by list index
             Inlet customOperatorInlet_WithMatchingListIndex =
-                destCandicateCustomOperatorInlets.FirstOrDefault(destInlet => destInlet.ListIndex == underlyingPatchInletWrapper.ListIndex);
+                destCandicateCustomOperatorInlets.FirstOrDefault(destInlet => destInlet.ListIndex == underlyingPatchInletWrapper.Inlet.ListIndex);
 
             return customOperatorInlet_WithMatchingListIndex;
         }
@@ -139,7 +138,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // Try match by Dimension
-            DimensionEnum sourceDimensionEnum = underlyingPatchOutletWrapper.DimensionEnum;
+            DimensionEnum sourceDimensionEnum = underlyingPatchOutletWrapper.Outlet.GetDimensionEnum();
             bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
             if (dimensionIsFilledIn)
             {
@@ -154,7 +153,7 @@ namespace JJ.Business.Synthesizer
 
             // Try match by list index
             Outlet customOperatorOutlet_WithMatchingListIndex =
-                destCandicateCustomOperatorOutlets.FirstOrDefault(destOutlet => destOutlet.ListIndex == underlyingPatchOutletWrapper.ListIndex);
+                destCandicateCustomOperatorOutlets.FirstOrDefault(destOutlet => destOutlet.ListIndex == underlyingPatchOutletWrapper.Outlet.ListIndex);
 
             return customOperatorOutlet_WithMatchingListIndex;
         }
@@ -303,9 +302,9 @@ namespace JJ.Business.Synthesizer
         private static IList<Operator> SortPatchInlets(IList<Operator> patchInlets)
         {
             return patchInlets.Select(x => new PatchInlet_OperatorWrapper(x))
-                              .OrderBy(x => x.ListIndex)
-                              .ThenBy(x => x.DimensionEnum == DimensionEnum.Undefined)
-                              .ThenBy(x => x.DimensionEnum)
+                              .OrderBy(x => x.Inlet.ListIndex)
+                              .ThenBy(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Undefined)
+                              .ThenBy(x => x.Inlet.GetDimensionEnum())
                               .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
                               .ThenBy(x => x.Name)
                               .Select(x => x.WrappedOperator)
@@ -315,9 +314,9 @@ namespace JJ.Business.Synthesizer
         private static IList<Operator> SortPatchOutlets(IList<Operator> patchOutlets)
         {
             return patchOutlets.Select(x => new PatchOutlet_OperatorWrapper(x))
-                               .OrderBy(x => x.ListIndex)
-                               .ThenBy(x => x.DimensionEnum == DimensionEnum.Undefined)
-                               .ThenBy(x => x.DimensionEnum)
+                               .OrderBy(x => x.Outlet.ListIndex)
+                               .ThenBy(x => x.Outlet.GetDimensionEnum() == DimensionEnum.Undefined)
+                               .ThenBy(x => x.Outlet.GetDimensionEnum())
                                .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
                                .ThenBy(x => x.Name)
                                .Select(x => x.WrappedOperator)

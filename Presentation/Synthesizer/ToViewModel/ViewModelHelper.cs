@@ -900,7 +900,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var sb = new StringBuilder();
 
             var wrapper = new PatchInlet_OperatorWrapper(op);
-            DimensionEnum dimensionEnum = wrapper.DimensionEnum;
+            DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
 
             // Use OperatorType DisplayName
             sb.Append(ResourceFormatter.Inlet);
@@ -918,11 +918,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Try Use List Index
             else
             {
-                sb.Append($" {wrapper.ListIndex + 1}");
+                sb.Append($" {wrapper.Inlet.ListIndex + 1}");
             }
 
             // Try Use DefaultValue
-            double? defaultValue = wrapper.DefaultValue;
+            double? defaultValue = wrapper.Inlet.DefaultValue;
             if (defaultValue.HasValue)
             {
                 sb.Append($" = {defaultValue.Value}");
@@ -955,7 +955,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Try Use List Index
             else
             {
-                sb.AppendFormat(" {0}", wrapper.ListIndex + 1);
+                sb.AppendFormat(" {0}", wrapper.Outlet.ListIndex + 1);
             }
 
             return sb.ToString();

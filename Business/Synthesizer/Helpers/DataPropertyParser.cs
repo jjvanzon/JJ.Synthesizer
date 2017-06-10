@@ -305,13 +305,13 @@ namespace JJ.Business.Synthesizer.Helpers
             return newData;
         }
 
-        public static void RemoveKey(Operator op, string key)
+        public static void TryRemoveKey(Operator op, string key)
         {
             if (op == null) throw new NullException(() => op);
-            op.Data = RemoveKey(op.Data, key);
+            op.Data = TryRemoveKey(op.Data, key);
         }
 
-        public static string RemoveKey(string data, string key)
+        public static string TryRemoveKey(string data, string key)
         {
             IList<ParsedKeyValuePair> results = Parse(data);
 

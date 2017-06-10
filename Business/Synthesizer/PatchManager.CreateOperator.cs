@@ -1423,12 +1423,8 @@ namespace JJ.Business.Synthesizer
                 new[] { DimensionEnum.Undefined },
                 new[] { DimensionEnum.Undefined });
 
-            var wrapper = new PatchInlet_OperatorWrapper(op)
-            {
-                // You have to set this property or the wrapper's ListIndex getter would crash.
-                ListIndex = 0
-            };
-            wrapper.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
+            var wrapper = new PatchInlet_OperatorWrapper(op);
+            wrapper.Inlet.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
 
             new Operator_SideEffect_GeneratePatchInletListIndex(op).Execute();
 
@@ -1443,7 +1439,7 @@ namespace JJ.Business.Synthesizer
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
 
-            wrapper.SetDimensionEnum(dimension, _repositories.DimensionRepository);
+            wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
             VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);
@@ -1466,7 +1462,7 @@ namespace JJ.Business.Synthesizer
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Name = name;
-            wrapper.DefaultValue = defaultValue;
+            wrapper.Inlet.DefaultValue = defaultValue;
 
             VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);
@@ -1477,8 +1473,8 @@ namespace JJ.Business.Synthesizer
         public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
-            wrapper.SetDimensionEnum(dimension, _repositories.DimensionRepository);
-            wrapper.DefaultValue = defaultValue;
+            wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
+            wrapper.Inlet.DefaultValue = defaultValue;
 
             VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);
@@ -1496,10 +1492,8 @@ namespace JJ.Business.Synthesizer
             var wrapper = new PatchOutlet_OperatorWrapper(op)
             {
                 Input = input,
-                // You have to set this property two or the wrapper's ListIndex property getter would crash.
-                ListIndex = 0
             };
-            wrapper.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
+            wrapper.Outlet.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
 
             new Operator_SideEffect_GeneratePatchOutletListIndex(op).Execute();
 
@@ -1513,7 +1507,7 @@ namespace JJ.Business.Synthesizer
         public PatchOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimension, Outlet input = null)
         {
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
-            wrapper.SetDimensionEnum(dimension, _repositories.DimensionRepository);
+            wrapper.Outlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
             VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);

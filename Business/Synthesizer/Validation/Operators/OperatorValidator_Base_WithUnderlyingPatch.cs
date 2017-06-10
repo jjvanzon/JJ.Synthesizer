@@ -9,6 +9,7 @@ using JJ.Framework.Validation.Resources;
 using JJ.Framework.Exceptions;
 using System.Text;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
@@ -250,14 +251,19 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private static int? TryGetListIndex(Operator patchInletOrPatchOutletOperator)
         {
-            // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(patchInletOrPatchOutletOperator))
-            {
-                int? listIndex = DataPropertyParser.TryParseInt32(patchInletOrPatchOutletOperator, nameof(PatchInlet_OperatorWrapper.ListIndex));
-                return listIndex;
-            }
+            OperatorTypeEnum operatorTypeEnum = patchInletOrPatchOutletOperator.GetOperatorTypeEnum();
 
-            return null;
+            switch (operatorTypeEnum)
+            {
+                case OperatorTypeEnum.PatchInlet:
+                    return patchInletOrPatchOutletOperator.Inlets.FirstOrDefault()?.ListIndex;
+
+                case OperatorTypeEnum.PatchOutlet:
+                    return patchInletOrPatchOutletOperator.Outlets.FirstOrDefault()?.ListIndex;
+
+                default:
+                    return null;
+            }
         }
 
         private Inlet TryGetInlet(Operator op) => op.Inlets.FirstOrDefault();

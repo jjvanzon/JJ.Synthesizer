@@ -1078,10 +1078,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
                     dto = new VariableInput_OperatorDto
                     {
-                        DimensionEnum = wrapper.DimensionEnum,
+                        DimensionEnum = wrapper.Inlet.GetDimensionEnum(),
                         CanonicalName = NameHelper.ToCanonical(wrapper.Name),
-                        ListIndex = wrapper.ListIndex ?? 0,
-                        DefaultValue = wrapper.DefaultValue ?? 0.0
+                        ListIndex = wrapper.Inlet.ListIndex,
+                        DefaultValue = wrapper.Inlet.DefaultValue ?? 0.0
                     };
 
                     _patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary[op] = dto;
