@@ -8,18 +8,14 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
     internal class ResampleInterpolationType_DataProperty_Validator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
-        public ResampleInterpolationType_DataProperty_Validator(string obj) 
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            string data = Obj;
+        public ResampleInterpolationType_DataProperty_Validator(string data)
+            : base(data)
+        { 
 
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
-                string interpolationType = DataPropertyParser.TryGetString(Obj, nameof(Interpolate_OperatorWrapper.InterpolationType));
+                string interpolationType = DataPropertyParser.TryGetString(data, nameof(Interpolate_OperatorWrapper.InterpolationType));
 
                 For(() => interpolationType, ResourceFormatter.InterpolationType)
                     .NotNullOrEmpty()

@@ -9,14 +9,11 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
     {
         public Curve_OperatorWarningValidator(Operator op)
             : base(op)
-        { }
-
-        protected override void Execute()
-        {
+        { 
             // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(Obj.Data))
+            if (DataPropertyParser.DataIsWellFormed(op))
             {
-                string curveIDString = DataPropertyParser.TryGetString(Obj, nameof(Curve_OperatorWrapper.CurveID));
+                string curveIDString = DataPropertyParser.TryGetString(op, nameof(Curve_OperatorWrapper.CurveID));
 
                 For(() => curveIDString, ResourceFormatter.Curve)
                     .NotNullOrEmpty();

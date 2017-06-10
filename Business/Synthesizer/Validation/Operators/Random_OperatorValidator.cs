@@ -14,13 +14,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 new[] { DimensionEnum.Rate },
                 new[] { DimensionEnum.Signal },
                 expectedDataKeys: new[] { nameof(Random_OperatorWrapper.InterpolationType) })
-        { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
-            ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(Obj.Data));
+        { 
+            ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(obj.Data));
         }
     }
 }

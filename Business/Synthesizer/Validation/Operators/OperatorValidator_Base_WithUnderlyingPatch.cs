@@ -17,12 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public OperatorValidator_Base_WithUnderlyingPatch(Operator op)
             : base(op)
-        { }
-
-        protected override void Execute()
-        {
-            Operator op = Obj;
-
+        { 
             For(() => op.Data, ResourceFormatter.Data).IsNullOrEmpty();
 
             if (op.UnderlyingPatch == null)
@@ -30,14 +25,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            ValidateUnderlyingPatchReferenceConstraint();
-            ValidateInletsAgainstUnderlyingPatch();
-            ValidateOutletsAgainstUnderlyingPatch();
+            ValidateUnderlyingPatchReferenceConstraint(op);
+            ValidateInletsAgainstUnderlyingPatch(op);
+            ValidateOutletsAgainstUnderlyingPatch(op);
         }
 
-        private void ValidateUnderlyingPatchReferenceConstraint()
+        private void ValidateUnderlyingPatchReferenceConstraint(Operator op)
         {
-            Operator op = Obj;
             Patch underlyingPatch = op.UnderlyingPatch;
 
             // We are quite tolerant here: we omit the check if it is not in a patch or document.
@@ -55,10 +49,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
         }
 
-        private void ValidateInletsAgainstUnderlyingPatch()
+        private void ValidateInletsAgainstUnderlyingPatch(Operator customOperator)
         {
-            Operator customOperator = Obj;
-
             IList<InletTuple> tuples = InletOutletMatcher.Match_PatchInlets_With_CustomOperatorInlets(customOperator);
             
             foreach (InletTuple tuple in tuples)
@@ -156,10 +148,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
         }
 
-        private void ValidateOutletsAgainstUnderlyingPatch()
+        private void ValidateOutletsAgainstUnderlyingPatch(Operator customOperator)
         {
-            Operator customOperator = Obj;
-
             IList<OutletTuple> tuples = InletOutletMatcher.Match_PatchOutlets_With_CustomOperatorOutlets(customOperator);
 
             foreach (OutletTuple tuple in tuples)

@@ -7,14 +7,9 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
     internal class CollectionRecalculation_DataProperty_Validator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
-        public CollectionRecalculation_DataProperty_Validator(string obj) 
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            string data = Obj;
-
+        public CollectionRecalculation_DataProperty_Validator(string data) 
+            : base(data)
+        { 
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {

@@ -9,40 +9,31 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull : ValidatorBase<Operator>
     {
-        private readonly Patch _patch;
-        private readonly ISampleRepository _sampleRepository;
-        private readonly ICurveRepository _curveRepository;
-
         public OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(
             [NotNull] Operator op,
             [NotNull] Patch patch,
             [NotNull] ISampleRepository sampleRepository,
             [NotNull] ICurveRepository curveRepository)
-            : base(op, postponeExecute: true)
+            : base(op)
         {
-            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
-            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-            _patch = patch ?? throw new NullException(() => patch);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (patch == null) throw new NullException(() => patch);
 
-            Execute();
-        }
-
-        protected sealed override void Execute()
-        {
-            if (Obj.Patch != null &&
-                Obj.Patch != _patch)
+            if (op.Patch != null &&
+                op.Patch != patch)
             {
-                string operatorIdentifier = ValidationHelper.GetUserFriendlyIdentifier(Obj, _sampleRepository, _curveRepository);
-                string patchIdentifier = ValidationHelper.GetUserFriendlyIdentifier(_patch);
+                string operatorIdentifier = ValidationHelper.GetUserFriendlyIdentifier(op, sampleRepository, curveRepository);
+                string patchIdentifier = ValidationHelper.GetUserFriendlyIdentifier(patch);
 
-                ValidationMessages.Add(nameof(Obj.Patch), ResourceFormatter.OperatorPatchIsNotTheExpectedPatch(operatorIdentifier, patchIdentifier));
+                ValidationMessages.Add(nameof(op.Patch), ResourceFormatter.OperatorPatchIsNotTheExpectedPatch(operatorIdentifier, patchIdentifier));
             }
 
-            foreach (Inlet inlet in Obj.Inlets)
+            foreach (Inlet inlet in op.Inlets)
             {
                 if (inlet.InputOutlet != null)
                 {
-                    ExecuteValidator(new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(inlet.InputOutlet.Operator, _patch, _sampleRepository, _curveRepository));
+                    ExecuteValidator(new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(inlet.InputOutlet.Operator, patch, sampleRepository, curveRepository));
                 }
             }
         }

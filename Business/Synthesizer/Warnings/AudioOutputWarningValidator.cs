@@ -8,11 +8,8 @@ namespace JJ.Business.Synthesizer.Warnings
     {
         public AudioOutputWarningValidator(AudioOutput obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            For(() => Obj.DesiredBufferDuration, ResourceFormatter.DesiredBufferDuration).LessThan(5);
+        { 
+            For(() => obj.DesiredBufferDuration, ResourceFormatter.DesiredBufferDuration).LessThan(5);
         }
     }
 }

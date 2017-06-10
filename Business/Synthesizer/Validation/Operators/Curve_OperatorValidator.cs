@@ -12,19 +12,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public Curve_OperatorValidator(Operator op)
             : base(
-                  op,
+                op,
                 OperatorTypeEnum.Curve,
                 new DimensionEnum[0],
                 new[] { DimensionEnum.Number },
                 expectedDataKeys: new[] { nameof(Curve_OperatorWrapper.CurveID) })
-        { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
-            Operator op = Obj;
-
+        { 
             if (!DataPropertyParser.DataIsWellFormed(op))
             {
                 return;

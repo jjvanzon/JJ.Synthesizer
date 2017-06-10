@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 
         // ReSharper disable once SuggestBaseTypeForParameter
         public DataPropertyValidator(string data, IList<string> expectedDataKeys)
-            : base(data, postponeExecute: true)
+            : base(data)
         {
             if (expectedDataKeys == null) throw new NullException(() => expectedDataKeys);
 
@@ -32,13 +32,6 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 
             _expectedDataKeysHashSet = expectedDataKeys.ToHashSet();
 
-            Execute();
-        }
-
-        protected sealed override void Execute()
-        {
-            string data = Obj;
-
             // Check length
             if (_dataMaxLength.HasValue)
             {
@@ -46,7 +39,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             }
 
             // Check well-formedness
-            if (!DataPropertyParser.DataIsWellFormed(Obj))
+            if (!DataPropertyParser.DataIsWellFormed(data))
             {
                 ValidationMessages.AddIsInvalidMessage(() => data, ResourceFormatter.Data);
                 return;

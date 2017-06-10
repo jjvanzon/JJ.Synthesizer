@@ -9,16 +9,13 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
     {
         public DocumentReferenceValidator_UniqueLowerDocument([NotNull] DocumentReference obj) 
             : base(obj)
-        { }
-
-        protected override void Execute()
         {
-            bool isUnique = ValidationHelper.DocumentReference_LowerDocument_IsUnique(Obj);
+            bool isUnique = ValidationHelper.DocumentReference_LowerDocument_IsUnique(obj);
 
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                string lowerDocumentReferenceIdentifier = ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(Obj);
+                string lowerDocumentReferenceIdentifier = ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(obj);
                 string message = ResourceFormatter.LibraryAlreadyAdded_WithName(lowerDocumentReferenceIdentifier);
                 ValidationMessages.Add(nameof(DocumentReference.LowerDocument), message);
             }

@@ -7,18 +7,13 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class Sample_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledInOrHaveDefaults
     {
-        public Sample_OperatorWarningValidator(Operator obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
+        public Sample_OperatorWarningValidator(Operator op)
+            : base(op)
+        { 
             // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(Obj.Data))
+            if (DataPropertyParser.DataIsWellFormed(op))
             {
-                string sampleIDString = DataPropertyParser.TryGetString(Obj, nameof(Sample_OperatorWrapper.SampleID));
+                string sampleIDString = DataPropertyParser.TryGetString(op, nameof(Sample_OperatorWrapper.SampleID));
 
                 For(() => sampleIDString, ResourceFormatter.Sample)
                     .NotNullOrEmpty();

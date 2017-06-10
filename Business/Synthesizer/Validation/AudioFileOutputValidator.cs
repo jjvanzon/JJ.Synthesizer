@@ -10,14 +10,9 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal class AudioFileOutputValidator : VersatileValidator<AudioFileOutput>
     {
-        public AudioFileOutputValidator(AudioFileOutput obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            AudioFileOutput audioFileOutput = Obj;
-
+        public AudioFileOutputValidator(AudioFileOutput audioFileOutput)
+            : base(audioFileOutput)
+        { 
             For(() => audioFileOutput.Amplifier, ResourceFormatter.Amplifier)
                 .NotNaN()
                 .NotInfinity();
@@ -41,13 +36,13 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => audioFileOutput.SampleDataType, ResourceFormatter.SampleDataType).NotNull();
             For(() => audioFileOutput.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
 
-            TryValidateOutletReference();
+            TryValidateOutletReference(audioFileOutput);
         }
 
-        private void TryValidateOutletReference()
+        private void TryValidateOutletReference(AudioFileOutput audioFileOutput)
         {
-            bool mustValidate = Obj.Outlet != null &&
-                                Obj.Document != null;
+            bool mustValidate = audioFileOutput.Outlet != null &&
+                                audioFileOutput.Document != null;
 
             if (!mustValidate)
             {
@@ -55,15 +50,15 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             IEnumerable<Outlet> outletsEnumerable = 
-                Obj.Document.Patches
+                audioFileOutput.Document.Patches
                                .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet))
                                .SelectMany(x => x.Outlets);
 
-            bool referenceIsValid = outletsEnumerable.Any(x => x.ID == Obj.Outlet.ID);
+            bool referenceIsValid = outletsEnumerable.Any(x => x.ID == audioFileOutput.Outlet.ID);
 
             if (!referenceIsValid)
             {
-                ValidationMessages.AddNotInListMessage(nameof(Outlet), ResourceFormatter.Outlet, Obj.Outlet.ID);
+                ValidationMessages.AddNotInListMessage(nameof(Outlet), ResourceFormatter.Outlet, audioFileOutput.Outlet.ID);
             }
         }
     }

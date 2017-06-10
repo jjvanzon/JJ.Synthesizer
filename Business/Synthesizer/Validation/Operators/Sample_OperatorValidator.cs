@@ -18,14 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 new[] { DimensionEnum.Frequency },
                 new[] { DimensionEnum.Sound },
                 expectedDataKeys: new[] { nameof(Sample_OperatorWrapper.SampleID) })
-        { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
-            Operator op = Obj;
-
+        { 
             if (!DataPropertyParser.DataIsWellFormed(op))
             {
                 return;
@@ -35,8 +28,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             For(() => sampleIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.Sample)).IsInteger();
 
-            int sampleID;
-            if (!int.TryParse(sampleIDString, out sampleID))
+            if (!int.TryParse(sampleIDString, out int sampleID))
             {
                 return;
             }

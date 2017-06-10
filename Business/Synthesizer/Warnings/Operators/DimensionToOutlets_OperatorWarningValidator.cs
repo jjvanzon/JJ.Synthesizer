@@ -8,14 +8,9 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class DimensionToOutlets_OperatorWarningValidator : VersatileValidator<Operator>
     {
-        public DimensionToOutlets_OperatorWarningValidator([NotNull] Operator obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            Operator op = Obj;
-
+        public DimensionToOutlets_OperatorWarningValidator([NotNull] Operator op)
+            : base(op)
+        { 
             // ReSharper disable once InvertIf
             Inlet inlet = op.Inlets.FirstOrDefault();
             if (inlet != null)

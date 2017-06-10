@@ -6,15 +6,12 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal class NodeValidator_WithoutParent : VersatileValidator<Node>
     {
-        public NodeValidator_WithoutParent(Node obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            For(() => Obj.NodeType, ResourceFormatter.NodeType).NotNull();
-            For(() => Obj.X, ResourceFormatter.X).NotNaN().NotInfinity();
-            For(() => Obj.Y, ResourceFormatter.Y).NotNaN().NotInfinity();
+        public NodeValidator_WithoutParent(Node node)
+            : base(node)
+        { 
+            For(() => node.NodeType, ResourceFormatter.NodeType).NotNull();
+            For(() => node.X, ResourceFormatter.X).NotNaN().NotInfinity();
+            For(() => node.Y, ResourceFormatter.Y).NotNaN().NotInfinity();
         }
     }
 }

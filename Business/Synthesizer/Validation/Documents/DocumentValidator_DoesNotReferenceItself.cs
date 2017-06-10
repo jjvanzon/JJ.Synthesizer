@@ -8,14 +8,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 {
     internal class DocumentValidator_DoesNotReferenceItself : VersatileValidator<Document>
     {
-        public DocumentValidator_DoesNotReferenceItself([NotNull] Document obj) 
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            Document document = Obj;
-
+        public DocumentValidator_DoesNotReferenceItself([NotNull] Document document) 
+            : base(document)
+        { 
             bool referencesItself = document.LowerDocumentReferences.Any(x => x.LowerDocument?.ID == document.ID);
             if (referencesItself)
             {

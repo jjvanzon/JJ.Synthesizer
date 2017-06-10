@@ -15,20 +15,17 @@ namespace JJ.Business.Synthesizer.Validation.Samples
         /// </summary>
         public SampleValidator_UniqueName(Sample obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
         {
-            if (Obj.Document == null)
+            if (obj.Document == null)
             {
                 return;
             }
 
-            bool isUnique = ValidationHelper.SampleNameIsUnique(Obj);
+            bool isUnique = ValidationHelper.SampleNameIsUnique(obj);
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                ValidationMessages.AddNotUniqueMessageSingular(nameof(Obj.Name), CommonResourceFormatter.Name, Obj.Name);
+                ValidationMessages.AddNotUniqueMessageSingular(nameof(obj.Name), CommonResourceFormatter.Name, obj.Name);
             }
         }
     }

@@ -8,13 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Scales
     {
         public ScaleValidator_InDocument(Scale obj)
             : base(obj)
-        { }
+        { 
+            For(() => obj.Document, ResourceFormatter.Document).NotNull();
 
-        protected override void Execute()
-        {
-            For(() => Obj.Document, ResourceFormatter.Document).NotNull();
-
-            ExecuteValidator(new NameValidator(Obj.Name));
+            ExecuteValidator(new NameValidator(obj.Name));
         }
     }
 }

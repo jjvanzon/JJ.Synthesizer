@@ -10,11 +10,8 @@ namespace JJ.Business.Synthesizer.Validation.Scales
     {
         public LiteralFrequency_ScaleValidator(Scale obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            For(() => Obj.GetScaleTypeEnum(), ResourceFormatter.ScaleType).Is(ScaleTypeEnum.LiteralFrequency);
+        { 
+            For(() => obj.GetScaleTypeEnum(), ResourceFormatter.ScaleType).Is(ScaleTypeEnum.LiteralFrequency);
         }
     }
 }

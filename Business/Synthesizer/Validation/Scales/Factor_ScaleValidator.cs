@@ -10,12 +10,9 @@ namespace JJ.Business.Synthesizer.Validation.Scales
     {
         public Factor_ScaleValidator(Scale obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            For(() => Obj.BaseFrequency, ResourceFormatter.BaseFrequency).NotNull();
-            For(() => Obj.GetScaleTypeEnum(), ResourceFormatter.ScaleType).Is(ScaleTypeEnum.Factor);
+        { 
+            For(() => obj.BaseFrequency, ResourceFormatter.BaseFrequency).NotNull();
+            For(() => obj.GetScaleTypeEnum(), ResourceFormatter.ScaleType).Is(ScaleTypeEnum.Factor);
         }
     }
 }

@@ -12,11 +12,8 @@ namespace JJ.Presentation.Synthesizer.Validators
     {
         public OperatorPropertiesViewModel_ForPatchOutlet_Validator(OperatorPropertiesViewModel_ForPatchOutlet obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            For(() => Obj.Number, ResourceFormatter.Number).GreaterThanOrEqual(1);
+        { 
+            For(() => obj.Number, ResourceFormatter.Number).GreaterThanOrEqual(1);
         }
     }
 }

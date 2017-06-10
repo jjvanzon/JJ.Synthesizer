@@ -11,35 +11,22 @@ namespace JJ.Business.Synthesizer.Warnings
 {
     internal class DocumentWarningValidator_Recursive : VersatileValidator<Document>
     {
-        private readonly ICurveRepository _curveRepository;
-        private readonly ISampleRepository _sampleRepository;
-        private readonly HashSet<object> _alreadyDone;
-
         public DocumentWarningValidator_Recursive(
             [NotNull] Document document,
             [NotNull] ICurveRepository curveRepository,
             [NotNull] ISampleRepository sampleRepository,
             [NotNull] HashSet<object> alreadyDone)
-            : base(document, postponeExecute: true)
+            : base(document)
         {
-            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
-            _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
-            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (alreadyDone == null) throw new AlreadyDoneIsNullException();
+            if (curveRepository == null) throw new NullException(() => curveRepository);
 
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Execute();
-        }
-
-
-        protected override void Execute()
-        {
-            Document document = Obj;
-
-            if (_alreadyDone.Contains(document))
+            if (alreadyDone.Contains(document))
             {
                 return;
             }
-            _alreadyDone.Add(document);
+            alreadyDone.Add(document);
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {
@@ -58,16 +45,16 @@ namespace JJ.Business.Synthesizer.Warnings
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
                 ExecuteValidator(
-                    new PatchWarningValidator_WithRelatedEntities(patch, _sampleRepository, _curveRepository, _alreadyDone),
+                    new PatchWarningValidator_WithRelatedEntities(patch, sampleRepository, curveRepository, alreadyDone),
                     messagePrefix);
             }
 
             foreach (Sample sample in document.Samples)
             {
-                byte[] bytes = _sampleRepository.TryGetBytes(sample.ID);
+                byte[] bytes = sampleRepository.TryGetBytes(sample.ID);
 
                 string messagePrefix = ValidationHelper.GetMessagePrefix(sample);
-                ExecuteValidator(new SampleWarningValidator(sample, bytes, _alreadyDone), messagePrefix);
+                ExecuteValidator(new SampleWarningValidator(sample, bytes, alreadyDone), messagePrefix);
             }
 
             // TODO:

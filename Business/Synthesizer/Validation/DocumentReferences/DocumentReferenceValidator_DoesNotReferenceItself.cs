@@ -7,16 +7,13 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
     internal class DocumentReferenceValidator_DoesNotReferenceItself : VersatileValidator<DocumentReference>
     {
-        public DocumentReferenceValidator_DoesNotReferenceItself([NotNull] DocumentReference obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
+        public DocumentReferenceValidator_DoesNotReferenceItself([NotNull] DocumentReference entity)
+            : base(entity)
+        { 
             // ReSharper disable once InvertIf
-            if (MustValidate(Obj))
+            if (MustValidate(entity))
             {
-                DocumentReference documentReference = Obj;
+                DocumentReference documentReference = entity;
                 bool referencesItself = documentReference.HigherDocument.ID == documentReference.LowerDocument.ID;
                 if (referencesItself)
                 {

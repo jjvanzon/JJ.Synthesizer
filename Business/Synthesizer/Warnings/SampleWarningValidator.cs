@@ -10,42 +10,33 @@ namespace JJ.Business.Synthesizer.Warnings
 {
     internal class SampleWarningValidator : VersatileValidator<Sample>
     {
-        private readonly byte[] _bytes;
-        private readonly HashSet<object> _alreadyDone;
-
         /// <param name="bytes">nullable</param>
-        public SampleWarningValidator(Sample obj, byte[] bytes, HashSet<object> alreadyDone)
-            : base(obj, postponeExecute: true)
+        public SampleWarningValidator(Sample sample, byte[] bytes, HashSet<object> alreadyDone)
+            : base(sample)
         {
-            _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
-            _bytes = bytes;
+            if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Execute();
-        }
 
-        protected override void Execute()
-        {
-            if (_alreadyDone.Contains(Obj))
+            if (alreadyDone.Contains(sample))
             {
                 return;
             }
-            _alreadyDone.Add(Obj);
+            alreadyDone.Add(sample);
 
-            For(() => Obj.Amplifier, ResourceFormatter.Amplifier).IsNot(0.0);
+            For(() => sample.Amplifier, ResourceFormatter.Amplifier).IsNot(0.0);
 
-            if (!Obj.IsActive)
+            if (!sample.IsActive)
             {
-                ValidationMessages.Add(() => Obj.Amplifier, ResourceFormatter.NotActive);
+                ValidationMessages.Add(() => sample.Amplifier, ResourceFormatter.NotActive);
             }
 
-            if (_bytes == null)
+            if (bytes == null)
             {
-                ValidationMessages.Add(() => _bytes, ResourceFormatter.NotLoaded);
+                ValidationMessages.Add(() => bytes, ResourceFormatter.NotLoaded);
             }
-            else if (_bytes.Length == 0)
+            else if (bytes.Length == 0)
             {
-                ValidationMessages.Add(() => _bytes.Length, ValidationResourceFormatter.IsZero(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Samples)));
+                ValidationMessages.Add(() => bytes.Length, ValidationResourceFormatter.IsZero(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Samples)));
             }
         }
     }

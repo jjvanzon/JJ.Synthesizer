@@ -93,19 +93,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorValidator) },
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorValidator) },
         };
-
-        public Versatile_OperatorValidator(Operator obj)
-            : base(obj, postponeExecute: true)
+        
+        public Versatile_OperatorValidator(Operator op)
+            : base(op)
         {
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Execute();
-        }
+            ExecuteValidator(new Basic_OperatorValidator(op));
 
-        protected override void Execute()
-        {
-            ExecuteValidator(new Basic_OperatorValidator(Obj));
-
-            OperatorTypeEnum operatorTypeEnum = Obj.GetOperatorTypeEnum();
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
             switch (operatorTypeEnum)
             {
@@ -113,24 +107,25 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     break;
 
                 case OperatorTypeEnum.Absolute:
-                    ExecuteValidator(new OperatorValidator_BootStrapped(Obj));
+                    ExecuteValidator(new OperatorValidator_BootStrapped(op));
                     break;
 
                 case OperatorTypeEnum.CustomOperator:
-                    ExecuteValidator(new CustomOperator_OperatorValidator(Obj));
+                    ExecuteValidator(new CustomOperator_OperatorValidator(op));
                     break;
 
                 default:
                     Type validatorType;
                     if (!_validatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
                     {
-                        throw new Exception($"_validatorTypeDictionary does not contain key OperatorTypeEnum '{operatorTypeEnum}'.");
+                        throw new Exception($"{nameof(_validatorTypeDictionary)} does not contain key {nameof(OperatorTypeEnum)} '{operatorTypeEnum}'.");
                     }
                     else
                     {
                         if (validatorType != null)
                         {
-                            ExecuteValidator(validatorType);
+                            var validator = (IValidator)Activator.CreateInstance(validatorType, op);
+                            ExecuteValidator(validator);
                         }
                     }
                     break;

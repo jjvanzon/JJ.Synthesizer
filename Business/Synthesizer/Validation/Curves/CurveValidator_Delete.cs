@@ -15,26 +15,17 @@ namespace JJ.Business.Synthesizer.Validation.Curves
 {
     internal class CurveValidator_Delete : VersatileValidator<Curve>
     {
-        private readonly ICurveRepository _curveRepository;
-
         public CurveValidator_Delete([NotNull] Curve curve, [NotNull] ICurveRepository curveRepository)
-            : base(curve, postponeExecute: true)
+            : base(curve)
         {
-            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-
-            Execute();
-        }
-
-        protected sealed override void Execute()
-        {
-            Curve curve = Obj;
+            if (curveRepository == null) throw new NullException(() => curveRepository);
 
             string curveIdentifier = ResourceFormatter.Curve + " " + ValidationHelper.GetUserFriendlyIdentifier(curve);
 
-            foreach (Operator op in EnumerateCurveOperators(curve))
+            foreach (Operator op in EnumerateCurveOperators(curve, curveRepository))
             {
                 string patchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
-                string operatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForCurveOperator(op, _curveRepository);
+                string operatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForCurveOperator(op, curveRepository);
 
                 ValidationMessages.Add(
                     nameof(Curve),
@@ -42,7 +33,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
             }
         }
 
-        private IEnumerable<Operator> EnumerateCurveOperators([NotNull] Curve curve)
+        private IEnumerable<Operator> EnumerateCurveOperators([NotNull] Curve curve, ICurveRepository curveRepository)
         {
             if (curve == null) throw new NullException(() => curve);
             if (curve.Document == null)
@@ -57,7 +48,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
                     continue;
                 }
 
-                var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
+                var wrapper = new Curve_OperatorWrapper(op, curveRepository);
 
                 if (wrapper.Curve == curve ||
                     wrapper.CurveID == curve.ID)

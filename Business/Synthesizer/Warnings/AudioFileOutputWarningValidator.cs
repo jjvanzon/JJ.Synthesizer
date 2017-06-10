@@ -8,13 +8,10 @@ namespace JJ.Business.Synthesizer.Warnings
     {
         public AudioFileOutputWarningValidator(AudioFileOutput obj)
             : base(obj)
-        { }
+        { 
+            AudioFileOutput audioFileOutput = obj;
 
-        protected override void Execute()
-        {
-            AudioFileOutput audioFileOutput = Obj;
-
-            For(() => Obj.Outlet, ResourceFormatter.Outlet).NotNull();
+            For(() => obj.Outlet, ResourceFormatter.Outlet).NotNull();
             For(() => audioFileOutput.Amplifier, ResourceFormatter.Amplifier).IsNot(0.0);
         }
     }

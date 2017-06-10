@@ -5,36 +5,33 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal class WavHeaderStructValidator : VersatileValidator<WavHeaderStruct>
     {
-        public WavHeaderStructValidator(WavHeaderStruct obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            For(() => Obj.ChunkID, nameof(Obj.ChunkID)).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_RIFF);
-            For(() => Obj.Format, nameof(Obj.Format)).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_WAVE);
-            For(() => Obj.SubChunk1ID, nameof(Obj.SubChunk1ID)).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_FMT_SPACE_LOWERCASE);
-            For(() => Obj.SubChunk1Size, nameof(Obj.SubChunk1Size)).Is(WavHeaderConstants.SUB_CHUNK_1_SIZE);
-            For(() => Obj.AudioFormat, nameof(Obj.AudioFormat)).Is(WavHeaderConstants.AUDIO_FORMAT_INDICATOR_PCM);
-            For(() => Obj.SubChunk2ID, nameof(Obj.SubChunk2ID)).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_DATA_LOWERCASE);
+        public WavHeaderStructValidator(WavHeaderStruct wavHeaderStruct)
+            : base(wavHeaderStruct)
+        { 
+            For(() => wavHeaderStruct.ChunkID, nameof(wavHeaderStruct.ChunkID)).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_RIFF);
+            For(() => wavHeaderStruct.Format, nameof(wavHeaderStruct.Format)).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_WAVE);
+            For(() => wavHeaderStruct.SubChunk1ID, nameof(wavHeaderStruct.SubChunk1ID)).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_FMT_SPACE_LOWERCASE);
+            For(() => wavHeaderStruct.SubChunk1Size, nameof(wavHeaderStruct.SubChunk1Size)).Is(WavHeaderConstants.SUB_CHUNK_1_SIZE);
+            For(() => wavHeaderStruct.AudioFormat, nameof(wavHeaderStruct.AudioFormat)).Is(WavHeaderConstants.AUDIO_FORMAT_INDICATOR_PCM);
+            For(() => wavHeaderStruct.SubChunk2ID, nameof(wavHeaderStruct.SubChunk2ID)).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_DATA_LOWERCASE);
 
             // For the moment only support 1 or 2 channels
-            For(() => (int)Obj.ChannelCount, nameof(Obj.ChannelCount)).GreaterThanOrEqual(1).LessThanOrEqual(2);
+            For(() => (int)wavHeaderStruct.ChannelCount, nameof(wavHeaderStruct.ChannelCount)).GreaterThanOrEqual(1).LessThanOrEqual(2);
 
             // For the moment only support 8 bit and 16 bit integers.
-            For(() => (int)Obj.BitsPerValue, nameof(Obj.BitsPerValue)).In(8, 16);
+            For(() => (int)wavHeaderStruct.BitsPerValue, nameof(wavHeaderStruct.BitsPerValue)).In(8, 16);
 
-            For(() => Obj.SamplingRate, nameof(Obj.SamplingRate)).GreaterThan(0);
+            For(() => wavHeaderStruct.SamplingRate, nameof(wavHeaderStruct.SamplingRate)).GreaterThan(0);
 
-            For(() => (int)Obj.BytesPerSample, nameof(Obj.BytesPerSample))
-                .Is(Obj.ChannelCount * Obj.BitsPerValue / 8);
+            For(() => (int)wavHeaderStruct.BytesPerSample, nameof(wavHeaderStruct.BytesPerSample))
+                .Is(wavHeaderStruct.ChannelCount * wavHeaderStruct.BitsPerValue / 8);
 
-            For(() => Obj.BytesPerSecond, nameof(Obj.BytesPerSecond))
-                .Is(Obj.ChannelCount * Obj.BitsPerValue / 8 * Obj.SamplingRate);
+            For(() => wavHeaderStruct.BytesPerSecond, nameof(wavHeaderStruct.BytesPerSecond))
+                .Is(wavHeaderStruct.ChannelCount * wavHeaderStruct.BitsPerValue / 8 * wavHeaderStruct.SamplingRate);
 
             // ChunkSize = total size of file minus ChunkID and ChunkSize.
-            For(() => Obj.ChunkSize, nameof(Obj.ChunkSize))
-                .Is(WavHeaderConstants.WAV_HEADER_LENGTH - sizeof(int) * 2 + Obj.SubChunk2Size);
+            For(() => wavHeaderStruct.ChunkSize, nameof(wavHeaderStruct.ChunkSize))
+                .Is(WavHeaderConstants.WAV_HEADER_LENGTH - sizeof(int) * 2 + wavHeaderStruct.SubChunk2Size);
         }
     }
 }

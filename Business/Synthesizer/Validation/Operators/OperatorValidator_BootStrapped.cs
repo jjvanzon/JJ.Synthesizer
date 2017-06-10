@@ -8,15 +8,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public OperatorValidator_BootStrapped([NotNull] Operator op) 
             : base(op)
-        { }
-
-        protected override void Execute()
-        {
-            Operator op = Obj;
-
+        { 
             For(() => op.OperatorType, ResourceFormatter.OperatorType).IsNull();
-
-            base.Execute();
         }
     }
 }

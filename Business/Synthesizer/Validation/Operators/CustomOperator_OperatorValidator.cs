@@ -9,15 +9,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public CustomOperator_OperatorValidator(Operator op)
             : base(op)
-        { }
-
-        protected override void Execute()
-        {
-            Operator op = Obj;
-
+        { 
             For(() => op.GetOperatorTypeEnum(), ResourceFormatter.OperatorType).Is(OperatorTypeEnum.CustomOperator);
-
-            base.Execute();
         }
     }
 }

@@ -22,13 +22,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   expectedInletDimensionEnums,
                   expectedOutletDimensionEnums,
                   expectedDataKeys: new string[0])
-        { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
-            For(() => Obj.Data, ResourceFormatter.Data).IsNullOrEmpty();
+        { 
+            For(() => obj.Data, ResourceFormatter.Data).IsNullOrEmpty();
         }
     }
 }

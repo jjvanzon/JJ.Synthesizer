@@ -7,11 +7,8 @@ namespace JJ.Business.Synthesizer.Validation.Scales
     {
         public ScaleValidator_Tones(Scale obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            foreach (Tone tone in Obj.Tones)
+        { 
+            foreach (Tone tone in obj.Tones)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(tone);
                 ExecuteValidator(new ToneValidator(tone), messagePrefix);

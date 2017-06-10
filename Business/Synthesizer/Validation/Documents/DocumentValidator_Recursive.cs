@@ -15,35 +15,25 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 {
     internal class DocumentValidator_Recursive : VersatileValidator<Document>
     {
-        private readonly HashSet<object> _alreadyDone;
-        private readonly RepositoryWrapper _repositories;
-
         public DocumentValidator_Recursive(
             Document document,
             [NotNull] RepositoryWrapper repositories,
             HashSet<object> alreadyDone)
-            : base(document, postponeExecute: true)
+            : base(document)
         {
-            _repositories = repositories ?? throw new NullException(() => repositories);
-            _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
+            if (repositories == null) throw new NullException(() => repositories);
+            if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
-            Execute();
-        }
-
-        protected sealed override void Execute()
-        {
-            Document document = Obj;
-
-            if (_alreadyDone.Contains(document))
+            if (alreadyDone.Contains(document))
             {
                 return;
             }
-            _alreadyDone.Add(document);
+            alreadyDone.Add(document);
 
             ExecuteValidator(new DocumentValidator_Basic(document));
-            ExecuteValidator(new DocumentValidator_Unicity(document, _repositories.DocumentRepository));
+            ExecuteValidator(new DocumentValidator_Unicity(document, repositories.DocumentRepository));
             ExecuteValidator(new DocumentValidator_DoesNotReferenceItself(document));
-            ExecuteValidator(new DocumentValidator_SystemDocumentReferenceMustExist(document, _repositories));
+            ExecuteValidator(new DocumentValidator_SystemDocumentReferenceMustExist(document, repositories));
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {
@@ -57,11 +47,11 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
             foreach (Curve curve in document.Curves)
             {
-                if (_alreadyDone.Contains(curve))
+                if (alreadyDone.Contains(curve))
                 {
                     continue;
                 }
-                _alreadyDone.Add(curve);
+                alreadyDone.Add(curve);
 
                 string messagePrefix = ValidationHelper.GetMessagePrefix(curve);
                 ExecuteValidator(new CurveValidator_WithoutNodes(curve), messagePrefix);
@@ -74,9 +64,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
                 ExecuteValidator(
                     new PatchValidator_WithRelatedEntities(
                         patch,
-                        _repositories.CurveRepository,
-                        _repositories.SampleRepository,
-                        _alreadyDone),
+                        repositories.CurveRepository,
+                        repositories.SampleRepository,
+                        alreadyDone),
                     messagePrefix);
             }
 
@@ -90,11 +80,11 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
             foreach (Sample sample in document.Samples)
             {
-                if (_alreadyDone.Contains(sample))
+                if (alreadyDone.Contains(sample))
                 {
                     continue;
                 }
-                _alreadyDone.Add(sample);
+                alreadyDone.Add(sample);
 
                 ExecuteValidator(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
             }

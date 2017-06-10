@@ -17,13 +17,10 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         public Loop_OperatorWarningValidator(Operator obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
+        { 
             foreach (DimensionEnum dimensionEnum in _dimensionEnumsToCheck)
             {
-                Inlet inlet = InletOutletSelector.TryGetInlet(Obj, dimensionEnum);
+                Inlet inlet = InletOutletSelector.TryGetInlet(obj, dimensionEnum);
                 if (inlet == null)
                 {
                     continue;

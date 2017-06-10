@@ -22,13 +22,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 DimensionEnum.Input.Concat(Enumerable.Repeat(DimensionEnum.Item, itemCount)).ToArray(),
                 new[] { DimensionEnum.Number },
                 expectedDataKeys: new string[0])
-        { }
-
-        protected override void Execute()
         {
-            For(() => Obj.Inlets.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Inlets)).GreaterThanOrEqual(MINIMUM_INLET_COUNT);
-
-            base.Execute();
+            For(() => obj.Inlets.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Inlets)).GreaterThanOrEqual(MINIMUM_INLET_COUNT);
         }
     }
 }

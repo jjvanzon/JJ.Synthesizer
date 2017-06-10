@@ -9,12 +9,9 @@ namespace JJ.Business.Synthesizer.Warnings
     {
         public ScaleWarningValidator(Scale obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            For(() => Obj.BaseFrequency, ResourceFormatter.BaseFrequency).IsNull();
-            For(() => Obj.Tones.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Tone)).GreaterThan(0);
+        { 
+            For(() => obj.BaseFrequency, ResourceFormatter.BaseFrequency).IsNull();
+            For(() => obj.Tones.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Tone)).GreaterThan(0);
         }
     }
 }

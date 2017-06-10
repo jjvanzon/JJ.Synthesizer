@@ -16,50 +16,46 @@ namespace JJ.Business.Synthesizer.Validation.Documents
     {
         private readonly IDocumentRepository _documentRepository;
 
-        public DocumentValidator_Unicity(Document obj, [NotNull] IDocumentRepository documentRepository)
-            : base(obj, postponeExecute: true)
+        public DocumentValidator_Unicity(Document document, [NotNull] IDocumentRepository documentRepository)
+            : base(document)
         {
             _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
 
-            Execute();
-        }
-        protected override void Execute()
-        {
-            ValidateDocumentNameUnique();
-            ValidateAudioFileOutputNamesUnique();
-            ValidatePatchNamesUnique();
-            ValidateSampleNamesUnique();
-            ValidateScaleNamesUnique();
-            ValidateDocumentReferencesUnique();
-            ValidateDocumentReferenceAliasesUnique();
+            ValidateDocumentNameUnique(document);
+            ValidateAudioFileOutputNamesUnique(document);
+            ValidatePatchNamesUnique(document);
+            ValidateSampleNamesUnique(document);
+            ValidateScaleNamesUnique(document);
+            ValidateDocumentReferencesUnique(document);
+            ValidateDocumentReferenceAliasesUnique(document);
         }
 
-        private void ValidateDocumentNameUnique()
+        private void ValidateDocumentNameUnique(Document document)
         {
-            bool isUnique = ValidationHelper.DocumentNameIsUnique(Obj, _documentRepository);
+            bool isUnique = ValidationHelper.DocumentNameIsUnique(document, _documentRepository);
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                ValidationMessages.AddNotUniqueMessageSingular(nameof(Obj.Name), CommonResourceFormatter.Name, Obj.Name);
+                ValidationMessages.AddNotUniqueMessageSingular(nameof(document.Name), CommonResourceFormatter.Name, document.Name);
             }
         }
 
-        private void ValidateAudioFileOutputNamesUnique()
+        private void ValidateAudioFileOutputNamesUnique(Document document)
         {
-            IList<string> duplicateNames = ValidationHelper.GetDuplicateAudioFileOutputNames(Obj);
+            IList<string> duplicateNames = ValidationHelper.GetDuplicateAudioFileOutputNames(document);
             
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
             {
                 string messagePrefix = ResourceFormatter.AudioFileOutput + ": ";
                 string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
-                ValidationMessages.Add(nameof(Obj.AudioFileOutputs), messagePrefix + message);
+                ValidationMessages.Add(nameof(document.AudioFileOutputs), messagePrefix + message);
             }
         }
 
-        private void ValidatePatchNamesUnique()
+        private void ValidatePatchNamesUnique(Document document)
         {
-            IList<string> duplicateNames = ValidationHelper.GetDuplicatePatchNames(Obj);
+            IList<string> duplicateNames = ValidationHelper.GetDuplicatePatchNames(document);
 
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
@@ -70,9 +66,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             }
         }
 
-        private void ValidateSampleNamesUnique()
+        private void ValidateSampleNamesUnique(Document document)
         {
-            IList<string> duplicateNames = ValidationHelper.GetDuplicateSampleNames(Obj);
+            IList<string> duplicateNames = ValidationHelper.GetDuplicateSampleNames(document);
 
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
@@ -83,9 +79,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             }
         }
 
-        private void ValidateScaleNamesUnique()
+        private void ValidateScaleNamesUnique(Document document)
         {
-            IList<string> duplicateNames = ValidationHelper.GetDuplicateScaleNames(Obj);
+            IList<string> duplicateNames = ValidationHelper.GetDuplicateScaleNames(document);
 
             // ReSharper disable once InvertIf
             if (duplicateNames.Count > 0)
@@ -96,9 +92,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             }
         }
 
-        private void ValidateDocumentReferencesUnique()
+        private void ValidateDocumentReferencesUnique(Document document)
         {
-            IList<DocumentReference> duplicates = ValidationHelper.GetDuplicateLowerDocumentReferences(Obj);
+            IList<DocumentReference> duplicates = ValidationHelper.GetDuplicateLowerDocumentReferences(document);
 
             // ReSharper disable once InvertIf
             if (duplicates.Count > 0)
@@ -109,9 +105,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             }
         }
 
-        private void ValidateDocumentReferenceAliasesUnique()
+        private void ValidateDocumentReferenceAliasesUnique(Document document)
         {
-            IList<string> duplicates = ValidationHelper.GetDuplicateLowerDocumentReferenceAliases(Obj);
+            IList<string> duplicates = ValidationHelper.GetDuplicateLowerDocumentReferenceAliases(document);
 
             // ReSharper disable once InvertIf
             if (duplicates.Count > 0)

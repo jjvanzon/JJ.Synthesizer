@@ -8,16 +8,13 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
     {
         public DocumentReferenceValidator_UniqueAlias(DocumentReference obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            bool isUnique = ValidationHelper.DocumentReferenceAliasIsUnique(Obj);
+        { 
+            bool isUnique = ValidationHelper.DocumentReferenceAliasIsUnique(obj);
 
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                ValidationMessages.AddNotUniqueMessageSingular(nameof(DocumentReference.Alias), ResourceFormatter.Alias, Obj.Alias);
+                ValidationMessages.AddNotUniqueMessageSingular(nameof(DocumentReference.Alias), ResourceFormatter.Alias, obj.Alias);
             }
         }
     }

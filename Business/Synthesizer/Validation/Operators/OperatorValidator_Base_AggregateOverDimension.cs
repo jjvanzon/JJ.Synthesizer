@@ -14,13 +14,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 new[] { DimensionEnum.Signal, DimensionEnum.From, DimensionEnum.Till, DimensionEnum.Step },
                 new[] { DimensionEnum.Signal },
                 expectedDataKeys: new[] { nameof(OperatorWrapperBase_AggregateOverDimension.CollectionRecalculation) })
-        { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
-            ExecuteValidator(new CollectionRecalculation_DataProperty_Validator(Obj.Data));
+        { 
+            ExecuteValidator(new CollectionRecalculation_DataProperty_Validator(obj.Data));
         }
     }
 }

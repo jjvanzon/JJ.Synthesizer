@@ -8,14 +8,9 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 {
     internal class DocumentValidator_Delete : VersatileValidator<Document>
     {
-        public DocumentValidator_Delete([NotNull] Document obj)
-            : base(obj)
-        { }
-
-        protected sealed override void Execute()
-        {
-            Document document = Obj;
-
+        public DocumentValidator_Delete([NotNull] Document document)
+            : base(document)
+        { 
             string lowerDocumentIdentifier = ResourceFormatter.Document + " " + ValidationHelper.GetUserFriendlyIdentifier(document);
 
             foreach (DocumentReference higherDocumentReference in document.HigherDocumentReferences)

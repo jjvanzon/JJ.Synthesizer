@@ -8,24 +8,14 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal abstract class OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults : OperatorWarningValidator_Base
     {
-        private readonly int _inletCount;
-
-        public OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults(Operator obj, int inletCount)
-            : base(obj, postponeExecute: true)
+        public OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults(Operator op, int inletCount)
+            : base(op)
         {
-            if (obj == null) throw new NullException(() => obj);
+            if (op == null) throw new NullException(() => op);
             if (inletCount < 0) throw new LessThanException(() => inletCount, 0);
 
-            _inletCount = inletCount;
-
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Execute();
-        }
-
-        protected override void Execute()
-        {
             int i = 0;
-            foreach (Inlet inlet in Obj.Inlets.OrderBy(x => x.ListIndex).Take(_inletCount))
+            foreach (Inlet inlet in op.Inlets.OrderBy(x => x.ListIndex).Take(inletCount))
             {
                 if (inlet.InputOutlet == null && !inlet.DefaultValue.HasValue)
                 {
@@ -33,7 +23,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                     string message = ValidationResourceFormatter.NotFilledIn(identifier);
 
                     // ReSharper disable once AccessToModifiedClosure
-                    ValidationMessages.Add(() => Obj.Inlets[i].InputOutlet, message);
+                    ValidationMessages.Add(() => op.Inlets[i].InputOutlet, message);
                 }
                 i++;
             }

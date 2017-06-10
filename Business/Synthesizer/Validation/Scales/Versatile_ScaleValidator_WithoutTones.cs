@@ -9,30 +9,27 @@ namespace JJ.Business.Synthesizer.Validation.Scales
     {
         public Versatile_ScaleValidator_WithoutTones(Scale obj)
             : base(obj)
-        { }
+        { 
+            ScaleTypeEnum scaleTypeEnum = obj.GetScaleTypeEnum();
 
-        protected override void Execute()
-        {
-            ScaleTypeEnum scaleTypeEnum = Obj.GetScaleTypeEnum();
-
-            ExecuteValidator(new Basic_ScaleValidator(Obj));
+            ExecuteValidator(new Basic_ScaleValidator(obj));
 
             switch (scaleTypeEnum)
             {
                 case ScaleTypeEnum.LiteralFrequency:
-                    ExecuteValidator(new LiteralFrequency_ScaleValidator(Obj));
+                    ExecuteValidator(new LiteralFrequency_ScaleValidator(obj));
                     break;
 
                 case ScaleTypeEnum.Factor:
-                    ExecuteValidator(new Factor_ScaleValidator(Obj));
+                    ExecuteValidator(new Factor_ScaleValidator(obj));
                     break;
 
                 case ScaleTypeEnum.Exponent:
-                    ExecuteValidator(new Exponent_ScaleValidator(Obj));
+                    ExecuteValidator(new Exponent_ScaleValidator(obj));
                     break;
 
                 case ScaleTypeEnum.SemiTone:
-                    ExecuteValidator(new SemiTone_ScaleValidator(Obj));
+                    ExecuteValidator(new SemiTone_ScaleValidator(obj));
                     break;
             }
         }

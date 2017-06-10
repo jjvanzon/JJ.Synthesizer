@@ -98,21 +98,19 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         public Versatile_OperatorWarningValidator(Operator obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            OperatorTypeEnum operatorTypeEnum = Obj.GetOperatorTypeEnum();
+        { 
+            OperatorTypeEnum operatorTypeEnum = obj.GetOperatorTypeEnum();
             Type validatorType;
             if (!_warningValidatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
             {
-                throw new Exception($"_warningValidatorTypeDictionary does not contain key OperatorTypeEnum '{operatorTypeEnum}'.");
+                throw new Exception($"{nameof(_warningValidatorTypeDictionary)} does not contain key {nameof(OperatorTypeEnum)} '{operatorTypeEnum}'.");
             }
             else
             {
                 if (validatorType != null)
                 {
-                    ExecuteValidator(validatorType);
+                    var validator = (IValidator)Activator.CreateInstance(validatorType, obj);
+                    ExecuteValidator(validator);
                 }
             }
         }

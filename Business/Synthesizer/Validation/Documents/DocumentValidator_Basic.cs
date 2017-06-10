@@ -8,13 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Documents
     {
         public DocumentValidator_Basic(Document obj)
             : base(obj)
-        { }
+        { 
+            For(() => obj.AudioOutput, ResourceFormatter.AudioOutput).NotNull();
 
-        protected override void Execute()
-        {
-            For(() => Obj.AudioOutput, ResourceFormatter.AudioOutput).NotNull();
-
-            ExecuteValidator(new NameValidator(Obj.Name), ValidationHelper.GetMessagePrefix(Obj));
+            ExecuteValidator(new NameValidator(obj.Name), ValidationHelper.GetMessagePrefix(obj));
         }
     }
 }

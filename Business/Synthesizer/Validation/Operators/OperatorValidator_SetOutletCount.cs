@@ -13,25 +13,15 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class OperatorValidator_SetOutletCount : VersatileValidator<Operator>
     {
-        private readonly int _newOutletCount;
         private static readonly OperatorTypeEnum[] _allowedOperatorTypeEnums =
         {
             OperatorTypeEnum.DimensionToOutlets,
             OperatorTypeEnum.RangeOverOutlets
         };
 
-        public OperatorValidator_SetOutletCount(Operator obj, int newOutletCount)
-            : base(obj, postponeExecute: true)
+        public OperatorValidator_SetOutletCount(Operator op, int newOutletCount)
+            : base(op)
         {
-            _newOutletCount = newOutletCount;
-
-            Execute();
-        }
-
-        protected sealed override void Execute()
-        {
-            Operator op = Obj;
-
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
             if (!_allowedOperatorTypeEnums.Contains(operatorTypeEnum))
             {
@@ -39,11 +29,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 ValidationMessages.Add(() => op.OperatorType, message);
             }
 
-            For(_newOutletCount, PropertyNames.OutletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets))
+            For(newOutletCount, PropertyNames.OutletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets))
                 .GreaterThan(0);
 
             IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();
-            for (int i = _newOutletCount; i < sortedOutlets.Count; i++)
+            for (int i = newOutletCount; i < sortedOutlets.Count; i++)
             {
                 Outlet outlet = sortedOutlets[i];
 

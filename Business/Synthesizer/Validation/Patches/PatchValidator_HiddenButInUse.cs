@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Business.Synthesizer.Extensions;
@@ -9,14 +8,9 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 {
     internal class PatchValidator_HiddenButInUse : VersatileValidator<Patch>
     {
-        public PatchValidator_HiddenButInUse(Patch entity)
-            : base(entity)
-        { }
-
-        protected override void Execute()
-        {
-            Patch lowerPatch = Obj;
-
+        public PatchValidator_HiddenButInUse(Patch lowerPatch)
+            : base(lowerPatch)
+        { 
             // ReSharper disable once InvertIf
             if (lowerPatch.Hidden)
             {

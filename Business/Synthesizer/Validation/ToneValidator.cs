@@ -8,12 +8,9 @@ namespace JJ.Business.Synthesizer.Validation
     {
         public ToneValidator(Tone obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            For(() => Obj.Scale, ResourceFormatter.Scale).NotNull();
-            For(() => Obj.Number, ResourceFormatter.Number).NotNaN().NotInfinity();
+        { 
+            For(() => obj.Scale, ResourceFormatter.Scale).NotNull();
+            For(() => obj.Number, ResourceFormatter.Number).NotNaN().NotInfinity();
         }
     }
 }

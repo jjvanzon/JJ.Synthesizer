@@ -9,15 +9,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class OperatorValidator_IsCircular : VersatileValidator<Operator>
     {
         public OperatorValidator_IsCircular(Operator op)
-            : base(op, postponeExecute: true)
+            : base(op)
         {
-            Execute();
-        }
-
-        protected sealed override void Execute()
-        {
-            Operator op = Obj;
-
             if (op.IsCircular())
             {
                 ValidationMessages.Add(() => op, ResourceFormatter.CircularReference);

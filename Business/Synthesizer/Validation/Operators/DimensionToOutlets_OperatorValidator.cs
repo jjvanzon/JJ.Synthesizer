@@ -14,13 +14,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 OperatorTypeEnum.DimensionToOutlets,
                 new[] { DimensionEnum.Signal },
                 Enumerable.Repeat(DimensionEnum.Item, obj?.Outlets.Count ?? 0).ToArray())
-        { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
-            For(() => Obj.Outlets.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets)).GreaterThan(0);
+        { 
+            For(() => obj.Outlets.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets)).GreaterThan(0);
         }
     }
 }

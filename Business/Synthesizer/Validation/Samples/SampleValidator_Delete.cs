@@ -15,25 +15,17 @@ namespace JJ.Business.Synthesizer.Validation.Samples
 {
     internal class SampleValidator_Delete : VersatileValidator<Sample>
     {
-        private readonly ISampleRepository _sampleRepository;
-
-        public SampleValidator_Delete([NotNull] Sample obj, [NotNull] ISampleRepository sampleRepository)
-            : base(obj, postponeExecute: true)
+        public SampleValidator_Delete([NotNull] Sample sample, [NotNull] ISampleRepository sampleRepository)
+            : base(sample)
         {
-            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Execute();
-        }
+            string sampleIdentifier = ResourceFormatter.Sample + " " + ValidationHelper.GetUserFriendlyIdentifier(sample);
 
-        protected override void Execute()
-        {
-            string sampleIdentifier = ResourceFormatter.Sample + " " + ValidationHelper.GetUserFriendlyIdentifier(Obj);
-
-            foreach (Operator op in EnumerateSampleOperators(Obj))
+            foreach (Operator op in EnumerateSampleOperators(sample, sampleRepository))
             {
                 string patchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
-                string operatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForSampleOperator(op, _sampleRepository);
+                string operatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForSampleOperator(op, sampleRepository);
 
                 ValidationMessages.Add(
                     nameof(Sample),
@@ -41,7 +33,7 @@ namespace JJ.Business.Synthesizer.Validation.Samples
             }
         }
 
-        private IEnumerable<Operator> EnumerateSampleOperators([NotNull] Sample sample)
+        private IEnumerable<Operator> EnumerateSampleOperators([NotNull] Sample sample, ISampleRepository sampleRepository)
         {
             if (sample == null) throw new NullException(() => sample);
             if (sample.Document == null)
@@ -56,7 +48,7 @@ namespace JJ.Business.Synthesizer.Validation.Samples
                     continue;
                 }
 
-                var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
+                var wrapper = new Sample_OperatorWrapper(op, sampleRepository);
 
                 if (wrapper.Sample == sample ||
                     wrapper.SampleID == sample.ID)

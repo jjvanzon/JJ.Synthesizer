@@ -14,10 +14,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class OperatorValidator_WithUnderlyingEntities : ValidatorBase<Operator>
     {
-        private readonly ICurveRepository _curveRepository;
-        private readonly ISampleRepository _sampleRepository;
-        private readonly HashSet<object> _alreadyDone;
-
         /// <summary>
         /// Validates an operator, but not its descendant operators.
         /// Does validate underlying curves and samples.
@@ -29,28 +25,21 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         /// such as a patch.
         /// </summary>
         public OperatorValidator_WithUnderlyingEntities(
-            [NotNull] Operator obj,
+            [NotNull] Operator op,
             [NotNull] ICurveRepository curveRepository,
             [NotNull] ISampleRepository sampleRepository,
             [NotNull] HashSet<object> alreadyDone)
-            : base(obj, postponeExecute: true)
+            : base(op)
         {
-            _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
-            _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
-            Execute();
-        }
-
-        protected sealed override void Execute()
-        {
-            Operator op = Obj;
-
-            if (_alreadyDone.Contains(op))
+            if (alreadyDone.Contains(op))
             {
                 return;
             }
-            _alreadyDone.Add(op);
+            alreadyDone.Add(op);
 
             ExecuteValidator(new Versatile_OperatorValidator(op));
 
@@ -61,12 +50,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 int curveID;
                 if (int.TryParse(op.Data, out curveID))
                 {
-                    Curve curve = _curveRepository.TryGet(curveID);
+                    Curve curve = curveRepository.TryGet(curveID);
                     if (curve != null)
                     {
-                        if (!_alreadyDone.Contains(curve))
+                        if (!alreadyDone.Contains(curve))
                         {
-                            _alreadyDone.Add(curve);
+                            alreadyDone.Add(curve);
 
                             string curveMessagePrefix = ValidationHelper.GetMessagePrefix(curve);
 
@@ -82,12 +71,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 int sampleID;
                 if (int.TryParse(op.Data, out sampleID))
                 {
-                    Sample sample = _sampleRepository.TryGet(sampleID);
+                    Sample sample = sampleRepository.TryGet(sampleID);
                     if (sample != null)
                     {
-                        if (!_alreadyDone.Contains(sample))
+                        if (!alreadyDone.Contains(sample))
                         {
-                            _alreadyDone.Add(sample);
+                            alreadyDone.Add(sample);
                             ExecuteValidator(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
                         }
                     }

@@ -12,18 +12,13 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
     {
         public Spectrum_OperatorWarningValidator(Operator obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
+        { 
             double? signal = null;
             double? start = null;
             double? end = null;
             double? frequencyCount = null;
 
-            foreach (Inlet inlet in Obj.Inlets)
+            foreach (Inlet inlet in obj.Inlets)
             {
                 double? number = inlet.TryGetConstantNumber();
 

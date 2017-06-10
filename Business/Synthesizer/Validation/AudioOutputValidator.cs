@@ -8,15 +8,12 @@ namespace JJ.Business.Synthesizer.Validation
     {
         public AudioOutputValidator(AudioOutput obj)
             : base(obj)
-        { }
+        { 
+            For(() => obj.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
+            For(() => obj.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
+            For(() => obj.MaxConcurrentNotes, ResourceFormatter.MaxConcurrentNotes).GreaterThan(0);
 
-        protected override void Execute()
-        {
-            For(() => Obj.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
-            For(() => Obj.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
-            For(() => Obj.MaxConcurrentNotes, ResourceFormatter.MaxConcurrentNotes).GreaterThan(0);
-
-            For(() => Obj.DesiredBufferDuration, ResourceFormatter.DesiredBufferDuration)
+            For(() => obj.DesiredBufferDuration, ResourceFormatter.DesiredBufferDuration)
                 .NotNaN()
                 .NotInfinity()
                 .GreaterThan(0);

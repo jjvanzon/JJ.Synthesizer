@@ -10,8 +10,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
     /// </summary>
     internal abstract class OperatorWarningValidator_Base : VersatileValidator<Operator>
     {
-        public OperatorWarningValidator_Base([NotNull] Operator op, bool postponeExecute = false)
-            : base(op, postponeExecute)
+        public OperatorWarningValidator_Base([NotNull] Operator op)
+            : base(op)
         { }
     }
 }

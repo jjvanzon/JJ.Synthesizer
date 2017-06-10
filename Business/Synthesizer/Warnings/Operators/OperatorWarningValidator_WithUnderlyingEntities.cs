@@ -11,9 +11,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class OperatorWarningValidator_WithUnderlyingEntities : VersatileValidator<Operator>
     {
-        private readonly ISampleRepository _sampleRepository;
-        private readonly HashSet<object> _alreadyDone;
-
         /// <summary>
         /// Validates an operator, but not its descendant operators.
         /// Does validate underlying curves and samples.
@@ -25,35 +22,28 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         /// such as a patch.
         /// </summary>
         public OperatorWarningValidator_WithUnderlyingEntities(
-            [NotNull] Operator obj,
+            [NotNull] Operator op,
             [NotNull] ISampleRepository sampleRepository,
             [CanBeNull] HashSet<object> alreadyDone = null)
-            : base(obj, postponeExecute: true)
+            : base(op)
         {
-            _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
-            _alreadyDone = alreadyDone ?? new HashSet<object>();
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            alreadyDone = alreadyDone ?? new HashSet<object>();
 
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Execute();
-        }
+            if (alreadyDone.Contains(op)) return;
+            alreadyDone.Add(op);
 
-        protected override void Execute()
-        {
-            if (_alreadyDone.Contains(Obj)) return;
-            _alreadyDone.Add(Obj);
+            ExecuteValidator(new Versatile_OperatorWarningValidator(op));
 
-            ExecuteValidator(new Versatile_OperatorWarningValidator(Obj));
-
-            if (Obj.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
+            if (op.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
             {
-                int sampleID;
-                if (int.TryParse(Obj.Data, out sampleID))
+                if (int.TryParse(op.Data, out int sampleID))
                 {
-                    Sample sample = _sampleRepository.TryGet(sampleID);
+                    Sample sample = sampleRepository.TryGet(sampleID);
                     if (sample != null)
                     {
-                        byte[] bytes = _sampleRepository.TryGetBytes(sampleID);
-                        ExecuteValidator(new SampleWarningValidator(sample, bytes, _alreadyDone));
+                        byte[] bytes = sampleRepository.TryGetBytes(sampleID);
+                        ExecuteValidator(new SampleWarningValidator(sample, bytes, alreadyDone));
                     }
                 }
             }

@@ -27,20 +27,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private static readonly IList<string> _allowedOperatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceFormatter.GetDisplayName(x)).ToArray();
 
-        private readonly int _newInletCount;
-
-        public OperatorValidator_SetInletCount(Operator obj, int newInletCount)
-            : base(obj, postponeExecute: true)
+        public OperatorValidator_SetInletCount(Operator op, int newInletCount)
+            : base(op)
         {
-            _newInletCount = newInletCount;
-
-            Execute();
-        }
-
-        protected sealed override void Execute()
-        {
-            Operator op = Obj;
-
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
             if (!_allowedOperatorTypeEnums.Contains(operatorTypeEnum))
@@ -49,11 +38,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            For(_newInletCount, PropertyNames.InletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Inlets))
+            For(newInletCount, PropertyNames.InletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Inlets))
                 .GreaterThan(1);
 
             IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();
-            for (int i = _newInletCount; i < sortedInlets.Count; i++)
+            for (int i = newInletCount; i < sortedInlets.Count; i++)
             {
                 Inlet inlet = sortedInlets[i];
 

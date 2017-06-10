@@ -7,14 +7,9 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class ClosestOverInlets_OperatorWarningValidator : OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults
     {
-        public ClosestOverInlets_OperatorWarningValidator(Operator obj)
-            : base(obj, inletCount: 1)
-        { }
-
-        protected override void Execute()
-        {
-            Operator op = Obj;
-
+        public ClosestOverInlets_OperatorWarningValidator(Operator op)
+            : base(op, inletCount: 1)
+        { 
             bool anyItemsFilledIn = op.Inlets
                                       // Skip the signal inlet,
                                       // Only check the items. 

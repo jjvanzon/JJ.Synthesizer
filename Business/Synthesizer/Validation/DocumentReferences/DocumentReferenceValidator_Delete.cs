@@ -13,26 +13,16 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
     internal class DocumentReferenceValidator_Delete : VersatileValidator<DocumentReference>
     {
-        private readonly DocumentManager _systemDocumentManager;
-
         public DocumentReferenceValidator_Delete([NotNull] DocumentReference obj, [NotNull] RepositoryWrapper repositories)
-            : base(obj, postponeExecute: true)
+            : base(obj)
         {
-            if (repositories == null) throw new NullException(() => repositories);
+            DocumentManager systemDocumentManager = new DocumentManager(repositories);
 
-            _systemDocumentManager = new DocumentManager(repositories);
-
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Execute();
-        }
-
-        protected override void Execute()
-        {
-            DocumentReference documentReference = Obj;
+            DocumentReference documentReference = obj;
 
             string documentReferenceIdentifier = ResourceFormatter.Library + " " + ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(documentReference);
 
-            if (_systemDocumentManager.IsSystemDocument(documentReference.LowerDocument))
+            if (systemDocumentManager.IsSystemDocument(documentReference.LowerDocument))
             {
                 string message = CommonResourceFormatter.CannotDelete_WithName(documentReferenceIdentifier);
                 ValidationMessages.Add(nameof(DocumentReference), message);

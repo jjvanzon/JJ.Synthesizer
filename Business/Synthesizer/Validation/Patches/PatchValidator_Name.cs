@@ -7,19 +7,12 @@ namespace JJ.Business.Synthesizer.Validation.Patches
     {
         public PatchValidator_Name(Patch obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
         {
-            if (MustValidate())
+            bool mustValidate = obj.Document != null;
+            if (mustValidate)
             {
-                ExecuteValidator(new NameValidator(Obj.Name));
+                ExecuteValidator(new NameValidator(obj.Name));
             }
-        }
-
-        private bool MustValidate()
-        {
-            return Obj.Document != null;
         }
     }
 }

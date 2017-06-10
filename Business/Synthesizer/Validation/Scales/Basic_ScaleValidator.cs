@@ -8,16 +8,13 @@ namespace JJ.Business.Synthesizer.Validation.Scales
     {
         public Basic_ScaleValidator(Scale obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            if (Obj.BaseFrequency.HasValue)
+        { 
+            if (obj.BaseFrequency.HasValue)
             {
-                For(() => Obj.BaseFrequency, ResourceFormatter.BaseFrequency).NotNaN().NotInfinity().GreaterThan(0);
+                For(() => obj.BaseFrequency, ResourceFormatter.BaseFrequency).NotNaN().NotInfinity().GreaterThan(0);
             }
 
-            For(() => Obj.ScaleType, ResourceFormatter.ScaleType).NotNull();
+            For(() => obj.ScaleType, ResourceFormatter.ScaleType).NotNull();
         }
     }
 }

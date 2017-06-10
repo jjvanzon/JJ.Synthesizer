@@ -6,14 +6,9 @@ namespace JJ.Business.Synthesizer.Validation.Samples
 {
     internal class SampleValidator : VersatileValidator<Sample>
     {
-        public SampleValidator(Sample obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            Sample sample = Obj;
-
+        public SampleValidator(Sample sample)
+            : base(sample)
+        { 
             ExecuteValidator(new NameValidator(sample.Name, required: false));
 
             For(() => sample.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);

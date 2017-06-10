@@ -7,14 +7,9 @@ namespace JJ.Business.Synthesizer.Validation.Curves
 {
     internal class CurveValidator_Nodes : VersatileValidator<Curve>
     {
-        public CurveValidator_Nodes(Curve obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            Curve curve = Obj;
-
+        public CurveValidator_Nodes(Curve curve)
+            : base(curve)
+        { 
             For(() => curve.Nodes.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Nodes)).GreaterThanOrEqual(2);
 
             int i = 1;

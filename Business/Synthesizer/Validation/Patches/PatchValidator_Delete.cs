@@ -10,14 +10,9 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 {
     internal class PatchValidator_Delete : VersatileValidator<Patch>
     {
-        public PatchValidator_Delete([NotNull] Patch obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
+        public PatchValidator_Delete([NotNull] Patch lowerPatch)
+            : base(lowerPatch)
         {
-            Patch lowerPatch = Obj;
-
             string lowerPatchIdentifier = ResourceFormatter.Patch + " " + ValidationHelper.GetUserFriendlyIdentifier(lowerPatch);
 
             IEnumerable<Operator> customOperators = lowerPatch.EnumerateDependentCustomOperators();

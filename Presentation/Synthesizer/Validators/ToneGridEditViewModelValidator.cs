@@ -8,16 +8,13 @@ namespace JJ.Presentation.Synthesizer.Validators
     {
         public ToneGridEditViewModelValidator(ToneGridEditViewModel obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            for (int i = 0; i < Obj.Tones.Count; i++)
+        { 
+            for (int i = 0; i < obj.Tones.Count; i++)
             {
-                ToneViewModel toneViewModel = Obj.Tones[i];
+                ToneViewModel toneViewModel = obj.Tones[i];
                 string messagePrefix = ValidationHelper.GetMessagePrefix(toneViewModel, i + 1);
 
-                ExecuteValidator(new ToneViewModelValidator(toneViewModel, Obj.NumberTitle), messagePrefix);
+                ExecuteValidator(new ToneViewModelValidator(toneViewModel, obj.NumberTitle), messagePrefix);
             }
         }
     }

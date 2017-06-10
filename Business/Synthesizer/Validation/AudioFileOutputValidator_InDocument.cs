@@ -6,16 +6,13 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal class AudioFileOutputValidator_InDocument : VersatileValidator<AudioFileOutput>
     {
-        public AudioFileOutputValidator_InDocument(AudioFileOutput obj)
-            : base(obj)
-        { }
+        public AudioFileOutputValidator_InDocument(AudioFileOutput entity)
+            : base(entity)
+        { 
+            For(() => entity.Document, ResourceFormatter.Document).NotNull();
+            For(() => entity.FilePath, ResourceFormatter.FilePath).MaxLength(255);
 
-        protected override void Execute()
-        {
-            For(() => Obj.Document, ResourceFormatter.Document).NotNull();
-            For(() => Obj.FilePath, ResourceFormatter.FilePath).MaxLength(255);
-
-            ExecuteValidator(new NameValidator(Obj.Name));
+            ExecuteValidator(new NameValidator(entity.Name));
         }
     }
 }

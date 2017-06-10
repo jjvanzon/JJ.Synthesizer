@@ -13,22 +13,19 @@ namespace JJ.Business.Synthesizer.Validation.Patches
         /// Extensive document validation will include validating that the Patch names are unique already
         /// and it will do so in a more efficient way.
         /// </summary>
-        public PatchValidator_UniqueName(Patch obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            if (Obj.Document == null)
+        public PatchValidator_UniqueName(Patch patch)
+            : base(patch)
+        { 
+            if (patch.Document == null)
             {
                 return;
             }
 
-            bool isUnique = ValidationHelper.PatchNameIsUnique(Obj);
+            bool isUnique = ValidationHelper.PatchNameIsUnique(patch);
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                ValidationMessages.AddNotUniqueMessageSingular(nameof(Obj.Name), CommonResourceFormatter.Name, Obj.Name);
+                ValidationMessages.AddNotUniqueMessageSingular(nameof(patch.Name), CommonResourceFormatter.Name, patch.Name);
             }
         }
     }

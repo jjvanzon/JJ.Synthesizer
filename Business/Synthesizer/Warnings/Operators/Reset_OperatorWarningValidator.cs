@@ -7,13 +7,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
     {
         public Reset_OperatorWarningValidator(Operator obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
-            For(() => Obj.Name, CommonResourceFormatter.Name).NotNullOrWhiteSpace();
+        { 
+            For(() => obj.Name, CommonResourceFormatter.Name).NotNullOrWhiteSpace();
         }
     }
 }

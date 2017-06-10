@@ -8,13 +8,10 @@ namespace JJ.Business.Synthesizer.Validation.Samples
     {
         public SampleValidator_InDocument(Sample obj)
             : base(obj)
-        { }
+        { 
+            For(() => obj.Document, ResourceFormatter.Document).NotNull();
 
-        protected override void Execute()
-        {
-            For(() => Obj.Document, ResourceFormatter.Document).NotNull();
-
-            ExecuteValidator(new NameValidator(Obj.Name));
+            ExecuteValidator(new NameValidator(obj.Name));
             
             // TODO: Consider if more additional constraints need to be enforced in a document e.g. reference constraints.
         }

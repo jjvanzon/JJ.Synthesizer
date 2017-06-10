@@ -5,13 +5,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class Basic_OperatorValidator : VersatileValidator<Operator>
     {
-        public Basic_OperatorValidator(Operator obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            ExecuteValidator(new NameValidator(Obj.Name, required: false));
+        public Basic_OperatorValidator(Operator op)
+            : base(op)
+        { 
+            ExecuteValidator(new NameValidator(op.Name, required: false));
         }
     }
 }

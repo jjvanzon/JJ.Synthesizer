@@ -12,12 +12,9 @@ namespace JJ.Presentation.Synthesizer.Validators
     {
         public OperatorPropertiesViewModel_ForPatchInlet_Validator(OperatorPropertiesViewModel_ForPatchInlet obj)
             : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            For(() => Obj.Number, ResourceFormatter.Number).GreaterThanOrEqual(1);
-            For(() => Obj.DefaultValue, ResourceFormatter.DefaultValue).IsDouble();
+        { 
+            For(() => obj.Number, ResourceFormatter.Number).GreaterThanOrEqual(1);
+            For(() => obj.DefaultValue, ResourceFormatter.DefaultValue).IsDouble();
         }
     }
 }

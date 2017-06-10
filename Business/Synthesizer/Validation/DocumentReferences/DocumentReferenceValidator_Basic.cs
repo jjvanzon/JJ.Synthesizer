@@ -6,14 +6,9 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
     internal class DocumentReferenceValidator_Basic : VersatileValidator<DocumentReference>
     {
-        public DocumentReferenceValidator_Basic(DocumentReference obj) 
-            : base(obj)
-        { }
-
-        protected override void Execute()
-        {
-            DocumentReference documentReference = Obj;
-
+        public DocumentReferenceValidator_Basic(DocumentReference documentReference) 
+            : base(documentReference)
+        { 
             ExecuteValidator(new NameValidator(documentReference.Alias, ResourceFormatter.Alias, required: false));
 
             For(() => documentReference.HigherDocument, ResourceFormatter.HigherDocument).NotNull();

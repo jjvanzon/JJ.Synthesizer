@@ -11,12 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public OperatorValidator_Dimension(Operator op)
             : base(op)
-        { }
-
-        protected override void Execute()
-        {
-            Operator op = Obj;
-
+        { 
             if (op.OperatorType == null)
             {
                 return;
@@ -39,8 +34,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
             else
             {
-                For(() => Obj.StandardDimension, ResourceFormatter.StandardDimension).IsNull();
-                For(() => Obj.CustomDimensionName, ResourceFormatter.CustomDimensionName).IsNullOrEmpty();
+                For(() => op.StandardDimension, ResourceFormatter.StandardDimension).IsNull();
+                For(() => op.CustomDimensionName, ResourceFormatter.CustomDimensionName).IsNullOrEmpty();
             }
         }
     }

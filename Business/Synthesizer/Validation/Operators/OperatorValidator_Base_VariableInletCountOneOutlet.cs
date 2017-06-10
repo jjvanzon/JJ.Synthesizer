@@ -10,24 +10,17 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal abstract class OperatorValidator_Base_VariableInletCountOneOutlet : OperatorValidator_Base
     {
         public OperatorValidator_Base_VariableInletCountOneOutlet(
-            Operator obj, 
+            Operator op,
             OperatorTypeEnum expectedOperatorTypeEnum,
             DimensionEnum expectedOutletDimensionEnum,
             IList<string> expectedDataKeys)
             : base(
-                obj,
+                op,
                 expectedOperatorTypeEnum,
-                Enumerable.Repeat(DimensionEnum.Item, obj.Inlets.Count).ToArray(),
+                Enumerable.Repeat(DimensionEnum.Item, op?.Inlets.Count ?? 0).ToArray(),
                 new[] { expectedOutletDimensionEnum },
                 expectedDataKeys)
-        { }
-
-        protected override void Execute()
         {
-            base.Execute();
-
-            Operator op = Obj;
-
             For(() => op.Inlets.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Inlets)).GreaterThan(0);
         }
     }

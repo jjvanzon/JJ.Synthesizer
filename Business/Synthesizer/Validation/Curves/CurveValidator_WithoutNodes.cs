@@ -5,14 +5,9 @@ namespace JJ.Business.Synthesizer.Validation.Curves
 {
     internal class CurveValidator_WithoutNodes : VersatileValidator<Curve>
     {
-        public CurveValidator_WithoutNodes(Curve obj)
-            : base(obj)
-        { }
-
-        protected override void Execute()
+        public CurveValidator_WithoutNodes(Curve curve)
+            : base(curve)
         {
-            Curve curve = Obj;
-
             ExecuteValidator(new NameValidator(curve.Name, required: false));
         }
     }

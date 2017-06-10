@@ -18,14 +18,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     nameof(Cache_OperatorWrapper.InterpolationType),
                     nameof(Cache_OperatorWrapper.SpeakerSetup)
                 })
-        { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
-            ExecuteValidator(new InterpolationType_DataProperty_Validator(Obj.Data));
-            ExecuteValidator(new SpeakerSetup_DataProperty_Validator(Obj.Data));
+        { 
+            ExecuteValidator(new InterpolationType_DataProperty_Validator(obj.Data));
+            ExecuteValidator(new SpeakerSetup_DataProperty_Validator(obj.Data));
         }
     }
 }

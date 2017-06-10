@@ -14,52 +14,32 @@ namespace JJ.Business.Synthesizer.Validation
     {
         private const bool DEFAULT_REQUIRED = true;
         private static readonly string _defaultPropertyDisplayName = CommonResourceFormatter.Name;
-        private static readonly int? _nameMaxLength = GetNameMaxLength();
+        private static readonly int? _nameMaxLength = CustomConfigurationManager.GetSection<ConfigurationSection>().NameMaxLength;
 
-        private readonly bool _required;
-        private readonly string _propertyDisplayName;
-
-        public NameValidator(string obj)
-            : this(obj, DEFAULT_REQUIRED)
+        public NameValidator(string name)
+            : this(name, DEFAULT_REQUIRED)
         { }
 
-        public NameValidator(string obj, bool required)
-            : this(obj, _defaultPropertyDisplayName, required)
+        public NameValidator(string name, bool required)
+            : this(name, _defaultPropertyDisplayName, required)
         { }
 
-        public NameValidator(string obj, string propertyDisplayName)
-            : this(obj, propertyDisplayName, DEFAULT_REQUIRED)
+        public NameValidator(string name, string propertyDisplayName)
+            : this(name, propertyDisplayName, DEFAULT_REQUIRED)
         { }
 
-        public NameValidator(string obj, string propertyDisplayName, bool required)
-            : base(obj, postponeExecute: true)
+        public NameValidator(string name, string propertyDisplayName, bool required)
+            : base(name)
         {
-            _propertyDisplayName = propertyDisplayName;
-            _required = required;
-
-            Execute();
-        }
-
-        protected sealed override void Execute()
-        {
-            string name = Obj;
-
-            if (_required)
+            if (required)
             {
-                For(() => name, _propertyDisplayName)
-                    .NotNullOrWhiteSpace();
+                For(() => name, propertyDisplayName).NotNullOrWhiteSpace();
             }
 
             if (_nameMaxLength.HasValue)
             {
-                For(() => name, _propertyDisplayName)
-                    .MaxLength(_nameMaxLength.Value);
+                For(() => name, propertyDisplayName).MaxLength(_nameMaxLength.Value);
             }
-        }
-
-        private static int? GetNameMaxLength()
-        {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().NameMaxLength;
         }
     }
 }

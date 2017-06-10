@@ -13,13 +13,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 OperatorTypeEnum.InletsToDimension,
                 DimensionEnum.Signal,
                 expectedDataKeys: new[] { nameof(InletsToDimension_OperatorWrapper.InterpolationType) })
-        { }
-
-        protected override void Execute()
-        {
-            base.Execute();
-
-            ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(Obj.Data));
+        { 
+            ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(obj.Data));
         }
     }
 }

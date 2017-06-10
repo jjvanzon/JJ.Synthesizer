@@ -15,18 +15,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 new DimensionEnum[0],
                 new[] { DimensionEnum.Number },
                 expectedDataKeys: new[] { nameof(Number_OperatorWrapper.Number) })
-        { }
-
-        protected override void Execute()
         {
-            string numberString = DataPropertyParser.TryGetString(Obj, nameof(Number_OperatorWrapper.Number));
+            string numberString = DataPropertyParser.TryGetString(obj, nameof(Number_OperatorWrapper.Number));
             For(() => numberString, ResourceFormatter.Number, DataPropertyParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()
                 .NotNaN();
-
-            base.Execute();
         }
     }
 }
