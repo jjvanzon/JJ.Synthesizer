@@ -23,7 +23,6 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected sealed override void Execute()
         {
-            For(() => Obj.Name, CommonResourceFormatter.Name).IsNullOrEmpty();
             For(() => Obj.GetDimensionEnum(), ResourceFormatter.Dimension).Is(_expectedDimensionEnum);
         }
     }

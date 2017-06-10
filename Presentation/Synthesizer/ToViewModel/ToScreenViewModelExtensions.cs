@@ -495,14 +495,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForPatchInlet>(entity);
 
-            var wrapper = new PatchInlet_OperatorWrapper(entity);
+            Inlet inlet = new PatchInlet_OperatorWrapper(entity).Inlet;
 
-            viewModel.DefaultValue = Convert.ToString(wrapper.Inlet.DefaultValue);
-            viewModel.Number = wrapper.Inlet.ListIndex + 1;
+            // Use Inlet.Name instead of Operator.Name.
+            viewModel.Name = inlet.Name;
+            viewModel.DefaultValue = Convert.ToString(inlet.DefaultValue);
+            viewModel.Number = inlet.ListIndex + 1;
 
             // In case of PatchInlet Dimension has to come from Inlet, not Operator.
             viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
-            DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
+            DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();
@@ -521,13 +523,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForPatchOutlet>(entity);
 
-            var wrapper = new PatchOutlet_OperatorWrapper(entity);
+            Outlet outlet = new PatchOutlet_OperatorWrapper(entity).Outlet;
 
-            viewModel.Number = wrapper.Outlet.ListIndex + 1;
+            viewModel.Name = outlet.Name;
+            viewModel.Number = outlet.ListIndex + 1;
 
             // In case of PatchInlet Dimension has to come from Outlet, not Operator.
             viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
-            DimensionEnum dimensionEnum = wrapper.Outlet.GetDimensionEnum();
+            DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 viewModel.Dimension = dimensionEnum.ToIDAndDisplayName();

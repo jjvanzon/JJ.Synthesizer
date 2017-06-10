@@ -15,6 +15,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             Outlets = new CustomOperator_OperatorWrapper_Outlets(op);
         }
 
+        public string Name
+        {
+            get => WrappedOperator.Name;
+            set => WrappedOperator.Name = value;
+        }
+
         public CustomOperator_OperatorWrapper_Operands Operands { get; }
 
         public CustomOperator_OperatorWrapper_Inlets Inlets { get; }

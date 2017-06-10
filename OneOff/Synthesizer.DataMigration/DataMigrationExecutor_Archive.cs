@@ -2484,7 +2484,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         /// i.e. a possible default value in the entity model, then when no default value there,
         /// a hard-coded default value in the visitor. That would be 2 solutions for the same problem ('defaults').
         /// Instead the defaults in the entity model will be leading.
-        /// If there was version tollerance with existing data to consider,
+        /// If there was version tolerance with existing data to consider,
         /// the choice would be different, but since this system is not in production yet,
         /// it is OK to make potentially breaking changes.
         /// Probably nothing will be broken. It will probably fix more than it breaks.

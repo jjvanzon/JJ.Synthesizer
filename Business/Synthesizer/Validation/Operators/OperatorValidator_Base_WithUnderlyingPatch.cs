@@ -8,8 +8,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Validation.Resources;
 using JJ.Framework.Exceptions;
 using System.Text;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
@@ -42,7 +40,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             Operator op = Obj;
             Patch underlyingPatch = op.UnderlyingPatch;
 
-            // We are quite tollerant here: we omit the check if it is not in a patch or document.
+            // We are quite tolerant here: we omit the check if it is not in a patch or document.
             bool mustCheckReference = op.Patch?.Document != null;
             if (!mustCheckReference)
             {
@@ -66,67 +64,67 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             foreach (InletTuple tuple in tuples)
             {
                 Inlet customOperatorInlet = tuple.CustomOperatorInlet;
-                Operator underlyingPatchInletOperator = tuple.UnderlyingPatchInlet;
+                Operator underlyingPatchInlet = tuple.UnderlyingPatchInlet;
 
-                ValidateIsObsolete(customOperatorInlet, underlyingPatchInletOperator);
+                ValidateIsObsolete(customOperatorInlet, underlyingPatchInlet);
 
-                if (underlyingPatchInletOperator == null)
+                if (underlyingPatchInlet == null)
                 {
                     // Obsolete CustomOperator Inlets are allowed.
                     continue;
                 }
 
-                int? underlyingPatchInlet_ListIndex = TryGetListIndex(underlyingPatchInletOperator);
+                Inlet underlyingPatchInlet_Inlet = TryGetInlet(underlyingPatchInlet);
+                if (underlyingPatchInlet_Inlet == null)
+                {
+                    // Error tollerance, because it is a validator.
+                    continue;
+                }
 
-                if (customOperatorInlet.ListIndex != underlyingPatchInlet_ListIndex)
+                if (customOperatorInlet.ListIndex != underlyingPatchInlet_Inlet.ListIndex)
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
                         ResourceFormatter.ListIndex,
                         customOperatorInlet,
-                        underlyingPatchInletOperator,
+                        underlyingPatchInlet,
                         customOperatorInlet.ListIndex,
-                        underlyingPatchInlet_ListIndex);
+                        underlyingPatchInlet_Inlet.ListIndex);
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
 
-                if (!NameHelper.AreEqual(customOperatorInlet.Name, underlyingPatchInletOperator.Name))
+                if (!NameHelper.AreEqual(customOperatorInlet.Name, underlyingPatchInlet_Inlet.Name))
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
                         CommonResourceFormatter.Name,
                         customOperatorInlet,
-                        underlyingPatchInletOperator,
+                        underlyingPatchInlet,
                         customOperatorInlet.Name,
-                        underlyingPatchInletOperator.Name);
+                        underlyingPatchInlet_Inlet.Name);
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
 
-                Inlet underlyingPatchInlet_Inlet = TryGetInlet(underlyingPatchInletOperator);
-                // ReSharper disable once InvertIf
-                if (underlyingPatchInlet_Inlet != null)
+                if (customOperatorInlet.GetDimensionEnum() != underlyingPatchInlet_Inlet.GetDimensionEnum())
                 {
-                    if (customOperatorInlet.GetDimensionEnum() != underlyingPatchInlet_Inlet.GetDimensionEnum())
-                    {
-                        string message = GetInletPropertyDoesNotMatchMessage(
-                            ResourceFormatter.Dimension,
-                            customOperatorInlet,
-                            underlyingPatchInletOperator,
-                            customOperatorInlet.GetDimensionEnum(),
-                            underlyingPatchInlet_Inlet.GetDimensionEnum());
-                        ValidationMessages.Add(nameof(Inlet), message);
-                    }
+                    string message = GetInletPropertyDoesNotMatchMessage(
+                        ResourceFormatter.Dimension,
+                        customOperatorInlet,
+                        underlyingPatchInlet,
+                        customOperatorInlet.GetDimensionEnum(),
+                        underlyingPatchInlet_Inlet.GetDimensionEnum());
+                    ValidationMessages.Add(nameof(Inlet), message);
+                }
 
-                    // ReSharper disable once CompareOfFloatsByEqualityOperator
-                    // ReSharper disable once InvertIf
-                    if (customOperatorInlet.DefaultValue != underlyingPatchInlet_Inlet.DefaultValue)
-                    {
-                        string message = GetInletPropertyDoesNotMatchMessage(
-                            ResourceFormatter.DefaultValue,
-                            customOperatorInlet,
-                            underlyingPatchInletOperator,
-                            customOperatorInlet.DefaultValue,
-                            underlyingPatchInlet_Inlet.DefaultValue);
-                        ValidationMessages.Add(nameof(Inlet), message);
-                    }
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                // ReSharper disable once InvertIf
+                if (customOperatorInlet.DefaultValue != underlyingPatchInlet_Inlet.DefaultValue)
+                {
+                    string message = GetInletPropertyDoesNotMatchMessage(
+                        ResourceFormatter.DefaultValue,
+                        customOperatorInlet,
+                        underlyingPatchInlet,
+                        customOperatorInlet.DefaultValue,
+                        underlyingPatchInlet_Inlet.DefaultValue);
+                    ValidationMessages.Add(nameof(Inlet), message);
                 }
             }
         }
@@ -177,20 +175,25 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     continue;
                 }
 
-                int? underlyingPatchOutlet_ListIndex = TryGetListIndex(underlyingPatchOutlet);
+                Outlet underlyingPatchOutlet_Outlet = TryGetOutlet(underlyingPatchOutlet);
+                if (underlyingPatchOutlet_Outlet == null)
+                {
+                    // Error tollerance, because it is a validator.
+                    continue;
+                }
 
-                if (customOperatorOutlet.ListIndex != underlyingPatchOutlet_ListIndex)
+                if (customOperatorOutlet.ListIndex != underlyingPatchOutlet_Outlet.ListIndex)
                 {
                     string message = GetOutletPropertyDoesNotMatchMessage(
                         ResourceFormatter.ListIndex,
                         customOperatorOutlet,
                         underlyingPatchOutlet,
                         customOperatorOutlet.ListIndex,
-                        underlyingPatchOutlet_ListIndex);
+                        underlyingPatchOutlet_Outlet.ListIndex);
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
 
-                if (!NameHelper.AreEqual(customOperatorOutlet.Name, underlyingPatchOutlet.Name))
+                if (!NameHelper.AreEqual(customOperatorOutlet.Name, underlyingPatchOutlet_Outlet.Name))
                 {
                     string message = GetOutletPropertyDoesNotMatchMessage(
                         CommonResourceFormatter.Name,
@@ -201,21 +204,16 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
 
-                Outlet underlyingPatchOutlet_Outlet = TryGetOutlet(underlyingPatchOutlet);
                 // ReSharper disable once InvertIf
-                if (underlyingPatchOutlet_Outlet != null)
+                if (customOperatorOutlet.GetDimensionEnum() != underlyingPatchOutlet_Outlet.GetDimensionEnum())
                 {
-                    // ReSharper disable once InvertIf
-                    if (customOperatorOutlet.GetDimensionEnum() != underlyingPatchOutlet_Outlet.GetDimensionEnum())
-                    {
-                        string message = GetOutletPropertyDoesNotMatchMessage(
-                            ResourceFormatter.Dimension,
-                            customOperatorOutlet,
-                            underlyingPatchOutlet,
-                            customOperatorOutlet.GetDimensionEnum(),
-                            underlyingPatchOutlet_Outlet.GetDimensionEnum());
-                        ValidationMessages.Add(nameof(Outlet), message);
-                    }
+                    string message = GetOutletPropertyDoesNotMatchMessage(
+                        ResourceFormatter.Dimension,
+                        customOperatorOutlet,
+                        underlyingPatchOutlet,
+                        customOperatorOutlet.GetDimensionEnum(),
+                        underlyingPatchOutlet_Outlet.GetDimensionEnum());
+                    ValidationMessages.Add(nameof(Outlet), message);
                 }
             }
         }
@@ -248,23 +246,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         }
 
         // Helpers
-
-        private static int? TryGetListIndex(Operator patchInletOrPatchOutletOperator)
-        {
-            OperatorTypeEnum operatorTypeEnum = patchInletOrPatchOutletOperator.GetOperatorTypeEnum();
-
-            switch (operatorTypeEnum)
-            {
-                case OperatorTypeEnum.PatchInlet:
-                    return patchInletOrPatchOutletOperator.Inlets.FirstOrDefault()?.ListIndex;
-
-                case OperatorTypeEnum.PatchOutlet:
-                    return patchInletOrPatchOutletOperator.Outlets.FirstOrDefault()?.ListIndex;
-
-                default:
-                    return null;
-            }
-        }
 
         private Inlet TryGetInlet(Operator op) => op.Inlets.FirstOrDefault();
 

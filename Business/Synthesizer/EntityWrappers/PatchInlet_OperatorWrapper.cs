@@ -11,6 +11,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
+        public string Name
+        {
+            get => WrappedOperator.Name;
+            set => WrappedOperator.Name = value;
+        }
+
         /// <summary> nullable </summary>
         public Outlet Input
         {

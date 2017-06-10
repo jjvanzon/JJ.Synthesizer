@@ -798,9 +798,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator op = ConvertToOperator_Base(viewModel, repositories);
 
-            var wrapper = new PatchInlet_OperatorWrapper(op);
-            wrapper.Inlet.ListIndex = viewModel.Number - 1;
-
             Inlet inlet = op.Inlets.FirstOrDefault();
             if (inlet == null)
             {
@@ -808,6 +805,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 repositories.InletRepository.Insert(inlet);
             }
 
+            // Set Default value
             if (!string.IsNullOrEmpty(viewModel.DefaultValue))
             {
                 // Tolerance, to make ToEntity not fail, before view model validation goes off.
@@ -821,9 +819,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 inlet.DefaultValue = null;
             }
 
-            // Set Dimension of Inlet.
+            // Set ListIndex
+            inlet.ListIndex = viewModel.Number - 1;
+
+            // Set Dimension of Inlet instead.
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
             inlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
+            op.SetStandardDimensionEnum(DimensionEnum.Undefined, repositories.DimensionRepository);
+
+            // Set Name of Inlet instead.
+            inlet.Name = viewModel.Name;
 
             // Delete excessive inlets.
             var patchManager = new PatchManager(repositories);
@@ -845,10 +850,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator op = ConvertToOperator_Base(viewModel, repositories);
 
-            var wrapper = new PatchOutlet_OperatorWrapper(op);
-
-            wrapper.Outlet.ListIndex = viewModel.Number - 1;
-
             Outlet outlet = op.Outlets.FirstOrDefault();
             if (outlet == null)
             {
@@ -856,9 +857,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 repositories.OutletRepository.Insert(outlet);
             }
 
-            // Set Dimension of Outlet.
+            // Set ListIndex
+            outlet.ListIndex = viewModel.Number - 1;
+
+            // Set Dimension of Outlet instead.
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
             outlet.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
+            op.SetStandardDimensionEnum(DimensionEnum.Undefined, repositories.DimensionRepository);
+
+            // Set Name of Outlet instead.
+            outlet.Name = viewModel.Name;
 
             // Delete excessive outlets.
             var patchManager = new PatchManager(repositories);

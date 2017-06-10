@@ -29,8 +29,8 @@ namespace JJ.Business.Synthesizer.Helpers
         }
 
         /// <summary>
-        /// Compares two names case-insensitively, null / "" tollerant,
-        /// white space tollerant, etc.
+        /// Compares two names case-insensitively, null / "" tolerant,
+        /// white space tolerant, etc.
         /// Note that this executes NameHelper.ToCanonical twice.
         /// Explicitly calling ToCanonical and String.Equals yourself
         /// might perform better.

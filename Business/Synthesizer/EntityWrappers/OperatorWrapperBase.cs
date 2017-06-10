@@ -17,12 +17,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Operator WrappedOperator { get; }
 
-        public string Name
-        {
-            get => WrappedOperator.Name;
-            set => WrappedOperator.Name = value;
-        }
-
         /// <summary> Base will determine the Inlet display name based on its Dimension. </summary>
         public virtual string GetInletDisplayName(Inlet inlet)
         {

@@ -757,6 +757,70 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
+        public static void Migrate_PatchInletOutlet_Names_FromOperator_ToInletAndOutlet(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                {
+                    const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.PatchInlet;
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);
+                    for (int i = 0; i < operators.Count; i++)
+                    {
+                        Operator op = operators[i];
+                        Inlet inlet = op.Inlets.Single();
+
+                        // Check what's expected, so you do not accidentally overwrite.
+                        if (!string.IsNullOrEmpty(inlet.Name))
+                        {
+                            throw new NotNullOrEmptyException(() => inlet.Name);
+                        }
+
+                        inlet.Name = op.Name;
+                        op.Name = null;
+
+                        string progressMessage = $"Step 1: Migrated {operatorTypeEnum} {nameof(Operator)} {i + 1}/{operators.Count}.";
+                        progressCallback(progressMessage);
+                    }
+                }
+
+                {
+                    const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.PatchOutlet;
+                    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);
+                    for (int i = 0; i < operators.Count; i++)
+                    {
+                        Operator op = operators[i];
+                        Outlet outlet = op.Outlets.Single();
+
+                        // Check what's expected, so you do not accidentally overwrite.
+                        if (!string.IsNullOrEmpty(outlet.Name))
+                        {
+                            throw new NotNullOrEmptyException(() => outlet.Name);
+                        }
+
+                        outlet.Name = op.Name;
+                        op.Name = null;
+
+                        string progressMessage = $"Step 2: Migrated {operatorTypeEnum} {nameof(Operator)} {i + 1}/{operators.Count}.";
+                        progressCallback(progressMessage);
+                    }
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
         // Helpers
 
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)

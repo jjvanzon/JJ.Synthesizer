@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
 
             // Check reference constraint of the Curve.
-            // (We are quite tollerant here: we omit the check if it is not in a patch or document.)
+            // (We are quite tolerant here: we omit the check if it is not in a patch or document.)
             bool mustCheckReference = op.Patch?.Document != null;
             if (!mustCheckReference)
             {

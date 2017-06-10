@@ -250,10 +250,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             foreach (int idToDelete in idsToDelete)
             {
-                // NOTE: The tollerant TryGetValue calls are done for defensive programming.
+                // NOTE: The tolerant TryGetValue calls are done for defensive programming.
                 // This class is long-lived and if an exception occurs and then you assign another view model, 
                 // you do not want to be stuck with even more exceptions.
-                // By being tollerant about what is in the dictionaries,
+                // By being tolerant about what is in the dictionaries,
                 // you have a chance that state may actually be cleaned up.
 
                 // Delete point

@@ -11,7 +11,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    /// <summary> Validates the inlet and outlet ListIndexes and that the inlet names are NOT filled in. </summary>
+    /// <summary> Validates the inlet and outlet ListIndexes. </summary>
     public abstract class OperatorValidator_Base : VersatileValidator<Operator>
     {
         private readonly OperatorTypeEnum _expectedOperatorTypeEnum;

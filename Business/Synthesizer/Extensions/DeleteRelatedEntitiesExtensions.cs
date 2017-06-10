@@ -117,7 +117,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 outletRepository.Delete(outlet);
             }
 
-            // Be null-tollerant to be able to get out of trouble if something is missing.
+            // Be null-tolerant to be able to get out of trouble if something is missing.
             EntityPosition entityPosition = entityPositionRepository.TryGetByEntityTypeNameAndEntityID(typeof(OperatingSystem).Name, op.ID);
             if (entityPosition != null)
             {

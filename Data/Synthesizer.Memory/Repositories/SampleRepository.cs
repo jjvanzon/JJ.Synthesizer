@@ -19,7 +19,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
 
             lock (_bytesDictionaryLock)
             {
-                // Be tollerant towards existence in dictionary, because it is all about exisitence of the entity.
+                // Be tolerant towards existence in dictionary, because it is all about exisitence of the entity.
                 byte[] bytes;
                 _bytesDictionary.TryGetValue(id, out bytes);
                 return bytes;
